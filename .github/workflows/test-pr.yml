@@ -1,0 +1,52 @@
+name: 'Test PR'
+on:
+  pull_request:
+    branches:
+      - 'master'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  code-quality-checks:
+    name: 'Code Quality Checks'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v3
+      - name: 'Install Poetry'
+        uses: Gr1N/setup-poetry@v8
+      - name: 'Run code quality checks'
+        run: make check
+      - name: 'Run pyupgrade'
+        run: make pyupgrade
+
+  unit-tests:
+    needs: code-quality-checks
+    name: 'Unit Tests'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v3
+      - name: 'Install Poetry'
+        uses: Gr1N/setup-poetry@v8
+      - name: 'Run unit tests'
+        run: make cov-unit
+
+  integration-tests:
+    needs: code-quality-checks
+    name: 'Integration Tests'
+    runs-on: [self-hosted, linux, normal]
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v3
+      - name: 'Set up Docker'
+        uses: ./.github/actions/with-docker
+        with:
+          container-name: kontrol-ci-${{ github.sha }}
+      - name: 'Run integration tests'
+        run: docker exec --user user kontrol-ci-${GITHUB_SHA} make cov-integration
+      - name: 'Tear down Docker'
+        if: always()
+        run: docker stop --time 0 kontrol-ci-${GITHUB_SHA}
