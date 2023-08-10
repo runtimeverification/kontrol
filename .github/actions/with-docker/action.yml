@@ -1,0 +1,35 @@
+name: 'With Docker'
+description: 'Run a given stage with Docker Image'
+inputs:
+  container-name:
+    description: 'Docker container name to use'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+  - name: 'Set up Docker'
+    shell: bash {0}
+    env:
+      CONTAINER_NAME: ${{ inputs.container-name }}
+    run: |
+      set -euxo pipefail
+
+      K_VERSION=$(cat deps/k_release)
+
+      docker build .                                \
+        --file ./Dockerfile                         \
+        --tag runtimeverification/${CONTAINER_NAME} \
+        --build-arg K_VERSION=${K_VERSION}
+
+      docker run                       \
+        --name ${CONTAINER_NAME}       \
+        --rm                           \
+        --interactive                  \
+        --tty                          \
+        --detach                       \
+        --user root                    \
+        --workdir /home/user/workspace \
+        runtimeverification/${CONTAINER_NAME}
+
+      docker cp . ${CONTAINER_NAME}:/home/user/workspace
+      docker exec ${CONTAINER_NAME} chown -R user:user /home/user
