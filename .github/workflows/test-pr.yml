@@ -58,19 +58,66 @@ jobs:
       - name: 'Run unit tests'
         run: make cov-unit
 
+  profile:
+    needs: code-quality-checks
+    name: 'Profiling'
+    runs-on: [self-hosted, linux, normal]
+    strategy:
+      matrix:
+        backend: ['legacy', 'booster']
+    timeout-minutes: 30
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: 'Set up Docker'
+        uses: ./.github/actions/with-docker
+        with:
+          container-name: kontrol-ci-profile-${{ github.sha }}
+      - name: 'Build KEVM'
+        run: |
+            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'poetry install'
+            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin foundry'
+      - name: 'Run profiling'
+        run: |
+          PROF_ARGS=
+          [ ${{ matrix.backend }} == 'booster' ] && PROF_ARGS=--use-booster
+          docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} make profile PROF_ARGS=${PROF_ARGS}
+      - name: 'Tear down Docker'
+        if: always()
+        run: |
+          docker stop --time=0 kontrol-ci-profile-${GITHUB_SHA}
+
   integration-tests:
     needs: code-quality-checks
     name: 'Integration Tests'
     runs-on: [self-hosted, linux, normal]
+    strategy:
+      matrix:
+        backend: ['legacy', 'booster']
+    timeout-minutes: 150
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
         with:
-          container-name: kontrol-ci-${{ github.sha }}
+          container-name: kontrol-ci-integration-${{ github.sha }}
+      - name: 'Build KEVM'
+        run: |
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'poetry install'
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin foundry'
       - name: 'Run integration tests'
-        run: docker exec --user user kontrol-ci-${GITHUB_SHA} make cov-integration
+        run: |
+          TEST_ARGS=
+          [ ${{ matrix.backend }} == 'booster' ] && TEST_ARGS=--use-booster
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS=${TEST_ARGS}
       - name: 'Tear down Docker'
         if: always()
-        run: docker stop --time 0 kontrol-ci-${GITHUB_SHA}
+        run: |
+          docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
