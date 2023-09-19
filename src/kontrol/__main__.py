@@ -104,7 +104,7 @@ def exec_solc_to_k(
     print(k_text)
 
 
-def exec_foundry_kompile(
+def exec_build(
     foundry_root: Path,
     includes: Iterable[str] = (),
     regen: bool = False,
@@ -139,7 +139,7 @@ def exec_foundry_kompile(
     )
 
 
-def exec_foundry_prove(
+def exec_prove(
     foundry_root: Path,
     max_depth: int = 1000,
     max_iterations: int | None = None,
@@ -214,7 +214,7 @@ def exec_foundry_prove(
     sys.exit(failed)
 
 
-def exec_foundry_show(
+def exec_show(
     foundry_root: Path,
     test: str,
     id: str | None,
@@ -248,16 +248,16 @@ def exec_foundry_show(
     print(output)
 
 
-def exec_foundry_to_dot(foundry_root: Path, test: str, id: str | None, **kwargs: Any) -> None:
+def exec_to_dot(foundry_root: Path, test: str, id: str | None, **kwargs: Any) -> None:
     foundry_to_dot(foundry_root=foundry_root, test=test, id=id)
 
 
-def exec_foundry_list(foundry_root: Path, **kwargs: Any) -> None:
+def exec_list(foundry_root: Path, **kwargs: Any) -> None:
     stats = foundry_list(foundry_root=foundry_root)
     print('\n'.join(stats))
 
 
-def exec_foundry_view_kcfg(foundry_root: Path, test: str, id: str | None, **kwargs: Any) -> None:
+def exec_view_kcfg(foundry_root: Path, test: str, id: str | None, **kwargs: Any) -> None:
     foundry = Foundry(foundry_root)
     test_id = foundry.get_test_id(test, id)
     contract_name, _ = test_id.split('.')
@@ -274,11 +274,11 @@ def exec_foundry_view_kcfg(foundry_root: Path, test: str, id: str | None, **kwar
     viewer.run()
 
 
-def exec_foundry_remove_node(foundry_root: Path, test: str, node: NodeIdLike, id: str | None, **kwargs: Any) -> None:
+def exec_remove_node(foundry_root: Path, test: str, node: NodeIdLike, id: str | None, **kwargs: Any) -> None:
     foundry_remove_node(foundry_root=foundry_root, test=test, id=id, node=node)
 
 
-def exec_foundry_simplify_node(
+def exec_simplify_node(
     foundry_root: Path,
     test: str,
     id: str | None,
@@ -313,7 +313,7 @@ def exec_foundry_simplify_node(
     print(f'Simplified:\n{pretty_term}')
 
 
-def exec_foundry_step_node(
+def exec_step_node(
     foundry_root: Path,
     test: str,
     id: str | None,
@@ -345,7 +345,7 @@ def exec_foundry_step_node(
     )
 
 
-def exec_foundry_merge_nodes(
+def exec_merge_nodes(
     foundry_root: Path,
     test: str,
     id: str | None,
@@ -355,7 +355,7 @@ def exec_foundry_merge_nodes(
     foundry_merge_nodes(foundry_root=foundry_root, node_ids=nodes, test=test, id=id)
 
 
-def exec_foundry_section_edge(
+def exec_section_edge(
     foundry_root: Path,
     test: str,
     id: str | None,
@@ -387,7 +387,7 @@ def exec_foundry_section_edge(
     )
 
 
-def exec_foundry_get_model(
+def exec_get_model(
     foundry_root: Path,
     test: str,
     id: str | None,
@@ -445,8 +445,8 @@ def _create_argument_parser() -> ArgumentParser:
         else:
             raise argparse.ArgumentTypeError("Invalid tuple format. Expected 'test, id' or 'test'")
 
-    foundry_kompile = command_parser.add_parser(
-        'foundry-kompile',
+    build = command_parser.add_parser(
+        'build',
         help='Kompile K definition corresponding to given output directory.',
         parents=[
             kevm_cli_args.logging_args,
@@ -456,14 +456,14 @@ def _create_argument_parser() -> ArgumentParser:
             kevm_cli_args.foundry_args,
         ],
     )
-    foundry_kompile.add_argument(
+    build.add_argument(
         '--regen',
         dest='regen',
         default=False,
         action='store_true',
         help='Regenerate foundry.k even if it already exists.',
     )
-    foundry_kompile.add_argument(
+    build.add_argument(
         '--rekompile',
         dest='rekompile',
         default=False,
@@ -471,8 +471,8 @@ def _create_argument_parser() -> ArgumentParser:
         help='Rekompile foundry.k even if kompiled definition already exists.',
     )
 
-    foundry_prove_args = command_parser.add_parser(
-        'foundry-prove',
+    prove_args = command_parser.add_parser(
+        'prove',
         help='Run Foundry Proof.',
         parents=[
             kevm_cli_args.logging_args,
@@ -486,7 +486,7 @@ def _create_argument_parser() -> ArgumentParser:
             kevm_cli_args.foundry_args,
         ],
     )
-    foundry_prove_args.add_argument(
+    prove_args.add_argument(
         '--test',
         type=_parse_test_id_tuple,
         dest='tests',
@@ -494,7 +494,7 @@ def _create_argument_parser() -> ArgumentParser:
         action='append',
         help='Limit to only listed tests, ContractName.TestName',
     )
-    foundry_prove_args.add_argument(
+    prove_args.add_argument(
         '--exclude-test',
         type=_parse_test_id_tuple,
         dest='exclude_tests',
@@ -502,21 +502,21 @@ def _create_argument_parser() -> ArgumentParser:
         action='append',
         help='Skip listed tests, ContractName.TestName',
     )
-    foundry_prove_args.add_argument(
+    prove_args.add_argument(
         '--reinit',
         dest='reinit',
         default=False,
         action='store_true',
         help='Reinitialize CFGs even if they already exist.',
     )
-    foundry_prove_args.add_argument(
+    prove_args.add_argument(
         '--bmc-depth',
         dest='bmc_depth',
         default=None,
         type=int,
         help='Enables bounded model checking. Specifies the maximum depth to unroll all loops to.',
     )
-    foundry_prove_args.add_argument(
+    prove_args.add_argument(
         '--use-booster',
         dest='use_booster',
         default=False,
@@ -524,8 +524,8 @@ def _create_argument_parser() -> ArgumentParser:
         help='Use the booster RPC server instead of kore-rpc.',
     )
 
-    foundry_show_args = command_parser.add_parser(
-        'foundry-show',
+    show_args = command_parser.add_parser(
+        'show',
         help='Display a given Foundry CFG.',
         parents=[
             kevm_cli_args.foundry_test_args,
@@ -536,7 +536,7 @@ def _create_argument_parser() -> ArgumentParser:
             kevm_cli_args.foundry_args,
         ],
     )
-    foundry_show_args.add_argument(
+    show_args.add_argument(
         '--omit-unstable-output',
         dest='omit_unstable_output',
         default=False,
@@ -544,32 +544,32 @@ def _create_argument_parser() -> ArgumentParser:
         help='Strip output that is likely to change without the contract logic changing',
     )
     command_parser.add_parser(
-        'foundry-to-dot',
+        'to-dot',
         help='Dump the given CFG for the test as DOT for visualization.',
         parents=[kevm_cli_args.foundry_test_args, kevm_cli_args.logging_args, kevm_cli_args.foundry_args],
     )
 
     command_parser.add_parser(
-        'foundry-list',
+        'list',
         help='List information about CFGs on disk',
         parents=[kevm_cli_args.logging_args, kevm_cli_args.k_args, kevm_cli_args.foundry_args],
     )
 
     command_parser.add_parser(
-        'foundry-view-kcfg',
+        'view-kcfg',
         help='Display tree view of CFG',
         parents=[kevm_cli_args.foundry_test_args, kevm_cli_args.logging_args, kevm_cli_args.foundry_args],
     )
 
-    foundry_remove_node = command_parser.add_parser(
-        'foundry-remove-node',
+    remove_node = command_parser.add_parser(
+        'remove-node',
         help='Remove a node and its successors.',
         parents=[kevm_cli_args.foundry_test_args, kevm_cli_args.logging_args, kevm_cli_args.foundry_args],
     )
-    foundry_remove_node.add_argument('node', type=node_id_like, help='Node to remove CFG subgraph from.')
+    remove_node.add_argument('node', type=node_id_like, help='Node to remove CFG subgraph from.')
 
-    foundry_simplify_node = command_parser.add_parser(
-        'foundry-simplify-node',
+    simplify_node = command_parser.add_parser(
+        'simplify-node',
         help='Simplify a given node, and potentially replace it.',
         parents=[
             kevm_cli_args.foundry_test_args,
@@ -581,13 +581,13 @@ def _create_argument_parser() -> ArgumentParser:
             kevm_cli_args.foundry_args,
         ],
     )
-    foundry_simplify_node.add_argument('node', type=node_id_like, help='Node to simplify in CFG.')
-    foundry_simplify_node.add_argument(
+    simplify_node.add_argument('node', type=node_id_like, help='Node to simplify in CFG.')
+    simplify_node.add_argument(
         '--replace', default=False, help='Replace the original node with the simplified variant in the graph.'
     )
 
-    foundry_step_node = command_parser.add_parser(
-        'foundry-step-node',
+    step_node = command_parser.add_parser(
+        'step-node',
         help='Step from a given node, adding it to the CFG.',
         parents=[
             kevm_cli_args.foundry_test_args,
@@ -598,15 +598,13 @@ def _create_argument_parser() -> ArgumentParser:
             kevm_cli_args.foundry_args,
         ],
     )
-    foundry_step_node.add_argument('node', type=node_id_like, help='Node to step from in CFG.')
-    foundry_step_node.add_argument(
+    step_node.add_argument('node', type=node_id_like, help='Node to step from in CFG.')
+    step_node.add_argument(
         '--repeat', type=int, default=1, help='How many node expansions to do from the given start node (>= 1).'
     )
-    foundry_step_node.add_argument(
-        '--depth', type=int, default=1, help='How many steps to take from initial node on edge.'
-    )
-    foundry_merge_node = command_parser.add_parser(
-        'foundry-merge-nodes',
+    step_node.add_argument('--depth', type=int, default=1, help='How many steps to take from initial node on edge.')
+    merge_node = command_parser.add_parser(
+        'merge-nodes',
         help='Merge multiple nodes into one branch.',
         parents=[
             kevm_cli_args.foundry_test_args,
@@ -614,7 +612,7 @@ def _create_argument_parser() -> ArgumentParser:
             kevm_cli_args.foundry_args,
         ],
     )
-    foundry_merge_node.add_argument(
+    merge_node.add_argument(
         '--node',
         type=node_id_like,
         dest='nodes',
@@ -623,8 +621,8 @@ def _create_argument_parser() -> ArgumentParser:
         help='One node to be merged.',
     )
 
-    foundry_section_edge = command_parser.add_parser(
-        'foundry-section-edge',
+    section_edge = command_parser.add_parser(
+        'section-edge',
         help='Given an edge in the graph, cut it into sections to get intermediate nodes.',
         parents=[
             kevm_cli_args.foundry_test_args,
@@ -635,13 +633,11 @@ def _create_argument_parser() -> ArgumentParser:
             kevm_cli_args.foundry_args,
         ],
     )
-    foundry_section_edge.add_argument('edge', type=arg_pair_of(str, str), help='Edge to section in CFG.')
-    foundry_section_edge.add_argument(
-        '--sections', type=int, default=2, help='Number of sections to make from edge (>= 2).'
-    )
+    section_edge.add_argument('edge', type=arg_pair_of(str, str), help='Edge to section in CFG.')
+    section_edge.add_argument('--sections', type=int, default=2, help='Number of sections to make from edge (>= 2).')
 
-    foundry_get_model = command_parser.add_parser(
-        'foundry-get-model',
+    get_model = command_parser.add_parser(
+        'get-model',
         help='Display a model for a given node.',
         parents=[
             kevm_cli_args.foundry_test_args,
@@ -651,7 +647,7 @@ def _create_argument_parser() -> ArgumentParser:
             kevm_cli_args.foundry_args,
         ],
     )
-    foundry_get_model.add_argument(
+    get_model.add_argument(
         '--node',
         type=node_id_like,
         dest='nodes',
@@ -659,10 +655,10 @@ def _create_argument_parser() -> ArgumentParser:
         action='append',
         help='List of nodes to display the models of.',
     )
-    foundry_get_model.add_argument(
+    get_model.add_argument(
         '--pending', dest='pending', default=False, action='store_true', help='Also display models of pending nodes'
     )
-    foundry_get_model.add_argument(
+    get_model.add_argument(
         '--failing', dest='failing', default=False, action='store_true', help='Also display models of failing nodes'
     )
 
