@@ -419,7 +419,7 @@ def _create_argument_parser() -> ArgumentParser:
         return parse
 
     kevm_cli_args = KEVMCLIArgs()
-    parser = ArgumentParser(prog='kontrolx')
+    parser = ArgumentParser(prog='kontrol')
 
     command_parser = parser.add_subparsers(dest='command', required=True)
 
