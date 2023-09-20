@@ -1,0 +1,59 @@
+name: 'Update Version'
+on:
+  push:
+    branches:
+      - '_update-deps/runtimeverification/evm-semantics'
+      - 'migrate-kontrol'
+  workflow_dispatch:
+# Stop in progress workflows on the same branch and same workflow to use latest committed code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  update-versions:
+    name: 'Update Dependency Versions'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.JENKINS_GITHUB_PAT }}
+          fetch-depth: 0
+      - name: 'Configure GitHub user'
+        run: |
+          git config user.name devops
+          git config user.email devops@runtimeverification.com
+      - name: 'Install Poetry'
+        uses: Gr1N/setup-poetry@v8
+      - name: 'Update kevm-pyk release tag'
+        run: |
+          KEVM_VERSION="$(cat deps/kevm_release)"
+          sed -i 's!kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "[v0-9\.]*", subdirectory = "kevm-pyk" }!kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v'${KEVM_VERSION}'", subdirectory = "kevm-pyk" }!' pyproject.toml
+          poetry update
+          git add -u && git commit -m "Sync Poetry files: kevm-pyk version ${KEVM_VERSION}" || true
+      - name: 'Update K release file'
+        run: |
+          K_VERSION=$(poetry run python3 -c 'import pyk; print(pyk.K_VERSION)')
+          echo ${K_VERSION} > deps/k_release
+          git add deps/k_release && git commit -m "deps/k_release: sync release file version ${K_VERSION}" || true
+      - name: 'Install Nix/Cachix'
+        uses: cachix/install-nix-action@v19
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.13.3/install
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - uses: cachix/cachix-action@v12
+        with:
+          name: k-framework
+          authToken: ${{ secrets.CACHIX_PUBLIC_TOKEN }}
+      - name: 'Update Nix flake inputs'
+        run: |
+          KEVM_VERSION=$(cat deps/kevm_release)
+          sed -i 's!    kevm.url = "github:runtimeverification/evm-semantics/[v0-9\.]*"!    kevm.url = "github:runtimeverification/evm-semantics/v'"${KEVM_VERSION}"'"!' flake.nix
+          nix flake update
+          git add flake.nix flake.lock && git commit -m 'flake.{nix,lock}: update Nix derivations' || true
+      - name: 'Push updates'
+        run: git push
