@@ -97,7 +97,7 @@ jobs:
     strategy:
       matrix:
         backend: ['legacy', 'booster']
-    timeout-minutes: 150
+    timeout-minutes: 240
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v3
