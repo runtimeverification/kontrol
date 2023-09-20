@@ -10,6 +10,9 @@ authors = [
     "Runtime Verification, Inc. <contact@runtimeverification.com>",
 ]
 
+[tool.poetry.scripts]
+kontrol = "kontrol.__main__:main"
+
 [tool.poetry.dependencies]
 python = "^3.10"
 kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.296", subdirectory = 'kevm-pyk' }
