@@ -4,14 +4,18 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "kontrol"
-version = "0.1.1"
+version = "0.1.2"
 description = "Foundry integration for KEVM"
 authors = [
     "Runtime Verification, Inc. <contact@runtimeverification.com>",
 ]
 
+[tool.poetry.scripts]
+kontrol = "kontrol.__main__:main"
+
 [tool.poetry.dependencies]
 python = "^3.10"
+kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.297", subdirectory = "kevm-pyk" }
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
