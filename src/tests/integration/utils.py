@@ -3,9 +3,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from kevm_pyk.dist import DistTarget
 from pyk.utils import check_dir_path
 
-from kevm_pyk.dist import DistTarget
 from kontrol.solc_to_k import solc_to_k
 
 if TYPE_CHECKING:

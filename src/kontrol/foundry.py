@@ -13,6 +13,18 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
+from kevm_pyk.dist import DistTarget
+from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
+from kevm_pyk.utils import (
+    KDefinition__expand_macros,
+    abstract_cell_vars,
+    byte_offset_to_lines,
+    constraints_for,
+    kevm_prove,
+    legacy_explore,
+    print_failure_info,
+    print_model,
+)
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KSort, KToken, KVariable, Subst
@@ -28,19 +40,6 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.proof.show import APRBMCProofNodePrinter, APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
-
-from kevm_pyk.dist import DistTarget
-from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
-from kevm_pyk.utils import (
-    KDefinition__expand_macros,
-    abstract_cell_vars,
-    byte_offset_to_lines,
-    constraints_for,
-    kevm_prove,
-    legacy_explore,
-    print_failure_info,
-    print_model,
-)
 
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
 

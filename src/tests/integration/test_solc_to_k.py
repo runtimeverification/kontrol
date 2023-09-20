@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-
 from kevm_pyk.kompile import KompileTarget, kevm_kompile
 
 from .utils import TEST_DATA_DIR

@@ -8,12 +8,11 @@ import sys
 from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
-from pyk.cli.utils import file_path
-from pyk.proof.tui import APRProofViewer
-
 from kevm_pyk.cli import KEVMCLIArgs, node_id_like
 from kevm_pyk.dist import DistTarget
 from kevm_pyk.utils import arg_pair_of
+from pyk.cli.utils import file_path
+from pyk.proof.tui import APRProofViewer
 
 from .foundry import (
     Foundry,
