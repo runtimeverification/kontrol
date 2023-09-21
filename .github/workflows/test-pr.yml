@@ -70,7 +70,6 @@ jobs:
       - name: 'Check out code'
         uses: actions/checkout@v3
         with:
-          submodules: recursive
           fetch-depth: 0
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
@@ -102,7 +101,6 @@ jobs:
       - name: 'Check out code'
         uses: actions/checkout@v3
         with:
-          submodules: recursive
           fetch-depth: 0
       - name: 'Set up Docker'
         uses: ./.github/actions/with-docker
@@ -131,7 +129,6 @@ jobs:
       - name: 'Check out code'
         uses: actions/checkout@v3
         with:
-          submodules: recursive
           fetch-depth: 0
       - name: 'Set environment'
         run: |
