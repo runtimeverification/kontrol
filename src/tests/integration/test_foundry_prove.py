@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from distutils.dir_util import copy_tree
 from typing import TYPE_CHECKING
 
@@ -32,6 +33,9 @@ if TYPE_CHECKING:
 
 
 FORGE_STD_REF: Final = '27e14b7'
+
+
+sys.setrecursionlimit(10**7)
 
 
 @pytest.fixture(scope='module')
