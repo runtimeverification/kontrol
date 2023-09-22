@@ -6,6 +6,25 @@ on:
 
 jobs:
 
+  cut-release:
+    name: 'Cut Release'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.push.head.sha }}
+          fetch-depth: 0
+
+      - name: 'Create Release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.JENKINS_GITHUB_PAT }}
+        run: |
+          set -x
+          VERSION=v$(cat package/version)
+          gh release create ${VERSION} --target ${{ github.sha }}
+
+
   dockerhub:
     name: 'Build and Publish Docker Image'
     runs-on: [self-hosted, linux, normal]
