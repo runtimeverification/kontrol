@@ -1,0 +1,36 @@
+name: 'Master Push'
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+
+  dockerhub:
+    name: 'Build and Publish Docker Image'
+    runs-on: [self-hosted, linux, normal]
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.push.head.sha }}
+          fetch-depth: 0
+
+      - name: 'Set environment'
+        run: |
+          KONTROL_VERSION=$(cat package/version)
+          TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${KONTROL_VERSION}
+          echo "TAG=${TAG}" >> ${GITHUB_ENV}
+
+      - name: 'Build Docker image'
+        run: |
+          K_VERSION=$(cat deps/k_release)
+          docker build . --tag ${TAG} --build-arg K_VERSION=${K_VERSION}
+
+      - name: 'Run Docker image'
+        run: docker run --rm ${TAG} kontrol --help
+
+      - name: 'Push Docker image to Docker Hub'
+        run: |
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username rvdockerhub --password-stdin
+          docker image push ${TAG}
