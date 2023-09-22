@@ -63,6 +63,7 @@ jobs:
     name: 'Profiling'
     runs-on: [self-hosted, linux, normal]
     strategy:
+      fail-fast: false
       matrix:
         backend: ['legacy', 'booster']
     timeout-minutes: 30
@@ -94,6 +95,7 @@ jobs:
     name: 'Integration Tests'
     runs-on: [self-hosted, linux, normal]
     strategy:
+      fail-fast: false
       matrix:
         backend: ['legacy', 'booster']
     timeout-minutes: 240
