@@ -19,7 +19,7 @@ class KontrolCLIArgs(KEVMCLIArgs):
     def foundry_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
         args.add_argument(
-            '--foundry-project-root',
+            '--root',
             dest='foundry_root',
             type=dir_path,
             default=Path('.'),
