@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - 'master'
-      - 'nix-cache'
 
 jobs:
 
@@ -23,7 +22,7 @@ jobs:
         run: |
           set -x
           VERSION=v$(cat package/version)
-          # gh release create ${VERSION} --target ${{ github.sha }}
+          gh release create ${VERSION} --target ${{ github.sha }}
 
 
   nix-cache:
@@ -65,7 +64,7 @@ jobs:
           script: |
             KONTROL=$(nix build --extra-experimental-features 'nix-command flakes' .#kontrol --json | jq -r '.[].outputs | to_entries[].value')
             DRV=$(nix-store --query --deriver ${KONTROL})
-            nix-store --query --requisites --include-outputs ${DRV} # | cachix push k-framework
+            nix-store --query --requisites --include-outputs ${DRV} | cachix push k-framework
 
 
   dockerhub:
@@ -95,4 +94,4 @@ jobs:
       - name: 'Push Docker image to Docker Hub'
         run: |
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username rvdockerhub --password-stdin
-          # docker image push ${TAG}
+          docker image push ${TAG}
