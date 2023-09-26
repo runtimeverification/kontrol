@@ -63,6 +63,7 @@ jobs:
     name: 'Profiling'
     runs-on: [self-hosted, linux, normal]
     strategy:
+      fail-fast: false
       matrix:
         backend: ['legacy', 'booster']
     timeout-minutes: 30
@@ -94,6 +95,7 @@ jobs:
     name: 'Integration Tests'
     runs-on: [self-hosted, linux, normal]
     strategy:
+      fail-fast: false
       matrix:
         backend: ['legacy', 'booster']
     timeout-minutes: 240
@@ -109,7 +111,7 @@ jobs:
       - name: 'Build KEVM'
         run: |
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'poetry install'
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin foundry'
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin haskell foundry'
       - name: 'Run integration tests'
         run: |
           TEST_ARGS=
