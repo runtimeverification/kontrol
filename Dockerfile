@@ -36,6 +36,6 @@ RUN ls -l /home/user
 USER user
 
 ENV PATH=/home/user/.local/bin:${PATH}
-# RUN    pip install ./kontrol \
-#     && rm -rf kontrol        \
-#     && CXX=clang++-14 kevm-dist --verbose build -j4
+RUN    pip install ./kontrol \
+    && rm -rf kontrol        \
+    && CXX=clang++-14 kevm-dist --verbose build -j4
