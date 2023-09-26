@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 sys.setrecursionlimit(10**7)
 
 
-FORGE_STD_REF: Final = '27e14b7'
+FORGE_STD_REF: Final = '75f1746'
 
 
 def test_foundy_prove(profile: Profiler, use_booster: bool, tmp_path: Path) -> None:
