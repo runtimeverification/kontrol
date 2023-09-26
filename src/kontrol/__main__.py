@@ -6,12 +6,13 @@ import sys
 from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
-from kevm_pyk.cli import KEVMCLIArgs, node_id_like
+from kevm_pyk.cli import node_id_like
 from kevm_pyk.dist import DistTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
 from pyk.proof.tui import APRProofViewer
 
+from .cli import KontrolCLIArgs
 from .foundry import (
     Foundry,
     foundry_get_model,
@@ -415,7 +416,7 @@ def _create_argument_parser() -> ArgumentParser:
 
         return parse
 
-    kevm_cli_args = KEVMCLIArgs()
+    kontrol_cli_args = KontrolCLIArgs()
     parser = ArgumentParser(prog='kontrol')
 
     command_parser = parser.add_subparsers(dest='command', required=True)
@@ -428,7 +429,12 @@ def _create_argument_parser() -> ArgumentParser:
     solc_to_k_args = command_parser.add_parser(
         'solc-to-k',
         help='Output helper K definition for given JSON output from solc compiler.',
-        parents=[kevm_cli_args.logging_args, kevm_cli_args.target_args, kevm_cli_args.k_args, kevm_cli_args.k_gen_args],
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.target_args,
+            kontrol_cli_args.k_args,
+            kontrol_cli_args.k_gen_args,
+        ],
     )
     solc_to_k_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
     solc_to_k_args.add_argument('contract_name', type=str, help='Name of contract to generate K helpers for.')
@@ -444,11 +450,11 @@ def _create_argument_parser() -> ArgumentParser:
         'build',
         help='Kompile K definition corresponding to given output directory.',
         parents=[
-            kevm_cli_args.logging_args,
-            kevm_cli_args.k_args,
-            kevm_cli_args.k_gen_args,
-            kevm_cli_args.kompile_args,
-            kevm_cli_args.foundry_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.k_args,
+            kontrol_cli_args.k_gen_args,
+            kontrol_cli_args.kompile_args,
+            kontrol_cli_args.foundry_args,
         ],
     )
     build.add_argument(
@@ -470,15 +476,15 @@ def _create_argument_parser() -> ArgumentParser:
         'prove',
         help='Run Foundry Proof.',
         parents=[
-            kevm_cli_args.logging_args,
-            kevm_cli_args.parallel_args,
-            kevm_cli_args.k_args,
-            kevm_cli_args.kprove_args,
-            kevm_cli_args.smt_args,
-            kevm_cli_args.rpc_args,
-            kevm_cli_args.bug_report_args,
-            kevm_cli_args.explore_args,
-            kevm_cli_args.foundry_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.parallel_args,
+            kontrol_cli_args.k_args,
+            kontrol_cli_args.kprove_args,
+            kontrol_cli_args.smt_args,
+            kontrol_cli_args.rpc_args,
+            kontrol_cli_args.bug_report_args,
+            kontrol_cli_args.explore_args,
+            kontrol_cli_args.foundry_args,
         ],
     )
     prove_args.add_argument(
@@ -523,12 +529,12 @@ def _create_argument_parser() -> ArgumentParser:
         'show',
         help='Display a given Foundry CFG.',
         parents=[
-            kevm_cli_args.foundry_test_args,
-            kevm_cli_args.logging_args,
-            kevm_cli_args.k_args,
-            kevm_cli_args.kcfg_show_args,
-            kevm_cli_args.display_args,
-            kevm_cli_args.foundry_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.k_args,
+            kontrol_cli_args.kcfg_show_args,
+            kontrol_cli_args.display_args,
+            kontrol_cli_args.foundry_args,
         ],
     )
     show_args.add_argument(
@@ -538,28 +544,29 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Strip output that is likely to change without the contract logic changing',
     )
+
     command_parser.add_parser(
         'to-dot',
         help='Dump the given CFG for the test as DOT for visualization.',
-        parents=[kevm_cli_args.foundry_test_args, kevm_cli_args.logging_args, kevm_cli_args.foundry_args],
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
 
     command_parser.add_parser(
         'list',
         help='List information about CFGs on disk',
-        parents=[kevm_cli_args.logging_args, kevm_cli_args.k_args, kevm_cli_args.foundry_args],
+        parents=[kontrol_cli_args.logging_args, kontrol_cli_args.k_args, kontrol_cli_args.foundry_args],
     )
 
     command_parser.add_parser(
         'view-kcfg',
         help='Display tree view of CFG',
-        parents=[kevm_cli_args.foundry_test_args, kevm_cli_args.logging_args, kevm_cli_args.foundry_args],
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
 
     remove_node = command_parser.add_parser(
         'remove-node',
         help='Remove a node and its successors.',
-        parents=[kevm_cli_args.foundry_test_args, kevm_cli_args.logging_args, kevm_cli_args.foundry_args],
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
     remove_node.add_argument('node', type=node_id_like, help='Node to remove CFG subgraph from.')
 
@@ -567,13 +574,13 @@ def _create_argument_parser() -> ArgumentParser:
         'simplify-node',
         help='Simplify a given node, and potentially replace it.',
         parents=[
-            kevm_cli_args.foundry_test_args,
-            kevm_cli_args.logging_args,
-            kevm_cli_args.smt_args,
-            kevm_cli_args.rpc_args,
-            kevm_cli_args.bug_report_args,
-            kevm_cli_args.display_args,
-            kevm_cli_args.foundry_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.smt_args,
+            kontrol_cli_args.rpc_args,
+            kontrol_cli_args.bug_report_args,
+            kontrol_cli_args.display_args,
+            kontrol_cli_args.foundry_args,
         ],
     )
     simplify_node.add_argument('node', type=node_id_like, help='Node to simplify in CFG.')
@@ -585,12 +592,12 @@ def _create_argument_parser() -> ArgumentParser:
         'step-node',
         help='Step from a given node, adding it to the CFG.',
         parents=[
-            kevm_cli_args.foundry_test_args,
-            kevm_cli_args.logging_args,
-            kevm_cli_args.rpc_args,
-            kevm_cli_args.bug_report_args,
-            kevm_cli_args.smt_args,
-            kevm_cli_args.foundry_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.rpc_args,
+            kontrol_cli_args.bug_report_args,
+            kontrol_cli_args.smt_args,
+            kontrol_cli_args.foundry_args,
         ],
     )
     step_node.add_argument('node', type=node_id_like, help='Node to step from in CFG.')
@@ -602,9 +609,9 @@ def _create_argument_parser() -> ArgumentParser:
         'merge-nodes',
         help='Merge multiple nodes into one branch.',
         parents=[
-            kevm_cli_args.foundry_test_args,
-            kevm_cli_args.logging_args,
-            kevm_cli_args.foundry_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
         ],
     )
     merge_node.add_argument(
@@ -620,12 +627,12 @@ def _create_argument_parser() -> ArgumentParser:
         'section-edge',
         help='Given an edge in the graph, cut it into sections to get intermediate nodes.',
         parents=[
-            kevm_cli_args.foundry_test_args,
-            kevm_cli_args.logging_args,
-            kevm_cli_args.rpc_args,
-            kevm_cli_args.bug_report_args,
-            kevm_cli_args.smt_args,
-            kevm_cli_args.foundry_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.rpc_args,
+            kontrol_cli_args.bug_report_args,
+            kontrol_cli_args.smt_args,
+            kontrol_cli_args.foundry_args,
         ],
     )
     section_edge.add_argument('edge', type=arg_pair_of(str, str), help='Edge to section in CFG.')
@@ -635,11 +642,11 @@ def _create_argument_parser() -> ArgumentParser:
         'get-model',
         help='Display a model for a given node.',
         parents=[
-            kevm_cli_args.foundry_test_args,
-            kevm_cli_args.logging_args,
-            kevm_cli_args.rpc_args,
-            kevm_cli_args.smt_args,
-            kevm_cli_args.foundry_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.rpc_args,
+            kontrol_cli_args.smt_args,
+            kontrol_cli_args.foundry_args,
         ],
     )
     get_model.add_argument(

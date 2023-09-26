@@ -34,7 +34,7 @@
             substituteInPlace ./src/kontrol/foundry.py \
               --replace "'forge', 'build'," "'forge', 'build', '--no-auto-detect',"
             substituteInPlace ./pyproject.toml \
-              --replace ", subdirectory = 'kevm-pyk'" ""
+              --replace ', subdirectory = "kevm-pyk"' ""
           '';
 
           overrides = prev.poetry2nix.overrides.withDefaults
