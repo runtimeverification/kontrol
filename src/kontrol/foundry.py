@@ -677,7 +677,7 @@ def foundry_prove(
         foundry.get_method(test_name).update_digest(foundry.digest_file)
 
     _LOGGER.info(f'Running setup functions in parallel: {list(setup_methods)}')
-    results = run_cfg_group(
+    results = _run_cfg_group(
         setup_methods_with_versions,
         foundry,
         max_depth=max_depth,
@@ -703,7 +703,7 @@ def foundry_prove(
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
-    results = run_cfg_group(
+    results = _run_cfg_group(
         tests_with_versions,
         foundry,
         max_depth=max_depth,
@@ -727,7 +727,7 @@ def foundry_prove(
     return results
 
 
-def run_cfg_group(
+def _run_cfg_group(
     tests: list[tuple[str, int]],
     foundry: Foundry,
     *,
@@ -749,7 +749,7 @@ def run_cfg_group(
     auto_abstract_gas: bool,
     port: int | None,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
-    def _init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
+    def init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
         contract_name, method_sig, version = _init_problem
         contract = foundry.contracts[contract_name]
         method = contract.method_by_sig[method_sig]
@@ -807,11 +807,11 @@ def run_cfg_group(
     _apr_proofs: list[tuple[bool, list[str] | None]]
     if workers > 1:
         with ProcessPool(ncpus=workers) as process_pool:
-            _apr_proofs = process_pool.map(_init_and_run_proof, init_problems)
+            _apr_proofs = process_pool.map(init_and_run_proof, init_problems)
     else:
         _apr_proofs = []
         for init_problem in init_problems:
-            _apr_proofs.append(_init_and_run_proof(init_problem))
+            _apr_proofs.append(init_and_run_proof(init_problem))
 
     apr_proofs = dict(zip(tests, _apr_proofs, strict=True))
     return apr_proofs
