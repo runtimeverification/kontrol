@@ -22,16 +22,13 @@ ARG GROUP_ID=9876
 RUN    groupadd -g ${GROUP_ID} user \
     && useradd -m -u ${USER_ID} -s /bin/bash -g user user
 
-ENV PATH=/home/user/.foundry/bin:${PATH}
-RUN    curl -L https://foundry.paradigm.xyz | bash \
-    && foundryup
-
 COPY . /home/user/kontrol
-
 RUN chown -R user:user /home/user
 
 USER user
-
+ENV PATH=/home/user/.foundry/bin:${PATH}
+RUN    curl -L https://foundry.paradigm.xyz | bash \
+    && foundryup
 ENV PATH=/home/user/.local/bin:${PATH}
 # RUN    pip install --user ./kontrol \
 #     && rm -rf kontrol        \
