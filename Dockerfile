@@ -29,11 +29,11 @@ ENV PATH=/home/user/.foundry/bin:${PATH}
 RUN    curl -L https://foundry.paradigm.xyz | bash \
     && foundryup
 
-ADD . kontrol
-USER root
-RUN chown -R user:user kontrol
-RUN ls -l /home/user
-USER user
+ADD --chown user:user . kontrol
+# USER root
+# RUN chown -R user:user kontrol
+# RUN ls -l /home/user
+# USER user
 
 ENV PATH=/home/user/.local/bin:${PATH}
 RUN    pip install ./kontrol \
