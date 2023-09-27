@@ -16,11 +16,9 @@ from .cli import KontrolCLIArgs
 from .foundry import (
     Foundry,
     foundry_get_model,
-    foundry_kompile,
     foundry_list,
     foundry_merge_nodes,
     foundry_node_printer,
-    foundry_prove,
     foundry_remove_node,
     foundry_section_edge,
     foundry_show,
@@ -28,6 +26,8 @@ from .foundry import (
     foundry_step_node,
     foundry_to_dot,
 )
+from .kompile import foundry_kompile
+from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
 
 if TYPE_CHECKING:
