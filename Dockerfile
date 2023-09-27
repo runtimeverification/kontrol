@@ -22,7 +22,7 @@ ARG GROUP_ID=1004
 RUN    groupadd -g ${GROUP_ID} user \
     && useradd -m -u ${USER_ID} -s /bin/bash -g user user
 
-COPY . /home/user/kontrol
+ADD . /home/user/kontrol
 RUN chown -R user:user /home/user
 
 USER user
