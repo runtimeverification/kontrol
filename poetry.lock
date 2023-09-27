@@ -434,12 +434,12 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.306"
+version = "1.0.308"
 description = ""
 optional = false
 python-versions = "^3.10"
 files = []
-develop = true
+develop = false
 
 [package.dependencies]
 pathos = "*"
@@ -448,8 +448,11 @@ tomlkit = "^0.11.6"
 xdg-base-dirs = "^6.0.0"
 
 [package.source]
-type = "directory"
-url = "../evm-semantics/kevm-pyk"
+type = "git"
+url = "https://github.com/runtimeverification/evm-semantics.git"
+reference = "noah/contract-initialization-2"
+resolved_reference = "dc1da8a7dc7d943086cbb6024dc70636557da26f"
+subdirectory = "kevm-pyk"
 
 [[package]]
 name = "linkify-it-py"
@@ -1080,4 +1083,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "1febcd0ffea1627c5f1594a88553be6ca4ac79409c266f098ab27bbe85d47ca4"
+content-hash = "4b5743a5b29569536e2fc1c41783cfa1c037612dc373608305f29c173f598ada"

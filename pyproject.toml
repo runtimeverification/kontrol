@@ -15,7 +15,7 @@ kontrol = "kontrol.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-kevm-pyk = { path = "/home/noah/dev/evm-semantics", develop = true, subdirectory = "kevm-pyk" }
+kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", branch = "noah/contract-initialization-2", subdirectory = "kevm-pyk" }
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
