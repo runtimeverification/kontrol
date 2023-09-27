@@ -29,7 +29,7 @@ ENV PATH=/home/user/.foundry/bin:${PATH}
 RUN    curl -L https://foundry.paradigm.xyz | bash \
     && foundryup
 
-ADD --chown user:user . kontrol
+ADD --chown=user:user . kontrol
 # USER root
 # RUN chown -R user:user kontrol
 # RUN ls -l /home/user
