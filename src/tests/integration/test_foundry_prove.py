@@ -14,11 +14,11 @@ from kontrol.foundry import (
     Foundry,
     foundry_kompile,
     foundry_merge_nodes,
-    foundry_prove,
     foundry_remove_node,
     foundry_show,
     foundry_step_node,
 )
+from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
 

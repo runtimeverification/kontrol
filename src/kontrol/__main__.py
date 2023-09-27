@@ -20,7 +20,6 @@ from .foundry import (
     foundry_list,
     foundry_merge_nodes,
     foundry_node_printer,
-    foundry_prove,
     foundry_remove_node,
     foundry_section_edge,
     foundry_show,
@@ -28,6 +27,7 @@ from .foundry import (
     foundry_step_node,
     foundry_to_dot,
 )
+from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
 
 if TYPE_CHECKING:
