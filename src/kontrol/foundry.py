@@ -661,55 +661,55 @@ def foundry_prove(
         )
     )
 
-    def _init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
-        contract_name, method_sig, version = _init_problem
-        contract = foundry.contracts[contract_name]
-        method = contract.method_by_sig[method_sig]
-        test_id = f'{contract_name}.{method_sig}:{version}'
-        llvm_definition_dir = foundry.llvm_library if use_booster else None
-
-        start_server = port is None
-
-        with legacy_explore(
-            foundry.kevm,
-            kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
-            id=test_id,
-            bug_report=bug_report,
-            kore_rpc_command=kore_rpc_command,
-            llvm_definition_dir=llvm_definition_dir,
-            smt_timeout=smt_timeout,
-            smt_retry_limit=smt_retry_limit,
-            trace_rewrites=trace_rewrites,
-            start_server=start_server,
-            port=port,
-        ) as kcfg_explore:
-            proof = _method_to_apr_proof(
-                foundry,
-                contract,
-                method,
-                foundry.proofs_dir,
-                kcfg_explore,
-                test_id,
-                simplify_init=simplify_init,
-                bmc_depth=bmc_depth,
-            )
-
-            passed = kevm_prove(
-                foundry.kevm,
-                proof,
-                kcfg_explore,
-                max_depth=max_depth,
-                max_iterations=max_iterations,
-                break_every_step=break_every_step,
-                break_on_jumpi=break_on_jumpi,
-                break_on_calls=break_on_calls,
-            )
-            failure_log = None
-            if not passed:
-                failure_log = print_failure_info(proof, kcfg_explore, counterexample_info)
-            return passed, failure_log
-
     def run_cfg_group(tests: list[tuple[str, int]]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
+        def _init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
+            contract_name, method_sig, version = _init_problem
+            contract = foundry.contracts[contract_name]
+            method = contract.method_by_sig[method_sig]
+            test_id = f'{contract_name}.{method_sig}:{version}'
+            llvm_definition_dir = foundry.llvm_library if use_booster else None
+
+            start_server = port is None
+
+            with legacy_explore(
+                foundry.kevm,
+                kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
+                id=test_id,
+                bug_report=bug_report,
+                kore_rpc_command=kore_rpc_command,
+                llvm_definition_dir=llvm_definition_dir,
+                smt_timeout=smt_timeout,
+                smt_retry_limit=smt_retry_limit,
+                trace_rewrites=trace_rewrites,
+                start_server=start_server,
+                port=port,
+            ) as kcfg_explore:
+                proof = _method_to_apr_proof(
+                    foundry,
+                    contract,
+                    method,
+                    foundry.proofs_dir,
+                    kcfg_explore,
+                    test_id,
+                    simplify_init=simplify_init,
+                    bmc_depth=bmc_depth,
+                )
+
+                passed = kevm_prove(
+                    foundry.kevm,
+                    proof,
+                    kcfg_explore,
+                    max_depth=max_depth,
+                    max_iterations=max_iterations,
+                    break_every_step=break_every_step,
+                    break_on_jumpi=break_on_jumpi,
+                    break_on_calls=break_on_calls,
+                )
+                failure_log = None
+                if not passed:
+                    failure_log = print_failure_info(proof, kcfg_explore, counterexample_info)
+                return passed, failure_log
+
         def _split_test(test: tuple[str, int]) -> tuple[str, str, int]:
             test_name, version = test
             contract, method = test_name.split('.')
