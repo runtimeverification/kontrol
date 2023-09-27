@@ -420,7 +420,7 @@ def _init_cterm(
 
     constraints = None
     if init_state:
-        accts, constraints = get_final_accounts_cell(init_state, kcfgs_dir, overwrite_code_cell=program)
+        accts, constraints = _get_final_accounts_cell(init_state, kcfgs_dir, overwrite_code_cell=program)
         init_subst['ACCOUNTS_CELL'] = accts
 
     if calldata is not None:
@@ -507,7 +507,7 @@ def _final_term(empty_config: KInner, contract_name: str) -> KInner:
     )
 
 
-def get_final_accounts_cell(
+def _get_final_accounts_cell(
     proof_id: str, proof_dir: Path, overwrite_code_cell: KInner | None = None
 ) -> tuple[KInner, Iterable[KInner]]:
     apr_proof = APRProof.read_proof_data(proof_dir, proof_id)
