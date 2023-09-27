@@ -241,7 +241,7 @@ class Foundry:
             for contract in self.contracts.values()
             for method in contract.methods
             if f'{contract.name}.{method.signature}' not in self.all_tests
-        ]
+        ] + [f'{contract.name}.init' for contract in self.contracts.values()]
 
     @staticmethod
     def _escape_brackets(regs: list[str]) -> list[str]:
@@ -387,8 +387,14 @@ class Foundry:
             return Proof.read_proof_data(self.proofs_dir, test_id)
         return None
 
-    def get_method(self, test: str) -> Contract.Method:
+    def get_method(self, test: str) -> Contract.Method | Contract.Constructor:
         contract_name, method_name = test.split('.')
+
+        if method_name == 'init':
+            constructor = self.contracts[contract_name].constructor
+            assert constructor is not None
+            return constructor
+
         contract = self.contracts[contract_name]
         return contract.method_by_sig[method_name]
 
@@ -426,7 +432,7 @@ class Foundry:
             _LOGGER.info(
                 f'Using the the latest version {latest_version} of test {test} because it is up to date and no version was specified.'
             )
-            if not method.contract_up_to_date(self.digest_file):
+            if type(method) is Contract.Method and not method.contract_up_to_date(self.digest_file):
                 _LOGGER.warning(
                     f'Test {test} was not reinitialized because it is up to date, but the contract it is a part of has changed.'
                 )

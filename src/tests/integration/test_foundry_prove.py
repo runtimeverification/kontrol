@@ -232,16 +232,16 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
         port=server.port,
         bug_report=bug_report,
     )
-    check_pending(foundry_root, test, [6, 7])
+    check_pending(foundry_root, test, [11, 12])
 
-    foundry_step_node(foundry_root, test, node=6, depth=49, port=server.port)
-    foundry_step_node(foundry_root, test, node=7, depth=50, port=server.port)
+    foundry_step_node(foundry_root, test, node=11, depth=49, port=server.port)
+    foundry_step_node(foundry_root, test, node=12, depth=50, port=server.port)
 
-    check_pending(foundry_root, test, [8, 9])
+    check_pending(foundry_root, test, [13, 14])
 
-    foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[8, 9], include_disjunct=True)
+    foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[13, 14], include_disjunct=True)
 
-    check_pending(foundry_root, test, [10])
+    check_pending(foundry_root, test, [15])
 
     prove_res = foundry_prove(
         foundry_root,
@@ -404,3 +404,23 @@ def test_foundry_resume_proof(
         bug_report=bug_report,
     )
     assert_fail(test, prove_res)
+
+
+ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail_init()')
+
+
+@pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
+def test_foundry_init_code(test: str, foundry_root: Path, use_booster: bool) -> None:
+    # When
+    prove_res = foundry_prove(
+        foundry_root,
+        tests=[(test, None)],
+        simplify_init=False,
+        smt_timeout=300,
+        smt_retry_limit=10,
+        use_booster=use_booster,
+        run_constructor=True,
+    )
+
+    # Then
+    assert_pass(test, prove_res)
