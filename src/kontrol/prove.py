@@ -238,6 +238,7 @@ def _run_cfg_group(
     run_constructor: bool = False,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     print(f'run_constructor={run_constructor}')
+
     def init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
         contract_name, method_sig, version = _init_problem
         contract = foundry.contracts[contract_name]
