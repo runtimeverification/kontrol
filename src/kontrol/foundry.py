@@ -661,74 +661,6 @@ def foundry_prove(
         )
     )
 
-    def run_cfg_group(tests: list[tuple[str, int]]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
-        def _init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
-            contract_name, method_sig, version = _init_problem
-            contract = foundry.contracts[contract_name]
-            method = contract.method_by_sig[method_sig]
-            test_id = f'{contract_name}.{method_sig}:{version}'
-            llvm_definition_dir = foundry.llvm_library if use_booster else None
-
-            start_server = port is None
-
-            with legacy_explore(
-                foundry.kevm,
-                kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
-                id=test_id,
-                bug_report=bug_report,
-                kore_rpc_command=kore_rpc_command,
-                llvm_definition_dir=llvm_definition_dir,
-                smt_timeout=smt_timeout,
-                smt_retry_limit=smt_retry_limit,
-                trace_rewrites=trace_rewrites,
-                start_server=start_server,
-                port=port,
-            ) as kcfg_explore:
-                proof = _method_to_apr_proof(
-                    foundry,
-                    contract,
-                    method,
-                    foundry.proofs_dir,
-                    kcfg_explore,
-                    test_id,
-                    simplify_init=simplify_init,
-                    bmc_depth=bmc_depth,
-                )
-
-                passed = kevm_prove(
-                    foundry.kevm,
-                    proof,
-                    kcfg_explore,
-                    max_depth=max_depth,
-                    max_iterations=max_iterations,
-                    break_every_step=break_every_step,
-                    break_on_jumpi=break_on_jumpi,
-                    break_on_calls=break_on_calls,
-                )
-                failure_log = None
-                if not passed:
-                    failure_log = print_failure_info(proof, kcfg_explore, counterexample_info)
-                return passed, failure_log
-
-        def _split_test(test: tuple[str, int]) -> tuple[str, str, int]:
-            test_name, version = test
-            contract, method = test_name.split('.')
-            return contract, method, version
-
-        init_problems = [_split_test(test) for test in tests]
-
-        _apr_proofs: list[tuple[bool, list[str] | None]]
-        if workers > 1:
-            with ProcessPool(ncpus=workers) as process_pool:
-                _apr_proofs = process_pool.map(_init_and_run_proof, init_problems)
-        else:
-            _apr_proofs = []
-            for init_problem in init_problems:
-                _apr_proofs.append(_init_and_run_proof(init_problem))
-
-        apr_proofs = dict(zip(tests, _apr_proofs, strict=True))
-        return apr_proofs
-
     tests_with_versions = [
         (test_name, foundry.resolve_proof_version(test_name, reinit, version)) for (test_name, version) in tests
     ]
@@ -745,15 +677,144 @@ def foundry_prove(
         foundry.get_method(test_name).update_digest(foundry.digest_file)
 
     _LOGGER.info(f'Running setup functions in parallel: {list(setup_methods)}')
-    results = run_cfg_group(setup_methods_with_versions)
+    results = run_cfg_group(
+        setup_methods_with_versions,
+        foundry,
+        max_depth=max_depth,
+        max_iterations=max_iterations,
+        workers=workers,
+        simplify_init=simplify_init,
+        break_every_step=break_every_step,
+        break_on_jumpi=break_on_jumpi,
+        break_on_calls=break_on_calls,
+        bmc_depth=bmc_depth,
+        bug_report=bug_report,
+        kore_rpc_command=kore_rpc_command,
+        use_booster=use_booster,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        counterexample_info=counterexample_info,
+        trace_rewrites=trace_rewrites,
+        auto_abstract_gas=auto_abstract_gas,
+        port=port,
+    )
     failed = [setup_cfg for setup_cfg, passed in results.items() if not passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
-    results = run_cfg_group(tests_with_versions)
-
+    results = run_cfg_group(
+        tests_with_versions,
+        foundry,
+        max_depth=max_depth,
+        max_iterations=max_iterations,
+        workers=workers,
+        simplify_init=simplify_init,
+        break_every_step=break_every_step,
+        break_on_jumpi=break_on_jumpi,
+        break_on_calls=break_on_calls,
+        bmc_depth=bmc_depth,
+        bug_report=bug_report,
+        kore_rpc_command=kore_rpc_command,
+        use_booster=use_booster,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        counterexample_info=counterexample_info,
+        trace_rewrites=trace_rewrites,
+        auto_abstract_gas=auto_abstract_gas,
+        port=port,
+    )
     return results
+
+
+def run_cfg_group(
+    tests: list[tuple[str, int]],
+    foundry: Foundry,
+    *,
+    max_depth: int,
+    max_iterations: int | None,
+    workers: int,
+    simplify_init: bool,
+    break_every_step: bool,
+    break_on_jumpi: bool,
+    break_on_calls: bool,
+    bmc_depth: int | None,
+    bug_report: BugReport | None,
+    kore_rpc_command: str | Iterable[str] | None,
+    use_booster: bool,
+    smt_timeout: int | None,
+    smt_retry_limit: int | None,
+    counterexample_info: bool,
+    trace_rewrites: bool,
+    auto_abstract_gas: bool,
+    port: int | None,
+) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
+    def _init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
+        contract_name, method_sig, version = _init_problem
+        contract = foundry.contracts[contract_name]
+        method = contract.method_by_sig[method_sig]
+        test_id = f'{contract_name}.{method_sig}:{version}'
+        llvm_definition_dir = foundry.llvm_library if use_booster else None
+
+        start_server = port is None
+
+        with legacy_explore(
+            foundry.kevm,
+            kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
+            id=test_id,
+            bug_report=bug_report,
+            kore_rpc_command=kore_rpc_command,
+            llvm_definition_dir=llvm_definition_dir,
+            smt_timeout=smt_timeout,
+            smt_retry_limit=smt_retry_limit,
+            trace_rewrites=trace_rewrites,
+            start_server=start_server,
+            port=port,
+        ) as kcfg_explore:
+            proof = _method_to_apr_proof(
+                foundry,
+                contract,
+                method,
+                foundry.proofs_dir,
+                kcfg_explore,
+                test_id,
+                simplify_init=simplify_init,
+                bmc_depth=bmc_depth,
+            )
+
+            passed = kevm_prove(
+                foundry.kevm,
+                proof,
+                kcfg_explore,
+                max_depth=max_depth,
+                max_iterations=max_iterations,
+                break_every_step=break_every_step,
+                break_on_jumpi=break_on_jumpi,
+                break_on_calls=break_on_calls,
+            )
+            failure_log = None
+            if not passed:
+                failure_log = print_failure_info(proof, kcfg_explore, counterexample_info)
+            return passed, failure_log
+
+    def _split_test(test: tuple[str, int]) -> tuple[str, str, int]:
+        test_name, version = test
+        contract, method = test_name.split('.')
+        return contract, method, version
+
+    init_problems = [_split_test(test) for test in tests]
+
+    _apr_proofs: list[tuple[bool, list[str] | None]]
+    if workers > 1:
+        with ProcessPool(ncpus=workers) as process_pool:
+            _apr_proofs = process_pool.map(_init_and_run_proof, init_problems)
+    else:
+        _apr_proofs = []
+        for init_problem in init_problems:
+            _apr_proofs.append(_init_and_run_proof(init_problem))
+
+    apr_proofs = dict(zip(tests, _apr_proofs, strict=True))
+    return apr_proofs
 
 
 def foundry_show(
