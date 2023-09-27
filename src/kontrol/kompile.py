@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from kevm_pyk.dist import DistTarget
 from kevm_pyk.kevm import KEVM
+from kevm_pyk.kompile import KompileTarget, kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.utils import ensure_dir_path, hash_str
 
@@ -35,8 +36,6 @@ def foundry_kompile(
     debug: bool = False,
     verbose: bool = False,
 ) -> None:
-    from kevm_pyk.kompile import KompileTarget, kevm_kompile
-
     syntax_module = 'FOUNDRY-CONTRACTS'
     foundry = Foundry(foundry_root)
     foundry_requires_dir = foundry.kompiled / 'requires'
