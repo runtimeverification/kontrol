@@ -10,15 +10,9 @@ from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.utils import run_process, single
 
-from kontrol.foundry import (
-    Foundry,
-    foundry_kompile,
-    foundry_merge_nodes,
-    foundry_prove,
-    foundry_remove_node,
-    foundry_show,
-    foundry_step_node,
-)
+from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
+from kontrol.kompile import foundry_kompile
+from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
 
