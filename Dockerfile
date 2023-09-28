@@ -17,8 +17,8 @@ RUN    apt-get -y update             \
          python${PYTHON_VERSION}-dev \
     && apt-get -y clean
 
-ARG USER_ID=9876
-ARG GROUP_ID=9876
+ARG USER_ID=1010
+ARG GROUP_ID=1010
 RUN    groupadd -g ${GROUP_ID} user \
     && useradd -m -u ${USER_ID} -s /bin/bash -g user user
 
