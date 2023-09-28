@@ -31,7 +31,7 @@ RUN    curl -L https://foundry.paradigm.xyz | bash \
     && foundryup
 ENV PATH=/home/user/.local/bin:${PATH}
 RUN    pip install ./kontrol \
-     && CXX=clang++-14 kevm-dist --verbose build -j4
-# && rm -rf kontrol        \
+        && rm -rf kontrol        \
+        && CXX=clang++-14 kevm-dist --verbose build -j4
 
 WORKDIR /home/user
