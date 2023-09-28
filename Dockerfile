@@ -22,6 +22,7 @@ ARG GROUP_ID=1004
 RUN    groupadd -g ${GROUP_ID} user \
     && useradd -m -u ${USER_ID} -s /bin/bash -g user user
 
+WORKDIR /home/user
 ADD --chown=user:user . kontrol
 RUN chown -R user:user /home/user
 
@@ -29,9 +30,8 @@ USER user
 ENV PATH=/home/user/.foundry/bin:${PATH}
 RUN    curl -L https://foundry.paradigm.xyz | bash \
     && foundryup
+
 ENV PATH=/home/user/.local/bin:${PATH}
 RUN    pip install ./kontrol \
         && rm -rf kontrol        \
         && CXX=clang++-14 kevm-dist --verbose build -j4
-
-WORKDIR /home/user
