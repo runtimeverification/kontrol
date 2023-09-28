@@ -25,6 +25,10 @@ interface KEVMCheatsBase {
     function allowChangesToStorage(address,uint256) external;
     // Set the current <gas> cell
     function infiniteGas() external;
+    // Returns a symbolic unsigned integer
+    function freshUInt(uint8) external returns (uint256);
+    // Returns a symbolic boolean value
+    function freshBool() external returns (uint256);
 }
 
 abstract contract KEVMCheats {

@@ -6,6 +6,7 @@ module FOUNDRY-MAIN
     imports public AddrTest-VERIFICATION
     imports public AllowChangesTest-VERIFICATION
     imports public ValueStore-VERIFICATION
+    imports public AmbiguousTest-VERIFICATION
     imports public ArithmeticTest-VERIFICATION
     imports public AssumeTest-VERIFICATION
     imports public BMCLoopsTest-VERIFICATION
@@ -33,6 +34,7 @@ module FOUNDRY-MAIN
     imports public FfiTest-VERIFICATION
     imports public FilesTest-VERIFICATION
     imports public ForkTest-VERIFICATION
+    imports public FreshIntTest-VERIFICATION
     imports public GasTest-VERIFICATION
     imports public GetCodeTest-VERIFICATION
     imports public IMulticall3-VERIFICATION
@@ -118,6 +120,13 @@ endmodule
 
 module ValueStore-VERIFICATION
     imports public ValueStore-CONTRACT
+    
+    
+
+endmodule
+
+module AmbiguousTest-VERIFICATION
+    imports public AmbiguousTest-CONTRACT
     
     
 
@@ -307,6 +316,13 @@ endmodule
 
 module ForkTest-VERIFICATION
     imports public ForkTest-CONTRACT
+    
+    
+
+endmodule
+
+module FreshIntTest-VERIFICATION
+    imports public FreshIntTest-CONTRACT
     
     
 
