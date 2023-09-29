@@ -64,6 +64,56 @@ def solc_to_k(
     return _kprint.pretty_print(bin_runtime_definition, unalias=False) + '\n'
 
 
+def find_function_calls(node: dict) -> list[str]:
+    """
+    Recursively searches a Solidity Abstract Syntax Tree (AST) for external function calls.
+    Extracts and returns a list of tuples containing the contract type and function name
+    for each detected external function call.
+
+    :param node: A dictionary representing a node (or sub-node) within the AST.
+    :return: A list of tuples where each tuple has the format (contract_type, function_name).
+             - contract_type (str): The type of the contract (e.g., 'Counter' or 'KEVMCheatsBase').
+             - function_name (str): The name of the externally called function.
+
+    Example:
+        If the AST represents code where there's an external call like `counter.setNumber(10)`,
+        and `counter` is of type `Counter`, the function might return a list like:
+        [('Counter', 'setNumber'), ...]
+    """
+    function_calls: list[str] = []
+
+    if not node:
+        return function_calls
+
+    # Check if the current node represents an external function call
+    if node.get('nodeType') == 'FunctionCall':
+        expression = node.get('expression', {})
+        if expression.get('nodeType') == 'MemberAccess':
+            # Extract the contract type from the typeString
+            type_string = expression['expression']['typeDescriptions'].get('typeString', '')
+            contract_type = type_string.split(' ')[-1] if 'contract' in type_string else 'UnknownContractType'
+
+            function_name = expression.get('memberName')
+
+            # Extracting argument types
+            node.get('arguments', [])
+            # arg_types = [arg['typeDescriptions']['typeString'] for arg in arguments if arg.get('typeDescriptions')]
+
+            if contract_type not in ['KEVMCheatsBase', 'Vm']:
+                function_calls.append(f'{contract_type}.{function_name}')  # ({','.join(arg_types)})")
+
+    # Recursively search in nested nodes
+    for _key, value in node.items():
+        if isinstance(value, dict):
+            function_calls.extend(find_function_calls(value))
+        elif isinstance(value, list):
+            for item in value:
+                if isinstance(item, dict):
+                    function_calls.extend(find_function_calls(item))
+
+    return function_calls
+
+
 @dataclass
 class Contract:
     @dataclass
@@ -79,6 +129,7 @@ class Contract:
         payable: bool
         signature: str
         ast: dict | None
+        function_calls: list[str] | None
 
         def __init__(
             self,
@@ -90,6 +141,7 @@ class Contract:
             contract_digest: str,
             contract_storage_digest: str,
             sort: KSort,
+            function_calls: list[str] | None,
         ) -> None:
             self.signature = msig
             self.name = abi['name']
@@ -103,6 +155,7 @@ class Contract:
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
             self.ast = ast
+            self.function_calls = function_calls
 
         @property
         def klabel(self) -> KLabel:
@@ -271,8 +324,17 @@ class Contract:
             method_selector: str = str(evm['methodIdentifiers'][msig])
             mid = int(method_selector, 16)
             method_ast = function_asts[method_selector] if method_selector in function_asts else None
+            method_calls = find_function_calls(method_ast)
             _m = Contract.Method(
-                msig, mid, method, method_ast, self.name, self.digest, self.storage_digest, self.sort_method
+                msig,
+                mid,
+                method,
+                method_ast,
+                self.name,
+                self.digest,
+                self.storage_digest,
+                self.sort_method,
+                method_calls,
             )
             _methods.append(_m)
 
