@@ -15,7 +15,7 @@ kontrol = "kontrol.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.297", subdirectory = "kevm-pyk" }
+kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.307", subdirectory = "kevm-pyk" }
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
