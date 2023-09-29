@@ -110,5 +110,5 @@ jobs:
       - name: 'Push Docker image to Docker Hub'
         run: |
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username rvdockerhub --password-stdin
-          # docker image push ${TAG}
+          docker push ${TAG}
           docker push ${iTAG}
