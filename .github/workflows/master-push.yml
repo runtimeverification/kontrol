@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - 'master'
-      - 'hotfix/docker-development'
 
 jobs:
 
@@ -36,7 +35,7 @@ jobs:
   #           -H "X-GitHub-Api-Version: 2022-11-28"                              \
   #           https://api.github.com/repos/runtimeverification/devops/dispatches \
   #           -d '{"event_type":"on-demand-test","client_payload":{"repo":"runtimeverification/kontrol","version":"'${VERSION}'"}}'
-s
+
 
   # nix-cache:
   #   name: 'Populate Nix Cache'
@@ -94,13 +93,14 @@ s
         run: |
           KONTROL_VERSION=$(cat package/version)
           TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${KONTROL_VERSION}
+          iTAG=dockerhub-runtimeverification.com:5000/kontrol:ubuntu-jammy-${KONTROL_VERSION}
+          echo "iTAG=${iTAG}" >> ${GITHUB_ENV}
           echo "TAG=${TAG}" >> ${GITHUB_ENV}
 
       - name: 'Build Docker image'
         run: |
           K_VERSION=$(cat deps/k_release)
           docker build . --no-cache --tag ${TAG} --build-arg K_VERSION=${K_VERSION}
-          docker tag ${TAG} dockerhub-runtimeverification.com:5000/kontrol:ubuntu-jammy-0.1.11-1
 
       - name: 'Run Docker image'
         run: docker run --rm ${TAG} kontrol --help
@@ -109,4 +109,4 @@ s
         run: |
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username rvdockerhub --password-stdin
           # docker image push ${TAG}
-          docker push dockerhub-runtimeverification.com:5000/kontrol:ubuntu-jammy-0.1.11-1
+          docker push ${iTAG}
