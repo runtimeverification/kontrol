@@ -434,7 +434,7 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.307"
+version = "1.0.308"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -450,8 +450,8 @@ xdg-base-dirs = "^6.0.0"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.307"
-resolved_reference = "9529af53bffea08fca660a007fdd992ad3a9dddd"
+reference = "v1.0.308"
+resolved_reference = "7976a0aa1d7aed4782300d31c400ea5b9c61146a"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -1045,13 +1045,13 @@ test = ["coverage", "pytest", "pytest-cov"]
 
 [[package]]
 name = "wcwidth"
-version = "0.2.6"
+version = "0.2.7"
 description = "Measures the displayed width of unicode strings in a terminal"
 optional = false
 python-versions = "*"
 files = [
-    {file = "wcwidth-0.2.6-py2.py3-none-any.whl", hash = "sha256:795b138f6875577cd91bba52baf9e445cd5118fd32723b460e30a0af30ea230e"},
-    {file = "wcwidth-0.2.6.tar.gz", hash = "sha256:a5220780a404dbe3353789870978e472cfe477761f06ee55077256e509b156d0"},
+    {file = "wcwidth-0.2.7-py2.py3-none-any.whl", hash = "sha256:fabf3e32999d9b0dab7d19d845149f326f04fe29bac67709ee071dbd92640a36"},
+    {file = "wcwidth-0.2.7.tar.gz", hash = "sha256:1b6d30a98ddd5ce9bbdb33658191fd2423fc9da203fe3ef1855407dcb7ee4e26"},
 ]
 
 [[package]]
@@ -1083,4 +1083,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "6f5203f66ac71d4451a4c3e2e20f7c072eba7fa323c72b5e836cc73b48e3b291"
+content-hash = "4c722aba92782aacd0f5d098b93870d371e577063bd816b303a7ce68ccf142a3"
