@@ -102,6 +102,7 @@ jobs:
         run: |
           K_VERSION=$(cat deps/k_release)
           docker build . --no-cache --tag ${TAG} --build-arg K_VERSION=${K_VERSION}
+          docker tag ${TAG} ${iTAG}
 
       - name: 'Run Docker image'
         run: docker run --rm ${TAG} kontrol --help
