@@ -94,18 +94,18 @@ def foundry_prove(
     _LOGGER.info(f'Running tests: {test_names}')
 
     contracts = [test.contract for test in test_suite]
-    _setup_methods = collect_setup_methods(foundry, contracts, reinit=reinit)
-    setup_methods = [test.name for test in _setup_methods]
-    setup_methods_with_versions = [test.unparsed for test in _setup_methods]
+    setup_methods = collect_setup_methods(foundry, contracts, reinit=reinit)
+    setup_method_names = [test.name for test in setup_methods]
+    setup_methods_with_versions = [test.unparsed for test in setup_methods]
 
     _LOGGER.info(f'Updating digests: {[test_name for test_name, _ in tests]}')
     for test in test_suite:
         test.method.update_digest(foundry.digest_file)
-    _LOGGER.info(f'Updating digests: {setup_methods}')
-    for test in _setup_methods:
+    _LOGGER.info(f'Updating digests: {setup_method_names}')
+    for test in setup_methods:
         test.method.update_digest(foundry.digest_file)
 
-    _LOGGER.info(f'Running setup functions in parallel: {list(setup_methods)}')
+    _LOGGER.info(f'Running setup functions in parallel: {list(setup_method_names)}')
     results = _run_cfg_group(
         setup_methods_with_versions,
         foundry,
