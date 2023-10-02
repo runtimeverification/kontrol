@@ -35,7 +35,6 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
-    from pyk.kcfg.kcfg import NodeIdLike
     from pyk.utils import BugReport
 
     from .solc_to_k import Contract
@@ -270,41 +269,17 @@ def method_to_apr_proof(
     simplify_init: bool = True,
     bmc_depth: int | None = None,
 ) -> APRProof | APRBMCProof:
-    contract_name = test.contract.name
-    method_sig = test.method.signature
     if Proof.proof_data_exists(test.id, save_directory):
         apr_proof = foundry.get_apr_proof(test.id)
     else:
-        _LOGGER.info(f'Initializing KCFG for test: {test.id}')
-
-        setup_digest = None
-        if method_sig != 'setUp()' and 'setUp' in test.contract.method_by_name:
-            latest_version = foundry.latest_proof_version(f'{contract_name}.setUp()')
-            setup_digest = f'{contract_name}.setUp():{latest_version}'
-            _LOGGER.info(f'Using setUp method for test: {test.id}')
-
-        empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
-        kcfg, init_node_id, target_node_id = _method_to_cfg(
-            empty_config, test.contract, test.method, save_directory, init_state=setup_digest
+        kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
+            foundry,
+            test,
+            save_directory,
+            kcfg_explore,
+            simplify_init,
         )
 
-        _LOGGER.info(f'Expanding macros in initial state for test: {test.id}')
-        init_term = kcfg.node(init_node_id).cterm.kast
-        init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
-        init_cterm = CTerm.from_kast(init_term)
-        _LOGGER.info(f'Computing definedness constraint for test: {test.id}')
-        init_cterm = kcfg_explore.cterm_assume_defined(init_cterm)
-        kcfg.replace_node(init_node_id, init_cterm)
-
-        _LOGGER.info(f'Expanding macros in target state for test: {test.id}')
-        target_term = kcfg.node(target_node_id).cterm.kast
-        target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
-        target_cterm = CTerm.from_kast(target_term)
-        kcfg.replace_node(target_node_id, target_cterm)
-
-        if simplify_init:
-            _LOGGER.info(f'Simplifying KCFG for test: {test.id}')
-            kcfg_explore.simplify(kcfg, {})
         if bmc_depth is not None:
             apr_proof = APRBMCProof(
                 test.id,
@@ -323,13 +298,57 @@ def method_to_apr_proof(
     return apr_proof
 
 
+def method_to_initialized_cfg(
+    foundry: Foundry,
+    test: FoundryTest,
+    save_directory: Path,
+    kcfg_explore: KCFGExplore,
+    simplify_init: bool = True,
+) -> tuple[KCFG, int, int]:
+    contract_name = test.contract.name
+    method_sig = test.method.signature
+
+    _LOGGER.info(f'Initializing KCFG for test: {test.id}')
+
+    setup_digest = None
+    if method_sig != 'setUp()' and 'setUp' in test.contract.method_by_name:
+        latest_version = foundry.latest_proof_version(f'{contract_name}.setUp()')
+        setup_digest = f'{contract_name}.setUp():{latest_version}'
+        _LOGGER.info(f'Using setUp method for test: {test.id}')
+
+    empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
+    kcfg, init_node_id, target_node_id = _method_to_cfg(
+        empty_config, test.contract, test.method, save_directory, init_state=setup_digest
+    )
+
+    _LOGGER.info(f'Expanding macros in initial state for test: {test.id}')
+    init_term = kcfg.node(init_node_id).cterm.kast
+    init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
+    init_cterm = CTerm.from_kast(init_term)
+    _LOGGER.info(f'Computing definedness constraint for test: {test.id}')
+    init_cterm = kcfg_explore.cterm_assume_defined(init_cterm)
+    kcfg.replace_node(init_node_id, init_cterm)
+
+    _LOGGER.info(f'Expanding macros in target state for test: {test.id}')
+    target_term = kcfg.node(target_node_id).cterm.kast
+    target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
+    target_cterm = CTerm.from_kast(target_term)
+    kcfg.replace_node(target_node_id, target_cterm)
+
+    if simplify_init:
+        _LOGGER.info(f'Simplifying KCFG for test: {test.id}')
+        kcfg_explore.simplify(kcfg, {})
+
+    return kcfg, init_node_id, target_node_id
+
+
 def _method_to_cfg(
     empty_config: KInner,
     contract: Contract,
     method: Contract.Method,
     kcfgs_dir: Path,
     init_state: str | None = None,
-) -> tuple[KCFG, NodeIdLike, NodeIdLike]:
+) -> tuple[KCFG, int, int]:
     calldata = method.calldata_cell(contract)
     callvalue = method.callvalue_cell
     init_cterm = _init_cterm(
