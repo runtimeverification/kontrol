@@ -141,6 +141,7 @@ def foundry_prove(
         trace_rewrites=trace_rewrites,
         auto_abstract_gas=auto_abstract_gas,
         port=port,
+        reinit=reinit,
     )
     failed = [setup_cfg for setup_cfg, passed in results.items() if not passed]
     if failed:
@@ -192,6 +193,7 @@ def _run_cfg_group(
     trace_rewrites: bool,
     auto_abstract_gas: bool,
     port: int | None,
+    reinit: bool = False,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     def init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
         contract_name, method_sig, version = _init_problem
@@ -224,6 +226,7 @@ def _run_cfg_group(
                 test_id,
                 simplify_init=simplify_init,
                 bmc_depth=bmc_depth,
+                reinit=reinit,
             )
 
             passed = kevm_prove(
@@ -270,9 +273,11 @@ def _method_to_apr_proof(
     test_id: str,
     simplify_init: bool = True,
     bmc_depth: int | None = None,
+    reinit: bool = False,
 ) -> APRProof | APRBMCProof:
     contract_name = contract.name
     method_sig = method.signature
+    print('function_calls for ', test_id, method.function_calls)
     if Proof.proof_data_exists(test_id, save_directory):
         apr_proof = foundry.get_apr_proof(test_id)
     else:
@@ -320,7 +325,33 @@ def _method_to_apr_proof(
         else:
             apr_proof = APRProof(test_id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=save_directory)
 
+    if method.function_calls is not None:
+        functions_with_versions = [
+            (
+                foundry.matching_sig(function_name),
+                foundry.resolve_proof_version(foundry.matching_sig(function_name), reinit, None),
+            )
+            for function_name in method.function_calls
+        ]
+        for call, version in functions_with_versions:
+            contract_name, method_name = call.split('.')
+            call_id = f'{call}:{version}'
+            apr_proof.add_subproof(
+                _method_to_apr_proof(
+                    foundry,
+                    foundry.contracts[contract_name],
+                    foundry.get_method(call),
+                    save_directory,
+                    kcfg_explore,
+                    call_id,
+                    simplify_init,
+                    bmc_depth=bmc_depth,
+                    reinit=reinit,
+                )
+            )
+
     apr_proof.write_proof_data()
+    print(apr_proof)
     return apr_proof
 
 
