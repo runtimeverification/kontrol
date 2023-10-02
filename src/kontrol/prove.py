@@ -272,11 +272,21 @@ def method_to_apr_proof(
     if Proof.proof_data_exists(test.id, save_directory):
         apr_proof = foundry.get_apr_proof(test.id)
     else:
+        contract_name = test.contract.name
+        method_sig = test.method.signature
+
+        setup_digest = None
+        if method_sig != 'setUp()' and 'setUp' in test.contract.method_by_name:
+            latest_version = foundry.latest_proof_version(f'{contract_name}.setUp()')
+            setup_digest = f'{contract_name}.setUp():{latest_version}'
+            _LOGGER.info(f'Using setUp method for test: {test.id}')
+
         kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
             foundry,
             test,
-            save_directory,
             kcfg_explore,
+            save_directory,
+            setup_digest,
             simplify_init,
         )
 
@@ -301,20 +311,12 @@ def method_to_apr_proof(
 def method_to_initialized_cfg(
     foundry: Foundry,
     test: FoundryTest,
-    save_directory: Path,
     kcfg_explore: KCFGExplore,
+    save_directory: Path,
+    setup_digest: str | None,
     simplify_init: bool = True,
 ) -> tuple[KCFG, int, int]:
-    contract_name = test.contract.name
-    method_sig = test.method.signature
-
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
-
-    setup_digest = None
-    if method_sig != 'setUp()' and 'setUp' in test.contract.method_by_name:
-        latest_version = foundry.latest_proof_version(f'{contract_name}.setUp()')
-        setup_digest = f'{contract_name}.setUp():{latest_version}'
-        _LOGGER.info(f'Using setUp method for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, init_node_id, target_node_id = _method_to_cfg(
