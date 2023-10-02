@@ -243,11 +243,9 @@ def _run_cfg_group(
         ) as kcfg_explore:
             proof = method_to_apr_proof(
                 foundry,
-                test.contract,
-                test.method,
+                test,
                 foundry.proofs_dir,
                 kcfg_explore,
-                test.id,
                 simplify_init=simplify_init,
                 bmc_depth=bmc_depth,
             )
@@ -283,52 +281,50 @@ def _run_cfg_group(
 
 def method_to_apr_proof(
     foundry: Foundry,
-    contract: Contract,
-    method: Contract.Method,
+    test: FoundryTest,
     save_directory: Path,
     kcfg_explore: KCFGExplore,
-    test_id: str,
     simplify_init: bool = True,
     bmc_depth: int | None = None,
 ) -> APRProof | APRBMCProof:
-    contract_name = contract.name
-    method_sig = method.signature
-    if Proof.proof_data_exists(test_id, save_directory):
-        apr_proof = foundry.get_apr_proof(test_id)
+    contract_name = test.contract.name
+    method_sig = test.method.signature
+    if Proof.proof_data_exists(test.id, save_directory):
+        apr_proof = foundry.get_apr_proof(test.id)
     else:
-        _LOGGER.info(f'Initializing KCFG for test: {test_id}')
+        _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
         setup_digest = None
-        if method_sig != 'setUp()' and 'setUp' in contract.method_by_name:
-            latest_version = foundry.latest_proof_version(f'{contract.name}.setUp()')
+        if method_sig != 'setUp()' and 'setUp' in test.contract.method_by_name:
+            latest_version = foundry.latest_proof_version(f'{contract_name}.setUp()')
             setup_digest = f'{contract_name}.setUp():{latest_version}'
-            _LOGGER.info(f'Using setUp method for test: {test_id}')
+            _LOGGER.info(f'Using setUp method for test: {test.id}')
 
         empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
         kcfg, init_node_id, target_node_id = _method_to_cfg(
-            empty_config, contract, method, save_directory, init_state=setup_digest
+            empty_config, test.contract, test.method, save_directory, init_state=setup_digest
         )
 
-        _LOGGER.info(f'Expanding macros in initial state for test: {test_id}')
+        _LOGGER.info(f'Expanding macros in initial state for test: {test.id}')
         init_term = kcfg.node(init_node_id).cterm.kast
         init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
         init_cterm = CTerm.from_kast(init_term)
-        _LOGGER.info(f'Computing definedness constraint for test: {test_id}')
+        _LOGGER.info(f'Computing definedness constraint for test: {test.id}')
         init_cterm = kcfg_explore.cterm_assume_defined(init_cterm)
         kcfg.replace_node(init_node_id, init_cterm)
 
-        _LOGGER.info(f'Expanding macros in target state for test: {test_id}')
+        _LOGGER.info(f'Expanding macros in target state for test: {test.id}')
         target_term = kcfg.node(target_node_id).cterm.kast
         target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
         target_cterm = CTerm.from_kast(target_term)
         kcfg.replace_node(target_node_id, target_cterm)
 
         if simplify_init:
-            _LOGGER.info(f'Simplifying KCFG for test: {test_id}')
+            _LOGGER.info(f'Simplifying KCFG for test: {test.id}')
             kcfg_explore.simplify(kcfg, {})
         if bmc_depth is not None:
             apr_proof = APRBMCProof(
-                test_id,
+                test.id,
                 kcfg,
                 [],
                 init_node_id,
@@ -338,7 +334,7 @@ def method_to_apr_proof(
                 proof_dir=save_directory,
             )
         else:
-            apr_proof = APRProof(test_id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=save_directory)
+            apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=save_directory)
 
     apr_proof.write_proof_data()
     return apr_proof
