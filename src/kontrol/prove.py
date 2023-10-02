@@ -91,16 +91,17 @@ def foundry_prove(
     test_names = [test.name for test in test_suite]
     tests_with_versions = [test.unparsed for test in test_suite]
 
-    _LOGGER.info(f'Running tests: {test_names}')
-
     contracts = [test.contract for test in test_suite]
     setup_methods = collect_setup_methods(foundry, contracts, reinit=reinit)
     setup_method_names = [test.name for test in setup_methods]
     setup_methods_with_versions = [test.unparsed for test in setup_methods]
 
+    _LOGGER.info(f'Running tests: {test_names}')
+
     _LOGGER.info(f'Updating digests: {[test_name for test_name, _ in tests]}')
     for test in test_suite:
         test.method.update_digest(foundry.digest_file)
+
     _LOGGER.info(f'Updating digests: {setup_method_names}')
     for test in setup_methods:
         test.method.update_digest(foundry.digest_file)
