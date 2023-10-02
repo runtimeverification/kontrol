@@ -532,16 +532,7 @@ def _final_term(empty_config: KInner, contract_name: str) -> KInner:
 def _get_final_accounts_cell(
     proof_id: str, proof_dir: Path, overwrite_code_cell: KInner | None = None
 ) -> tuple[KInner, Iterable[KInner]]:
-    apr_proof = APRProof.read_proof_data(proof_dir, proof_id)
-    target = apr_proof.kcfg.node(apr_proof.target)
-    target_states = apr_proof.kcfg.covers(target_id=target.id)
-    if len(target_states) == 0:
-        raise ValueError(
-            f'setUp() function for {apr_proof.id} did not reach the end of execution. Maybe --max-iterations is too low?'
-        )
-    if len(target_states) > 1:
-        raise ValueError(f'setUp() function for {apr_proof.id} branched and has {len(target_states)} target states.')
-    cterm = single(target_states).source.cterm
+    cterm = _setup_cterm(proof_id, proof_dir)
     acct_cell = cterm.cell('ACCOUNTS_CELL')
 
     if overwrite_code_cell is not None:
@@ -559,3 +550,17 @@ def _get_final_accounts_cell(
     fvars = free_vars(acct_cell)
     acct_cons = constraints_for(fvars, cterm.constraints)
     return (acct_cell, acct_cons)
+
+
+def _setup_cterm(proof_id: str, proof_dir: Path) -> CTerm:
+    apr_proof = APRProof.read_proof_data(proof_dir, proof_id)
+    target = apr_proof.kcfg.node(apr_proof.target)
+    target_states = apr_proof.kcfg.covers(target_id=target.id)
+    if len(target_states) == 0:
+        raise ValueError(
+            f'setUp() function for {apr_proof.id} did not reach the end of execution. Maybe --max-iterations is too low?'
+        )
+    if len(target_states) > 1:
+        raise ValueError(f'setUp() function for {apr_proof.id} branched and has {len(target_states)} target states.')
+    cterm = single(target_states).source.cterm
+    return cterm
