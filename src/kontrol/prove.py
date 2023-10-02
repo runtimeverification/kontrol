@@ -73,10 +73,6 @@ def foundry_prove(
     if max_iterations is not None and max_iterations < 0:
         raise ValueError(f'Must have a non-negative number of iterations, found: --max-iterations {max_iterations}')
 
-    foundry = Foundry(foundry_root, bug_report=bug_report)
-
-    foundry.mk_proofs_dir()
-
     if use_booster:
         try:
             run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
@@ -88,15 +84,20 @@ def foundry_prove(
     if kore_rpc_command is None:
         kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
 
+    foundry = Foundry(foundry_root, bug_report=bug_report)
+    foundry.mk_proofs_dir()
+
     if not tests:
         tests = [(test, None) for test in foundry.all_tests]
     tests = list({(foundry.matching_sig(test), version) for test, version in tests})
     test_names = [test[0] for test in tests]
+    tests_with_versions = [
+        (test_name, foundry.resolve_proof_version(test_name, reinit, version)) for (test_name, version) in tests
+    ]
 
     _LOGGER.info(f'Running tests: {test_names}')
 
     contracts = set(unique({test.split('.')[0] for test in test_names}))
-
     setup_methods = set(
         unique(
             f'{contract_name}.setUp()'
@@ -104,10 +105,6 @@ def foundry_prove(
             if 'setUp' in foundry.contracts[contract_name].method_by_name
         )
     )
-
-    tests_with_versions = [
-        (test_name, foundry.resolve_proof_version(test_name, reinit, version)) for (test_name, version) in tests
-    ]
     setup_methods_with_versions = [
         (setup_method_name, foundry.resolve_proof_version(setup_method_name, reinit, None))
         for setup_method_name in setup_methods
