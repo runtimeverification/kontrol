@@ -274,21 +274,16 @@ def method_to_apr_proof(
         apr_proof.write_proof_data()
         return apr_proof
 
-    contract_name = test.contract.name
-    method_sig = test.method.signature
-
-    setup_digest = None
-    if method_sig != 'setUp()' and 'setUp' in test.contract.method_by_name:
-        latest_version = foundry.latest_proof_version(f'{contract_name}.setUp()')
-        setup_digest = f'{contract_name}.setUp():{latest_version}'
+    setup_cterm = None
+    if test.method.signature != 'setUp()' and 'setUp' in test.contract.method_by_name:
         _LOGGER.info(f'Using setUp method for test: {test.id}')
+        setup_cterm = _load_setup_cterm(foundry, test.contract, save_directory)
 
     kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
         foundry,
         test,
         kcfg_explore,
-        save_directory,
-        setup_digest,
+        setup_cterm,
         simplify_init,
     )
 
@@ -310,19 +305,37 @@ def method_to_apr_proof(
     return apr_proof
 
 
+def _load_setup_cterm(foundry: Foundry, contract: Contract, proof_dir: Path) -> CTerm:
+    latest_version = foundry.latest_proof_version(f'{contract.name}.setUp()')
+    setup_digest = f'{contract.name}.setUp():{latest_version}'
+    apr_proof = APRProof.read_proof_data(proof_dir, setup_digest)
+    target = apr_proof.kcfg.node(apr_proof.target)
+    target_states = apr_proof.kcfg.covers(target_id=target.id)
+    if len(target_states) == 0:
+        raise ValueError(
+            f'setUp() function for {apr_proof.id} did not reach the end of execution. Maybe --max-iterations is too low?'
+        )
+    if len(target_states) > 1:
+        raise ValueError(f'setUp() function for {apr_proof.id} branched and has {len(target_states)} target states.')
+    cterm = single(target_states).source.cterm
+    return cterm
+
+
 def method_to_initialized_cfg(
     foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
-    save_directory: Path,
-    setup_digest: str | None,
+    setup_cterm: CTerm | None,
     simplify_init: bool = True,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, init_node_id, target_node_id = _method_to_cfg(
-        empty_config, test.contract, test.method, save_directory, init_state=setup_digest
+        empty_config,
+        test.contract,
+        test.method,
+        setup_cterm,
     )
 
     _LOGGER.info(f'Expanding macros in initial state for test: {test.id}')
@@ -350,18 +363,16 @@ def _method_to_cfg(
     empty_config: KInner,
     contract: Contract,
     method: Contract.Method,
-    kcfgs_dir: Path,
-    init_state: str | None = None,
+    setup_cterm: CTerm | None,
 ) -> tuple[KCFG, int, int]:
     calldata = method.calldata_cell(contract)
     callvalue = method.callvalue_cell
     init_cterm = _init_cterm(
         empty_config,
         contract.name,
-        kcfgs_dir,
+        setup_cterm=setup_cterm,
         calldata=calldata,
         callvalue=callvalue,
-        init_state=init_state,
     )
     is_test = method.name.startswith('test')
     failing = method.name.startswith('testFail')
@@ -377,11 +388,10 @@ def _method_to_cfg(
 def _init_cterm(
     empty_config: KInner,
     contract_name: str,
-    kcfgs_dir: Path,
     *,
+    setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
-    init_state: str | None = None,
 ) -> CTerm:
     program = KEVM.bin_runtime(KApply(f'contract_{contract_name}'))
     account_cell = KEVM.account_cell(
@@ -441,8 +451,8 @@ def _init_cterm(
     }
 
     constraints = None
-    if init_state:
-        accts, constraints = _get_final_accounts_cell(init_state, kcfgs_dir, overwrite_code_cell=program)
+    if setup_cterm is not None:
+        accts, constraints = _get_final_accounts_cell(setup_cterm, overwrite_code_cell=program)
         init_subst['ACCOUNTS_CELL'] = accts
 
     if calldata is not None:
@@ -530,10 +540,9 @@ def _final_term(empty_config: KInner, contract_name: str) -> KInner:
 
 
 def _get_final_accounts_cell(
-    proof_id: str, proof_dir: Path, overwrite_code_cell: KInner | None = None
+    setup_cterm: CTerm, overwrite_code_cell: KInner | None = None
 ) -> tuple[KInner, Iterable[KInner]]:
-    cterm = _setup_cterm(proof_id, proof_dir)
-    acct_cell = cterm.cell('ACCOUNTS_CELL')
+    acct_cell = setup_cterm.cell('ACCOUNTS_CELL')
 
     if overwrite_code_cell is not None:
         new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', acct_cell)]
@@ -548,19 +557,5 @@ def _get_final_accounts_cell(
         acct_cell = KEVM.accounts([account.config for account in new_accounts_map.values()])
 
     fvars = free_vars(acct_cell)
-    acct_cons = constraints_for(fvars, cterm.constraints)
+    acct_cons = constraints_for(fvars, setup_cterm.constraints)
     return (acct_cell, acct_cons)
-
-
-def _setup_cterm(proof_id: str, proof_dir: Path) -> CTerm:
-    apr_proof = APRProof.read_proof_data(proof_dir, proof_id)
-    target = apr_proof.kcfg.node(apr_proof.target)
-    target_states = apr_proof.kcfg.covers(target_id=target.id)
-    if len(target_states) == 0:
-        raise ValueError(
-            f'setUp() function for {apr_proof.id} did not reach the end of execution. Maybe --max-iterations is too low?'
-        )
-    if len(target_states) > 1:
-        raise ValueError(f'setUp() function for {apr_proof.id} branched and has {len(target_states)} target states.')
-    cterm = single(target_states).source.cterm
-    return cterm
