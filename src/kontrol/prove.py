@@ -89,12 +89,10 @@ def foundry_prove(
 
     test_suite = collect_tests(foundry, tests, reinit=reinit)
     test_names = [test.name for test in test_suite]
-    tests_with_versions = [test.unparsed for test in test_suite]
 
     contracts = [test.contract for test in test_suite]
     setup_methods = collect_setup_methods(foundry, contracts, reinit=reinit)
     setup_method_names = [test.name for test in setup_methods]
-    setup_methods_with_versions = [test.unparsed for test in setup_methods]
 
     _LOGGER.info(f'Running tests: {test_names}')
 
@@ -108,7 +106,7 @@ def foundry_prove(
 
     _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
     results = _run_cfg_group(
-        setup_methods_with_versions,
+        setup_methods,
         foundry,
         max_depth=max_depth,
         max_iterations=max_iterations,
@@ -134,7 +132,7 @@ def foundry_prove(
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
     results = _run_cfg_group(
-        tests_with_versions,
+        test_suite,
         foundry,
         max_depth=max_depth,
         max_iterations=max_iterations,
@@ -205,7 +203,7 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
 
 
 def _run_cfg_group(
-    tests: list[tuple[str, int]],
+    tests: list[FoundryTest],
     foundry: Foundry,
     *,
     max_depth: int,
@@ -226,19 +224,14 @@ def _run_cfg_group(
     auto_abstract_gas: bool,
     port: int | None,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
-    def init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
-        contract_name, method_sig, version = _init_problem
-        contract = foundry.contracts[contract_name]
-        method = contract.method_by_sig[method_sig]
-        test_id = f'{contract_name}.{method_sig}:{version}'
+    def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
         llvm_definition_dir = foundry.llvm_library if use_booster else None
-
         start_server = port is None
 
         with legacy_explore(
             foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
-            id=test_id,
+            id=test.id,
             bug_report=bug_report,
             kore_rpc_command=kore_rpc_command,
             llvm_definition_dir=llvm_definition_dir,
@@ -250,11 +243,11 @@ def _run_cfg_group(
         ) as kcfg_explore:
             proof = method_to_apr_proof(
                 foundry,
-                contract,
-                method,
+                test.contract,
+                test.method,
                 foundry.proofs_dir,
                 kcfg_explore,
-                test_id,
+                test.id,
                 simplify_init=simplify_init,
                 bmc_depth=bmc_depth,
             )
@@ -274,23 +267,17 @@ def _run_cfg_group(
                 failure_log = print_failure_info(proof, kcfg_explore, counterexample_info)
             return passed, failure_log
 
-    def _split_test(test: tuple[str, int]) -> tuple[str, str, int]:
-        test_name, version = test
-        contract, method = test_name.split('.')
-        return contract, method, version
-
-    init_problems = [_split_test(test) for test in tests]
-
     _apr_proofs: list[tuple[bool, list[str] | None]]
     if workers > 1:
         with ProcessPool(ncpus=workers) as process_pool:
-            _apr_proofs = process_pool.map(init_and_run_proof, init_problems)
+            _apr_proofs = process_pool.map(init_and_run_proof, tests)
     else:
         _apr_proofs = []
-        for init_problem in init_problems:
-            _apr_proofs.append(init_and_run_proof(init_problem))
+        for test in tests:
+            _apr_proofs.append(init_and_run_proof(test))
 
-    apr_proofs = dict(zip(tests, _apr_proofs, strict=True))
+    unparsed_tests = [test.unparsed for test in tests]
+    apr_proofs = dict(zip(unparsed_tests, _apr_proofs, strict=True))
     return apr_proofs
 
 
