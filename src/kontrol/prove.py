@@ -215,7 +215,7 @@ def _run_cfg_group(
             start_server=start_server,
             port=port,
         ) as kcfg_explore:
-            proof = _method_to_apr_proof(
+            proof = method_to_apr_proof(
                 foundry,
                 contract,
                 method,
@@ -261,7 +261,7 @@ def _run_cfg_group(
     return apr_proofs
 
 
-def _method_to_apr_proof(
+def method_to_apr_proof(
     foundry: Foundry,
     contract: Contract,
     method: Contract.Method,
