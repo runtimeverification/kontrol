@@ -104,54 +104,37 @@ def foundry_prove(
     for test in setup_methods:
         test.method.update_digest(foundry.digest_file)
 
+    def run_prover(test_suite: list[FoundryTest]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
+        return _run_cfg_group(
+            test_suite,
+            foundry,
+            max_depth=max_depth,
+            max_iterations=max_iterations,
+            workers=workers,
+            simplify_init=simplify_init,
+            break_every_step=break_every_step,
+            break_on_jumpi=break_on_jumpi,
+            break_on_calls=break_on_calls,
+            bmc_depth=bmc_depth,
+            bug_report=bug_report,
+            kore_rpc_command=kore_rpc_command,
+            use_booster=use_booster,
+            smt_timeout=smt_timeout,
+            smt_retry_limit=smt_retry_limit,
+            counterexample_info=counterexample_info,
+            trace_rewrites=trace_rewrites,
+            auto_abstract_gas=auto_abstract_gas,
+            port=port,
+        )
+
     _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
-    results = _run_cfg_group(
-        setup_methods,
-        foundry,
-        max_depth=max_depth,
-        max_iterations=max_iterations,
-        workers=workers,
-        simplify_init=simplify_init,
-        break_every_step=break_every_step,
-        break_on_jumpi=break_on_jumpi,
-        break_on_calls=break_on_calls,
-        bmc_depth=bmc_depth,
-        bug_report=bug_report,
-        kore_rpc_command=kore_rpc_command,
-        use_booster=use_booster,
-        smt_timeout=smt_timeout,
-        smt_retry_limit=smt_retry_limit,
-        counterexample_info=counterexample_info,
-        trace_rewrites=trace_rewrites,
-        auto_abstract_gas=auto_abstract_gas,
-        port=port,
-    )
+    results = run_prover(setup_methods)
     failed = [setup_cfg for setup_cfg, passed in results.items() if not passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
-    results = _run_cfg_group(
-        test_suite,
-        foundry,
-        max_depth=max_depth,
-        max_iterations=max_iterations,
-        workers=workers,
-        simplify_init=simplify_init,
-        break_every_step=break_every_step,
-        break_on_jumpi=break_on_jumpi,
-        break_on_calls=break_on_calls,
-        bmc_depth=bmc_depth,
-        bug_report=bug_report,
-        kore_rpc_command=kore_rpc_command,
-        use_booster=use_booster,
-        smt_timeout=smt_timeout,
-        smt_retry_limit=smt_retry_limit,
-        counterexample_info=counterexample_info,
-        trace_rewrites=trace_rewrites,
-        auto_abstract_gas=auto_abstract_gas,
-        port=port,
-    )
+    results = run_prover(test_suite)
     return results
 
 
