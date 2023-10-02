@@ -93,18 +93,10 @@ def foundry_prove(
 
     _LOGGER.info(f'Running tests: {test_names}')
 
-    contracts = list(unique(test.contract.name for test in test_suite))
-    setup_methods = set(
-        unique(
-            f'{contract_name}.setUp()'
-            for contract_name in contracts
-            if 'setUp' in foundry.contracts[contract_name].method_by_name
-        )
-    )
-    setup_methods_with_versions = [
-        (setup_method_name, foundry.resolve_proof_version(setup_method_name, reinit, None))
-        for setup_method_name in setup_methods
-    ]
+    contracts = [test.contract for test in test_suite]
+    _setup_methods = collect_setup_methods(foundry, contracts, reinit=reinit)
+    setup_methods = [test.name for test in _setup_methods]
+    setup_methods_with_versions = [test.unparsed for test in _setup_methods]
 
     _LOGGER.info(f'Updating digests: {[test_name for test_name, _ in tests]}')
     for test_name, _ in tests:
@@ -191,6 +183,22 @@ def collect_tests(foundry: Foundry, tests: Iterable[tuple[str, int | None]] = ()
     for sig, ver in tests:
         contract, method = foundry.get_contract_and_method(sig)
         version = foundry.resolve_proof_version(sig, reinit, ver)
+        res.append(FoundryTest(contract, method, version))
+    return res
+
+
+def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool) -> list[FoundryTest]:
+    res: list[FoundryTest] = []
+    contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
+    for contract in contracts:
+        if contract.name in contract_names:
+            continue
+        contract_names.add(contract.name)
+
+        method = contract.method_by_name.get('setUp')
+        if not method:
+            continue
+        version = foundry.resolve_proof_version(f'{contract.name}.setUp()', reinit, None)
         res.append(FoundryTest(contract, method, version))
     return res
 
