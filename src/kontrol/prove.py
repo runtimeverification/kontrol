@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from subprocess import CalledProcessError
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import (
@@ -87,17 +87,13 @@ def foundry_prove(
     foundry = Foundry(foundry_root, bug_report=bug_report)
     foundry.mk_proofs_dir()
 
-    if not tests:
-        tests = [(test, None) for test in foundry.all_tests]
-    tests = list({(foundry.matching_sig(test), version) for test, version in tests})
-    test_names = [test[0] for test in tests]
-    tests_with_versions = [
-        (test_name, foundry.resolve_proof_version(test_name, reinit, version)) for (test_name, version) in tests
-    ]
+    test_suite = collect_tests(foundry, tests, reinit=reinit)
+    test_names = [test.name for test in test_suite]
+    tests_with_versions = [test.unparsed for test in test_suite]
 
     _LOGGER.info(f'Running tests: {test_names}')
 
-    contracts = set(unique({test.split('.')[0] for test in test_names}))
+    contracts = list(unique(test.contract.name for test in test_suite))
     setup_methods = set(
         unique(
             f'{contract_name}.setUp()'
@@ -166,6 +162,37 @@ def foundry_prove(
         port=port,
     )
     return results
+
+
+class FoundryTest(NamedTuple):
+    contract: Contract
+    method: Contract.Method
+    version: int
+
+    @property
+    def name(self) -> str:
+        return f'{self.contract.name}.{self.method.signature}'
+
+    @property
+    def id(self) -> str:
+        return f'{self.name}:{self.version}'
+
+    @property
+    def unparsed(self) -> tuple[str, int]:
+        return self.name, self.version
+
+
+def collect_tests(foundry: Foundry, tests: Iterable[tuple[str, int | None]] = (), *, reinit: bool) -> list[FoundryTest]:
+    if not tests:
+        tests = [(test, None) for test in foundry.all_tests]
+    tests = list(unique((foundry.matching_sig(test), version) for test, version in tests))
+
+    res: list[FoundryTest] = []
+    for sig, ver in tests:
+        contract, method = foundry.get_contract_and_method(sig)
+        version = foundry.resolve_proof_version(sig, reinit, ver)
+        res.append(FoundryTest(contract, method, version))
+    return res
 
 
 def _run_cfg_group(
