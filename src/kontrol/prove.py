@@ -98,7 +98,7 @@ def foundry_prove(
 
     _LOGGER.info(f'Running tests: {test_names}')
 
-    _LOGGER.info(f'Updating digests: {[test_name for test_name, _ in tests]}')
+    _LOGGER.info(f'Updating digests: {test_names}')
     for test in test_suite:
         test.method.update_digest(foundry.digest_file)
 
@@ -106,7 +106,7 @@ def foundry_prove(
     for test in setup_methods:
         test.method.update_digest(foundry.digest_file)
 
-    _LOGGER.info(f'Running setup functions in parallel: {list(setup_method_names)}')
+    _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
     results = _run_cfg_group(
         setup_methods_with_versions,
         foundry,
