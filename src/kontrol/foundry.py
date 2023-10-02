@@ -387,10 +387,15 @@ class Foundry:
             return Proof.read_proof_data(self.proofs_dir, test_id)
         return None
 
-    def get_method(self, test: str) -> Contract.Method:
+    def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method]:
         contract_name, method_name = test.split('.')
         contract = self.contracts[contract_name]
-        return contract.method_by_sig[method_name]
+        method = contract.method_by_sig[method_name]
+        return contract, method
+
+    def get_method(self, test: str) -> Contract.Method:
+        _, method = self.get_contract_and_method(test)
+        return method
 
     def resolve_proof_version(
         self,
