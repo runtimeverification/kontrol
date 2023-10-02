@@ -99,11 +99,11 @@ def foundry_prove(
     setup_methods_with_versions = [test.unparsed for test in _setup_methods]
 
     _LOGGER.info(f'Updating digests: {[test_name for test_name, _ in tests]}')
-    for test_name, _ in tests:
-        foundry.get_method(test_name).update_digest(foundry.digest_file)
+    for test in test_suite:
+        test.method.update_digest(foundry.digest_file)
     _LOGGER.info(f'Updating digests: {setup_methods}')
-    for test_name in setup_methods:
-        foundry.get_method(test_name).update_digest(foundry.digest_file)
+    for test in _setup_methods:
+        test.method.update_digest(foundry.digest_file)
 
     _LOGGER.info(f'Running setup functions in parallel: {list(setup_methods)}')
     results = _run_cfg_group(
