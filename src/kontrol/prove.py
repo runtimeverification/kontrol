@@ -226,7 +226,6 @@ def _run_cfg_group(
             proof = method_to_apr_proof(
                 foundry,
                 test,
-                foundry.proofs_dir,
                 kcfg_explore,
                 simplify_init=simplify_init,
                 bmc_depth=bmc_depth,
@@ -264,12 +263,11 @@ def _run_cfg_group(
 def method_to_apr_proof(
     foundry: Foundry,
     test: FoundryTest,
-    save_directory: Path,
     kcfg_explore: KCFGExplore,
     simplify_init: bool = True,
     bmc_depth: int | None = None,
 ) -> APRProof | APRBMCProof:
-    if Proof.proof_data_exists(test.id, save_directory):
+    if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
         apr_proof.write_proof_data()
         return apr_proof
@@ -277,14 +275,14 @@ def method_to_apr_proof(
     setup_cterm = None
     if test.method.signature != 'setUp()' and 'setUp' in test.contract.method_by_name:
         _LOGGER.info(f'Using setUp method for test: {test.id}')
-        setup_cterm = _load_setup_cterm(foundry, test.contract, save_directory)
+        setup_cterm = _load_setup_cterm(foundry, test.contract)
 
     kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
         foundry,
         test,
         kcfg_explore,
-        setup_cterm,
-        simplify_init,
+        setup_cterm=setup_cterm,
+        simplify_init=simplify_init,
     )
 
     if bmc_depth is not None:
@@ -296,19 +294,19 @@ def method_to_apr_proof(
             target_node_id,
             {},
             bmc_depth,
-            proof_dir=save_directory,
+            proof_dir=foundry.proofs_dir,
         )
     else:
-        apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=save_directory)
+        apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=foundry.proofs_dir)
 
     apr_proof.write_proof_data()
     return apr_proof
 
 
-def _load_setup_cterm(foundry: Foundry, contract: Contract, proof_dir: Path) -> CTerm:
+def _load_setup_cterm(foundry: Foundry, contract: Contract) -> CTerm:
     latest_version = foundry.latest_proof_version(f'{contract.name}.setUp()')
     setup_digest = f'{contract.name}.setUp():{latest_version}'
-    apr_proof = APRProof.read_proof_data(proof_dir, setup_digest)
+    apr_proof = APRProof.read_proof_data(foundry.proofs_dir, setup_digest)
     target = apr_proof.kcfg.node(apr_proof.target)
     target_states = apr_proof.kcfg.covers(target_id=target.id)
     if len(target_states) == 0:
@@ -325,7 +323,8 @@ def method_to_initialized_cfg(
     foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
-    setup_cterm: CTerm | None,
+    *,
+    setup_cterm: CTerm | None = None,
     simplify_init: bool = True,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
