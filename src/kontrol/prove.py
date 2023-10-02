@@ -271,38 +271,40 @@ def method_to_apr_proof(
 ) -> APRProof | APRBMCProof:
     if Proof.proof_data_exists(test.id, save_directory):
         apr_proof = foundry.get_apr_proof(test.id)
-    else:
-        contract_name = test.contract.name
-        method_sig = test.method.signature
+        apr_proof.write_proof_data()
+        return apr_proof
 
-        setup_digest = None
-        if method_sig != 'setUp()' and 'setUp' in test.contract.method_by_name:
-            latest_version = foundry.latest_proof_version(f'{contract_name}.setUp()')
-            setup_digest = f'{contract_name}.setUp():{latest_version}'
-            _LOGGER.info(f'Using setUp method for test: {test.id}')
+    contract_name = test.contract.name
+    method_sig = test.method.signature
 
-        kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
-            foundry,
-            test,
-            kcfg_explore,
-            save_directory,
-            setup_digest,
-            simplify_init,
+    setup_digest = None
+    if method_sig != 'setUp()' and 'setUp' in test.contract.method_by_name:
+        latest_version = foundry.latest_proof_version(f'{contract_name}.setUp()')
+        setup_digest = f'{contract_name}.setUp():{latest_version}'
+        _LOGGER.info(f'Using setUp method for test: {test.id}')
+
+    kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
+        foundry,
+        test,
+        kcfg_explore,
+        save_directory,
+        setup_digest,
+        simplify_init,
+    )
+
+    if bmc_depth is not None:
+        apr_proof = APRBMCProof(
+            test.id,
+            kcfg,
+            [],
+            init_node_id,
+            target_node_id,
+            {},
+            bmc_depth,
+            proof_dir=save_directory,
         )
-
-        if bmc_depth is not None:
-            apr_proof = APRBMCProof(
-                test.id,
-                kcfg,
-                [],
-                init_node_id,
-                target_node_id,
-                {},
-                bmc_depth,
-                proof_dir=save_directory,
-            )
-        else:
-            apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=save_directory)
+    else:
+        apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=save_directory)
 
     apr_proof.write_proof_data()
     return apr_proof
