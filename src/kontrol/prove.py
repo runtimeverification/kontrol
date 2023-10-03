@@ -49,7 +49,6 @@ def foundry_prove(
     max_iterations: int | None = None,
     reinit: bool = False,
     tests: Iterable[tuple[str, int | None]] = (),
-    exclude_tests: Iterable[str] = (),
     workers: int = 1,
     simplify_init: bool = True,
     break_every_step: bool = False,
