@@ -27,6 +27,10 @@ interface KEVMCheatsBase {
     function infiniteGas() external;
     // Sets the current <gas> cell to the supplied amount.
     function setGas(uint256) external;
+    // Returns a symbolic unsigned integer
+    function freshUInt(uint8) external returns (uint256);
+    // Returns a symbolic boolean value
+    function freshBool() external returns (uint256);
 }
 
 abstract contract KEVMCheats {
