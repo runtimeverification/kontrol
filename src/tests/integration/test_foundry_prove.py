@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from pytest import TempPathFactory
 
 
-FORGE_STD_REF: Final = '27e14b7'
+FORGE_STD_REF: Final = '75f1746'
 
 
 sys.setrecursionlimit(10**7)
