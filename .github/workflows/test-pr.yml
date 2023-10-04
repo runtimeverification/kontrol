@@ -83,7 +83,7 @@ jobs:
       - name: 'Run profiling'
         run: |
           PROF_ARGS=--numprocesses=8
-          [ ${{ matrix.backend }} == 'booster' ] && PROF_ARGS+=' --use-booster'
+          [ ${{ matrix.backend }} == 'legacy' ] && PROF_ARGS+=' --no-use-booster'
           docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} make profile PROF_ARGS="${PROF_ARGS}"
       - name: 'Tear down Docker'
         if: always()
@@ -97,8 +97,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        backend: ['legacy', 'booster']
-    timeout-minutes: 240
+        backend: ['booster']
+    timeout-minutes: 90
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v3
@@ -115,7 +115,7 @@ jobs:
       - name: 'Run integration tests'
         run: |
           TEST_ARGS=--numprocesses=8
-          [ ${{ matrix.backend }} == 'booster' ] && TEST_ARGS+=' --use-booster'
+          [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
@@ -163,7 +163,7 @@ jobs:
       - name: 'Run kontrol build'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol build
       - name: 'Run kontrol prove'
-        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --use-booster --test 'AssertTest.test_assert_true()'
+        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --test 'AssertTest.test_assert_true()'
       - name: 'Run kontrol show'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol show 'AssertTest.test_assert_true()'
       - name: 'Tear down Docker'
