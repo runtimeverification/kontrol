@@ -5177,6 +5177,8 @@ module GasTest-CONTRACT
     
     syntax S2KGasTestMethod ::= "S2KtestInfiniteGas" "(" ")" [symbol(), klabel(method_GasTest_S2KtestInfiniteGas_)]
     
+    syntax S2KGasTestMethod ::= "S2KtestSetGas" "(" ")" [symbol(), klabel(method_GasTest_S2KtestSetGas_)]
+    
     rule  ( S2KGasTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
     
@@ -5213,6 +5215,9 @@ module GasTest-CONTRACT
     rule  ( S2KGasTest . S2KtestInfiniteGas ( ) => #abiCallData ( "testInfiniteGas" , .TypedArgs ) )
       
     
+    rule  ( S2KGasTest . S2KtestSetGas ( ) => #abiCallData ( "testSetGas" , .TypedArgs ) )
+      
+    
     rule  ( selector ( "IS_TEST()" ) => 4202047188 )
       
     
@@ -5247,6 +5252,9 @@ module GasTest-CONTRACT
       
     
     rule  ( selector ( "testInfiniteGas()" ) => 1677640502 )
+      
+    
+    rule  ( selector ( "testSetGas()" ) => 2307678515 )
       
 
 endmodule
@@ -5633,6 +5641,8 @@ module KEVMCheatsBase-CONTRACT
     
     syntax S2KKEVMCheatsBaseMethod ::= "S2KinfiniteGas" "(" ")" [symbol(), klabel(method_KEVMCheatsBase_S2KinfiniteGas_)]
     
+    syntax S2KKEVMCheatsBaseMethod ::= "S2KsetGas" "(" Int ":" "uint256" ")" [symbol(), klabel(method_KEVMCheatsBase_S2KsetGas_uint256)]
+    
     syntax S2KKEVMCheatsBaseMethod ::= "S2KsymbolicStorage" "(" Int ":" "address" ")" [symbol(), klabel(method_KEVMCheatsBase_S2KsymbolicStorage_address)]
     
     rule  ( S2KKEVMCheatsBase . S2KallowCallsToAddress ( V0_ : address ) => #abiCallData ( "allowCallsToAddress" , #address ( V0_ ) , .TypedArgs ) )
@@ -5697,6 +5707,10 @@ module KEVMCheatsBase-CONTRACT
     rule  ( S2KKEVMCheatsBase . S2KinfiniteGas ( ) => #abiCallData ( "infiniteGas" , .TypedArgs ) )
       
     
+    rule  ( S2KKEVMCheatsBase . S2KsetGas ( V0_ : uint256 ) => #abiCallData ( "setGas" , #uint256 ( V0_ ) , .TypedArgs ) )
+       ensures #rangeUInt ( 256 , V0_ )
+      
+    
     rule  ( S2KKEVMCheatsBase . S2KsymbolicStorage ( V0_ : address ) => #abiCallData ( "symbolicStorage" , #address ( V0_ ) , .TypedArgs ) )
        ensures #rangeAddress ( V0_ )
       
@@ -5735,6 +5749,9 @@ module KEVMCheatsBase-CONTRACT
       
     
     rule  ( selector ( "infiniteGas()" ) => 3986649939 )
+      
+    
+    rule  ( selector ( "setGas(uint256)" ) => 3713137314 )
       
     
     rule  ( selector ( "symbolicStorage(address)" ) => 769677742 )
@@ -6038,6 +6055,8 @@ module LoopsTest-CONTRACT
     
     syntax S2KLoopsTestMethod ::= "S2Kfailed" "(" ")" [symbol(), klabel(method_LoopsTest_S2Kfailed_)]
     
+    syntax S2KLoopsTestMethod ::= "S2Kkevm" "(" ")" [symbol(), klabel(method_LoopsTest_S2Kkevm_)]
+    
     syntax S2KLoopsTestMethod ::= "S2KsumZUndN" "(" Int ":" "uint256" ")" [symbol(), klabel(method_LoopsTest_S2KsumZUndN_uint256)]
     
     syntax S2KLoopsTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(), klabel(method_LoopsTest_S2KtargetArtifactSelectors_)]
@@ -6093,6 +6112,9 @@ module LoopsTest-CONTRACT
       
     
     rule  ( S2KLoopsTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KLoopsTest . S2Kkevm ( ) => #abiCallData ( "kevm" , .TypedArgs ) )
       
     
     rule  ( S2KLoopsTest . S2KsumZUndN ( V0_n : uint256 ) => #abiCallData ( "sum_N" , #uint256 ( V0_n ) , .TypedArgs ) )
@@ -6174,6 +6196,9 @@ module LoopsTest-CONTRACT
       
     
     rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "kevm()" ) => 3601001590 )
       
     
     rule  ( selector ( "sum_N(uint256)" ) => 2123244496 )
