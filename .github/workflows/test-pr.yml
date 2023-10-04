@@ -82,9 +82,9 @@ jobs:
             docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin foundry'
       - name: 'Run profiling'
         run: |
-          PROF_ARGS=
-          [ ${{ matrix.backend }} == 'booster' ] && PROF_ARGS=--use-booster
-          docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} make profile PROF_ARGS=${PROF_ARGS}
+          PROF_ARGS=--numprocesses=8
+          [ ${{ matrix.backend }} == 'booster' ] && PROF_ARGS+=' --use-booster'
+          docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} make profile PROF_ARGS="${PROF_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
@@ -114,9 +114,9 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin haskell foundry'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS=
-          [ ${{ matrix.backend }} == 'booster' ] && TEST_ARGS=--use-booster
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS=${TEST_ARGS}
+          TEST_ARGS=--numprocesses=8
+          [ ${{ matrix.backend }} == 'booster' ] && TEST_ARGS+=' --use-booster'
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
