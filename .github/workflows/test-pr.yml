@@ -94,10 +94,6 @@ jobs:
     needs: code-quality-checks
     name: 'Integration Tests'
     runs-on: [self-hosted, linux, normal]
-    strategy:
-      fail-fast: false
-      matrix:
-        backend: ['booster']
     timeout-minutes: 90
     steps:
       - name: 'Check out code'
@@ -115,7 +111,6 @@ jobs:
       - name: 'Run integration tests'
         run: |
           TEST_ARGS=--numprocesses=8
-          [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
