@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from subprocess import CalledProcessError
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import (
@@ -35,7 +35,6 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
-    from pyk.kcfg.kcfg import NodeIdLike
     from pyk.utils import BugReport
 
     from .solc_to_k import Contract
@@ -50,7 +49,6 @@ def foundry_prove(
     max_iterations: int | None = None,
     reinit: bool = False,
     tests: Iterable[tuple[str, int | None]] = (),
-    exclude_tests: Iterable[str] = (),
     workers: int = 1,
     simplify_init: bool = True,
     break_every_step: bool = False,
@@ -73,10 +71,6 @@ def foundry_prove(
     if max_iterations is not None and max_iterations < 0:
         raise ValueError(f'Must have a non-negative number of iterations, found: --max-iterations {max_iterations}')
 
-    foundry = Foundry(foundry_root, bug_report=bug_report)
-
-    foundry.mk_proofs_dir()
-
     if use_booster:
         try:
             run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
@@ -88,91 +82,109 @@ def foundry_prove(
     if kore_rpc_command is None:
         kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
 
-    if not tests:
-        tests = [(test, None) for test in foundry.all_tests]
-    tests = list({(foundry.matching_sig(test), version) for test, version in tests})
-    test_names = [test[0] for test in tests]
+    foundry = Foundry(foundry_root, bug_report=bug_report)
+    foundry.mk_proofs_dir()
+
+    test_suite = collect_tests(foundry, tests, reinit=reinit)
+    test_names = [test.name for test in test_suite]
+
+    contracts = [test.contract for test in test_suite]
+    setup_methods = collect_setup_methods(foundry, contracts, reinit=reinit)
+    setup_method_names = [test.name for test in setup_methods]
 
     _LOGGER.info(f'Running tests: {test_names}')
 
-    contracts = set(unique({test.split('.')[0] for test in test_names}))
+    _LOGGER.info(f'Updating digests: {test_names}')
+    for test in test_suite:
+        test.method.update_digest(foundry.digest_file)
 
-    setup_methods = set(
-        unique(
-            f'{contract_name}.setUp()'
-            for contract_name in contracts
-            if 'setUp' in foundry.contracts[contract_name].method_by_name
+    _LOGGER.info(f'Updating digests: {setup_method_names}')
+    for test in setup_methods:
+        test.method.update_digest(foundry.digest_file)
+
+    def run_prover(test_suite: list[FoundryTest]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
+        return _run_cfg_group(
+            test_suite,
+            foundry,
+            max_depth=max_depth,
+            max_iterations=max_iterations,
+            workers=workers,
+            simplify_init=simplify_init,
+            break_every_step=break_every_step,
+            break_on_jumpi=break_on_jumpi,
+            break_on_calls=break_on_calls,
+            bmc_depth=bmc_depth,
+            bug_report=bug_report,
+            kore_rpc_command=kore_rpc_command,
+            use_booster=use_booster,
+            smt_timeout=smt_timeout,
+            smt_retry_limit=smt_retry_limit,
+            counterexample_info=counterexample_info,
+            trace_rewrites=trace_rewrites,
+            auto_abstract_gas=auto_abstract_gas,
+            port=port,
         )
-    )
 
-    tests_with_versions = [
-        (test_name, foundry.resolve_proof_version(test_name, reinit, version)) for (test_name, version) in tests
-    ]
-    setup_methods_with_versions = [
-        (setup_method_name, foundry.resolve_proof_version(setup_method_name, reinit, None))
-        for setup_method_name in setup_methods
-    ]
-
-    _LOGGER.info(f'Updating digests: {[test_name for test_name, _ in tests]}')
-    for test_name, _ in tests:
-        foundry.get_method(test_name).update_digest(foundry.digest_file)
-    _LOGGER.info(f'Updating digests: {setup_methods}')
-    for test_name in setup_methods:
-        foundry.get_method(test_name).update_digest(foundry.digest_file)
-
-    _LOGGER.info(f'Running setup functions in parallel: {list(setup_methods)}')
-    results = _run_cfg_group(
-        setup_methods_with_versions,
-        foundry,
-        max_depth=max_depth,
-        max_iterations=max_iterations,
-        workers=workers,
-        simplify_init=simplify_init,
-        break_every_step=break_every_step,
-        break_on_jumpi=break_on_jumpi,
-        break_on_calls=break_on_calls,
-        bmc_depth=bmc_depth,
-        bug_report=bug_report,
-        kore_rpc_command=kore_rpc_command,
-        use_booster=use_booster,
-        smt_timeout=smt_timeout,
-        smt_retry_limit=smt_retry_limit,
-        counterexample_info=counterexample_info,
-        trace_rewrites=trace_rewrites,
-        auto_abstract_gas=auto_abstract_gas,
-        port=port,
-    )
+    _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
+    results = run_prover(setup_methods)
     failed = [setup_cfg for setup_cfg, passed in results.items() if not passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
-    results = _run_cfg_group(
-        tests_with_versions,
-        foundry,
-        max_depth=max_depth,
-        max_iterations=max_iterations,
-        workers=workers,
-        simplify_init=simplify_init,
-        break_every_step=break_every_step,
-        break_on_jumpi=break_on_jumpi,
-        break_on_calls=break_on_calls,
-        bmc_depth=bmc_depth,
-        bug_report=bug_report,
-        kore_rpc_command=kore_rpc_command,
-        use_booster=use_booster,
-        smt_timeout=smt_timeout,
-        smt_retry_limit=smt_retry_limit,
-        counterexample_info=counterexample_info,
-        trace_rewrites=trace_rewrites,
-        auto_abstract_gas=auto_abstract_gas,
-        port=port,
-    )
+    results = run_prover(test_suite)
     return results
 
 
+class FoundryTest(NamedTuple):
+    contract: Contract
+    method: Contract.Method
+    version: int
+
+    @property
+    def name(self) -> str:
+        return f'{self.contract.name}.{self.method.signature}'
+
+    @property
+    def id(self) -> str:
+        return f'{self.name}:{self.version}'
+
+    @property
+    def unparsed(self) -> tuple[str, int]:
+        return self.name, self.version
+
+
+def collect_tests(foundry: Foundry, tests: Iterable[tuple[str, int | None]] = (), *, reinit: bool) -> list[FoundryTest]:
+    if not tests:
+        tests = [(test, None) for test in foundry.all_tests]
+    tests = list(unique((foundry.matching_sig(test), version) for test, version in tests))
+
+    res: list[FoundryTest] = []
+    for sig, ver in tests:
+        contract, method = foundry.get_contract_and_method(sig)
+        version = foundry.resolve_proof_version(sig, reinit, ver)
+        res.append(FoundryTest(contract, method, version))
+    return res
+
+
+def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool) -> list[FoundryTest]:
+    res: list[FoundryTest] = []
+    contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
+    for contract in contracts:
+        if contract.name in contract_names:
+            continue
+        contract_names.add(contract.name)
+
+        method = contract.method_by_name.get('setUp')
+        if not method:
+            continue
+        version = foundry.resolve_proof_version(f'{contract.name}.setUp()', reinit, None)
+        res.append(FoundryTest(contract, method, version))
+    return res
+
+
 def _run_cfg_group(
-    tests: list[tuple[str, int]],
+    tests: list[FoundryTest],
     foundry: Foundry,
     *,
     max_depth: int,
@@ -193,19 +205,14 @@ def _run_cfg_group(
     auto_abstract_gas: bool,
     port: int | None,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
-    def init_and_run_proof(_init_problem: tuple[str, str, int]) -> tuple[bool, list[str] | None]:
-        contract_name, method_sig, version = _init_problem
-        contract = foundry.contracts[contract_name]
-        method = contract.method_by_sig[method_sig]
-        test_id = f'{contract_name}.{method_sig}:{version}'
+    def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
         llvm_definition_dir = foundry.llvm_library if use_booster else None
-
         start_server = port is None
 
         with legacy_explore(
             foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
-            id=test_id,
+            id=test.id,
             bug_report=bug_report,
             kore_rpc_command=kore_rpc_command,
             llvm_definition_dir=llvm_definition_dir,
@@ -215,13 +222,10 @@ def _run_cfg_group(
             start_server=start_server,
             port=port,
         ) as kcfg_explore:
-            proof = _method_to_apr_proof(
+            proof = method_to_apr_proof(
                 foundry,
-                contract,
-                method,
-                foundry.proofs_dir,
+                test,
                 kcfg_explore,
-                test_id,
                 simplify_init=simplify_init,
                 bmc_depth=bmc_depth,
             )
@@ -241,105 +245,132 @@ def _run_cfg_group(
                 failure_log = print_failure_info(proof, kcfg_explore, counterexample_info)
             return passed, failure_log
 
-    def _split_test(test: tuple[str, int]) -> tuple[str, str, int]:
-        test_name, version = test
-        contract, method = test_name.split('.')
-        return contract, method, version
-
-    init_problems = [_split_test(test) for test in tests]
-
     _apr_proofs: list[tuple[bool, list[str] | None]]
     if workers > 1:
         with ProcessPool(ncpus=workers) as process_pool:
-            _apr_proofs = process_pool.map(init_and_run_proof, init_problems)
+            _apr_proofs = process_pool.map(init_and_run_proof, tests)
     else:
         _apr_proofs = []
-        for init_problem in init_problems:
-            _apr_proofs.append(init_and_run_proof(init_problem))
+        for test in tests:
+            _apr_proofs.append(init_and_run_proof(test))
 
-    apr_proofs = dict(zip(tests, _apr_proofs, strict=True))
+    unparsed_tests = [test.unparsed for test in tests]
+    apr_proofs = dict(zip(unparsed_tests, _apr_proofs, strict=True))
     return apr_proofs
 
 
-def _method_to_apr_proof(
+def method_to_apr_proof(
     foundry: Foundry,
-    contract: Contract,
-    method: Contract.Method,
-    save_directory: Path,
+    test: FoundryTest,
     kcfg_explore: KCFGExplore,
-    test_id: str,
     simplify_init: bool = True,
     bmc_depth: int | None = None,
 ) -> APRProof | APRBMCProof:
-    contract_name = contract.name
-    method_sig = method.signature
-    if Proof.proof_data_exists(test_id, save_directory):
-        apr_proof = foundry.get_apr_proof(test_id)
-    else:
-        _LOGGER.info(f'Initializing KCFG for test: {test_id}')
+    if Proof.proof_data_exists(test.id, foundry.proofs_dir):
+        apr_proof = foundry.get_apr_proof(test.id)
+        apr_proof.write_proof_data()
+        return apr_proof
 
-        setup_digest = None
-        if method_sig != 'setUp()' and 'setUp' in contract.method_by_name:
-            latest_version = foundry.latest_proof_version(f'{contract.name}.setUp()')
-            setup_digest = f'{contract_name}.setUp():{latest_version}'
-            _LOGGER.info(f'Using setUp method for test: {test_id}')
+    setup_cterm = None
+    if test.method.signature != 'setUp()' and 'setUp' in test.contract.method_by_name:
+        _LOGGER.info(f'Using setUp method for test: {test.id}')
+        setup_cterm = _load_setup_cterm(foundry, test.contract)
 
-        empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
-        kcfg, init_node_id, target_node_id = _method_to_cfg(
-            empty_config, contract, method, save_directory, init_state=setup_digest
+    kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
+        foundry,
+        test,
+        kcfg_explore,
+        setup_cterm=setup_cterm,
+        simplify_init=simplify_init,
+    )
+
+    if bmc_depth is not None:
+        apr_proof = APRBMCProof(
+            test.id,
+            kcfg,
+            [],
+            init_node_id,
+            target_node_id,
+            {},
+            bmc_depth,
+            proof_dir=foundry.proofs_dir,
         )
-
-        _LOGGER.info(f'Expanding macros in initial state for test: {test_id}')
-        init_term = kcfg.node(init_node_id).cterm.kast
-        init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
-        init_cterm = CTerm.from_kast(init_term)
-        _LOGGER.info(f'Computing definedness constraint for test: {test_id}')
-        init_cterm = kcfg_explore.cterm_assume_defined(init_cterm)
-        kcfg.replace_node(init_node_id, init_cterm)
-
-        _LOGGER.info(f'Expanding macros in target state for test: {test_id}')
-        target_term = kcfg.node(target_node_id).cterm.kast
-        target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
-        target_cterm = CTerm.from_kast(target_term)
-        kcfg.replace_node(target_node_id, target_cterm)
-
-        if simplify_init:
-            _LOGGER.info(f'Simplifying KCFG for test: {test_id}')
-            kcfg_explore.simplify(kcfg, {})
-        if bmc_depth is not None:
-            apr_proof = APRBMCProof(
-                test_id,
-                kcfg,
-                [],
-                init_node_id,
-                target_node_id,
-                {},
-                bmc_depth,
-                proof_dir=save_directory,
-            )
-        else:
-            apr_proof = APRProof(test_id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=save_directory)
+    else:
+        apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=foundry.proofs_dir)
 
     apr_proof.write_proof_data()
     return apr_proof
+
+
+def _load_setup_cterm(foundry: Foundry, contract: Contract) -> CTerm:
+    latest_version = foundry.latest_proof_version(f'{contract.name}.setUp()')
+    setup_digest = f'{contract.name}.setUp():{latest_version}'
+    apr_proof = APRProof.read_proof_data(foundry.proofs_dir, setup_digest)
+    target = apr_proof.kcfg.node(apr_proof.target)
+    target_states = apr_proof.kcfg.covers(target_id=target.id)
+    if len(target_states) == 0:
+        raise ValueError(
+            f'setUp() function for {apr_proof.id} did not reach the end of execution. Maybe --max-iterations is too low?'
+        )
+    if len(target_states) > 1:
+        raise ValueError(f'setUp() function for {apr_proof.id} branched and has {len(target_states)} target states.')
+    cterm = single(target_states).source.cterm
+    return cterm
+
+
+def method_to_initialized_cfg(
+    foundry: Foundry,
+    test: FoundryTest,
+    kcfg_explore: KCFGExplore,
+    *,
+    setup_cterm: CTerm | None = None,
+    simplify_init: bool = True,
+) -> tuple[KCFG, int, int]:
+    _LOGGER.info(f'Initializing KCFG for test: {test.id}')
+
+    empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
+    kcfg, init_node_id, target_node_id = _method_to_cfg(
+        empty_config,
+        test.contract,
+        test.method,
+        setup_cterm,
+    )
+
+    _LOGGER.info(f'Expanding macros in initial state for test: {test.id}')
+    init_term = kcfg.node(init_node_id).cterm.kast
+    init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
+    init_cterm = CTerm.from_kast(init_term)
+    _LOGGER.info(f'Computing definedness constraint for test: {test.id}')
+    init_cterm = kcfg_explore.cterm_assume_defined(init_cterm)
+    kcfg.replace_node(init_node_id, init_cterm)
+
+    _LOGGER.info(f'Expanding macros in target state for test: {test.id}')
+    target_term = kcfg.node(target_node_id).cterm.kast
+    target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
+    target_cterm = CTerm.from_kast(target_term)
+    kcfg.replace_node(target_node_id, target_cterm)
+
+    if simplify_init:
+        _LOGGER.info(f'Simplifying KCFG for test: {test.id}')
+        kcfg_explore.simplify(kcfg, {})
+
+    return kcfg, init_node_id, target_node_id
 
 
 def _method_to_cfg(
     empty_config: KInner,
     contract: Contract,
     method: Contract.Method,
-    kcfgs_dir: Path,
-    init_state: str | None = None,
-) -> tuple[KCFG, NodeIdLike, NodeIdLike]:
+    setup_cterm: CTerm | None,
+) -> tuple[KCFG, int, int]:
     calldata = method.calldata_cell(contract)
     callvalue = method.callvalue_cell
     init_cterm = _init_cterm(
         empty_config,
         contract.name,
-        kcfgs_dir,
+        setup_cterm=setup_cterm,
         calldata=calldata,
         callvalue=callvalue,
-        init_state=init_state,
     )
     is_test = method.name.startswith('test')
     failing = method.name.startswith('testFail')
@@ -355,11 +386,10 @@ def _method_to_cfg(
 def _init_cterm(
     empty_config: KInner,
     contract_name: str,
-    kcfgs_dir: Path,
     *,
+    setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
-    init_state: str | None = None,
 ) -> CTerm:
     program = KEVM.bin_runtime(KApply(f'contract_{contract_name}'))
     account_cell = KEVM.account_cell(
@@ -419,8 +449,8 @@ def _init_cterm(
     }
 
     constraints = None
-    if init_state:
-        accts, constraints = _get_final_accounts_cell(init_state, kcfgs_dir, overwrite_code_cell=program)
+    if setup_cterm is not None:
+        accts, constraints = _get_final_accounts_cell(setup_cterm, overwrite_code_cell=program)
         init_subst['ACCOUNTS_CELL'] = accts
 
     if calldata is not None:
@@ -508,19 +538,9 @@ def _final_term(empty_config: KInner, contract_name: str) -> KInner:
 
 
 def _get_final_accounts_cell(
-    proof_id: str, proof_dir: Path, overwrite_code_cell: KInner | None = None
+    setup_cterm: CTerm, overwrite_code_cell: KInner | None = None
 ) -> tuple[KInner, Iterable[KInner]]:
-    apr_proof = APRProof.read_proof_data(proof_dir, proof_id)
-    target = apr_proof.kcfg.node(apr_proof.target)
-    target_states = apr_proof.kcfg.covers(target_id=target.id)
-    if len(target_states) == 0:
-        raise ValueError(
-            f'setUp() function for {apr_proof.id} did not reach the end of execution. Maybe --max-iterations is too low?'
-        )
-    if len(target_states) > 1:
-        raise ValueError(f'setUp() function for {apr_proof.id} branched and has {len(target_states)} target states.')
-    cterm = single(target_states).source.cterm
-    acct_cell = cterm.cell('ACCOUNTS_CELL')
+    acct_cell = setup_cterm.cell('ACCOUNTS_CELL')
 
     if overwrite_code_cell is not None:
         new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', acct_cell)]
@@ -535,5 +555,5 @@ def _get_final_accounts_cell(
         acct_cell = KEVM.accounts([account.config for account in new_accounts_map.values()])
 
     fvars = free_vars(acct_cell)
-    acct_cons = constraints_for(fvars, cterm.constraints)
+    acct_cons = constraints_for(fvars, setup_cterm.constraints)
     return (acct_cell, acct_cons)
