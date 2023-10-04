@@ -152,7 +152,7 @@ def exec_prove(
     bmc_depth: int | None = None,
     bug_report: BugReport | None = None,
     kore_rpc_command: str | Iterable[str] | None = None,
-    use_booster: bool = False,
+    use_booster: bool = True,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     failure_info: bool = True,
@@ -510,9 +510,15 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--use-booster',
         dest='use_booster',
-        default=False,
+        default=True,
         action='store_true',
         help='Use the booster RPC server instead of kore-rpc.',
+    )
+    prove_args.add_argument(
+        '--no-use-booster',
+        dest='use_booster',
+        action='store_false',
+        help='Do not use the booster RPC server instead of kore-rpc.',
     )
 
     show_args = command_parser.add_parser(

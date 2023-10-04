@@ -29,5 +29,5 @@ def update_expected_output(request: FixtureRequest) -> bool:
 
 
 @pytest.fixture(scope='session')
-def use_booster(request: FixtureRequest) -> bool:
-    return request.config.getoption('--use-booster')
+def no_use_booster(request: FixtureRequest) -> bool:
+    return request.config.getoption('--no-use-booster')
