@@ -16,7 +16,7 @@ def pytest_addoption(parser: Parser) -> None:
         help='Write expected output files for proof tests',
     )
     parser.addoption(
-        '--use-booster',
+        '--no-use-booster',
         action='store_true',
         default=False,
         help='Use the kore-rpc-booster binary instead of kore-rpc',
