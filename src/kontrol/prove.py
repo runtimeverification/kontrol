@@ -10,6 +10,7 @@ from kevm_pyk.utils import (
     abstract_cell_vars,
     constraints_for,
     kevm_prove,
+    kevm_debug,
     legacy_explore,
     print_failure_info,
 )
@@ -135,6 +136,97 @@ def foundry_prove(
     results = run_prover(test_suite)
     return results
 
+def foundry_debug(
+    foundry_root: Path,
+    max_depth: int = 1000,
+    max_iterations: int | None = None,
+    reinit: bool = False,
+    tests: Iterable[tuple[str, int | None]] = (),
+    workers: int = 1,
+    simplify_init: bool = True,
+    break_every_step: bool = False,
+    break_on_jumpi: bool = False,
+    break_on_calls: bool = True,
+    bmc_depth: int | None = None,
+    bug_report: BugReport | None = None,
+    kore_rpc_command: str | Iterable[str] | None = None,
+    use_booster: bool = False,
+    smt_timeout: int | None = None,
+    smt_retry_limit: int | None = None,
+    failure_info: bool = True,
+    counterexample_info: bool = False,
+    trace_rewrites: bool = False,
+    auto_abstract_gas: bool = False,
+    port: int | None = None,
+) -> tuple[Foundry, dict[tuple[str, int], Prover]]:
+    if workers <= 0:
+        raise ValueError(f'Must have at least one worker, found: --workers {workers}')
+    if max_iterations is not None and max_iterations < 0:
+        raise ValueError(f'Must have a non-negative number of iterations, found: --max-iterations {max_iterations}')
+
+    if use_booster:
+        try:
+            run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
+        except CalledProcessError:
+            raise RuntimeError(
+                "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
+            ) from None
+
+    if kore_rpc_command is None:
+        kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
+
+    foundry = Foundry(foundry_root, bug_report=bug_report)
+    foundry.mk_proofs_dir()
+
+    test_suite = collect_tests(foundry, tests, reinit=reinit)
+    test_names = [test.name for test in test_suite]
+
+    contracts = [test.contract for test in test_suite]
+    setup_methods = collect_setup_methods(foundry, contracts, reinit=reinit)
+    setup_method_names = [test.name for test in setup_methods]
+
+    _LOGGER.info(f'Running tests: {test_names}')
+
+    _LOGGER.info(f'Updating digests: {test_names}')
+    for test in test_suite:
+        test.method.update_digest(foundry.digest_file)
+
+    _LOGGER.info(f'Updating digests: {setup_method_names}')
+    for test in setup_methods:
+        test.method.update_digest(foundry.digest_file)
+
+    def run_prover(test_suite: list[FoundryTest]) -> dict[tuple[str, int], Prover]:
+        return _debug_cfg_group(
+            test_suite,
+            foundry,
+            max_depth=max_depth,
+            max_iterations=max_iterations,
+            workers=workers,
+            simplify_init=simplify_init,
+            break_every_step=break_every_step,
+            break_on_jumpi=break_on_jumpi,
+            break_on_calls=break_on_calls,
+            bmc_depth=bmc_depth,
+            bug_report=bug_report,
+            kore_rpc_command=kore_rpc_command,
+            use_booster=use_booster,
+            smt_timeout=smt_timeout,
+            smt_retry_limit=smt_retry_limit,
+            counterexample_info=counterexample_info,
+            trace_rewrites=trace_rewrites,
+            auto_abstract_gas=auto_abstract_gas,
+            port=port,
+        )
+
+    _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
+    provers = run_prover(setup_methods)
+    failed = [test_id for test_id, prover in provers.items() if not prover.proof.passed]
+    if failed:
+        raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
+
+    _LOGGER.info(f'Running test functions in parallel: {test_names}')
+    provers = run_prover(test_suite)
+    return foundry, provers
 
 class FoundryTest(NamedTuple):
     contract: Contract
@@ -258,6 +350,77 @@ def _run_cfg_group(
     apr_proofs = dict(zip(unparsed_tests, _apr_proofs, strict=True))
     return apr_proofs
 
+def _debug_cfg_group(
+    tests: list[FoundryTest],
+    foundry: Foundry,
+    *,
+    max_depth: int,
+    max_iterations: int | None,
+    workers: int,
+    simplify_init: bool,
+    break_every_step: bool,
+    break_on_jumpi: bool,
+    break_on_calls: bool,
+    bmc_depth: int | None,
+    bug_report: BugReport | None,
+    kore_rpc_command: str | Iterable[str] | None,
+    use_booster: bool,
+    smt_timeout: int | None,
+    smt_retry_limit: int | None,
+    counterexample_info: bool,
+    trace_rewrites: bool,
+    auto_abstract_gas: bool,
+    port: int | None,
+) -> dict[tuple[str, int], Prover]:
+    def init_prover(test: FoundryTest) -> Prover:
+        llvm_definition_dir = foundry.llvm_library if use_booster else None
+        start_server = port is None
+
+        with legacy_explore(
+            foundry.kevm,
+            kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
+            id=test.id,
+            bug_report=bug_report,
+            kore_rpc_command=kore_rpc_command,
+            llvm_definition_dir=llvm_definition_dir,
+            smt_timeout=smt_timeout,
+            smt_retry_limit=smt_retry_limit,
+            trace_rewrites=trace_rewrites,
+            start_server=start_server,
+            port=port,
+        ) as kcfg_explore:
+            proof = method_to_apr_proof(
+                foundry,
+                test,
+                kcfg_explore,
+                simplify_init=simplify_init,
+                bmc_depth=bmc_depth,
+            )
+
+            prover = kevm_debug(
+                foundry.kevm,
+                proof,
+                kcfg_explore,
+                max_depth=max_depth,
+                max_iterations=max_iterations,
+                break_every_step=break_every_step,
+                break_on_jumpi=break_on_jumpi,
+                break_on_calls=break_on_calls,
+            )
+            return prover
+
+    _provers: list[Prover]
+    if workers > 1:
+        with ProcessPool(ncpus=workers) as process_pool:
+            _provers = process_pool.map(init_prover, tests)
+    else:
+        _provers = []
+        for test in tests:
+            _provers.append(init_prover(test))
+
+    unparsed_tests = [test.unparsed for test in tests]
+    apr_provers = dict(zip(unparsed_tests, _provers, strict=True))
+    return apr_provers
 
 def method_to_apr_proof(
     foundry: Foundry,
