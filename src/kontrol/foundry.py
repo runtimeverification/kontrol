@@ -250,21 +250,20 @@ class Foundry:
         regs = [reg.replace('(', '\\(') for reg in regs]
         return [reg.replace(')', '\\)') for reg in regs]
 
-    def matching_tests(self, tests: list[str], exclude_tests: list[str]) -> list[str]:
+    def matching_tests(self, tests: list[str]) -> list[str]:
         all_tests = self.all_tests
         all_non_tests = self.all_non_tests
         matched_tests = set()
         unfound_tests: list[str] = []
         tests = self._escape_brackets(tests)
-        exclude_tests = self._escape_brackets(exclude_tests)
         for t in tests:
             if not any(re.search(t, test) for test in (all_tests + all_non_tests)):
                 unfound_tests.append(t)
         for test in all_tests:
-            if any(re.search(t, test) for t in tests) and not any(re.search(t, test) for t in exclude_tests):
+            if any(re.search(t, test) for t in tests):
                 matched_tests.add(test)
         for test in all_non_tests:
-            if any(re.search(t, test) for t in tests) and not any(re.search(t, test) for t in exclude_tests):
+            if any(re.search(t, test) for t in tests):
                 matched_tests.add(test)
         if unfound_tests:
             raise ValueError(f'Test identifiers not found: {set(unfound_tests)}')
@@ -273,7 +272,7 @@ class Foundry:
         return list(matched_tests)
 
     def matching_sig(self, test: str) -> str:
-        test_sigs = self.matching_tests([test], [])
+        test_sigs = self.matching_tests([test])
         if len(test_sigs) != 1:
             raise ValueError(f'Found {test_sigs} matching tests, must specify one')
         return test_sigs[0]
@@ -387,16 +386,21 @@ class Foundry:
             return Proof.read_proof_data(self.proofs_dir, test_id)
         return None
 
-    def get_method(self, test: str) -> Contract.Method | Contract.Constructor:
+    def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method | Contract.Constructor]:
         contract_name, method_name = test.split('.')
+        contract = self.contracts[contract_name]
 
         if method_name == 'init':
             constructor = self.contracts[contract_name].constructor
             assert constructor is not None
-            return constructor
+            return contract, constructor
 
-        contract = self.contracts[contract_name]
-        return contract.method_by_sig[method_name]
+        method = contract.method_by_sig[method_name]
+        return contract, method
+
+    def get_method(self, test: str) -> Contract.Method | Contract.Constructor:
+        _, method = self.get_contract_and_method(test)
+        return method
 
     def resolve_proof_version(
         self,
@@ -451,7 +455,9 @@ class Foundry:
         find the highest used proof ID, to be used as a default. Returns None if no version of this proof exists.
         """
         proof_ids = listdir(self.proofs_dir)
+        print(proof_ids)
         versions = {int(pid.split(':')[1]) for pid in proof_ids if pid.split(':')[0] == test}
+        print(versions)
         return max(versions, default=None)
 
     def free_proof_version(

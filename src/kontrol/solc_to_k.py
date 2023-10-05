@@ -85,7 +85,7 @@ class Contract:
             contract_storage_digest: str,
             sort: KSort,
         ) -> None:
-            self.signature = f'{contract_name}_init'
+            self.signature = 'init'
             self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
             self.arg_types = tuple([input['type'] for input in abi['inputs']])
             self.contract_name = contract_name

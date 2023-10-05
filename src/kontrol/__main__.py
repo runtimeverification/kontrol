@@ -144,7 +144,6 @@ def exec_prove(
     max_iterations: int | None = None,
     reinit: bool = False,
     tests: Iterable[tuple[str, int | None]] = (),
-    exclude_tests: Iterable[str] = (),
     workers: int = 1,
     simplify_init: bool = True,
     break_every_step: bool = False,
@@ -182,7 +181,6 @@ def exec_prove(
         max_iterations=max_iterations,
         reinit=reinit,
         tests=tests,
-        exclude_tests=exclude_tests,
         workers=workers,
         simplify_init=simplify_init,
         break_every_step=break_every_step,
@@ -496,14 +494,6 @@ def _create_argument_parser() -> ArgumentParser:
         default=[],
         action='append',
         help='Limit to only listed tests, ContractName.TestName',
-    )
-    prove_args.add_argument(
-        '--exclude-test',
-        type=_parse_test_version_tuple,
-        dest='exclude_tests',
-        default=[],
-        action='append',
-        help='Skip listed tests, ContractName.TestName',
     )
     prove_args.add_argument(
         '--reinit',

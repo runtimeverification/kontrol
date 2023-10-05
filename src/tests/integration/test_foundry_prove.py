@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from pytest import TempPathFactory
 
 
-FORGE_STD_REF: Final = '27e14b7'
+FORGE_STD_REF: Final = '75f1746'
 
 
 sys.setrecursionlimit(10**7)
@@ -228,7 +228,7 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        max_iterations=4,
+        max_iterations=3,
         port=server.port,
         bug_report=bug_report,
     )
