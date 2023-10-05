@@ -11,7 +11,7 @@ from kevm_pyk.dist import DistTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
 from pyk.proof.tui import APRProofViewer
-
+from . import VERSION
 from .cli import KontrolCLIArgs
 from .foundry import (
     Foundry,
@@ -72,7 +72,7 @@ def main() -> None:
 
 
 def exec_version(**kwargs: Any) -> None:
-    raise NotImplementedError()
+    print(f'Kontrol Version: {VERSION}')
 
 
 def exec_compile(contract_file: Path, **kwargs: Any) -> None:
@@ -419,7 +419,7 @@ def _create_argument_parser() -> ArgumentParser:
 
     command_parser = parser.add_subparsers(dest='command', required=True)
 
-    command_parser.add_parser('version', help='Print out version of Kontrol command.')
+    command_parser.add_parser('version', help='Print out version of Kontrol command.', parents = [kontrol_cli_args.logging_args])
 
     solc_args = command_parser.add_parser('compile', help='Generate combined JSON with solc compilation results.')
     solc_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
