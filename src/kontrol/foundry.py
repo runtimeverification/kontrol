@@ -20,7 +20,7 @@ from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
-from pyk.proof.proof import Proof
+from pyk.proof.proof import Proof, Prover
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.proof.show import APRBMCProofNodePrinter, APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
