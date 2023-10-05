@@ -95,7 +95,7 @@ jobs:
   integration-tests:
     needs: code-quality-checks
     name: 'Integration Tests'
-    runs-on: [self-hosted, linux, normal]
+    runs-on: [self-hosted, linux, normal, fast]
     strategy:
       fail-fast: false
       matrix:
