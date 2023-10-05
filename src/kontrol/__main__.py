@@ -659,7 +659,7 @@ def _create_argument_parser() -> ArgumentParser:
 
 
 def _loglevel(args: Namespace) -> int:
-    if hasattr(args, "debug") and args.debug:
+    if hasattr(args, 'debug') and args.debug:
         return logging.DEBUG
 
     if hasattr(args, 'verbose') and args.verbose:
