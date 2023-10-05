@@ -9,8 +9,8 @@ from kevm_pyk.utils import (
     KDefinition__expand_macros,
     abstract_cell_vars,
     constraints_for,
-    kevm_prove,
     kevm_debug,
+    kevm_prove,
     legacy_explore,
     print_failure_info,
 )
@@ -136,6 +136,7 @@ def foundry_prove(
     results = run_prover(test_suite)
     return results
 
+
 def foundry_debug(
     foundry_root: Path,
     max_depth: int = 1000,
@@ -227,6 +228,7 @@ def foundry_debug(
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
     provers = run_prover(test_suite)
     return foundry, provers
+
 
 class FoundryTest(NamedTuple):
     contract: Contract
@@ -350,6 +352,7 @@ def _run_cfg_group(
     apr_proofs = dict(zip(unparsed_tests, _apr_proofs, strict=True))
     return apr_proofs
 
+
 def _debug_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
@@ -421,6 +424,7 @@ def _debug_cfg_group(
     unparsed_tests = [test.unparsed for test in tests]
     apr_provers = dict(zip(unparsed_tests, _provers, strict=True))
     return apr_provers
+
 
 def method_to_apr_proof(
     foundry: Foundry,
