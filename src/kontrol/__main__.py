@@ -73,7 +73,7 @@ def main() -> None:
 
 
 def exec_version(**kwargs: Any) -> None:
-    print(f'Kontrol Version: {VERSION}')
+    print(f'Kontrol version: {VERSION}')
 
 
 def exec_compile(contract_file: Path, **kwargs: Any) -> None:
@@ -420,9 +420,7 @@ def _create_argument_parser() -> ArgumentParser:
 
     command_parser = parser.add_subparsers(dest='command', required=True)
 
-    command_parser.add_parser(
-        'version', help='Print out version of Kontrol command.', parents=[kontrol_cli_args.logging_args]
-    )
+    command_parser.add_parser('version', help='Print out version of Kontrol command.')
 
     solc_args = command_parser.add_parser('compile', help='Generate combined JSON with solc compilation results.')
     solc_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
@@ -661,10 +659,10 @@ def _create_argument_parser() -> ArgumentParser:
 
 
 def _loglevel(args: Namespace) -> int:
-    if args.debug:
+    if hasattr(args, "debug") and args.debug:
         return logging.DEBUG
 
-    if args.verbose:
+    if hasattr(args, 'verbose') and args.verbose:
         return logging.INFO
 
     return logging.WARNING
