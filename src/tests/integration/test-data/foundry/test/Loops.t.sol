@@ -2,8 +2,9 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
+import "../src/KEVMCheats.sol";
 
-contract LoopsTest is Test {
+contract LoopsTest is Test, KEVMCheats {
 
     uint constant WAD = 10 ** 18;
     uint constant RAY = 10 ** 27;
@@ -54,6 +55,8 @@ contract LoopsTest is Test {
         // Number of iterations: n
         // 9223372036854772642 // 178 = 51816696836262767
         vm.assume(n <= 51816696836262767);
+        // Allocating enough gas for the loop to be analyzed
+        kevm.setGas(9223372036854772693);
         uint s = 0;
         while (0 < n) {
             s = s + n;
