@@ -35,7 +35,8 @@ if TYPE_CHECKING:
     from typing import Final
 
     from pyk.kast.inner import KInner
-    from pyk.kcfg import KCFGExplore
+    from pyk.kcfg import KCFGExploref
+    from pyk.proof.proof import Prover
     from pyk.utils import BugReport
 
     from .solc_to_k import Contract
