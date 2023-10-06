@@ -12,6 +12,7 @@ from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
 from pyk.proof.tui import APRProofViewer
 
+from . import VERSION
 from .cli import KontrolCLIArgs
 from .foundry import (
     Foundry,
@@ -72,7 +73,7 @@ def main() -> None:
 
 
 def exec_version(**kwargs: Any) -> None:
-    raise NotImplementedError()
+    print(f'Kontrol version: {VERSION}')
 
 
 def exec_compile(contract_file: Path, **kwargs: Any) -> None:
@@ -658,10 +659,10 @@ def _create_argument_parser() -> ArgumentParser:
 
 
 def _loglevel(args: Namespace) -> int:
-    if args.debug:
+    if hasattr(args, 'debug') and args.debug:
         return logging.DEBUG
 
-    if args.verbose:
+    if hasattr(args, 'verbose') and args.verbose:
         return logging.INFO
 
     return logging.WARNING
