@@ -254,7 +254,7 @@ class Contract:
                 for rp in rps:
                     if rp is None:
                         _LOGGER.info(
-                            f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar:'
+                            f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
                         )
                         return None
                     conjuncts.append(rp)
