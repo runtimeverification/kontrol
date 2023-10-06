@@ -434,18 +434,6 @@ def _load_setup_proof(foundry: Foundry, contract: Contract) -> APRProof:
     return apr_proof
 
 
-#      target = apr_proof.kcfg.node(apr_proof.target)
-#      target_states = apr_proof.kcfg.covers(target_id=target.id)
-#      if len(target_states) == 0:
-#          raise ValueError(
-#              f'setUp() function for {apr_proof.id} did not reach the end of execution. Maybe --max-iterations is too low?'
-#          )
-#      if len(target_states) > 1:
-#          raise ValueError(f'setUp() function for {apr_proof.id} branched and has {len(target_states)} target states.')
-#      cterm = single(target_states).source.cterm
-#      return cterm
-
-
 def _load_constructor_proof(foundry: Foundry, contract: Contract) -> APRProof:
     latest_version = foundry.latest_proof_version(f'{contract.name}.init')
     setup_digest = f'{contract.name}.init:{latest_version}'
