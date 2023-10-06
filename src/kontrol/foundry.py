@@ -392,7 +392,8 @@ class Foundry:
 
         if method_name == 'init':
             constructor = self.contracts[contract_name].constructor
-            assert constructor is not None
+            if constructor is None:
+                raise ValueError(f'Contract {contract_name} does not have a constructor.')
             return contract, constructor
 
         method = contract.method_by_sig[method_name]
