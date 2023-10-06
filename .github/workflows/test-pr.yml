@@ -95,12 +95,12 @@ jobs:
   integration-tests:
     needs: code-quality-checks
     name: 'Integration Tests'
-    runs-on: [self-hosted, linux, normal]
+    runs-on: [self-hosted, linux, normal, fast]
     strategy:
       fail-fast: false
       matrix:
         backend: ['legacy', 'booster']
-    timeout-minutes: 240
+    timeout-minutes: 180
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v3
