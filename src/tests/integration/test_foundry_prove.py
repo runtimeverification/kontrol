@@ -223,25 +223,43 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
 
 
 def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, server: KoreServer) -> None:
-    test = 'AssertTest.test_branch_merge(uint256)'
+    test = 'MergeTest.test_branch_merge(uint256)'
 
     foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        max_iterations=3,
+        max_iterations=2,
         port=server.port,
         bug_report=bug_report,
     )
-    check_pending(foundry_root, test, [11, 12])
 
-    foundry_step_node(foundry_root, test, node=11, depth=49, port=server.port)
-    foundry_step_node(foundry_root, test, node=12, depth=50, port=server.port)
+    show_res = foundry_show(
+        foundry_root,
+        test=test,
+        to_module=True,
+        minimize=False,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        port=server.port,
+    )
+    print(show_res)
 
-    check_pending(foundry_root, test, [13, 14])
 
-    foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[13, 14], include_disjunct=True)
 
-    check_pending(foundry_root, test, [15])
+    
+    check_pending(foundry_root, test, [4, 5])
+
+    foundry_step_node(foundry_root, test, node=4, depth=49, port=server.port)
+    foundry_step_node(foundry_root, test, node=5, depth=50, port=server.port)
+
+    check_pending(foundry_root, test, [6, 7])
+
+    foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[6, 7], include_disjunct=True)
+
+    check_pending(foundry_root, test, [8])
 
     prove_res = foundry_prove(
         foundry_root,

@@ -575,6 +575,7 @@ def _init_cterm(
     contract_name: str,
     program: KInner,
     *,
+    setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
 ) -> CTerm:
