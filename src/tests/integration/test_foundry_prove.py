@@ -247,9 +247,6 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     )
     print(show_res)
 
-
-
-    
     check_pending(foundry_root, test, [4, 5])
 
     foundry_step_node(foundry_root, test, node=4, depth=49, port=server.port)
