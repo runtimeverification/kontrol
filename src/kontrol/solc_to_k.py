@@ -564,9 +564,9 @@ class Contract:
     def field_sentences(self) -> list[KSentence]:
         prods: list[KSentence] = [self.subsort_field]
         rules: list[KSentence] = []
-        for field, slot in self.fields.items():
-            klabel = KLabel(self.klabel_field.name + f'_{field}')
-            prods.append(KProduction(self.sort_field, [KTerminal(field)], klabel=klabel, att=KAtt({'symbol': ''})))
+        for _field, slot in self.fields.items():
+            klabel = KLabel(self.klabel_field.name + f'_{_field}')
+            prods.append(KProduction(self.sort_field, [KTerminal(_field)], klabel=klabel, att=KAtt({'symbol': ''})))
             rule_lhs = KEVM.loc(KApply(KLabel('contract_access_field'), [KApply(self.klabel), KApply(klabel)]))
             rule_rhs = intToken(slot)
             rules.append(KRule(KRewrite(rule_lhs, rule_rhs)))
