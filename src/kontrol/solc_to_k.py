@@ -244,7 +244,7 @@ class Contract:
 
         def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
             prod_klabel = self.unique_klabel
-            arg_vars = [KVariable(aname) for aname in self.arg_names]
+            arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KApply] = []
             conjuncts: list[KInner] = []
             for input in self.inputs:
