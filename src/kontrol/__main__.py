@@ -492,7 +492,11 @@ def _create_argument_parser() -> ArgumentParser:
         dest='tests',
         default=[],
         action='append',
-        help='Limit to only listed tests, ContractName.TestName',
+        help=(
+            "Specify the contract function to test in the format 'ContractName.FunctionName'. If a function is "
+            "overloaded, you should specify the full signature, e.g., 'ERC20Test.testTransfer(address,uint256)'. This "
+            'option can be used multiple times to test multiple functions.'
+        ),
     )
     prove_args.add_argument(
         '--reinit',
