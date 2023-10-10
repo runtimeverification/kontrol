@@ -81,6 +81,7 @@ jobs:
   cut-release:
     name: 'Cut Release'
     runs-on: ubuntu-latest
+    needs: [nix-cache, dockerhub]
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v3
