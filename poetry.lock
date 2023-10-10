@@ -342,13 +342,13 @@ flake8 = "*"
 
 [[package]]
 name = "flake8-type-checking"
-version = "2.4.1"
+version = "2.4.2"
 description = "A flake8 plugin for managing type-checking imports & forward references"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "flake8_type_checking-2.4.1-py3-none-any.whl", hash = "sha256:fe75cfe668e3bf6914dd2ba36579bbe6c82f3795127774e7584ecc8c9f7379e5"},
-    {file = "flake8_type_checking-2.4.1.tar.gz", hash = "sha256:f3c7023114dee2ec2e8282a9080206ffd8fdd61205626593aa5c801bc2f8035d"},
+    {file = "flake8_type_checking-2.4.2-py3-none-any.whl", hash = "sha256:921efdcb2bfcd6d6cd3bb411419e9dcbd506bd8893ad749030d9cce032129f28"},
+    {file = "flake8_type_checking-2.4.2.tar.gz", hash = "sha256:468a7c91ca6ebe58c4af6836dda3bfeba7bfb7c0b5f724baf5024ad5fda0504c"},
 ]
 
 [package.dependencies]
@@ -434,7 +434,7 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.312"
+version = "1.0.314"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -450,8 +450,8 @@ xdg-base-dirs = "^6.0.0"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.312"
-resolved_reference = "26b3b3c61e55f02c6a77d0a30593102a6784422c"
+reference = "v1.0.314"
+resolved_reference = "9a3ccc44f6da0872221612d940c1387fc370b570"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -935,13 +935,13 @@ testing = ["filelock"]
 
 [[package]]
 name = "pyupgrade"
-version = "3.14.0"
+version = "3.15.0"
 description = "A tool to automatically upgrade syntax for newer versions."
 optional = false
 python-versions = ">=3.8.1"
 files = [
-    {file = "pyupgrade-3.14.0-py2.py3-none-any.whl", hash = "sha256:221923c5cd6171e4adb78bfd331ce95500112294c36fb61a0947c55c78cb1924"},
-    {file = "pyupgrade-3.14.0.tar.gz", hash = "sha256:e5caa64798256e341afcee6fe42be8d75e4f88f20809b25dc6174548dbc3bace"},
+    {file = "pyupgrade-3.15.0-py2.py3-none-any.whl", hash = "sha256:8dc8ebfaed43566e2c65994162795017c7db11f531558a74bc8aa077907bc305"},
+    {file = "pyupgrade-3.15.0.tar.gz", hash = "sha256:a7fde381060d7c224f55aef7a30fae5ac93bbc428367d27e70a603bc2acd4f00"},
 ]
 
 [package.dependencies]
@@ -1083,4 +1083,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "0a623b00db2e17c679b8596030b9af1c6d18f0a1b930dbf1cfc9f7d6e7862d52"
+content-hash = "4e741bd032666157ea2f4c953c8673f3fe207f90bc5297087738fde7aec878d6"
