@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 import logging
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from threading import Thread
+from queue import Queue
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
@@ -18,6 +22,7 @@ from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
 from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kcfg import KCFG
+from pyk.kore.rpc import kore_server
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, notBool
 from pyk.prelude.kint import intToken
@@ -35,6 +40,7 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
+    from pyk.kore.rpc import KoreServer
     from pyk.utils import BugReport
 
     from .solc_to_k import Contract
@@ -103,27 +109,47 @@ def foundry_prove(
         test.method.update_digest(foundry.digest_file)
 
     def run_prover(test_suite: list[FoundryTest]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
-        return _run_cfg_group(
-            test_suite,
-            foundry,
-            max_depth=max_depth,
-            max_iterations=max_iterations,
-            workers=workers,
-            simplify_init=simplify_init,
-            break_every_step=break_every_step,
-            break_on_jumpi=break_on_jumpi,
-            break_on_calls=break_on_calls,
-            bmc_depth=bmc_depth,
+        llvm_definition_dir = foundry.llvm_library if use_booster else None
+
+        options = GlobalOptions(
+            foundry=foundry,
+            auto_abstract_gas=auto_abstract_gas,
             bug_report=bug_report,
             kore_rpc_command=kore_rpc_command,
-            use_booster=use_booster,
+            llvm_definition_dir=llvm_definition_dir,
             smt_timeout=smt_timeout,
             smt_retry_limit=smt_retry_limit,
-            counterexample_info=counterexample_info,
             trace_rewrites=trace_rewrites,
-            auto_abstract_gas=auto_abstract_gas,
-            port=port,
+            simplify_init=simplify_init,
+            bmc_depth=bmc_depth,
         )
+
+        scheduler = Scheduler(workers=workers, initial_tests=test_suite, options=options)
+        scheduler.run()
+
+        return {}
+
+    #          return _run_cfg_group(
+    #              test_suite,
+    #              foundry,
+    #              max_depth=max_depth,
+    #              max_iterations=max_iterations,
+    #              workers=workers,
+    #              simplify_init=simplify_init,
+    #              break_every_step=break_every_step,
+    #              break_on_jumpi=break_on_jumpi,
+    #              break_on_calls=break_on_calls,
+    #              bmc_depth=bmc_depth,
+    #              bug_report=bug_report,
+    #              kore_rpc_command=kore_rpc_command,
+    #              use_booster=use_booster,
+    #              smt_timeout=smt_timeout,
+    #              smt_retry_limit=smt_retry_limit,
+    #              counterexample_info=counterexample_info,
+    #              trace_rewrites=trace_rewrites,
+    #              auto_abstract_gas=auto_abstract_gas,
+    #              port=port,
+    #          )
 
     _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
     results = run_prover(setup_methods)
@@ -183,6 +209,114 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
     return res
 
 
+class Job(ABC):
+    @abstractmethod
+    def execute(self, queue: Queue) -> None:
+        ...
+
+
+class InitProofJob(Job):
+    test: FoundryTest
+    proof: APRProof
+    options: GlobalOptions
+    port: int
+
+    def __init__(
+        self,
+        test: FoundryTest,
+        options: GlobalOptions,
+        port: int,
+    ) -> None:
+        self.test = test
+        self.options = options
+        self.port = port
+
+    def execute(self, queue: Queue) -> None:
+        with legacy_explore(
+            self.options.foundry.kevm,
+            kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
+            id=self.test.id,
+            bug_report=self.options.bug_report,
+            kore_rpc_command=self.options.kore_rpc_command,
+            llvm_definition_dir=self.options.llvm_definition_dir,
+            smt_timeout=self.options.smt_timeout,
+            smt_retry_limit=self.options.smt_retry_limit,
+            trace_rewrites=self.options.trace_rewrites,
+            start_server=False,
+            port=self.port,
+        ) as kcfg_explore:
+            self.proof = method_to_apr_proof(
+                self.options.foundry,
+                self.test,
+                kcfg_explore,
+                simplify_init=self.options.simplify_init,
+                bmc_depth=self.options.bmc_depth,
+            )
+            queue.put(AdvanceProofJob())
+
+
+@dataclass
+class GlobalOptions:
+    foundry: Foundry
+    auto_abstract_gas: bool
+    bug_report: BugReport | None
+    kore_rpc_command: str | Iterable[str] | None
+    llvm_definition_dir: Path | None
+    smt_timeout: int | None
+    smt_retry_limit: int | None
+    trace_rewrites: bool
+    simplify_init: bool
+    bmc_depth: int | None
+
+
+class AdvanceProofJob(Job):
+    def execute(self, queue: Queue) -> None:
+        print('test abc')
+        ...
+
+
+def create_server(options: GlobalOptions) -> KoreServer:
+    return kore_server(
+        definition_dir=options.foundry.kevm.definition_dir,
+        llvm_definition_dir=options.llvm_definition_dir,
+        module_name=options.foundry.kevm.main_module,
+        command=options.kore_rpc_command,
+        bug_report=options.bug_report,
+        smt_timeout=options.smt_timeout,
+        smt_retry_limit=options.smt_retry_limit,
+    )
+
+
+class Scheduler:
+    servers: dict[str, KoreServer]
+    threads: list[Thread]
+    task_queue: Queue
+    options: GlobalOptions
+
+    @staticmethod
+    def exec_process(task_queue: Queue) -> None:
+        while True:
+            job = task_queue.get()
+            job.execute(task_queue)
+            task_queue.task_done()
+
+    def __init__(self, workers: int, initial_tests: list[FoundryTest], options: GlobalOptions) -> None:
+        self.options = options
+        self.task_queue = Queue()
+        self.servers = {}
+        for test in initial_tests:
+            self.servers[test.id] = create_server(self.options)
+            self.task_queue.put(InitProofJob(test=test, port=self.servers[test.id].port, options=self.options))
+        self.threads = [Thread(target=Scheduler.exec_process, args=(self.task_queue,), daemon=True)]
+
+    def run(self) -> None:
+        for thread in self.threads:
+            thread.start()
+        self.task_queue.join()
+#          for thread in self.threads:
+#              thread.join()
+
+
 def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
@@ -205,8 +339,20 @@ def _run_cfg_group(
     auto_abstract_gas: bool,
     port: int | None,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
+    llvm_definition_dir = foundry.llvm_library if use_booster else None
+
+    def create_server() -> KoreServer:
+        return kore_server(
+            definition_dir=foundry.kevm.definition_dir,
+            llvm_definition_dir=llvm_definition_dir,
+            module_name=foundry.kevm.main_module,
+            command=kore_rpc_command,
+            bug_report=bug_report,
+            smt_timeout=smt_timeout,
+            smt_retry_limit=smt_retry_limit,
+        )
+
     def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
-        llvm_definition_dir = foundry.llvm_library if use_booster else None
         start_server = port is None
 
         with legacy_explore(
