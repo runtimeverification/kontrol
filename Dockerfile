@@ -1,6 +1,6 @@
 ARG Z3_VERSION
 ARG K_VERSION
-FROM runtimeverificationinc/ubuntu-jammy-z3:${Z3_VERSION} as Z3
+FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} as Z3
 
 ARG K_VERSION
 FROM runtimeverificationinc/kframework-k:ubuntu-jammy-${K_VERSION}
