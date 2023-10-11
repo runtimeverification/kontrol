@@ -38,10 +38,13 @@ module FOUNDRY-MAIN
     imports public GasTest-VERIFICATION
     imports public GetCodeTest-VERIFICATION
     imports public IMulticall3-VERIFICATION
+    imports public InitCodeTest-VERIFICATION
+    imports public InitCodeBranchTest-VERIFICATION
     imports public KEVMCheats-VERIFICATION
     imports public KEVMCheatsBase-VERIFICATION
     imports public LabelTest-VERIFICATION
     imports public LoopsTest-VERIFICATION
+    imports public MergeTest-VERIFICATION
     imports public MethodDisambiguateTest-VERIFICATION
     imports public MockCallTest-VERIFICATION
     imports public MyIERC20-VERIFICATION
@@ -349,6 +352,20 @@ module IMulticall3-VERIFICATION
 
 endmodule
 
+module InitCodeTest-VERIFICATION
+    imports public InitCodeTest-CONTRACT
+    
+    
+
+endmodule
+
+module InitCodeBranchTest-VERIFICATION
+    imports public InitCodeBranchTest-CONTRACT
+    
+    
+
+endmodule
+
 module KEVMCheats-VERIFICATION
     imports public KEVMCheats-CONTRACT
     
@@ -373,6 +390,13 @@ endmodule
 module LoopsTest-VERIFICATION
     imports public LoopsTest-CONTRACT
     imports public SUM-TO-N-INVARIANT
+    
+    
+
+endmodule
+
+module MergeTest-VERIFICATION
+    imports public MergeTest-CONTRACT
     
     
 
