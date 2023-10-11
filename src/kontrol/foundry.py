@@ -241,7 +241,7 @@ class Foundry:
             for contract in self.contracts.values()
             for method in contract.methods
             if f'{contract.name}.{method.signature}' not in self.all_tests
-        ]
+        ] + [f'{contract.name}.init' for contract in self.contracts.values()]
 
     @staticmethod
     def _escape_brackets(regs: list[str]) -> list[str]:
@@ -385,13 +385,20 @@ class Foundry:
             return Proof.read_proof_data(self.proofs_dir, test_id)
         return None
 
-    def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method]:
+    def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method | Contract.Constructor]:
         contract_name, method_name = test.split('.')
         contract = self.contracts[contract_name]
+
+        if method_name == 'init':
+            constructor = self.contracts[contract_name].constructor
+            if constructor is None:
+                raise ValueError(f'Contract {contract_name} does not have a constructor.')
+            return contract, constructor
+
         method = contract.method_by_sig[method_name]
         return contract, method
 
-    def get_method(self, test: str) -> Contract.Method:
+    def get_method(self, test: str) -> Contract.Method | Contract.Constructor:
         _, method = self.get_contract_and_method(test)
         return method
 
@@ -429,7 +436,7 @@ class Foundry:
             _LOGGER.info(
                 f'Using the the latest version {latest_version} of test {test} because it is up to date and no version was specified.'
             )
-            if not method.contract_up_to_date(self.digest_file):
+            if type(method) is Contract.Method and not method.contract_up_to_date(self.digest_file):
                 _LOGGER.warning(
                     f'Test {test} was not reinitialized because it is up to date, but the contract it is a part of has changed.'
                 )
@@ -448,7 +455,9 @@ class Foundry:
         find the highest used proof ID, to be used as a default. Returns None if no version of this proof exists.
         """
         proof_ids = listdir(self.proofs_dir)
+        print(proof_ids)
         versions = {int(pid.split(':')[1]) for pid in proof_ids if pid.split(':')[0] == test}
+        print(versions)
         return max(versions, default=None)
 
     def free_proof_version(

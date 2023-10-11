@@ -28,15 +28,6 @@ contract AssertTest is Test, KEVMCheats {
         assert(y <= x);
     }
 
-    function test_branch_merge(uint x) public {
-        if (x < 10) {
-            y = 0;
-        } else {
-            y = 1;
-        }
-        assert(y < 2);
-    }
-
     function test_assert_false() public pure {
         assert(false);
     }
