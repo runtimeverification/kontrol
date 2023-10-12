@@ -455,9 +455,7 @@ class Foundry:
         find the highest used proof ID, to be used as a default. Returns None if no version of this proof exists.
         """
         proof_ids = listdir(self.proofs_dir)
-        print(proof_ids)
         versions = {int(pid.split(':')[1]) for pid in proof_ids if pid.split(':')[0] == test}
-        print(versions)
         return max(versions, default=None)
 
     def free_proof_version(
