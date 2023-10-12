@@ -209,6 +209,7 @@ def exec_prove(
                 for line in failure_log:
                     print(line)
 
+    print('c')
     sys.exit(failed)
 
 

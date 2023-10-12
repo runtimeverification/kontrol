@@ -130,6 +130,7 @@ def foundry_prove(
             break_on_calls=break_on_calls,
             workers=workers,
             counterexample_info=counterexample_info,
+            max_iterations=max_iterations,
         )
 
         scheduler = Scheduler(workers=workers, initial_tests=test_suite, options=options)
@@ -286,6 +287,7 @@ class GlobalOptions:
     break_on_calls: bool
     workers: int
     counterexample_info: bool
+    max_iterations: int | None
 
 
 class AdvanceProofJob(Job):
@@ -348,11 +350,6 @@ class AdvanceProofJob(Job):
                     options=self.options,
                 )
             )
-
-
-class CloseThreadJob(Job):
-    def execute(self, queue: Queue, done_queue: Queue) -> None:
-        ...
 
 
 class ExtendKCFGJob(Job):
@@ -425,6 +422,7 @@ class Scheduler:
     task_queue: Queue
     done_queue: Queue
     options: GlobalOptions
+    iterations: dict[str, int]
 
     results: dict[tuple[str, int], tuple[bool, list[str] | None]]
 
@@ -434,10 +432,6 @@ class Scheduler:
     def exec_process(task_queue: Queue, done_queue: Queue) -> None:
         while True:
             job = task_queue.get()
-            if type(job) is CloseThreadJob:
-                print('shutting down thread')
-                task_queue.task_done()
-                break
             job.execute(task_queue, done_queue)
             task_queue.task_done()
 
@@ -447,12 +441,13 @@ class Scheduler:
         self.done_queue = Queue()
         self.servers = {}
         self.results = {}
-        #          self.proofs = {}
+        self.iterations = {}
         self.job_counter = 0
         self.done_counter = 0
         for test in initial_tests:
             self.servers[test.id] = create_server(self.options)
             self.task_queue.put(InitProofJob(test=test, port=self.servers[test.id].port, options=self.options))
+            self.iterations[test.id] = 0
             print(f'adding InitProofJob {test.id}')
             self.job_counter += 1
         self.threads = [
@@ -471,10 +466,17 @@ class Scheduler:
                 print('result is AdvanceProofJob')
                 print(f'pulled AdvanceProofJob {result.test.id} {result.node_id}')
                 self.task_queue.put(result)
-                #                  self.proofs[result.test] = result.proof
                 print(f'pushing AdvanceProofJob {result.test.id} {result.node_id}')
                 self.job_counter += 1
             elif type(result) is ExtendKCFGJob:
+                if (
+                    self.options.max_iterations is not None
+                    and self.options.max_iterations <= self.iterations[result.test.id]
+                ):
+                    _LOGGER.warning(f'Reached iteration bound {result.proof.id}: {self.options.max_iterations}')
+                    break
+                self.iterations[result.test.id] += 1
+
                 print(f'pulled ExtendKCFGJob {result.test.id} {result.node_id}')
 
                 result.execute(self.task_queue, self.done_queue)
@@ -524,10 +526,6 @@ class Scheduler:
                             )
                         )
                         self.job_counter += 1
-
-        for _thread in self.threads:
-            print('sending cleanup message')
-            self.task_queue.put(CloseThreadJob())
 
         print('a')
         self.task_queue.join()
