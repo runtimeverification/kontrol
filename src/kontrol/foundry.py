@@ -115,7 +115,7 @@ class Foundry:
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
             if _contracts.get(contract_name) is not None:
-                raise RuntimeError('Project contains duplicated contract names that may clash in K definitions.')
+                raise RuntimeError(f'Project contains duplicated contract names that may clash in K definitions: {contract_name}')
 
             _contracts[contract_name] = Contract(contract_name, contract_json, foundry=True)
         return _contracts
@@ -258,7 +258,7 @@ class Foundry:
         unfound_tests = set(tests)
         for test in tests:
             for possible_match in all_tests + all_non_tests:
-                if re.search(test, possible_match):
+                if re.search(f'^{test}', possible_match):
                     matched_tests.add(possible_match)
                     unfound_tests.discard(test)
         if unfound_tests:
@@ -272,7 +272,7 @@ class Foundry:
         if len(test_sigs) != 1:
             raise ValueError(
                 f'Multiple matches found for {test}. Please specify using the full signature, e.g., {test_sigs[0]!r}.\n'
-                + 'Signatures found: {test_sigs}'
+                + f'Signatures found: {test_sigs}'
             )
         return test_sigs[0]
 
