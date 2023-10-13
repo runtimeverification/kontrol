@@ -233,20 +233,6 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
         bug_report=bug_report,
     )
 
-    show_res = foundry_show(
-        foundry_root,
-        test=test,
-        to_module=True,
-        minimize=False,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=True,
-        failing=True,
-        failure_info=True,
-        port=server.port,
-    )
-    print(show_res)
-
     check_pending(foundry_root, test, [4, 5])
 
     foundry_step_node(foundry_root, test, node=4, depth=49, port=server.port)
