@@ -346,16 +346,14 @@ def test_foundry_remove_node(
 
 
 def assert_pass(test: str, prove_res: list[APRProof]) -> None:
-    proof_dict = {proof.id: proof for proof in prove_res}
-    proof = proof_dict[test]
+    proof = single([proof for proof in prove_res if proof.id.split(':')[0] == test])
     if not proof.passed:
         assert proof.failure_info
         pytest.fail('\n'.join(proof.failure_info.print()))
 
 
 def assert_fail(test: str, prove_res: list[APRProof]) -> None:
-    proof_dict = {proof.id: proof for proof in prove_res}
-    proof = proof_dict[test]
+    proof = single([proof for proof in prove_res if proof.id.split(':')[0] == test])
     assert not proof.passed
     assert proof.failure_info
 
