@@ -278,13 +278,15 @@ class InitProofJob(Job):
                 kcfg_explore,
                 simplify_init=self.options.simplify_init,
                 bmc_depth=self.options.bmc_depth,
+                run_constructor=self.options.run_constructor,
             )
             self.proof.write_proof_data()
-            done_queue.put(
-                AdvanceProofJob(
-                    test=self.test, node_id=self.proof.init, proof=self.proof, options=self.options, port=self.port
+            for pending_node in self.proof.pending:
+                done_queue.put(
+                    AdvanceProofJob(
+                        test=self.test, node_id=pending_node.id, proof=self.proof, options=self.options, port=self.port
+                    )
                 )
-            )
 
 
 @dataclass
@@ -306,6 +308,7 @@ class GlobalOptions:
     workers: int
     counterexample_info: bool
     max_iterations: int | None
+    run_constructor: bool
 
 
 class AdvanceProofJob(Job):
