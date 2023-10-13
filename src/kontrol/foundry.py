@@ -115,7 +115,9 @@ class Foundry:
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
             if _contracts.get(contract_name) is not None:
-                raise RuntimeError(f'Project contains duplicated contract names that may clash in K definitions: {contract_name}')
+                raise RuntimeError(
+                    f'Project contains duplicated contract names that may clash in K definitions: {contract_name}'
+                )
 
             _contracts[contract_name] = Contract(contract_name, contract_json, foundry=True)
         return _contracts
