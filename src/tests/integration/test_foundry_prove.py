@@ -345,23 +345,19 @@ def test_foundry_remove_node(
     assert_pass(test, prove_res)
 
 
-def assert_pass(test: str, prove_res: dict[tuple[str, int], tuple[bool, list[str] | None]]) -> None:
-    id = id_for_test(test, prove_res)
-    passed, log = prove_res[(test, id)]
-    if not passed:
-        assert log
-        pytest.fail('\n'.join(log))
+def assert_pass(test: str, prove_res: list[APRProof]) -> None:
+    proof_dict = {proof.id: proof for proof in prove_res}
+    proof = proof_dict[test]
+    if not proof.passed:
+        assert proof.failure_info
+        pytest.fail('\n'.join(proof.failure_info.print()))
 
 
-def assert_fail(test: str, prove_res: dict[tuple[str, int], tuple[bool, list[str] | None]]) -> None:
-    id = id_for_test(test, prove_res)
-    passed, log = prove_res[test, id]
-    assert not passed
-    assert log
-
-
-def id_for_test(test: str, prove_res: dict[tuple[str, int], tuple[bool, list[str] | None]]) -> int:
-    return single(_id for _test, _id in prove_res.keys() if _test == test and _id is not None)
+def assert_fail(test: str, prove_res: list[APRProof]) -> None:
+    proof_dict = {proof.id: proof for proof in prove_res}
+    proof = proof_dict[test]
+    assert not proof.passed
+    assert proof.failure_info
 
 
 def assert_or_update_show_output(show_res: str, expected_file: Path, *, update: bool) -> None:
@@ -404,7 +400,7 @@ def test_foundry_resume_proof(
         port=server.port,
         bug_report=bug_report,
     )
-    id = id_for_test(test, prove_res)
+    id = 0
 
     proof = foundry.get_apr_proof(f'{test}:{id}')
     assert proof.pending

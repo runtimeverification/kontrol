@@ -30,8 +30,6 @@ from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRBMCProver, APRProof, APRProver
 from pyk.proof.show import APRProofShow
-from pyk.utils import run_process, single, unique
-from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
@@ -75,7 +73,8 @@ def foundry_prove(
     auto_abstract_gas: bool = False,
     port: int | None = None,
     run_constructor: bool = False,
-) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
+    fail_fast: bool = False,
+) -> list[APRProof]:
     if workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {workers}')
     if max_iterations is not None and max_iterations < 0:
@@ -119,7 +118,7 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    def run_prover(test_suite: list[FoundryTest]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
+    def run_prover(test_suite: list[FoundryTest]) -> list[APRProof]:
         llvm_definition_dir = foundry.llvm_library if use_booster else None
 
         options = GlobalOptions(
@@ -141,6 +140,7 @@ def foundry_prove(
             counterexample_info=counterexample_info,
             max_iterations=max_iterations,
             run_constructor=run_constructor,
+            fail_fast=fail_fast,
         )
 
         scheduler = Scheduler(workers=workers, initial_tests=test_suite, options=options)
@@ -173,14 +173,14 @@ def foundry_prove(
     if run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
         results = run_prover(constructor_tests)
-        failed = [init_cfg for init_cfg, passed in results.items() if not passed]
+        failed = [init_proof for init_proof in results if not init_proof.passed]
         if failed:
             raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
     results = run_prover(setup_method_tests)
 
-    failed = [setup_cfg for setup_cfg, passed in results.items() if not passed]
+    failed = [setup_proof for setup_proof in results if not setup_proof.passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
@@ -309,6 +309,7 @@ class GlobalOptions:
     counterexample_info: bool
     max_iterations: int | None
     run_constructor: bool
+    fail_fast: bool
 
 
 class AdvanceProofJob(Job):
@@ -445,7 +446,7 @@ class Scheduler:
     options: GlobalOptions
     iterations: dict[str, int]
 
-    results: dict[tuple[str, int], tuple[bool, list[str] | None]]
+    results: list[APRProof]
 
     job_counter: int
 
@@ -461,7 +462,7 @@ class Scheduler:
         self.task_queue = Queue()
         self.done_queue = Queue()
         self.servers = {}
-        self.results = {}
+        self.results = []
         self.iterations = {}
         self.job_counter = 0
         self.done_counter = 0
@@ -523,20 +524,48 @@ class Scheduler:
                             # TODO can we have a worker thread check subsumtion?
                             prover._check_subsume(node)
 
+                    if result.proof.failed:
+                        prover.save_failure_info()
+
+                    if self.options.fail_fast and result.proof.failed:
+                        _LOGGER.warning(
+                            f'Terminating proof early because fail_fast is set {result.proof.id}, failing nodes: {[nd.id for nd in result.proof.failing]}'
+                        )
+                        self.results.append(result.proof)
+                        continue
+
                     result.proof.write_proof_data()
 
                     if not result.proof.pending:
-                        failure_log = None
-                        if not result.proof.passed:
-                            failure_log = print_failure_info(
-                                result.proof, kcfg_explore, self.options.counterexample_info
-                            )
-                        self.results[(result.test.id, result.test.version)] = (result.proof.passed, failure_log)
+                        self.results.append(result.proof)
 
                     for pending_node in result.proof.pending:
                         if pending_node not in result.proof.kcfg.reachable_nodes(source_id=result.node_id):
                             continue
                         print(f'pushing AdvanceProofJob {result.test.id} {pending_node.id}')
+
+                        if type(result.proof) is APRBMCProof:
+                            node = result.proof.kcfg.node(pending_node.id)
+
+                            _LOGGER.info(f'Checking bmc depth for node {result.proof.id}: {pending_node.id}')
+                            _prior_loops = [
+                                succ.source.id
+                                for succ in result.proof.shortest_path_to(pending_node.id)
+                                if kcfg_explore.kcfg_semantics.same_loop(succ.source.cterm, node.cterm)
+                            ]
+                            prior_loops: list[int] = []
+                            for _pl in _prior_loops:
+                                if not (
+                                    result.proof.kcfg.zero_depth_between(_pl, node.id)
+                                    or any(result.proof.kcfg.zero_depth_between(_pl, pl) for pl in prior_loops)
+                                ):
+                                    prior_loops.append(_pl)
+                            _LOGGER.info(f'Prior loop heads for node {result.proof.id}: {(node.id, prior_loops)}')
+                            if len(prior_loops) > result.proof.bmc_depth:
+                                result.proof.add_bounded(node.id)
+                                self.results.append(result.proof)
+                                continue
+
                         self.task_queue.put(
                             AdvanceProofJob(
                                 test=result.test,

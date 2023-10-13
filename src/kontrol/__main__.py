@@ -10,6 +10,8 @@ from kevm_pyk.cli import node_id_like
 from kevm_pyk.dist import DistTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.proof.equality import EqualityProof
+from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
 
 from . import VERSION
@@ -161,6 +163,7 @@ def exec_prove(
     trace_rewrites: bool = False,
     auto_abstract_gas: bool = False,
     run_constructor: bool = False,
+    fail_fast: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -197,19 +200,22 @@ def exec_prove(
         trace_rewrites=trace_rewrites,
         auto_abstract_gas=auto_abstract_gas,
         run_constructor=run_constructor,
+        fail_fast=fail_fast,
     )
     failed = 0
-    for pid, r in results.items():
-        passed, failure_log = r
-        if passed:
-            print(f'PROOF PASSED: {pid}')
+    for proof in results:
+        if proof.passed:
+            print(f'PROOF PASSED: {proof.id}')
         else:
             failed += 1
-            print(f'PROOF FAILED: {pid}')
-            if failure_info and failure_log is not None:
+            print(f'PROOF FAILED: {proof.id}')
+            if isinstance(proof, APRProof) and failure_info and proof.failure_info is not None:
+                failure_log = proof.failure_info.print()
                 failure_log += Foundry.help_info()
                 for line in failure_log:
                     print(line)
+            elif isinstance(proof, EqualityProof):
+                print('EqualityProof failed.')
 
     print('c')
     sys.exit(failed)
@@ -528,6 +534,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Include the contract constructor in the test execution.',
+    )
+    prove_args.add_argument(
+        '--fail-fast',
+        dest='fail_fast',
+        default=False,
+        action='store_true',
+        help='Stop execution on other branches if failing node is detected.',
     )
 
     show_args = command_parser.add_parser(
