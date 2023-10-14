@@ -454,6 +454,10 @@ class Scheduler:
     def exec_process(task_queue: Queue, done_queue: Queue) -> None:
         while True:
             job = task_queue.get()
+            print(job)
+            if job == 0:
+                task_queue.task_done()
+                break
             job.execute(task_queue, done_queue)
             task_queue.task_done()
 
@@ -577,8 +581,16 @@ class Scheduler:
                         )
                         self.job_counter += 1
 
+        for _thread in self.threads:
+            self.task_queue.put(0)
+
         print('a')
         self.task_queue.join()
+        for thread in self.threads:
+            thread.join()
+
+        for server in self.servers.values():
+            server.close()
         print('b')
 
 
