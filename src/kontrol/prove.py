@@ -4,8 +4,6 @@ import logging
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from multiprocessing import Process
-from queue import Queue
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
@@ -18,6 +16,8 @@ from kevm_pyk.utils import (
     legacy_explore,
     print_failure_info,
 )
+from multiprocess import JoinableQueue  # type: ignore
+from multiprocess import Process  # type: ignore
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
@@ -238,7 +238,7 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
 
 class Job(ABC):
     @abstractmethod
-    def execute(self, queue: Queue, done_queue: Queue) -> None:
+    def execute(self, queue: JoinableQueue, done_queue: JoinableQueue) -> None:
         ...
 
 
@@ -258,7 +258,7 @@ class InitProofJob(Job):
         self.options = options
         self.port = port
 
-    def execute(self, queue: Queue, done_queue: Queue) -> None:
+    def execute(self, queue: JoinableQueue, done_queue: JoinableQueue) -> None:
         with legacy_explore(
             self.options.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
@@ -272,6 +272,8 @@ class InitProofJob(Job):
             start_server=False,
             port=self.port,
         ) as kcfg_explore:
+            print('abcd')
+
             self.proof = method_to_apr_proof(
                 self.options.foundry,
                 self.test,
@@ -282,6 +284,7 @@ class InitProofJob(Job):
             )
             self.proof.write_proof_data()
             for pending_node in self.proof.pending:
+                print('putting into done_queue 1')
                 done_queue.put(
                     AdvanceProofJob(
                         test=self.test, node_id=pending_node.id, proof=self.proof, options=self.options, port=self.port
@@ -333,7 +336,7 @@ class AdvanceProofJob(Job):
         self.options = options
         self.port = port
 
-    def execute(self, queue: Queue, done_queue: Queue) -> None:
+    def execute(self, queue: JoinableQueue, done_queue: JoinableQueue) -> None:
         with legacy_explore(
             self.options.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
@@ -362,6 +365,7 @@ class AdvanceProofJob(Job):
                 terminal_rules=terminal_rules,
             )
             #              print(f'pushing ExtendKCFGJob to done_queue {self.test.id} {curr_node.id}')
+            print('putting into done_queue')
             done_queue.put(
                 ExtendKCFGJob(
                     test=self.test,
@@ -398,7 +402,7 @@ class ExtendKCFGJob(Job):
         self.options = options
         self.extend_result = extend_result
 
-    def execute(self, queue: Queue, done_queue: Queue) -> None:
+    def execute(self, queue: JoinableQueue, done_queue: JoinableQueue) -> None:
         with legacy_explore(
             self.options.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
@@ -442,8 +446,8 @@ class Scheduler:
     servers: dict[str, KoreServer]
     proofs: dict[FoundryTest, APRProof]
     threads: list[Process]
-    task_queue: Queue
-    done_queue: Queue
+    task_queue: JoinableQueue
+    done_queue: JoinableQueue
     options: GlobalOptions
     iterations: dict[str, int]
 
@@ -452,20 +456,26 @@ class Scheduler:
     job_counter: int
 
     @staticmethod
-    def exec_process(task_queue: Queue, done_queue: Queue) -> None:
+    def exec_process(task_queue: JoinableQueue, done_queue: JoinableQueue) -> None:
         while True:
+            print('getting from task_queue')
             job = task_queue.get()
-            #              print(job)
+            print('got from task_queue')
+            print(job)
+            print('b')
             if job == 0:
                 task_queue.task_done()
                 break
+            print('c')
             job.execute(task_queue, done_queue)
+            print('d')
             task_queue.task_done()
+            print('e')
 
     def __init__(self, workers: int, initial_tests: list[FoundryTest], options: GlobalOptions) -> None:
         self.options = options
-        self.task_queue = Queue()
-        self.done_queue = Queue()
+        self.task_queue = JoinableQueue()
+        self.done_queue = JoinableQueue()
         self.servers = {}
         self.results = []
         self.iterations = {}
@@ -473,6 +483,7 @@ class Scheduler:
         self.done_counter = 0
         for test in initial_tests:
             self.servers[test.id] = create_server(self.options)
+            print('putting into task_queue')
             self.task_queue.put(InitProofJob(test=test, port=self.servers[test.id].port, options=self.options))
             self.iterations[test.id] = 0
             #              print(f'adding InitProofJob {test.id}')
@@ -487,14 +498,16 @@ class Scheduler:
             #              print('starting thread')
             thread.start()
         while self.job_counter > 0:
-            print('waiting for new job')
+            print('getting from done_queue')
             result = self.done_queue.get()
+            print('got from done_queue')
             print('got job')
             print('working')
             self.job_counter -= 1
             if type(result) is AdvanceProofJob:
                 #                  print('result is AdvanceProofJob')
                 #                  print(f'pulled AdvanceProofJob {result.test.id} {result.node_id}')
+                print('putting into task_queue 1')
                 self.task_queue.put(result)
                 #                  with legacy_explore(
                 #                      self.options.foundry.kevm,
@@ -626,6 +639,7 @@ class Scheduler:
                                 self.results.append(result.proof)
                                 continue
 
+                        print('putting into task_queue')
                         self.task_queue.put(
                             AdvanceProofJob(
                                 test=result.test,
@@ -640,6 +654,7 @@ class Scheduler:
                     print(ns / 1000000000)
 
         for _thread in self.threads:
+            print('putting into task_queue')
             self.task_queue.put(0)
 
         #          print('a')
