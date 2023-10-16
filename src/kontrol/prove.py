@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import logging
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from multiprocessing import Process
 from queue import Queue
 from subprocess import CalledProcessError
-from threading import Thread
 from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics
@@ -29,7 +30,6 @@ from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRBMCProver, APRProof, APRProver
-from pyk.proof.show import APRProofShow
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
@@ -361,7 +361,7 @@ class AdvanceProofJob(Job):
                 cut_point_rules=cut_point_rules,
                 terminal_rules=terminal_rules,
             )
-            print(f'pushing ExtendKCFGJob to done_queue {self.test.id} {curr_node.id}')
+            #              print(f'pushing ExtendKCFGJob to done_queue {self.test.id} {curr_node.id}')
             done_queue.put(
                 ExtendKCFGJob(
                     test=self.test,
@@ -412,8 +412,8 @@ class ExtendKCFGJob(Job):
             start_server=False,
             port=self.port,
         ) as kcfg_explore:
-            proof_show = APRProofShow(kprint=self.options.foundry.kevm)
-            print('\n'.join(proof_show.show(self.proof)))
+            #              proof_show = APRProofShow(kprint=self.options.foundry.kevm)
+            #              print('\n'.join(proof_show.show(self.proof)))
 
             kcfg_explore.extend_kcfg(
                 self.extend_result,
@@ -422,7 +422,8 @@ class ExtendKCFGJob(Job):
                 logs=self.proof.logs,
             )
 
-            print('\n'.join(proof_show.show(self.proof)))
+
+#              print('\n'.join(proof_show.show(self.proof)))
 
 
 def create_server(options: GlobalOptions) -> KoreServer:
@@ -440,7 +441,7 @@ def create_server(options: GlobalOptions) -> KoreServer:
 class Scheduler:
     servers: dict[str, KoreServer]
     proofs: dict[FoundryTest, APRProof]
-    threads: list[Thread]
+    threads: list[Process]
     task_queue: Queue
     done_queue: Queue
     options: GlobalOptions
@@ -454,7 +455,7 @@ class Scheduler:
     def exec_process(task_queue: Queue, done_queue: Queue) -> None:
         while True:
             job = task_queue.get()
-            print(job)
+            #              print(job)
             if job == 0:
                 task_queue.task_done()
                 break
@@ -474,27 +475,49 @@ class Scheduler:
             self.servers[test.id] = create_server(self.options)
             self.task_queue.put(InitProofJob(test=test, port=self.servers[test.id].port, options=self.options))
             self.iterations[test.id] = 0
-            print(f'adding InitProofJob {test.id}')
+            #              print(f'adding InitProofJob {test.id}')
             self.job_counter += 1
         self.threads = [
-            Thread(target=Scheduler.exec_process, args=(self.task_queue, self.done_queue), daemon=True)
+            Process(target=Scheduler.exec_process, args=(self.task_queue, self.done_queue), daemon=True)
             for i in range(self.options.workers)
         ]
 
     def run(self) -> None:
         for thread in self.threads:
-            print('starting thread')
+            #              print('starting thread')
             thread.start()
         while self.job_counter > 0:
+            print('waiting for new job')
             result = self.done_queue.get()
+            print('got job')
+            print('working')
             self.job_counter -= 1
             if type(result) is AdvanceProofJob:
-                print('result is AdvanceProofJob')
-                print(f'pulled AdvanceProofJob {result.test.id} {result.node_id}')
+                #                  print('result is AdvanceProofJob')
+                #                  print(f'pulled AdvanceProofJob {result.test.id} {result.node_id}')
                 self.task_queue.put(result)
-                print(f'pushing AdvanceProofJob {result.test.id} {result.node_id}')
+                #                  with legacy_explore(
+                #                      self.options.foundry.kevm,
+                #                      kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
+                #                      id=result.test.id,
+                #                      bug_report=self.options.bug_report,
+                #                      kore_rpc_command=self.options.kore_rpc_command,
+                #                      llvm_definition_dir=self.options.llvm_definition_dir,
+                #                      smt_timeout=self.options.smt_timeout,
+                #                      smt_retry_limit=self.options.smt_retry_limit,
+                #                      trace_rewrites=self.options.trace_rewrites,
+                #                      start_server=False,
+                #                      port=result.port,
+                #                  ) as kcfg_explore:
+                #                      self.provers[result.proof.id] = build_prover(
+                #                          options=self.options, proof=result.proof, kcfg_explore=kcfg_explore
+                #                      )
+                #                  print(f'pushing AdvanceProofJob {result.test.id} {result.node_id}')
                 self.job_counter += 1
             elif type(result) is ExtendKCFGJob:
+                print('extendkcfgjob')
+
+                print('checking iteration bound')
                 if (
                     self.options.max_iterations is not None
                     and self.options.max_iterations <= self.iterations[result.test.id]
@@ -503,8 +526,9 @@ class Scheduler:
                     break
                 self.iterations[result.test.id] += 1
 
-                print(f'pulled ExtendKCFGJob {result.test.id} {result.node_id}')
+                #                  print(f'pulled ExtendKCFGJob {result.test.id} {result.node_id}')
 
+                print('extending kcfg')
                 result.execute(self.task_queue, self.done_queue)
 
                 with legacy_explore(
@@ -520,33 +544,65 @@ class Scheduler:
                     start_server=False,
                     port=result.port,
                 ) as kcfg_explore:
+                    ns = time.time_ns()
+                    print('building prover')
+                    #                      prover = self.provers[result.proof.id]
                     prover = build_prover(options=self.options, proof=result.proof, kcfg_explore=kcfg_explore)
-                    prover._check_all_terminals()
+                    ns = time.time_ns() - ns
+                    print(ns / 1000000000)
 
+                    ns = time.time_ns()
+                    print('checking terminals')
+                    prover._check_all_terminals()
+                    ns = time.time_ns() - ns
+                    print(ns / 1000000000)
+
+                    ns = time.time_ns()
+                    print('checking subsumtion')
                     for node in result.proof.terminal:
                         if result.proof.kcfg.is_leaf(node.id) and not result.proof.is_target(node.id):
                             # TODO can we have a worker thread check subsumtion?
                             prover._check_subsume(node)
+                    ns = time.time_ns() - ns
+                    print(ns / 1000000000)
 
+                    ns = time.time_ns()
+                    print('saving failure info if necessary')
                     if result.proof.failed:
                         prover.save_failure_info()
+                    ns = time.time_ns() - ns
+                    print(ns / 1000000000)
 
+                    ns = time.time_ns()
+                    print('checking fail fast')
                     if self.options.fail_fast and result.proof.failed:
                         _LOGGER.warning(
                             f'Terminating proof early because fail_fast is set {result.proof.id}, failing nodes: {[nd.id for nd in result.proof.failing]}'
                         )
                         self.results.append(result.proof)
                         continue
+                    ns = time.time_ns() - ns
+                    print(ns / 1000000000)
 
+                    ns = time.time_ns()
+                    print('writing proof')
                     result.proof.write_proof_data()
+                    ns = time.time_ns() - ns
+                    print(ns / 1000000000)
 
+                    ns = time.time_ns()
+                    print('saving results')
                     if not result.proof.pending:
                         self.results.append(result.proof)
+                    ns = time.time_ns() - ns
+                    print(ns / 1000000000)
 
+                    ns = time.time_ns()
+                    print('adding new nodes to queue')
                     for pending_node in result.proof.pending:
                         if pending_node not in result.proof.kcfg.reachable_nodes(source_id=result.node_id):
                             continue
-                        print(f'pushing AdvanceProofJob {result.test.id} {pending_node.id}')
+                        #                          print(f'pushing AdvanceProofJob {result.test.id} {pending_node.id}')
 
                         if type(result.proof) is APRBMCProof:
                             node = result.proof.kcfg.node(pending_node.id)
@@ -580,18 +636,22 @@ class Scheduler:
                             )
                         )
                         self.job_counter += 1
+                    ns = time.time_ns() - ns
+                    print(ns / 1000000000)
 
         for _thread in self.threads:
             self.task_queue.put(0)
 
-        print('a')
+        #          print('a')
         self.task_queue.join()
         for thread in self.threads:
             thread.join()
 
         for server in self.servers.values():
             server.close()
-        print('b')
+
+
+#          print('b')
 
 
 def build_terminal_rules(
