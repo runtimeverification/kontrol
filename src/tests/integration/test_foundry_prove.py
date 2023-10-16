@@ -223,22 +223,14 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
 
 
 def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, server: KoreServer) -> None:
-    test = 'AssertTest.test_branch_merge(uint256)'
+    test = 'MergeTest.test_branch_merge(uint256)'
 
     foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        max_iterations=3,
+        max_iterations=2,
         port=server.port,
         bug_report=bug_report,
-    )
-
-    check_pending(foundry_root, test, [5, 6])
-
-    foundry_remove_node(
-        foundry_root=foundry_root,
-        test=test,
-        node=6,
     )
 
     check_pending(foundry_root, test, [4, 5])
@@ -246,11 +238,11 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     foundry_step_node(foundry_root, test, node=4, depth=49, port=server.port)
     foundry_step_node(foundry_root, test, node=5, depth=50, port=server.port)
 
-    check_pending(foundry_root, test, [7, 8])
+    check_pending(foundry_root, test, [6, 7])
 
-    foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[7, 8], include_disjunct=True)
+    foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[6, 7], include_disjunct=True)
 
-    check_pending(foundry_root, test, [9])
+    check_pending(foundry_root, test, [8])
 
     prove_res = foundry_prove(
         foundry_root,
@@ -413,3 +405,23 @@ def test_foundry_resume_proof(
         bug_report=bug_report,
     )
     assert_fail(test, prove_res)
+
+
+ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail_init()')
+
+
+@pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
+def test_foundry_init_code(test: str, foundry_root: Path, use_booster: bool) -> None:
+    # When
+    prove_res = foundry_prove(
+        foundry_root,
+        tests=[(test, None)],
+        simplify_init=False,
+        smt_timeout=300,
+        smt_retry_limit=10,
+        use_booster=use_booster,
+        run_constructor=True,
+    )
+
+    # Then
+    assert_pass(test, prove_res)
