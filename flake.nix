@@ -12,58 +12,69 @@
     pyk.inputs.flake-utils.follows = "k-framework/flake-utils";
     pyk.inputs.nixpkgs.follows = "k-framework/nixpkgs";
     poetry2nix.follows = "kevm/poetry2nix";
-    foundry.url = "github:shazow/foundry.nix/monthly"; # Use monthly branch for permanent releases
+    foundry.url =
+      "github:shazow/foundry.nix/monthly"; # Use monthly branch for permanent releases
     solc = {
       url = "github:hellwolf/solc.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, k-framework, nixpkgs, flake-utils
-    , poetry2nix, kevm
+  outputs = { self, k-framework, nixpkgs, flake-utils, poetry2nix, kevm
     , rv-utils, pyk, foundry, solc }:
     let
       nixLibs = pkgs:
         with pkgs;
         "-I${procps}/include -L${procps}/lib -I${openssl.dev}/include -L${openssl.out}/lib";
-      overlay = final: prev: {
-        kontrol = prev.poetry2nix.mkPoetryApplication {
-          python = prev.python310;
-          projectDir = ./.;
+      overlay = final: prev:
+        let
+          kontrol = { solc_version ? null }:
+            (prev.poetry2nix.mkPoetryApplication {
+              python = prev.python310;
+              projectDir = ./.;
 
-          postPatch = ''
-            substituteInPlace ./src/kontrol/foundry.py \
-              --replace "'forge', 'build'," "'forge', 'build', '--no-auto-detect',"
-            substituteInPlace ./pyproject.toml \
-              --replace ', subdirectory = "kevm-pyk"' ""
-          '';
+              postPatch = ''
+                ${prev.lib.strings.optionalString (solc_version != null) ''
+                  substituteInPlace ./src/kontrol/foundry.py \
+                    --replace "'forge', 'build'," "'forge', 'build', '--no-auto-detect',"
+                ''}
+                substituteInPlace ./pyproject.toml \
+                  --replace ', subdirectory = "kevm-pyk"' ""
+              '';
 
-          overrides = prev.poetry2nix.overrides.withDefaults
-            (finalPython: prevPython: {
-              pyk = prev.pyk-python310;
-              kevm-pyk = prev.kevm-pyk;
-              xdg-base-dirs = prevPython.xdg-base-dirs.overridePythonAttrs
-                (old: {
-                  propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
-                    ++ [ finalPython.poetry ];
+              overrides = prev.poetry2nix.overrides.withDefaults
+                (finalPython: prevPython: {
+                  pyk = prev.pyk-python310;
+                  kevm-pyk = prev.kevm-pyk;
+                  xdg-base-dirs = prevPython.xdg-base-dirs.overridePythonAttrs
+                    (old: {
+                      propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
+                        ++ [ finalPython.poetry ];
+                    });
                 });
+              groups = [ ];
+              # We remove `"dev"` from `checkGroups`, so that poetry2nix does not try to resolve dev dependencies.
+              checkGroups = [ ];
+
+              postInstall = ''
+                wrapProgram $out/bin/kontrol --prefix PATH : ${
+                  prev.lib.makeBinPath
+                  ([ prev.which k-framework.packages.${prev.system}.k ]
+                    ++ prev.lib.optionals (solc_version != null) [
+                      final.foundry-bin
+                      (solc.mkDefault final solc_version)
+                    ])
+                } --set NIX_LIBS "${nixLibs prev}" --set KEVM_DIST_DIR ${
+                  prev.kevm k-framework.packages.${prev.system}.k
+                }
+              '';
+            }).overrideAttrs (old: {
+              passthru = old.passthru // (if solc_version == null then {
+                # list all supported solc versions here
+                solc_0_8_13 = kontrol { solc_version = final.solc_0_8_13; };
+              } else
+                { });
             });
-          groups = [ ];
-          # We remove `"dev"` from `checkGroups`, so that poetry2nix does not try to resolve dev dependencies.
-          checkGroups = [ ];
-
-          postInstall = ''
-            wrapProgram $out/bin/kontrol --prefix PATH : ${
-                prev.lib.makeBinPath [
-                  (solc.mkDefault final final.solc_0_8_13)
-                  final.foundry-bin
-                  prev.which
-                  k-framework.packages.${prev.system}.k
-                ]
-              } --set NIX_LIBS "${nixLibs prev}" --set KEVM_DIST_DIR ${prev.kevm k-framework.packages.${prev.system}.k}
-          '';
-        };
-
-      };
+        in { inherit kontrol; };
     in flake-utils.lib.eachSystem [
       "x86_64-linux"
       "x86_64-darwin"
@@ -74,9 +85,7 @@
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
-            (final: prev: {
-              llvm-backend-release = false;
-            })
+            (final: prev: { llvm-backend-release = false; })
             k-framework.overlay
             poetry2nix.overlay
             pyk.overlay
@@ -87,9 +96,9 @@
           ];
         };
       in {
-        packages = {
-          inherit (pkgs) kontrol;
-          default = pkgs.kontrol;
+        packages = rec {
+          kontrol = pkgs.kontrol { };
+          default = self.kontrol;
         };
       }) // {
         overlays.default = overlay;
