@@ -133,6 +133,7 @@ def test_foundry_prove(
         counterexample_info=True,
         port=server.port,
         bug_report=bug_report,
+        use_booster=use_booster,
     )
 
     # Then
@@ -173,6 +174,7 @@ def test_foundry_fail(
         simplify_init=False,
         counterexample_info=True,
         port=server.port,
+        use_booster=use_booster,
     )
 
     # Then

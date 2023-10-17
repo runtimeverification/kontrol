@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import linecache
 import logging
+import os
 import time
+import tracemalloc
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from subprocess import CalledProcessError
@@ -16,8 +19,8 @@ from kevm_pyk.utils import (
     legacy_explore,
     print_failure_info,
 )
-from multiprocess import JoinableQueue  # type: ignore
-from multiprocess import Process  # type: ignore
+from queue import Queue
+from threading import Thread  # type: ignore
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
@@ -80,6 +83,9 @@ def foundry_prove(
     if max_iterations is not None and max_iterations < 0:
         raise ValueError(f'Must have a non-negative number of iterations, found: --max-iterations {max_iterations}')
 
+    if not use_booster:
+        exit(3)
+
     if use_booster:
         try:
             run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
@@ -120,6 +126,9 @@ def foundry_prove(
 
     def run_prover(test_suite: list[FoundryTest]) -> list[APRProof]:
         llvm_definition_dir = foundry.llvm_library if use_booster else None
+
+        print('abc')
+        print(llvm_definition_dir)
 
         options = GlobalOptions(
             foundry=foundry,
@@ -238,7 +247,7 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
 
 class Job(ABC):
     @abstractmethod
-    def execute(self, queue: JoinableQueue, done_queue: JoinableQueue) -> None:
+    def execute(self, queue: Queue, done_queue: Queue) -> None:
         ...
 
 
@@ -258,7 +267,8 @@ class InitProofJob(Job):
         self.options = options
         self.port = port
 
-    def execute(self, queue: JoinableQueue, done_queue: JoinableQueue) -> None:
+    def execute(self, queue: Queue, done_queue: Queue) -> None:
+        print(f'kore_rpc_command = {self.options.kore_rpc_command}')
         with legacy_explore(
             self.options.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
@@ -282,6 +292,7 @@ class InitProofJob(Job):
                 bmc_depth=self.options.bmc_depth,
                 run_constructor=self.options.run_constructor,
             )
+            print('1234')
             self.proof.write_proof_data()
             for pending_node in self.proof.pending:
                 print('putting into done_queue 1')
@@ -336,7 +347,8 @@ class AdvanceProofJob(Job):
         self.options = options
         self.port = port
 
-    def execute(self, queue: JoinableQueue, done_queue: JoinableQueue) -> None:
+    def execute(self, queue: Queue, done_queue: Queue) -> None:
+        print(f'kore_rpc_command = {self.options.kore_rpc_command}')
         with legacy_explore(
             self.options.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
@@ -402,7 +414,8 @@ class ExtendKCFGJob(Job):
         self.options = options
         self.extend_result = extend_result
 
-    def execute(self, queue: JoinableQueue, done_queue: JoinableQueue) -> None:
+    def execute(self, queue: Queue, done_queue: Queue) -> None:
+        print(f'kore_rpc_command = {self.options.kore_rpc_command}')
         with legacy_explore(
             self.options.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
@@ -442,12 +455,39 @@ def create_server(options: GlobalOptions) -> KoreServer:
     )
 
 
+def display_top(snapshot: tracemalloc.Snapshot, key_type: str='lineno', limit: int=3) -> None:
+    snapshot = snapshot.filter_traces(
+        (
+            tracemalloc.Filter(False, '<frozen importlib._bootstrap>'),
+            tracemalloc.Filter(False, '<unknown>'),
+        )
+    )
+    top_stats = snapshot.statistics(key_type)
+
+    print('Top %s lines' % limit)
+    for index, stat in enumerate(top_stats[:limit], 1):
+        frame = stat.traceback[0]
+        # replace '/path/to/module/file.py' with 'module/file.py'
+        filename = os.sep.join(frame.filename.split(os.sep)[-2:])
+        print('#%s: %s:%s: %.1f KiB' % (index, filename, frame.lineno, stat.size / 1024))
+        line = linecache.getline(frame.filename, frame.lineno).strip()
+        if line:
+            print('    %s' % line)
+
+    other = top_stats[limit:]
+    if other:
+        size = sum(stat.size for stat in other)
+        print('%s other: %.1f KiB' % (len(other), size / 1024))
+    total = sum(stat.size for stat in top_stats)
+    print('Total allocated size: %.1f KiB' % (total / 1024))
+
+
 class Scheduler:
     servers: dict[str, KoreServer]
     proofs: dict[FoundryTest, APRProof]
-    threads: list[Process]
-    task_queue: JoinableQueue
-    done_queue: JoinableQueue
+    threads: list[Thread]
+    task_queue: Queue
+    done_queue: Queue
     options: GlobalOptions
     iterations: dict[str, int]
 
@@ -456,26 +496,25 @@ class Scheduler:
     job_counter: int
 
     @staticmethod
-    def exec_process(task_queue: JoinableQueue, done_queue: JoinableQueue) -> None:
+    def exec_process(task_queue: Queue, done_queue: Queue) -> None:
+
         while True:
-            print('getting from task_queue')
+            print('    1')
             job = task_queue.get()
-            print('got from task_queue')
-            print(job)
-            print('b')
+            print('    2')
             if job == 0:
                 task_queue.task_done()
                 break
-            print('c')
+            print('    3')
             job.execute(task_queue, done_queue)
-            print('d')
+            print('    4')
             task_queue.task_done()
-            print('e')
+            print('    5')
 
     def __init__(self, workers: int, initial_tests: list[FoundryTest], options: GlobalOptions) -> None:
         self.options = options
-        self.task_queue = JoinableQueue()
-        self.done_queue = JoinableQueue()
+        self.task_queue = Queue()
+        self.done_queue = Queue()
         self.servers = {}
         self.results = []
         self.iterations = {}
@@ -489,18 +528,22 @@ class Scheduler:
             #              print(f'adding InitProofJob {test.id}')
             self.job_counter += 1
         self.threads = [
-            Process(target=Scheduler.exec_process, args=(self.task_queue, self.done_queue), daemon=True)
+            Thread(target=Scheduler.exec_process, args=(self.task_queue, self.done_queue), daemon=False)
             for i in range(self.options.workers)
         ]
 
     def run(self) -> None:
+#          tracemalloc.start()
+
         for thread in self.threads:
             #              print('starting thread')
             thread.start()
         while self.job_counter > 0:
-            print('getting from done_queue')
+#              print(tracemalloc.get_traced_memory())
+
+            print('        getting from done_queue')
             result = self.done_queue.get()
-            print('got from done_queue')
+            print('        got from done_queue')
             print('got job')
             print('working')
             self.job_counter -= 1
@@ -544,6 +587,7 @@ class Scheduler:
                 print('extending kcfg')
                 result.execute(self.task_queue, self.done_queue)
 
+                print(f'kore_rpc_command = {self.options.kore_rpc_command}')
                 with legacy_explore(
                     self.options.foundry.kevm,
                     kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
@@ -665,6 +709,8 @@ class Scheduler:
         for server in self.servers.values():
             server.close()
 
+#          snapshot = tracemalloc.take_snapshot()
+#          display_top(snapshot)
 
 #          print('b')
 
@@ -761,16 +807,16 @@ def _run_cfg_group(
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     llvm_definition_dir = foundry.llvm_library if use_booster else None
 
-    def create_server() -> KoreServer:
-        return kore_server(
-            definition_dir=foundry.kevm.definition_dir,
-            llvm_definition_dir=llvm_definition_dir,
-            module_name=foundry.kevm.main_module,
-            command=kore_rpc_command,
-            bug_report=bug_report,
-            smt_timeout=smt_timeout,
-            smt_retry_limit=smt_retry_limit,
-        )
+#      def create_server() -> KoreServer:
+#          return kore_server(
+#              definition_dir=foundry.kevm.definition_dir,
+#              llvm_definition_dir=llvm_definition_dir,
+#              module_name=foundry.kevm.main_module,
+#              command=kore_rpc_command,
+#              bug_report=bug_report,
+#              smt_timeout=smt_timeout,
+#              smt_retry_limit=smt_retry_limit,
+#          )
 
     def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
         start_server = port is None
