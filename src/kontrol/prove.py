@@ -83,9 +83,6 @@ def foundry_prove(
     if max_iterations is not None and max_iterations < 0:
         raise ValueError(f'Must have a non-negative number of iterations, found: --max-iterations {max_iterations}')
 
-    if not use_booster:
-        exit(3)
-
     if use_booster:
         try:
             run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
