@@ -7,7 +7,9 @@ import time
 import tracemalloc
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from queue import Queue
 from subprocess import CalledProcessError
+from threading import Thread  # type: ignore
 from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics
@@ -19,8 +21,6 @@ from kevm_pyk.utils import (
     legacy_explore,
     print_failure_info,
 )
-from queue import Queue
-from threading import Thread  # type: ignore
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
@@ -455,7 +455,7 @@ def create_server(options: GlobalOptions) -> KoreServer:
     )
 
 
-def display_top(snapshot: tracemalloc.Snapshot, key_type: str='lineno', limit: int=3) -> None:
+def display_top(snapshot: tracemalloc.Snapshot, key_type: str = 'lineno', limit: int = 3) -> None:
     snapshot = snapshot.filter_traces(
         (
             tracemalloc.Filter(False, '<frozen importlib._bootstrap>'),
@@ -497,7 +497,6 @@ class Scheduler:
 
     @staticmethod
     def exec_process(task_queue: Queue, done_queue: Queue) -> None:
-
         while True:
             print('    1')
             job = task_queue.get()
@@ -533,13 +532,13 @@ class Scheduler:
         ]
 
     def run(self) -> None:
-#          tracemalloc.start()
+        #          tracemalloc.start()
 
         for thread in self.threads:
             #              print('starting thread')
             thread.start()
         while self.job_counter > 0:
-#              print(tracemalloc.get_traced_memory())
+            #              print(tracemalloc.get_traced_memory())
 
             print('        getting from done_queue')
             result = self.done_queue.get()
@@ -709,6 +708,7 @@ class Scheduler:
         for server in self.servers.values():
             server.close()
 
+
 #          snapshot = tracemalloc.take_snapshot()
 #          display_top(snapshot)
 
@@ -807,16 +807,16 @@ def _run_cfg_group(
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     llvm_definition_dir = foundry.llvm_library if use_booster else None
 
-#      def create_server() -> KoreServer:
-#          return kore_server(
-#              definition_dir=foundry.kevm.definition_dir,
-#              llvm_definition_dir=llvm_definition_dir,
-#              module_name=foundry.kevm.main_module,
-#              command=kore_rpc_command,
-#              bug_report=bug_report,
-#              smt_timeout=smt_timeout,
-#              smt_retry_limit=smt_retry_limit,
-#          )
+    #      def create_server() -> KoreServer:
+    #          return kore_server(
+    #              definition_dir=foundry.kevm.definition_dir,
+    #              llvm_definition_dir=llvm_definition_dir,
+    #              module_name=foundry.kevm.main_module,
+    #              command=kore_rpc_command,
+    #              bug_report=bug_report,
+    #              smt_timeout=smt_timeout,
+    #              smt_retry_limit=smt_retry_limit,
+    #          )
 
     def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
         start_server = port is None
