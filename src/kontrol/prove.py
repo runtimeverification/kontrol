@@ -315,7 +315,7 @@ def method_to_apr_proof(
         _LOGGER.info(f'Using constructor final state as initial state for test: {test.id}')
         setup_proof = _load_constructor_proof(foundry, test.contract)
 
-    kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
+    kcfg, init_node_id, target_node_id = _method_to_initialized_cfg(
         foundry,
         test,
         kcfg_explore,
@@ -355,7 +355,7 @@ def _load_constructor_proof(foundry: Foundry, contract: Contract) -> APRProof:
     return apr_proof
 
 
-def method_to_initialized_cfg(
+def _method_to_initialized_cfg(
     foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
