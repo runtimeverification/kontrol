@@ -27,6 +27,7 @@ from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
+from .options import GlobalOptions
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
@@ -65,6 +66,7 @@ def foundry_prove(
     auto_abstract_gas: bool = False,
     port: int | None = None,
     run_constructor: bool = False,
+    fail_fast: bool = False,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     if workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {workers}')
@@ -109,28 +111,35 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
+    llvm_definition_dir = foundry.llvm_library if use_booster else None
+
+    options = GlobalOptions(
+        foundry=foundry,
+        auto_abstract_gas=auto_abstract_gas,
+        bug_report=bug_report,
+        kore_rpc_command=kore_rpc_command,
+        llvm_definition_dir=llvm_definition_dir,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        trace_rewrites=trace_rewrites,
+        simplify_init=simplify_init,
+        bmc_depth=bmc_depth,
+        max_depth=max_depth,
+        break_every_step=break_every_step,
+        break_on_jumpi=break_on_jumpi,
+        break_on_calls=break_on_calls,
+        workers=workers,
+        counterexample_info=counterexample_info,
+        max_iterations=max_iterations,
+        run_constructor=run_constructor,
+        fail_fast=fail_fast,
+    )
+
     def run_prover(test_suite: list[FoundryTest]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
         return _run_cfg_group(
             test_suite,
-            foundry,
-            max_depth=max_depth,
-            max_iterations=max_iterations,
-            workers=workers,
-            simplify_init=simplify_init,
-            break_every_step=break_every_step,
-            break_on_jumpi=break_on_jumpi,
-            break_on_calls=break_on_calls,
-            bmc_depth=bmc_depth,
-            bug_report=bug_report,
-            kore_rpc_command=kore_rpc_command,
-            use_booster=use_booster,
-            smt_timeout=smt_timeout,
-            smt_retry_limit=smt_retry_limit,
-            counterexample_info=counterexample_info,
-            trace_rewrites=trace_rewrites,
-            auto_abstract_gas=auto_abstract_gas,
+            options=options,
             port=port,
-            run_constructor=run_constructor,
         )
 
     if run_constructor:
@@ -217,71 +226,49 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
 
 def _run_cfg_group(
     tests: list[FoundryTest],
-    foundry: Foundry,
-    *,
-    max_depth: int,
-    max_iterations: int | None,
-    workers: int,
-    simplify_init: bool,
-    break_every_step: bool,
-    break_on_jumpi: bool,
-    break_on_calls: bool,
-    bmc_depth: int | None,
-    bug_report: BugReport | None,
-    kore_rpc_command: str | Iterable[str] | None,
-    use_booster: bool,
-    smt_timeout: int | None,
-    smt_retry_limit: int | None,
-    counterexample_info: bool,
-    trace_rewrites: bool,
-    auto_abstract_gas: bool,
+    options: GlobalOptions,
     port: int | None,
-    run_constructor: bool = False,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
-        llvm_definition_dir = foundry.llvm_library if use_booster else None
         start_server = port is None
 
         with legacy_explore(
-            foundry.kevm,
-            kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
+            options.foundry.kevm,
+            kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
             id=test.id,
-            bug_report=bug_report,
-            kore_rpc_command=kore_rpc_command,
-            llvm_definition_dir=llvm_definition_dir,
-            smt_timeout=smt_timeout,
-            smt_retry_limit=smt_retry_limit,
-            trace_rewrites=trace_rewrites,
+            bug_report=options.bug_report,
+            kore_rpc_command=options.kore_rpc_command,
+            llvm_definition_dir=options.llvm_definition_dir,
+            smt_timeout=options.smt_timeout,
+            smt_retry_limit=options.smt_retry_limit,
+            trace_rewrites=options.trace_rewrites,
             start_server=start_server,
             port=port,
         ) as kcfg_explore:
             proof = method_to_apr_proof(
-                foundry,
                 test,
                 kcfg_explore,
-                simplify_init=simplify_init,
-                bmc_depth=bmc_depth,
-                run_constructor=run_constructor,
+                options=options,
             )
 
             passed = kevm_prove(
-                foundry.kevm,
+                options.foundry.kevm,
                 proof,
                 kcfg_explore,
-                max_depth=max_depth,
-                max_iterations=max_iterations,
-                break_every_step=break_every_step,
-                break_on_jumpi=break_on_jumpi,
-                break_on_calls=break_on_calls,
+                max_depth=options.max_depth,
+                max_iterations=options.max_iterations,
+                break_every_step=options.break_every_step,
+                break_on_jumpi=options.break_on_jumpi,
+                break_on_calls=options.break_on_calls,
             )
             failure_log = None
             if not passed:
-                failure_log = print_failure_info(proof, kcfg_explore, counterexample_info)
+                failure_log = print_failure_info(proof, kcfg_explore, options.counterexample_info)
             return passed, failure_log
 
     _apr_proofs: list[tuple[bool, list[str] | None]]
-    if workers > 1:
-        with ProcessPool(ncpus=workers) as process_pool:
+    if options.workers > 1:
+        with ProcessPool(ncpus=options.workers) as process_pool:
             _apr_proofs = process_pool.map(init_and_run_proof, tests)
     else:
         _apr_proofs = []
@@ -358,15 +345,12 @@ def _contract_to_apr_proof(
 
 
 def method_to_apr_proof(
-    foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
-    simplify_init: bool = True,
-    bmc_depth: int | None = None,
-    run_constructor: bool = False,
+    options: GlobalOptions,
 ) -> APRProof | APRBMCProof:
-    if Proof.proof_data_exists(test.id, foundry.proofs_dir):
-        apr_proof = foundry.get_apr_proof(test.id)
+    if Proof.proof_data_exists(test.id, options.foundry.proofs_dir):
+        apr_proof = options.foundry.get_apr_proof(test.id)
         apr_proof.write_proof_data()
         return apr_proof
 
@@ -375,20 +359,19 @@ def method_to_apr_proof(
         _LOGGER.info(f'Creating proof from constructor for test: {test.id}')
     elif test.method.signature != 'setUp()' and 'setUp' in test.contract.method_by_name:
         _LOGGER.info(f'Using setUp method for test: {test.id}')
-        setup_proof = _load_setup_proof(foundry, test.contract)
-    elif run_constructor:
+        setup_proof = _load_setup_proof(options.foundry, test.contract)
+    elif options.run_constructor:
         _LOGGER.info(f'Using constructor final state as initial state for test: {test.id}')
-        setup_proof = _load_constructor_proof(foundry, test.contract)
+        setup_proof = _load_constructor_proof(options.foundry, test.contract)
 
     kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
-        foundry,
         test,
         kcfg_explore,
+        options=options,
         setup_proof=setup_proof,
-        simplify_init=simplify_init,
     )
 
-    if bmc_depth is not None:
+    if options.bmc_depth is not None:
         apr_proof = APRBMCProof(
             test.id,
             kcfg,
@@ -396,11 +379,11 @@ def method_to_apr_proof(
             init_node_id,
             target_node_id,
             {},
-            bmc_depth,
-            proof_dir=foundry.proofs_dir,
+            options.bmc_depth,
+            proof_dir=options.foundry.proofs_dir,
         )
     else:
-        apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=foundry.proofs_dir)
+        apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=options.foundry.proofs_dir)
 
     apr_proof.write_proof_data()
     return apr_proof
@@ -442,16 +425,15 @@ def _load_constructor_proof(foundry: Foundry, contract: Contract) -> APRProof:
 
 
 def method_to_initialized_cfg(
-    foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
+    options: GlobalOptions,
     *,
     setup_proof: APRProof | None = None,
-    simplify_init: bool = True,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
-    empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
+    empty_config = options.foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
         empty_config,
         test.contract,
@@ -462,7 +444,7 @@ def method_to_initialized_cfg(
     for node_id in new_node_ids:
         _LOGGER.info(f'Expanding macros in node {node_id} for test: {test.name}')
         init_term = kcfg.node(node_id).cterm.kast
-        init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
+        init_term = KDefinition__expand_macros(options.foundry.kevm.definition, init_term)
         init_cterm = CTerm.from_kast(init_term)
         _LOGGER.info(f'Computing definedness constraint for node {node_id} for test: {test.name}')
         init_cterm = kcfg_explore.cterm_assume_defined(init_cterm)
@@ -470,11 +452,11 @@ def method_to_initialized_cfg(
 
     _LOGGER.info(f'Expanding macros in target state for test: {test.name}')
     target_term = kcfg.node(target_node_id).cterm.kast
-    target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
+    target_term = KDefinition__expand_macros(options.foundry.kevm.definition, target_term)
     target_cterm = CTerm.from_kast(target_term)
     kcfg.replace_node(target_node_id, target_cterm)
 
-    if simplify_init:
+    if options.simplify_init:
         _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
         kcfg_explore.simplify(kcfg, {})
 

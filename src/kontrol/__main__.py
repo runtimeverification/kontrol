@@ -161,6 +161,7 @@ def exec_prove(
     trace_rewrites: bool = False,
     auto_abstract_gas: bool = False,
     run_constructor: bool = False,
+    fail_fast: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -527,6 +528,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Include the contract constructor in the test execution.',
+    )
+    prove_args.add_argument(
+        '--fail-fast',
+        dest='fail_fast',
+        default=False,
+        action='store_true',
+        help='Stop execution on other branches if failing node is detected.',
     )
 
     show_args = command_parser.add_parser(
