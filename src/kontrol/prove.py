@@ -149,7 +149,7 @@ def foundry_prove(
             fail_fast=fail_fast,
         )
 
-        scheduler = Scheduler(workers=workers, initial_tests=test_suite, options=options)
+        scheduler = Scheduler(workers=workers, initial_tests=test_suite, options=options, port=port)
         scheduler.run()
 
         return scheduler.results
@@ -507,19 +507,25 @@ class Scheduler:
             task_queue.task_done()
             print('    5')
 
-    def __init__(self, workers: int, initial_tests: list[FoundryTest], options: GlobalOptions) -> None:
+    def __init__(
+        self, workers: int, initial_tests: list[FoundryTest], options: GlobalOptions, port: int | None
+    ) -> None:
         self.options = options
         self.task_queue = Queue()
         self.done_queue = Queue()
-        self.servers = {}
+        #          self.servers = {}
         self.results = []
         self.iterations = {}
         self.job_counter = 0
         self.done_counter = 0
         for test in initial_tests:
-            self.servers[test.id] = create_server(self.options)
+            #              self.servers[test.id] = create_server(self.options)
             print('putting into task_queue')
-            self.task_queue.put(InitProofJob(test=test, port=self.servers[test.id].port, options=self.options))
+            #              self.task_queue.put(InitProofJob(test=test, port=self.servers[test.id].port, options=self.options))
+            if port is None:
+                server = create_server(self.options)
+                port = server.port
+            self.task_queue.put(InitProofJob(test=test, port=port, options=self.options))
             self.iterations[test.id] = 0
             #              print(f'adding InitProofJob {test.id}')
             self.job_counter += 1
@@ -552,9 +558,6 @@ class Scheduler:
                 #                      self.options.foundry.kevm,
                 #                      kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
                 #                      id=result.test.id,
-                #                      bug_report=self.options.bug_report,
-                #                      kore_rpc_command=self.options.kore_rpc_command,
-                #                      llvm_definition_dir=self.options.llvm_definition_dir,
                 #                      smt_timeout=self.options.smt_timeout,
                 #                      smt_retry_limit=self.options.smt_retry_limit,
                 #                      trace_rewrites=self.options.trace_rewrites,
@@ -702,8 +705,9 @@ class Scheduler:
         for thread in self.threads:
             thread.join()
 
-        for server in self.servers.values():
-            server.close()
+
+#          for server in self.servers.values():
+#              server.close()
 
 
 #          snapshot = tracemalloc.take_snapshot()
