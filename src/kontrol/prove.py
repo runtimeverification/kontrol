@@ -25,7 +25,7 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
 
-from .foundry import Foundry, FoundrySemantics
+from .foundry import Foundry, KontrolSemantics
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
@@ -240,7 +240,7 @@ def _run_cfg_group(
 
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=FoundrySemantics(abstract_cells=abstract_cells),
+            kcfg_semantics=KontrolSemantics(abstract_cells=abstract_cells),
             id=test.id,
             bug_report=bug_report,
             kore_rpc_command=kore_rpc_command,

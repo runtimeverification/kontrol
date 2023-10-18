@@ -469,7 +469,7 @@ class Foundry:
         return latest_version + 1 if latest_version is not None else 0
 
 
-class FoundrySemantics(KEVMSemantics):
+class KontrolSemantics(KEVMSemantics):
     abstract_cells: tuple[str, ...]
 
     def __init__(self, abstract_cells: Iterable[str] = ()) -> None:
@@ -534,7 +534,7 @@ def foundry_show(
     if failure_info:
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=FoundrySemantics(),
+            kcfg_semantics=KontrolSemantics(),
             id=test_id,
             smt_timeout=smt_timeout,
             smt_retry_limit=smt_retry_limit,
@@ -634,7 +634,7 @@ def foundry_simplify_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=FoundrySemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=apr_proof.id,
         bug_report=bug_report,
         smt_timeout=smt_timeout,
@@ -722,7 +722,7 @@ def foundry_step_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=FoundrySemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=apr_proof.id,
         bug_report=bug_report,
         smt_timeout=smt_timeout,
@@ -757,7 +757,7 @@ def foundry_section_edge(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=FoundrySemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=apr_proof.id,
         bug_report=bug_report,
         smt_timeout=smt_timeout,
@@ -801,7 +801,7 @@ def foundry_get_model(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=FoundrySemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=proof.id,
         start_server=start_server,
         port=port,
