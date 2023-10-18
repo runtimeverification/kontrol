@@ -60,7 +60,7 @@ def foundry_prove(
     failure_info: bool = True,
     counterexample_info: bool = False,
     trace_rewrites: bool = False,
-    auto_abstract_gas: bool = False,
+    abstract_cells: Iterable[str] = (),
     port: int | None = None,
     run_constructor: bool = False,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
@@ -125,7 +125,7 @@ def foundry_prove(
             smt_retry_limit=smt_retry_limit,
             counterexample_info=counterexample_info,
             trace_rewrites=trace_rewrites,
-            auto_abstract_gas=auto_abstract_gas,
+            abstract_cells=abstract_cells,
             port=port,
             run_constructor=run_constructor,
         )
@@ -230,15 +230,13 @@ def _run_cfg_group(
     smt_retry_limit: int | None,
     counterexample_info: bool,
     trace_rewrites: bool,
-    auto_abstract_gas: bool,
+    abstract_cells: Iterable[str],
     port: int | None,
     run_constructor: bool = False,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
         llvm_definition_dir = foundry.llvm_library if use_booster else None
         start_server = port is None
-
-        abstract_cells = [] if not auto_abstract_gas else ['gas', 'refund']
 
         with legacy_explore(
             foundry.kevm,

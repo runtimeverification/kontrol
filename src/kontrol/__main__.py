@@ -160,6 +160,7 @@ def exec_prove(
     counterexample_info: bool = False,
     trace_rewrites: bool = False,
     auto_abstract_gas: bool = False,
+    abstract_cells: Iterable[str] | None = None,
     run_constructor: bool = False,
     **kwargs: Any,
 ) -> None:
@@ -172,6 +173,12 @@ def exec_prove(
         smt_timeout = 300
     if smt_retry_limit is None:
         smt_retry_limit = 10
+
+    if abstract_cells is None:
+        abstract_cells = []
+    if auto_abstract_gas:
+        _LOGGER.warning('Option --abstract-gas obsolete, use `--auto-abstract-cell gas --auto-abstract-cell refund`.')
+        abstract_cells = list(abstract_cells) + ['gas', 'refund']
 
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
@@ -194,7 +201,7 @@ def exec_prove(
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
-        auto_abstract_gas=auto_abstract_gas,
+        abstract_cells=abstract_cells,
         run_constructor=run_constructor,
     )
     failed = 0
@@ -537,6 +544,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Include the contract constructor in the test execution.',
+    )
+    prove_args.add_argument(
+        '--auto-abstract-cell',
+        dest='abstract_cells',
+        default=[],
+        action='append',
+        help='List of cells to keep abstracted at every basic block.',
     )
 
     abstract_args = command_parser.add_parser(

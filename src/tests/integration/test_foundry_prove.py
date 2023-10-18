@@ -276,7 +276,7 @@ def test_foundry_auto_abstraction(
     foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        auto_abstract_gas=True,
+        abstract_cells=['gas', 'refund'],
         bug_report=bug_report,
         port=server.port,
     )
@@ -311,7 +311,7 @@ def test_foundry_abstract_nodes(
     foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        auto_abstract_gas=False,
+        abstract_cells=[],
         bug_report=bug_report,
         port=server.port,
         simplify_init=True,
@@ -429,7 +429,7 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        auto_abstract_gas=True,
+        abstract_cells=['gas', 'refund'],
         max_iterations=4,
         reinit=True,
         port=server.port,
@@ -443,7 +443,7 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, id)],
-        auto_abstract_gas=True,
+        abstract_cells=['gas', 'refund'],
         max_iterations=6,
         reinit=False,
         port=server.port,
