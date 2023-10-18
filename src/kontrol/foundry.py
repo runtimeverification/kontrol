@@ -469,6 +469,16 @@ class Foundry:
         return latest_version + 1 if latest_version is not None else 0
 
 
+class FoundrySemantics(KEVMSemantics):
+    abstract_cells: tuple[str, ...]
+
+    def __init__(self, abstract_cells: Iterable[str] = ()) -> None:
+        self.abstract_cells = tuple(abstract_cells)
+
+    def abstract_node(self, cterm: CTerm) -> CTerm:
+        return kevm_abstract_cells(cterm, self.abstract_cells)
+
+
 def foundry_show(
     foundry_root: Path,
     test: str,
@@ -524,7 +534,7 @@ def foundry_show(
     if failure_info:
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=KEVMSemantics(),
+            kcfg_semantics=FoundrySemantics(),
             id=test_id,
             smt_timeout=smt_timeout,
             smt_retry_limit=smt_retry_limit,
@@ -584,21 +594,19 @@ def foundry_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version
 def foundry_abstract_node(
     foundry_root: Path,
     test: str,
-    node: NodeIdLike,
+    node_id: NodeIdLike,
     cells: Iterable[str],
     version: int | None = None,
 ) -> None:
     foundry = Foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
+    if not proof.kcfg.is_leaf(node_id):
+        raise ValueError(f'Only can abstract leaf nodes {test_id}: {node_id}')
 
-    for cell in cells:
-        cterm = proof.kcfg.node(node).cterm
-        cell_name = cell.upper() + '_CELL'
-        new_cell_var = abstract_term_safely(cterm.kast, base_name=cell_name)
-        cterm = CTerm.from_kast(set_cell(cterm.kast, cell_name, new_cell_var))
-        cterm = remove_useless_constraints(cterm)
-        proof.kcfg.replace_node(node, cterm)
+    cterm = kevm_abstract_cells(proof.kcfg.node(node_id).cterm, cells)
+    new_node = proof.kcfg.create_node(cterm)
+    proof.kcfg.create_cover(node_id, new_node.id)
 
     proof.write_proof_data()
 
@@ -625,7 +633,7 @@ def foundry_simplify_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=FoundrySemantics(),
         id=apr_proof.id,
         bug_report=bug_report,
         smt_timeout=smt_timeout,
@@ -713,7 +721,7 @@ def foundry_step_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=FoundrySemantics(),
         id=apr_proof.id,
         bug_report=bug_report,
         smt_timeout=smt_timeout,
@@ -748,7 +756,7 @@ def foundry_section_edge(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=FoundrySemantics(),
         id=apr_proof.id,
         bug_report=bug_report,
         smt_timeout=smt_timeout,
@@ -792,7 +800,7 @@ def foundry_get_model(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=FoundrySemantics(),
         id=proof.id,
         start_server=start_server,
         port=port,
@@ -804,6 +812,21 @@ def foundry_get_model(
             res_lines.extend(print_model(node, kcfg_explore))
 
     return '\n'.join(res_lines)
+
+
+def kevm_abstract_cells(cterm: CTerm, cells: Iterable[str]) -> CTerm:
+    kast = cterm.kast
+    for cell in cells:
+        cell_name = cell.upper() + '_CELL'
+        new_cell_contents: KInner = abstract_term_safely(kast, base_name=cell_name)
+        if cell_name == 'GAS_CELL':
+            gas = cterm.cell(cell_name)
+            if type(gas) is KApply and gas.label.name == 'infGas':
+                new_cell_contents = KApply('infGas', [new_cell_contents])
+        kast = set_cell(kast, cell_name, new_cell_contents)
+    cterm = CTerm.from_kast(kast)
+    cterm = remove_useless_constraints(cterm)
+    return cterm
 
 
 def _write_cfg(cfg: KCFG, path: Path) -> None:

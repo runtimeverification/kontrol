@@ -4,7 +4,7 @@ import logging
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
-from kevm_pyk.kevm import KEVM, KEVMSemantics
+from kevm_pyk.kevm import KEVM
 from kevm_pyk.utils import (
     KDefinition__expand_macros,
     abstract_cell_vars,
@@ -25,7 +25,7 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
 
-from .foundry import Foundry
+from .foundry import Foundry, FoundrySemantics
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
@@ -238,9 +238,11 @@ def _run_cfg_group(
         llvm_definition_dir = foundry.llvm_library if use_booster else None
         start_server = port is None
 
+        abstract_cells = [] if not auto_abstract_gas else ['gas', 'refund']
+
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
+            kcfg_semantics=FoundrySemantics(abstract_cells=abstract_cells),
             id=test.id,
             bug_report=bug_report,
             kore_rpc_command=kore_rpc_command,
