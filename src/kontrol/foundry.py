@@ -15,8 +15,8 @@ import tomlkit
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm, remove_useless_constraints
-from pyk.kast.inner import KApply, KSort, KToken
-from pyk.kast.manip import abstract_term_safely, minimize_term, set_cell
+from pyk.kast.inner import KApply, KSort, KToken, KVariable
+from pyk.kast.manip import abstract_term_safely, count_vars, minimize_term, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.kbool import notBool
@@ -817,13 +817,22 @@ def foundry_get_model(
 
 def kevm_abstract_cells(cterm: CTerm, cells: Iterable[str]) -> CTerm:
     kast = cterm.kast
+    var_count = count_vars(kast)
+
+    def _is_lone_var(_k: KInner) -> bool:
+        return type(_k) is KVariable and var_count[_k.name] == 1
+
     for cell in cells:
         cell_name = cell.upper() + '_CELL'
-        new_cell_contents: KInner = abstract_term_safely(kast, base_name=cell_name)
-        if cell_name == 'GAS_CELL':
-            gas = cterm.cell(cell_name)
-            if type(gas) is KApply and gas.label.name == 'infGas':
-                new_cell_contents = KApply('infGas', [new_cell_contents])
+        cell_contents = cterm.cell(cell_name)
+        new_cell_contents = cell_contents
+        if not _is_lone_var(cell_contents):
+            new_cell_contents = abstract_term_safely(kast, base_name=cell_name)
+            if cell_name == 'GAS_CELL' and type(cell_contents) is KApply and cell_contents.label.name == 'infGas':
+                if _is_lone_var(cell_contents.args[0]):
+                    new_cell_contents = cell_contents
+                else:
+                    new_cell_contents = KApply('infGas', [new_cell_contents])
         kast = set_cell(kast, cell_name, new_cell_contents)
     cterm = CTerm.from_kast(kast)
     cterm = remove_useless_constraints(cterm)
