@@ -223,12 +223,12 @@ def exec_prove(
 def exec_abstract(
     foundry_root: Path,
     test: str,
-    node: NodeIdLike,
-    cells: Iterable[str],
+    nodes: Iterable[NodeIdLike] = (),
+    cells: Iterable[str] = (),
     version: int | None = None,
     **kwargs: Any,
 ) -> None:
-    foundry_abstract_node(foundry_root, test, node, cells)
+    foundry_abstract_node(foundry_root, test, nodes, cells)
 
 
 def exec_show(
@@ -559,14 +559,18 @@ def _create_argument_parser() -> ArgumentParser:
         parents=[kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args, kontrol_cli_args.foundry_test_args],
     )
     abstract_args.add_argument(
-        'node',
+        '--node',
         type=node_id_like,
-        help='Node to apply abstractions to.',
+        dest='nodes',
+        default=[],
+        action='append',
+        help='Node to be abstracted.',
     )
     abstract_args.add_argument(
-        'cell',
-        nargs='+',
+        '--cell',
         dest='cells',
+        default=[],
+        action='append',
         help='List of cells to abstract on given node.',
     )
 

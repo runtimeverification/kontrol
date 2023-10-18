@@ -594,19 +594,20 @@ def foundry_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version
 def foundry_abstract_node(
     foundry_root: Path,
     test: str,
-    node_id: NodeIdLike,
+    node_ids: Iterable[NodeIdLike],
     cells: Iterable[str],
     version: int | None = None,
 ) -> None:
     foundry = Foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
-    if not proof.kcfg.is_leaf(node_id):
-        raise ValueError(f'Only can abstract leaf nodes {test_id}: {node_id}')
 
-    cterm = kevm_abstract_cells(proof.kcfg.node(node_id).cterm, cells)
-    new_node = proof.kcfg.create_node(cterm)
-    proof.kcfg.create_cover(node_id, new_node.id)
+    for node_id in node_ids:
+        if not proof.kcfg.is_leaf(node_id):
+            raise ValueError(f'Only can abstract leaf nodes {test_id}: {node_id}')
+        cterm = kevm_abstract_cells(proof.kcfg.node(node_id).cterm, cells)
+        new_node = proof.kcfg.create_node(cterm)
+        proof.kcfg.create_cover(node_id, new_node.id)
 
     proof.write_proof_data()
 

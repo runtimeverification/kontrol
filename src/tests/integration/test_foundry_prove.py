@@ -322,7 +322,7 @@ def test_foundry_abstract_nodes(
     foundry_abstract_node(
         foundry_root,
         test_id,
-        3,
+        [3],
         ['localMem', 'gas', 'wordStack', 'callData'],
     )
 
