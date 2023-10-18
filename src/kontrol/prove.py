@@ -426,7 +426,7 @@ def _method_to_cfg(
         cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())  # Copy KCFG
         final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
         cfg.remove_node(setup_proof.target)
-        if len(final_states) < 1:
+        if not final_states:
             _LOGGER.warning(
                 f'Initial state proof {setup_proof.id} for {contract.name}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )
