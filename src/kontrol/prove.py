@@ -8,7 +8,6 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import (
     KDefinition__expand_macros,
     abstract_cell_vars,
-    constraints_for,
     kevm_prove,
     legacy_explore,
     print_failure_info,
@@ -16,7 +15,7 @@ from kevm_pyk.utils import (
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
-from pyk.kast.manip import flatten_label, free_vars, set_cell
+from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, notBool
@@ -293,70 +292,6 @@ def _run_cfg_group(
     return apr_proofs
 
 
-def _contract_to_apr_proof(
-    foundry: Foundry,
-    contract: Contract,
-    save_directory: Path,
-    kcfg_explore: KCFGExplore,
-    test_id: str,
-    reinit: bool = False,
-    simplify_init: bool = True,
-    bmc_depth: int | None = None,
-) -> APRProof:
-    if contract.constructor is None:
-        raise ValueError(
-            f'Constructor proof cannot be generated for contract: {contract.name}, because it has no constructor.'
-        )
-
-    if len(contract.constructor.arg_names) > 0:
-        raise ValueError(
-            f'Proof cannot be generated for contract: {contract.name}. Constructors with arguments are not supported.'
-        )
-
-    apr_proof: APRProof
-
-    if Proof.proof_data_exists(test_id, save_directory):
-        apr_proof = foundry.get_apr_proof(test_id)
-    else:
-        _LOGGER.info(f'Initializing KCFG for test: {test_id}')
-
-        empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
-        kcfg, init_node_id, target_node_id = _contract_to_cfg(
-            empty_config,
-            contract,
-            save_directory,
-            foundry=foundry,
-        )
-
-        _LOGGER.info(f'Expanding macros in initial state for test: {test_id}')
-        init_term = kcfg.node(init_node_id).cterm.kast
-        init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
-        init_cterm = CTerm.from_kast(init_term)
-        _LOGGER.info(f'Computing definedness constraint for test: {test_id}')
-        init_cterm = kcfg_explore.cterm_assume_defined(init_cterm)
-        _LOGGER.info(f'Computing definedness constraint for test: {test_id} done')
-        kcfg.replace_node(init_node_id, init_cterm)
-
-        _LOGGER.info(f'Expanding macros in target state for test: {test_id}')
-        target_term = kcfg.node(target_node_id).cterm.kast
-        target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
-        target_cterm = CTerm.from_kast(target_term)
-        kcfg.replace_node(target_node_id, target_cterm)
-
-        if simplify_init:
-            _LOGGER.info(f'Simplifying KCFG for test: {test_id}')
-            kcfg_explore.simplify(kcfg, {})
-        if bmc_depth is not None:
-            apr_proof = APRBMCProof(
-                test_id, kcfg, [], init_node_id, target_node_id, {}, bmc_depth, proof_dir=save_directory
-            )
-        else:
-            apr_proof = APRProof(test_id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=save_directory)
-
-    apr_proof.write_proof_data()
-    return apr_proof
-
-
 def method_to_apr_proof(
     foundry: Foundry,
     test: FoundryTest,
@@ -380,7 +315,7 @@ def method_to_apr_proof(
         _LOGGER.info(f'Using constructor final state as initial state for test: {test.id}')
         setup_proof = _load_constructor_proof(foundry, test.contract)
 
-    kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
+    kcfg, init_node_id, target_node_id = _method_to_initialized_cfg(
         foundry,
         test,
         kcfg_explore,
@@ -406,27 +341,6 @@ def method_to_apr_proof(
     return apr_proof
 
 
-def _contract_to_cfg(
-    empty_config: KInner,
-    contract: Contract,
-    proof_dir: Path,
-    foundry: Foundry,
-    init_proof: str | None = None,
-) -> tuple[KCFG, int, int]:
-    program = KEVM.init_bytecode(KApply(f'contract_{contract.name}'))
-
-    init_cterm = _init_cterm(empty_config, contract.name, program)
-
-    cfg = KCFG()
-    init_node = cfg.create_node(init_cterm)
-    init_node_id = init_node.id
-
-    final_cterm = _final_cterm(empty_config, contract.name, failing=False)
-    target_node = cfg.create_node(final_cterm)
-
-    return cfg, init_node_id, target_node.id
-
-
 def _load_setup_proof(foundry: Foundry, contract: Contract) -> APRProof:
     latest_version = foundry.latest_proof_version(f'{contract.name}.setUp()')
     setup_digest = f'{contract.name}.setUp():{latest_version}'
@@ -441,7 +355,7 @@ def _load_constructor_proof(foundry: Foundry, contract: Contract) -> APRProof:
     return apr_proof
 
 
-def method_to_initialized_cfg(
+def _method_to_initialized_cfg(
     foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
@@ -713,25 +627,3 @@ def _final_term(empty_config: KInner, contract_name: str, use_init_code: bool = 
             KVariable('STORAGESLOTSET_FINAL'),
         ],
     )
-
-
-def _get_final_accounts_cell(
-    setup_cterm: CTerm, overwrite_code_cell: KInner | None = None
-) -> tuple[KInner, Iterable[KInner]]:
-    acct_cell = setup_cterm.cell('ACCOUNTS_CELL')
-
-    if overwrite_code_cell is not None:
-        new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', acct_cell)]
-        new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
-        test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
-
-        new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
-            set_cell(test_contract_account.config, 'CODE_CELL', overwrite_code_cell),
-            [],
-        )
-
-        acct_cell = KEVM.accounts([account.config for account in new_accounts_map.values()])
-
-    fvars = free_vars(acct_cell)
-    acct_cons = constraints_for(fvars, setup_cterm.constraints)
-    return (acct_cell, acct_cons)
