@@ -416,7 +416,7 @@ def _method_to_cfg(
     new_node_ids = []
 
     if setup_proof:
-        if len(setup_proof.pending) > 0:
+        if setup_proof.pending:
             raise RuntimeError(
                 f'Initial state proof {setup_proof.id} for {contract.name}.{method.signature} still has pending branches.'
             )
