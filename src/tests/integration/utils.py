@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from kevm_pyk.dist import DistTarget
+from kevm_pyk import kdist
 from pyk.utils import check_dir_path
 
 from kontrol.solc_to_k import solc_to_k
@@ -23,7 +23,7 @@ def gen_bin_runtime(contract_file: Path, output_dir: Path) -> tuple[Path, str]:
     main_file = output_dir / f'{contract_name.lower()}-bin-runtime.k'
 
     k_text = solc_to_k(
-        definition_dir=DistTarget.HASKELL.get(),
+        definition_dir=kdist.get('haskell'),
         contract_file=contract_file,
         contract_name=contract_name,
         main_module=main_module_name,

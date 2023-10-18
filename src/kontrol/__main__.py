@@ -6,8 +6,8 @@ import sys
 from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
+from kevm_pyk import kdist
 from kevm_pyk.cli import node_id_like
-from kevm_pyk.dist import DistTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
 from pyk.proof.tui import APRProofViewer
@@ -87,14 +87,14 @@ def exec_solc_to_k(
     main_module: str | None,
     requires: list[str],
     imports: list[str],
-    target: DistTarget | None = None,
+    target: str | None = None,
     **kwargs: Any,
 ) -> None:
     if target is None:
-        target = DistTarget.HASKELL
+        target = 'haskell'
 
     k_text = solc_to_k(
-        definition_dir=target.get(),
+        definition_dir=kdist.get(target),
         contract_file=contract_file,
         contract_name=contract_name,
         main_module=main_module,
