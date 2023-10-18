@@ -323,7 +323,7 @@ def test_foundry_abstract_nodes(
         foundry_root,
         test_id,
         3,
-        ['localMemory', 'gas'],
+        ['localMem', 'gas', 'wordStack', 'callData'],
     )
 
     show_res = foundry_show(
