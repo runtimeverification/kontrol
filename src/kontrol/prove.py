@@ -416,7 +416,7 @@ def _method_to_cfg(
     new_node_ids = []
 
     if setup_proof:
-        init_node_id = setup_proof.kcfg.node(setup_proof.init).id
+        init_node_id = setup_proof.init
 
         cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())  # Copy KCFG
         final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
