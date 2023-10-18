@@ -416,15 +416,16 @@ def _method_to_cfg(
     new_node_ids = []
 
     if setup_proof:
+        if len(setup_proof.pending) > 0:
+            raise RuntimeError(
+                f'Initial state proof {setup_proof.id} for {contract.name}.{method.signature} still has pending branches.'
+            )
+
         init_node_id = setup_proof.init
 
         cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())  # Copy KCFG
         final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
         cfg.remove_node(setup_proof.target)
-        if len(setup_proof.pending) > 0:
-            raise RuntimeError(
-                f'Initial state proof {setup_proof.id} for {contract.name}.{method.signature} still has pending branches.'
-            )
         if len(final_states) < 1:
             _LOGGER.warning(
                 f'Initial state proof {setup_proof.id} for {contract.name}.{method.signature} has no passing branches to build on. Method will not be executed.'
