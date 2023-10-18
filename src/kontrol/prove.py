@@ -418,7 +418,7 @@ def _method_to_cfg(
     if setup_proof:
         init_node_id = setup_proof.kcfg.node(setup_proof.init).id
 
-        cfg = setup_proof.kcfg
+        cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())  # Copy KCFG
         final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
         cfg.remove_node(setup_proof.target)
         if len(setup_proof.pending) > 0:
