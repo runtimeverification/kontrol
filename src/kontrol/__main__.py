@@ -16,6 +16,7 @@ from . import VERSION
 from .cli import KontrolCLIArgs
 from .foundry import (
     Foundry,
+    foundry_abstract_node,
     foundry_get_model,
     foundry_list,
     foundry_merge_nodes,
@@ -210,6 +211,17 @@ def exec_prove(
                     print(line)
 
     sys.exit(failed)
+
+
+def exec_abstract(
+    foundry_root: Path,
+    test: str,
+    node: NodeIdLike,
+    cells: Iterable[str],
+    version: int | None = None,
+    **kwargs: Any,
+) -> None:
+    foundry_abstract_node(foundry_root, test, node, cells)
 
 
 def exec_show(
@@ -525,6 +537,23 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Include the contract constructor in the test execution.',
+    )
+
+    abstract_args = command_parser.add_parser(
+        'abstract',
+        help='Abstract cells in given proof',
+        parents=[kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args, kontrol_cli_args.foundry_test_args],
+    )
+    abstract_args.add_argument(
+        'node',
+        type=node_id_like,
+        help='Node to apply abstractions to.',
+    )
+    abstract_args.add_argument(
+        'cell',
+        nargs='+',
+        dest='cells',
+        help='List of cells to abstract on given node.',
     )
 
     show_args = command_parser.add_parser(

@@ -14,8 +14,9 @@ from typing import TYPE_CHECKING
 import tomlkit
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
+from pyk.cterm import CTerm, remove_useless_constraints
 from pyk.kast.inner import KApply, KSort, KToken
-from pyk.kast.manip import minimize_term
+from pyk.kast.manip import abstract_term_safely, minimize_term, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.kbool import notBool
@@ -31,7 +32,6 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Any, Final
 
-    from pyk.cterm import CTerm
     from pyk.kast.inner import KInner
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.tui import KCFGElem
@@ -579,6 +579,28 @@ def foundry_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version
     node_ids = apr_proof.prune(node)
     _LOGGER.info(f'Pruned nodes: {node_ids}')
     apr_proof.write_proof_data()
+
+
+def foundry_abstract_node(
+    foundry_root: Path,
+    test: str,
+    node: NodeIdLike,
+    cells: Iterable[str],
+    version: int | None = None,
+) -> None:
+    foundry = Foundry(foundry_root)
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    for cell in cells:
+        cterm = proof.kcfg.node(node).cterm
+        cell_name = cell.upper() + '_CELL'
+        new_cell_var = abstract_term_safely(cterm.kast, base_name=cell_name)
+        cterm = CTerm.from_kast(set_cell(cterm.kast, cell_name, new_cell_var))
+        cterm = remove_useless_constraints(cterm)
+        proof.kcfg.replace_node(node, cterm)
+
+    proof.write_proof_data()
 
 
 def foundry_simplify_node(
