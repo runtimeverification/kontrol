@@ -10,7 +10,14 @@ from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.utils import run_process, single
 
-from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
+from kontrol.foundry import (
+    Foundry,
+    foundry_abstract_node,
+    foundry_merge_nodes,
+    foundry_remove_node,
+    foundry_show,
+    foundry_step_node,
+)
 from kontrol.kompile import foundry_kompile
 from kontrol.prove import foundry_prove
 
@@ -291,6 +298,48 @@ def test_foundry_auto_abstraction(
     )
 
     assert_or_update_show_output(show_res, TEST_DATA_DIR / 'gas-abstraction.expected', update=update_expected_output)
+
+
+def test_foundry_abstract_nodes(
+    foundry_root: Path,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    use_booster: bool,
+) -> None:
+    test_id = 'AccountParamsTest.testDealSymbolic'
+    foundry_prove(
+        foundry_root,
+        tests=[(test_id, None)],
+        auto_abstract_gas=False,
+        bug_report=bug_report,
+        port=server.port,
+        simplify_init=True,
+        max_iterations=1,
+        max_depth=100,
+    )
+
+    foundry_abstract_node(
+        foundry_root,
+        test_id,
+        3,
+        ['localMemory', 'gas'],
+    )
+
+    show_res = foundry_show(
+        foundry_root,
+        test=test_id,
+        to_module=True,
+        minimize=False,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        port=server.port,
+    )
+
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / 'cell-abstraction.expected', update=update_expected_output)
 
 
 def test_foundry_remove_node(
