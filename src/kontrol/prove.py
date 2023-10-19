@@ -42,7 +42,6 @@ def foundry_prove(
     reinit: bool = False,
     tests: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
-    simplify_init: bool = True,
     break_every_step: bool = False,
     break_on_jumpi: bool = False,
     break_on_calls: bool = True,
@@ -109,7 +108,6 @@ def foundry_prove(
             max_depth=max_depth,
             max_iterations=max_iterations,
             workers=workers,
-            simplify_init=simplify_init,
             break_every_step=break_every_step,
             break_on_jumpi=break_on_jumpi,
             break_on_calls=break_on_calls,
@@ -215,7 +213,6 @@ def _run_cfg_group(
     max_depth: int,
     max_iterations: int | None,
     workers: int,
-    simplify_init: bool,
     break_every_step: bool,
     break_on_jumpi: bool,
     break_on_calls: bool,
@@ -252,7 +249,6 @@ def _run_cfg_group(
                 foundry,
                 test,
                 kcfg_explore,
-                simplify_init=simplify_init,
                 bmc_depth=bmc_depth,
                 run_constructor=run_constructor,
             )
@@ -285,7 +281,6 @@ def method_to_apr_proof(
     foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
-    simplify_init: bool = True,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
 ) -> APRProof | APRBMCProof:
@@ -309,7 +304,6 @@ def method_to_apr_proof(
         test,
         kcfg_explore,
         setup_proof=setup_proof,
-        simplify_init=simplify_init,
     )
 
     if bmc_depth is not None:
@@ -350,7 +344,6 @@ def _method_to_initialized_cfg(
     kcfg_explore: KCFGExplore,
     *,
     setup_proof: APRProof | None = None,
-    simplify_init: bool = True,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -377,9 +370,8 @@ def _method_to_initialized_cfg(
     target_cterm = CTerm.from_kast(target_term)
     kcfg.replace_node(target_node_id, target_cterm)
 
-    if simplify_init:
-        _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
-        kcfg_explore.simplify(kcfg, {})
+    _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
+    kcfg_explore.simplify(kcfg, {})
 
     return kcfg, init_node_id, target_node_id
 
