@@ -58,7 +58,7 @@ def foundry_prove(
     auto_abstract_gas: bool = False,
     port: int | None = None,
     run_constructor: bool = False,
-) -> dict[FoundryTest, Proof]:
+) -> list[Proof]:
     if workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {workers}')
     if max_iterations is not None and max_iterations < 0:
@@ -102,7 +102,7 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    def run_prover(test_suite: list[FoundryTest]) -> dict[FoundryTest, Proof]:
+    def run_prover(test_suite: list[FoundryTest]) -> list[Proof]:
         return _run_cfg_group(
             test_suite,
             foundry,
@@ -129,14 +129,14 @@ def foundry_prove(
     if run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
         results = run_prover(constructor_tests)
-        failed = [proof for proof in results.values() if not proof.passed]
+        failed = [proof for proof in results if not proof.passed]
         if failed:
             raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
     results = run_prover(setup_method_tests)
 
-    failed = [proof for proof in results.values() if not proof.passed]
+    failed = [proof for proof in results if not proof.passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
@@ -230,7 +230,7 @@ def _run_cfg_group(
     auto_abstract_gas: bool,
     port: int | None,
     run_constructor: bool = False,
-) -> dict[FoundryTest, Proof]:
+) -> list[Proof]:
     def init_and_run_proof(test: FoundryTest) -> Proof:
         llvm_definition_dir = foundry.llvm_library if use_booster else None
         start_server = port is None
@@ -269,14 +269,14 @@ def _run_cfg_group(
             )
             return proof
 
-    apr_proofs: dict[FoundryTest, Proof]
+    apr_proofs: list[Proof]
     if workers > 1:
         with ProcessPool(ncpus=workers) as process_pool:
             apr_proofs = process_pool.map(init_and_run_proof, tests)
     else:
-        apr_proofs = {}
+        apr_proofs = []
         for test in tests:
-            apr_proofs[test] = init_and_run_proof(test)
+            apr_proofs.append(init_and_run_proof(test))
 
     return apr_proofs
 

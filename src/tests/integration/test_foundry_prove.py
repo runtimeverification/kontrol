@@ -26,8 +26,6 @@ if TYPE_CHECKING:
     from pyk.utils import BugReport
     from pytest import TempPathFactory
 
-    from kontrol.prove import FoundryTest
-
 
 FORGE_STD_REF: Final = '75f1746'
 
@@ -334,8 +332,8 @@ def test_foundry_remove_node(
     assert_pass(test, prove_res)
 
 
-def assert_pass(test: str, prove_res: dict[FoundryTest, Proof]) -> None:
-    proof = single([proof for foundry_test, proof in prove_res.items() if foundry_test.id == test])
+def assert_pass(test: str, prove_res: list[Proof]) -> None:
+    proof = single([proof for proof in prove_res if proof.id.split(':')[0] == test])
     if not proof.passed:
         if isinstance(proof, APRProof):
             assert proof.failure_info
@@ -344,8 +342,8 @@ def assert_pass(test: str, prove_res: dict[FoundryTest, Proof]) -> None:
             pytest.fail()
 
 
-def assert_fail(test: str, prove_res: dict[FoundryTest, Proof]) -> None:
-    proof = single([proof for foundry_test, proof in prove_res.items() if foundry_test.id == test])
+def assert_fail(test: str, prove_res: list[Proof]) -> None:
+    proof = single([proof for proof in prove_res if proof.id.split(':')[0] == test])
     assert not proof.passed
     if isinstance(proof, APRProof):
         assert proof.failure_info

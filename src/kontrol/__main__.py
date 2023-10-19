@@ -200,7 +200,7 @@ def exec_prove(
         run_constructor=run_constructor,
     )
     failed = 0
-    for _, proof in results.items():
+    for proof in results:
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
         else:
