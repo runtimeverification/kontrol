@@ -1,8 +1,7 @@
 ARG Z3_VERSION
 ARG K_VERSION
-FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} as Z3
 
-ARG K_VERSION
+FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} as Z3
 FROM runtimeverificationinc/kframework-k:ubuntu-jammy-${K_VERSION}
 
 ARG PYTHON_VERSION=3.10
