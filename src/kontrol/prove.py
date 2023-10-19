@@ -89,8 +89,6 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    #      llvm_definition_dir = foundry.llvm_library if options.use_booster else None
-
     def run_prover(test_suite: list[FoundryTest]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
         return _run_cfg_group(
             tests=test_suite,
