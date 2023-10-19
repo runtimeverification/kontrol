@@ -314,7 +314,6 @@ def test_foundry_abstract_nodes(
         abstract_cells=[],
         bug_report=bug_report,
         port=server.port,
-        simplify_init=True,
         max_iterations=1,
         max_depth=100,
     )
