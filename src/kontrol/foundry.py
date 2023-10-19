@@ -478,6 +478,7 @@ def foundry_show(
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     port: int | None = None,
+    maude_port: int | None = None,
 ) -> str:
     contract_name, _ = test.split('.')
     foundry = Foundry(foundry_root)
@@ -522,6 +523,7 @@ def foundry_show(
             smt_retry_limit=smt_retry_limit,
             start_server=start_server,
             port=port,
+            maude_port=maude_port,
         ) as kcfg_explore:
             res_lines += print_failure_info(proof, kcfg_explore, counterexample_info)
             res_lines += Foundry.help_info()
@@ -586,6 +588,7 @@ def foundry_simplify_node(
     smt_retry_limit: int | None = None,
     trace_rewrites: bool = False,
     port: int | None = None,
+    maude_port: int | None = None,
 ) -> str:
     foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
@@ -603,6 +606,7 @@ def foundry_simplify_node(
         trace_rewrites=trace_rewrites,
         start_server=start_server,
         port=port,
+        maude_port=maude_port,
     ) as kcfg_explore:
         new_term, _ = kcfg_explore.cterm_simplify(cterm)
     if replace:
@@ -670,6 +674,7 @@ def foundry_step_node(
     smt_retry_limit: int | None = None,
     trace_rewrites: bool = False,
     port: int | None = None,
+    maude_port: int | None = None,
 ) -> None:
     if repeat < 1:
         raise ValueError(f'Expected positive value for --repeat, got: {repeat}')
@@ -691,6 +696,7 @@ def foundry_step_node(
         trace_rewrites=trace_rewrites,
         start_server=start_server,
         port=port,
+        maude_port=maude_port,
     ) as kcfg_explore:
         for _i in range(repeat):
             node = kcfg_explore.step(apr_proof.kcfg, node, apr_proof.logs, depth=depth)
@@ -709,6 +715,7 @@ def foundry_section_edge(
     smt_retry_limit: int | None = None,
     trace_rewrites: bool = False,
     port: int | None = None,
+    maude_port: int | None = None,
 ) -> None:
     foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
@@ -726,6 +733,7 @@ def foundry_section_edge(
         trace_rewrites=trace_rewrites,
         start_server=start_server,
         port=port,
+        maude_port=maude_port,
     ) as kcfg_explore:
         kcfg_explore.section_edge(
             apr_proof.kcfg, source_id=int(source_id), target_id=int(target_id), logs=apr_proof.logs, sections=sections
@@ -741,6 +749,7 @@ def foundry_get_model(
     pending: bool = False,
     failing: bool = False,
     port: int | None = None,
+    maude_port: int | None = None,
 ) -> str:
     foundry = Foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
@@ -766,6 +775,7 @@ def foundry_get_model(
         id=proof.id,
         start_server=start_server,
         port=port,
+        maude_port=maude_port,
     ) as kcfg_explore:
         for node_id in nodes:
             res_lines.append('')
