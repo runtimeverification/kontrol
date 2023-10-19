@@ -1,9 +1,9 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION
+│   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 0
-│   statusCode: STATUSCODE
+│   statusCode: STATUSCODE:StatusCode
 │
 │  (1000 steps)
 ├─ 3
@@ -56,10 +56,10 @@
 │
 │  (1 step)
 ├─ 10
-│   k: #execute ~> CONTINUATION
+│   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 0
-│   statusCode: STATUSCODE
+│   statusCode: STATUSCODE:StatusCode
 │
 │  (531 steps)
 ├─ 12
@@ -84,11 +84,11 @@
 │
 ┊  constraint: true
 ┊  subst: OMITTED SUBST
-└─ 11 (leaf, target)
-    k: #halt ~> CONTINUATION
-    pc: PC_CELL_5d410f2a
-    callDepth: CALLDEPTH_CELL_5d410f2a
-    statusCode: STATUSCODE_FINAL
+└─ 11 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
 
 
 
@@ -98,17 +98,16 @@
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( #execute
-               ~> CONTINUATION => #accessStorage 491460923342184218035706888008750043977755113263 0
+               ( .K => #accessStorage 491460923342184218035706888008750043977755113263 0
                ~> 0
                ~> #deductGas
                ~> SSTORE 0 0
                ~> #pc [ SSTORE ]
                ~> #execute
                ~> #codeDeposit 491460923342184218035706888008750043977755113263
-               ~> #pc [ CREATE ]
+               ~> #pc [ CREATE ] )
                ~> #execute
-               ~> CONTINUATION:K )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -193,7 +192,7 @@
                    </accessedStorage> </substate>-fragment } ) )
                  </interimStates>
                  <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( 728815563385977040452943777879061427756277306518 ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( 728815563385977040452943777879061427756277306518 ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    ...
@@ -202,10 +201,10 @@
                      ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
-                     ( CALLER_ID => 728815563385977040452943777879061427756277306518 )
+                     ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
-                     ( S2KSetUpDeployTest . S2KsetUp ( ) => b"" )
+                     ( b"\n\x92T\xe4" => b"" )
                    </callData>
                    <callValue>
                      0
@@ -214,7 +213,7 @@
                      .WordStack
                    </wordStack>
                    <localMem>
-                     ( .Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    ...
                    ...
@@ -233,13 +232,13 @@
                  </callState>
                  <substate>
                    <selfDestruct>
-                     SELFDESTRUCT_CELL
+                     SELFDESTRUCT_CELL:Set
                    </selfDestruct>
                    <log>
                      .List
                    </log>
                    <refund>
-                     REFUND_CELL
+                     REFUND_CELL:Int
                    </refund>
                    <accessedAccounts>
                      ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
@@ -249,11 +248,11 @@
                    </accessedStorage>
                  </substate>
                  <origin>
-                   ORIGIN_ID
+                   ORIGIN_ID:Int
                  </origin>
                  <block>
                    <number>
-                     NUMBER_CELL
+                     NUMBER_CELL:Int
                    </number>
                    ...
                  </block>
@@ -377,7 +376,7 @@
                  0
                </expectedValue>
                <expectedData>
-                 ( .Bytes => b"" )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
@@ -408,17 +407,7 @@
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( 0 <=Int CALLER_ID
-       andBool ( CALLER_ID <Int pow160
-       andBool ( 0 <=Int ORIGIN_ID
-       andBool ( ORIGIN_ID <Int pow160
-       andBool ( 0 <=Int NUMBER_CELL
-       andBool ( NUMBER_CELL <=Int maxSInt256
-       andBool ( lengthBytes ( S2KSetUpDeployTest . S2KsetUp ( ) ) <Int pow128
-       andBool ( 0 <=Int 728815563385977040452943777879061427756277306518
-       andBool ( 728815563385977040452943777879061427756277306518 <Int pow160
-               )))))))))
-       ensures ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
@@ -2111,9 +2100,8 @@
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
            <kevm>
              <k>
-               ( #halt
-               ~> CONTINUATION:K => #execute
-               ~> CONTINUATION )
+               ( #halt => #execute )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -2136,7 +2124,7 @@
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( 728815563385977040452943777879061427756277306518 ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) => TOUCHEDACCOUNTS_CELL )
+                   ( TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( 728815563385977040452943777879061427756277306518 ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) => TOUCHEDACCOUNTS_CELL:Set )
                  </touchedAccounts>
                  <callState>
                    ...
@@ -2148,7 +2136,7 @@
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => S2KSetUpDeployTest . S2KtestZUndextcodesize ( ) )
+                     ( b"\n\x92T\xe4" => b"b\xc9\xea\xc5" )
                    </callData>
                    <callValue>
                      0
@@ -2157,7 +2145,7 @@
                      ( ( selector ( "setUp()" ) : .WordStack ) => .WordStack )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`@Qa\x02z8\x03\x80a\x02z\x839\x81\x01`@\x81\x90Ra\x00/\x91a\x00TV[`\x00\x80T`\x01`\x01`\xa0\x1b\x03\x19\x16`\x01`\x01`\xa0\x1b\x03\x92\x90\x92\x16\x91\x90\x91\x17\x90Ua\x00\x84V[`\x00` \x82\x84\x03\x12\x15a\x00fW`\x00\x80\xfd[\x81Q`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x00}W`\x00\x80\xfd[\x93\x92PPPV[a\x01\xe7\x80a\x00\x93`\x009`\x00\xf3\xfe`\x80`@R`\x046\x10a\x00CW`\x005`\xe0\x1c\x80c\f\x11\xde\xdd\x14a\x00OW\x80c'\xe25\xe3\x14a\x00uW\x80cp\xa0\x821\x14a\x00\xa2W\x80c\xfc\fTj\x14a\x00\xd8W`\x00\x80\xfd[6a\x00JW\x00[`\x00\x80\xfd[a\x00ba\x00]6`\x04a\x01[V[a\x01\x10V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[4\x80\x15a\x00\x81W`\x00\x80\xfd[Pa\x00ba\x00\x906`\x04a\x01[V[`\x01` R`\x00\x90\x81R`@\x90 T\x81V[4\x80\x15a\x00\xaeW`\x00\x80\xfd[Pa\x00ba\x00\xbd6`\x04a\x01[V[`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[4\x80\x15a\x00\xe4W`\x00\x80\xfd[P`\x00Ta\x00\xf8\x90`\x01`\x01`\xa0\x1b\x03\x16\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00lV[`\x01`\x01`\xa0\x1b\x03\x81\x16`\x00\x90\x81R`\x01` R`@\x81 \x80T4\x91\x90\x83\x90a\x01:\x90\x84\x90a\x01\x8bV[\x90\x91UPPP`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[`\x00` \x82\x84\x03\x12\x15a\x01mW`\x00\x80\xfd[\x815`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x01\x84W`\x00\x80\xfd[\x93\x92PPPV[`\x00\x82\x19\x82\x11\x15a\x01\xacWcNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[P\x01\x90V\xfe\xa2dipfsX\"\x12 \xa2\xe1\xe3\x00(\x01\xe6\n\xb4\xa6\xf0\\P2\x83h\x00\xc3\xacq\x8bm\n\xa0\xb4\xb7\xb6\xd2\x16\x88\x05\xb4dsolcC\x00\x08\r\x003\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => .Bytes )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`@Qa\x02z8\x03\x80a\x02z\x839\x81\x01`@\x81\x90Ra\x00/\x91a\x00TV[`\x00\x80T`\x01`\x01`\xa0\x1b\x03\x19\x16`\x01`\x01`\xa0\x1b\x03\x92\x90\x92\x16\x91\x90\x91\x17\x90Ua\x00\x84V[`\x00` \x82\x84\x03\x12\x15a\x00fW`\x00\x80\xfd[\x81Q`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x00}W`\x00\x80\xfd[\x93\x92PPPV[a\x01\xe7\x80a\x00\x93`\x009`\x00\xf3\xfe`\x80`@R`\x046\x10a\x00CW`\x005`\xe0\x1c\x80c\f\x11\xde\xdd\x14a\x00OW\x80c'\xe25\xe3\x14a\x00uW\x80cp\xa0\x821\x14a\x00\xa2W\x80c\xfc\fTj\x14a\x00\xd8W`\x00\x80\xfd[6a\x00JW\x00[`\x00\x80\xfd[a\x00ba\x00]6`\x04a\x01[V[a\x01\x10V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[4\x80\x15a\x00\x81W`\x00\x80\xfd[Pa\x00ba\x00\x906`\x04a\x01[V[`\x01` R`\x00\x90\x81R`@\x90 T\x81V[4\x80\x15a\x00\xaeW`\x00\x80\xfd[Pa\x00ba\x00\xbd6`\x04a\x01[V[`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[4\x80\x15a\x00\xe4W`\x00\x80\xfd[P`\x00Ta\x00\xf8\x90`\x01`\x01`\xa0\x1b\x03\x16\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00lV[`\x01`\x01`\xa0\x1b\x03\x81\x16`\x00\x90\x81R`\x01` R`@\x81 \x80T4\x91\x90\x83\x90a\x01:\x90\x84\x90a\x01\x8bV[\x90\x91UPPP`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[`\x00` \x82\x84\x03\x12\x15a\x01mW`\x00\x80\xfd[\x815`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x01\x84W`\x00\x80\xfd[\x93\x92PPPV[`\x00\x82\x19\x82\x11\x15a\x01\xacWcNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[P\x01\x90V\xfe\xa2dipfsX\"\x12 \xa2\xe1\xe3\x00(\x01\xe6\n\xb4\xa6\xf0\\P2\x83h\x00\xc3\xacq\x8bm\n\xa0\xb4\xb7\xb6\xd2\x16\x88\x05\xb4dsolcC\x00\x08\r\x003\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"" )
                    </localMem>
                    ...
                    ...
@@ -2299,7 +2287,7 @@
                  0
                </expectedValue>
                <expectedData>
-                 ( b"" => .Bytes )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
@@ -2342,11 +2330,10 @@
     rule [BASIC-BLOCK-10-TO-12]: <foundry>
            <kevm>
              <k>
-               ( #execute
-               ~> CONTINUATION => #end EVMC_SUCCESS
-               ~> #pc [ STOP ]
+               ( .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ] )
                ~> #execute
-               ~> CONTINUATION:K )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -2372,7 +2359,7 @@
                      728815563385977040452943777879061427756277306518
                    </id>
                    <callData>
-                     ( S2KSetUpDeployTest . S2KtestZUndextcodesize ( ) => b"b\xc9\xea\xc5" )
+                     b"b\xc9\xea\xc5"
                    </callData>
                    <callValue>
                      0
@@ -2381,7 +2368,7 @@
                      ( .WordStack => ( selector ( "test_extcodesize()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( .Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
                    ...
                    ...
@@ -2511,7 +2498,7 @@
                  0
                </expectedValue>
                <expectedData>
-                 ( .Bytes => b"" )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
