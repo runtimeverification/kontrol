@@ -36,7 +36,7 @@ if TYPE_CHECKING:
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
 
-    from .options import GlobalOptions
+    from .options import ProveOptions
 
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -44,7 +44,7 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 def foundry_prove(
     foundry_root: Path,
-    options: GlobalOptions,
+    options: ProveOptions,
     tests: Iterable[tuple[str, int | None]] = (),
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     if options.workers <= 0:
@@ -183,7 +183,7 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
 def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
-    options: GlobalOptions,
+    options: ProveOptions,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
         start_server = options.port is None

@@ -12,7 +12,7 @@ from pyk.utils import run_process, single
 
 from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
 from kontrol.kompile import foundry_kompile
-from kontrol.options import GlobalOptions
+from kontrol.options import ProveOptions
 from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
@@ -130,7 +130,7 @@ def test_foundry_prove(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             simplify_init=False,
             counterexample_info=True,
             bug_report=bug_report,
@@ -173,7 +173,7 @@ def test_foundry_fail(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             simplify_init=False,
             counterexample_info=True,
             port=server.port,
@@ -217,7 +217,7 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             bmc_depth=3,
             simplify_init=False,
             port=server.port,
@@ -235,7 +235,7 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             max_iterations=2,
             port=server.port,
             bug_report=bug_report,
@@ -256,7 +256,7 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             port=server.port,
             bug_report=bug_report,
         ),
@@ -283,7 +283,7 @@ def test_foundry_auto_abstraction(
     foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             auto_abstract_gas=True,
             bug_report=bug_report,
             port=server.port,
@@ -320,7 +320,7 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             port=server.port,
             bug_report=bug_report,
         ),
@@ -340,7 +340,7 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             port=server.port,
             bug_report=bug_report,
         ),
@@ -401,7 +401,7 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             auto_abstract_gas=True,
             max_iterations=4,
             reinit=True,
@@ -417,7 +417,7 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, id)],
-        options=GlobalOptions(
+        options=ProveOptions(
             auto_abstract_gas=True,
             max_iterations=6,
             reinit=False,
@@ -437,7 +437,7 @@ def test_foundry_init_code(test: str, foundry_root: Path, use_booster: bool) -> 
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=GlobalOptions(
+        options=ProveOptions(
             simplify_init=False,
             smt_timeout=300,
             smt_retry_limit=10,

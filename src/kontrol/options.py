@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 @dataclass(frozen=True)
-class GlobalOptions:
+class ProveOptions:
     auto_abstract_gas: bool
     bug_report: BugReport | None
     use_booster: bool

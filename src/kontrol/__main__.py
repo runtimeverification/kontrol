@@ -28,7 +28,7 @@ from .foundry import (
     foundry_to_dot,
 )
 from .kompile import foundry_kompile
-from .options import GlobalOptions
+from .options import ProveOptions
 from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
 
@@ -178,7 +178,7 @@ def exec_prove(
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
 
-    options = GlobalOptions(
+    options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
         bug_report=bug_report,
         kore_rpc_command=kore_rpc_command,
