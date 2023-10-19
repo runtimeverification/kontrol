@@ -245,9 +245,12 @@ def _run_cfg_group(
             port=port,
         ) as kcfg_explore:
             proof = method_to_apr_proof(
-                test,
-                kcfg_explore,
-                options=options,
+                test=test,
+                foundry=options.foundry,
+                kcfg_explore=kcfg_explore,
+                simplify_init=options.simplify_init,
+                bmc_depth=options.bmc_depth,
+                run_constructor=options.run_constructor,
             )
 
             passed = kevm_prove(
@@ -281,11 +284,14 @@ def _run_cfg_group(
 
 def method_to_apr_proof(
     test: FoundryTest,
+    foundry: Foundry,
     kcfg_explore: KCFGExplore,
-    options: GlobalOptions,
+    simplify_init: bool = True,
+    bmc_depth: int | None = None,
+    run_constructor: bool = False,
 ) -> APRProof | APRBMCProof:
-    if Proof.proof_data_exists(test.id, options.foundry.proofs_dir):
-        apr_proof = options.foundry.get_apr_proof(test.id)
+    if Proof.proof_data_exists(test.id, foundry.proofs_dir):
+        apr_proof = foundry.get_apr_proof(test.id)
         apr_proof.write_proof_data()
         return apr_proof
 
@@ -294,19 +300,20 @@ def method_to_apr_proof(
         _LOGGER.info(f'Creating proof from constructor for test: {test.id}')
     elif test.method.signature != 'setUp()' and 'setUp' in test.contract.method_by_name:
         _LOGGER.info(f'Using setUp method for test: {test.id}')
-        setup_proof = _load_setup_proof(options.foundry, test.contract)
-    elif options.run_constructor:
+        setup_proof = _load_setup_proof(foundry, test.contract)
+    elif run_constructor:
         _LOGGER.info(f'Using constructor final state as initial state for test: {test.id}')
-        setup_proof = _load_constructor_proof(options.foundry, test.contract)
+        setup_proof = _load_constructor_proof(foundry, test.contract)
 
     kcfg, init_node_id, target_node_id = method_to_initialized_cfg(
-        test,
-        kcfg_explore,
-        options=options,
+        foundry=foundry,
+        test=test,
+        kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
+        simplify_init=simplify_init,
     )
 
-    if options.bmc_depth is not None:
+    if bmc_depth is not None:
         apr_proof = APRBMCProof(
             test.id,
             kcfg,
@@ -314,11 +321,11 @@ def method_to_apr_proof(
             init_node_id,
             target_node_id,
             {},
-            options.bmc_depth,
-            proof_dir=options.foundry.proofs_dir,
+            bmc_depth,
+            proof_dir=foundry.proofs_dir,
         )
     else:
-        apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=options.foundry.proofs_dir)
+        apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=foundry.proofs_dir)
 
     apr_proof.write_proof_data()
     return apr_proof
@@ -339,15 +346,16 @@ def _load_constructor_proof(foundry: Foundry, contract: Contract) -> APRProof:
 
 
 def method_to_initialized_cfg(
+    foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
-    options: GlobalOptions,
     *,
     setup_proof: APRProof | None = None,
+    simplify_init: bool = True,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
-    empty_config = options.foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
+    empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
         empty_config,
         test.contract,
@@ -358,7 +366,7 @@ def method_to_initialized_cfg(
     for node_id in new_node_ids:
         _LOGGER.info(f'Expanding macros in node {node_id} for test: {test.name}')
         init_term = kcfg.node(node_id).cterm.kast
-        init_term = KDefinition__expand_macros(options.foundry.kevm.definition, init_term)
+        init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
         init_cterm = CTerm.from_kast(init_term)
         _LOGGER.info(f'Computing definedness constraint for node {node_id} for test: {test.name}')
         init_cterm = kcfg_explore.cterm_assume_defined(init_cterm)
@@ -366,11 +374,11 @@ def method_to_initialized_cfg(
 
     _LOGGER.info(f'Expanding macros in target state for test: {test.name}')
     target_term = kcfg.node(target_node_id).cterm.kast
-    target_term = KDefinition__expand_macros(options.foundry.kevm.definition, target_term)
+    target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
     target_cterm = CTerm.from_kast(target_term)
     kcfg.replace_node(target_node_id, target_cterm)
 
-    if options.simplify_init:
+    if simplify_init:
         _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
         kcfg_explore.simplify(kcfg, {})
 
