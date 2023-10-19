@@ -67,7 +67,8 @@ jobs:
       - name: 'Build Docker image'
         run: |
           K_VERSION=$(cat deps/k_release)
-          docker build . --no-cache --tag ${TAG} --build-arg K_VERSION=${K_VERSION}
+          Z3_VERSION=$(cat deps/z3)
+          docker build . --no-cache --tag ${TAG} --build-arg K_VERSION=${K_VERSION} --build-arg Z3_VERSION=${Z3_VERSION}
 
       - name: 'Run Docker image'
         run: docker run --rm ${TAG} kontrol --help
