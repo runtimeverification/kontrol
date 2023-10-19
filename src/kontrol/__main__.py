@@ -190,6 +190,8 @@ def exec_prove(
     auto_abstract_gas: bool = False,
     run_constructor: bool = False,
     fail_fast: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -223,6 +225,8 @@ def exec_prove(
         max_iterations=max_iterations,
         run_constructor=run_constructor,
         fail_fast=fail_fast,
+        port=port,
+        maude_port=maude_port,
     )
 
     results = foundry_prove(
@@ -262,6 +266,8 @@ def exec_show(
     failing: bool = False,
     failure_info: bool = False,
     counterexample_info: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
@@ -278,6 +284,8 @@ def exec_show(
         failing=failing,
         failure_info=failure_info,
         counterexample_info=counterexample_info,
+        port=port,
+        maude_port=maude_port,
     )
     print(output)
 
@@ -324,6 +332,8 @@ def exec_simplify_node(
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     trace_rewrites: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     if smt_timeout is None:
@@ -343,6 +353,8 @@ def exec_simplify_node(
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
     print(f'Simplified:\n{pretty_term}')
 
@@ -358,6 +370,8 @@ def exec_step_node(
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     trace_rewrites: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     if smt_timeout is None:
@@ -376,6 +390,8 @@ def exec_step_node(
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
 
 
@@ -400,6 +416,8 @@ def exec_section_edge(
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     trace_rewrites: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     if smt_timeout is None:
@@ -418,6 +436,8 @@ def exec_section_edge(
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
 
 
@@ -428,6 +448,8 @@ def exec_get_model(
     nodes: Iterable[NodeIdLike] = (),
     pending: bool = False,
     failing: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     output = foundry_get_model(
@@ -437,6 +459,8 @@ def exec_get_model(
         nodes=nodes,
         pending=pending,
         failing=failing,
+        port=port,
+        maude_port=maude_port,
     )
     print(output)
 
