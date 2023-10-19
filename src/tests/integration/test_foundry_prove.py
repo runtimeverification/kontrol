@@ -379,11 +379,10 @@ def test_foundry_resume_proof(
 ) -> None:
     foundry = Foundry(foundry_root)
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
-    id = 0
 
     prove_res = foundry_prove(
         foundry_root,
-        tests=[(test, id)],
+        tests=[(test, None)],
         auto_abstract_gas=True,
         max_iterations=4,
         reinit=True,
@@ -391,18 +390,19 @@ def test_foundry_resume_proof(
         bug_report=bug_report,
     )
 
-    proof = foundry.get_apr_proof(f'{test}:{id}')
+    proof = foundry.get_apr_proof(f'{test}:0')
     assert proof.pending
 
     prove_res = foundry_prove(
         foundry_root,
-        tests=[(test, id)],
+        tests=[(test, None)],
         auto_abstract_gas=True,
-        max_iterations=6,
+        max_iterations=10,
         reinit=False,
         port=server.port,
         bug_report=bug_report,
     )
+
     assert_fail(test, prove_res)
 
 
