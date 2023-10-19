@@ -26,7 +26,6 @@ from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
-from .options import GlobalOptions
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
@@ -36,7 +35,8 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
-    from pyk.utils import BugReport
+
+    from .options import GlobalOptions
 
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -44,35 +44,17 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 def foundry_prove(
     foundry_root: Path,
-    max_depth: int = 1000,
-    max_iterations: int | None = None,
-    reinit: bool = False,
+    options: GlobalOptions,
     tests: Iterable[tuple[str, int | None]] = (),
-    workers: int = 1,
-    simplify_init: bool = True,
-    break_every_step: bool = False,
-    break_on_jumpi: bool = False,
-    break_on_calls: bool = True,
-    bmc_depth: int | None = None,
-    bug_report: BugReport | None = None,
-    kore_rpc_command: str | Iterable[str] | None = None,
-    use_booster: bool = False,
-    smt_timeout: int | None = None,
-    smt_retry_limit: int | None = None,
-    failure_info: bool = True,
-    counterexample_info: bool = False,
-    trace_rewrites: bool = False,
-    auto_abstract_gas: bool = False,
-    port: int | None = None,
-    run_constructor: bool = False,
-    fail_fast: bool = False,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
-    if workers <= 0:
-        raise ValueError(f'Must have at least one worker, found: --workers {workers}')
-    if max_iterations is not None and max_iterations < 0:
-        raise ValueError(f'Must have a non-negative number of iterations, found: --max-iterations {max_iterations}')
+    if options.workers <= 0:
+        raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
+    if options.max_iterations is not None and options.max_iterations < 0:
+        raise ValueError(
+            f'Must have a non-negative number of iterations, found: --max-iterations {options.max_iterations}'
+        )
 
-    if use_booster:
+    if options.use_booster:
         try:
             run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
         except CalledProcessError:
@@ -80,20 +62,17 @@ def foundry_prove(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
             ) from None
 
-    if kore_rpc_command is None:
-        kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
-
-    foundry = Foundry(foundry_root, bug_report=bug_report)
+    foundry = Foundry(foundry_root, bug_report=options.bug_report)
     foundry.mk_proofs_dir()
 
-    test_suite = collect_tests(foundry, tests, reinit=reinit)
+    test_suite = collect_tests(foundry, tests, reinit=options.reinit)
     test_names = [test.name for test in test_suite]
 
     contracts = [test.contract for test in test_suite]
-    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=reinit)
+    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=options.reinit)
     setup_method_names = [test.name for test in setup_method_tests]
 
-    constructor_tests = collect_constructors(foundry, contracts, reinit=reinit)
+    constructor_tests = collect_constructors(foundry, contracts, reinit=options.reinit)
     constructor_names = [test.name for test in constructor_tests]
 
     _LOGGER.info(f'Running tests: {test_names}')
@@ -110,38 +89,16 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    llvm_definition_dir = foundry.llvm_library if use_booster else None
-
-    options = GlobalOptions(
-        foundry=foundry,
-        auto_abstract_gas=auto_abstract_gas,
-        bug_report=bug_report,
-        kore_rpc_command=kore_rpc_command,
-        llvm_definition_dir=llvm_definition_dir,
-        smt_timeout=smt_timeout,
-        smt_retry_limit=smt_retry_limit,
-        trace_rewrites=trace_rewrites,
-        simplify_init=simplify_init,
-        bmc_depth=bmc_depth,
-        max_depth=max_depth,
-        break_every_step=break_every_step,
-        break_on_jumpi=break_on_jumpi,
-        break_on_calls=break_on_calls,
-        workers=workers,
-        counterexample_info=counterexample_info,
-        max_iterations=max_iterations,
-        run_constructor=run_constructor,
-        fail_fast=fail_fast,
-    )
+    #      llvm_definition_dir = foundry.llvm_library if options.use_booster else None
 
     def run_prover(test_suite: list[FoundryTest]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
         return _run_cfg_group(
-            test_suite,
+            tests=test_suite,
+            foundry=foundry,
             options=options,
-            port=port,
         )
 
-    if run_constructor:
+    if options.run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
         results = run_prover(constructor_tests)
         failed = [init_cfg for init_cfg, passed in results.items() if not passed]
@@ -225,28 +182,28 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
 
 def _run_cfg_group(
     tests: list[FoundryTest],
+    foundry: Foundry,
     options: GlobalOptions,
-    port: int | None,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
     def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
-        start_server = port is None
+        start_server = options.port is None
 
         with legacy_explore(
-            options.foundry.kevm,
+            foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
             id=test.id,
             bug_report=options.bug_report,
             kore_rpc_command=options.kore_rpc_command,
-            llvm_definition_dir=options.llvm_definition_dir,
+            llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
             smt_timeout=options.smt_timeout,
             smt_retry_limit=options.smt_retry_limit,
             trace_rewrites=options.trace_rewrites,
             start_server=start_server,
-            port=port,
+            port=options.port,
         ) as kcfg_explore:
             proof = method_to_apr_proof(
                 test=test,
-                foundry=options.foundry,
+                foundry=foundry,
                 kcfg_explore=kcfg_explore,
                 simplify_init=options.simplify_init,
                 bmc_depth=options.bmc_depth,
@@ -254,7 +211,7 @@ def _run_cfg_group(
             )
 
             passed = kevm_prove(
-                options.foundry.kevm,
+                foundry.kevm,
                 proof,
                 kcfg_explore,
                 max_depth=options.max_depth,

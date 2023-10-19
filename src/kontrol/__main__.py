@@ -28,6 +28,7 @@ from .foundry import (
     foundry_to_dot,
 )
 from .kompile import foundry_kompile
+from .options import GlobalOptions
 from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
 
@@ -177,27 +178,30 @@ def exec_prove(
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
 
-    results = foundry_prove(
-        foundry_root=foundry_root,
-        max_depth=max_depth,
-        max_iterations=max_iterations,
-        reinit=reinit,
-        tests=tests,
-        workers=workers,
-        simplify_init=simplify_init,
-        break_every_step=break_every_step,
-        break_on_jumpi=break_on_jumpi,
-        break_on_calls=break_on_calls,
-        bmc_depth=bmc_depth,
+    options = GlobalOptions(
+        auto_abstract_gas=auto_abstract_gas,
         bug_report=bug_report,
         kore_rpc_command=kore_rpc_command,
-        use_booster=use_booster,
-        counterexample_info=counterexample_info,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
-        auto_abstract_gas=auto_abstract_gas,
+        simplify_init=simplify_init,
+        bmc_depth=bmc_depth,
+        max_depth=max_depth,
+        break_every_step=break_every_step,
+        break_on_jumpi=break_on_jumpi,
+        break_on_calls=break_on_calls,
+        workers=workers,
+        counterexample_info=counterexample_info,
+        max_iterations=max_iterations,
         run_constructor=run_constructor,
+        fail_fast=fail_fast,
+    )
+
+    results = foundry_prove(
+        foundry_root=foundry_root,
+        options=options,
+        tests=tests,
     )
     failed = 0
     for pid, r in results.items():

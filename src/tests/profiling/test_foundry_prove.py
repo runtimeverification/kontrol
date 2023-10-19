@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 from pyk.utils import run_process
 
 from kontrol.kompile import foundry_kompile
+from kontrol.options import GlobalOptions
 from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
@@ -36,11 +37,13 @@ def test_foundy_prove(profile: Profiler, use_booster: bool, tmp_path: Path) -> N
         foundry_prove(
             foundry_root,
             tests=[('AssertTest.test_revert_branch', None)],
-            simplify_init=False,
-            smt_timeout=300,
-            smt_retry_limit=10,
-            counterexample_info=True,
-            use_booster=use_booster,
+            options=GlobalOptions(
+                simplify_init=False,
+                smt_timeout=300,
+                smt_retry_limit=10,
+                counterexample_info=True,
+                use_booster=use_booster,
+            ),
         )
 
 
