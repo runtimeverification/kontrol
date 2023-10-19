@@ -205,7 +205,6 @@ def _run_cfg_group(
                 test=test,
                 foundry=foundry,
                 kcfg_explore=kcfg_explore,
-                simplify_init=options.simplify_init,
                 bmc_depth=options.bmc_depth,
                 run_constructor=options.run_constructor,
             )
@@ -243,7 +242,6 @@ def method_to_apr_proof(
     test: FoundryTest,
     foundry: Foundry,
     kcfg_explore: KCFGExplore,
-    simplify_init: bool = True,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
 ) -> APRProof | APRBMCProof:
@@ -267,7 +265,6 @@ def method_to_apr_proof(
         test=test,
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
-        simplify_init=simplify_init,
     )
 
     if bmc_depth is not None:
@@ -308,7 +305,6 @@ def method_to_initialized_cfg(
     kcfg_explore: KCFGExplore,
     *,
     setup_proof: APRProof | None = None,
-    simplify_init: bool = True,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -335,9 +331,8 @@ def method_to_initialized_cfg(
     target_cterm = CTerm.from_kast(target_term)
     kcfg.replace_node(target_node_id, target_cterm)
 
-    if simplify_init:
-        _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
-        kcfg_explore.simplify(kcfg, {})
+    _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
+    kcfg_explore.simplify(kcfg, {})
 
     return kcfg, init_node_id, target_node_id
 

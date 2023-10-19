@@ -38,7 +38,6 @@ def test_foundy_prove(profile: Profiler, use_booster: bool, tmp_path: Path) -> N
             foundry_root,
             tests=[('AssertTest.test_revert_branch', None)],
             options=ProveOptions(
-                simplify_init=False,
                 smt_timeout=300,
                 smt_retry_limit=10,
                 counterexample_info=True,

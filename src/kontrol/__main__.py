@@ -6,8 +6,8 @@ import sys
 from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
+from kevm_pyk import kdist
 from kevm_pyk.cli import node_id_like
-from kevm_pyk.dist import DistTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
 from pyk.proof.tui import APRProofViewer
@@ -88,14 +88,14 @@ def exec_solc_to_k(
     main_module: str | None,
     requires: list[str],
     imports: list[str],
-    target: DistTarget | None = None,
+    target: str | None = None,
     **kwargs: Any,
 ) -> None:
     if target is None:
-        target = DistTarget.HASKELL
+        target = 'haskell'
 
     k_text = solc_to_k(
-        definition_dir=target.get(),
+        definition_dir=kdist.get(target),
         contract_file=contract_file,
         contract_name=contract_name,
         main_module=main_module,
@@ -147,7 +147,6 @@ def exec_prove(
     reinit: bool = False,
     tests: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
-    simplify_init: bool = True,
     break_every_step: bool = False,
     break_on_jumpi: bool = False,
     break_on_calls: bool = True,
@@ -180,12 +179,12 @@ def exec_prove(
 
     options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
+        reinit=reinit,
         bug_report=bug_report,
         kore_rpc_command=kore_rpc_command,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
-        simplify_init=simplify_init,
         bmc_depth=bmc_depth,
         max_depth=max_depth,
         break_every_step=break_every_step,

@@ -1,9 +1,9 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION
+│   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 0
-│   statusCode: STATUSCODE
+│   statusCode: STATUSCODE:StatusCode
 │
 │  (683 steps)
 ├─ 3
@@ -78,11 +78,11 @@
     statusCode: EVMC_REVERT
 
 
-┌─ 2 (root, leaf, target)
-│   k: #halt ~> CONTINUATION
-│   pc: PC_CELL_5d410f2a
-│   callDepth: CALLDEPTH_CELL_5d410f2a
-│   statusCode: STATUSCODE_FINAL
+┌─ 2 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
 
 
 Node 6:
@@ -397,11 +397,10 @@ Node 6:
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( #execute
-               ~> CONTINUATION => #end EVMC_REVERT
-               ~> #pc [ REVERT ]
+               ( .K => #end EVMC_REVERT
+               ~> #pc [ REVERT ] )
                ~> #execute
-               ~> CONTINUATION:K )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -427,10 +426,10 @@ Node 6:
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID
+                     CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( S2KGasTest . S2KtestInfiniteGas ( ) => b"c\xfe\xc36" )
+                     b"c\xfe\xc36"
                    </callData>
                    <callValue>
                      0
@@ -439,7 +438,7 @@ Node 6:
                      ( .WordStack => ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( .Bytes => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
                    ...
                    ...
@@ -467,11 +466,11 @@ Node 6:
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID
+                   ORIGIN_ID:Int
                  </origin>
                  <block>
                    <number>
-                     NUMBER_CELL
+                     NUMBER_CELL:Int
                    </number>
                    ...
                  </block>
@@ -560,7 +559,7 @@ Node 6:
                  0
                </expectedValue>
                <expectedData>
-                 ( .Bytes => b"" )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
@@ -591,24 +590,14 @@ Node 6:
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( 0 <=Int CALLER_ID
-       andBool ( CALLER_ID <Int pow160
-       andBool ( 0 <=Int ORIGIN_ID
-       andBool ( ORIGIN_ID <Int pow160
-       andBool ( 0 <=Int NUMBER_CELL
-       andBool ( NUMBER_CELL <=Int maxSInt256
-       andBool ( lengthBytes ( S2KGasTest . S2KtestInfiniteGas ( ) ) <Int pow128
-       andBool ( 0 <=Int 728815563385977040452943777879061427756277306518
-       andBool ( 728815563385977040452943777879061427756277306518 <Int pow160
-               )))))))))
-       ensures ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( VGAS:Int <Int ( VGAS:Int +Int 91 )
-               )))))))
+               ))))))
+       ensures VGAS:Int <Int ( VGAS:Int +Int 91 )
       [label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>

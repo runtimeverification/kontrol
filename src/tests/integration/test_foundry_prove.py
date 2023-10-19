@@ -131,7 +131,6 @@ def test_foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
         options=ProveOptions(
-            simplify_init=False,
             counterexample_info=True,
             bug_report=bug_report,
             port=server.port,
@@ -174,7 +173,6 @@ def test_foundry_fail(
         foundry_root,
         tests=[(test_id, None)],
         options=ProveOptions(
-            simplify_init=False,
             counterexample_info=True,
             port=server.port,
         ),
@@ -219,7 +217,6 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
         tests=[(test_id, None)],
         options=ProveOptions(
             bmc_depth=3,
-            simplify_init=False,
             port=server.port,
             bug_report=bug_report,
         ),
@@ -287,7 +284,6 @@ def test_foundry_auto_abstraction(
             auto_abstract_gas=True,
             bug_report=bug_report,
             port=server.port,
-            simplify_init=False,
         ),
     )
 
@@ -438,7 +434,6 @@ def test_foundry_init_code(test: str, foundry_root: Path, use_booster: bool) -> 
         foundry_root,
         tests=[(test, None)],
         options=ProveOptions(
-            simplify_init=False,
             smt_timeout=300,
             smt_retry_limit=10,
             use_booster=use_booster,

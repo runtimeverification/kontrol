@@ -41,7 +41,6 @@ class ProveOptions:
         smt_timeout: int | None = None,
         smt_retry_limit: int | None = None,
         trace_rewrites: bool = False,
-        simplify_init: bool = True,
         bmc_depth: int | None = None,
         max_depth: int = 1000,
         break_every_step: bool = False,
@@ -64,7 +63,6 @@ class ProveOptions:
         object.__setattr__(self, 'smt_timeout', smt_timeout)
         object.__setattr__(self, 'smt_retry_limit', smt_retry_limit)
         object.__setattr__(self, 'trace_rewrites', trace_rewrites)
-        object.__setattr__(self, 'simplify_init', simplify_init)
         object.__setattr__(self, 'bmc_depth', bmc_depth)
         object.__setattr__(self, 'max_depth', max_depth)
         object.__setattr__(self, 'break_every_step', break_every_step)
