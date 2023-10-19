@@ -22,8 +22,11 @@ if TYPE_CHECKING:
     from typing import Final
 
     from pyk.kore.rpc import KoreServer
+    from pyk.proof.proof import Proof
     from pyk.utils import BugReport
     from pytest import TempPathFactory
+
+    from kontrol.prove import FoundryTest
 
 
 FORGE_STD_REF: Final = '75f1746'
@@ -331,23 +334,21 @@ def test_foundry_remove_node(
     assert_pass(test, prove_res)
 
 
-def assert_pass(test: str, prove_res: dict[tuple[str, int], tuple[bool, list[str] | None]]) -> None:
-    id = id_for_test(test, prove_res)
-    passed, log = prove_res[(test, id)]
-    if not passed:
-        assert log
-        pytest.fail('\n'.join(log))
+def assert_pass(test: str, prove_res: dict[FoundryTest, Proof]) -> None:
+    proof = single([proof for foundry_test, proof in prove_res.items() if foundry_test.id == test])
+    if not proof.passed:
+        if isinstance(proof, APRProof):
+            assert proof.failure_info
+            pytest.fail('\n'.join(proof.failure_info.print()))
+        else:
+            pytest.fail()
 
 
-def assert_fail(test: str, prove_res: dict[tuple[str, int], tuple[bool, list[str] | None]]) -> None:
-    id = id_for_test(test, prove_res)
-    passed, log = prove_res[test, id]
-    assert not passed
-    assert log
-
-
-def id_for_test(test: str, prove_res: dict[tuple[str, int], tuple[bool, list[str] | None]]) -> int:
-    return single(_id for _test, _id in prove_res.keys() if _test == test and _id is not None)
+def assert_fail(test: str, prove_res: dict[FoundryTest, Proof]) -> None:
+    proof = single([proof for foundry_test, proof in prove_res.items() if foundry_test.id == test])
+    assert not proof.passed
+    if isinstance(proof, APRProof):
+        assert proof.failure_info
 
 
 def assert_or_update_show_output(show_res: str, expected_file: Path, *, update: bool) -> None:
@@ -380,17 +381,17 @@ def test_foundry_resume_proof(
 ) -> None:
     foundry = Foundry(foundry_root)
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
+    id = 0
 
     prove_res = foundry_prove(
         foundry_root,
-        tests=[(test, None)],
+        tests=[(test, id)],
         auto_abstract_gas=True,
         max_iterations=4,
         reinit=True,
         port=server.port,
         bug_report=bug_report,
     )
-    id = id_for_test(test, prove_res)
 
     proof = foundry.get_apr_proof(f'{test}:{id}')
     assert proof.pending

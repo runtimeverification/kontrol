@@ -5,13 +5,7 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics
-from kevm_pyk.utils import (
-    KDefinition__expand_macros,
-    abstract_cell_vars,
-    kevm_prove,
-    legacy_explore,
-    print_failure_info,
-)
+from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, kevm_prove, legacy_explore
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
@@ -64,7 +58,7 @@ def foundry_prove(
     auto_abstract_gas: bool = False,
     port: int | None = None,
     run_constructor: bool = False,
-) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
+) -> dict[FoundryTest, Proof]:
     if workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {workers}')
     if max_iterations is not None and max_iterations < 0:
@@ -108,7 +102,7 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    def run_prover(test_suite: list[FoundryTest]) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
+    def run_prover(test_suite: list[FoundryTest]) -> dict[FoundryTest, Proof]:
         return _run_cfg_group(
             test_suite,
             foundry,
@@ -135,14 +129,14 @@ def foundry_prove(
     if run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
         results = run_prover(constructor_tests)
-        failed = [init_cfg for init_cfg, passed in results.items() if not passed]
+        failed = [proof for proof in results.values() if not proof.passed]
         if failed:
             raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
     results = run_prover(setup_method_tests)
 
-    failed = [setup_cfg for setup_cfg, passed in results.items() if not passed]
+    failed = [proof for proof in results.values() if not proof.passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
@@ -236,8 +230,8 @@ def _run_cfg_group(
     auto_abstract_gas: bool,
     port: int | None,
     run_constructor: bool = False,
-) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
-    def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
+) -> dict[FoundryTest, Proof]:
+    def init_and_run_proof(test: FoundryTest) -> Proof:
         llvm_definition_dir = foundry.llvm_library if use_booster else None
         start_server = port is None
 
@@ -263,7 +257,7 @@ def _run_cfg_group(
                 run_constructor=run_constructor,
             )
 
-            passed = kevm_prove(
+            kevm_prove(
                 foundry.kevm,
                 proof,
                 kcfg_explore,
@@ -273,22 +267,17 @@ def _run_cfg_group(
                 break_on_jumpi=break_on_jumpi,
                 break_on_calls=break_on_calls,
             )
-            failure_log = None
-            if not passed:
-                failure_log = print_failure_info(proof, kcfg_explore, counterexample_info)
-            return passed, failure_log
+            return proof
 
-    _apr_proofs: list[tuple[bool, list[str] | None]]
+    apr_proofs: dict[FoundryTest, Proof]
     if workers > 1:
         with ProcessPool(ncpus=workers) as process_pool:
-            _apr_proofs = process_pool.map(init_and_run_proof, tests)
+            apr_proofs = process_pool.map(init_and_run_proof, tests)
     else:
-        _apr_proofs = []
+        apr_proofs = {}
         for test in tests:
-            _apr_proofs.append(init_and_run_proof(test))
+            apr_proofs[test] = init_and_run_proof(test)
 
-    unparsed_tests = [test.unparsed for test in tests]
-    apr_proofs = dict(zip(unparsed_tests, _apr_proofs, strict=True))
     return apr_proofs
 
 

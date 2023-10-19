@@ -10,6 +10,7 @@ from kevm_pyk.cli import node_id_like
 from kevm_pyk.dist import DistTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
 
 from . import VERSION
@@ -199,16 +200,18 @@ def exec_prove(
         run_constructor=run_constructor,
     )
     failed = 0
-    for pid, r in results.items():
-        passed, failure_log = r
-        if passed:
-            print(f'PROOF PASSED: {pid}')
+    for _, proof in results.items():
+        if proof.passed:
+            print(f'PROOF PASSED: {proof.id}')
         else:
             failed += 1
-            print(f'PROOF FAILED: {pid}')
+            print(f'PROOF FAILED: {proof.id}')
+            failure_log = None
+            if isinstance(proof, APRProof):
+                failure_log = proof.failure_info
             if failure_info and failure_log is not None:
-                failure_log += Foundry.help_info()
-                for line in failure_log:
+                log = failure_log.print() + Foundry.help_info()
+                for line in log:
                     print(line)
 
     sys.exit(failed)
