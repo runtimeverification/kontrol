@@ -136,7 +136,7 @@ def test_foundry_prove(
     )
 
     # Then
-    assert_pass(test_id, prove_res)
+    assert_pass(test_id, single(prove_res))
 
     if test_id not in SHOW_TESTS or use_booster:
         return
@@ -175,7 +175,7 @@ def test_foundry_fail(
     )
 
     # Then
-    assert_fail(test_id, prove_res)
+    assert_fail(test_id, single(prove_res))
 
     if test_id not in SHOW_TESTS or use_booster:
         return
@@ -217,7 +217,7 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
     )
 
     # Then
-    assert_pass(test_id, prove_res)
+    assert_pass(test_id, single(prove_res))
 
 
 def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, server: KoreServer) -> None:
@@ -248,7 +248,7 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
         port=server.port,
         bug_report=bug_report,
     )
-    assert_pass(test, prove_res)
+    assert_pass(test, single(prove_res))
 
 
 def check_pending(foundry_root: Path, test: str, pending: list[int]) -> None:
@@ -307,7 +307,7 @@ def test_foundry_remove_node(
         port=server.port,
         bug_report=bug_report,
     )
-    assert_pass(test, prove_res)
+    assert_pass(test, single(prove_res))
 
     foundry_remove_node(
         foundry_root=foundry_root,
@@ -325,11 +325,10 @@ def test_foundry_remove_node(
         port=server.port,
         bug_report=bug_report,
     )
-    assert_pass(test, prove_res)
+    assert_pass(test, single(prove_res))
 
 
-def assert_pass(test: str, prove_res: list[Proof]) -> None:
-    proof = single([proof for proof in prove_res if proof.id.split(':')[0] == test])
+def assert_pass(test: str, proof: Proof) -> None:
     if not proof.passed:
         if isinstance(proof, APRProof):
             assert proof.failure_info
@@ -338,8 +337,7 @@ def assert_pass(test: str, prove_res: list[Proof]) -> None:
             pytest.fail()
 
 
-def assert_fail(test: str, prove_res: list[Proof]) -> None:
-    proof = single([proof for proof in prove_res if proof.id.split(':')[0] == test])
+def assert_fail(test: str, proof: Proof) -> None:
     assert not proof.passed
     if isinstance(proof, APRProof):
         assert proof.failure_info
@@ -373,7 +371,6 @@ def assert_or_update_show_output(show_res: str, expected_file: Path, *, update: 
 def test_foundry_resume_proof(
     foundry_root: Path, update_expected_output: bool, bug_report: BugReport | None, server: KoreServer
 ) -> None:
-    foundry = Foundry(foundry_root)
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
 
     prove_res = foundry_prove(
@@ -386,7 +383,8 @@ def test_foundry_resume_proof(
         bug_report=bug_report,
     )
 
-    proof = foundry.get_apr_proof(f'{single(prove_res).id}')
+    proof = single(prove_res)
+    assert isinstance(proof, APRProof)
     assert proof.pending
 
     prove_res = foundry_prove(
@@ -399,7 +397,7 @@ def test_foundry_resume_proof(
         bug_report=bug_report,
     )
 
-    assert_fail(test, prove_res)
+    assert_fail(test, single(prove_res))
 
 
 ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail_init()')
@@ -418,4 +416,4 @@ def test_foundry_init_code(test: str, foundry_root: Path, use_booster: bool) -> 
     )
 
     # Then
-    assert_pass(test, prove_res)
+    assert_pass(test, single(prove_res))
