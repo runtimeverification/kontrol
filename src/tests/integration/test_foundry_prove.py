@@ -386,7 +386,7 @@ def test_foundry_resume_proof(
         bug_report=bug_report,
     )
 
-    proof = foundry.get_apr_proof(f'{test}:0')
+    proof = foundry.get_apr_proof(f'{single(prove_res).id}')
     assert proof.pending
 
     prove_res = foundry_prove(
