@@ -34,6 +34,7 @@ class ProveOptions:
 
     def __init__(
         self,
+        *,
         auto_abstract_gas: bool = False,
         bug_report: BugReport | None = None,
         use_booster: bool = True,
