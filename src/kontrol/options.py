@@ -14,7 +14,7 @@ class ProveOptions:
     auto_abstract_gas: bool
     bug_report: BugReport | None
     use_booster: bool
-    kore_rpc_command: str | Iterable[str] | None
+    kore_rpc_command: tuple[str, ...]
     smt_timeout: int | None
     smt_retry_limit: int | None
     trace_rewrites: bool
@@ -56,6 +56,10 @@ class ProveOptions:
     ) -> None:
         if kore_rpc_command is None:
             kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
+        elif isinstance(kore_rpc_command, str):
+            kore_rpc_command = (kore_rpc_command,)
+        else:
+            kore_rpc_command = tuple(kore_rpc_command)
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
         object.__setattr__(self, 'use_booster', use_booster)

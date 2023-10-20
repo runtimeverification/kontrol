@@ -166,7 +166,12 @@ FAIL_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-fail').read_text().splitline
 
 @pytest.mark.parametrize('test_id', FAIL_TESTS)
 def test_foundry_fail(
-    test_id: str, foundry_root: Path, update_expected_output: bool, use_booster: bool, server: KoreServer
+    test_id: str,
+    foundry_root: Path,
+    update_expected_output: bool,
+    use_booster: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
 ) -> None:
     # When
     prove_res = foundry_prove(
@@ -174,6 +179,7 @@ def test_foundry_fail(
         tests=[(test_id, None)],
         options=ProveOptions(
             counterexample_info=True,
+            bug_report=bug_report,
             port=server.port,
         ),
     )
@@ -428,7 +434,7 @@ ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail
 
 
 @pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry_root: Path, use_booster: bool) -> None:
+def test_foundry_init_code(test: str, foundry_root: Path, bug_report: BugReport | None, use_booster: bool) -> None:
     # When
     prove_res = foundry_prove(
         foundry_root,
@@ -438,6 +444,7 @@ def test_foundry_init_code(test: str, foundry_root: Path, use_booster: bool) -> 
             smt_retry_limit=10,
             use_booster=use_booster,
             run_constructor=True,
+            bug_report=bug_report,
         ),
     )
 
