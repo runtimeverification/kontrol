@@ -19,6 +19,7 @@ from kontrol.foundry import (
     foundry_step_node,
 )
 from kontrol.kompile import foundry_kompile
+from kontrol.options import ProveOptions
 from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
@@ -136,9 +137,11 @@ def test_foundry_prove(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        counterexample_info=True,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            counterexample_info=True,
+            bug_report=bug_report,
+            port=server.port,
+        ),
     )
 
     # Then
@@ -170,14 +173,22 @@ FAIL_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-fail').read_text().splitline
 
 @pytest.mark.parametrize('test_id', FAIL_TESTS)
 def test_foundry_fail(
-    test_id: str, foundry_root: Path, update_expected_output: bool, use_booster: bool, server: KoreServer
+    test_id: str,
+    foundry_root: Path,
+    update_expected_output: bool,
+    use_booster: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
 ) -> None:
     # When
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        counterexample_info=True,
-        port=server.port,
+        options=ProveOptions(
+            counterexample_info=True,
+            bug_report=bug_report,
+            port=server.port,
+        ),
     )
 
     # Then
@@ -217,9 +228,11 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        bmc_depth=3,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            bmc_depth=3,
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
 
     # Then
@@ -232,9 +245,11 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        max_iterations=2,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            max_iterations=2,
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
 
     check_pending(foundry_root, test, [4, 5])
@@ -251,8 +266,10 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     assert_pass(test, prove_res)
 
@@ -276,9 +293,11 @@ def test_foundry_auto_abstraction(
     foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        abstract_cells=['gas', 'refund'],
-        bug_report=bug_report,
-        port=server.port,
+        options=ProveOptions(
+            abstract_cells=['gas', 'refund'],
+            bug_report=bug_report,
+            port=server.port,
+        ),
     )
 
     if use_booster:
@@ -308,14 +327,17 @@ def test_foundry_abstract_nodes(
     use_booster: bool,
 ) -> None:
     test_id = 'AccountParamsTest.testDealSymbolic'
-    foundry_prove(
-        foundry_root,
-        tests=[(test_id, None)],
+    options = ProveOptions(
         abstract_cells=[],
         bug_report=bug_report,
         port=server.port,
         max_iterations=1,
         max_depth=100,
+    )
+    foundry_prove(
+        foundry_root,
+        options=options,
+        tests=[(test_id, None)],
     )
 
     foundry_abstract_node(
@@ -351,8 +373,10 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     assert_pass(test, prove_res)
 
@@ -369,8 +393,10 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     assert_pass(test, prove_res)
 
@@ -428,11 +454,13 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        abstract_cells=['gas', 'refund'],
-        max_iterations=4,
-        reinit=True,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            abstract_cells=['gas', 'refund'],
+            max_iterations=4,
+            reinit=True,
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     id = id_for_test(test, prove_res)
 
@@ -442,11 +470,13 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, id)],
-        abstract_cells=['gas', 'refund'],
-        max_iterations=6,
-        reinit=False,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            abstract_cells=['gas', 'refund'],
+            max_iterations=6,
+            reinit=False,
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     assert_fail(test, prove_res)
 
@@ -455,15 +485,18 @@ ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail
 
 
 @pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry_root: Path, use_booster: bool) -> None:
+def test_foundry_init_code(test: str, foundry_root: Path, bug_report: BugReport | None, use_booster: bool) -> None:
     # When
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        smt_timeout=300,
-        smt_retry_limit=10,
-        use_booster=use_booster,
-        run_constructor=True,
+        options=ProveOptions(
+            smt_timeout=300,
+            smt_retry_limit=10,
+            use_booster=use_booster,
+            run_constructor=True,
+            bug_report=bug_report,
+        ),
     )
 
     # Then
