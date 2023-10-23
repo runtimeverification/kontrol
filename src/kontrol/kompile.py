@@ -102,6 +102,9 @@ def foundry_kompile(
             kdist.get('foundry'),
             extra_unparsing_modules=(bin_runtime_definition.all_modules + contract_main_definition.all_modules),
         )
+
+        plugin_dir = kdist.get('plugin')
+
         foundry_contracts_file.write_text(kevm.pretty_print(bin_runtime_definition, unalias=False) + '\n')
         _LOGGER.info(f'Wrote file: {foundry_contracts_file}')
         foundry.main_file.write_text(kevm.pretty_print(contract_main_definition) + '\n')
@@ -142,6 +145,7 @@ def foundry_kompile(
             llvm_library=foundry.llvm_library,
             debug=debug,
             verbose=verbose,
+            plugin_dir=plugin_dir,
         )
 
     update_kompilation_digest()
