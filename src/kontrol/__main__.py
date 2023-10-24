@@ -552,13 +552,6 @@ def _create_argument_parser() -> ArgumentParser:
         help='Include the contract constructor in the test execution.',
     )
     prove_args.add_argument(
-        '--fail-fast',
-        dest='fail_fast',
-        default=False,
-        action='store_true',
-        help='Stop execution on other branches if a failing node is detected.',
-    )
-    prove_args.add_argument(
         '--auto-abstract-cell',
         dest='abstract_cells',
         default=[],
