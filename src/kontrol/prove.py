@@ -27,9 +27,10 @@ from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRBMCProver, APRProof, APRProver
+from pyk.proof.show import APRProofShow
 from pyk.utils import run_process, unique
 
-from .foundry import Foundry
+from .foundry import Foundry, foundry_node_printer
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
@@ -196,6 +197,7 @@ class InitProofJob(Job):
 
     def execute(self, queue: Queue, done_queue: Queue) -> None:
         llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
+        print('execute InitProofJob')
 
         with legacy_explore(
             self.foundry.kevm,
@@ -256,6 +258,7 @@ class AdvanceProofJob(Job):
         self.foundry = foundry
 
     def execute(self, queue: Queue, done_queue: Queue) -> None:
+        print('execute AdvanceProofJob')
         llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
         with legacy_explore(
             self.foundry.kevm,
@@ -282,6 +285,7 @@ class AdvanceProofJob(Job):
                 cut_point_rules=cut_point_rules,
                 terminal_rules=terminal_rules,
             )
+            print('Adding ExtendKCFGJob')
             done_queue.put(
                 ExtendKCFGJob(
                     test=self.test,
@@ -323,6 +327,8 @@ class ExtendKCFGJob(Job):
         self.foundry = foundry
 
     def execute(self, queue: Queue, done_queue: Queue) -> None:
+        print('execute ExtendKCFGJob')
+
         llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
         with legacy_explore(
             self.foundry.kevm,
@@ -409,11 +415,17 @@ class Scheduler:
         for thread in self.threads:
             thread.start()
         while self.job_counter > 0:
+            print('getting Job')
             result = self.done_queue.get()
+            print('got Job')
             self.job_counter -= 1
             if type(result) is AdvanceProofJob:
+                print('got AdvanceProofJob')
                 self.task_queue.put(result)
+                self.job_counter += 1
             elif type(result) is ExtendKCFGJob:
+                print('got ExtendKCFGJob')
+
                 if (
                     self.options.max_iterations is not None
                     and self.options.max_iterations <= self.iterations[result.test.id]
@@ -440,6 +452,13 @@ class Scheduler:
                 ) as kcfg_explore:
                     prover = build_prover(options=self.options, proof=result.proof, kcfg_explore=kcfg_explore)
                     prover._check_all_terminals()
+
+                    node_printer = foundry_node_printer(self.foundry, result.test.contract.name, result.proof)
+                    proof_show = APRProofShow(self.foundry.kevm, node_printer=node_printer)
+
+                    res_lines = proof_show.show(result.proof)
+                    print('\n'.join(res_lines))
+
                     for node in result.proof.terminal:
                         if result.proof.kcfg.is_leaf(node.id) and not result.proof.is_target(node.id):
                             # TODO can we have a worker thread check subsumtion?
@@ -493,6 +512,10 @@ class Scheduler:
                             )
                         )
                         self.job_counter += 1
+            else:
+                print('Got other')
+
+        print('done')
 
         for _thread in self.threads:
             self.task_queue.put(0)
