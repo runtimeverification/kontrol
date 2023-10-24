@@ -450,12 +450,18 @@ class Scheduler:
                     start_server=False,
                     port=result.port,
                 ) as kcfg_explore:
+                    proof_done = False
                     prover = build_prover(options=self.options, proof=result.proof, kcfg_explore=kcfg_explore)
+
+                    node_printer = foundry_node_printer(self.foundry, result.test.contract.name, result.proof)
+                    proof_show = APRProofShow(self.foundry.kevm, node_printer=node_printer)
+                    res_lines = proof_show.show(result.proof)
+                    print('\n'.join(res_lines))
+
                     prover._check_all_terminals()
 
                     node_printer = foundry_node_printer(self.foundry, result.test.contract.name, result.proof)
                     proof_show = APRProofShow(self.foundry.kevm, node_printer=node_printer)
-
                     res_lines = proof_show.show(result.proof)
                     print('\n'.join(res_lines))
 
@@ -470,12 +476,12 @@ class Scheduler:
                         _LOGGER.warning(
                             f'Terminating proof early because fail_fast is set {result.proof.id}, failing nodes: {[nd.id for nd in result.proof.failing]}'
                         )
-                        self.results.append(result.proof)
-                        continue
-                    result.proof.write_proof_data()
+                        proof_done = True
                     if not result.proof.pending:
-                        self.results.append(result.proof)
+                        proof_done = True
+
                     for pending_node in result.proof.pending:
+                        print(f'checking pending for node {pending_node.id}')
                         if pending_node not in result.proof.kcfg.reachable_nodes(source_id=result.node_id):
                             continue
 
@@ -498,7 +504,6 @@ class Scheduler:
                             _LOGGER.info(f'Prior loop heads for node {result.proof.id}: {(node.id, prior_loops)}')
                             if len(prior_loops) > result.proof.bmc_depth:
                                 result.proof.add_bounded(node.id)
-                                self.results.append(result.proof)
                                 continue
 
                         self.task_queue.put(
@@ -512,6 +517,10 @@ class Scheduler:
                             )
                         )
                         self.job_counter += 1
+
+                    result.proof.write_proof_data()
+                    if proof_done:
+                        self.results.append(result.proof)
             else:
                 print('Got other')
 
