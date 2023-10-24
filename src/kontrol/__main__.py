@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 import pyk
 from kevm_pyk import kdist
 from kevm_pyk.cli import node_id_like
+from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
@@ -145,6 +146,7 @@ def exec_build(
     debug: bool = False,
     llvm_library: bool = False,
     verbose: bool = False,
+    target: KompileTarget = KompileTarget.HASKELL_BOOSTER,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module {kwargs["main_module"]}')
@@ -165,6 +167,7 @@ def exec_build(
         llvm_kompile=llvm_kompile,
         debug=debug,
         verbose=verbose,
+        target=target,
     )
 
 
