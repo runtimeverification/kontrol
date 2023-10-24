@@ -1,12 +1,7 @@
 from __future__ import annotations
 
-import linecache
 import logging
-import os
-import time
-import tracemalloc
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 from queue import Queue
 from subprocess import CalledProcessError
 from threading import Thread  # type: ignore
@@ -46,7 +41,8 @@ if TYPE_CHECKING:
     from pyk.kcfg import KCFGExplore
     from pyk.kcfg.explore import ExtendResult
     from pyk.kore.rpc import KoreServer
-    from pyk.utils import BugReport
+
+    from .options import ProveOptions
 
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -54,35 +50,17 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 def foundry_prove(
     foundry_root: Path,
-    max_depth: int = 1000,
-    max_iterations: int | None = None,
-    reinit: bool = False,
+    options: ProveOptions,
     tests: Iterable[tuple[str, int | None]] = (),
-    workers: int = 1,
-    simplify_init: bool = True,
-    break_every_step: bool = False,
-    break_on_jumpi: bool = False,
-    break_on_calls: bool = True,
-    bmc_depth: int | None = None,
-    bug_report: BugReport | None = None,
-    kore_rpc_command: str | Iterable[str] | None = None,
-    use_booster: bool = False,
-    smt_timeout: int | None = None,
-    smt_retry_limit: int | None = None,
-    failure_info: bool = True,
-    counterexample_info: bool = False,
-    trace_rewrites: bool = False,
-    auto_abstract_gas: bool = False,
-    port: int | None = None,
-    run_constructor: bool = False,
-    fail_fast: bool = False,
 ) -> list[APRProof]:
-    if workers <= 0:
-        raise ValueError(f'Must have at least one worker, found: --workers {workers}')
-    if max_iterations is not None and max_iterations < 0:
-        raise ValueError(f'Must have a non-negative number of iterations, found: --max-iterations {max_iterations}')
+    if options.workers <= 0:
+        raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
+    if options.max_iterations is not None and options.max_iterations < 0:
+        raise ValueError(
+            f'Must have a non-negative number of iterations, found: --max-iterations {options.max_iterations}'
+        )
 
-    if use_booster:
+    if options.use_booster:
         try:
             run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
         except CalledProcessError:
@@ -90,20 +68,17 @@ def foundry_prove(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
             ) from None
 
-    if kore_rpc_command is None:
-        kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
-
-    foundry = Foundry(foundry_root, bug_report=bug_report)
+    foundry = Foundry(foundry_root, bug_report=options.bug_report)
     foundry.mk_proofs_dir()
 
-    test_suite = collect_tests(foundry, tests, reinit=reinit)
+    test_suite = collect_tests(foundry, tests, reinit=options.reinit)
     test_names = [test.name for test in test_suite]
 
     contracts = [test.contract for test in test_suite]
-    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=reinit)
+    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=options.reinit)
     setup_method_names = [test.name for test in setup_method_tests]
 
-    constructor_tests = collect_constructors(foundry, contracts, reinit=reinit)
+    constructor_tests = collect_constructors(foundry, contracts, reinit=options.reinit)
     constructor_names = [test.name for test in constructor_tests]
 
     _LOGGER.info(f'Running tests: {test_names}')
@@ -121,61 +96,14 @@ def foundry_prove(
         test.method.update_digest(foundry.digest_file)
 
     def run_prover(test_suite: list[FoundryTest]) -> list[APRProof]:
-        llvm_definition_dir = foundry.llvm_library if use_booster else None
-
-        print('abc')
-        print(llvm_definition_dir)
-
-        options = GlobalOptions(
-            foundry=foundry,
-            auto_abstract_gas=auto_abstract_gas,
-            bug_report=bug_report,
-            kore_rpc_command=kore_rpc_command,
-            llvm_definition_dir=llvm_definition_dir,
-            smt_timeout=smt_timeout,
-            smt_retry_limit=smt_retry_limit,
-            trace_rewrites=trace_rewrites,
-            simplify_init=simplify_init,
-            bmc_depth=bmc_depth,
-            max_depth=max_depth,
-            break_every_step=break_every_step,
-            break_on_jumpi=break_on_jumpi,
-            break_on_calls=break_on_calls,
-            workers=workers,
-            counterexample_info=counterexample_info,
-            max_iterations=max_iterations,
-            run_constructor=run_constructor,
-            fail_fast=fail_fast,
+        scheduler = Scheduler(
+            workers=options.workers, initial_tests=test_suite, options=options, port=options.port, foundry=foundry
         )
-
-        scheduler = Scheduler(workers=workers, initial_tests=test_suite, options=options, port=port)
         scheduler.run()
 
         return scheduler.results
 
-    #          return _run_cfg_group(
-    #              test_suite,
-    #              foundry,
-    #              max_depth=max_depth,
-    #              max_iterations=max_iterations,
-    #              workers=workers,
-    #              simplify_init=simplify_init,
-    #              break_every_step=break_every_step,
-    #              break_on_jumpi=break_on_jumpi,
-    #              break_on_calls=break_on_calls,
-    #              bmc_depth=bmc_depth,
-    #              bug_report=bug_report,
-    #              kore_rpc_command=kore_rpc_command,
-    #              use_booster=use_booster,
-    #              smt_timeout=smt_timeout,
-    #              smt_retry_limit=smt_retry_limit,
-    #              counterexample_info=counterexample_info,
-    #              trace_rewrites=trace_rewrites,
-    #              auto_abstract_gas=auto_abstract_gas,
-    #              port=port,
-    #          )
-
-    if run_constructor:
+    if options.run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
         results = run_prover(constructor_tests)
         failed = [init_proof for init_proof in results if not init_proof.passed]
@@ -250,108 +178,92 @@ class Job(ABC):
 class InitProofJob(Job):
     test: FoundryTest
     proof: APRProof
-    options: GlobalOptions
+    options: ProveOptions
+    foundry: Foundry
     port: int
 
     def __init__(
         self,
         test: FoundryTest,
-        options: GlobalOptions,
+        options: ProveOptions,
+        foundry: Foundry,
         port: int,
     ) -> None:
         self.test = test
         self.options = options
         self.port = port
+        self.foundry = foundry
 
     def execute(self, queue: Queue, done_queue: Queue) -> None:
-        print(f'kore_rpc_command = {self.options.kore_rpc_command}')
+        llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
+
         with legacy_explore(
-            self.options.foundry.kevm,
+            self.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
             id=self.test.id,
             bug_report=self.options.bug_report,
             kore_rpc_command=self.options.kore_rpc_command,
-            llvm_definition_dir=self.options.llvm_definition_dir,
+            llvm_definition_dir=llvm_definition_dir,
             smt_timeout=self.options.smt_timeout,
             smt_retry_limit=self.options.smt_retry_limit,
             trace_rewrites=self.options.trace_rewrites,
             start_server=False,
             port=self.port,
         ) as kcfg_explore:
-            print('abcd')
-
             self.proof = method_to_apr_proof(
-                self.options.foundry,
-                self.test,
-                kcfg_explore,
-                simplify_init=self.options.simplify_init,
+                test=self.test,
+                foundry=self.foundry,
+                kcfg_explore=kcfg_explore,
                 bmc_depth=self.options.bmc_depth,
                 run_constructor=self.options.run_constructor,
             )
-            print('1234')
             self.proof.write_proof_data()
             for pending_node in self.proof.pending:
-                print('putting into done_queue 1')
                 done_queue.put(
                     AdvanceProofJob(
-                        test=self.test, node_id=pending_node.id, proof=self.proof, options=self.options, port=self.port
+                        test=self.test,
+                        node_id=pending_node.id,
+                        proof=self.proof,
+                        options=self.options,
+                        port=self.port,
+                        foundry=self.foundry,
                     )
                 )
-
-
-@dataclass
-class GlobalOptions:
-    foundry: Foundry
-    auto_abstract_gas: bool
-    bug_report: BugReport | None
-    kore_rpc_command: str | Iterable[str] | None
-    llvm_definition_dir: Path | None
-    smt_timeout: int | None
-    smt_retry_limit: int | None
-    trace_rewrites: bool
-    simplify_init: bool
-    bmc_depth: int | None
-    max_depth: int
-    break_every_step: bool
-    break_on_jumpi: bool
-    break_on_calls: bool
-    workers: int
-    counterexample_info: bool
-    max_iterations: int | None
-    run_constructor: bool
-    fail_fast: bool
 
 
 class AdvanceProofJob(Job):
     test: FoundryTest
     proof: APRProof
-    options: GlobalOptions
+    options: ProveOptions
     node_id: int
     port: int
+    foundry: Foundry
 
     def __init__(
         self,
         test: FoundryTest,
         node_id: int,
         proof: APRProof,
-        options: GlobalOptions,
+        options: ProveOptions,
         port: int,
+        foundry: Foundry,
     ) -> None:
         self.test = test
         self.node_id = node_id
         self.proof = proof
         self.options = options
         self.port = port
+        self.foundry = foundry
 
     def execute(self, queue: Queue, done_queue: Queue) -> None:
-        print(f'kore_rpc_command = {self.options.kore_rpc_command}')
+        llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
         with legacy_explore(
-            self.options.foundry.kevm,
+            self.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
             id=self.test.id,
             bug_report=self.options.bug_report,
             kore_rpc_command=self.options.kore_rpc_command,
-            llvm_definition_dir=self.options.llvm_definition_dir,
+            llvm_definition_dir=llvm_definition_dir,
             smt_timeout=self.options.smt_timeout,
             smt_retry_limit=self.options.smt_retry_limit,
             trace_rewrites=self.options.trace_rewrites,
@@ -361,8 +273,6 @@ class AdvanceProofJob(Job):
             curr_node = self.proof.kcfg.node(self.node_id)
             terminal_rules = build_terminal_rules(options=self.options)
             cut_point_rules = build_cut_point_rules(options=self.options)
-            #              prover = build_prover(options=self.options, proof=self.proof, kcfg_explore=kcfg_explore)
-            #              assert type(prover) is APRProver
 
             cterm = curr_node.cterm
 
@@ -372,8 +282,6 @@ class AdvanceProofJob(Job):
                 cut_point_rules=cut_point_rules,
                 terminal_rules=terminal_rules,
             )
-            #              print(f'pushing ExtendKCFGJob to done_queue {self.test.id} {curr_node.id}')
-            print('putting into done_queue')
             done_queue.put(
                 ExtendKCFGJob(
                     test=self.test,
@@ -382,17 +290,19 @@ class AdvanceProofJob(Job):
                     port=self.port,
                     extend_result=extend_result,
                     options=self.options,
+                    foundry=self.foundry,
                 )
             )
 
 
 class ExtendKCFGJob(Job):
-    options: GlobalOptions
+    options: ProveOptions
     test: FoundryTest
     node_id: int
     proof: APRProof
     port: int
     extend_result: ExtendResult
+    foundry: Foundry
 
     def __init__(
         self,
@@ -401,7 +311,8 @@ class ExtendKCFGJob(Job):
         node_id: int,
         port: int,
         extend_result: ExtendResult,
-        options: GlobalOptions,
+        options: ProveOptions,
+        foundry: Foundry,
     ) -> None:
         self.test = test
         self.proof = proof
@@ -409,25 +320,23 @@ class ExtendKCFGJob(Job):
         self.port = port
         self.options = options
         self.extend_result = extend_result
+        self.foundry = foundry
 
     def execute(self, queue: Queue, done_queue: Queue) -> None:
-        print(f'kore_rpc_command = {self.options.kore_rpc_command}')
+        llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
         with legacy_explore(
-            self.options.foundry.kevm,
+            self.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
             id=self.test.id,
             bug_report=self.options.bug_report,
             kore_rpc_command=self.options.kore_rpc_command,
-            llvm_definition_dir=self.options.llvm_definition_dir,
+            llvm_definition_dir=llvm_definition_dir,
             smt_timeout=self.options.smt_timeout,
             smt_retry_limit=self.options.smt_retry_limit,
             trace_rewrites=self.options.trace_rewrites,
             start_server=False,
             port=self.port,
         ) as kcfg_explore:
-            #              proof_show = APRProofShow(kprint=self.options.foundry.kevm)
-            #              print('\n'.join(proof_show.show(self.proof)))
-
             kcfg_explore.extend_kcfg(
                 self.extend_result,
                 kcfg=self.proof.kcfg,
@@ -436,46 +345,17 @@ class ExtendKCFGJob(Job):
             )
 
 
-#              print('\n'.join(proof_show.show(self.proof)))
-
-
-def create_server(options: GlobalOptions) -> KoreServer:
+def create_server(options: ProveOptions, foundry: Foundry) -> KoreServer:
+    llvm_definition_dir = foundry.llvm_library if options.use_booster else None
     return kore_server(
-        definition_dir=options.foundry.kevm.definition_dir,
-        llvm_definition_dir=options.llvm_definition_dir,
-        module_name=options.foundry.kevm.main_module,
+        definition_dir=foundry.kevm.definition_dir,
+        llvm_definition_dir=llvm_definition_dir,
+        module_name=foundry.kevm.main_module,
         command=options.kore_rpc_command,
         bug_report=options.bug_report,
         smt_timeout=options.smt_timeout,
         smt_retry_limit=options.smt_retry_limit,
     )
-
-
-def display_top(snapshot: tracemalloc.Snapshot, key_type: str = 'lineno', limit: int = 3) -> None:
-    snapshot = snapshot.filter_traces(
-        (
-            tracemalloc.Filter(False, '<frozen importlib._bootstrap>'),
-            tracemalloc.Filter(False, '<unknown>'),
-        )
-    )
-    top_stats = snapshot.statistics(key_type)
-
-    print('Top %s lines' % limit)
-    for index, stat in enumerate(top_stats[:limit], 1):
-        frame = stat.traceback[0]
-        # replace '/path/to/module/file.py' with 'module/file.py'
-        filename = os.sep.join(frame.filename.split(os.sep)[-2:])
-        print(f'#{index}: {filename}:{frame.lineno}: {stat.size / 1024:.1f} KiB')
-        line = linecache.getline(frame.filename, frame.lineno).strip()
-        if line:
-            print('    %s' % line)
-
-    other = top_stats[limit:]
-    if other:
-        size = sum(stat.size for stat in other)
-        print(f'{len(other)} other: {size / 1024:.1f} KiB')
-    total = sum(stat.size for stat in top_stats)
-    print('Total allocated size: %.1f KiB' % (total / 1024))
 
 
 class Scheduler:
@@ -484,8 +364,9 @@ class Scheduler:
     threads: list[Thread]
     task_queue: Queue
     done_queue: Queue
-    options: GlobalOptions
+    options: ProveOptions
     iterations: dict[str, int]
+    foundry: Foundry
 
     results: list[APRProof]
 
@@ -494,39 +375,30 @@ class Scheduler:
     @staticmethod
     def exec_process(task_queue: Queue, done_queue: Queue) -> None:
         while True:
-            print('    1')
             job = task_queue.get()
-            print('    2')
             if job == 0:
                 task_queue.task_done()
                 break
-            print('    3')
             job.execute(task_queue, done_queue)
-            print('    4')
             task_queue.task_done()
-            print('    5')
 
     def __init__(
-        self, workers: int, initial_tests: list[FoundryTest], options: GlobalOptions, port: int | None
+        self, workers: int, initial_tests: list[FoundryTest], options: ProveOptions, port: int | None, foundry: Foundry
     ) -> None:
         self.options = options
         self.task_queue = Queue()
         self.done_queue = Queue()
-        #          self.servers = {}
+        self.foundry = foundry
         self.results = []
         self.iterations = {}
         self.job_counter = 0
         self.done_counter = 0
         for test in initial_tests:
-            #              self.servers[test.id] = create_server(self.options)
-            print('putting into task_queue')
-            #              self.task_queue.put(InitProofJob(test=test, port=self.servers[test.id].port, options=self.options))
             if port is None:
-                server = create_server(self.options)
+                server = create_server(self.options, foundry=foundry)
                 port = server.port
-            self.task_queue.put(InitProofJob(test=test, port=port, options=self.options))
+            self.task_queue.put(InitProofJob(test=test, port=port, options=self.options, foundry=foundry))
             self.iterations[test.id] = 0
-            #              print(f'adding InitProofJob {test.id}')
             self.job_counter += 1
         self.threads = [
             Thread(target=Scheduler.exec_process, args=(self.task_queue, self.done_queue), daemon=False)
@@ -534,44 +406,14 @@ class Scheduler:
         ]
 
     def run(self) -> None:
-        #          tracemalloc.start()
-
         for thread in self.threads:
-            #              print('starting thread')
             thread.start()
         while self.job_counter > 0:
-            #              print(tracemalloc.get_traced_memory())
-
-            print('        getting from done_queue')
             result = self.done_queue.get()
-            print('        got from done_queue')
-            print('got job')
-            print('working')
             self.job_counter -= 1
             if type(result) is AdvanceProofJob:
-                #                  print('result is AdvanceProofJob')
-                #                  print(f'pulled AdvanceProofJob {result.test.id} {result.node_id}')
-                print('putting into task_queue 1')
                 self.task_queue.put(result)
-                #                  with legacy_explore(
-                #                      self.options.foundry.kevm,
-                #                      kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
-                #                      id=result.test.id,
-                #                      smt_timeout=self.options.smt_timeout,
-                #                      smt_retry_limit=self.options.smt_retry_limit,
-                #                      trace_rewrites=self.options.trace_rewrites,
-                #                      start_server=False,
-                #                      port=result.port,
-                #                  ) as kcfg_explore:
-                #                      self.provers[result.proof.id] = build_prover(
-                #                          options=self.options, proof=result.proof, kcfg_explore=kcfg_explore
-                #                      )
-                #                  print(f'pushing AdvanceProofJob {result.test.id} {result.node_id}')
-                self.job_counter += 1
             elif type(result) is ExtendKCFGJob:
-                print('extendkcfgjob')
-
-                print('checking iteration bound')
                 if (
                     self.options.max_iterations is not None
                     and self.options.max_iterations <= self.iterations[result.test.id]
@@ -580,84 +422,43 @@ class Scheduler:
                     break
                 self.iterations[result.test.id] += 1
 
-                #                  print(f'pulled ExtendKCFGJob {result.test.id} {result.node_id}')
-
-                print('extending kcfg')
                 result.execute(self.task_queue, self.done_queue)
+                llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
 
-                print(f'kore_rpc_command = {self.options.kore_rpc_command}')
                 with legacy_explore(
-                    self.options.foundry.kevm,
+                    self.foundry.kevm,
                     kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
                     id=result.test.id,
                     bug_report=self.options.bug_report,
                     kore_rpc_command=self.options.kore_rpc_command,
-                    llvm_definition_dir=self.options.llvm_definition_dir,
+                    llvm_definition_dir=llvm_definition_dir,
                     smt_timeout=self.options.smt_timeout,
                     smt_retry_limit=self.options.smt_retry_limit,
                     trace_rewrites=self.options.trace_rewrites,
                     start_server=False,
                     port=result.port,
                 ) as kcfg_explore:
-                    ns = time.time_ns()
-                    print('building prover')
-                    #                      prover = self.provers[result.proof.id]
                     prover = build_prover(options=self.options, proof=result.proof, kcfg_explore=kcfg_explore)
-                    ns = time.time_ns() - ns
-                    print(ns / 1000000000)
-
-                    ns = time.time_ns()
-                    print('checking terminals')
                     prover._check_all_terminals()
-                    ns = time.time_ns() - ns
-                    print(ns / 1000000000)
-
-                    ns = time.time_ns()
-                    print('checking subsumtion')
                     for node in result.proof.terminal:
                         if result.proof.kcfg.is_leaf(node.id) and not result.proof.is_target(node.id):
                             # TODO can we have a worker thread check subsumtion?
                             prover._check_subsume(node)
-                    ns = time.time_ns() - ns
-                    print(ns / 1000000000)
 
-                    ns = time.time_ns()
-                    print('saving failure info if necessary')
                     if result.proof.failed:
                         prover.save_failure_info()
-                    ns = time.time_ns() - ns
-                    print(ns / 1000000000)
-
-                    ns = time.time_ns()
-                    print('checking fail fast')
                     if self.options.fail_fast and result.proof.failed:
                         _LOGGER.warning(
                             f'Terminating proof early because fail_fast is set {result.proof.id}, failing nodes: {[nd.id for nd in result.proof.failing]}'
                         )
                         self.results.append(result.proof)
                         continue
-                    ns = time.time_ns() - ns
-                    print(ns / 1000000000)
-
-                    ns = time.time_ns()
-                    print('writing proof')
                     result.proof.write_proof_data()
-                    ns = time.time_ns() - ns
-                    print(ns / 1000000000)
-
-                    ns = time.time_ns()
-                    print('saving results')
                     if not result.proof.pending:
                         self.results.append(result.proof)
-                    ns = time.time_ns() - ns
-                    print(ns / 1000000000)
-
-                    ns = time.time_ns()
-                    print('adding new nodes to queue')
                     for pending_node in result.proof.pending:
                         if pending_node not in result.proof.kcfg.reachable_nodes(source_id=result.node_id):
                             continue
-                        #                          print(f'pushing AdvanceProofJob {result.test.id} {pending_node.id}')
 
                         if type(result.proof) is APRBMCProof:
                             node = result.proof.kcfg.node(pending_node.id)
@@ -681,7 +482,6 @@ class Scheduler:
                                 self.results.append(result.proof)
                                 continue
 
-                        print('putting into task_queue')
                         self.task_queue.put(
                             AdvanceProofJob(
                                 test=result.test,
@@ -689,34 +489,21 @@ class Scheduler:
                                 proof=result.proof,
                                 options=self.options,
                                 port=result.port,
+                                foundry=self.foundry,
                             )
                         )
                         self.job_counter += 1
-                    ns = time.time_ns() - ns
-                    print(ns / 1000000000)
 
         for _thread in self.threads:
-            print('putting into task_queue')
             self.task_queue.put(0)
 
-        #          print('a')
         self.task_queue.join()
         for thread in self.threads:
             thread.join()
 
 
-#          for server in self.servers.values():
-#              server.close()
-
-
-#          snapshot = tracemalloc.take_snapshot()
-#          display_top(snapshot)
-
-#          print('b')
-
-
 def build_terminal_rules(
-    options: GlobalOptions,
+    options: ProveOptions,
 ) -> list[str]:
     terminal_rules = ['EVM.halt']
     if options.break_every_step:
@@ -725,7 +512,7 @@ def build_terminal_rules(
 
 
 def build_cut_point_rules(
-    options: GlobalOptions,
+    options: ProveOptions,
 ) -> list[str]:
     cut_point_rules = []
     if options.break_on_jumpi:
@@ -750,18 +537,15 @@ def build_cut_point_rules(
 
 
 def build_prover(
-    options: GlobalOptions,
+    options: ProveOptions,
     proof: Proof,
     kcfg_explore: KCFGExplore,
-    # ) -> Prover
 ) -> APRProver:
     proof = proof
     if type(proof) is APRBMCProof:
         return APRBMCProver(proof, kcfg_explore)
     elif type(proof) is APRProof:
         return APRProver(proof, kcfg_explore)
-    #      elif type(proof) is EqualityProof:
-    #          return EqualityProver(kcfg_explore=kcfg_explore, proof=proof)
     else:
         raise ValueError(f'Do not know how to build prover for proof: {proof}')
 
@@ -785,82 +569,50 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
 def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
-    *,
-    max_depth: int,
-    max_iterations: int | None,
-    workers: int,
-    simplify_init: bool,
-    break_every_step: bool,
-    break_on_jumpi: bool,
-    break_on_calls: bool,
-    bmc_depth: int | None,
-    bug_report: BugReport | None,
-    kore_rpc_command: str | Iterable[str] | None,
-    use_booster: bool,
-    smt_timeout: int | None,
-    smt_retry_limit: int | None,
-    counterexample_info: bool,
-    trace_rewrites: bool,
-    auto_abstract_gas: bool,
-    port: int | None,
-    run_constructor: bool = False,
+    options: ProveOptions,
 ) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
-    llvm_definition_dir = foundry.llvm_library if use_booster else None
-
-    #      def create_server() -> KoreServer:
-    #          return kore_server(
-    #              definition_dir=foundry.kevm.definition_dir,
-    #              llvm_definition_dir=llvm_definition_dir,
-    #              module_name=foundry.kevm.main_module,
-    #              command=kore_rpc_command,
-    #              bug_report=bug_report,
-    #              smt_timeout=smt_timeout,
-    #              smt_retry_limit=smt_retry_limit,
-    #          )
-
     def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
-        start_server = port is None
+        start_server = options.port is None
 
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=KEVMSemantics(auto_abstract_gas=auto_abstract_gas),
+            kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
             id=test.id,
-            bug_report=bug_report,
-            kore_rpc_command=kore_rpc_command,
-            llvm_definition_dir=llvm_definition_dir,
-            smt_timeout=smt_timeout,
-            smt_retry_limit=smt_retry_limit,
-            trace_rewrites=trace_rewrites,
+            bug_report=options.bug_report,
+            kore_rpc_command=options.kore_rpc_command,
+            llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
+            smt_timeout=options.smt_timeout,
+            smt_retry_limit=options.smt_retry_limit,
+            trace_rewrites=options.trace_rewrites,
             start_server=start_server,
-            port=port,
+            port=options.port,
         ) as kcfg_explore:
             proof = method_to_apr_proof(
-                foundry,
-                test,
-                kcfg_explore,
-                simplify_init=simplify_init,
-                bmc_depth=bmc_depth,
-                run_constructor=run_constructor,
+                test=test,
+                foundry=foundry,
+                kcfg_explore=kcfg_explore,
+                bmc_depth=options.bmc_depth,
+                run_constructor=options.run_constructor,
             )
 
             passed = kevm_prove(
                 foundry.kevm,
                 proof,
                 kcfg_explore,
-                max_depth=max_depth,
-                max_iterations=max_iterations,
-                break_every_step=break_every_step,
-                break_on_jumpi=break_on_jumpi,
-                break_on_calls=break_on_calls,
+                max_depth=options.max_depth,
+                max_iterations=options.max_iterations,
+                break_every_step=options.break_every_step,
+                break_on_jumpi=options.break_on_jumpi,
+                break_on_calls=options.break_on_calls,
             )
             failure_log = None
             if not passed:
-                failure_log = print_failure_info(proof, kcfg_explore, counterexample_info)
+                failure_log = print_failure_info(proof, kcfg_explore, options.counterexample_info)
             return passed, failure_log
 
     _apr_proofs: list[tuple[bool, list[str] | None]]
-    if workers > 1:
-        with ProcessPool(ncpus=workers) as process_pool:
+    if options.workers > 1:
+        with ProcessPool(ncpus=options.workers) as process_pool:
             _apr_proofs = process_pool.map(init_and_run_proof, tests)
     else:
         _apr_proofs = []
@@ -873,10 +625,9 @@ def _run_cfg_group(
 
 
 def method_to_apr_proof(
-    foundry: Foundry,
     test: FoundryTest,
+    foundry: Foundry,
     kcfg_explore: KCFGExplore,
-    simplify_init: bool = True,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
 ) -> APRProof | APRBMCProof:
@@ -895,11 +646,10 @@ def method_to_apr_proof(
         setup_proof = _load_constructor_proof(foundry, test.contract)
 
     kcfg, init_node_id, target_node_id = _method_to_initialized_cfg(
-        foundry,
-        test,
-        kcfg_explore,
+        foundry=foundry,
+        test=test,
+        kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
-        simplify_init=simplify_init,
     )
 
     if bmc_depth is not None:
@@ -939,7 +689,6 @@ def _method_to_initialized_cfg(
     kcfg_explore: KCFGExplore,
     *,
     setup_proof: APRProof | None = None,
-    simplify_init: bool = True,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -966,9 +715,8 @@ def _method_to_initialized_cfg(
     target_cterm = CTerm.from_kast(target_term)
     kcfg.replace_node(target_node_id, target_cterm)
 
-    if simplify_init:
-        _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
-        kcfg_explore.simplify(kcfg, {})
+    _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
+    kcfg_explore.simplify(kcfg, {})
 
     return kcfg, init_node_id, target_node_id
 
@@ -1002,16 +750,17 @@ def _method_to_cfg(
     new_node_ids = []
 
     if setup_proof:
-        init_node_id = setup_proof.kcfg.node(setup_proof.init).id
-
-        cfg = setup_proof.kcfg
-        final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
-        cfg.remove_node(setup_proof.target)
-        if len(setup_proof.pending) > 0:
+        if setup_proof.pending:
             raise RuntimeError(
                 f'Initial state proof {setup_proof.id} for {contract.name}.{method.signature} still has pending branches.'
             )
-        if len(final_states) < 1:
+
+        init_node_id = setup_proof.init
+
+        cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())  # Copy KCFG
+        final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
+        cfg.remove_node(setup_proof.target)
+        if not final_states:
             _LOGGER.warning(
                 f'Initial state proof {setup_proof.id} for {contract.name}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )

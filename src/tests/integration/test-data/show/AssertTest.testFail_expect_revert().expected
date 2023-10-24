@@ -1,9 +1,9 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION
+│   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 0
-│   statusCode: STATUSCODE
+│   statusCode: STATUSCODE:StatusCode
 │
 │  (272 steps)
 ├─ 3
@@ -28,10 +28,10 @@
 │
 │  (1 step)
 ├─ 6
-│   k: #execute ~> CONTINUATION
+│   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 0
-│   statusCode: STATUSCODE
+│   statusCode: STATUSCODE:StatusCode
 │
 │  (641 steps)
 ├─ 8
@@ -69,11 +69,11 @@
     statusCode: EVMC_SUCCESS
 
 
-┌─ 7 (root, leaf, target)
-│   k: #halt ~> CONTINUATION
-│   pc: PC_CELL_5d410f2a
-│   callDepth: CALLDEPTH_CELL_5d410f2a
-│   statusCode: STATUSCODE_FINAL
+┌─ 7 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
 
 
 Node 12:
@@ -278,11 +278,10 @@ Node 12:
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( #execute
-               ~> CONTINUATION => #end EVMC_SUCCESS
-               ~> #pc [ STOP ]
+               ( .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ] )
                ~> #execute
-               ~> CONTINUATION:K )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -308,10 +307,10 @@ Node 12:
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID
+                     CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( S2KAssertTest . S2KsetUp ( ) => b"\n\x92T\xe4" )
+                     b"\n\x92T\xe4"
                    </callData>
                    <callValue>
                      0
@@ -320,7 +319,7 @@ Node 12:
                      ( .WordStack => ( selector ( "setUp()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( .Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
                    ...
                    ...
@@ -348,11 +347,11 @@ Node 12:
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID
+                   ORIGIN_ID:Int
                  </origin>
                  <block>
                    <number>
-                     NUMBER_CELL
+                     NUMBER_CELL:Int
                    </number>
                    ...
                  </block>
@@ -441,7 +440,7 @@ Node 12:
                  0
                </expectedValue>
                <expectedData>
-                 ( .Bytes => b"" )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
@@ -472,17 +471,7 @@ Node 12:
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( 0 <=Int CALLER_ID
-       andBool ( CALLER_ID <Int pow160
-       andBool ( 0 <=Int ORIGIN_ID
-       andBool ( ORIGIN_ID <Int pow160
-       andBool ( 0 <=Int NUMBER_CELL
-       andBool ( NUMBER_CELL <=Int maxSInt256
-       andBool ( lengthBytes ( S2KAssertTest . S2KsetUp ( ) ) <Int pow128
-       andBool ( 0 <=Int 728815563385977040452943777879061427756277306518
-       andBool ( 728815563385977040452943777879061427756277306518 <Int pow160
-               )))))))))
-       ensures ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
@@ -910,9 +899,8 @@ Node 12:
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
            <kevm>
              <k>
-               ( #halt
-               ~> CONTINUATION:K => #execute
-               ~> CONTINUATION )
+               ( #halt => #execute )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -944,7 +932,7 @@ Node 12:
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => S2KAssertTest . S2KtestFailZUndexpectZUndrevert ( ) )
+                     ( b"\n\x92T\xe4" => b"*M\xe1\xa1" )
                    </callData>
                    <callValue>
                      0
@@ -953,7 +941,7 @@ Node 12:
                      ( ( selector ( "setUp()" ) : .WordStack ) => .WordStack )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => .Bytes )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"" )
                    </localMem>
                    ...
                    ...
@@ -1074,7 +1062,7 @@ Node 12:
                  0
                </expectedValue>
                <expectedData>
-                 ( b"" => .Bytes )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
@@ -1117,11 +1105,10 @@ Node 12:
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
            <kevm>
              <k>
-               ( #execute
-               ~> CONTINUATION => CALL ( VGAS:Int +Int -2951 ) 645326474426547203313410069153905908525362434349 0 128 4 128 0
-               ~> #pc [ CALL ]
+               ( .K => CALL ( VGAS:Int +Int -2951 ) 645326474426547203313410069153905908525362434349 0 128 4 128 0
+               ~> #pc [ CALL ] )
                ~> #execute
-               ~> CONTINUATION:K )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -1144,7 +1131,7 @@ Node 12:
                      728815563385977040452943777879061427756277306518
                    </id>
                    <callData>
-                     ( S2KAssertTest . S2KtestFailZUndexpectZUndrevert ( ) => b"*M\xe1\xa1" )
+                     b"*M\xe1\xa1"
                    </callData>
                    <callValue>
                      0
@@ -1153,7 +1140,7 @@ Node 12:
                      ( .WordStack => ( 132 : ( selector ( "expectRevert()" ) : ( 645326474426547203313410069153905908525362434349 : ( 305 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( .Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf4\x84H\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf4\x84H\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    ...
                    ...
@@ -1268,7 +1255,7 @@ Node 12:
                  0
                </expectedValue>
                <expectedData>
-                 ( .Bytes => b"" )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
