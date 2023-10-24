@@ -514,6 +514,7 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.k_gen_args,
             kontrol_cli_args.kompile_args,
             kontrol_cli_args.foundry_args,
+            kontrol_cli_args.kompile_target_args,
         ],
     )
     build.add_argument(

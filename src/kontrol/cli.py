@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from kevm_pyk.cli import KEVMCLIArgs
+from kevm_pyk.kompile import KompileTarget
 from pyk.cli.utils import dir_path
 
 if TYPE_CHECKING:
@@ -51,4 +52,10 @@ class KontrolCLIArgs(KEVMCLIArgs):
             action='append',
             help='Extra modules to import into generated main module.',
         )
+        return args
+
+    @cached_property
+    def kompile_target_args(self) -> ArgumentParser:
+        args = ArgumentParser(add_help=False)
+        args.add_argument('--target', type=KompileTarget, help='[haskell-booster|maude]')
         return args
