@@ -372,6 +372,7 @@ class Scheduler:
     done_queue: Queue
     options: ProveOptions
     iterations: dict[str, int]
+    kcfg_explore_map: dict[str, KCFGExplore]
     foundry: Foundry
 
     results: list[APRProof]
@@ -397,19 +398,128 @@ class Scheduler:
         self.foundry = foundry
         self.results = []
         self.iterations = {}
+        self.servers = {}
+        self.kcfg_explore_map = {}
         self.job_counter = 0
         self.done_counter = 0
         for test in initial_tests:
-            if port is None:
-                server = create_server(self.options, foundry=foundry)
-                port = server.port
+            #              if port is None:
+            #                  server = create_server(self.options, foundry=foundry)
+            #                  port = server.port
+            server = create_server(self.options, foundry=foundry)
+            port = server.port
+            self.servers[test.id] = server
             self.task_queue.put(InitProofJob(test=test, port=port, options=self.options, foundry=foundry))
             self.iterations[test.id] = 0
+            #              self.kcfg_explore_map[test.id] = legacy_explore(
+            #                  self.foundry.kevm,
+            #                  kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
+            #                  id=test.id,
+            #                  bug_report=self.options.bug_report,
+            #                  kore_rpc_command=self.options.kore_rpc_command,
+            #                  llvm_definition_dir=llvm_definition_dir,
+            #                  smt_timeout=self.options.smt_timeout,
+            #                  smt_retry_limit=self.options.smt_retry_limit,
+            #                  trace_rewrites=self.options.trace_rewrites,
+            #                  start_server=False,
+            #                  port=job.port,
+            #              )
             self.job_counter += 1
         self.threads = [
             Thread(target=Scheduler.exec_process, args=(self.task_queue, self.done_queue), daemon=False)
             for i in range(self.options.workers)
         ]
+
+    def sync_proof(self, job: ExtendKCFGJob) -> bool:
+        if self.options.max_iterations is not None and self.options.max_iterations <= self.iterations[job.test.id]:
+            _LOGGER.warning(f'Reached iteration bound {job.proof.id}: {self.options.max_iterations}')
+            return True
+        self.iterations[job.test.id] += 1
+
+        job.execute(self.task_queue, self.done_queue)
+        llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
+
+        with legacy_explore(
+            self.foundry.kevm,
+            kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
+            id=job.test.id,
+            bug_report=self.options.bug_report,
+            kore_rpc_command=self.options.kore_rpc_command,
+            llvm_definition_dir=llvm_definition_dir,
+            smt_timeout=self.options.smt_timeout,
+            smt_retry_limit=self.options.smt_retry_limit,
+            trace_rewrites=self.options.trace_rewrites,
+            start_server=False,
+            port=job.port,
+        ) as kcfg_explore:
+            prover = build_prover(options=self.options, proof=job.proof, kcfg_explore=kcfg_explore)
+
+            node_printer = foundry_node_printer(self.foundry, job.test.contract.name, job.proof)
+            proof_show = APRProofShow(self.foundry.kevm, node_printer=node_printer)
+            res_lines = proof_show.show(job.proof)
+            print('\n'.join(res_lines))
+
+            prover._check_all_terminals()
+
+            node_printer = foundry_node_printer(self.foundry, job.test.contract.name, job.proof)
+            proof_show = APRProofShow(self.foundry.kevm, node_printer=node_printer)
+            res_lines = proof_show.show(job.proof)
+            print('\n'.join(res_lines))
+
+            for node in job.proof.terminal:
+                if job.proof.kcfg.is_leaf(node.id) and not job.proof.is_target(node.id):
+                    # TODO can we have a worker thread check subsumtion?
+                    prover._check_subsume(node)
+
+            if job.proof.failed:
+                prover.save_failure_info()
+            if self.options.fail_fast and job.proof.failed:
+                _LOGGER.warning(
+                    f'Terminating proof early because fail_fast is set {job.proof.id}, failing nodes: {[nd.id for nd in job.proof.failing]}'
+                )
+                return True
+            if not job.proof.pending:
+                return True
+
+            for pending_node in job.proof.pending:
+                print(f'checking pending for node {pending_node.id}')
+                if pending_node not in job.proof.kcfg.reachable_nodes(source_id=job.node_id):
+                    continue
+
+                if type(job.proof) is APRBMCProof:
+                    node = job.proof.kcfg.node(pending_node.id)
+
+                    _LOGGER.info(f'Checking bmc depth for node {job.proof.id}: {pending_node.id}')
+                    _prior_loops = [
+                        succ.source.id
+                        for succ in job.proof.shortest_path_to(pending_node.id)
+                        if kcfg_explore.kcfg_semantics.same_loop(succ.source.cterm, node.cterm)
+                    ]
+                    prior_loops: list[int] = []
+                    for _pl in _prior_loops:
+                        if not (
+                            job.proof.kcfg.zero_depth_between(_pl, node.id)
+                            or any(job.proof.kcfg.zero_depth_between(_pl, pl) for pl in prior_loops)
+                        ):
+                            prior_loops.append(_pl)
+                    _LOGGER.info(f'Prior loop heads for node {job.proof.id}: {(node.id, prior_loops)}')
+                    if len(prior_loops) > job.proof.bmc_depth:
+                        job.proof.add_bounded(node.id)
+                        continue
+
+                self.task_queue.put(
+                    AdvanceProofJob(
+                        test=job.test,
+                        node_id=pending_node.id,
+                        proof=job.proof,
+                        options=self.options,
+                        port=job.port,
+                        foundry=self.foundry,
+                    )
+                )
+                self.job_counter += 1
+
+            return False
 
     def run(self) -> None:
         for thread in self.threads:
@@ -425,109 +535,18 @@ class Scheduler:
                 self.job_counter += 1
             elif type(result) is ExtendKCFGJob:
                 print('got ExtendKCFGJob')
-
-                if (
-                    self.options.max_iterations is not None
-                    and self.options.max_iterations <= self.iterations[result.test.id]
-                ):
-                    _LOGGER.warning(f'Reached iteration bound {result.proof.id}: {self.options.max_iterations}')
-                    break
-                self.iterations[result.test.id] += 1
-
-                result.execute(self.task_queue, self.done_queue)
-                llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
-
-                with legacy_explore(
-                    self.foundry.kevm,
-                    kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
-                    id=result.test.id,
-                    bug_report=self.options.bug_report,
-                    kore_rpc_command=self.options.kore_rpc_command,
-                    llvm_definition_dir=llvm_definition_dir,
-                    smt_timeout=self.options.smt_timeout,
-                    smt_retry_limit=self.options.smt_retry_limit,
-                    trace_rewrites=self.options.trace_rewrites,
-                    start_server=False,
-                    port=result.port,
-                ) as kcfg_explore:
-                    proof_done = False
-                    prover = build_prover(options=self.options, proof=result.proof, kcfg_explore=kcfg_explore)
-
-                    node_printer = foundry_node_printer(self.foundry, result.test.contract.name, result.proof)
-                    proof_show = APRProofShow(self.foundry.kevm, node_printer=node_printer)
-                    res_lines = proof_show.show(result.proof)
-                    print('\n'.join(res_lines))
-
-                    prover._check_all_terminals()
-
-                    node_printer = foundry_node_printer(self.foundry, result.test.contract.name, result.proof)
-                    proof_show = APRProofShow(self.foundry.kevm, node_printer=node_printer)
-                    res_lines = proof_show.show(result.proof)
-                    print('\n'.join(res_lines))
-
-                    for node in result.proof.terminal:
-                        if result.proof.kcfg.is_leaf(node.id) and not result.proof.is_target(node.id):
-                            # TODO can we have a worker thread check subsumtion?
-                            prover._check_subsume(node)
-
-                    if result.proof.failed:
-                        prover.save_failure_info()
-                    if self.options.fail_fast and result.proof.failed:
-                        _LOGGER.warning(
-                            f'Terminating proof early because fail_fast is set {result.proof.id}, failing nodes: {[nd.id for nd in result.proof.failing]}'
-                        )
-                        proof_done = True
-                    if not result.proof.pending:
-                        proof_done = True
-
-                    for pending_node in result.proof.pending:
-                        print(f'checking pending for node {pending_node.id}')
-                        if pending_node not in result.proof.kcfg.reachable_nodes(source_id=result.node_id):
-                            continue
-
-                        if type(result.proof) is APRBMCProof:
-                            node = result.proof.kcfg.node(pending_node.id)
-
-                            _LOGGER.info(f'Checking bmc depth for node {result.proof.id}: {pending_node.id}')
-                            _prior_loops = [
-                                succ.source.id
-                                for succ in result.proof.shortest_path_to(pending_node.id)
-                                if kcfg_explore.kcfg_semantics.same_loop(succ.source.cterm, node.cterm)
-                            ]
-                            prior_loops: list[int] = []
-                            for _pl in _prior_loops:
-                                if not (
-                                    result.proof.kcfg.zero_depth_between(_pl, node.id)
-                                    or any(result.proof.kcfg.zero_depth_between(_pl, pl) for pl in prior_loops)
-                                ):
-                                    prior_loops.append(_pl)
-                            _LOGGER.info(f'Prior loop heads for node {result.proof.id}: {(node.id, prior_loops)}')
-                            if len(prior_loops) > result.proof.bmc_depth:
-                                result.proof.add_bounded(node.id)
-                                continue
-
-                        self.task_queue.put(
-                            AdvanceProofJob(
-                                test=result.test,
-                                node_id=pending_node.id,
-                                proof=result.proof,
-                                options=self.options,
-                                port=result.port,
-                                foundry=self.foundry,
-                            )
-                        )
-                        self.job_counter += 1
-
+                proof_done = self.sync_proof(result)
+                if proof_done:
+                    self.results.append(result.proof)
                     result.proof.write_proof_data()
-                    if proof_done:
-                        self.results.append(result.proof)
-            else:
-                print('Got other')
 
         print('done')
 
         for _thread in self.threads:
             self.task_queue.put(0)
+
+        for server in self.servers.values():
+            server.close()
 
         self.task_queue.join()
         for thread in self.threads:
