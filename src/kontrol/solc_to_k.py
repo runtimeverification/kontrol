@@ -99,7 +99,7 @@ def find_function_calls(node: dict) -> list[str]:
             node.get('arguments', [])
             # arg_types = [arg['typeDescriptions']['typeString'] for arg in arguments if arg.get('typeDescriptions')]
 
-            if contract_type not in ['KEVMCheatsBase', 'Vm']:
+            if contract_type not in ['KEVMCheatsBase', 'Vm', 'UnknownContractType']:
                 function_calls.append(f'{contract_type}.{function_name}')  # ({','.join(arg_types)})")
 
     # Recursively search in nested nodes
