@@ -12,6 +12,7 @@ from pyk.utils import run_process, single
 
 from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
 from kontrol.kompile import foundry_kompile
+from kontrol.options import ProveOptions
 from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
@@ -26,7 +27,7 @@ if TYPE_CHECKING:
     from pytest import TempPathFactory
 
 
-FORGE_STD_REF: Final = '27e14b7'
+FORGE_STD_REF: Final = '75f1746'
 
 
 sys.setrecursionlimit(10**7)
@@ -129,10 +130,11 @@ def test_foundry_prove(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        simplify_init=False,
-        counterexample_info=True,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            counterexample_info=True,
+            bug_report=bug_report,
+            port=server.port,
+        ),
     )
 
     # Then
@@ -164,15 +166,22 @@ FAIL_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-fail').read_text().splitline
 
 @pytest.mark.parametrize('test_id', FAIL_TESTS)
 def test_foundry_fail(
-    test_id: str, foundry_root: Path, update_expected_output: bool, use_booster: bool, server: KoreServer
+    test_id: str,
+    foundry_root: Path,
+    update_expected_output: bool,
+    use_booster: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
 ) -> None:
     # When
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        simplify_init=False,
-        counterexample_info=True,
-        port=server.port,
+        options=ProveOptions(
+            counterexample_info=True,
+            bug_report=bug_report,
+            port=server.port,
+        ),
     )
 
     # Then
@@ -212,10 +221,11 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        bmc_depth=3,
-        simplify_init=False,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            bmc_depth=3,
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
 
     # Then
@@ -223,31 +233,36 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
 
 
 def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, server: KoreServer) -> None:
-    test = 'AssertTest.test_branch_merge(uint256)'
+    test = 'MergeTest.test_branch_merge(uint256)'
 
     foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        max_iterations=4,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            max_iterations=2,
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
+
+    check_pending(foundry_root, test, [4, 5])
+
+    foundry_step_node(foundry_root, test, node=4, depth=49, port=server.port)
+    foundry_step_node(foundry_root, test, node=5, depth=50, port=server.port)
+
     check_pending(foundry_root, test, [6, 7])
 
-    foundry_step_node(foundry_root, test, node=6, depth=49, port=server.port)
-    foundry_step_node(foundry_root, test, node=7, depth=50, port=server.port)
+    foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[6, 7], include_disjunct=True)
 
-    check_pending(foundry_root, test, [8, 9])
-
-    foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[8, 9], include_disjunct=True)
-
-    check_pending(foundry_root, test, [10])
+    check_pending(foundry_root, test, [8])
 
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     assert_pass(test, prove_res)
 
@@ -271,10 +286,11 @@ def test_foundry_auto_abstraction(
     foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        auto_abstract_gas=True,
-        bug_report=bug_report,
-        port=server.port,
-        simplify_init=False,
+        options=ProveOptions(
+            auto_abstract_gas=True,
+            bug_report=bug_report,
+            port=server.port,
+        ),
     )
 
     if use_booster:
@@ -306,8 +322,10 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     assert_pass(test, prove_res)
 
@@ -324,8 +342,10 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     assert_pass(test, prove_res)
 
@@ -383,11 +403,13 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        auto_abstract_gas=True,
-        max_iterations=4,
-        reinit=True,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            auto_abstract_gas=True,
+            max_iterations=4,
+            reinit=True,
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     id = id_for_test(test, prove_res)
 
@@ -397,10 +419,34 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, id)],
-        auto_abstract_gas=True,
-        max_iterations=6,
-        reinit=False,
-        port=server.port,
-        bug_report=bug_report,
+        options=ProveOptions(
+            auto_abstract_gas=True,
+            max_iterations=6,
+            reinit=False,
+            port=server.port,
+            bug_report=bug_report,
+        ),
     )
     assert_fail(test, prove_res)
+
+
+ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail_init()')
+
+
+@pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
+def test_foundry_init_code(test: str, foundry_root: Path, bug_report: BugReport | None, use_booster: bool) -> None:
+    # When
+    prove_res = foundry_prove(
+        foundry_root,
+        tests=[(test, None)],
+        options=ProveOptions(
+            smt_timeout=300,
+            smt_retry_limit=10,
+            use_booster=use_booster,
+            run_constructor=True,
+            bug_report=bug_report,
+        ),
+    )
+
+    # Then
+    assert_pass(test, prove_res)

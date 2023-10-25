@@ -241,7 +241,7 @@ class Foundry:
             for contract in self.contracts.values()
             for method in contract.methods
             if f'{contract.name}.{method.signature}' not in self.all_tests
-        ]
+        ] + [f'{contract.name}.init' for contract in self.contracts.values()]
 
     @staticmethod
     def _escape_brackets(regs: list[str]) -> list[str]:
@@ -250,22 +250,17 @@ class Foundry:
         regs = [reg.replace('(', '\\(') for reg in regs]
         return [reg.replace(')', '\\)') for reg in regs]
 
-    def matching_tests(self, tests: list[str], exclude_tests: list[str]) -> list[str]:
+    def matching_tests(self, tests: list[str]) -> list[str]:
         all_tests = self.all_tests
         all_non_tests = self.all_non_tests
-        matched_tests = set()
-        unfound_tests: list[str] = []
         tests = self._escape_brackets(tests)
-        exclude_tests = self._escape_brackets(exclude_tests)
-        for t in tests:
-            if not any(re.search(t, test) for test in (all_tests + all_non_tests)):
-                unfound_tests.append(t)
-        for test in all_tests:
-            if any(re.search(t, test) for t in tests) and not any(re.search(t, test) for t in exclude_tests):
-                matched_tests.add(test)
-        for test in all_non_tests:
-            if any(re.search(t, test) for t in tests) and not any(re.search(t, test) for t in exclude_tests):
-                matched_tests.add(test)
+        matched_tests = set()
+        unfound_tests = set(tests)
+        for test in tests:
+            for possible_match in all_tests + all_non_tests:
+                if re.search(test, possible_match):
+                    matched_tests.add(possible_match)
+                    unfound_tests.discard(test)
         if unfound_tests:
             raise ValueError(f'Test identifiers not found: {set(unfound_tests)}')
         elif len(matched_tests) == 0:
@@ -273,9 +268,12 @@ class Foundry:
         return list(matched_tests)
 
     def matching_sig(self, test: str) -> str:
-        test_sigs = self.matching_tests([test], [])
+        test_sigs = self.matching_tests([test])
         if len(test_sigs) != 1:
-            raise ValueError(f'Found {test_sigs} matching tests, must specify one')
+            raise ValueError(
+                f'Multiple matches found for {test}. Please specify using the full signature, e.g., {test_sigs[0]!r}.\n'
+                + 'Signatures found: {test_sigs}'
+            )
         return test_sigs[0]
 
     def unique_sig(self, test: str) -> tuple[str, str]:
@@ -387,10 +385,22 @@ class Foundry:
             return Proof.read_proof_data(self.proofs_dir, test_id)
         return None
 
-    def get_method(self, test: str) -> Contract.Method:
+    def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method | Contract.Constructor]:
         contract_name, method_name = test.split('.')
         contract = self.contracts[contract_name]
-        return contract.method_by_sig[method_name]
+
+        if method_name == 'init':
+            constructor = self.contracts[contract_name].constructor
+            if constructor is None:
+                raise ValueError(f'Contract {contract_name} does not have a constructor.')
+            return contract, constructor
+
+        method = contract.method_by_sig[method_name]
+        return contract, method
+
+    def get_method(self, test: str) -> Contract.Method | Contract.Constructor:
+        _, method = self.get_contract_and_method(test)
+        return method
 
     def resolve_proof_version(
         self,
@@ -426,7 +436,7 @@ class Foundry:
             _LOGGER.info(
                 f'Using the the latest version {latest_version} of test {test} because it is up to date and no version was specified.'
             )
-            if not method.contract_up_to_date(self.digest_file):
+            if type(method) is Contract.Method and not method.contract_up_to_date(self.digest_file):
                 _LOGGER.warning(
                     f'Test {test} was not reinitialized because it is up to date, but the contract it is a part of has changed.'
                 )
