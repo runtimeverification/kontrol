@@ -5,19 +5,12 @@
     kevm.url = "github:runtimeverification/evm-semantics/v1.0.323";
     nixpkgs.follows = "kevm/nixpkgs";
     k-framework.follows = "kevm/k-framework";
-    k-framework.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.follows = "kevm/flake-utils";
-    rv-utils.url = "github:runtimeverification/rv-nix-tools";
+    rv-utils.follows = "kevm/rv-utils";
     pyk.follows = "kevm/pyk";
-    pyk.inputs.flake-utils.follows = "k-framework/flake-utils";
-    pyk.inputs.nixpkgs.follows = "k-framework/nixpkgs";
     poetry2nix.follows = "kevm/poetry2nix";
-    foundry.url =
-      "github:shazow/foundry.nix/monthly"; # Use monthly branch for permanent releases
-    solc = {
-      url = "github:hellwolf/solc.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    foundry.follows = "kevm/foundry";
+    solc.follows = "kevm/solc";
   };
   outputs = { self, k-framework, nixpkgs, flake-utils, poetry2nix, kevm
     , rv-utils, pyk, foundry, solc }:
