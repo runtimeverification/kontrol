@@ -272,7 +272,7 @@ class Foundry:
         if len(test_sigs) != 1:
             raise ValueError(
                 f'Multiple matches found for {test}. Please specify using the full signature, e.g., {test_sigs[0]!r}.\n'
-                + 'Signatures found: {test_sigs}'
+                + f'Signatures found: {test_sigs}'
             )
         return test_sigs[0]
 
