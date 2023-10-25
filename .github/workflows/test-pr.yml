@@ -118,7 +118,7 @@ jobs:
         run: |
           TEST_ARGS=--numprocesses=8
           [ ${{ matrix.backend }} == 'booster' ] && TEST_ARGS+=' --use-booster'
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}" PYTEST_ARGS="--update-expected-output"
       - name: 'Tear down Docker'
         if: always()
         run: |
