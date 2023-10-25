@@ -390,7 +390,7 @@ class Scheduler:
             task_queue.task_done()
 
     def __init__(
-        self, workers: int, initial_tests: list[FoundryTest], options: ProveOptions, port: int | None, foundry: Foundry
+        self, workers: int, initial_tests: list[FoundryTest], options: ProveOptions, foundry: Foundry
     ) -> None:
         self.options = options
         self.task_queue = Queue()
@@ -403,12 +403,11 @@ class Scheduler:
         self.job_counter = 0
         self.done_counter = 0
         for test in initial_tests:
-            #              if port is None:
-            #                  server = create_server(self.options, foundry=foundry)
-            #                  port = server.port
-            server = create_server(self.options, foundry=foundry)
-            port = server.port
-            self.servers[test.id] = server
+            port = options.port
+            if port is None:
+                server = create_server(self.options, foundry=foundry)
+                port = server.port
+                self.servers[test.id] = server
             self.task_queue.put(InitProofJob(test=test, port=port, options=self.options, foundry=foundry))
             self.iterations[test.id] = 0
             #              self.kcfg_explore_map[test.id] = legacy_explore(
