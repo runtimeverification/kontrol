@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import json
 from typing import TYPE_CHECKING
 
 import pytest
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KToken, KVariable
 
-from kontrol.solc_to_k import Contract, _range_predicate
+from kontrol.solc_to_k import Contract, Input, _range_predicate
 
 from .utils import TEST_DATA_DIR
 
@@ -63,3 +64,65 @@ def test_escaping(test_id: str, prefix: str, input: str, output: str) -> None:
 
     # Then
     assert unescaped == input
+
+
+ABI_INPUT_DATA: list[tuple[str, str, Input]] = [
+    (
+        'multidimensional-array',
+        """{
+                "internalType": "uint256[3][2]",
+                "name": "p1",
+                "type": "uint256[3][2]"
+        }""",
+        Input('', 'p1', 'uint256[3][2]', []),
+    ),
+    (
+        'nested-structs',
+        """{
+                "components": [
+                  {
+                    "internalType": "uint256",
+                    "name": "a",
+                    "type": "uint256"
+                  },
+                  {
+                    "internalType": "address",
+                    "name": "b",
+                    "type": "address"
+                  },
+                  {
+                    "components": [
+                      {
+                        "internalType": "uint256",
+                        "name": "e",
+                        "type": "uint256"
+                      }
+                    ],
+                    "internalType": "struct Nested[2]",
+                    "name": "c",
+                    "type": "tuple[2]"
+                  }
+                ],
+                "internalType": "struct Vars[2][3]",
+                "name": "sArray",
+                "type": "tuple[2][3]"
+        }""",
+        Input(
+            '',
+            'sArray',
+            'tuple[2][3]',
+            [
+                Input('sArray[][]', 'a', 'uint256', []),
+                Input('sArray[][]', 'b', 'address', []),
+                Input('sArray[][]', 'c', 'tuple[2]', [Input('sArray[][].c[]', 'e', 'uint256', [])]),
+            ],
+        ),
+    ),
+]
+
+
+@pytest.mark.parametrize('test_id,abi_input,expected', ABI_INPUT_DATA, ids=[test_id for test_id, *_ in ABI_INPUT_DATA])
+def test_input_from_dict(test_id: str, abi_input: str, expected: Input) -> None:
+    input_json = json.loads(abi_input)
+    input = Input.from_dict(input_json)
+    assert input == expected
