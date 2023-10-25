@@ -297,7 +297,6 @@ def method_to_apr_proof(
             )
 
     apr_proof.write_proof_data()
-    print(apr_proof)
     return apr_proof
 
 
