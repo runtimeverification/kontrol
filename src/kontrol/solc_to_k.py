@@ -79,11 +79,11 @@ class Input:
             if type == 'tuple':
                 components = Input._recurse_comp(name, _input['components'])
             else:
-                dimension = _find_array_dimensions(type)
-                components = Input._recurse_comp(name + "[]" * dimension, _input['components'])
-            return Input("", name, type, components)
+                dimension = len(_find_array_dimensions(type))
+                components = Input._recurse_comp(name + '[]' * dimension, _input['components'])
+            return Input('', name, type, components)
         else:
-            return Input("", name, type)
+            return Input('', name, type)
 
     @staticmethod
     def _recurse_comp(parent: str, components: dict) -> list[Input]:
@@ -93,10 +93,10 @@ class Input:
             _type = comp['type']
             if comp.get('components') is not None:
                 if _type == 'tuple':
-                    new_comps = Input._recurse_comp(parent, _name, comp['components'])
+                    new_comps = Input._recurse_comp(parent + '.' + _name, comp['components'])
                 else:
                     dimension = len(_find_array_dimensions(_type))
-                    new_comps = Input._recurse_comp(parent + "." + _name + "[]" * dimension, comp['components'])
+                    new_comps = Input._recurse_comp(parent + '.' + _name + '[]' * dimension, comp['components'])
             else:
                 new_comps = []
             comps.append(Input(parent, _name, _type, new_comps))
@@ -129,7 +129,8 @@ class Input:
                 return [fcomp for fncomp in nest for fcomp in fncomp]
             else:  # tuple[] or tuple[n]
                 comp_str = [elem.type for comp in nest for elem in comp]
-                return [Input(self.parent_name, self.name, '(' + ','.join(comp_str) + ')' + self.type[5:], nest)]
+                flatten = [elem for comp in nest for elem in comp]
+                return [Input(self.parent_name, self.name, '(' + ','.join(comp_str) + ')' + self.type[5:], flatten)]
         else:
             return [self]
 
@@ -646,7 +647,7 @@ class Contract:
     @staticmethod
     def arg_name(input: Input) -> str:
         if input.parent_name == '':
-            return input.name.replace("-", "_")
+            return input.name.replace('-', '_')
         else:
             return f'{input.parent_name}.{input.name.replace("-", "_")}'
 
@@ -659,9 +660,9 @@ class Contract:
     @staticmethod
     def make_array_type(input: Input) -> KApply:
         input_name = Contract.arg_name(input)
-        base_type = input.type
+        input_type = input.type
 
-        dimensions = _find_array_dimensions(base_type)
+        dimensions = _find_array_dimensions(input_type)
 
         indices = _permuate_indices(dimensions)
         flatten_elements: list[KApply] = []
@@ -673,34 +674,34 @@ class Contract:
                     for comp in input.components
                 ]
                 flatten_elements.append(
-                    Contract.make_tuple_type(Input(input.parent_name, input.name + index_str, input.type, components))
+                    Contract.make_tuple_type(Input(input.parent_name, input.name + index_str, input_type, components))
                 )
             else:
                 flatten_elements.append(
-                    KEVM.abi_type(base_type[0 : base_type.index('[')], KVariable(input_name + index_str))
+                    KEVM.abi_type(input_type[0 : input_type.index('[')], KVariable(input_name + index_str))
                 )
 
         if len(input.components) > 0:
             base_type = Contract.make_tuple_type(
-                Input(input.parent_name, input.name + '[0]' * len(dimensions), input.type, components)
+                Input(input.parent_name, input.name + '[0]' * len(dimensions), input_type, components)
             )
         else:
             base_type = KEVM.abi_type(
-                base_type[0 : base_type.index('[')], KVariable(input_name + '[0]' * len(dimensions))
+                input_type[0 : input_type.index('[')], KVariable(input_name + '[0]' * len(dimensions))
             )
 
         if len(dimensions) == 1:
             return KEVM.abi_array(base_type, KVariable(str(dimensions[0]), 'Int'), flatten_elements)
         dimensions.reverse()
-        for index in range(len(dimensions)):
-            if index == 0:
+        for di in range(len(dimensions)):
+            if di == 0:
                 continue
-            size = reduce(lambda a, b: a * b, dimensions[index:])
+            size = reduce(lambda a, b: a * b, dimensions[di:])
             new_elements: list[KApply] = []
-            dimension = dimensions[index - 1]
+            dimension = dimensions[di - 1]
             for i in range(size):
                 elems = flatten_elements[i * dimension : (i + 1) * dimension]
-                sub_index = _get_reverse_index(i, dimensions[index:])
+                sub_index = _get_reverse_index(i, dimensions[di:])
                 index_str = '[' + ']['.join(sub_index) + ']'
                 components = [
                     Input(Contract.arg_name(input) + index_str, comp.name, comp.type, comp.components)
@@ -734,9 +735,9 @@ class Contract:
     def field_sentences(self) -> list[KSentence]:
         prods: list[KSentence] = [self.subsort_field]
         rules: list[KSentence] = []
-        for field, slot in self.fields.items():
-            klabel = KLabel(self.klabel_field.name + f'_{field}')
-            prods.append(KProduction(self.sort_field, [KTerminal(field)], klabel=klabel, att=KAtt({'symbol': ''})))
+        for _field, slot in self.fields.items():
+            klabel = KLabel(self.klabel_field.name + f'_{_field}')
+            prods.append(KProduction(self.sort_field, [KTerminal(_field)], klabel=klabel, att=KAtt({'symbol': ''})))
             rule_lhs = KEVM.loc(KApply(KLabel('contract_access_field'), [KApply(self.klabel), KApply(klabel)]))
             rule_rhs = intToken(slot)
             rules.append(KRule(KRewrite(rule_lhs, rule_rhs)))
@@ -833,7 +834,7 @@ def _get_reverse_index(i: int, dimensions: list[int]) -> list[str]:
     result = []
     reminder = i
     for index in range(len(dimensions)):
-        size = 1 if index == len(dimensions) - 1 else reduce(lambda a, b: a * b, dimensions[index + 1])
+        size = 1 if index == len(dimensions) - 1 else reduce(lambda a, b: a * b, dimensions[index + 1 :])
         result.append(str(int(reminder / size)))
         reminder = reminder % size
     return result
@@ -862,10 +863,11 @@ def _permuate_indices(dimensions: list[int]) -> list[list[str]]:
 def _find_array_dimensions(type: str) -> list[int]:
     assert type.endswith(']')
 
-    dimensions = []
+    dimensions: list[int] = []
     base_type = type
     while base_type.endswith(']'):
         match = re.search(r'^(.+)\[(.*)\]$', base_type)
+        assert match is not None
         base_type = match.group(1)
         length_str = match.group(2)
         dimensions.append(0 if length_str == '' else int(length_str))
@@ -930,9 +932,8 @@ def _range_predicates(abi: KApply) -> list[KInner | None]:
                 rp += _range_predicates(arg)
     elif abi.label.name == 'abi_type_array':
         # below is an TypedArgs which contains arity-2 KApply except for the first and last arg
-        rp += _range_predicates(abi.args[0])
-        # for arg in abi.args[0]:
-        #     rp += _range_predicates(arg)
+        if type(abi.args[0]) is KApply:
+            rp += _range_predicates(abi.args[0])
     else:
         type_label = abi.label.name.removeprefix('abi_type_')
         rp.append(_range_predicate(single(abi.args), type_label))
