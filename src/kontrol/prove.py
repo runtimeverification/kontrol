@@ -97,9 +97,7 @@ def foundry_prove(
         test.method.update_digest(foundry.digest_file)
 
     def run_prover(test_suite: list[FoundryTest]) -> list[APRProof]:
-        scheduler = Scheduler(
-            workers=options.workers, initial_tests=test_suite, options=options, port=options.port, foundry=foundry
-        )
+        scheduler = Scheduler(workers=options.workers, initial_tests=test_suite, options=options, foundry=foundry)
         scheduler.run()
 
         return scheduler.results
@@ -389,9 +387,7 @@ class Scheduler:
             job.execute(task_queue, done_queue)
             task_queue.task_done()
 
-    def __init__(
-        self, workers: int, initial_tests: list[FoundryTest], options: ProveOptions, foundry: Foundry
-    ) -> None:
+    def __init__(self, workers: int, initial_tests: list[FoundryTest], options: ProveOptions, foundry: Foundry) -> None:
         self.options = options
         self.task_queue = Queue()
         self.done_queue = Queue()
