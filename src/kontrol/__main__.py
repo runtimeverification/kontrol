@@ -6,10 +6,12 @@ import sys
 from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
+import pyk
 from kevm_pyk import kdist
 from kevm_pyk.cli import node_id_like
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.tui import APRProofViewer
 
 from . import VERSION
@@ -61,6 +63,14 @@ def main() -> None:
     parser = _create_argument_parser()
     args = parser.parse_args()
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
+
+    expected_k_version = KVersion.parse(f'v{pyk.K_VERSION}')
+    actual_k_version = k_version()
+
+    if expected_k_version != actual_k_version:
+        print(
+            f'WARNING: An outdated version of K (v{actual_k_version}) is being used. Updating K to v{expected_k_version} is RECOMMENDED'
+        )
 
     executor_name = 'exec_' + args.command.lower().replace('-', '_')
     if executor_name not in globals():
