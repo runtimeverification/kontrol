@@ -1,9 +1,9 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION
+│   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 0
-│   statusCode: STATUSCODE
+│   statusCode: STATUSCODE:StatusCode
 │
 │  (272 steps)
 ├─ 3
@@ -28,10 +28,10 @@
 │
 │  (1 step)
 ├─ 6
-│   k: #execute ~> CONTINUATION
+│   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 0
-│   statusCode: STATUSCODE
+│   statusCode: STATUSCODE:StatusCode
 │
 │  (543 steps)
 ├─ 8 (split)
@@ -72,11 +72,11 @@
 ┃  │
 ┃  ┊  constraint: true
 ┃  ┊  subst: OMITTED SUBST
-┃  └─ 7 (leaf, target)
-┃      k: #halt ~> CONTINUATION
-┃      pc: PC_CELL_5d410f2a
-┃      callDepth: CALLDEPTH_CELL_5d410f2a
-┃      statusCode: STATUSCODE_FINAL
+┃  └─ 7 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
 ┗━━┓ constraint: { true #Equals ( notBool 100 <=Int VV0_x_114b9705:Int ) }
    │
@@ -306,11 +306,10 @@ Node 16:
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( #execute
-               ~> CONTINUATION => #end EVMC_SUCCESS
-               ~> #pc [ STOP ]
+               ( .K => #end EVMC_SUCCESS
+               ~> #pc [ STOP ] )
                ~> #execute
-               ~> CONTINUATION:K )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -336,10 +335,10 @@ Node 16:
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID
+                     CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( S2KAssertTest . S2KsetUp ( ) => b"\n\x92T\xe4" )
+                     b"\n\x92T\xe4"
                    </callData>
                    <callValue>
                      0
@@ -348,7 +347,7 @@ Node 16:
                      ( .WordStack => ( selector ( "setUp()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( .Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
                    ...
                    ...
@@ -376,11 +375,11 @@ Node 16:
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID
+                   ORIGIN_ID:Int
                  </origin>
                  <block>
                    <number>
-                     NUMBER_CELL
+                     NUMBER_CELL:Int
                    </number>
                    ...
                  </block>
@@ -469,7 +468,7 @@ Node 16:
                  0
                </expectedValue>
                <expectedData>
-                 ( .Bytes => b"" )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
@@ -500,17 +499,7 @@ Node 16:
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( 0 <=Int CALLER_ID
-       andBool ( CALLER_ID <Int pow160
-       andBool ( 0 <=Int ORIGIN_ID
-       andBool ( ORIGIN_ID <Int pow160
-       andBool ( 0 <=Int NUMBER_CELL
-       andBool ( NUMBER_CELL <=Int maxSInt256
-       andBool ( lengthBytes ( S2KAssertTest . S2KsetUp ( ) ) <Int pow128
-       andBool ( 0 <=Int 728815563385977040452943777879061427756277306518
-       andBool ( 728815563385977040452943777879061427756277306518 <Int pow160
-               )))))))))
-       ensures ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
@@ -938,9 +927,8 @@ Node 16:
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
            <kevm>
              <k>
-               ( #halt
-               ~> CONTINUATION:K => #execute
-               ~> CONTINUATION )
+               ( #halt => #execute )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -972,7 +960,7 @@ Node 16:
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => S2KAssertTest . S2KtestZUndfailingZUndbranch ( ?VV0_x_114b9705 : uint256 ) )
+                     ( b"\n\x92T\xe4" => b"F\"\xb1U" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) )
                    </callData>
                    <callValue>
                      0
@@ -981,7 +969,7 @@ Node 16:
                      ( ( selector ( "setUp()" ) : .WordStack ) => .WordStack )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => .Bytes )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"" )
                    </localMem>
                    ...
                    ...
@@ -1102,7 +1090,7 @@ Node 16:
                  0
                </expectedValue>
                <expectedData>
-                 ( b"" => .Bytes )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
@@ -1148,11 +1136,10 @@ Node 16:
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
            <kevm>
              <k>
-               ( #execute
-               ~> CONTINUATION => JUMPI 1027 bool2Word ( 100 <=Int VV0_x_114b9705:Int )
-               ~> #pc [ JUMPI ]
+               ( .K => JUMPI 1027 bool2Word ( 100 <=Int VV0_x_114b9705:Int )
+               ~> #pc [ JUMPI ] )
                ~> #execute
-               ~> CONTINUATION:K )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -1175,7 +1162,7 @@ Node 16:
                      728815563385977040452943777879061427756277306518
                    </id>
                    <callData>
-                     ( S2KAssertTest . S2KtestZUndfailingZUndbranch ( VV0_x_114b9705 : uint256 ) => b"F\"\xb1U" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) )
+                     b"F\"\xb1U" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
                    </callData>
                    <callValue>
                      0
@@ -1184,7 +1171,7 @@ Node 16:
                      ( .WordStack => ( VV0_x_114b9705:Int : ( 305 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( .Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
                    ...
                    ...
@@ -1296,7 +1283,7 @@ Node 16:
                  0
                </expectedValue>
                <expectedData>
-                 ( .Bytes => b"" )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType

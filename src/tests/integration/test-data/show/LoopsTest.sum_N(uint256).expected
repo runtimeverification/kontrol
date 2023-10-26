@@ -1,9 +1,9 @@
 
 ┌─ 1 (root, init)
-│   k: #execute ~> CONTINUATION
+│   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 0
-│   statusCode: STATUSCODE
+│   statusCode: STATUSCODE:StatusCode
 │
 │  (808 steps)
 ├─ 3
@@ -72,11 +72,11 @@
 ┃  │
 ┃  ┊  constraint: true
 ┃  ┊  subst: OMITTED SUBST
-┃  └─ 2 (leaf, target)
-┃      k: #halt ~> CONTINUATION
-┃      pc: PC_CELL_5d410f2a
-┃      callDepth: CALLDEPTH_CELL_5d410f2a
-┃      statusCode: STATUSCODE_FINAL
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
 ┗━━┓ constraint: { true #Equals ( notBool VV0_n_114b9705:Int ==Int 0 ) }
    │
@@ -109,11 +109,11 @@
    │
    ┊  constraint: true
    ┊  subst: OMITTED SUBST
-   └─ 2 (leaf, target)
-       k: #halt ~> CONTINUATION
-       pc: PC_CELL_5d410f2a
-       callDepth: CALLDEPTH_CELL_5d410f2a
-       statusCode: STATUSCODE_FINAL
+   └─ 2 (leaf, target, terminal)
+       k: #halt ~> CONTINUATION:K
+       pc: PC_CELL_5d410f2a:Int
+       callDepth: CALLDEPTH_CELL_5d410f2a:Int
+       statusCode: STATUSCODE_FINAL:StatusCode
 
 
 
@@ -123,11 +123,10 @@
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( #execute
-               ~> CONTINUATION => STATICCALL ( VGAS:Int +Int -3034 ) 645326474426547203313410069153905908525362434349 128 36 128 0
-               ~> #pc [ STATICCALL ]
+               ( .K => STATICCALL ( VGAS:Int +Int -3034 ) 645326474426547203313410069153905908525362434349 128 36 128 0
+               ~> #pc [ STATICCALL ] )
                ~> #execute
-               ~> CONTINUATION:K )
+               ~> _CONTINUATION
              </k>
              <mode>
                NORMAL
@@ -150,10 +149,10 @@
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID
+                     CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( S2KLoopsTest . S2KsumZUndN ( VV0_n_114b9705 : uint256 ) => b"~\x8e#\xd0" +Bytes #buf ( 32 , VV0_n_114b9705:Int ) )
+                     b"~\x8e#\xd0" +Bytes #buf ( 32 , VV0_n_114b9705:Int )
                    </callData>
                    <callValue>
                      0
@@ -162,7 +161,7 @@
                      ( .WordStack => ( 164 : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( VV0_n_114b9705:Int : ( 459 : ( selector ( "sum_N(uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( .Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_n_114b9705:Int <=Int 51816696836262767 ) ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_n_114b9705:Int <=Int 51816696836262767 ) ) )
                    </localMem>
                    ...
                    ...
@@ -192,11 +191,11 @@
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID
+                   ORIGIN_ID:Int
                  </origin>
                  <block>
                    <number>
-                     NUMBER_CELL
+                     NUMBER_CELL:Int
                    </number>
                    ...
                  </block>
@@ -285,7 +284,7 @@
                  0
                </expectedValue>
                <expectedData>
-                 ( .Bytes => b"" )
+                 b""
                </expectedData>
                <opcodeType>
                  .OpcodeType
@@ -316,25 +315,15 @@
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( 0 <=Int VV0_n_114b9705:Int
-       andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( 0 <=Int CALLER_ID
-       andBool ( CALLER_ID <Int pow160
-       andBool ( 0 <=Int ORIGIN_ID
-       andBool ( ORIGIN_ID <Int pow160
-       andBool ( 0 <=Int NUMBER_CELL
-       andBool ( NUMBER_CELL <=Int maxSInt256
-       andBool ( 0 <=Int 728815563385977040452943777879061427756277306518
-       andBool ( 728815563385977040452943777879061427756277306518 <Int pow160
-       andBool ( lengthBytes ( S2KLoopsTest . S2KsumZUndN ( VV0_n_114b9705 : uint256 ) ) <Int pow128
-               )))))))))))
-       ensures ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int VV0_n_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
+       andBool ( VV0_n_114b9705:Int <Int pow256
+               ))))))))
       [label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <foundry>

@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from kevm_pyk.dist import DistTarget
+from kevm_pyk import kdist
 from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import KompileTarget, kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
@@ -82,7 +82,7 @@ def foundry_kompile(
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
         imports = ['FOUNDRY']
-        kevm = KEVM(DistTarget.FOUNDRY.get())
+        kevm = KEVM(kdist.get('foundry'))
         empty_config = kevm.definition.empty_config(Foundry.Sorts.FOUNDRY_CELL)
         bin_runtime_definition = _foundry_to_contract_def(
             empty_config=empty_config,
@@ -99,9 +99,12 @@ def foundry_kompile(
         )
 
         kevm = KEVM(
-            DistTarget.FOUNDRY.get(),
+            kdist.get('foundry'),
             extra_unparsing_modules=(bin_runtime_definition.all_modules + contract_main_definition.all_modules),
         )
+
+        plugin_dir = kdist.get('plugin')
+
         foundry_contracts_file.write_text(kevm.pretty_print(bin_runtime_definition, unalias=False) + '\n')
         _LOGGER.info(f'Wrote file: {foundry_contracts_file}')
         foundry.main_file.write_text(kevm.pretty_print(contract_main_definition) + '\n')
@@ -142,6 +145,7 @@ def foundry_kompile(
             llvm_library=foundry.llvm_library,
             debug=debug,
             verbose=verbose,
+            plugin_dir=plugin_dir,
         )
 
     update_kompilation_digest()
