@@ -260,7 +260,7 @@ class Foundry:
         unfound_tests = set(tests)
         for test in tests:
             for possible_match in all_tests + all_non_tests:
-                if re.search(f'^{test}', possible_match):
+                if re.search(test, possible_match):
                     matched_tests.add(possible_match)
                     unfound_tests.discard(test)
         if unfound_tests:
@@ -272,18 +272,6 @@ class Foundry:
     def matching_sigs(self, test: str) -> list[str]:
         test_sigs = self.matching_tests([test])
         return test_sigs
-
-    #          if len(test_sigs) != 1:
-    #              raise ValueError(
-    #                  f'Multiple matches found for {test}. Please specify using the full signature, e.g., {test_sigs[0]!r}.\n'
-    #                  + f'Signatures found: {test_sigs}'
-    #              )
-    #          return test_sigs[0]
-
-    #      def unique_sig(self, test: str) -> tuple[str, str]:
-    #          contract_name = test.split('.')[0]
-    #          test_sig = self.matching_sig(test).split('.')[1]
-    #          return (contract_name, test_sig)
 
     def get_test_id(self, test: str, id: int | None) -> str:
         matching_proofs = self.proofs_with_test(test)

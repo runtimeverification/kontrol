@@ -496,7 +496,7 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
     prove_args.add_argument(
-        '--test',
+        '--match-test',
         type=_parse_test_version_tuple,
         dest='tests',
         default=[],
