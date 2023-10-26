@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from typing import Final
 
     from pyk.kore.rpc import KoreServer
+    from pyk.proof.proof import Proof
     from pyk.utils import BugReport
     from pytest import TempPathFactory
 
@@ -138,7 +139,7 @@ def test_foundry_prove(
     )
 
     # Then
-    assert_pass(test_id, prove_res)
+    assert_pass(test_id, single(prove_res))
 
     if test_id not in SHOW_TESTS or use_booster:
         return
@@ -185,7 +186,7 @@ def test_foundry_fail(
     )
 
     # Then
-    assert_fail(test_id, prove_res)
+    assert_fail(test_id, single(prove_res))
 
     if test_id not in SHOW_TESTS or use_booster:
         return
@@ -229,7 +230,7 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
     )
 
     # Then
-    assert_pass(test_id, prove_res)
+    assert_pass(test_id, single(prove_res))
 
 
 def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, server: KoreServer) -> None:
@@ -264,7 +265,7 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
             bug_report=bug_report,
         ),
     )
-    assert_pass(test, prove_res)
+    assert_pass(test, single(prove_res))
 
 
 def check_pending(foundry_root: Path, test: str, pending: list[int]) -> None:
@@ -327,7 +328,7 @@ def test_foundry_remove_node(
             bug_report=bug_report,
         ),
     )
-    assert_pass(test, prove_res)
+    assert_pass(test, single(prove_res))
 
     foundry_remove_node(
         foundry_root=foundry_root,
@@ -347,26 +348,22 @@ def test_foundry_remove_node(
             bug_report=bug_report,
         ),
     )
-    assert_pass(test, prove_res)
+    assert_pass(test, single(prove_res))
 
 
-def assert_pass(test: str, prove_res: dict[tuple[str, int], tuple[bool, list[str] | None]]) -> None:
-    id = id_for_test(test, prove_res)
-    passed, log = prove_res[(test, id)]
-    if not passed:
-        assert log
-        pytest.fail('\n'.join(log))
+def assert_pass(test: str, proof: Proof) -> None:
+    if not proof.passed:
+        if isinstance(proof, APRProof):
+            assert proof.failure_info
+            pytest.fail('\n'.join(proof.failure_info.print()))
+        else:
+            pytest.fail()
 
 
-def assert_fail(test: str, prove_res: dict[tuple[str, int], tuple[bool, list[str] | None]]) -> None:
-    id = id_for_test(test, prove_res)
-    passed, log = prove_res[test, id]
-    assert not passed
-    assert log
-
-
-def id_for_test(test: str, prove_res: dict[tuple[str, int], tuple[bool, list[str] | None]]) -> int:
-    return single(_id for _test, _id in prove_res.keys() if _test == test and _id is not None)
+def assert_fail(test: str, proof: Proof) -> None:
+    assert not proof.passed
+    if isinstance(proof, APRProof):
+        assert proof.failure_info
 
 
 def assert_or_update_show_output(show_res: str, expected_file: Path, *, update: bool) -> None:
@@ -397,7 +394,6 @@ def assert_or_update_show_output(show_res: str, expected_file: Path, *, update: 
 def test_foundry_resume_proof(
     foundry_root: Path, update_expected_output: bool, bug_report: BugReport | None, server: KoreServer
 ) -> None:
-    foundry = Foundry(foundry_root)
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
 
     prove_res = foundry_prove(
@@ -411,23 +407,24 @@ def test_foundry_resume_proof(
             bug_report=bug_report,
         ),
     )
-    id = id_for_test(test, prove_res)
 
-    proof = foundry.get_apr_proof(f'{test}:{id}')
+    proof = single(prove_res)
+    assert isinstance(proof, APRProof)
     assert proof.pending
 
     prove_res = foundry_prove(
         foundry_root,
-        tests=[(test, id)],
+        tests=[(test, None)],
         options=ProveOptions(
             auto_abstract_gas=True,
-            max_iterations=6,
+            max_iterations=10,
             reinit=False,
             port=server.port,
             bug_report=bug_report,
         ),
     )
-    assert_fail(test, prove_res)
+
+    assert_fail(test, single(prove_res))
 
 
 ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail_init()')
@@ -449,4 +446,4 @@ def test_foundry_init_code(test: str, foundry_root: Path, bug_report: BugReport 
     )
 
     # Then
-    assert_pass(test, prove_res)
+    assert_pass(test, single(prove_res))
