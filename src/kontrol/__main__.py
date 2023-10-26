@@ -10,6 +10,7 @@ from kevm_pyk import kdist
 from kevm_pyk.cli import node_id_like
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
 
 from . import VERSION
@@ -203,16 +204,18 @@ def exec_prove(
         tests=tests,
     )
     failed = 0
-    for pid, r in results.items():
-        passed, failure_log = r
-        if passed:
-            print(f'PROOF PASSED: {pid}')
+    for proof in results:
+        if proof.passed:
+            print(f'PROOF PASSED: {proof.id}')
         else:
             failed += 1
-            print(f'PROOF FAILED: {pid}')
+            print(f'PROOF FAILED: {proof.id}')
+            failure_log = None
+            if isinstance(proof, APRProof):
+                failure_log = proof.failure_info
             if failure_info and failure_log is not None:
-                failure_log += Foundry.help_info()
-                for line in failure_log:
+                log = failure_log.print() + Foundry.help_info()
+                for line in log:
                     print(line)
 
     sys.exit(failed)
@@ -531,13 +534,6 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Include the contract constructor in the test execution.',
-    )
-    prove_args.add_argument(
-        '--fail-fast',
-        dest='fail_fast',
-        default=False,
-        action='store_true',
-        help='Stop execution on other branches if a failing node is detected.',
     )
 
     show_args = command_parser.add_parser(
