@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 from kevm_pyk.kevm import KEVM
-from pyk.kast.inner import KToken, KVariable
+from pyk.kast.inner import KApply, KToken, KVariable
 
 from kontrol.solc_to_k import Contract, Input, _range_predicate
 
@@ -112,9 +112,9 @@ ABI_INPUT_DATA: list[tuple[str, str, Input]] = [
             'sArray',
             'tuple[2][3]',
             [
-                Input('sArray[][]', 'a', 'uint256', []),
-                Input('sArray[][]', 'b', 'address', []),
-                Input('sArray[][]', 'c', 'tuple[2]', [Input('sArray[][].c[]', 'e', 'uint256', [])]),
+                Input('sArray[][]', 'a', 'uint256'),
+                Input('sArray[][]', 'b', 'address'),
+                Input('sArray[][]', 'c', 'tuple[2]', [Input('sArray[][].c[]', 'e', 'uint256')]),
             ],
         ),
     ),
@@ -126,3 +126,43 @@ def test_input_from_dict(test_id: str, abi_input: str, expected: Input) -> None:
     input_json = json.loads(abi_input)
     input = Input.from_dict(input_json)
     assert input == expected
+
+
+INPUT_DATA: list[tuple[str, Input, KApply]] = [
+    ('single_type', Input('', 'RV', 'uint256'), KApply('abi_type_uint256', [KVariable('RV')])),
+    ('empty_tuple', Input('', 'EmptyStruct', 'tuple'), KEVM.abi_tuple([])),
+    (
+        'single_tuple',
+        Input('', 'SomeStruct', 'tuple', [Input('', 'RV1', 'uint256'), Input('', 'RV2', 'uint256')]),
+        KEVM.abi_tuple(
+            [KApply('abi_type_uint256', [KVariable('RV1')]), KApply('abi_type_uint256', [KVariable('RV2')])]
+        ),
+    ),
+    (
+        'nested_tuple',
+        Input(
+            '',
+            'SomeStruct',
+            'tuple',
+            [
+                Input('SomeStruct', 'RV', 'uint256'),
+                Input('SomeStruct', 'SomeStruct', 'tuple', [Input('SomeStruct.SomeStruct', 'RV', 'uint256')]),
+            ],
+        ),
+        KEVM.abi_tuple(
+            [
+                KApply('abi_type_uint256', [KVariable('SomeStruct.RV')]),
+                KEVM.abi_tuple([KApply('abi_type_uint256', [KVariable('SomeStruct.SomeStruct.RV')])]),
+            ]
+        ),
+    ),
+]
+
+
+@pytest.mark.parametrize('test_id,input,expected', INPUT_DATA, ids=[test_id for test_id, *_ in INPUT_DATA])
+def test_input_to_abi(test_id: str, input: Input, expected: KApply) -> None:
+    # When
+    abi = input.to_abi()
+
+    # Then
+    assert abi == expected
