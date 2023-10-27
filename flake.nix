@@ -27,7 +27,7 @@
         "-I${procps}/include -L${procps}/lib -I${openssl.dev}/include -L${openssl.out}/lib";
       overlay = final: prev:
         let
-          kontrol = { solc_version ? null }:
+          kontrol-pyk = { solc_version ? null }:
             (prev.poetry2nix.mkPoetryApplication {
               python = prev.python310;
               projectDir = ./.;
@@ -54,26 +54,70 @@
               groups = [ ];
               # We remove `"dev"` from `checkGroups`, so that poetry2nix does not try to resolve dev dependencies.
               checkGroups = [ ];
+            });
 
-              postInstall = ''
-                wrapProgram $out/bin/kontrol --prefix PATH : ${
-                  prev.lib.makeBinPath
-                  ([ prev.which k-framework.packages.${prev.system}.k ]
-                    ++ prev.lib.optionals (solc_version != null) [
-                      final.foundry-bin
-                      (solc.mkDefault final solc_version)
-                    ])
-                } --set NIX_LIBS "${nixLibs prev}" --set KEVM_DIST_DIR ${
-                  prev.kevm k-framework.packages.${prev.system}.k
-                }
+          kontrol = { solc_version ? null }:
+            prev.stdenv.mkDerivation {
+              pname = "kontrol";
+              version = self.rev or "dirty";
+              buildInputs = with prev; [
+                autoconf
+                automake
+                cmake
+                (kevm-pyk.overridePythonAttrs (old: {
+                  propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
+                    ++ [ (kontrol-pyk { inherit solc_version; }) ];
+                }))
+                k-framework.packages.${prev.system}.k
+                libtool
+                openssl.dev
+                gmp
+              ];
+              nativeBuildInputs = [ prev.makeWrapper ];
+
+              src = ./.;
+
+              dontUseCmakeConfigure = true;
+
+              enableParallelBuilding = true;
+
+              buildPhase = ''
+                XDG_CACHE_HOME=$(pwd) NIX_LIBS="${nixLibs prev}" ${
+                  prev.lib.optionalString
+                  (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
+                  "APPLE_SILICON=true"
+                } kevm-dist build -j4 foundryx
               '';
-            }).overrideAttrs (old: {
-              passthru = old.passthru // (if solc_version == null then {
+
+              installPhase =
+                let kevm = prev.kevm k-framework.packages.${prev.system}.k;
+                in ''
+                  mkdir -p $out
+                  cp -r ./kdist-*/* $out/
+                  ln -s ${kevm}/foundry $out/foundry
+                  ln -s ${kevm}/haskell $out/haskell
+                  ln -s ${kevm}/haskell-standalone $out/haskell-standalone
+                  ln -s ${kevm}/llvm $out/llvm
+                  ln -s ${kevm}/plugin $out/plugin
+                  mkdir -p $out/bin
+                  makeWrapper ${
+                    (kontrol-pyk { inherit solc_version; })
+                  }/bin/kontrol $out/bin/kontrol --prefix PATH : ${
+                    prev.lib.makeBinPath
+                    ([ prev.which k-framework.packages.${prev.system}.k ]
+                      ++ prev.lib.optionals (solc_version != null) [
+                        final.foundry-bin
+                        (solc.mkDefault final solc_version)
+                      ])
+                  } --set NIX_LIBS "${nixLibs prev}" --set KEVM_DIST_DIR $out
+                '';
+
+              passthru = if solc_version == null then {
                 # list all supported solc versions here
                 solc_0_8_13 = kontrol { solc_version = final.solc_0_8_13; };
               } else
-                { });
-            });
+                { };
+            };
         in { inherit kontrol; };
     in flake-utils.lib.eachSystem [
       "x86_64-linux"
@@ -96,9 +140,9 @@
           ];
         };
       in {
-        packages = rec {
+        packages = {
           kontrol = pkgs.kontrol { };
-          default = self.kontrol;
+          default = pkgs.kontrol { };
         };
       }) // {
         overlays.default = overlay;
