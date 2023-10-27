@@ -4,14 +4,11 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "kontrol"
-version = "0.1.37"
+version = "0.1.38"
 description = "Foundry integration for KEVM"
 authors = [
     "Runtime Verification, Inc. <contact@runtimeverification.com>",
 ]
-
-[tool.poetry.scripts]
-kontrol = "kontrol.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -33,6 +30,12 @@ pytest-cov = "*"
 pytest-mock = "*"
 pytest-xdist = "*"
 pyupgrade = "*"
+
+[tool.poetry.scripts]
+kontrol = "kontrol.__main__:main"
+
+[tool.poetry.plugins.kdist]
+kontrol = "kontrol.kdist.plugin"
 
 [tool.isort]
 profile = "black"
