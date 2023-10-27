@@ -502,9 +502,9 @@ def _create_argument_parser() -> ArgumentParser:
         default=[],
         action='append',
         help=(
-            "Specify the contract function to test in the format 'ContractName.FunctionName'. If a function is "
-            "overloaded, you should specify the full signature, e.g., 'ERC20Test.testTransfer(address,uint256)'. This "
-            'option can be used multiple times to test multiple functions.'
+            'Specify contract function(s) to test using a regular expression. This will match functions'
+            "based on their full signature,  e.g., 'ERC20Test.testTransfer(address,uint256)'. This option"
+            'can be used multiple times to add more functions to test.'
         ),
     )
     prove_args.add_argument(
