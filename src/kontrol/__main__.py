@@ -69,9 +69,7 @@ def main() -> None:
     actual_k_version = k_version()
 
     if expected_k_version != actual_k_version:
-        _LOGGER.warning(
-            f'K version {expected_k_version} was expected but K version {actual_k_version} is being used. '
-        )
+        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used. ')
 
     executor_name = 'exec_' + args.command.lower().replace('-', '_')
     if executor_name not in globals():
