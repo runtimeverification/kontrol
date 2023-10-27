@@ -345,7 +345,7 @@ class Foundry:
             )
         res_lines.append('')
         res_lines.append(
-            'Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kevm-integration-for-foundry/'
+            'Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol'
         )
         return res_lines
 
