@@ -65,11 +65,7 @@ def main() -> None:
     args = parser.parse_args()
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
 
-    expected_k_version = KVersion.parse(f'v{pyk.K_VERSION}')
-    actual_k_version = k_version()
-
-    if expected_k_version != actual_k_version:
-        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used. ')
+    _check_k_version()
 
     executor_name = 'exec_' + args.command.lower().replace('-', '_')
     if executor_name not in globals():
@@ -77,6 +73,14 @@ def main() -> None:
 
     execute = globals()[executor_name]
     execute(**vars(args))
+
+
+def _check_k_version() -> None:
+    expected_k_version = KVersion.parse(f'v{pyk.K_VERSION}')
+    actual_k_version = k_version()
+
+    if expected_k_version != actual_k_version:
+        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used. ')
 
 
 # Command implementation
