@@ -69,8 +69,8 @@ def main() -> None:
     actual_k_version = k_version()
 
     if expected_k_version != actual_k_version:
-        print(
-            f'WARNING: An outdated version of K (v{actual_k_version}) is being used. Updating K to v{expected_k_version} is RECOMMENDED'
+        _LOGGER.warning(
+            f'K version {expected_k_version} was expected but K version {actual_k_version} is being used. '
         )
 
     executor_name = 'exec_' + args.command.lower().replace('-', '_')
