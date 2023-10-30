@@ -61,6 +61,7 @@ def foundry_prove(
 
     test_suite = collect_tests(foundry, tests, reinit=options.reinit)
     test_names = [test.name for test in test_suite]
+    print(f'Running functions: {test_names}')
 
     contracts = [test.contract for test in test_suite]
     setup_method_tests = collect_setup_methods(foundry, contracts, reinit=options.reinit)
@@ -130,7 +131,10 @@ class FoundryTest(NamedTuple):
 def collect_tests(foundry: Foundry, tests: Iterable[tuple[str, int | None]] = (), *, reinit: bool) -> list[FoundryTest]:
     if not tests:
         tests = [(test, None) for test in foundry.all_tests]
-    tests = list(unique((foundry.matching_sig(test), version) for test, version in tests))
+    matching_tests = []
+    for test, version in tests:
+        matching_tests += [(sig, version) for sig in foundry.matching_sigs(test)]
+    tests = list(unique(matching_tests))
 
     res: list[FoundryTest] = []
     for sig, ver in tests:
