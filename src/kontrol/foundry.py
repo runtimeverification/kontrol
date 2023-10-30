@@ -115,7 +115,9 @@ class Foundry:
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
             if _contracts.get(contract_name) is not None:
-                raise RuntimeError('Project contains duplicated contract names that may clash in K definitions.')
+                raise RuntimeError(
+                    f'Project contains duplicated contract names that may clash in K definitions: {contract_name}'
+                )
 
             _contracts[contract_name] = Contract(contract_name, contract_json, foundry=True)
         return _contracts
@@ -241,7 +243,7 @@ class Foundry:
             for contract in self.contracts.values()
             for method in contract.methods
             if f'{contract.name}.{method.signature}' not in self.all_tests
-        ] + [f'{contract.name}.init' for contract in self.contracts.values()]
+        ] + [f'{contract.name}.init' for contract in self.contracts.values() if contract.constructor]
 
     @staticmethod
     def _escape_brackets(regs: list[str]) -> list[str]:
@@ -267,19 +269,9 @@ class Foundry:
             raise ValueError('No test matched the predicates')
         return list(matched_tests)
 
-    def matching_sig(self, test: str) -> str:
+    def matching_sigs(self, test: str) -> list[str]:
         test_sigs = self.matching_tests([test])
-        if len(test_sigs) != 1:
-            raise ValueError(
-                f'Multiple matches found for {test}. Please specify using the full signature, e.g., {test_sigs[0]!r}.\n'
-                + 'Signatures found: {test_sigs}'
-            )
-        return test_sigs[0]
-
-    def unique_sig(self, test: str) -> tuple[str, str]:
-        contract_name = test.split('.')[0]
-        test_sig = self.matching_sig(test).split('.')[1]
-        return (contract_name, test_sig)
+        return test_sigs
 
     def get_test_id(self, test: str, id: int | None) -> str:
         matching_proofs = self.proofs_with_test(test)

@@ -173,7 +173,7 @@ jobs:
       - name: 'Run kontrol build'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol build
       - name: 'Run kontrol prove'
-        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --use-booster --test 'AssertTest.test_assert_true()'
+        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --use-booster --match-test 'AssertTest.test_assert_true()'
       - name: 'Run kontrol show'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol show 'AssertTest.test_assert_true()'
       - name: 'Tear down Docker'
