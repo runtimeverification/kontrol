@@ -80,7 +80,7 @@ def _check_k_version() -> None:
     actual_k_version = k_version()
 
     if expected_k_version != actual_k_version:
-        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used. ')
+        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.')
 
 
 # Command implementation
