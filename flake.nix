@@ -93,7 +93,7 @@
                   prev.lib.optionalString
                   (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
                   "APPLE_SILICON=true"
-                } kevm-dist build -j4 foundryx
+                } kevm-dist build -j4 foundry
               '';
 
               installPhase = ''

@@ -81,7 +81,7 @@ jobs:
       - name: 'Build KEVM'
         run: |
             docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'poetry install'
-            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin foundryx'
+            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin foundry'
       - name: 'Run profiling'
         run: |
           PROF_ARGS=--numprocesses=8
@@ -113,7 +113,7 @@ jobs:
       - name: 'Build KEVM'
         run: |
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'poetry install'
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin haskell foundryx'
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin haskell foundry'
       - name: 'Run integration tests'
         run: |
           TEST_ARGS=--numprocesses=8
