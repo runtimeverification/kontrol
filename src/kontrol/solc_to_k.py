@@ -335,7 +335,7 @@ class Contract:
             arg_vars = [KVariable(aname) for aname in self.arg_names]
             prod_klabel = self.unique_klabel
             assert prod_klabel is not None
-            args: list[KApply] = []
+            args: list[KInner] = []
             conjuncts: list[KInner] = []
             for input in self.inputs:
                 abi_type = input.to_abi()
@@ -665,7 +665,7 @@ class Contract:
         dimensions = _find_array_dimensions(input_type)
 
         indices = _permuate_indices(dimensions)
-        flatten_elements: list[KApply] = []
+        flatten_elements: list[KInner] = []
         for index in indices:
             index_str = '[' + ']['.join(index) + ']'
             if len(input.components) > 0:  # element type is a tuple
@@ -680,7 +680,7 @@ class Contract:
                 flatten_elements.append(
                     KEVM.abi_type(input_type[0 : input_type.index('[')], KVariable(input_name + index_str))
                 )
-
+        base_type: KInner
         if len(input.components) > 0:
             base_type = Contract.make_tuple_type(
                 Input(input.parent_name, input.name + '[0]' * len(dimensions), input_type, components)
@@ -697,7 +697,7 @@ class Contract:
             if di == 0:
                 continue
             size = reduce(lambda a, b: a * b, dimensions[di:])
-            new_elements: list[KApply] = []
+            new_elements: list[KInner] = []
             dimension = dimensions[di - 1]
             for i in range(size):
                 elems = flatten_elements[i * dimension : (i + 1) * dimension]
@@ -718,7 +718,7 @@ class Contract:
         """
         do a recursive build of inner types
         """
-        abi_types = []
+        abi_types: list[KInner] = []
         for comp in input.components:
             # nested tuple, go deeper
             if comp.is_tuple:
@@ -870,7 +870,8 @@ def _find_array_dimensions(type: str) -> list[int]:
         assert match is not None
         base_type = match.group(1)
         length_str = match.group(2)
-        dimensions.append(0 if length_str == '' else int(length_str))
+        # use some concrete length of variable length array
+        dimensions.append(3 if length_str == '' else int(length_str))
     # no need to reverse as the multi-dimensinional array are accessed in this way
     # dimensions.reverse()
     return dimensions
