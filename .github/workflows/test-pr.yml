@@ -81,7 +81,7 @@ jobs:
       - name: 'Build KEVM'
         run: |
             docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'poetry install'
-            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin foundry'
+            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin foundryx'
       - name: 'Run profiling'
         run: |
           PROF_ARGS=--numprocesses=8
@@ -113,7 +113,7 @@ jobs:
       - name: 'Build KEVM'
         run: |
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'poetry install'
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin haskell foundry'
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin haskell foundryx'
       - name: 'Run integration tests'
         run: |
           TEST_ARGS=--numprocesses=8
@@ -173,10 +173,55 @@ jobs:
       - name: 'Run kontrol build'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol build
       - name: 'Run kontrol prove'
-        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --use-booster --test 'AssertTest.test_assert_true()'
+        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --use-booster --match-test 'AssertTest.test_assert_true()'
       - name: 'Run kontrol show'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol show 'AssertTest.test_assert_true()'
       - name: 'Tear down Docker'
         if: always()
         run: |
           docker stop --time=0 ${CONTAINER_NAME}
+
+  nix:
+    needs: code-quality-checks
+    name: 'Nix Tests'
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, macos-13, MacM1]  # MacM1 is self-hosted
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 'Install Nix'
+        if: ${{ matrix.runner != 'MacM1' }}
+        uses: cachix/install-nix-action@v22
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.13.3/install
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            substituters = http://cache.nixos.org https://cache.iog.io
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
+
+      - name: 'Install Cachix'
+        if: ${{ matrix.runner != 'MacM1' }}
+        uses: cachix/cachix-action@v12
+        with:
+          name: k-framework
+          authToken: ${{ secrets.CACHIX_PUBLIC_TOKEN }}
+
+      - name: 'Build Kontrol'
+        env:
+          NIX_PATH: 'nixpkgs=http://nixos.org/channels/nixos-22.05/nixexprs.tar.xz'
+          GC_DONT_GC: '1'
+        run: |
+          nix --version
+          JQ=$(nix-build '<nixpkgs>' -A jq --no-link)/bin/jq
+          KONTROL_BIN=$(nix build .#kontrol.solc_0_8_13 --print-build-logs --json | $JQ -r '.[].outputs | to_entries[].value')/bin
+          echo $KONTROL_BIN >> $GITHUB_PATH
+
+      - name: 'Run smoke test'
+        run: cd package && ./test-package.sh

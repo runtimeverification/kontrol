@@ -211,10 +211,12 @@ def exec_prove(
         else:
             failed += 1
             print(f'PROOF FAILED: {proof.id}')
-            if isinstance(proof, APRProof) and failure_info and proof.failure_info is not None:
-                failure_log = proof.failure_info.print()
-                failure_log += Foundry.help_info()
-                for line in failure_log:
+            failure_log = None
+            if isinstance(proof, APRProof):
+                failure_log = proof.failure_info
+            if failure_info and failure_log is not None:
+                log = failure_log.print() + Foundry.help_info()
+                for line in log:
                     print(line)
             elif isinstance(proof, EqualityProof):
                 print('EqualityProof failed.')
@@ -498,15 +500,15 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
     prove_args.add_argument(
-        '--test',
+        '--match-test',
         type=_parse_test_version_tuple,
         dest='tests',
         default=[],
         action='append',
         help=(
-            "Specify the contract function to test in the format 'ContractName.FunctionName'. If a function is "
-            "overloaded, you should specify the full signature, e.g., 'ERC20Test.testTransfer(address,uint256)'. This "
-            'option can be used multiple times to test multiple functions.'
+            'Specify contract function(s) to test using a regular expression. This will match functions'
+            "based on their full signature,  e.g., 'ERC20Test.testTransfer(address,uint256)'. This option"
+            'can be used multiple times to add more functions to test.'
         ),
     )
     prove_args.add_argument(

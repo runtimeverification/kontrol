@@ -8,13 +8,7 @@ from threading import Thread  # type: ignore
 from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics
-from kevm_pyk.utils import (
-    KDefinition__expand_macros,
-    abstract_cell_vars,
-    kevm_prove,
-    legacy_explore,
-    print_failure_info,
-)
+from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, kevm_prove, legacy_explore
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
@@ -34,12 +28,12 @@ from .foundry import Foundry, foundry_node_printer
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
-    from pyk.kcfg import KCFGExplore
     from collections.abc import Iterable
     from pathlib import Path
     from typing import Final
 
     from pyk.kast.inner import KInner
+    from pyk.kcfg import KCFGExplore
     from pyk.kcfg.explore import ExtendResult
     from pyk.kore.rpc import KoreServer
 
@@ -53,7 +47,7 @@ def foundry_prove(
     foundry_root: Path,
     options: ProveOptions,
     tests: Iterable[tuple[str, int | None]] = (),
-) -> list[APRProof]:
+) -> list[Proof]:
     if options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
     if options.max_iterations is not None and options.max_iterations < 0:
@@ -74,6 +68,7 @@ def foundry_prove(
 
     test_suite = collect_tests(foundry, tests, reinit=options.reinit)
     test_names = [test.name for test in test_suite]
+    print(f'Running functions: {test_names}')
 
     contracts = [test.contract for test in test_suite]
     setup_method_tests = collect_setup_methods(foundry, contracts, reinit=options.reinit)
@@ -96,7 +91,7 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    def run_prover(test_suite: list[FoundryTest]) -> list[APRProof]:
+    def run_prover(test_suite: list[FoundryTest]) -> list[Proof]:
         scheduler = Scheduler(workers=options.workers, initial_tests=test_suite, options=options, foundry=foundry)
         scheduler.run()
 
@@ -105,14 +100,14 @@ def foundry_prove(
     if options.run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
         results = run_prover(constructor_tests)
-        failed = [init_proof for init_proof in results if not init_proof.passed]
+        failed = [proof for proof in results if not proof.passed]
         if failed:
             raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
     results = run_prover(setup_method_tests)
 
-    failed = [setup_proof for setup_proof in results if not setup_proof.passed]
+    failed = [proof for proof in results if not proof.passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
@@ -142,7 +137,10 @@ class FoundryTest(NamedTuple):
 def collect_tests(foundry: Foundry, tests: Iterable[tuple[str, int | None]] = (), *, reinit: bool) -> list[FoundryTest]:
     if not tests:
         tests = [(test, None) for test in foundry.all_tests]
-    tests = list(unique((foundry.matching_sig(test), version) for test, version in tests))
+    matching_tests = []
+    for test, version in tests:
+        matching_tests += [(sig, version) for sig in foundry.matching_sigs(test)]
+    tests = list(unique(matching_tests))
 
     res: list[FoundryTest] = []
     for sig, ver in tests:
@@ -371,11 +369,11 @@ class Scheduler:
     done_queue: Queue
     options: ProveOptions
     iterations: dict[str, int]
-#      kcfg_explore_map: dict[str, KCFGExplore]
+    #      kcfg_explore_map: dict[str, KCFGExplore]
 
     foundry: Foundry
 
-    results: list[APRProof]
+    results: list[Proof]
 
     job_counter: int
 
@@ -397,7 +395,7 @@ class Scheduler:
         self.results = []
         self.iterations = {}
         self.servers = {}
-#          self.kcfg_explore_map = {}
+        #          self.kcfg_explore_map = {}
         self.job_counter = 0
         self.done_counter = 0
         for test in initial_tests:
@@ -407,18 +405,18 @@ class Scheduler:
                 port = server.port
                 self.servers[test.id] = server
 
-#              client = KoreClient('localhost', port, bug_report=bug_report)
-#              self.clients[test.id] = client
+            #              client = KoreClient('localhost', port, bug_report=bug_report)
+            #              self.clients[test.id] = client
 
             self.task_queue.put(InitProofJob(test=test, port=port, options=self.options, foundry=foundry))
             self.iterations[test.id] = 0
-#              self.kcfg_explore_map[test.id] = KCFGExplore(
-#                  kprint=self.foundry.kevm,
-#                  kore_client=client,
-#                  kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
-#                  id=test.id,
-#                  trace_rewrites=options.trace_rewrites,
-#              )
+            #              self.kcfg_explore_map[test.id] = KCFGExplore(
+            #                  kprint=self.foundry.kevm,
+            #                  kore_client=client,
+            #                  kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
+            #                  id=test.id,
+            #                  trace_rewrites=options.trace_rewrites,
+            #              )
             self.job_counter += 1
         self.threads = [
             Thread(target=Scheduler.exec_process, args=(self.task_queue, self.done_queue), daemon=False)
@@ -432,7 +430,7 @@ class Scheduler:
         self.iterations[job.test.id] += 1
 
         llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
-#          llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
+        #          llvm_definition_dir = self.foundry.llvm_library if self.options.use_booster else None
         with legacy_explore(
             self.foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=self.options.auto_abstract_gas),
@@ -618,10 +616,9 @@ def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
     options: ProveOptions,
-) -> dict[tuple[str, int], tuple[bool, list[str] | None]]:
-    def init_and_run_proof(test: FoundryTest) -> tuple[bool, list[str] | None]:
+) -> list[Proof]:
+    def init_and_run_proof(test: FoundryTest) -> Proof:
         start_server = options.port is None
-
         with legacy_explore(
             foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
@@ -643,7 +640,7 @@ def _run_cfg_group(
                 run_constructor=options.run_constructor,
             )
 
-            passed = kevm_prove(
+            kevm_prove(
                 foundry.kevm,
                 proof,
                 kcfg_explore,
@@ -653,22 +650,17 @@ def _run_cfg_group(
                 break_on_jumpi=options.break_on_jumpi,
                 break_on_calls=options.break_on_calls,
             )
-            failure_log = None
-            if not passed:
-                failure_log = print_failure_info(proof, kcfg_explore, options.counterexample_info)
-            return passed, failure_log
+            return proof
 
-    _apr_proofs: list[tuple[bool, list[str] | None]]
+    apr_proofs: list[Proof]
     if options.workers > 1:
         with ProcessPool(ncpus=options.workers) as process_pool:
-            _apr_proofs = process_pool.map(init_and_run_proof, tests)
+            apr_proofs = process_pool.map(init_and_run_proof, tests)
     else:
-        _apr_proofs = []
+        apr_proofs = []
         for test in tests:
-            _apr_proofs.append(init_and_run_proof(test))
+            apr_proofs.append(init_and_run_proof(test))
 
-    unparsed_tests = [test.unparsed for test in tests]
-    apr_proofs = dict(zip(unparsed_tests, _apr_proofs, strict=True))
     return apr_proofs
 
 
