@@ -187,7 +187,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ubuntu-latest, macos-13]
+        runner: [ubuntu-latest, macos-13, MacM1]  # MacM1 is self-hosted
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 60
     steps:
@@ -197,6 +197,7 @@ jobs:
           fetch-depth: 0
 
       - name: 'Install Nix'
+        if: ${{ matrix.runner != 'MacM1' }}
         uses: cachix/install-nix-action@v22
         with:
           install_url: https://releases.nixos.org/nix/nix-2.13.3/install
@@ -206,6 +207,7 @@ jobs:
             trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
 
       - name: 'Install Cachix'
+        if: ${{ matrix.runner != 'MacM1' }}
         uses: cachix/cachix-action@v12
         with:
           name: k-framework
