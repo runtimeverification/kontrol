@@ -490,7 +490,7 @@ class Contract:
 
     @property
     def sort_field(self) -> KSort:
-        return KSort(f'{self.name}Field')
+        return KSort(f'{Contract.escaped(self.name, "S2K")}Field')
 
     @property
     def sort_method(self) -> KSort:
