@@ -135,6 +135,7 @@ def test_foundry_prove(
             counterexample_info=True,
             bug_report=bug_report,
             port=server.port,
+            use_booster=use_booster,
         ),
     )
 
@@ -179,9 +180,7 @@ def test_foundry_fail(
         foundry_root,
         tests=[(test_id, None)],
         options=ProveOptions(
-            counterexample_info=True,
-            bug_report=bug_report,
-            port=server.port,
+            counterexample_info=True, bug_report=bug_report, port=server.port, use_booster=use_booster
         ),
     )
 

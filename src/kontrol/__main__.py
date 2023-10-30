@@ -10,6 +10,7 @@ from kevm_pyk import kdist
 from kevm_pyk.cli import node_id_like
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.proof.equality import EqualityProof
 from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
 
@@ -217,7 +218,10 @@ def exec_prove(
                 log = failure_log.print() + Foundry.help_info()
                 for line in log:
                     print(line)
+            elif isinstance(proof, EqualityProof):
+                print('EqualityProof failed.')
 
+    print('c')
     sys.exit(failed)
 
 
