@@ -791,13 +791,7 @@ Finally, the original sender of the transaction, `ACCTFROM` is changed to the ne
        <callDepth> CD </callDepth>
        <prank>
          <active> true </active>
-            <newCaller> NCL </newCaller>
-            <newCaller> NCL </newCaller>
-            <newOrigin> .Account </newOrigin>
-            <active> true </active>
          <newCaller> NCL </newCaller>
-            <newOrigin> .Account </newOrigin>
-            <active> true </active>
          <depth> CD </depth>
          ...
        </prank>
@@ -811,13 +805,7 @@ Finally, the original sender of the transaction, `ACCTFROM` is changed to the ne
        <callDepth> CD </callDepth>
        <prank>
          <active> true </active>
-            <newCaller> NCL </newCaller>
-            <newCaller> NCL </newCaller>
-            <newOrigin> NOG </newOrigin>
-            <active> true </active>
          <newCaller> NCL </newCaller>
-            <newOrigin> NOG </newOrigin>
-            <active> true </active>
          <depth> CD </depth>
          ...
        </prank>
@@ -859,13 +847,7 @@ Finally, the original sender of the transaction, `ACCTFROM` is changed to the ne
        <callDepth> CD </callDepth>
        <prank>
          <active> true </active>
-            <newCaller> NCL </newCaller>
-            <newCaller> NCL </newCaller>
-            <newOrigin> NOG </newOrigin>
-            <active> true </active>
          <newCaller> NCL </newCaller>
-            <newOrigin> NOG </newOrigin>
-            <active> true </active>
          <depth> CD </depth>
          ...
        </prank>
@@ -1382,7 +1364,7 @@ Will also return true if REASON is `.Bytes`.
          </prank>
 ```
 
-- `#endPrank` will end the prank, restoring the previous caller and origin to the `<id>` and `<origin>` cells in the configuration.
+- `#endPrank` will end the prank, restoring the previous caller and origin to the `<caller>` and `<origin>` cells in the configuration.
 If the production is matched when no prank is active, it will be ignored.
 
 ```k
