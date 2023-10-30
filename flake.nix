@@ -94,7 +94,6 @@
                 in ''
                   mkdir -p $out
                   cp -r ./kdist-*/* $out/
-                  ln -s ${kevm}/foundry $out/foundry
                   ln -s ${kevm}/haskell $out/haskell
                   ln -s ${kevm}/haskell-standalone $out/haskell-standalone
                   ln -s ${kevm}/llvm $out/llvm
