@@ -196,9 +196,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 'Install Foundry'
-        uses: foundry-rs/foundry-toolchain@v1
-
       - name: 'Install Nix'
         uses: cachix/install-nix-action@v22
         with:
@@ -221,7 +218,7 @@ jobs:
         run: |
           nix --version
           JQ=$(nix-build '<nixpkgs>' -A jq --no-link)/bin/jq
-          KONTROL_BIN=$(nix build .#kontrol --print-build-logs --json | $JQ -r '.[].outputs | to_entries[].value')/bin
+          KONTROL_BIN=$(nix build .#kontrol.solc_0_8_13 --print-build-logs --json | $JQ -r '.[].outputs | to_entries[].value')/bin
           echo $KONTROL_BIN >> $GITHUB_PATH
 
       - name: 'Run smoke test'
