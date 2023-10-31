@@ -79,23 +79,19 @@ def _check_k_version() -> None:
     expected_k_version = KVersion.parse(f'v{pyk.K_VERSION}')
     actual_k_version = k_version()
 
-    if expected_k_version != actual_k_version:
-        if (
-            expected_k_version.git is None
-            and actual_k_version.git is not None
-            and (actual_k_version.git.ahead or actual_k_version.git.dirty)
-        ):
-            _LOGGER.warning(
-                f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.'
-            )
-        if (
-            actual_k_version.git is None
-            and expected_k_version.git is not None
-            and (expected_k_version.git.ahead or expected_k_version.git.dirty)
-        ):
-            _LOGGER.warning(
-                f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.'
-            )
+    if (
+        expected_k_version != actual_k_version
+        and not _compare_versions(expected_k_version, actual_k_version)
+        and not _compare_versions(actual_k_version, expected_k_version)
+    ):
+        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.')
+
+
+def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
+    if ver1.git is None and ver2.git is not None and (ver2.git.ahead or ver2.git.dirty):
+        return False
+    else:
+        return True
 
 
 # Command implementation
