@@ -13,6 +13,7 @@ from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.utils import ensure_dir_path, hash_str
 
 from .foundry import Foundry
+from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
 
 if TYPE_CHECKING:
@@ -42,6 +43,7 @@ def foundry_kompile(
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
     main_module = 'FOUNDRY-MAIN'
+    includes = [include for include in includes if Path(include).exists()] + [str(KSRC_DIR)]
     ensure_dir_path(foundry.kompiled)
     ensure_dir_path(foundry_requires_dir)
 
@@ -139,7 +141,7 @@ def foundry_kompile(
             main_file=foundry.main_file,
             main_module=main_module,
             syntax_module=syntax_module,
-            includes=[include for include in includes if Path(include).exists()],
+            includes=includes,
             emit_json=True,
             ccopts=ccopts,
             llvm_library=foundry.llvm_library,
