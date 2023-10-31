@@ -1,7 +1,6 @@
 # Kontrol
 
-Fast Installation
------------------
+## Fast Installation
 
 -   `bash <(curl https://kframework.org/install)`: install [kup package manager].
 -   `kup install kontrol`: install Kontrol.
@@ -9,7 +8,7 @@ Fast Installation
 
 **NOTE**: The first run will take longer to fetch all the libraries and compile sources. (30m to 1h)
 
-### Build from source
+## Build from source
 
 #### K Framework
 
@@ -31,17 +30,17 @@ poetry install
 
 In order to build `kontrol`, you need to build these specific targets:
 ```sh
-poetry run kevm-dist --verbose build -j`nproc` plugin haskell foundryx
+poetry run kevm-dist --verbose build -j3 plugin haskell foundryx
 ```
 
 To change the default compiler:
 ```sh
-CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` plugin haskell foundryx
+CXX=clang++-14 poetry run kevm-dist --verbose build -j3 plugin haskell foundryx
 ```
 
 On Apple Silicon:
 ```sh
-APPLE_SILICON=true poetry run kevm-dist --verbose build -j`nproc` plugin haskell foundryx
+APPLE_SILICON=true poetry run kevm-dist --verbose build -j3 plugin haskell foundryx
 ```
 
 Targets can be cleaned with:
@@ -67,3 +66,19 @@ make cov-integration TEST_ARGS="--numprocesses=8 --update-expected-output"
 ```
 
 For interactive use, spawn a shell with `poetry shell` (after `poetry install`), then run an interpreter.
+
+## Resources
+
+-   [KEVM](https://github.com/runtimeverification/evm-semantics): Formal model of EVM in K Framework.
+-   [EVM Yellowpaper](https://github.com/ethereum/yellowpaper): Original specification of EVM.
+
+For more information about the [K Framework], refer to these sources:
+
+-   [The K Tutorial](https://github.com/runtimeverification/k/tree/master/k-distribution/k-tutorial)
+-   [Semantics-Based Program Verifiers for All Languages](https://fsl.cs.illinois.edu/publications/stefanescu-park-yuwen-li-rosu-2016-oopsla)
+-   [Reachability Logic Resources](http://fsl.cs.illinois.edu/index.php/Reachability_Logic_in_K)
+-   [Matching Logic Resources](http://www.matching-logic.org/)
+-   [Logical Frameworks](https://dl.acm.org/doi/10.5555/208683.208700): Discussion of logical frameworks.
+
+[K Framework]: <https://kframework.org>
+[kup package manager]: <https://github.com/runtimeverification/kup>
