@@ -103,8 +103,6 @@ def foundry_kompile(
             extra_unparsing_modules=(bin_runtime_definition.all_modules + contract_main_definition.all_modules),
         )
 
-        plugin_dir = kdist.get('plugin')
-
         foundry_contracts_file.write_text(kevm.pretty_print(bin_runtime_definition, unalias=False) + '\n')
         _LOGGER.info(f'Wrote file: {foundry_contracts_file}')
         foundry.main_file.write_text(kevm.pretty_print(contract_main_definition) + '\n')
@@ -133,6 +131,8 @@ def foundry_kompile(
         _LOGGER.info('Updated Kompilation digest')
 
     if not kompilation_up_to_date() or rekompile or not kompiled_timestamp.exists():
+        plugin_dir = kdist.get('plugin')
+
         kevm_kompile(
             target=KompileTarget.HASKELL_BOOSTER,
             output_dir=foundry.kompiled,
