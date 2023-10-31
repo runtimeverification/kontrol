@@ -79,7 +79,11 @@ def _check_k_version() -> None:
     expected_k_version = KVersion.parse(f'v{pyk.K_VERSION}')
     actual_k_version = k_version()
 
-    if expected_k_version != actual_k_version:
+    if (
+        expected_k_version.major != actual_k_version.major
+        or expected_k_version.minor != actual_k_version.minor
+        or expected_k_version.patch != actual_k_version.patch
+    ):
         _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.')
 
 
