@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 from filelock import FileLock
+from kevm_pyk.kompile import KompileTarget
 from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.utils import run_process, single
@@ -49,6 +50,17 @@ def server(foundry: Foundry, use_booster: bool) -> Iterator[KoreServer]:
     )
 
 
+@pytest.fixture(scope='module')
+def maude_server(foundry: Foundry) -> Iterator[KoreServer]:
+    kore_rpc_command = ('maude-server',)
+
+    yield kore_server(
+        definition_dir=foundry.kevm.definition_dir / 'kompiled-maude',
+        module_name=foundry.kevm.main_module,
+        command=kore_rpc_command,
+    )
+
+
 @pytest.fixture(scope='session')
 def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, worker_id: str) -> Foundry:
     if foundry_root_dir:
@@ -72,6 +84,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                 includes=(),
                 requires=[str(TEST_DATA_DIR / 'lemmas.k')],
                 imports=['LoopsTest:SUM-TO-N-INVARIANT'],
+                target=KompileTarget.MAUDE,
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
@@ -126,6 +139,7 @@ def test_foundry_prove(
     use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
+    maude_server: KoreServer,
 ) -> None:
     if (
         test_id in SKIPPED_PROVE_TESTS
@@ -144,6 +158,7 @@ def test_foundry_prove(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -165,6 +180,7 @@ def test_foundry_prove(
         failure_info=True,
         counterexample_info=True,
         port=server.port,
+        maude_port=maude_server.port,
     )
 
     # Then
@@ -182,6 +198,7 @@ def test_foundry_fail(
     use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
+    maude_server: KoreServer,
 ) -> None:
     # When
     prove_res = foundry_prove(
@@ -193,6 +210,7 @@ def test_foundry_fail(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -214,6 +232,7 @@ def test_foundry_fail(
         failure_info=True,
         counterexample_info=True,
         port=server.port,
+        maude_port=maude_server.port,
     )
 
     # Then
@@ -225,7 +244,9 @@ SKIPPED_BMC_TESTS: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().
 
 
 @pytest.mark.parametrize('test_id', ALL_BMC_TESTS)
-def test_foundry_bmc(test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer) -> None:
+def test_foundry_bmc(
+    test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer, maude_server: KoreServer
+) -> None:
     if test_id in SKIPPED_BMC_TESTS:
         pytest.skip()
 
@@ -239,6 +260,7 @@ def test_foundry_bmc(test_id: str, foundry: Foundry, bug_report: BugReport | Non
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -246,7 +268,9 @@ def test_foundry_bmc(test_id: str, foundry: Foundry, bug_report: BugReport | Non
     assert_pass(test_id, single(prove_res))
 
 
-def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, server: KoreServer) -> None:
+def test_foundry_merge_nodes(
+    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, maude_server: KoreServer
+) -> None:
     test = 'MergeTest.test_branch_merge(uint256)'
 
     foundry_prove(
@@ -258,6 +282,7 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -270,6 +295,7 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
         depth=49,
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     foundry_step_node(
@@ -279,6 +305,7 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
         depth=50,
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     check_pending(foundry, test, [6, 7])
@@ -295,6 +322,7 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -312,6 +340,7 @@ def test_foundry_auto_abstraction(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
+    maude_server: KoreServer,
     use_booster: bool,
 ) -> None:
     test_id = 'GasTest.testInfiniteGas()'
@@ -325,6 +354,7 @@ def test_foundry_auto_abstraction(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -342,13 +372,18 @@ def test_foundry_auto_abstraction(
         failing=True,
         failure_info=True,
         port=server.port,
+        maude_port=maude_server.port,
     )
 
     assert_or_update_show_output(show_res, TEST_DATA_DIR / 'gas-abstraction.expected', update=update_expected_output)
 
 
 def test_foundry_remove_node(
-    foundry: Foundry, update_expected_output: bool, bug_report: BugReport | None, server: KoreServer
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    maude_server: KoreServer,
 ) -> None:
     test = 'AssertTest.test_assert_true()'
 
@@ -360,6 +395,7 @@ def test_foundry_remove_node(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -382,6 +418,7 @@ def test_foundry_remove_node(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -428,7 +465,11 @@ def assert_or_update_show_output(show_res: str, expected_file: Path, *, update: 
 
 
 def test_foundry_resume_proof(
-    foundry: Foundry, update_expected_output: bool, bug_report: BugReport | None, server: KoreServer
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    maude_server: KoreServer,
 ) -> None:
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
 
@@ -443,6 +484,7 @@ def test_foundry_resume_proof(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -461,6 +503,7 @@ def test_foundry_resume_proof(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
