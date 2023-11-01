@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Final
 
-VERSION: Final = '0.1.46'
+
+KSRC_DIR: Final = Path(__file__).parent.resolve(strict=True)
