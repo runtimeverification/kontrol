@@ -1,85 +1,12 @@
-Foundry Specifications
-======================
+#[Kontrol documentation](https://docs.runtimeverification.com/kontrol).
 
-**ACTIVE DEVELOPMENT**
+The documentation below may become deprecated. The documentation at the link above will be continuously updated and improved.
 
-The Foundry integration allows users to take Solidity property tests and generate K specifications which can be executed using the Haskell symbolic backend.
-
-Before executing any of the KEVM instructions, make sure that you have the following:
-   1. Successfully built or installed KEVM,
-   2. The`kevm` binary is on your PATH,
-   3. Activated the virtual environment (*applicable only for builds from source*).
-
-Below we are providing an example usage and a description of all the commands you can use with KEVM to improve your experience.
-
-Available Commands
-------------------
-
-Basic commands are (and each can be passed `--help`):
-
-- `kevm foundry-kompile`: Kompile a definition, generating claims for each Foundry test.
-  The best options are:
-   - `--regen` - needed if Solidity sources change,
-   - `--rekompile` - needed if K lemmas change, or K definition changes,
-   - `--require` - for adding an extra K file with lemmas,
-   - `--module-import` - importing an extra K module in one of the added K files with lemmas.
-
-- `kevm foundry-prove`: Run a given proof using the KCFG-based prover (not supporting loops yet, need to fall back to typical K for that).
-  The best options are:
-   - `--reinit` - want to start over from scratch,
-   - `--no-simplify-init` - do not want to invoke simplification on all the original nodes, can be faster,
-   - `--max-depth` - increase the space between saved nodes; bigger is faster,
-   - `--max-iterations` - maximum number of nodes to store in KCFG before giving on attempting proof for that run,
-   - `--break-every-step` - save a state every opcode, slow, good for debugging,
-   - `--break-on-calls` - save a state every time a call is made, good to turn on.
-   - `--verbose` - output what the prover is doing to make sure it's making progress.
-
-- `kevm foundry-show`: Display the given KCFG so far as text.
-  Options are:
-   - `--no-minimize` - do not omit all the gory details,
-   - `--node` - can be a repeated option, display more information about a given node hash,
-   - `--node-delta` - displays the delta between two given nodes in the KCFG.
-
-- `kevm foundry-view-kcfg`: Launch the more interactive exploration of the KCFG (can be done while exploration is running, must Ctrl-C + relaunch to view updates to KCFG).
-   - The interactive KCFG puts your terminal in *application mode*. To select text in this mode, hold the modifier key provided by your terminal emulator (typically SHIFT or OPTION) while clicking and dragging. Refer to the [Textualize documentation](https://github.com/Textualize/textual/blob/main/FAQ.md#how-can-i-select-and-copy-text-in-a-textual-app) for more information.
-
-- `kevm foundry-section-edge`: Given an edge in the graph, cut it into sections to get intermediate nodes.
-
-- `kevm foundry-step-node`: Step from a given node, adding it to the CFG.
-
-- `kevm foundry-simplify-node`: Simplify a given node, and potentially replace it.
-
-Example Usage
--------------
-
-The first step is to ensure the Solidity codebase is compiled and the `out/` directory is generated.
-
-For example, in the root of this repository, you can run:
-
-*Build Foundry Project:*
-
-```sh
-$ cd tests/foundry
-$ forge build
-```
-
-*Kompile to generate K specifications:*
-
-```sh
-$ kevm foundry-kompile
-```
-
-*And discharge some specific test as a proof obligation (inside virtual environment):*
-
-```sh
-$ kevm foundry-prove --test AssertTest.test_assert_true
-```
-
-Foundry Module for KEVM
------------------------
+Foundry Module for Kontrol
+---------------------------
 
 Foundry's testing framework provides a series of cheatcodes so that developers can specify what situation they want to test.
-This file describes the KEVM specification of the Foundry testing framework, which includes the definition of said cheatcodes and what does it mean for a test to pass.
+This file describes the Kontrol specification of the Foundry testing framework, which includes the definition of said cheatcodes and what does it mean for a test to pass.
 
 ```k
 requires "evm.md"
@@ -145,9 +72,9 @@ Hence, checking if a `DSTest.assert*` has failed amounts to reading as a boolean
 module FOUNDRY-SUCCESS
     imports EVM
 
-    syntax Bool ::= 
+    syntax Bool ::=
       "foundry_success" "("
-        statusCode: StatusCode "," 
+        statusCode: StatusCode ","
         failed: Int ","
         revertExpected: Bool ","
         opcodeExpected: Bool ","
@@ -608,7 +535,7 @@ All cheat code calls which take place while `expectRevert` is active are ignored
       [priority(35)]
 ```
 
-The `#halt` production is used to examine the end of each call in KEVM.
+The `#halt` production is used to examine the end of each call in Kontrol.
 If the call depth of the current call is lower than the call depth of the `expectRevert` cheat code and the `<statusCode>` is not `EVMC_SUCCESS`, the `#checkRevertReason` will be used to compare the output of the call with the expect reason provided.
 
 ```k
@@ -1024,7 +951,7 @@ With address: Asserts the topics match and that the emitting address matches.
 ```
 
 
-Restricting the accounts that can be called in KEVM
+Restricting the accounts that can be called in Kontrol
 ---------------------------------------------------
 
 A `StorageSlot` pair is formed from an address and a storage index.
@@ -1074,7 +1001,7 @@ If the pair is not present in the whitelist `WLIST` then `KEVM` goes into an err
 function allowCallsToAddress(address) external;
 ```
 
-Adds an account address to the whitelist. The execution of the modified KEVM will stop when a call has been made to an address which is not in the whitelist.
+Adds an account address to the whitelist. The execution of the modified Kontrol will stop when a call has been made to an address which is not in the whitelist.
 
 ```k
     rule [foundry.allowCallsToAddress]:
