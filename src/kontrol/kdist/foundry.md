@@ -855,21 +855,6 @@ Finally, the original sender of the transaction, `ACCTFROM` is changed to the ne
       [priority(40)]
 ```
 
-We define a new rule for the `#halt ~> #return _ _` production that will trigger the `#endPrank` rules if the prank was set only for a single call and if the current call depth is equal to the depth at which `prank` was invoked plus one.
-
-
-```k
-    rule <k> (. => #endPrank ~> #clearPrank) ~> #halt ~> #return _RETSTART _RETWIDTH ... </k>
-         <callDepth> CD </callDepth>
-         <prank>
-           <singleCall> true </singleCall>
-           <depth> PD </depth>
-           ...
-         </prank>
-      requires CD ==Int PD +Int 1
-      [priority(40)]
-```
-
 #### `startPrank` - Sets `msg.sender` and `tx.origin` for all subsequent calls until `stopPrank` is called.
 
 ```
@@ -1370,13 +1355,14 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#endPrank" [klabel(foundry_endPrank)]
  // -------------------------------------------------------
-    rule <k> #endPrank => . ... </k>
+    rule <k> #endPrank => #if SINGLECALL #then #clearPrank #else . #fi ... </k>
         <id> _ => CL </id>
         <origin> _ => OG </origin>
         <prank>
           <prevCaller> CL </prevCaller>
           <prevOrigin> OG </prevOrigin>
           <active> true </active>
+          <singleCall> SINGLECALL </singleCall>
           ...
         </prank>
 
