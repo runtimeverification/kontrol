@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 __TARGETS__: Final = {
-    'foundryx': KEVMTarget(
+    'foundry': KEVMTarget(
         {
             'target': KompileTarget.HASKELL,
             'main_file': KSRC_DIR / 'foundry.md',
