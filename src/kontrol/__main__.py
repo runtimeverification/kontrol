@@ -84,18 +84,18 @@ def _check_k_version() -> None:
 
 
 def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
-    if ver1 != ver2:
-        if ver1.major == ver2.major and ver1.minor == ver2.minor and ver1.patch == ver2.patch:
-            if (ver1.git is None and ver2.git is not None and not ver2.git.ahead and not ver2.git.dirty) or (
-                ver2.git is None and ver1.git is not None and not ver1.git.ahead and not ver1.git.dirty
-            ):
-                return True
-            else:
-                return False
-        else:
-            return False
-    else:
+    if ver1.major != ver2.major or ver1.minor != ver2.minor or ver1.patch != ver2.patch:
+        return False
+
+    if ver1.git == ver2.git:
         return True
+
+    if ver1.git and ver2.git:
+        return False
+
+    git = ver1.git or ver2.git
+    assert git  # git is not None for exactly one of ver1 and ver2
+    return not git.ahead and not git.dirty
 
 
 # Command implementation
