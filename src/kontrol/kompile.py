@@ -13,6 +13,7 @@ from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.utils import ensure_dir_path, hash_str
 
 from .foundry import Foundry
+from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
 
 if TYPE_CHECKING:
@@ -42,6 +43,7 @@ def foundry_kompile(
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
     main_module = 'FOUNDRY-MAIN'
+    includes = [include for include in includes if Path(include).exists()] + [str(KSRC_DIR)]
     ensure_dir_path(foundry.kompiled)
     ensure_dir_path(foundry_requires_dir)
 
@@ -82,7 +84,7 @@ def foundry_kompile(
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
         imports = ['FOUNDRY']
-        kevm = KEVM(kdist.get('foundryx'))
+        kevm = KEVM(kdist.get('foundry'))
         empty_config = kevm.definition.empty_config(Foundry.Sorts.FOUNDRY_CELL)
         bin_runtime_definition = _foundry_to_contract_def(
             empty_config=empty_config,
@@ -99,11 +101,9 @@ def foundry_kompile(
         )
 
         kevm = KEVM(
-            kdist.get('foundryx'),
+            kdist.get('foundry'),
             extra_unparsing_modules=(bin_runtime_definition.all_modules + contract_main_definition.all_modules),
         )
-
-        plugin_dir = kdist.get('plugin')
 
         foundry_contracts_file.write_text(kevm.pretty_print(bin_runtime_definition, unalias=False) + '\n')
         _LOGGER.info(f'Wrote file: {foundry_contracts_file}')
@@ -133,13 +133,15 @@ def foundry_kompile(
         _LOGGER.info('Updated Kompilation digest')
 
     if not kompilation_up_to_date() or rekompile or not kompiled_timestamp.exists():
+        plugin_dir = kdist.get('plugin')
+
         kevm_kompile(
             target=KompileTarget.HASKELL_BOOSTER,
             output_dir=foundry.kompiled,
             main_file=foundry.main_file,
             main_module=main_module,
             syntax_module=syntax_module,
-            includes=[include for include in includes if Path(include).exists()],
+            includes=includes,
             emit_json=True,
             ccopts=ccopts,
             llvm_library=foundry.llvm_library,

@@ -784,79 +784,74 @@ This is needed in order to prevent overwriting the caller for subcalls.
 Finally, the original sender of the transaction, `ACCTFROM` is changed to the new caller, `NCL`.
 
 ```k
-    rule [foundry.prank.call.injectCaller]:
-         <k> #call (ACCTFROM => NCL) _ACCTTO _ACCTCODE _VALUE _APPVALUE _ARGS _STATIC ... </k>
-         <callDepth> CD </callDepth>
-         <prank>
-            <newCaller> NCL </newCaller>
-            <newOrigin> .Account </newOrigin>
-            <active> true </active>
-            <depth> CD </depth>
-            ...
-         </prank>
-      requires NCL =/=K .Account
-       andBool ACCTFROM =/=Int NCL
+    rule [foundry.CALL.withPrank]:
+      <k> CALL GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH
+       => #injectPrank ~> CALL GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
 
-    rule [foundry.prank.call.injectCallerAndOrigin]:
-         <k> #call (ACCTFROM => NCL) _ACCTTO _ACCTCODE _VALUE _APPVALUE _ARGS _STATIC ... </k>
-         <callDepth> CD </callDepth>
-         <origin> _ => NOG </origin>
-         <prank>
-            <newCaller> NCL </newCaller>
-            <newOrigin> NOG </newOrigin>
-            <active> true </active>
-            <depth> CD </depth>
-            ...
-         </prank>
-      requires NCL =/=K .Account
-       andBool NOG =/=K .Account
-       andBool ACCTFROM =/=Int NCL
+    rule [foundry.CALLCODE.withPrank]:
+      <k> CALLCODE GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH
+       => #injectPrank ~> CALLCODE GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
 
-    rule [foundry.prank.create.injectCaller]:
-         <k> #create (ACCTFROM => NCL) _ACCTTO _VALUE _INITCODE ... </k>
-         <callDepth> CD </callDepth>
-         <prank>
-            <newCaller> NCL </newCaller>
-            <newOrigin> .Account </newOrigin>
-            <active> true </active>
-            <depth> CD </depth>
-            ...
-         </prank>
-      requires NCL =/=K .Account
-       andBool ACCTFROM =/=Int NCL
+    rule [foundry.STATICCALL.withPrank]:
+      <k> STATICCALL GCAP ACCTTO ARGSTART ARGWIDTH RETSTART RETWIDTH
+       => #injectPrank ~> STATICCALL GCAP ACCTTO ARGSTART ARGWIDTH RETSTART RETWIDTH ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
 
-    rule [foundry.prank.create.injectCallerAndOrigin]:
-         <k>#create ( ACCTFROM => NCL) _ACCTTO _VALUE _INITCODE ... </k>
-         <callDepth> CD </callDepth>
-         <origin> _ => NOG </origin>
-         <prank>
-            <newCaller> NCL </newCaller>
-            <newOrigin> NOG </newOrigin>
-            <active> true </active>
-            <depth> CD </depth>
-            ...
-         </prank>
-      requires NCL =/=K .Account
-       andBool NOG =/=K .Account
-       andBool ACCTFROM =/=Int NCL
+    rule [foundry.CREATE.withPrank]:
+      <k> CREATE VALUE MEMSTART MEMWIDTH
+       => #injectPrank ~> CREATE VALUE MEMSTART MEMWIDTH ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
-```
 
-We define a new rule for the `#halt ~> #return _ _` production that will trigger the `#endPrank` rules if the prank was set only for a single call and if the current call depth is equal to the depth at which `prank` was invoked plus one.
-
-
-```k
-    rule <k> (. => #endPrank) ~> #halt ~> #return _RETSTART _RETWIDTH ... </k>
-         <callDepth> CD </callDepth>
-         <prank>
-           <singleCall> true </singleCall>
-           <depth> PD </depth>
-           ...
-         </prank>
-      requires CD ==Int PD +Int 1
+    rule [foundry.CREATE2.withPrank]:
+      <k> CREATE2 VALUE MEMSTART MEMWIDTH SALT
+       => #injectPrank ~> CREATE2 VALUE MEMSTART MEMWIDTH SALT ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
 ```
 
@@ -908,7 +903,7 @@ function stopPrank() external;
 
 ```k
     rule [foundry.call.stopPrank]:
-         <k> #call_foundry SELECTOR _ => #endPrank ... </k>
+         <k> #call_foundry SELECTOR _ => #endPrank ~> #clearPrank ... </k>
       requires SELECTOR ==Int selector ( "stopPrank()" )
 ```
 
@@ -1341,7 +1336,7 @@ Will also return true if REASON is `.Bytes`.
  // ------------------------------------------------------------------------
     rule <k> #setPrank NEWCALLER NEWORIGIN SINGLEPRANK => . ... </k>
          <callDepth> CD </callDepth>
-         <caller> CL </caller>
+         <id> CL </id>
          <origin> OG </origin>
          <prank>
            <prevCaller> .Account => CL </prevCaller>
@@ -1360,13 +1355,14 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#endPrank" [klabel(foundry_endPrank)]
  // -------------------------------------------------------
-    rule <k> #endPrank => #clearPrank ... </k>
-        <caller> _ => CL </caller>
+    rule <k> #endPrank => #if SINGLECALL #then #clearPrank #else . #fi ... </k>
+        <id> _ => CL </id>
         <origin> _ => OG </origin>
         <prank>
           <prevCaller> CL </prevCaller>
           <prevOrigin> OG </prevOrigin>
           <active> true </active>
+          <singleCall> SINGLECALL </singleCall>
           ...
         </prank>
 
@@ -1393,6 +1389,35 @@ If the production is matched when no prank is active, it will be ignored.
           <singleCall> _ => false </singleCall>
         </prank>
 ```
+
+- `#injectPrank` replaces the current account and the origin with the pranked values.
+
+```k
+    syntax KItem ::= "#injectPrank" [klabel(foundry_inject)]
+ // --------------------------------------------------------
+    rule <k> #injectPrank => . ...</k>
+         <id> _ => NCL </id>
+         <prank>
+            <newCaller> NCL </newCaller>
+            <newOrigin> .Account </newOrigin>
+            <active> true </active>
+            ...
+         </prank>
+      requires NCL =/=K .Account
+
+    rule <k> #injectPrank => . ...</k>
+         <id> _ => NCL </id>
+         <origin> _ => NOG </origin>
+         <prank>
+            <newCaller> NCL </newCaller>
+            <newOrigin> NOG </newOrigin>
+            <active> true </active>
+            ...
+         </prank>
+      requires NCL =/=K .Account
+       andBool NOG =/=K .Account
+```
+
 ```k
     syntax Bytes ::= #sign ( Bytes , Bytes ) [function,klabel(foundry_sign)]
  // ------------------------------------------------------------------------
