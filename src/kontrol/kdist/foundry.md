@@ -952,7 +952,7 @@ With address: Asserts the topics match and that the emitting address matches.
 
 
 Restricting the accounts that can be called in Kontrol
----------------------------------------------------
+------------------------------------------------------
 
 A `StorageSlot` pair is formed from an address and a storage index.
 
