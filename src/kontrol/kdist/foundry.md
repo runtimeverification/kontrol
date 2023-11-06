@@ -535,7 +535,7 @@ All cheat code calls which take place while `expectRevert` is active are ignored
       [priority(35)]
 ```
 
-The `#halt` production is used to examine the end of each call in Kontrol.
+The `#halt` production is used to examine the end of each call in KEVM.
 If the call depth of the current call is lower than the call depth of the `expectRevert` cheat code and the `<statusCode>` is not `EVMC_SUCCESS`, the `#checkRevertReason` will be used to compare the output of the call with the expect reason provided.
 
 ```k
@@ -1001,7 +1001,7 @@ If the pair is not present in the whitelist `WLIST` then `KEVM` goes into an err
 function allowCallsToAddress(address) external;
 ```
 
-Adds an account address to the whitelist. The execution of the modified Kontrol will stop when a call has been made to an address which is not in the whitelist.
+Adds an account address to the whitelist. The execution of the modified KEVM will stop when a call has been made to an address which is not in the whitelist.
 
 ```k
     rule [foundry.allowCallsToAddress]:
