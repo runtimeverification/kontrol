@@ -6,7 +6,7 @@ Foundry Module for Kontrol
 ---------------------------
 
 Foundry's testing framework provides a series of cheatcodes so that developers can specify what situation they want to test.
-This file describes the Kontrol specification of the Foundry testing framework, which includes the definition of said cheatcodes and what does it mean for a test to pass.
+This file describes the K semantics of the Foundry testing framework, which includes the definition of said cheatcodes and what does it mean for a test to pass.
 
 ```k
 requires "evm.md"
