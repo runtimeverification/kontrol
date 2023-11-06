@@ -6,10 +6,12 @@ import sys
 from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
+import pyk
 from kevm_pyk import kdist
 from kevm_pyk.cli import node_id_like
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
 
@@ -63,12 +65,37 @@ def main() -> None:
     args = parser.parse_args()
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
 
+    _check_k_version()
+
     executor_name = 'exec_' + args.command.lower().replace('-', '_')
     if executor_name not in globals():
         raise AssertionError(f'Unimplemented command: {args.command}')
 
     execute = globals()[executor_name]
     execute(**vars(args))
+
+
+def _check_k_version() -> None:
+    expected_k_version = KVersion.parse(f'v{pyk.K_VERSION}')
+    actual_k_version = k_version()
+
+    if not _compare_versions(expected_k_version, actual_k_version):
+        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.')
+
+
+def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
+    if ver1.major != ver2.major or ver1.minor != ver2.minor or ver1.patch != ver2.patch:
+        return False
+
+    if ver1.git == ver2.git:
+        return True
+
+    if ver1.git and ver2.git:
+        return False
+
+    git = ver1.git or ver2.git
+    assert git  # git is not None for exactly one of ver1 and ver2
+    return not git.ahead and not git.dirty
 
 
 # Command implementation
