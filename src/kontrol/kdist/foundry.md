@@ -3,7 +3,7 @@
 The documentation below may become deprecated. The documentation at the link above will be continuously updated and improved.
 
 Foundry Module for Kontrol
----------------------------
+--------------------------
 
 Foundry's testing framework provides a series of cheatcodes so that developers can specify what situation they want to test.
 This file describes the K semantics of the Foundry testing framework, which includes the definition of said cheatcodes and what does it mean for a test to pass.
