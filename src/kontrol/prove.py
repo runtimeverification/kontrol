@@ -4,8 +4,8 @@ import logging
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
-from kevm_pyk.kevm import KEVM
-from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, kevm_prove, legacy_explore
+from kevm_pyk.kevm import KEVM, KEVMSemantics
+from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
@@ -204,15 +204,14 @@ def _run_cfg_group(
                 run_constructor=options.run_constructor,
             )
 
-            kevm_prove(
+            run_prover(
                 foundry.kevm,
                 proof,
                 kcfg_explore,
                 max_depth=options.max_depth,
                 max_iterations=options.max_iterations,
-                break_every_step=options.break_every_step,
-                break_on_jumpi=options.break_on_jumpi,
-                break_on_calls=options.break_on_calls,
+                cut_point_rules=KEVMSemantics.cut_point_rules(options.break_on_jumpi, options.break_on_calls),
+                terminal_rules=KEVMSemantics.terminal_rules(options.break_every_step),
             )
             return proof
 
