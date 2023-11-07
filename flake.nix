@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.332";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.337";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -67,7 +67,7 @@
                 cmake
                 # This is somewhat hacky but it's only a build time dependency.
                 # We basically override kevm-pyk to add kontrol as a runtime dependency
-                # so that kevm-dist finds the foundryx target.
+                # so that kevm-dist finds the foundry target.
                 (prev.kevm-pyk.overridePythonAttrs (old: {
                   propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
                     ++ [
@@ -93,7 +93,7 @@
                   prev.lib.optionalString
                   (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
                   "APPLE_SILICON=true"
-                } kevm-dist build -j4 foundryx
+                } kevm-dist build -j4 foundry
               '';
 
               installPhase = ''
