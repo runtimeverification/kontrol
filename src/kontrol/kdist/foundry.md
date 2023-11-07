@@ -145,9 +145,9 @@ Hence, checking if a `DSTest.assert*` has failed amounts to reading as a boolean
 module FOUNDRY-SUCCESS
     imports EVM
 
-    syntax Bool ::= 
+    syntax Bool ::=
       "foundry_success" "("
-        statusCode: StatusCode "," 
+        statusCode: StatusCode ","
         failed: Int ","
         revertExpected: Bool ","
         opcodeExpected: Bool ","
@@ -568,6 +568,7 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
       requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
        andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
+       [preserves-definedness]
 ```
 
 #### `freshBool` - Returns a single symbolic boolean.
@@ -582,9 +583,10 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 ```{.k .symbolic}
     rule [foundry.call.freshBool]:
          <k> #call_foundry SELECTOR _ => . ... </k>
-         <output> _ => #bufStrict(32, ?WORD) </output>
+         <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
        ensures #rangeBool(?WORD)
+       [preserves-definedness]
 ```
 
 Expecting the next call to revert
