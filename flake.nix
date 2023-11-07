@@ -104,6 +104,7 @@
                 ln -s ${prev.kevm}/llvm $out/llvm
                 ln -s ${prev.kevm}/plugin $out/plugin
                 mkdir -p $out/bin
+                ln -s ${prev.kevm}/bin/kevm $out/bin/kevm
                 makeWrapper ${
                   (kontrol-pyk { inherit solc_version; })
                 }/bin/kontrol $out/bin/kontrol --prefix PATH : ${
