@@ -146,7 +146,7 @@ def exec_build(
     debug: bool = False,
     llvm_library: bool = False,
     verbose: bool = False,
-    target: KompileTarget = KompileTarget.HASKELL_BOOSTER,
+    target: KompileTarget | None = None,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module {kwargs["main_module"]}')
@@ -156,6 +156,8 @@ def exec_build(
     _ignore_arg(kwargs, 'o1', '-O1')
     _ignore_arg(kwargs, 'o2', '-O2')
     _ignore_arg(kwargs, 'o3', '-O3')
+    if target is None:
+        target = KompileTarget.HASKELL_BOOSTER
     foundry_kompile(
         foundry_root=foundry_root,
         includes=includes,
