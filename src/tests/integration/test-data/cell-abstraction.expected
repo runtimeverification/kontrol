@@ -20,10 +20,10 @@
     STATUSCODE <- STATUSCODE:StatusCode
     TOUCHEDACCOUNTS_CELL <- TOUCHEDACCOUNTS_CELL:Set
     CALLER_ID <- CALLER_ID:Int
-    CALLDATA_CELL_81c0976c <- b"\x9a\x13\xb4`" +Bytes #buf ( 32 , VV0_value_114b9705:Int )
-    WORDSTACK_CELL_2e73efa1 <- ( 4 : .WordStack )
-    LOCALMEM_CELL_971cd495 <- b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
-    GAS_CELL_9e2cd18a <- ( VGAS:Int +Int -47 )
+    CALLDATA_CELL_f6084d2a <- b"\x9a\x13\xb4`" +Bytes #buf ( 32 , VV0_value_114b9705:Int )
+    WORDSTACK_CELL_2d02e766 <- ( 4 : .WordStack )
+    LOCALMEM_CELL_228721fa <- b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
+    GAS_CELL_66085f93 <- ( VGAS:Int +Int -47 )
     CALLGAS_CELL <- CALLGAS_CELL:Gas
     SELFDESTRUCT_CELL <- SELFDESTRUCT_CELL:Set
     REFUND_CELL <- REFUND_CELL:Int
@@ -122,16 +122,16 @@ Node 4:
               CALLER_ID:Int
             </caller>
             <callData>
-              CALLDATA_CELL_81c0976c
+              CALLDATA_CELL_f6084d2a
             </callData>
             <callValue>
               0
             </callValue>
             <wordStack>
-              WORDSTACK_CELL_2e73efa1
+              WORDSTACK_CELL_2d02e766
             </wordStack>
             <localMem>
-              LOCALMEM_CELL_971cd495
+              LOCALMEM_CELL_228721fa
             </localMem>
             ...
             ...
@@ -599,4 +599,4 @@ ID: 4:
 
 Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
 
-Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kevm-integration-for-foundry/
+Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol
