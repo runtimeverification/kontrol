@@ -204,13 +204,16 @@ def _run_cfg_group(
                 run_constructor=options.run_constructor,
             )
 
+            cut_point_rules = ['FOUNDRY.foundry.cut']
+            cut_point_rules.extend(KEVMSemantics.cut_point_rules(options.break_on_jumpi, options.break_on_calls))
+
             run_prover(
                 foundry.kevm,
                 proof,
                 kcfg_explore,
                 max_depth=options.max_depth,
                 max_iterations=options.max_iterations,
-                cut_point_rules=KEVMSemantics.cut_point_rules(options.break_on_jumpi, options.break_on_calls),
+                cut_point_rules=cut_point_rules,
                 terminal_rules=KEVMSemantics.terminal_rules(options.break_every_step),
             )
             return proof
@@ -467,6 +470,7 @@ def _init_cterm(
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
         'ADDRESSSET_CELL': KApply('.Set'),
         'STORAGESLOTSET_CELL': KApply('.Set'),
+        'CUTPC_CELL': KApply('.Set'),
     }
 
     constraints = None
@@ -543,6 +547,7 @@ def _final_term(empty_config: KInner, contract_name: str, use_init_code: bool = 
         'ISSTORAGEWHITELISTACTIVE_CELL': KVariable('ISSTORAGEWHITELISTACTIVE_FINAL'),
         'ADDRESSSET_CELL': KVariable('ADDRESSSET_FINAL'),
         'STORAGESLOTSET_CELL': KVariable('STORAGESLOTSET_FINAL'),
+        'CUTPC_CELL': KVariable('CUTPC_FINAL'),
     }
     return abstract_cell_vars(
         Subst(final_subst)(empty_config),
@@ -557,5 +562,6 @@ def _final_term(empty_config: KInner, contract_name: str, use_init_code: bool = 
             KVariable('ISSTORAGEWHITELISTACTIVE_FINAL'),
             KVariable('ADDRESSSET_FINAL'),
             KVariable('STORAGESLOTSET_FINAL'),
+            KVariable('CUTPC_FINAL'),
         ],
     )
