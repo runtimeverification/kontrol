@@ -558,7 +558,7 @@ def _create_argument_parser() -> ArgumentParser:
 
     show_args = command_parser.add_parser(
         'show',
-        help='Display a given Foundry CFG.',
+        help='Print the CFG for a given proof.',
         parents=[
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
@@ -590,7 +590,7 @@ def _create_argument_parser() -> ArgumentParser:
 
     command_parser.add_parser(
         'view-kcfg',
-        help='Display tree view of CFG',
+        help='Explore a given proof in the KCFG visualizer.',
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
 
