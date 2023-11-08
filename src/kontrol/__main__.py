@@ -549,13 +549,6 @@ def _create_argument_parser() -> ArgumentParser:
         help='Enables bounded model checking. Specifies the maximum depth to unroll all loops to.',
     )
     prove_args.add_argument(
-        '--use-booster',
-        dest='use_booster',
-        default=False,
-        action='store_true',
-        help='Use the booster RPC server instead of kore-rpc.',
-    )
-    prove_args.add_argument(
         '--run-constructor',
         dest='run_constructor',
         default=False,
