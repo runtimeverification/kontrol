@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.337";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.342";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -10,8 +10,17 @@
     rv-utils.follows = "kevm/rv-utils";
     pyk.follows = "kevm/pyk";
     poetry2nix.follows = "kevm/poetry2nix";
-    foundry.follows = "kevm/foundry";
-    solc.follows = "kevm/solc";
+    foundry = {
+      url =
+        "github:shazow/foundry.nix/monthly"; # Use monthly branch for permanent releases
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+    solc = {
+      url = "github:hellwolf/solc.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
   outputs = { self, k-framework, nixpkgs, flake-utils, poetry2nix, kevm
     , rv-utils, pyk, foundry, solc, ... }@inputs:
