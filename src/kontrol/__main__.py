@@ -209,6 +209,7 @@ def exec_prove(
         auto_abstract_gas=auto_abstract_gas,
         reinit=reinit,
         bug_report=bug_report,
+        use_booster=use_booster,
         kore_rpc_command=kore_rpc_command,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
