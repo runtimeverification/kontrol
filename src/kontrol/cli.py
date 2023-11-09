@@ -57,5 +57,10 @@ class KontrolCLIArgs(KEVMCLIArgs):
     @cached_property
     def kompile_target_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
-        args.add_argument('--target', type=KompileTarget, help='[haskell-booster|maude]')
+        args.add_argument(
+            '--target',
+            type=KompileTarget,
+            choices=[KompileTarget.HASKELL_BOOSTER, KompileTarget.MAUDE],
+            help='[haskell-booster|maude]',
+        )
         return args
