@@ -5,4 +5,4 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing import Final
 
-VERSION: Final = '0.1.50'
+VERSION: Final = '0.1.55'
