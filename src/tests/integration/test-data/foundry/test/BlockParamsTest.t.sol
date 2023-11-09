@@ -42,7 +42,6 @@ contract RollTest is Test {
         vm.roll(123);
     }
 
-    // function testFail_run1() external {
     function test_roll_setup() external {
         assert(block.number == 123);
 
