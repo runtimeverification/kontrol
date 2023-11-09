@@ -8,6 +8,7 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
+from kevm_pyk import kdist
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.kast import KAtt
@@ -30,13 +31,13 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 def solc_to_k(
-    definition_dir: Path,
     contract_file: Path,
     contract_name: str,
     main_module: str | None,
     requires: Iterable[str] = (),
     imports: Iterable[str] = (),
 ) -> str:
+    definition_dir = kdist.get('evm-semantics.haskell')
     kevm = KEVM(definition_dir)
     empty_config = kevm.definition.empty_config(KEVM.Sorts.KEVM_CELL)
 
