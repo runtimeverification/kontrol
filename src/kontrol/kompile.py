@@ -84,7 +84,7 @@ def foundry_kompile(
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
         imports = ['FOUNDRY']
-        kevm = KEVM(kdist.get('foundry'))
+        kevm = KEVM(kdist.get('kontrol.foundry'))
         empty_config = kevm.definition.empty_config(Foundry.Sorts.FOUNDRY_CELL)
         bin_runtime_definition = _foundry_to_contract_def(
             empty_config=empty_config,
@@ -101,7 +101,7 @@ def foundry_kompile(
         )
 
         kevm = KEVM(
-            kdist.get('foundry'),
+            kdist.get('kontrol.foundry'),
             extra_unparsing_modules=(bin_runtime_definition.all_modules + contract_main_definition.all_modules),
         )
 
@@ -133,7 +133,7 @@ def foundry_kompile(
         _LOGGER.info('Updated Kompilation digest')
 
     if not kompilation_up_to_date() or rekompile or not kompiled_timestamp.exists():
-        plugin_dir = kdist.get('plugin')
+        plugin_dir = kdist.get('evm-semantics.plugin')
 
         kevm_kompile(
             target=KompileTarget.HASKELL_BOOSTER,
