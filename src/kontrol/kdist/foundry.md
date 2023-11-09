@@ -1,85 +1,12 @@
-Foundry Specifications
-======================
+#[Kontrol documentation](https://docs.runtimeverification.com/kontrol).
 
-**ACTIVE DEVELOPMENT**
+The documentation below may become deprecated. The documentation at the link above will be continuously updated and improved.
 
-The Foundry integration allows users to take Solidity property tests and generate K specifications which can be executed using the Haskell symbolic backend.
-
-Before executing any of the KEVM instructions, make sure that you have the following:
-   1. Successfully built or installed KEVM,
-   2. The`kevm` binary is on your PATH,
-   3. Activated the virtual environment (*applicable only for builds from source*).
-
-Below we are providing an example usage and a description of all the commands you can use with KEVM to improve your experience.
-
-Available Commands
-------------------
-
-Basic commands are (and each can be passed `--help`):
-
-- `kevm foundry-kompile`: Kompile a definition, generating claims for each Foundry test.
-  The best options are:
-   - `--regen` - needed if Solidity sources change,
-   - `--rekompile` - needed if K lemmas change, or K definition changes,
-   - `--require` - for adding an extra K file with lemmas,
-   - `--module-import` - importing an extra K module in one of the added K files with lemmas.
-
-- `kevm foundry-prove`: Run a given proof using the KCFG-based prover (not supporting loops yet, need to fall back to typical K for that).
-  The best options are:
-   - `--reinit` - want to start over from scratch,
-   - `--no-simplify-init` - do not want to invoke simplification on all the original nodes, can be faster,
-   - `--max-depth` - increase the space between saved nodes; bigger is faster,
-   - `--max-iterations` - maximum number of nodes to store in KCFG before giving on attempting proof for that run,
-   - `--break-every-step` - save a state every opcode, slow, good for debugging,
-   - `--break-on-calls` - save a state every time a call is made, good to turn on.
-   - `--verbose` - output what the prover is doing to make sure it's making progress.
-
-- `kevm foundry-show`: Display the given KCFG so far as text.
-  Options are:
-   - `--no-minimize` - do not omit all the gory details,
-   - `--node` - can be a repeated option, display more information about a given node hash,
-   - `--node-delta` - displays the delta between two given nodes in the KCFG.
-
-- `kevm foundry-view-kcfg`: Launch the more interactive exploration of the KCFG (can be done while exploration is running, must Ctrl-C + relaunch to view updates to KCFG).
-   - The interactive KCFG puts your terminal in *application mode*. To select text in this mode, hold the modifier key provided by your terminal emulator (typically SHIFT or OPTION) while clicking and dragging. Refer to the [Textualize documentation](https://github.com/Textualize/textual/blob/main/FAQ.md#how-can-i-select-and-copy-text-in-a-textual-app) for more information.
-
-- `kevm foundry-section-edge`: Given an edge in the graph, cut it into sections to get intermediate nodes.
-
-- `kevm foundry-step-node`: Step from a given node, adding it to the CFG.
-
-- `kevm foundry-simplify-node`: Simplify a given node, and potentially replace it.
-
-Example Usage
--------------
-
-The first step is to ensure the Solidity codebase is compiled and the `out/` directory is generated.
-
-For example, in the root of this repository, you can run:
-
-*Build Foundry Project:*
-
-```sh
-$ cd tests/foundry
-$ forge build
-```
-
-*Kompile to generate K specifications:*
-
-```sh
-$ kevm foundry-kompile
-```
-
-*And discharge some specific test as a proof obligation (inside virtual environment):*
-
-```sh
-$ kevm foundry-prove --test AssertTest.test_assert_true
-```
-
-Foundry Module for KEVM
------------------------
+Foundry Module for Kontrol
+--------------------------
 
 Foundry's testing framework provides a series of cheatcodes so that developers can specify what situation they want to test.
-This file describes the KEVM specification of the Foundry testing framework, which includes the definition of said cheatcodes and what does it mean for a test to pass.
+This file describes the K semantics of the Foundry testing framework, which includes the definition of said cheatcodes and what does it mean for a test to pass.
 
 ```k
 requires "evm.md"
@@ -145,9 +72,9 @@ Hence, checking if a `DSTest.assert*` has failed amounts to reading as a boolean
 module FOUNDRY-SUCCESS
     imports EVM
 
-    syntax Bool ::= 
+    syntax Bool ::=
       "foundry_success" "("
-        statusCode: StatusCode "," 
+        statusCode: StatusCode ","
         failed: Int ","
         revertExpected: Bool ","
         opcodeExpected: Bool ","
@@ -568,6 +495,7 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
       requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
        andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
+       [preserves-definedness]
 ```
 
 #### `freshBool` - Returns a single symbolic boolean.
@@ -582,9 +510,10 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 ```{.k .symbolic}
     rule [foundry.call.freshBool]:
          <k> #call_foundry SELECTOR _ => . ... </k>
-         <output> _ => #bufStrict(32, ?WORD) </output>
+         <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
        ensures #rangeBool(?WORD)
+       [preserves-definedness]
 ```
 
 Expecting the next call to revert
@@ -784,79 +713,74 @@ This is needed in order to prevent overwriting the caller for subcalls.
 Finally, the original sender of the transaction, `ACCTFROM` is changed to the new caller, `NCL`.
 
 ```k
-    rule [foundry.prank.call.injectCaller]:
-         <k> #call (ACCTFROM => NCL) _ACCTTO _ACCTCODE _VALUE _APPVALUE _ARGS _STATIC ... </k>
-         <callDepth> CD </callDepth>
-         <prank>
-            <newCaller> NCL </newCaller>
-            <newOrigin> .Account </newOrigin>
-            <active> true </active>
-            <depth> CD </depth>
-            ...
-         </prank>
-      requires NCL =/=K .Account
-       andBool ACCTFROM =/=Int NCL
+    rule [foundry.CALL.withPrank]:
+      <k> CALL GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH
+       => #injectPrank ~> CALL GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
 
-    rule [foundry.prank.call.injectCallerAndOrigin]:
-         <k> #call (ACCTFROM => NCL) _ACCTTO _ACCTCODE _VALUE _APPVALUE _ARGS _STATIC ... </k>
-         <callDepth> CD </callDepth>
-         <origin> _ => NOG </origin>
-         <prank>
-            <newCaller> NCL </newCaller>
-            <newOrigin> NOG </newOrigin>
-            <active> true </active>
-            <depth> CD </depth>
-            ...
-         </prank>
-      requires NCL =/=K .Account
-       andBool NOG =/=K .Account
-       andBool ACCTFROM =/=Int NCL
+    rule [foundry.CALLCODE.withPrank]:
+      <k> CALLCODE GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH
+       => #injectPrank ~> CALLCODE GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
 
-    rule [foundry.prank.create.injectCaller]:
-         <k> #create (ACCTFROM => NCL) _ACCTTO _VALUE _INITCODE ... </k>
-         <callDepth> CD </callDepth>
-         <prank>
-            <newCaller> NCL </newCaller>
-            <newOrigin> .Account </newOrigin>
-            <active> true </active>
-            <depth> CD </depth>
-            ...
-         </prank>
-      requires NCL =/=K .Account
-       andBool ACCTFROM =/=Int NCL
+    rule [foundry.STATICCALL.withPrank]:
+      <k> STATICCALL GCAP ACCTTO ARGSTART ARGWIDTH RETSTART RETWIDTH
+       => #injectPrank ~> STATICCALL GCAP ACCTTO ARGSTART ARGWIDTH RETSTART RETWIDTH ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
 
-    rule [foundry.prank.create.injectCallerAndOrigin]:
-         <k>#create ( ACCTFROM => NCL) _ACCTTO _VALUE _INITCODE ... </k>
-         <callDepth> CD </callDepth>
-         <origin> _ => NOG </origin>
-         <prank>
-            <newCaller> NCL </newCaller>
-            <newOrigin> NOG </newOrigin>
-            <active> true </active>
-            <depth> CD </depth>
-            ...
-         </prank>
-      requires NCL =/=K .Account
-       andBool NOG =/=K .Account
-       andBool ACCTFROM =/=Int NCL
+    rule [foundry.CREATE.withPrank]:
+      <k> CREATE VALUE MEMSTART MEMWIDTH
+       => #injectPrank ~> CREATE VALUE MEMSTART MEMWIDTH ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
-```
 
-We define a new rule for the `#halt ~> #return _ _` production that will trigger the `#endPrank` rules if the prank was set only for a single call and if the current call depth is equal to the depth at which `prank` was invoked plus one.
-
-
-```k
-    rule <k> (. => #endPrank) ~> #halt ~> #return _RETSTART _RETWIDTH ... </k>
-         <callDepth> CD </callDepth>
-         <prank>
-           <singleCall> true </singleCall>
-           <depth> PD </depth>
-           ...
-         </prank>
-      requires CD ==Int PD +Int 1
+    rule [foundry.CREATE2.withPrank]:
+      <k> CREATE2 VALUE MEMSTART MEMWIDTH SALT
+       => #injectPrank ~> CREATE2 VALUE MEMSTART MEMWIDTH SALT ~> #endPrank ... </k>
+       <id> ACCT </id>
+       <callDepth> CD </callDepth>
+       <prank>
+         <active> true </active>
+         <newCaller> NCL </newCaller>
+         <depth> CD </depth>
+         ...
+       </prank>
+      requires ACCT =/=Int NCL
       [priority(40)]
 ```
 
@@ -908,7 +832,7 @@ function stopPrank() external;
 
 ```k
     rule [foundry.call.stopPrank]:
-         <k> #call_foundry SELECTOR _ => #endPrank ... </k>
+         <k> #call_foundry SELECTOR _ => #endPrank ~> #clearPrank ... </k>
       requires SELECTOR ==Int selector ( "stopPrank()" )
 ```
 
@@ -1024,8 +948,8 @@ With address: Asserts the topics match and that the emitting address matches.
 ```
 
 
-Restricting the accounts that can be called in KEVM
----------------------------------------------------
+Restricting the accounts that can be called in Kontrol
+------------------------------------------------------
 
 A `StorageSlot` pair is formed from an address and a storage index.
 
@@ -1341,7 +1265,7 @@ Will also return true if REASON is `.Bytes`.
  // ------------------------------------------------------------------------
     rule <k> #setPrank NEWCALLER NEWORIGIN SINGLEPRANK => . ... </k>
          <callDepth> CD </callDepth>
-         <caller> CL </caller>
+         <id> CL </id>
          <origin> OG </origin>
          <prank>
            <prevCaller> .Account => CL </prevCaller>
@@ -1360,13 +1284,14 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#endPrank" [klabel(foundry_endPrank)]
  // -------------------------------------------------------
-    rule <k> #endPrank => #clearPrank ... </k>
-        <caller> _ => CL </caller>
+    rule <k> #endPrank => #if SINGLECALL #then #clearPrank #else . #fi ... </k>
+        <id> _ => CL </id>
         <origin> _ => OG </origin>
         <prank>
           <prevCaller> CL </prevCaller>
           <prevOrigin> OG </prevOrigin>
           <active> true </active>
+          <singleCall> SINGLECALL </singleCall>
           ...
         </prank>
 
@@ -1393,6 +1318,35 @@ If the production is matched when no prank is active, it will be ignored.
           <singleCall> _ => false </singleCall>
         </prank>
 ```
+
+- `#injectPrank` replaces the current account and the origin with the pranked values.
+
+```k
+    syntax KItem ::= "#injectPrank" [klabel(foundry_inject)]
+ // --------------------------------------------------------
+    rule <k> #injectPrank => . ...</k>
+         <id> _ => NCL </id>
+         <prank>
+            <newCaller> NCL </newCaller>
+            <newOrigin> .Account </newOrigin>
+            <active> true </active>
+            ...
+         </prank>
+      requires NCL =/=K .Account
+
+    rule <k> #injectPrank => . ...</k>
+         <id> _ => NCL </id>
+         <origin> _ => NOG </origin>
+         <prank>
+            <newCaller> NCL </newCaller>
+            <newOrigin> NOG </newOrigin>
+            <active> true </active>
+            ...
+         </prank>
+      requires NCL =/=K .Account
+       andBool NOG =/=K .Account
+```
+
 ```k
     syntax Bytes ::= #sign ( Bytes , Bytes ) [function,klabel(foundry_sign)]
  // ------------------------------------------------------------------------
