@@ -102,16 +102,13 @@
                   prev.lib.optionalString
                   (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
                   "APPLE_SILICON=true"
-                } kevm-dist build -j4 foundry
+                } kevm-dist build kontrol.foundry
               '';
 
               installPhase = ''
                 mkdir -p $out
                 cp -r ./kdist-*/* $out/
-                ln -s ${prev.kevm}/haskell $out/haskell
-                ln -s ${prev.kevm}/haskell-standalone $out/haskell-standalone
-                ln -s ${prev.kevm}/llvm $out/llvm
-                ln -s ${prev.kevm}/plugin $out/plugin
+                ln -s ${prev.kevm}/evm-semantics $out/evm-semantics
                 mkdir -p $out/bin
                 makeWrapper ${
                   (kontrol-pyk { inherit solc_version; })
