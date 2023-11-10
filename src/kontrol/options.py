@@ -55,6 +55,7 @@ class ProveOptions:
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
 
+
 @dataclass(frozen=True)
 class RPCOptions:
     use_booster: bool

@@ -12,7 +12,7 @@ from pyk.utils import run_process, single
 
 from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
 from kontrol.kompile import foundry_kompile
-from kontrol.options import ProveOptions
+from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
@@ -131,9 +131,11 @@ def test_foundry_prove(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        options=ProveOptions(
+        prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
             port=server.port,
         ),
     )
@@ -178,9 +180,11 @@ def test_foundry_fail(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        options=ProveOptions(
+        prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
             port=server.port,
         ),
     )
@@ -222,10 +226,12 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        options=ProveOptions(
+        prove_options=ProveOptions(
             bmc_depth=3,
-            port=server.port,
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
         ),
     )
 
@@ -239,18 +245,35 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=ProveOptions(
+        prove_options=ProveOptions(
             max_iterations=2,
-            port=server.port,
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
         ),
     )
 
     check_pending(foundry_root, test, [4, 5])
 
-    foundry_step_node(foundry_root, test, node=4, depth=49, port=server.port)
-    foundry_step_node(foundry_root, test, node=5, depth=50, port=server.port)
-
+    foundry_step_node(
+        foundry_root,
+        test,
+        node=4,
+        depth=49,
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+    foundry_step_node(
+        foundry_root,
+        test,
+        node=5,
+        depth=50,
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
     check_pending(foundry_root, test, [6, 7])
 
     foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[6, 7], include_disjunct=True)
@@ -260,9 +283,11 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=ProveOptions(
-            port=server.port,
+        prove_options=ProveOptions(
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -287,9 +312,11 @@ def test_foundry_auto_abstraction(
     foundry_prove(
         foundry_root,
         tests=[(test_id, None)],
-        options=ProveOptions(
+        prove_options=ProveOptions(
             auto_abstract_gas=True,
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
             port=server.port,
         ),
     )
@@ -323,9 +350,11 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=ProveOptions(
-            port=server.port,
+        prove_options=ProveOptions(
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -343,9 +372,11 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=ProveOptions(
-            port=server.port,
+        prove_options=ProveOptions(
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -399,12 +430,14 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=ProveOptions(
+        prove_options=ProveOptions(
             auto_abstract_gas=True,
             max_iterations=4,
             reinit=True,
-            port=server.port,
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
         ),
     )
 
@@ -415,12 +448,14 @@ def test_foundry_resume_proof(
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=ProveOptions(
+        prove_options=ProveOptions(
             auto_abstract_gas=True,
             max_iterations=10,
             reinit=False,
-            port=server.port,
             bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
         ),
     )
 
@@ -436,12 +471,14 @@ def test_foundry_init_code(test: str, foundry_root: Path, bug_report: BugReport 
     prove_res = foundry_prove(
         foundry_root,
         tests=[(test, None)],
-        options=ProveOptions(
+        prove_options=ProveOptions(
+            run_constructor=True,
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
             smt_timeout=300,
             smt_retry_limit=10,
             use_booster=use_booster,
-            run_constructor=True,
-            bug_report=bug_report,
         ),
     )
 

@@ -477,7 +477,7 @@ def exec_get_model(
     smt_tactic: str | None = None,
     trace_rewrites: bool = False,
     **kwargs: Any,
-) -> None:    
+) -> None:
     if smt_timeout is None:
         smt_timeout = 300
     if smt_retry_limit is None:

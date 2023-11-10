@@ -185,12 +185,12 @@ def _run_cfg_group(
     rpc_options: RPCOptions,
 ) -> list[Proof]:
     def init_and_run_proof(test: FoundryTest) -> Proof:
-        start_server = rpc_options.options.port is None
+        start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
             kcfg_semantics=KEVMSemantics(auto_abstract_gas=prove_options.auto_abstract_gas),
             id=test.id,
-            bug_report=rpc_options.bug_report,
+            bug_report=prove_options.bug_report,
             kore_rpc_command=rpc_options.kore_rpc_command,
             llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
             smt_timeout=rpc_options.smt_timeout,
@@ -213,7 +213,9 @@ def _run_cfg_group(
                 kcfg_explore,
                 max_depth=prove_options.max_depth,
                 max_iterations=prove_options.max_iterations,
-                cut_point_rules=KEVMSemantics.cut_point_rules(prove_options.break_on_jumpi, prove_options.break_on_calls),
+                cut_point_rules=KEVMSemantics.cut_point_rules(
+                    prove_options.break_on_jumpi, prove_options.break_on_calls
+                ),
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
             )
             return proof
