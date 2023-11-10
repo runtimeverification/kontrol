@@ -486,9 +486,6 @@ def exec_get_model(
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
 
-    if isinstance(kore_rpc_command, str):
-        kore_rpc_command = kore_rpc_command.split()
-
     rpc_options = RPCOptions(
         use_booster=use_booster,
         kore_rpc_command=kore_rpc_command,
