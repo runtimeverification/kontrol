@@ -43,6 +43,7 @@ class ProveOptions:
         reinit: bool = False,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
+        object.__setattr__(self, 'bug_report', bug_report)
         object.__setattr__(self, 'bmc_depth', bmc_depth)
         object.__setattr__(self, 'max_depth', max_depth)
         object.__setattr__(self, 'break_every_step', break_every_step)
@@ -64,7 +65,6 @@ class RPCOptions:
     smt_retry_limit: int | None
     smt_tactic: str | None
     trace_rewrites: bool
-    reinit: bool
     port: int | None
 
     def __init__(
