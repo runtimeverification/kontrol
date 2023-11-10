@@ -179,6 +179,7 @@ def exec_prove(
     use_booster: bool = False,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
     failure_info: bool = True,
     counterexample_info: bool = False,
     trace_rewrites: bool = False,
@@ -221,6 +222,7 @@ def exec_prove(
         kore_rpc_command=kore_rpc_command,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
     )
 
@@ -325,6 +327,7 @@ def exec_simplify_node(
     use_booster: bool = False,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
     trace_rewrites: bool = False,
     **kwargs: Any,
 ) -> None:
@@ -341,6 +344,7 @@ def exec_simplify_node(
         kore_rpc_command=kore_rpc_command,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
     )
 
@@ -370,6 +374,7 @@ def exec_step_node(
     use_booster: bool = False,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
     trace_rewrites: bool = False,
     **kwargs: Any,
 ) -> None:
@@ -386,6 +391,7 @@ def exec_step_node(
         kore_rpc_command=kore_rpc_command,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
     )
 
@@ -423,6 +429,7 @@ def exec_section_edge(
     use_booster: bool = False,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
     trace_rewrites: bool = False,
     **kwargs: Any,
 ) -> None:
@@ -439,6 +446,7 @@ def exec_section_edge(
         kore_rpc_command=kore_rpc_command,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
     )
 
@@ -466,6 +474,7 @@ def exec_get_model(
     use_booster: bool = False,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
     trace_rewrites: bool = False,
     **kwargs: Any,
 ) -> None:    
@@ -485,6 +494,7 @@ def exec_get_model(
         kore_rpc_command=kore_rpc_command,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
     )
     output = foundry_get_model(

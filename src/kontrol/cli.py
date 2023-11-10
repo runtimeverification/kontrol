@@ -75,6 +75,6 @@ class KontrolCLIArgs(KEVMCLIArgs):
             dest='use_booster',
             default=False,
             action='store_true',
-            help="Use the booster RPC server instead of kore-rpc.",
+            help='Use the booster RPC server instead of kore-rpc.',
         )
         return args

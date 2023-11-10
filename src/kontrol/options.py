@@ -61,6 +61,7 @@ class RPCOptions:
     kore_rpc_command: tuple[str, ...]
     smt_timeout: int | None
     smt_retry_limit: int | None
+    smt_tactic: str | None
     trace_rewrites: bool
     reinit: bool
     port: int | None
@@ -72,6 +73,7 @@ class RPCOptions:
         kore_rpc_command: str | Iterable[str] | None = None,
         smt_timeout: int | None = None,
         smt_retry_limit: int | None = None,
+        smt_tactic: str | None = None,
         trace_rewrites: bool = False,
         port: int | None = None,
     ) -> None:
@@ -85,5 +87,6 @@ class RPCOptions:
         object.__setattr__(self, 'kore_rpc_command', kore_rpc_command)
         object.__setattr__(self, 'smt_timeout', smt_timeout)
         object.__setattr__(self, 'smt_retry_limit', smt_retry_limit)
+        object.__setattr__(self, 'smt_tactic', smt_tactic)
         object.__setattr__(self, 'trace_rewrites', trace_rewrites)
         object.__setattr__(self, 'port', port)
