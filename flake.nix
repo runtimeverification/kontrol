@@ -110,6 +110,7 @@
                 cp -r ./kdist-*/* $out/
                 ln -s ${prev.kevm}/evm-semantics $out/evm-semantics
                 mkdir -p $out/bin
+                ln -s ${prev.kevm}/bin/kevm $out/bin/kevm
                 makeWrapper ${
                   (kontrol-pyk { inherit solc_version; })
                 }/bin/kontrol $out/bin/kontrol --prefix PATH : ${
