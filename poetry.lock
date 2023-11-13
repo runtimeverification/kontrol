@@ -430,7 +430,7 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.354"
+version = "1.0.355"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -439,15 +439,15 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.496"}
+pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.497"}
 tomlkit = "^0.11.6"
 xdg-base-dirs = "^6.0.0"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.354"
-resolved_reference = "0b6d468e9fd3ecf880ebcd1db29797e5820e4c0c"
+reference = "v1.0.355"
+resolved_reference = "32b6ebd875f9442b9044bd1cd50525311ef33d64"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -809,7 +809,7 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pyk"
-version = "0.1.496"
+version = "0.1.497"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -829,8 +829,8 @@ tomli = "^2.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.496"
-resolved_reference = "dd40fd825827736036b98c534acc7c953d117a0f"
+reference = "v0.1.497"
+resolved_reference = "f28b2f48f4512ca0ba0338fe584442f172f15222"
 
 [[package]]
 name = "pyperclip"
@@ -912,13 +912,13 @@ dev = ["pre-commit", "pytest-asyncio", "tox"]
 
 [[package]]
 name = "pytest-xdist"
-version = "3.3.1"
+version = "3.4.0"
 description = "pytest xdist plugin for distributed testing, most importantly across multiple CPUs"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-xdist-3.3.1.tar.gz", hash = "sha256:d5ee0520eb1b7bcca50a60a518ab7a7707992812c578198f8b44fdfac78e8c93"},
-    {file = "pytest_xdist-3.3.1-py3-none-any.whl", hash = "sha256:ff9daa7793569e6a68544850fd3927cd257cc03a7ef76c95e86915355e82b5f2"},
+    {file = "pytest-xdist-3.4.0.tar.gz", hash = "sha256:3a94a931dd9e268e0b871a877d09fe2efb6175c2c23d60d56a6001359002b832"},
+    {file = "pytest_xdist-3.4.0-py3-none-any.whl", hash = "sha256:e513118bf787677a427e025606f55e95937565e06dfaac8d87f55301e57ae607"},
 ]
 
 [package.dependencies]
@@ -1080,4 +1080,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4777327961c4044deaa91e5d502eedad489b1f238d69f107e5f1479d14222693"
+content-hash = "adc38179b608ce4122fed43d20bd2513afe9ae0b78f33f403a33db01c2d1f5aa"
