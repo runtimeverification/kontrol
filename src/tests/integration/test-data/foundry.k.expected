@@ -14,6 +14,7 @@ module FOUNDRY-MAIN
     imports public ScriptBase-VERIFICATION
     imports public TestBase-VERIFICATION
     imports public BlockParamsTest-VERIFICATION
+    imports public RollTest-VERIFICATION
     imports public BroadcastTest-VERIFICATION
     imports public Constants-VERIFICATION
     imports public Contract-VERIFICATION
@@ -180,6 +181,13 @@ endmodule
 
 module BlockParamsTest-VERIFICATION
     imports public BlockParamsTest-CONTRACT
+    
+    
+
+endmodule
+
+module RollTest-VERIFICATION
+    imports public RollTest-CONTRACT
     
     
 
