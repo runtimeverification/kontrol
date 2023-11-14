@@ -1,6 +1,6 @@
 requires "foundry.md"
 
-module AccountParamsTest-CONTRACT
+module S2KAccountParamsTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KAccountParamsTestContract
@@ -283,7 +283,7 @@ module AccountParamsTest-CONTRACT
 
 endmodule
 
-module AddrTest-CONTRACT
+module S2KAddrTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KAddrTestContract
@@ -540,7 +540,7 @@ module AddrTest-CONTRACT
 
 endmodule
 
-module AllowChangesTest-CONTRACT
+module S2KAllowChangesTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KAllowChangesTestContract
@@ -771,7 +771,7 @@ module AllowChangesTest-CONTRACT
 
 endmodule
 
-module ValueStore-CONTRACT
+module S2KValueStore-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KValueStoreContract
@@ -833,7 +833,7 @@ module ValueStore-CONTRACT
 
 endmodule
 
-module AmbiguousTest-CONTRACT
+module S2KAmbiguousTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KAmbiguousTestContract
@@ -889,7 +889,7 @@ module AmbiguousTest-CONTRACT
 
 endmodule
 
-module ArithmeticTest-CONTRACT
+module S2KArithmeticTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KArithmeticTestContract
@@ -1215,7 +1215,7 @@ module ArithmeticTest-CONTRACT
 
 endmodule
 
-module AssumeTest-CONTRACT
+module S2KAssumeTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KAssumeTestContract
@@ -1462,7 +1462,7 @@ module AssumeTest-CONTRACT
 
 endmodule
 
-module BMCLoopsTest-CONTRACT
+module S2KBMCLoopsTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KBMCLoopsTestContract
@@ -1671,7 +1671,7 @@ module BMCLoopsTest-CONTRACT
 
 endmodule
 
-module CommonBase-CONTRACT
+module S2KCommonBase-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KCommonBaseContract
@@ -1692,7 +1692,7 @@ module CommonBase-CONTRACT
 
 endmodule
 
-module ScriptBase-CONTRACT
+module S2KScriptBase-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KScriptBaseContract
@@ -1713,7 +1713,7 @@ module ScriptBase-CONTRACT
 
 endmodule
 
-module TestBase-CONTRACT
+module S2KTestBase-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KTestBaseContract
@@ -1734,7 +1734,7 @@ module TestBase-CONTRACT
 
 endmodule
 
-module BlockParamsTest-CONTRACT
+module S2KBlockParamsTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KBlockParamsTestContract
@@ -1969,7 +1969,7 @@ module BlockParamsTest-CONTRACT
 
 endmodule
 
-module RollTest-CONTRACT
+module S2KRollTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KRollTestContract
@@ -2168,7 +2168,7 @@ module RollTest-CONTRACT
 
 endmodule
 
-module BroadcastTest-CONTRACT
+module S2KBroadcastTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KBroadcastTestContract
@@ -2393,7 +2393,7 @@ module BroadcastTest-CONTRACT
 
 endmodule
 
-module Constants-CONTRACT
+module S2KConstants-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KConstantsContract
@@ -2407,7 +2407,7 @@ module Constants-CONTRACT
 
 endmodule
 
-module Contract-CONTRACT
+module S2KContract-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KContractContract
@@ -2421,7 +2421,7 @@ module Contract-CONTRACT
 
 endmodule
 
-module ContractTest-CONTRACT
+module S2KContractTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KContractTestContract
@@ -2612,7 +2612,7 @@ module ContractTest-CONTRACT
 
 endmodule
 
-module ContractBTest-CONTRACT
+module S2KContractBTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KContractBTestContract
@@ -2832,7 +2832,7 @@ module ContractBTest-CONTRACT
 
 endmodule
 
-module Counter-CONTRACT
+module S2KCounter-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KCounterContract
@@ -2880,7 +2880,7 @@ module Counter-CONTRACT
 
 endmodule
 
-module CounterTest-CONTRACT
+module S2KCounterTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KCounterTestContract
@@ -3101,7 +3101,7 @@ module CounterTest-CONTRACT
 
 endmodule
 
-module DynamicTypes-CONTRACT
+module S2KDynamicTypes-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KDynamicTypesContract
@@ -3295,7 +3295,7 @@ module DynamicTypes-CONTRACT
 
 endmodule
 
-module ExpectEmit-CONTRACT
+module S2KExpectEmit-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KExpectEmitContract
@@ -3319,7 +3319,7 @@ module ExpectEmit-CONTRACT
 
 endmodule
 
-module EmitContractTest-CONTRACT
+module S2KEmitContractTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KEmitContractTestContract
@@ -3526,7 +3526,7 @@ module EmitContractTest-CONTRACT
 
 endmodule
 
-module EnvTest-CONTRACT
+module S2KEnvTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KEnvTestContract
@@ -3821,7 +3821,7 @@ module EnvTest-CONTRACT
 
 endmodule
 
-module Dummy-CONTRACT
+module S2KDummy-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KDummyContract
@@ -3845,7 +3845,7 @@ module Dummy-CONTRACT
 
 endmodule
 
-module ExpectCallTest-CONTRACT
+module S2KExpectCallTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KExpectCallTestContract
@@ -4052,7 +4052,7 @@ module ExpectCallTest-CONTRACT
 
 endmodule
 
-module DepthReverter-CONTRACT
+module S2KDepthReverter-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KDepthReverterContract
@@ -4083,7 +4083,7 @@ module DepthReverter-CONTRACT
 
 endmodule
 
-module ExpectRevertTest-CONTRACT
+module S2KExpectRevertTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KExpectRevertTestContract
@@ -4363,7 +4363,7 @@ module ExpectRevertTest-CONTRACT
 
 endmodule
 
-module Reverter-CONTRACT
+module S2KReverter-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KReverterContract
@@ -4403,7 +4403,7 @@ module Reverter-CONTRACT
 
 endmodule
 
-module ReverterWithReturn-CONTRACT
+module S2KReverterWithReturn-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KReverterWithReturnContract
@@ -4437,7 +4437,7 @@ module ReverterWithReturn-CONTRACT
 
 endmodule
 
-module FfiTest-CONTRACT
+module S2KFfiTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KFfiTestContract
@@ -4660,7 +4660,7 @@ module FfiTest-CONTRACT
 
 endmodule
 
-module FilesTest-CONTRACT
+module S2KFilesTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KFilesTestContract
@@ -4867,7 +4867,7 @@ module FilesTest-CONTRACT
 
 endmodule
 
-module ForkTest-CONTRACT
+module S2KForkTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KForkTestContract
@@ -5130,7 +5130,7 @@ module ForkTest-CONTRACT
 
 endmodule
 
-module FreshIntTest-CONTRACT
+module S2KFreshIntTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KFreshIntTestContract
@@ -5353,7 +5353,7 @@ module FreshIntTest-CONTRACT
 
 endmodule
 
-module GasTest-CONTRACT
+module S2KGasTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KGasTestContract
@@ -5560,7 +5560,7 @@ module GasTest-CONTRACT
 
 endmodule
 
-module GetCodeTest-CONTRACT
+module S2KGetCodeTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KGetCodeTestContract
@@ -5764,7 +5764,7 @@ module GetCodeTest-CONTRACT
 
 endmodule
 
-module IMulticall3-CONTRACT
+module S2KIMulticall3-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KIMulticall3Contract
@@ -5892,7 +5892,7 @@ module IMulticall3-CONTRACT
 
 endmodule
 
-module InitCodeTest-CONTRACT
+module S2KInitCodeTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KInitCodeTestContract
@@ -6114,7 +6114,7 @@ module InitCodeTest-CONTRACT
 
 endmodule
 
-module InitCodeBranchTest-CONTRACT
+module S2KInitCodeBranchTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KInitCodeBranchTestContract
@@ -6323,7 +6323,7 @@ module InitCodeBranchTest-CONTRACT
 
 endmodule
 
-module KEVMCheats-CONTRACT
+module S2KKEVMCheats-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KKEVMCheatsContract
@@ -6347,7 +6347,7 @@ module KEVMCheats-CONTRACT
 
 endmodule
 
-module KEVMCheatsBase-CONTRACT
+module S2KKEVMCheatsBase-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KKEVMCheatsBaseContract
@@ -6503,7 +6503,7 @@ module KEVMCheatsBase-CONTRACT
 
 endmodule
 
-module LabelTest-CONTRACT
+module S2KLabelTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KLabelTestContract
@@ -6694,7 +6694,7 @@ module LabelTest-CONTRACT
 
 endmodule
 
-module LoopsTest-CONTRACT
+module S2KLoopsTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KLoopsTestContract
@@ -7016,7 +7016,7 @@ module LoopsTest-CONTRACT
 
 endmodule
 
-module MergeTest-CONTRACT
+module S2KMergeTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KMergeTestContract
@@ -7221,7 +7221,7 @@ module MergeTest-CONTRACT
 
 endmodule
 
-module MethodDisambiguateTest-CONTRACT
+module S2KMethodDisambiguateTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KMethodDisambiguateTestContract
@@ -7430,7 +7430,7 @@ module MethodDisambiguateTest-CONTRACT
 
 endmodule
 
-module MockCallTest-CONTRACT
+module S2KMockCallTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KMockCallTestContract
@@ -7637,7 +7637,7 @@ module MockCallTest-CONTRACT
 
 endmodule
 
-module MyIERC20-CONTRACT
+module S2KMyIERC20-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KMyIERC20Contract
@@ -7720,7 +7720,7 @@ module MyIERC20-CONTRACT
 
 endmodule
 
-module MyToken-CONTRACT
+module S2KMyToken-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KMyTokenContract
@@ -7783,7 +7783,7 @@ module MyToken-CONTRACT
 
 endmodule
 
-module NoImport-CONTRACT
+module S2KNoImport-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KNoImportContract
@@ -7807,7 +7807,7 @@ module NoImport-CONTRACT
 
 endmodule
 
-module OwnerUpOnly-CONTRACT
+module S2KOwnerUpOnly-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KOwnerUpOnlyContract
@@ -7854,7 +7854,7 @@ module OwnerUpOnly-CONTRACT
 
 endmodule
 
-module OwnerUpOnlyTest-CONTRACT
+module S2KOwnerUpOnlyTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KOwnerUpOnlyTestContract
@@ -8074,7 +8074,7 @@ module OwnerUpOnlyTest-CONTRACT
 
 endmodule
 
-module AdditionalToken-CONTRACT
+module S2KAdditionalToken-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KAdditionalTokenContract
@@ -8121,7 +8121,7 @@ module AdditionalToken-CONTRACT
 
 endmodule
 
-module MyErc20-CONTRACT
+module S2KMyErc20-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KMyErc20Contract
@@ -8135,7 +8135,7 @@ module MyErc20-CONTRACT
 
 endmodule
 
-module PlainPrankTest-CONTRACT
+module S2KPlainPrankTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KPlainPrankTestContract
@@ -8408,7 +8408,7 @@ module PlainPrankTest-CONTRACT
 
 endmodule
 
-module Prank-CONTRACT
+module S2KPrank-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KPrankContract
@@ -8465,7 +8465,7 @@ module Prank-CONTRACT
 
 endmodule
 
-module PrankTest-CONTRACT
+module S2KPrankTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KPrankTestContract
@@ -8719,7 +8719,7 @@ module PrankTest-CONTRACT
 
 endmodule
 
-module PreconditionsTest-CONTRACT
+module S2KPreconditionsTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KPreconditionsTestContract
@@ -8931,7 +8931,7 @@ module PreconditionsTest-CONTRACT
 
 endmodule
 
-module RecordLogsTest-CONTRACT
+module S2KRecordLogsTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KRecordLogsTestContract
@@ -9135,7 +9135,7 @@ module RecordLogsTest-CONTRACT
 
 endmodule
 
-module Safe-CONTRACT
+module S2KSafe-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KSafeContract
@@ -9159,7 +9159,7 @@ module Safe-CONTRACT
 
 endmodule
 
-module SafeTest-CONTRACT
+module S2KSafeTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KSafeTestContract
@@ -9372,7 +9372,7 @@ module SafeTest-CONTRACT
 
 endmodule
 
-module Setup2Test-CONTRACT
+module S2KSetup2Test-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KSetup2TestContract
@@ -9594,7 +9594,7 @@ module Setup2Test-CONTRACT
 
 endmodule
 
-module SetUpDeployTest-CONTRACT
+module S2KSetUpDeployTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KSetUpDeployTestContract
@@ -9798,7 +9798,7 @@ module SetUpDeployTest-CONTRACT
 
 endmodule
 
-module SetUpTest-CONTRACT
+module S2KSetUpTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KSetUpTestContract
@@ -10011,7 +10011,7 @@ module SetUpTest-CONTRACT
 
 endmodule
 
-module SignTest-CONTRACT
+module S2KSignTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KSignTestContract
@@ -10211,7 +10211,7 @@ module SignTest-CONTRACT
 
 endmodule
 
-module AssertTest-CONTRACT
+module S2KAssertTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KAssertTestContract
@@ -10484,7 +10484,7 @@ module AssertTest-CONTRACT
 
 endmodule
 
-module SnapshotTest-CONTRACT
+module S2KSnapshotTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KSnapshotTestContract
@@ -10688,7 +10688,7 @@ module SnapshotTest-CONTRACT
 
 endmodule
 
-module StdAssertions-CONTRACT
+module S2KStdAssertions-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KStdAssertionsContract
@@ -10732,7 +10732,7 @@ module StdAssertions-CONTRACT
 
 endmodule
 
-module StdChains-CONTRACT
+module S2KStdChains-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KStdChainsContract
@@ -10773,7 +10773,7 @@ module StdChains-CONTRACT
 
 endmodule
 
-module StdCheats-CONTRACT
+module S2KStdCheats-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KStdCheatsContract
@@ -10799,7 +10799,7 @@ module StdCheats-CONTRACT
 
 endmodule
 
-module StdCheatsSafe-CONTRACT
+module S2KStdCheatsSafe-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KStdCheatsSafeContract
@@ -10820,7 +10820,7 @@ module StdCheatsSafe-CONTRACT
 
 endmodule
 
-module stdError-CONTRACT
+module S2KstdError-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KstdErrorContract
@@ -10908,7 +10908,7 @@ module stdError-CONTRACT
 
 endmodule
 
-module StdInvariant-CONTRACT
+module S2KStdInvariant-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KStdInvariantContract
@@ -11030,7 +11030,7 @@ module StdInvariant-CONTRACT
 
 endmodule
 
-module stdJson-CONTRACT
+module S2KstdJson-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KstdJsonContract
@@ -11044,7 +11044,7 @@ module stdJson-CONTRACT
 
 endmodule
 
-module stdMath-CONTRACT
+module S2KstdMath-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KstdMathContract
@@ -11058,7 +11058,7 @@ module stdMath-CONTRACT
 
 endmodule
 
-module stdStorage-CONTRACT
+module S2KstdStorage-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KstdStorageContract
@@ -11072,7 +11072,7 @@ module stdStorage-CONTRACT
 
 endmodule
 
-module stdStorageSafe-CONTRACT
+module S2KstdStorageSafe-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KstdStorageSafeContract
@@ -11086,7 +11086,7 @@ module stdStorageSafe-CONTRACT
 
 endmodule
 
-module StdStyle-CONTRACT
+module S2KStdStyle-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KStdStyleContract
@@ -11100,7 +11100,7 @@ module StdStyle-CONTRACT
 
 endmodule
 
-module StdUtils-CONTRACT
+module S2KStdUtils-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KStdUtilsContract
@@ -11114,7 +11114,7 @@ module StdUtils-CONTRACT
 
 endmodule
 
-module Store-CONTRACT
+module S2KStore-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KStoreContract
@@ -11135,7 +11135,7 @@ module Store-CONTRACT
 
 endmodule
 
-module StoreTest-CONTRACT
+module S2KStoreTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KStoreTestContract
@@ -11398,7 +11398,7 @@ module StoreTest-CONTRACT
 
 endmodule
 
-module SymbolicStorageTest-CONTRACT
+module S2KSymbolicStorageTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KSymbolicStorageTestContract
@@ -11616,7 +11616,7 @@ module SymbolicStorageTest-CONTRACT
 
 endmodule
 
-module SymbolicStore-CONTRACT
+module S2KSymbolicStore-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KSymbolicStoreContract
@@ -11637,7 +11637,7 @@ module SymbolicStore-CONTRACT
 
 endmodule
 
-module Test-CONTRACT
+module S2KTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KTestContract
@@ -11820,7 +11820,7 @@ module Test-CONTRACT
 
 endmodule
 
-module TestNumber-CONTRACT
+module S2KTestNumber-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KTestNumberContract
@@ -11886,7 +11886,7 @@ module TestNumber-CONTRACT
 
 endmodule
 
-module ToStringTest-CONTRACT
+module S2KToStringTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KToStringTestContract
@@ -12117,7 +12117,7 @@ module ToStringTest-CONTRACT
 
 endmodule
 
-module Token-CONTRACT
+module S2KToken-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KTokenContract
@@ -12186,7 +12186,7 @@ module Token-CONTRACT
 
 endmodule
 
-module BytesTypeTest-CONTRACT
+module S2KBytesTypeTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KBytesTypeTestContract
@@ -12256,7 +12256,7 @@ module BytesTypeTest-CONTRACT
 
 endmodule
 
-module IntTypeTest-CONTRACT
+module S2KIntTypeTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KIntTypeTestContract
@@ -12353,7 +12353,7 @@ module IntTypeTest-CONTRACT
 
 endmodule
 
-module UintTypeTest-CONTRACT
+module S2KUintTypeTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KUintTypeTestContract
@@ -13233,7 +13233,7 @@ module UintTypeTest-CONTRACT
 
 endmodule
 
-module Vm-CONTRACT
+module S2KVm-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KVmContract
@@ -14878,7 +14878,7 @@ module Vm-CONTRACT
 
 endmodule
 
-module VmSafe-CONTRACT
+module S2KVmSafe-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KVmSafeContract
@@ -15854,7 +15854,7 @@ module VmSafe-CONTRACT
 
 endmodule
 
-module console-CONTRACT
+module S2Kconsole-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KconsoleContract
@@ -15868,7 +15868,7 @@ module console-CONTRACT
 
 endmodule
 
-module console2-CONTRACT
+module S2Kconsole2-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2Kconsole2Contract
@@ -15882,7 +15882,7 @@ module console2-CONTRACT
 
 endmodule
 
-module safeconsole-CONTRACT
+module S2Ksafeconsole-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KsafeconsoleContract
@@ -15896,7 +15896,7 @@ module safeconsole-CONTRACT
 
 endmodule
 
-module DSTest-CONTRACT
+module S2KDSTest-CONTRACT
     imports public FOUNDRY
     
     syntax Contract ::= S2KDSTestContract
