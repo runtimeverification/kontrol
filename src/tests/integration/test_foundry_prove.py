@@ -167,7 +167,12 @@ FAIL_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-fail').read_text().splitline
 
 @pytest.mark.parametrize('test_id', FAIL_TESTS)
 def test_foundry_fail(
-    test_id: str, foundry_root: Path, update_expected_output: bool, no_use_booster: bool, bug_report: BugReport | None, server: KoreServer
+    test_id: str,
+    foundry_root: Path,
+    update_expected_output: bool,
+    no_use_booster: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
 ) -> None:
     # When
     prove_res = foundry_prove(
