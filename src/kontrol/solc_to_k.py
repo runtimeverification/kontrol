@@ -410,11 +410,11 @@ class Contract:
 
     @staticmethod
     def contract_to_module_name(c: str) -> str:
-        return c + '-CONTRACT'
+        return Contract.escaped(c, "S2K") + '-CONTRACT'
 
     @staticmethod
     def contract_to_verification_module_name(c: str) -> str:
-        return c + '-VERIFICATION'
+        return Contract.escaped(c, "S2K") + '-VERIFICATION'
 
     @staticmethod
     def test_to_claim_name(t: str) -> str:
