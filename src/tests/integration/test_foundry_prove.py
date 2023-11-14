@@ -111,6 +111,7 @@ def assert_or_update_k_output(k_file: Path, expected_file: Path, *, update: bool
 
 ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-prove-all').read_text().splitlines())
 SKIPPED_PROVE_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip').read_text().splitlines())
+SKIPPED_LEGACY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip-legacy').read_text().splitlines())
 
 SHOW_TESTS = set((TEST_DATA_DIR / 'foundry-show').read_text().splitlines())
 
@@ -124,7 +125,11 @@ def test_foundry_prove(
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
-    if test_id in SKIPPED_PROVE_TESTS or (update_expected_output and not test_id in SHOW_TESTS):
+    if (
+        test_id in SKIPPED_PROVE_TESTS
+        or (not use_booster and test_id in SKIPPED_LEGACY_TESTS)
+        or (update_expected_output and not test_id in SHOW_TESTS)
+    ):
         pytest.skip()
 
     # When
