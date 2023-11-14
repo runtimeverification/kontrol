@@ -36,6 +36,7 @@ def foundry_kompile(
     llvm_kompile: bool = True,
     debug: bool = False,
     verbose: bool = False,
+    target: KompileTarget = KompileTarget.HASKELL_BOOSTER,
 ) -> None:
     syntax_module = 'FOUNDRY-CONTRACTS'
     foundry = Foundry(foundry_root)
@@ -136,7 +137,7 @@ def foundry_kompile(
         plugin_dir = kdist.get('evm-semantics.plugin')
 
         kevm_kompile(
-            target=KompileTarget.HASKELL_BOOSTER,
+            target=target,
             output_dir=foundry.kompiled,
             main_file=foundry.main_file,
             main_module=main_module,
