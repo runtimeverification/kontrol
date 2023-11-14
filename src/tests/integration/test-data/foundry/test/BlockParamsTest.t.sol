@@ -36,3 +36,14 @@ contract BlockParamsTest is Test {
         assert(x >= 0);
     }
 }
+
+contract RollTest is Test {
+    function setUp() external {
+        vm.roll(123);
+    }
+
+    function test_roll_setup() external {
+        assert(block.number == 123);
+
+    }
+}
