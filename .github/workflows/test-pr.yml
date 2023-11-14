@@ -117,6 +117,7 @@ jobs:
       - name: 'Run integration tests'
         run: |
           TEST_ARGS=--numprocesses=8
+          [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
