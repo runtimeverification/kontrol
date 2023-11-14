@@ -6,12 +6,15 @@ import sys
 from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
+import pyk
 from kevm_pyk.cli import node_id_like
-from kevm_pyk.dist import DistTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.kbuild.utils import KVersion, k_version
+from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
 
+from . import VERSION
 from .cli import KontrolCLIArgs
 from .foundry import (
     Foundry,
@@ -27,6 +30,7 @@ from .foundry import (
     foundry_to_dot,
 )
 from .kompile import foundry_kompile
+from .options import ProveOptions
 from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
 
@@ -60,6 +64,8 @@ def main() -> None:
     args = parser.parse_args()
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
 
+    _check_k_version()
+
     executor_name = 'exec_' + args.command.lower().replace('-', '_')
     if executor_name not in globals():
         raise AssertionError(f'Unimplemented command: {args.command}')
@@ -68,11 +74,34 @@ def main() -> None:
     execute(**vars(args))
 
 
+def _check_k_version() -> None:
+    expected_k_version = KVersion.parse(f'v{pyk.K_VERSION}')
+    actual_k_version = k_version()
+
+    if not _compare_versions(expected_k_version, actual_k_version):
+        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.')
+
+
+def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
+    if ver1.major != ver2.major or ver1.minor != ver2.minor or ver1.patch != ver2.patch:
+        return False
+
+    if ver1.git == ver2.git:
+        return True
+
+    if ver1.git and ver2.git:
+        return False
+
+    git = ver1.git or ver2.git
+    assert git  # git is not None for exactly one of ver1 and ver2
+    return not git.ahead and not git.dirty
+
+
 # Command implementation
 
 
 def exec_version(**kwargs: Any) -> None:
-    raise NotImplementedError()
+    print(f'Kontrol version: {VERSION}')
 
 
 def exec_compile(contract_file: Path, **kwargs: Any) -> None:
@@ -86,14 +115,10 @@ def exec_solc_to_k(
     main_module: str | None,
     requires: list[str],
     imports: list[str],
-    target: DistTarget | None = None,
+    target: str | None = None,
     **kwargs: Any,
 ) -> None:
-    if target is None:
-        target = DistTarget.HASKELL
-
     k_text = solc_to_k(
-        definition_dir=target.get(),
         contract_file=contract_file,
         contract_name=contract_name,
         main_module=main_module,
@@ -145,7 +170,6 @@ def exec_prove(
     reinit: bool = False,
     tests: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
-    simplify_init: bool = True,
     break_every_step: bool = False,
     break_on_jumpi: bool = False,
     break_on_calls: bool = True,
@@ -159,6 +183,8 @@ def exec_prove(
     counterexample_info: bool = False,
     trace_rewrites: bool = False,
     auto_abstract_gas: bool = False,
+    run_constructor: bool = False,
+    fail_fast: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -174,38 +200,44 @@ def exec_prove(
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
 
-    results = foundry_prove(
-        foundry_root=foundry_root,
-        max_depth=max_depth,
-        max_iterations=max_iterations,
+    options = ProveOptions(
+        auto_abstract_gas=auto_abstract_gas,
         reinit=reinit,
-        tests=tests,
-        workers=workers,
-        simplify_init=simplify_init,
-        break_every_step=break_every_step,
-        break_on_jumpi=break_on_jumpi,
-        break_on_calls=break_on_calls,
-        bmc_depth=bmc_depth,
         bug_report=bug_report,
         kore_rpc_command=kore_rpc_command,
-        use_booster=use_booster,
-        counterexample_info=counterexample_info,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
-        auto_abstract_gas=auto_abstract_gas,
+        bmc_depth=bmc_depth,
+        max_depth=max_depth,
+        break_every_step=break_every_step,
+        break_on_jumpi=break_on_jumpi,
+        break_on_calls=break_on_calls,
+        workers=workers,
+        counterexample_info=counterexample_info,
+        max_iterations=max_iterations,
+        run_constructor=run_constructor,
+        fail_fast=fail_fast,
+    )
+
+    results = foundry_prove(
+        foundry_root=foundry_root,
+        options=options,
+        tests=tests,
     )
     failed = 0
-    for pid, r in results.items():
-        passed, failure_log = r
-        if passed:
-            print(f'PROOF PASSED: {pid}')
+    for proof in results:
+        if proof.passed:
+            print(f'PROOF PASSED: {proof.id}')
         else:
             failed += 1
-            print(f'PROOF FAILED: {pid}')
+            print(f'PROOF FAILED: {proof.id}')
+            failure_log = None
+            if isinstance(proof, APRProof):
+                failure_log = proof.failure_info
             if failure_info and failure_log is not None:
-                failure_log += Foundry.help_info()
-                for line in failure_log:
+                log = failure_log.print() + Foundry.help_info()
+                for line in log:
                     print(line)
 
     sys.exit(failed)
@@ -429,7 +461,6 @@ def _create_argument_parser() -> ArgumentParser:
         help='Output helper K definition for given JSON output from solc compiler.',
         parents=[
             kontrol_cli_args.logging_args,
-            kontrol_cli_args.target_args,
             kontrol_cli_args.k_args,
             kontrol_cli_args.k_gen_args,
         ],
@@ -486,12 +517,16 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
     prove_args.add_argument(
-        '--test',
+        '--match-test',
         type=_parse_test_version_tuple,
         dest='tests',
         default=[],
         action='append',
-        help='Limit to only listed tests, ContractName.TestName',
+        help=(
+            'Specify contract function(s) to test using a regular expression. This will match functions'
+            "based on their full signature,  e.g., 'ERC20Test.testTransfer(address,uint256)'. This option"
+            'can be used multiple times to add more functions to test.'
+        ),
     )
     prove_args.add_argument(
         '--reinit',
@@ -519,6 +554,13 @@ def _create_argument_parser() -> ArgumentParser:
         dest='use_booster',
         action='store_false',
         help='Do not use the booster RPC server instead of kore-rpc.',
+    )
+    prove_args.add_argument(
+        '--run-constructor',
+        dest='run_constructor',
+        default=False,
+        action='store_true',
+        help='Include the contract constructor in the test execution.',
     )
 
     show_args = command_parser.add_parser(
@@ -664,10 +706,10 @@ def _create_argument_parser() -> ArgumentParser:
 
 
 def _loglevel(args: Namespace) -> int:
-    if args.debug:
+    if hasattr(args, 'debug') and args.debug:
         return logging.DEBUG
 
-    if args.verbose:
+    if hasattr(args, 'verbose') and args.verbose:
         return logging.INFO
 
     return logging.WARNING

@@ -8,6 +8,7 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
+from kevm_pyk import kdist
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.kast import KAtt
@@ -30,13 +31,13 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 def solc_to_k(
-    definition_dir: Path,
     contract_file: Path,
     contract_name: str,
     main_module: str | None,
     requires: Iterable[str] = (),
     imports: Iterable[str] = (),
 ) -> str:
+    definition_dir = kdist.get('evm-semantics.haskell')
     kevm = KEVM(definition_dir)
     empty_config = kevm.definition.empty_config(KEVM.Sorts.KEVM_CELL)
 
@@ -66,6 +67,70 @@ def solc_to_k(
 
 @dataclass
 class Contract:
+    @dataclass
+    class Constructor:
+        sort: KSort
+        arg_names: tuple[str, ...]
+        arg_types: tuple[str, ...]
+        contract_name: str
+        contract_digest: str
+        contract_storage_digest: str
+        payable: bool
+        signature: str
+
+        def __init__(
+            self,
+            abi: dict,
+            contract_name: str,
+            contract_digest: str,
+            contract_storage_digest: str,
+            sort: KSort,
+        ) -> None:
+            self.signature = 'init'
+            self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
+            self.arg_types = tuple([input['type'] for input in abi['inputs']])
+            self.contract_name = contract_name
+            self.contract_digest = contract_digest
+            self.contract_storage_digest = contract_storage_digest
+            self.sort = sort
+            # TODO: Check that we're handling all state mutability cases
+            self.payable = abi['stateMutability'] == 'payable'
+
+        @cached_property
+        def is_setup(self) -> bool:
+            return False
+
+        @cached_property
+        def qualified_name(self) -> str:
+            return f'{self.contract_name}.init'
+
+        def up_to_date(self, digest_file: Path) -> bool:
+            if not digest_file.exists():
+                return False
+            digest_dict = json.loads(digest_file.read_text())
+            if 'methods' not in digest_dict:
+                digest_dict['methods'] = {}
+                digest_file.write_text(json.dumps(digest_dict))
+            if self.qualified_name not in digest_dict['methods']:
+                return False
+            return digest_dict['methods'][self.qualified_name]['method'] == self.digest
+
+        def update_digest(self, digest_file: Path) -> None:
+            digest_dict = {}
+            if digest_file.exists():
+                digest_dict = json.loads(digest_file.read_text())
+            if 'methods' not in digest_dict:
+                digest_dict['methods'] = {}
+            digest_dict['methods'][self.qualified_name] = {'method': self.digest}
+            digest_file.write_text(json.dumps(digest_dict))
+
+            _LOGGER.info(f'Updated method {self.qualified_name} in digest file: {digest_file}')
+
+        @cached_property
+        def digest(self) -> str:
+            contract_digest = self.contract_digest
+            return hash_str(f'{self.contract_storage_digest}{contract_digest}')
+
     @dataclass
     class Method:
         name: str
@@ -232,10 +297,12 @@ class Contract:
     contract_json: dict
     contract_id: int
     contract_path: str
+    deployed_bytecode: str
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
     fields: FrozenDict
+    constructor: Constructor | None
     PREFIX_CODE: Final = 'Z'
 
     def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
@@ -248,8 +315,12 @@ class Contract:
         evm = self.contract_json['evm'] if not foundry else self.contract_json
 
         deployed_bytecode = evm['deployedBytecode']
-        self.bytecode = deployed_bytecode['object'].replace('0x', '')
+        self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
+
+        bytecode = evm['bytecode']
+        self.bytecode = bytecode['object'].replace('0x', '')
+        self.constructor = None
 
         contract_ast_nodes = [
             node
@@ -265,16 +336,18 @@ class Contract:
 
         _methods = []
         for method in contract_json['abi']:
-            if method['type'] != 'function':
-                continue
-            msig = method_sig_from_abi(method)
-            method_selector: str = str(evm['methodIdentifiers'][msig])
-            mid = int(method_selector, 16)
-            method_ast = function_asts[method_selector] if method_selector in function_asts else None
-            _m = Contract.Method(
-                msig, mid, method, method_ast, self.name, self.digest, self.storage_digest, self.sort_method
-            )
-            _methods.append(_m)
+            if method['type'] == 'function':
+                msig = method_sig_from_abi(method)
+                method_selector: str = str(evm['methodIdentifiers'][msig])
+                mid = int(method_selector, 16)
+                method_ast = function_asts[method_selector] if method_selector in function_asts else None
+                _m = Contract.Method(
+                    msig, mid, method, method_ast, self.name, self.digest, self.storage_digest, self.sort_method
+                )
+                _methods.append(_m)
+            if method['type'] == 'constructor':
+                _c = Contract.Constructor(method, self.name, self.digest, self.storage_digest, self.sort_method)
+                self.constructor = _c
 
         self.methods = tuple(sorted(_methods, key=(lambda method: method.signature)))
 
@@ -302,11 +375,11 @@ class Contract:
     def srcmap(self) -> dict[int, tuple[int, int, int, str, int]]:
         _srcmap = {}
 
-        if len(self.bytecode) > 0 and self.raw_sourcemap is not None:
+        if len(self.deployed_bytecode) > 0 and self.raw_sourcemap is not None:
             instr_to_pc = {}
             pc = 0
             instr = 0
-            bs = [int(self.bytecode[i : i + 2], 16) for i in range(0, len(self.bytecode), 2)]
+            bs = [int(self.deployed_bytecode[i : i + 2], 16) for i in range(0, len(self.deployed_bytecode), 2)]
             while pc < len(bs):
                 b = bs[pc]
                 instr_to_pc[instr] = pc
@@ -418,7 +491,7 @@ class Contract:
 
     @property
     def sort_field(self) -> KSort:
-        return KSort(f'{self.name}Field')
+        return KSort(f'{Contract.escaped(self.name, "S2K")}Field')
 
     @property
     def sort_method(self) -> KSort:
@@ -457,11 +530,23 @@ class Contract:
                 f'Some library placeholders have been found in contract {self.name}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
             )
         return KRule(
-            KRewrite(KEVM.bin_runtime(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.bytecode)))
+            KRewrite(
+                KEVM.bin_runtime(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.deployed_bytecode))
+            )
+        )
+
+    @property
+    def macro_init_bytecode(self) -> KRule:
+        if self.has_unlinked():
+            raise ValueError(
+                f'Some library placeholders have been found in contract {self.name}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
+            )
+        return KRule(
+            KRewrite(KEVM.init_bytecode(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.bytecode)))
         )
 
     def has_unlinked(self) -> bool:
-        return 0 <= self.bytecode.find('__')
+        return 0 <= self.deployed_bytecode.find('__')
 
     @property
     def method_sentences(self) -> list[KSentence]:
@@ -494,7 +579,11 @@ class Contract:
 
     @property
     def sentences(self) -> list[KSentence]:
-        return [self.subsort, self.production, self.macro_bin_runtime] + self.field_sentences + self.method_sentences
+        return (
+            [self.subsort, self.production, self.macro_bin_runtime, self.macro_init_bytecode]
+            + self.field_sentences
+            + self.method_sentences
+        )
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -528,6 +617,8 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
                         'evm.methodIdentifiers',
                         'evm.deployedBytecode.object',
                         'evm.deployedBytecode.sourceMap',
+                        'evm.bytecode.object',
+                        'evm.bytecode.sourceMap',
                     ],
                     '': ['ast'],
                 },

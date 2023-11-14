@@ -14,6 +14,7 @@ module FOUNDRY-MAIN
     imports public ScriptBase-VERIFICATION
     imports public TestBase-VERIFICATION
     imports public BlockParamsTest-VERIFICATION
+    imports public RollTest-VERIFICATION
     imports public BroadcastTest-VERIFICATION
     imports public Constants-VERIFICATION
     imports public Contract-VERIFICATION
@@ -38,10 +39,13 @@ module FOUNDRY-MAIN
     imports public GasTest-VERIFICATION
     imports public GetCodeTest-VERIFICATION
     imports public IMulticall3-VERIFICATION
+    imports public InitCodeTest-VERIFICATION
+    imports public InitCodeBranchTest-VERIFICATION
     imports public KEVMCheats-VERIFICATION
     imports public KEVMCheatsBase-VERIFICATION
     imports public LabelTest-VERIFICATION
     imports public LoopsTest-VERIFICATION
+    imports public MergeTest-VERIFICATION
     imports public MethodDisambiguateTest-VERIFICATION
     imports public MockCallTest-VERIFICATION
     imports public MyIERC20-VERIFICATION
@@ -50,6 +54,7 @@ module FOUNDRY-MAIN
     imports public OwnerUpOnly-VERIFICATION
     imports public OwnerUpOnlyTest-VERIFICATION
     imports public AdditionalToken-VERIFICATION
+    imports public MyErc20-VERIFICATION
     imports public PlainPrankTest-VERIFICATION
     imports public Prank-VERIFICATION
     imports public PrankTest-VERIFICATION
@@ -176,6 +181,13 @@ endmodule
 
 module BlockParamsTest-VERIFICATION
     imports public BlockParamsTest-CONTRACT
+    
+    
+
+endmodule
+
+module RollTest-VERIFICATION
+    imports public RollTest-CONTRACT
     
     
 
@@ -349,6 +361,20 @@ module IMulticall3-VERIFICATION
 
 endmodule
 
+module InitCodeTest-VERIFICATION
+    imports public InitCodeTest-CONTRACT
+    
+    
+
+endmodule
+
+module InitCodeBranchTest-VERIFICATION
+    imports public InitCodeBranchTest-CONTRACT
+    
+    
+
+endmodule
+
 module KEVMCheats-VERIFICATION
     imports public KEVMCheats-CONTRACT
     
@@ -373,6 +399,13 @@ endmodule
 module LoopsTest-VERIFICATION
     imports public LoopsTest-CONTRACT
     imports public SUM-TO-N-INVARIANT
+    
+    
+
+endmodule
+
+module MergeTest-VERIFICATION
+    imports public MergeTest-CONTRACT
     
     
 
@@ -429,6 +462,13 @@ endmodule
 
 module AdditionalToken-VERIFICATION
     imports public AdditionalToken-CONTRACT
+    
+    
+
+endmodule
+
+module MyErc20-VERIFICATION
+    imports public MyErc20-CONTRACT
     
     
 
