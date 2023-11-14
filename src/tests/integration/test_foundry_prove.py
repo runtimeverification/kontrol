@@ -127,7 +127,7 @@ def test_foundry_prove(
 ) -> None:
     if (
         test_id in SKIPPED_PROVE_TESTS
-        or (not use_booster and test_id in SKIPPED_LEGACY_TESTS)
+        or (no_use_booster and test_id in SKIPPED_LEGACY_TESTS)
         or (update_expected_output and not test_id in SHOW_TESTS)
     ):
         pytest.skip()
