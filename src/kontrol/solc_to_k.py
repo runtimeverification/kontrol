@@ -426,7 +426,7 @@ class Contract:
 
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$']
+        return [Contract.PREFIX_CODE, '_', '$', '.']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -437,6 +437,8 @@ class Contract:
                 as_ecaped = 'Und'
             case '$':
                 as_ecaped = 'Dlr'
+            case '.':
+                as_ecaped = 'Dot'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -449,6 +451,8 @@ class Contract:
             return '_', 3
         elif seq.startswith('Dlr'):
             return '$', 3
+        elif seq.startswith('Dot'):
+            return '.', 3
         else:
             return chr(int(seq, base=16)), 4
 
