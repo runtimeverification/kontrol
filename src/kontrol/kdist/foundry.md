@@ -571,7 +571,7 @@ If the call depth of the current call is lower than the call depth of the `expec
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
 ```
