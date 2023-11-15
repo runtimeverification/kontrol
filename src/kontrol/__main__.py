@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 import pyk
 from kevm_pyk.cli import node_id_like
+from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
@@ -140,6 +141,7 @@ def exec_build(
     debug: bool = False,
     llvm_library: bool = False,
     verbose: bool = False,
+    target: KompileTarget | None = None,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module {kwargs["main_module"]}')
@@ -149,6 +151,8 @@ def exec_build(
     _ignore_arg(kwargs, 'o1', '-O1')
     _ignore_arg(kwargs, 'o2', '-O2')
     _ignore_arg(kwargs, 'o3', '-O3')
+    if target is None:
+        target = KompileTarget.HASKELL_BOOSTER
     foundry_kompile(
         foundry_root=foundry_root,
         includes=includes,
@@ -160,6 +164,7 @@ def exec_build(
         llvm_kompile=llvm_kompile,
         debug=debug,
         verbose=verbose,
+        target=target,
     )
 
 
@@ -185,6 +190,8 @@ def exec_prove(
     auto_abstract_gas: bool = False,
     run_constructor: bool = False,
     fail_fast: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -218,6 +225,8 @@ def exec_prove(
         max_iterations=max_iterations,
         run_constructor=run_constructor,
         fail_fast=fail_fast,
+        port=port,
+        maude_port=maude_port,
     )
 
     results = foundry_prove(
@@ -257,6 +266,8 @@ def exec_show(
     failing: bool = False,
     failure_info: bool = False,
     counterexample_info: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
@@ -273,6 +284,8 @@ def exec_show(
         failing=failing,
         failure_info=failure_info,
         counterexample_info=counterexample_info,
+        port=port,
+        maude_port=maude_port,
     )
     print(output)
 
@@ -319,6 +332,8 @@ def exec_simplify_node(
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     trace_rewrites: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     if smt_timeout is None:
@@ -338,6 +353,8 @@ def exec_simplify_node(
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
     print(f'Simplified:\n{pretty_term}')
 
@@ -353,6 +370,8 @@ def exec_step_node(
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     trace_rewrites: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     if smt_timeout is None:
@@ -371,6 +390,8 @@ def exec_step_node(
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
 
 
@@ -395,6 +416,8 @@ def exec_section_edge(
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     trace_rewrites: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     if smt_timeout is None:
@@ -413,6 +436,8 @@ def exec_section_edge(
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
 
 
@@ -423,6 +448,8 @@ def exec_get_model(
     nodes: Iterable[NodeIdLike] = (),
     pending: bool = False,
     failing: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     output = foundry_get_model(
@@ -432,6 +459,8 @@ def exec_get_model(
         nodes=nodes,
         pending=pending,
         failing=failing,
+        port=port,
+        maude_port=maude_port,
     )
     print(output)
 
@@ -484,6 +513,7 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.k_gen_args,
             kontrol_cli_args.kompile_args,
             kontrol_cli_args.foundry_args,
+            kontrol_cli_args.kompile_target_args,
         ],
     )
     build.add_argument(
