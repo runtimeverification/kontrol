@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.347";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.357";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -110,6 +110,7 @@
                 cp -r ./kdist-*/* $out/
                 ln -s ${prev.kevm}/evm-semantics $out/evm-semantics
                 mkdir -p $out/bin
+                ln -s ${prev.kevm}/bin/kevm $out/bin/kevm
                 makeWrapper ${
                   (kontrol-pyk { inherit solc_version; })
                 }/bin/kontrol $out/bin/kontrol --prefix PATH : ${

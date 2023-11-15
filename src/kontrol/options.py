@@ -31,6 +31,7 @@ class ProveOptions:
     fail_fast: bool
     reinit: bool
     port: int | None
+    maude_port: int | None
 
     def __init__(
         self,
@@ -54,6 +55,7 @@ class ProveOptions:
         fail_fast: bool = True,
         reinit: bool = False,
         port: int | None = None,
+        maude_port: int | None = None,
     ) -> None:
         if kore_rpc_command is None:
             kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
@@ -80,3 +82,4 @@ class ProveOptions:
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
         object.__setattr__(self, 'port', port)
+        object.__setattr__(self, 'maude_port', maude_port)

@@ -195,6 +195,7 @@ def _run_cfg_group(
             trace_rewrites=options.trace_rewrites,
             start_server=start_server,
             port=options.port,
+            maude_port=options.maude_port,
         ) as kcfg_explore:
             proof = method_to_apr_proof(
                 test=test,
@@ -371,6 +372,7 @@ def _method_to_cfg(
             )
         for final_node in final_states:
             new_accounts_cell = final_node.cterm.cell('ACCOUNTS_CELL')
+            number_cell = final_node.cterm.cell('NUMBER_CELL')
             new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
             new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
             test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
@@ -385,6 +387,7 @@ def _method_to_cfg(
             new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()])
 
             new_init_cterm = CTerm(set_cell(init_cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NUMBER_CELL', number_cell), [])
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
