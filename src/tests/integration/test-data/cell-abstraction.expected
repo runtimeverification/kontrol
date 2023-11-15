@@ -20,10 +20,10 @@
     STATUSCODE <- STATUSCODE:StatusCode
     TOUCHEDACCOUNTS_CELL <- TOUCHEDACCOUNTS_CELL:Set
     CALLER_ID <- CALLER_ID:Int
-    CALLDATA_CELL_f6084d2a <- b"\x9a\x13\xb4`" +Bytes #buf ( 32 , VV0_value_114b9705:Int )
-    WORDSTACK_CELL_2d02e766 <- ( 4 : .WordStack )
-    LOCALMEM_CELL_228721fa <- b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
-    GAS_CELL_66085f93 <- ( VGAS:Int +Int -47 )
+    CALLDATA_CELL_86cf9ba1 <- b"\x9a\x13\xb4`" +Bytes #buf ( 32 , VV0_value_114b9705:Int )
+    WORDSTACK_CELL_e675b3de <- ( 4 : .WordStack )
+    LOCALMEM_CELL_74af69ed <- b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
+    GAS_CELL_fa6e4785 <- ( VGAS:Int +Int -47 )
     CALLGAS_CELL <- CALLGAS_CELL:Gas
     SELFDESTRUCT_CELL <- SELFDESTRUCT_CELL:Set
     REFUND_CELL <- REFUND_CELL:Int
@@ -122,16 +122,16 @@ Node 4:
               CALLER_ID:Int
             </caller>
             <callData>
-              CALLDATA_CELL_f6084d2a
+              CALLDATA_CELL_86cf9ba1
             </callData>
             <callValue>
               0
             </callValue>
             <wordStack>
-              WORDSTACK_CELL_2d02e766
+              WORDSTACK_CELL_e675b3de
             </wordStack>
             <localMem>
-              LOCALMEM_CELL_228721fa
+              LOCALMEM_CELL_74af69ed
             </localMem>
             ...
             ...
