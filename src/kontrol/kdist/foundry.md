@@ -541,25 +541,32 @@ The `#halt` production is used to examine the end of each call in KEVM.
 If the call depth of the current call is lower than the call depth of the `expectRevert` cheat code and the `<statusCode>` is not `EVMC_SUCCESS`, the `#checkRevertReason` will be used to compare the output of the call with the expect reason provided.
 
 ```k
-    rule [foundry.handleExpectRevert]:
-         <k> (. => #checkRevertReason ~> #clearExpectRevert) ~> #halt ... </k>
+
+    rule [foundry.stepWithExpectedRevert]:
+         <k> #next [OP:OpCode ] ~> (. => #handleExpectRevert) ~> KITEM ... </k>
+          <callDepth> CD </callDepth>
+         <expectedRevert>
+           <isRevertExpected> true </isRevertExpected>
+           <expectedDepth> CD </expectedDepth>
+           ...
+         </expectedRevert>
+         requires OP in (SetItem(CALL) SetItem(CALLCODE) SetItem(DELEGATECALL) SetItem(STATICCALL) SetItem(CREATE) SetItem(CREATE2))
+          andBool KITEM =/=K #handleExpectRevert
+      [priority(40)]
+
+    syntax KItem ::= "#handleExpectRevert" [klabel("foundry_handleExpectRevert")]
+ // -----------------------------------------------------------------------------
+    rule <k> #handleExpectRevert => #checkRevertReason ~> #clearExpectRevert ... </k>
          <statusCode> SC </statusCode>
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-      requires CD <=Int ED
-       andBool SC =/=K EVMC_SUCCESS
-      [priority(40)]
-```
+      requires SC =/=K EVMC_SUCCESS
 
-If the call is successful, a revert is triggered and the `FAILED` location of the `Foundry` contract is set to `true` using `#markAsFailed`.
-
-```k
-    rule [foundry.handleExpectRevert.error]:
-         <k> (. => #markAsFailed ~> #clearExpectRevert) ~> #halt ... </k>
+    rule <k> #handleExpectRevert => #markAsFailed ~> #clearExpectRevert ... </k>
          <statusCode> EVMC_SUCCESS => EVMC_REVERT </statusCode>
          <callDepth> CD </callDepth>
          <expectedRevert>
@@ -567,8 +574,6 @@ If the call is successful, a revert is triggered and the `FAILED` location of th
            <expectedDepth> ED </expectedDepth>
            ...
          </expectedRevert>
-      requires CD <=Int ED
-      [priority(40)]
 ```
 
 If the `expectRevert()` selector is matched, call the `#setExpectRevert` production to initialize the `<expectedRevert>` subconfiguration.
