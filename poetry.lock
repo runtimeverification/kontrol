@@ -430,7 +430,7 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.357"
+version = "1.0.360"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -446,8 +446,8 @@ xdg-base-dirs = "^6.0.0"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.357"
-resolved_reference = "449fbfa9dfd13e7f13e105822ea5bca10b63d450"
+reference = "v1.0.360"
+resolved_reference = "e07ab6df955a3cb2c97d95c0c43d20d20ec12334"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -946,13 +946,13 @@ tokenize-rt = ">=5.2.0"
 
 [[package]]
 name = "rich"
-version = "13.6.0"
+version = "13.7.0"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 optional = false
 python-versions = ">=3.7.0"
 files = [
-    {file = "rich-13.6.0-py3-none-any.whl", hash = "sha256:2b38e2fe9ca72c9a00170a1a2d20c63c790d0e10ef1fe35eba76e1e7b1d7d245"},
-    {file = "rich-13.6.0.tar.gz", hash = "sha256:5c14d22737e6d5084ef4771b62d5d4363165b403455a30a1c8ca39dc7b644bef"},
+    {file = "rich-13.7.0-py3-none-any.whl", hash = "sha256:6da14c108c4866ee9520bbffa71f6fe3962e193b7da68720583850cd4548e235"},
+    {file = "rich-13.7.0.tar.gz", hash = "sha256:5cb5123b5cf9ee70584244246816e9114227e0b98ad9176eede6ad54bf5403fa"},
 ]
 
 [package.dependencies]
@@ -1080,4 +1080,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "56a76f0b6a9c3c85cd23e4b46fe3d677eacd4fa8119f7c4f96052883002e887a"
+content-hash = "99bfc11d0ad38e7d236b5f6b20dd420a800000cb12bf73a5e1bfbed93cb4cf59"
