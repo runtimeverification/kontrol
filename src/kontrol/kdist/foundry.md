@@ -542,16 +542,25 @@ If the call depth of the current call is lower than the call depth of the `expec
 
 ```k
 
-    rule [foundry.stepWithExpectedRevert]:
-         <k> #next [OP:OpCode ] ~> (. => #handleExpectRevert) ~> KITEM ... </k>
-          <callDepth> CD </callDepth>
+    rule <k> #next [ OP:OpCode ]
+          => #addr [ OP ]
+          ~> #exec [ OP ]
+          ~> #pc   [ OP ]
+          ~> #handleExpectRevert
+         ...
+         </k>
+         <wordStack> WS </wordStack>
+         <static> STATIC:Bool </static>
+         <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> CD </expectedDepth>
+           <expectedDepth> ED </expectedDepth>
            ...
          </expectedRevert>
-         requires OP in (SetItem(CALL) SetItem(CALLCODE) SetItem(DELEGATECALL) SetItem(STATICCALL) SetItem(CREATE) SetItem(CREATE2))
-          andBool KITEM =/=K #handleExpectRevert
+      requires notBool ( #stackUnderflow(WS, OP) orBool #stackOverflow(WS, OP) )
+       andBool notBool ( STATIC andBool #changesState(OP, WS) )
+       andBool CD <=Int ED
+       andBool (OP ==K CALL orBool OP ==K CALLCODE orBool OP ==K DELEGATECALL orBool OP ==K STATICCALL orBool OP ==K CREATE orBool OP ==K CREATE2)
       [priority(40)]
 
     syntax KItem ::= "#handleExpectRevert" [klabel("foundry_handleExpectRevert")]
@@ -561,19 +570,23 @@ If the call depth of the current call is lower than the call depth of the `expec
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> CD </expectedDepth>
+           <expectedDepth> ED </expectedDepth>
            ...
          </expectedRevert>
       requires SC =/=K EVMC_SUCCESS
+       andBool CD <=Int ED
+
 
     rule <k> #handleExpectRevert => #markAsFailed ~> #clearExpectRevert ... </k>
          <statusCode> EVMC_SUCCESS => EVMC_REVERT </statusCode>
+         <wordStack> 1 : WS => 0 : WS </wordStack>
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> CD </expectedDepth>
+           <expectedDepth> ED </expectedDepth>
            ...
          </expectedRevert>
+      requires CD <=Int ED
 ```
 
 If the `expectRevert()` selector is matched, call the `#setExpectRevert` production to initialize the `<expectedRevert>` subconfiguration.
@@ -1206,6 +1219,7 @@ Utils
  // -------------------------------------------------------------------------
     rule <k> #checkRevertReason => . ... </k>
          <statusCode> _ => EVMC_SUCCESS </statusCode>
+         <wordStack> 0 : WS => 1 : WS </wordStack>
          <output> OUT </output>
          <expectedRevert>
            <expectedReason> REASON </expectedReason>
