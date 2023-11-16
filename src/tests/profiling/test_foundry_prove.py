@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from pyk.utils import run_process
 
 from kontrol.kompile import foundry_kompile
-from kontrol.options import ProveOptions
+from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
@@ -38,11 +38,13 @@ def test_foundy_prove(profile: Profiler, use_booster: bool, bug_report: BugRepor
         foundry_prove(
             foundry_root,
             tests=[('AssertTest.test_revert_branch', None)],
-            options=ProveOptions(
-                smt_timeout=300,
-                smt_retry_limit=10,
+            prove_options=ProveOptions(
                 counterexample_info=True,
                 bug_report=bug_report,
+            ),
+            rpc_options=RPCOptions(
+                smt_timeout=300,
+                smt_retry_limit=10,
                 use_booster=use_booster,
             ),
         )
