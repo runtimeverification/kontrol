@@ -222,8 +222,6 @@ def exec_prove(
         max_iterations=max_iterations,
         run_constructor=run_constructor,
         fail_fast=fail_fast,
-        port=port,
-        maude_port=maude_port,
     )
 
     rpc_options = RPCOptions(
@@ -233,6 +231,8 @@ def exec_prove(
         smt_retry_limit=smt_retry_limit,
         smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
 
     results = foundry_prove(
@@ -361,6 +361,8 @@ def exec_simplify_node(
         smt_retry_limit=smt_retry_limit,
         smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
 
     pretty_term = foundry_simplify_node(
@@ -410,6 +412,8 @@ def exec_step_node(
         smt_retry_limit=smt_retry_limit,
         smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
 
     foundry_step_node(
@@ -467,6 +471,8 @@ def exec_section_edge(
         smt_retry_limit=smt_retry_limit,
         smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
 
     foundry_section_edge(
@@ -495,6 +501,8 @@ def exec_get_model(
     smt_retry_limit: int | None = None,
     smt_tactic: str | None = None,
     trace_rewrites: bool = False,
+    port: int | None = None,
+    maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
     if smt_timeout is None:
@@ -512,6 +520,8 @@ def exec_get_model(
         smt_retry_limit=smt_retry_limit,
         smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
     )
     output = foundry_get_model(
         foundry_root=foundry_root,
