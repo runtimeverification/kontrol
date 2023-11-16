@@ -480,6 +480,7 @@ def foundry_show(
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     port: int | None = None,
+    maude_port: int | None = None,
 ) -> str:
     contract_name, _ = test.split('.')
     foundry = Foundry(foundry_root)
@@ -524,6 +525,7 @@ def foundry_show(
             smt_retry_limit=smt_retry_limit,
             start_server=start_server,
             port=port,
+            maude_port=maude_port,
         ) as kcfg_explore:
             res_lines += print_failure_info(proof, kcfg_explore, counterexample_info)
             res_lines += Foundry.help_info()
@@ -605,6 +607,7 @@ def foundry_simplify_node(
         trace_rewrites=rpc_options.trace_rewrites,
         start_server=start_server,
         port=rpc_options.port,
+        maude_port=rpc_options.maude_port,
     ) as kcfg_explore:
         new_term, _ = kcfg_explore.cterm_simplify(cterm)
     if replace:
@@ -693,6 +696,7 @@ def foundry_step_node(
         trace_rewrites=rpc_options.trace_rewrites,
         start_server=start_server,
         port=rpc_options.port,
+        maude_port=rpc_options.maude_port,
     ) as kcfg_explore:
         for _i in range(repeat):
             node = kcfg_explore.step(apr_proof.kcfg, node, apr_proof.logs, depth=depth)
@@ -728,6 +732,7 @@ def foundry_section_edge(
         trace_rewrites=rpc_options.trace_rewrites,
         start_server=start_server,
         port=rpc_options.port,
+        maude_port=rpc_options.maude_port,
     ) as kcfg_explore:
         kcfg_explore.section_edge(
             apr_proof.kcfg, source_id=int(source_id), target_id=int(target_id), logs=apr_proof.logs, sections=sections
@@ -776,6 +781,7 @@ def foundry_get_model(
         trace_rewrites=rpc_options.trace_rewrites,
         start_server=start_server,
         port=rpc_options.port,
+        maude_port=rpc_options.maude_port,
     ) as kcfg_explore:
         for node_id in nodes:
             res_lines.append('')

@@ -66,6 +66,7 @@ class RPCOptions:
     smt_tactic: str | None
     trace_rewrites: bool
     port: int | None
+    maude_port: int | None
 
     def __init__(
         self,
@@ -77,6 +78,7 @@ class RPCOptions:
         smt_tactic: str | None = None,
         trace_rewrites: bool = False,
         port: int | None = None,
+        maude_port: int | None = None,
     ) -> None:
         if kore_rpc_command is None:
             kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
@@ -91,3 +93,4 @@ class RPCOptions:
         object.__setattr__(self, 'smt_tactic', smt_tactic)
         object.__setattr__(self, 'trace_rewrites', trace_rewrites)
         object.__setattr__(self, 'port', port)
+        object.__setattr__(self, 'maude_port', maude_port)

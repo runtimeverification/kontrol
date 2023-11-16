@@ -198,6 +198,7 @@ def _run_cfg_group(
             trace_rewrites=rpc_options.trace_rewrites,
             start_server=start_server,
             port=rpc_options.port,
+            maude_port=rpc_options.maude_port,
         ) as kcfg_explore:
             proof = method_to_apr_proof(
                 test=test,
