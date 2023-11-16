@@ -134,8 +134,6 @@ def foundry_kompile(
         _LOGGER.info('Updated Kompilation digest')
 
     if not kompilation_up_to_date() or rekompile or not kompiled_timestamp.exists():
-        plugin_dir = kdist.get('evm-semantics.plugin')
-
         kevm_kompile(
             target=target,
             output_dir=foundry.kompiled,
@@ -148,7 +146,6 @@ def foundry_kompile(
             llvm_library=foundry.llvm_library,
             debug=debug,
             verbose=verbose,
-            plugin_dir=plugin_dir,
         )
 
     update_kompilation_digest()
