@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
 
-    from .options import ProveOptions
+    from .options import ProveOptions, RPCOptions
 
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -38,17 +38,18 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 def foundry_prove(
     foundry_root: Path,
-    options: ProveOptions,
+    prove_options: ProveOptions,
+    rpc_options: RPCOptions,
     tests: Iterable[tuple[str, int | None]] = (),
 ) -> list[Proof]:
-    if options.workers <= 0:
-        raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
-    if options.max_iterations is not None and options.max_iterations < 0:
+    if prove_options.workers <= 0:
+        raise ValueError(f'Must have at least one worker, found: --workers {prove_options.workers}')
+    if prove_options.max_iterations is not None and prove_options.max_iterations < 0:
         raise ValueError(
-            f'Must have a non-negative number of iterations, found: --max-iterations {options.max_iterations}'
+            f'Must have a non-negative number of iterations, found: --max-iterations {prove_options.max_iterations}'
         )
 
-    if options.use_booster:
+    if rpc_options.use_booster:
         try:
             run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
         except CalledProcessError:
@@ -56,18 +57,18 @@ def foundry_prove(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
             ) from None
 
-    foundry = Foundry(foundry_root, bug_report=options.bug_report)
+    foundry = Foundry(foundry_root, bug_report=prove_options.bug_report)
     foundry.mk_proofs_dir()
 
-    test_suite = collect_tests(foundry, tests, reinit=options.reinit)
+    test_suite = collect_tests(foundry, tests, reinit=prove_options.reinit)
     test_names = [test.name for test in test_suite]
     print(f'Running functions: {test_names}')
 
     contracts = [test.contract for test in test_suite]
-    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=options.reinit)
+    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=prove_options.reinit)
     setup_method_names = [test.name for test in setup_method_tests]
 
-    constructor_tests = collect_constructors(foundry, contracts, reinit=options.reinit)
+    constructor_tests = collect_constructors(foundry, contracts, reinit=prove_options.reinit)
     constructor_names = [test.name for test in constructor_tests]
 
     _LOGGER.info(f'Running tests: {test_names}')
@@ -88,10 +89,11 @@ def foundry_prove(
         return _run_cfg_group(
             tests=test_suite,
             foundry=foundry,
-            options=options,
+            prove_options=prove_options,
+            rpc_options=rpc_options,
         )
 
-    if options.run_constructor:
+    if prove_options.run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
         results = run_prover(constructor_tests)
         failed = [proof for proof in results if not proof.passed]
@@ -179,7 +181,8 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
 def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
-    options: ProveOptions,
+    prove_options: ProveOptions,
+    rpc_options: RPCOptions,
 ) -> list[Proof]:
     proofs = {}
     provers = {}
@@ -191,16 +194,19 @@ def _run_cfg_group(
             foundry.kevm,
             kcfg_semantics=KEVMSemantics(),
             id=test.id,
-            llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
-            smt_timeout=options.smt_timeout,
-            smt_retry_limit=options.smt_retry_limit,
+            llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
+            smt_timeout=rpc_options.smt_timeout,
+            smt_retry_limit=rpc_options.smt_retry_limit,
             start_server=False,
-            port=options.port,
+            port=rpc_options.port,
+            maude_port=rpc_options.maude_port,
         ) as kcfg_explore:
             proof = method_to_apr_proof(
                 test=test,
                 foundry=foundry,
                 kcfg_explore=kcfg_explore,
+                bmc_depth=prove_options.bmc_depth,
+                run_constructor=prove_options.run_constructor,
             )
 
         parallel_prover: ParallelAPRProver
@@ -210,18 +216,18 @@ def _run_cfg_group(
                 proof=proof,
                 module_name=foundry.kevm.main_module,
                 definition_dir=foundry.kevm.definition_dir,
-                execute_depth=options.max_depth,
+                execute_depth=prove_options.max_depth,
                 kprint=foundry.kevm,
-                kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                kcfg_semantics=KEVMSemantics(auto_abstract_gas=prove_options.auto_abstract_gas),
                 id=test.id,
                 cut_point_rules=KEVMSemantics.cut_point_rules(
-                    break_on_calls=options.break_on_calls, break_on_jumpi=options.break_on_jumpi
+                    break_on_calls=prove_options.break_on_calls, break_on_jumpi=prove_options.break_on_jumpi
                 ),
-                terminal_rules=KEVMSemantics.terminal_rules(break_every_step=options.break_every_step),
-                llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
-                smt_timeout=options.smt_timeout,
-                smt_retry_limit=options.smt_retry_limit,
-                trace_rewrites=options.trace_rewrites,
+                terminal_rules=KEVMSemantics.terminal_rules(break_every_step=prove_options.break_every_step),
+                llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
+                smt_timeout=rpc_options.smt_timeout,
+                smt_retry_limit=rpc_options.smt_retry_limit,
+                trace_rewrites=rpc_options.trace_rewrites,
                 bug_report_id=test.id,
             )
         elif type(proof) is APRBMCProof:
@@ -229,18 +235,18 @@ def _run_cfg_group(
                 proof=proof,
                 module_name=foundry.kevm.main_module,
                 definition_dir=foundry.kevm.definition_dir,
-                execute_depth=options.max_depth,
+                execute_depth=prove_options.max_depth,
                 kprint=foundry.kevm,
-                kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                kcfg_semantics=KEVMSemantics(auto_abstract_gas=prove_options.auto_abstract_gas),
                 id=test.id,
                 cut_point_rules=KEVMSemantics.cut_point_rules(
-                    break_on_calls=options.break_on_calls, break_on_jumpi=options.break_on_jumpi
+                    break_on_calls=prove_options.break_on_calls, break_on_jumpi=prove_options.break_on_jumpi
                 ),
-                terminal_rules=KEVMSemantics.terminal_rules(break_every_step=options.break_every_step),
-                llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
-                smt_timeout=options.smt_timeout,
-                smt_retry_limit=options.smt_retry_limit,
-                trace_rewrites=options.trace_rewrites,
+                terminal_rules=KEVMSemantics.terminal_rules(break_every_step=prove_options.break_every_step),
+                llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
+                smt_timeout=rpc_options.smt_timeout,
+                smt_retry_limit=rpc_options.smt_retry_limit,
+                trace_rewrites=rpc_options.trace_rewrites,
                 bug_report_id=test.id,
             )
 
@@ -250,7 +256,7 @@ def _run_cfg_group(
     parallel_results = parallel.prove_parallel(
         proofs=proofs,
         provers=provers,
-        max_workers=options.workers,
+        max_workers=prove_options.workers,
     )
     results: list[Proof] = []
     for result in parallel_results:
