@@ -88,6 +88,8 @@
                 libtool
                 openssl.dev
                 gmp
+                pkg-config
+                procps
               ];
               nativeBuildInputs = [ prev.makeWrapper ];
 
