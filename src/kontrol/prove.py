@@ -197,7 +197,7 @@ def _run_cfg_group(
             llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
             smt_timeout=rpc_options.smt_timeout,
             smt_retry_limit=rpc_options.smt_retry_limit,
-            start_server=False,
+            start_server=(rpc_options.port is None),
             port=rpc_options.port,
             maude_port=rpc_options.maude_port,
         ) as kcfg_explore:
