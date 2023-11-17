@@ -4,9 +4,9 @@ import logging
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
+import pyk.proof.parallel as parallel
 from kevm_pyk.kevm import KEVM, KEVMSemantics
-from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
-from pathos.pools import ProcessPool  # type: ignore
+from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
@@ -16,7 +16,7 @@ from pyk.prelude.kbool import FALSE, notBool
 from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRBMCProof, APRProof
+from pyk.proof.reachability import APRBMCProof, APRProof, ParallelAPRBMCProver, ParallelAPRProver
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
@@ -181,51 +181,82 @@ def _run_cfg_group(
     foundry: Foundry,
     options: ProveOptions,
 ) -> list[Proof]:
-    def init_and_run_proof(test: FoundryTest) -> Proof:
-        start_server = options.port is None
+    proofs = {}
+    provers = {}
+
+    for test in tests:
+        proof: APRProof
+
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+            kcfg_semantics=KEVMSemantics(),
             id=test.id,
-            bug_report=options.bug_report,
-            kore_rpc_command=options.kore_rpc_command,
             llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
             smt_timeout=options.smt_timeout,
             smt_retry_limit=options.smt_retry_limit,
-            trace_rewrites=options.trace_rewrites,
-            start_server=start_server,
+            start_server=False,
             port=options.port,
-            maude_port=options.maude_port,
         ) as kcfg_explore:
             proof = method_to_apr_proof(
                 test=test,
                 foundry=foundry,
                 kcfg_explore=kcfg_explore,
-                bmc_depth=options.bmc_depth,
-                run_constructor=options.run_constructor,
             )
 
-            run_prover(
-                foundry.kevm,
-                proof,
-                kcfg_explore,
-                max_depth=options.max_depth,
-                max_iterations=options.max_iterations,
-                cut_point_rules=KEVMSemantics.cut_point_rules(options.break_on_jumpi, options.break_on_calls),
-                terminal_rules=KEVMSemantics.terminal_rules(options.break_every_step),
+        parallel_prover: ParallelAPRProver
+
+        if type(proof) is APRProof:
+            parallel_prover = ParallelAPRProver(
+                proof=proof,
+                module_name=foundry.kevm.main_module,
+                definition_dir=foundry.kevm.definition_dir,
+                execute_depth=options.max_depth,
+                kprint=foundry.kevm,
+                kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                id=test.id,
+                cut_point_rules=KEVMSemantics.cut_point_rules(
+                    break_on_calls=options.break_on_calls, break_on_jumpi=options.break_on_jumpi
+                ),
+                terminal_rules=KEVMSemantics.terminal_rules(break_every_step=options.break_every_step),
+                llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
+                smt_timeout=options.smt_timeout,
+                smt_retry_limit=options.smt_retry_limit,
+                trace_rewrites=options.trace_rewrites,
+                bug_report_id=test.id,
             )
-            return proof
+        elif type(proof) is APRBMCProof:
+            parallel_prover = ParallelAPRBMCProver(
+                proof=proof,
+                module_name=foundry.kevm.main_module,
+                definition_dir=foundry.kevm.definition_dir,
+                execute_depth=options.max_depth,
+                kprint=foundry.kevm,
+                kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                id=test.id,
+                cut_point_rules=KEVMSemantics.cut_point_rules(
+                    break_on_calls=options.break_on_calls, break_on_jumpi=options.break_on_jumpi
+                ),
+                terminal_rules=KEVMSemantics.terminal_rules(break_every_step=options.break_every_step),
+                llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
+                smt_timeout=options.smt_timeout,
+                smt_retry_limit=options.smt_retry_limit,
+                trace_rewrites=options.trace_rewrites,
+                bug_report_id=test.id,
+            )
 
-    apr_proofs: list[Proof]
-    if options.workers > 1:
-        with ProcessPool(ncpus=options.workers) as process_pool:
-            apr_proofs = process_pool.map(init_and_run_proof, tests)
-    else:
-        apr_proofs = []
-        for test in tests:
-            apr_proofs.append(init_and_run_proof(test))
+        proofs[proof.id] = proof
+        provers[proof.id] = parallel_prover
 
-    return apr_proofs
+    parallel_results = parallel.prove_parallel(
+        proofs=proofs,
+        provers=provers,
+        max_workers=options.workers,
+    )
+    results: list[Proof] = []
+    for result in parallel_results:
+        assert isinstance(result, Proof)
+        results.append(result)
+    return results
 
 
 def method_to_apr_proof(

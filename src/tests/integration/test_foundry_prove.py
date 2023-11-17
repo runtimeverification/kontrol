@@ -4,16 +4,20 @@ import sys
 from distutils.dir_util import copy_tree
 from typing import TYPE_CHECKING
 
+import pyk.proof.parallel as parallel
 import pytest
 from filelock import FileLock
+from kevm_pyk.kevm import KEVMSemantics
+from kevm_pyk.utils import legacy_explore
 from pyk.kore.rpc import kore_server
-from pyk.proof import APRProof
+from pyk.proof import APRProof, ProofStatus
+from pyk.proof.reachability import ParallelAPRProver
 from pyk.utils import run_process, single
 
 from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
 from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions
-from kontrol.prove import foundry_prove
+from kontrol.prove import FoundryTest, foundry_prove, method_to_apr_proof
 
 from .utils import TEST_DATA_DIR
 
@@ -140,6 +144,7 @@ def test_foundry_prove(
             counterexample_info=True,
             bug_report=bug_report,
             port=server.port,
+            use_booster=use_booster,
         ),
     )
 
@@ -187,6 +192,7 @@ def test_foundry_fail(
             counterexample_info=True,
             bug_report=bug_report,
             port=server.port,
+            use_booster=use_booster,
         ),
     )
 
@@ -219,7 +225,9 @@ SKIPPED_BMC_TESTS: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().
 
 
 @pytest.mark.parametrize('test_id', ALL_BMC_TESTS)
-def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | None, server: KoreServer) -> None:
+def test_foundry_bmc(
+    test_id: str, foundry_root: Path, bug_report: BugReport | None, server: KoreServer, use_booster: bool
+) -> None:
     if test_id in SKIPPED_BMC_TESTS:
         pytest.skip()
 
@@ -231,6 +239,7 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
             bmc_depth=3,
             port=server.port,
             bug_report=bug_report,
+            use_booster=use_booster,
         ),
     )
 
@@ -296,6 +305,7 @@ def test_foundry_auto_abstraction(
             auto_abstract_gas=True,
             bug_report=bug_report,
             port=server.port,
+            use_booster=use_booster,
         ),
     )
 
@@ -319,7 +329,11 @@ def test_foundry_auto_abstraction(
 
 
 def test_foundry_remove_node(
-    foundry_root: Path, update_expected_output: bool, bug_report: BugReport | None, server: KoreServer
+    foundry_root: Path,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    use_booster: bool,
 ) -> None:
     test = 'AssertTest.test_assert_true()'
 
@@ -331,6 +345,7 @@ def test_foundry_remove_node(
         options=ProveOptions(
             port=server.port,
             bug_report=bug_report,
+            use_booster=use_booster,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -351,6 +366,7 @@ def test_foundry_remove_node(
         options=ProveOptions(
             port=server.port,
             bug_report=bug_report,
+            use_booster=use_booster,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -397,7 +413,11 @@ def assert_or_update_show_output(show_res: str, expected_file: Path, *, update: 
 
 
 def test_foundry_resume_proof(
-    foundry_root: Path, update_expected_output: bool, bug_report: BugReport | None, server: KoreServer
+    foundry_root: Path,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    use_booster: bool,
 ) -> None:
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
 
@@ -410,6 +430,7 @@ def test_foundry_resume_proof(
             reinit=True,
             port=server.port,
             bug_report=bug_report,
+            use_booster=use_booster,
         ),
     )
 
@@ -426,6 +447,7 @@ def test_foundry_resume_proof(
             reinit=False,
             port=server.port,
             bug_report=bug_report,
+            use_booster=use_booster,
         ),
     )
 
@@ -452,3 +474,58 @@ def test_foundry_init_code(test: str, foundry_root: Path, bug_report: BugReport 
 
     # Then
     assert_pass(test, single(prove_res))
+
+
+def test_foundry_prove_parallel(foundry_root: Path, server: KoreServer) -> None:
+    foundry = Foundry(foundry_root=foundry_root)
+    foundry.mk_proofs_dir()
+    contract, method = foundry.get_contract_and_method('AssumeTest.test_assume_true(uint256,uint256)')
+
+    test = FoundryTest(contract, method, 0)
+
+    use_booster = False
+    smt_timeout = 300
+    smt_retry_limit = 10
+
+    proof: APRProof
+
+    with legacy_explore(
+        foundry.kevm,
+        kcfg_semantics=KEVMSemantics(),
+        id=test.id,
+        llvm_definition_dir=foundry.llvm_library if use_booster else None,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        start_server=False,
+        port=server.port,
+    ) as kcfg_explore:
+        proof = method_to_apr_proof(
+            test=test,
+            foundry=foundry,
+            kcfg_explore=kcfg_explore,
+        )
+
+    prover = ParallelAPRProver(
+        proof=proof,
+        module_name=foundry.kevm.main_module,
+        definition_dir=foundry.kevm.definition_dir,
+        execute_depth=1000,
+        kprint=foundry.kevm,
+        kcfg_semantics=KEVMSemantics(),
+        id=test.id,
+        cut_point_rules=KEVMSemantics.cut_point_rules(break_on_calls=True, break_on_jumpi=False),
+        terminal_rules=KEVMSemantics.terminal_rules(False),
+        llvm_definition_dir=foundry.llvm_library if use_booster else None,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        trace_rewrites=False,
+        bug_report_id=test.id,
+    )
+
+    results = parallel.prove_parallel(
+        proofs={'proof': proof},
+        provers={'proof': prover},
+        max_workers=2,
+    )
+
+    assert single(results).status == ProofStatus.PASSED
