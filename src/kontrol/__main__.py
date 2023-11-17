@@ -142,6 +142,7 @@ def exec_build(
     llvm_library: bool = False,
     verbose: bool = False,
     target: KompileTarget | None = None,
+    no_forge_build: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module {kwargs["main_module"]}')
@@ -165,6 +166,7 @@ def exec_build(
         debug=debug,
         verbose=verbose,
         target=target,
+        no_forge_build=no_forge_build,
     )
 
 
@@ -600,6 +602,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Rekompile foundry.k even if kompiled definition already exists.',
+    )
+    build.add_argument(
+        '--no-forge-build',
+        dest='no_forge_build',
+        default=False,
+        action='store_true',
+        help="Do not call 'forge build' during kompilation.",
     )
 
     prove_args = command_parser.add_parser(

@@ -37,6 +37,7 @@ def foundry_kompile(
     debug: bool = False,
     verbose: bool = False,
     target: KompileTarget = KompileTarget.HASKELL_BOOSTER,
+    no_forge_build: bool = False,
 ) -> None:
     syntax_module = 'FOUNDRY-CONTRACTS'
     foundry = Foundry(foundry_root)
@@ -50,7 +51,8 @@ def foundry_kompile(
 
     requires_paths: dict[str, str] = {}
 
-    foundry.build()
+    if not no_forge_build:
+        foundry.build()
 
     if not foundry.up_to_date():
         _LOGGER.info('Detected updates to contracts, regenerating K definition.')
