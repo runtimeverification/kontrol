@@ -564,3 +564,16 @@ contract BytesTypeTest {
         assert(type(uint32).max > uint32(x));
     }
 }
+
+/* Tests for struct */
+contract StructTypeTest {
+    struct Vars {
+        uint8 a;
+        uint32 timestamp;
+    }
+
+    function test_vars(Vars calldata vars) public pure {
+        assert(type(uint8).max >= vars.a);
+        assert(type(uint32).max >= vars.timestamp);
+    }
+}
