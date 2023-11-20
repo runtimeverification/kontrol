@@ -8,6 +8,7 @@ from functools import cached_property, reduce
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
+from kevm_pyk import kdist
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.kast import KAtt
@@ -30,13 +31,13 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 def solc_to_k(
-    definition_dir: Path,
     contract_file: Path,
     contract_name: str,
     main_module: str | None,
     requires: Iterable[str] = (),
     imports: Iterable[str] = (),
 ) -> str:
+    definition_dir = kdist.get('evm-semantics.haskell')
     kevm = KEVM(definition_dir)
     empty_config = kevm.definition.empty_config(KEVM.Sorts.KEVM_CELL)
 
@@ -491,11 +492,11 @@ class Contract:
 
     @staticmethod
     def contract_to_module_name(c: str) -> str:
-        return c + '-CONTRACT'
+        return Contract.escaped(c, 'S2K') + '-CONTRACT'
 
     @staticmethod
     def contract_to_verification_module_name(c: str) -> str:
-        return c + '-VERIFICATION'
+        return Contract.escaped(c, 'S2K') + '-VERIFICATION'
 
     @staticmethod
     def test_to_claim_name(t: str) -> str:
@@ -507,7 +508,7 @@ class Contract:
 
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$']
+        return [Contract.PREFIX_CODE, '_', '$', '.']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -518,6 +519,8 @@ class Contract:
                 as_ecaped = 'Und'
             case '$':
                 as_ecaped = 'Dlr'
+            case '.':
+                as_ecaped = 'Dot'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -530,6 +533,8 @@ class Contract:
             return '_', 3
         elif seq.startswith('Dlr'):
             return '$', 3
+        elif seq.startswith('Dot'):
+            return '.', 3
         else:
             return chr(int(seq, base=16)), 4
 
@@ -572,7 +577,7 @@ class Contract:
 
     @property
     def sort_field(self) -> KSort:
-        return KSort(f'{self.name}Field')
+        return KSort(f'{Contract.escaped(self.name, "S2K")}Field')
 
     @property
     def sort_method(self) -> KSort:

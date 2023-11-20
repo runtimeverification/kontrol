@@ -5,7 +5,7 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics
-from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, kevm_prove, legacy_explore
+from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
 
-    from .options import ProveOptions
+    from .options import ProveOptions, RPCOptions
 
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -38,17 +38,18 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 def foundry_prove(
     foundry_root: Path,
-    options: ProveOptions,
+    prove_options: ProveOptions,
+    rpc_options: RPCOptions,
     tests: Iterable[tuple[str, int | None]] = (),
 ) -> list[Proof]:
-    if options.workers <= 0:
-        raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
-    if options.max_iterations is not None and options.max_iterations < 0:
+    if prove_options.workers <= 0:
+        raise ValueError(f'Must have at least one worker, found: --workers {prove_options.workers}')
+    if prove_options.max_iterations is not None and prove_options.max_iterations < 0:
         raise ValueError(
-            f'Must have a non-negative number of iterations, found: --max-iterations {options.max_iterations}'
+            f'Must have a non-negative number of iterations, found: --max-iterations {prove_options.max_iterations}'
         )
 
-    if options.use_booster:
+    if rpc_options.use_booster:
         try:
             run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
         except CalledProcessError:
@@ -56,17 +57,18 @@ def foundry_prove(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
             ) from None
 
-    foundry = Foundry(foundry_root, bug_report=options.bug_report)
+    foundry = Foundry(foundry_root, bug_report=prove_options.bug_report)
     foundry.mk_proofs_dir()
 
-    test_suite = collect_tests(foundry, tests, reinit=options.reinit)
+    test_suite = collect_tests(foundry, tests, reinit=prove_options.reinit)
     test_names = [test.name for test in test_suite]
+    print(f'Running functions: {test_names}')
 
     contracts = [test.contract for test in test_suite]
-    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=options.reinit)
+    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=prove_options.reinit)
     setup_method_names = [test.name for test in setup_method_tests]
 
-    constructor_tests = collect_constructors(foundry, contracts, reinit=options.reinit)
+    constructor_tests = collect_constructors(foundry, contracts, reinit=prove_options.reinit)
     constructor_names = [test.name for test in constructor_tests]
 
     _LOGGER.info(f'Running tests: {test_names}')
@@ -87,10 +89,11 @@ def foundry_prove(
         return _run_cfg_group(
             tests=test_suite,
             foundry=foundry,
-            options=options,
+            prove_options=prove_options,
+            rpc_options=rpc_options,
         )
 
-    if options.run_constructor:
+    if prove_options.run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
         results = run_prover(constructor_tests)
         failed = [proof for proof in results if not proof.passed]
@@ -130,7 +133,10 @@ class FoundryTest(NamedTuple):
 def collect_tests(foundry: Foundry, tests: Iterable[tuple[str, int | None]] = (), *, reinit: bool) -> list[FoundryTest]:
     if not tests:
         tests = [(test, None) for test in foundry.all_tests]
-    tests = list(unique((foundry.matching_sig(test), version) for test, version in tests))
+    matching_tests = []
+    for test, version in tests:
+        matching_tests += [(sig, version) for sig in foundry.matching_sigs(test)]
+    tests = list(unique(matching_tests))
 
     res: list[FoundryTest] = []
     for sig, ver in tests:
@@ -175,46 +181,49 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
 def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
-    options: ProveOptions,
+    prove_options: ProveOptions,
+    rpc_options: RPCOptions,
 ) -> list[Proof]:
     def init_and_run_proof(test: FoundryTest) -> Proof:
-        start_server = options.port is None
+        start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+            kcfg_semantics=KEVMSemantics(auto_abstract_gas=prove_options.auto_abstract_gas),
             id=test.id,
-            bug_report=options.bug_report,
-            kore_rpc_command=options.kore_rpc_command,
-            llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
-            smt_timeout=options.smt_timeout,
-            smt_retry_limit=options.smt_retry_limit,
-            trace_rewrites=options.trace_rewrites,
+            bug_report=prove_options.bug_report,
+            kore_rpc_command=rpc_options.kore_rpc_command,
+            llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
+            smt_timeout=rpc_options.smt_timeout,
+            smt_retry_limit=rpc_options.smt_retry_limit,
+            trace_rewrites=rpc_options.trace_rewrites,
             start_server=start_server,
-            port=options.port,
+            port=rpc_options.port,
+            maude_port=rpc_options.maude_port,
         ) as kcfg_explore:
             proof = method_to_apr_proof(
                 test=test,
                 foundry=foundry,
                 kcfg_explore=kcfg_explore,
-                bmc_depth=options.bmc_depth,
-                run_constructor=options.run_constructor,
+                bmc_depth=prove_options.bmc_depth,
+                run_constructor=prove_options.run_constructor,
             )
 
-            kevm_prove(
+            run_prover(
                 foundry.kevm,
                 proof,
                 kcfg_explore,
-                max_depth=options.max_depth,
-                max_iterations=options.max_iterations,
-                break_every_step=options.break_every_step,
-                break_on_jumpi=options.break_on_jumpi,
-                break_on_calls=options.break_on_calls,
+                max_depth=prove_options.max_depth,
+                max_iterations=prove_options.max_iterations,
+                cut_point_rules=KEVMSemantics.cut_point_rules(
+                    prove_options.break_on_jumpi, prove_options.break_on_calls
+                ),
+                terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
             )
             return proof
 
     apr_proofs: list[Proof]
-    if options.workers > 1:
-        with ProcessPool(ncpus=options.workers) as process_pool:
+    if prove_options.workers > 1:
+        with ProcessPool(ncpus=prove_options.workers) as process_pool:
             apr_proofs = process_pool.map(init_and_run_proof, tests)
     else:
         apr_proofs = []
@@ -368,6 +377,7 @@ def _method_to_cfg(
             )
         for final_node in final_states:
             new_accounts_cell = final_node.cterm.cell('ACCOUNTS_CELL')
+            number_cell = final_node.cterm.cell('NUMBER_CELL')
             new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
             new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
             test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
@@ -382,6 +392,7 @@ def _method_to_cfg(
             new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()])
 
             new_init_cterm = CTerm(set_cell(init_cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NUMBER_CELL', number_cell), [])
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
