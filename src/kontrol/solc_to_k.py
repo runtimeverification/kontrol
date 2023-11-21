@@ -71,36 +71,38 @@ class Input:
     name: str
     type: str
     components: list[Input] = field(default_factory=list)
+    idx: int = 0
 
     @staticmethod
-    def from_dict(_input: dict) -> Input:
+    def from_dict(_input: dict, i: int = 0) -> Input:
         name = _input['name']
         type = _input['type']
         if _input.get('components') is not None:
             if type == 'tuple':
-                components = Input._recurse_comp(name, _input['components'])
+                components = Input._recurse_comp(name, _input['components'], i)
             else:
                 dimension = len(_find_array_dimensions(type))
-                components = Input._recurse_comp(name + '[]' * dimension, _input['components'])
-            return Input('', name, type, components)
+                components = Input._recurse_comp(name + '[]' * dimension, _input['components'], i)
+            return Input('', name, type, components, i)
         else:
-            return Input('', name, type)
+            return Input('', name, type, idx=i)
 
     @staticmethod
-    def _recurse_comp(parent: str, components: dict) -> list[Input]:
+    def _recurse_comp(parent: str, components: dict, i: int = 0) -> list[Input]:
         comps = []
         for comp in components:
             _name = comp['name']
             _type = comp['type']
             if comp.get('components') is not None:
                 if _type == 'tuple':
-                    new_comps = Input._recurse_comp(parent + '.' + _name, comp['components'])
+                    new_comps = Input._recurse_comp(parent + '.' + _name, comp['components'], i)
                 else:
                     dimension = len(_find_array_dimensions(_type))
-                    new_comps = Input._recurse_comp(parent + '.' + _name + '[]' * dimension, comp['components'])
+                    new_comps = Input._recurse_comp(parent + '.' + _name + '[]' * dimension, comp['components'], i)
             else:
                 new_comps = []
-            comps.append(Input(parent, _name, _type, new_comps))
+            comps.append(Input(parent, _name, _type, new_comps, i))
+            i += 1
         return comps
 
     @cached_property
@@ -138,9 +140,12 @@ class Input:
 
 def inputs_from_abi(abi_inputs: list[dict]) -> list[Input]:
     inputs = []
+    i = 0
     for input in abi_inputs:
-        cur_input = Input.from_dict(input)
+        cur_input = Input.from_dict(input, i)
         inputs.append(cur_input)
+        # TODO(palina): should we not increase ids for nested array elements?
+        i += len(cur_input.flattened())
     return inputs
 
 
@@ -652,9 +657,9 @@ class Contract:
     @staticmethod
     def arg_name(input: Input) -> str:
         if input.parent_name == '':
-            return input.name.replace('-', '_')
+            return f'V{input.idx}_{input.name.replace("-", "_")}'
         else:
-            return f'{input.parent_name}.{input.name.replace("-", "_")}'
+            return f'V{input.idx}_{input.parent_name.replace("-", "_")}_{input.name.replace("-", "_")}'
 
     @staticmethod
     def make_single_type(input: Input) -> KApply:
