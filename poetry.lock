@@ -430,7 +430,7 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.361"
+version = "1.0.366"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -439,15 +439,15 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.501"}
+pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.507"}
 tomlkit = "^0.11.6"
 xdg-base-dirs = "^6.0.0"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.361"
-resolved_reference = "60783f12409f4588779c350ce6d718c2abb5c289"
+reference = "v1.0.366"
+resolved_reference = "9ffbad0f751190c68d66cc6f63d9dcb253f9430e"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -795,21 +795,22 @@ files = [
 
 [[package]]
 name = "pygments"
-version = "2.16.1"
+version = "2.17.1"
 description = "Pygments is a syntax highlighting package written in Python."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "Pygments-2.16.1-py3-none-any.whl", hash = "sha256:13fc09fa63bc8d8671a6d247e1eb303c4b343eaee81d861f3404db2935653692"},
-    {file = "Pygments-2.16.1.tar.gz", hash = "sha256:1daff0494820c69bc8941e407aa20f577374ee88364ee10a98fdbe0aece96e29"},
+    {file = "pygments-2.17.1-py3-none-any.whl", hash = "sha256:1b37f1b1e1bff2af52ecaf28cc601e2ef7077000b227a0675da25aef85784bc4"},
+    {file = "pygments-2.17.1.tar.gz", hash = "sha256:e45a0e74bf9c530f564ca81b8952343be986a29f6afe7f5ad95c5f06b7bdf5e8"},
 ]
 
 [package.extras]
 plugins = ["importlib-metadata"]
+windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.501"
+version = "0.1.507"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -829,8 +830,8 @@ tomli = "^2.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.501"
-resolved_reference = "65dc68a488bff876e60a0595ae002412ca65face"
+reference = "v0.1.507"
+resolved_reference = "f6c9126b05d7f1e7f809aef72db029dc968af61f"
 
 [[package]]
 name = "pyperclip"
@@ -1042,13 +1043,13 @@ test = ["coverage", "pytest", "pytest-cov"]
 
 [[package]]
 name = "wcwidth"
-version = "0.2.10"
+version = "0.2.11"
 description = "Measures the displayed width of unicode strings in a terminal"
 optional = false
 python-versions = "*"
 files = [
-    {file = "wcwidth-0.2.10-py2.py3-none-any.whl", hash = "sha256:aec5179002dd0f0d40c456026e74a729661c9d468e1ed64405e3a6c2176ca36f"},
-    {file = "wcwidth-0.2.10.tar.gz", hash = "sha256:390c7454101092a6a5e43baad8f83de615463af459201709556b6e4b1c861f97"},
+    {file = "wcwidth-0.2.11-py2.py3-none-any.whl", hash = "sha256:c4b153acf29f1f0d7fb1b00d097cce82b73de7a2016321c8d7ca71bd76dd848b"},
+    {file = "wcwidth-0.2.11.tar.gz", hash = "sha256:25eb3ecbec328cdb945f56f2a7cfe784bdf7a73a8197398c7a7c65e7fe93e9ae"},
 ]
 
 [[package]]
@@ -1080,4 +1081,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "2ec5d1ba262fab3234a6772f81f3c7157e4883e2e0f4bc05a7403f69cd4ae70f"
+content-hash = "c0bbce4685174156740d90197b07d00b86cff5ec158bdec1b7c4e6240d9042e9"
