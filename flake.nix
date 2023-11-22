@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.357";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.368";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -88,6 +88,8 @@
                 libtool
                 openssl.dev
                 gmp
+                pkg-config
+                procps
               ];
               nativeBuildInputs = [ prev.makeWrapper ];
 
