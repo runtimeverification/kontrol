@@ -151,6 +151,10 @@
           ];
         };
       in {
+        devShell = kevm.devShell.${system}.overrideAttrs (old: {
+          buildInputs = old.buildInputs
+            ++ [ pkgs.foundry-bin (solc.mkDefault pkgs pkgs.solc_0_8_13) ];
+        });
         packages = {
           kontrol = pkgs.kontrol { };
           default = pkgs.kontrol { };
