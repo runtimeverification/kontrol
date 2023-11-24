@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.368";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.371";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -151,6 +151,10 @@
           ];
         };
       in {
+        devShell = kevm.devShell.${system}.overrideAttrs (old: {
+          buildInputs = old.buildInputs
+            ++ [ pkgs.foundry-bin (solc.mkDefault pkgs pkgs.solc_0_8_13) ];
+        });
         packages = {
           kontrol = pkgs.kontrol { };
           default = pkgs.kontrol { };
