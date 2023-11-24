@@ -677,7 +677,7 @@ class Contract:
         indices = _permuate_indices(dimensions)
         flatten_elements: list[KInner] = []
         for index in indices:
-            index_str = '[' + ']['.join(index) + ']'
+            index_str = '_' + '_'.join(index) + '_'
             if len(input.components) > 0:  # element type is a tuple
                 components = [
                     Input(Contract.arg_name(input) + index_str, comp.name, comp.type, comp.components)
@@ -693,11 +693,11 @@ class Contract:
         base_type: KInner
         if len(input.components) > 0:
             base_type = Contract.make_tuple_type(
-                Input(input.parent_name, input.name + '[0]' * len(dimensions), input_type, components)
+                Input(input.parent_name, input.name + '_0_' * len(dimensions), input_type, components)
             )
         else:
             base_type = KEVM.abi_type(
-                input_type[0 : input_type.index('[')], KVariable(input_name + '[0]' * len(dimensions))
+                input_type[0 : input_type.index('[')], KVariable(input_name + '_0_' * len(dimensions))
             )
 
         if len(dimensions) == 1:
@@ -712,7 +712,7 @@ class Contract:
             for i in range(size):
                 elems = flatten_elements[i * dimension : (i + 1) * dimension]
                 sub_index = _get_reverse_index(i, dimensions[di:])
-                index_str = '[' + ']['.join(sub_index) + ']'
+                index_str = '_' + '_'.join(sub_index) + '_'
                 components = [
                     Input(Contract.arg_name(input) + index_str, comp.name, comp.type, comp.components)
                     for comp in input.components
