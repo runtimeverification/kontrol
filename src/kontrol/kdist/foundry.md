@@ -538,41 +538,38 @@ All cheat code calls which take place while `expectRevert` is active are ignored
 ```
 
 We use the `#next[OP]` to identify OpCodes that can revert and insert a `#checkRevert` production used to examine the end of each call/create in KEVM.
-We also expect the call depth of the current call to be lower than the call depth of the `expectRevert`.
-The `#checkRevert` will be used to compare the status code of the execution and the output of the call against the expect reason provided.
+The check will be inserted only if the current depth is the same as the depth at which the `expectRevert` cheat code was used.
+WThe `#checkRevert` will be used to compare the status code of the execution and the output of the call against the expect reason provided.
 
 ```k
-    rule <k> #next [ OP:CallOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
+    rule <k> #next [ _OP:CallOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <wordStack> _ : _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-       requires CD <=Int ED
       [priority(40)]
 
-    rule <k> #next [ OP:CallSixOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
+    rule <k> #next [ _OP:CallSixOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <wordStack> _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-       requires CD <=Int ED
       [priority(40)]
 
     rule <k> #next [ OP:OpCode ] ~> (. => #checkRevert) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-       requires CD <=Int ED
-       andBool (OP ==K CREATE orBool OP ==K CREATE2)
+      requires (OP ==K CREATE orBool OP ==K CREATE2)
       [priority(40)]
 ```
 
@@ -1168,7 +1165,7 @@ Utils
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> false => true </isRevertExpected>
-           <expectedDepth> _ => CD +Int 1 </expectedDepth>
+           <expectedDepth> _ => CD </expectedDepth>
            <expectedReason> _ => EXPECTED </expectedReason>
          </expectedRevert>
 ```
@@ -1210,11 +1207,10 @@ Otherwise, if the status code is `EVMC_SUCCESS`, or the output does not match th
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            <expectedReason> REASON </expectedReason>
          </expectedRevert>
       requires SC =/=K EVMC_SUCCESS
-       andBool CD <=Int ED
        andBool #matchReason(REASON, #encodeOutput(OUT))
 
     rule <k> #checkRevert => #markAsFailed ~> #clearExpectRevert ... </k>
@@ -1223,11 +1219,10 @@ Otherwise, if the status code is `EVMC_SUCCESS`, or the output does not match th
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            <expectedReason> REASON </expectedReason>
          </expectedRevert>
       requires SC =/=K EVMC_SUCCESS
-       andBool CD <=Int ED
        andBool notBool #matchReason(REASON, #encodeOutput(OUT))
 
     rule <k> #checkRevert => #markAsFailed ~> #clearExpectRevert ... </k>
@@ -1236,10 +1231,9 @@ Otherwise, if the status code is `EVMC_SUCCESS`, or the output does not match th
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-      requires CD <=Int ED
 
     rule <k> #checkRevert => . ... </k>
          <expectedRevert>

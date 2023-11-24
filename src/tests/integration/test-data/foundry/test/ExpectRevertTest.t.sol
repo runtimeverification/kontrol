@@ -66,6 +66,20 @@ contract ExpectRevertTest is Test {
         require(false, "");
     }
 
+    function revertDepth2() public {
+        revert ("This should be at depth 2");
+    }
+    function revertDepth1() public  {
+        try this.revertDepth2()
+        {} catch {}
+        revert ("This should be at depth 1");
+    }
+
+    function test_expectRevert_inDepth() public {
+        vm.expectRevert("This should be at depth 1");
+        this.revertDepth1();
+    }
+
     function test_expectRevert_internalCall() public {
         vm.expectRevert();
         doRevert();
