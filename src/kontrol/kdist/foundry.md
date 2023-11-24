@@ -551,7 +551,6 @@ The `#checkRevert` will be used to compare the status code of the execution and 
            ...
          </expectedRevert>
        requires CD <=Int ED
-       andBool (OP ==K CALL orBool OP ==K CALLCODE)
       [priority(40)]
 
     rule <k> #next [ OP:CallSixOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
@@ -563,7 +562,6 @@ The `#checkRevert` will be used to compare the status code of the execution and 
            ...
          </expectedRevert>
        requires CD <=Int ED
-       andBool (OP ==K DELEGATECALL orBool OP ==K STATICCALL)
       [priority(40)]
 
     rule <k> #next [ OP:OpCode ] ~> (. => #checkRevert) ~> #execute ... </k>
