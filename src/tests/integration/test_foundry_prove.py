@@ -10,7 +10,14 @@ from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.utils import run_process, single
 
-from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
+from kontrol.foundry import (
+    Foundry,
+    foundry_merge_nodes,
+    foundry_remove_node,
+    foundry_show,
+    foundry_step_node,
+    load_foundry,
+)
 from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
@@ -69,7 +76,7 @@ def foundry_root(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactor
             run_process(['forge', 'build'], cwd=foundry_root)
 
             foundry_kompile(
-                foundry_root=foundry_root,
+                foundry=load_foundry(foundry_root=foundry_root),
                 includes=(),
                 requires=[str(TEST_DATA_DIR / 'lemmas.k')],
                 imports=['LoopsTest:SUM-TO-N-INVARIANT'],
@@ -137,7 +144,7 @@ def test_foundry_prove(
 
     # When
     prove_res = foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test_id, None)],
         prove_options=ProveOptions(
             counterexample_info=True,
@@ -186,7 +193,7 @@ def test_foundry_fail(
 ) -> None:
     # When
     prove_res = foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test_id, None)],
         prove_options=ProveOptions(
             counterexample_info=True,
@@ -232,7 +239,7 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
 
     # When
     prove_res = foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test_id, None)],
         prove_options=ProveOptions(
             bmc_depth=3,
@@ -251,7 +258,7 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     test = 'MergeTest.test_branch_merge(uint256)'
 
     foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test, None)],
         prove_options=ProveOptions(
             max_iterations=2,
@@ -289,7 +296,7 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     check_pending(foundry_root, test, [8])
 
     prove_res = foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
@@ -318,7 +325,7 @@ def test_foundry_auto_abstraction(
 ) -> None:
     test_id = 'GasTest.testInfiniteGas()'
     foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test_id, None)],
         prove_options=ProveOptions(
             auto_abstract_gas=True,
@@ -356,7 +363,7 @@ def test_foundry_remove_node(
     foundry = Foundry(foundry_root)
 
     prove_res = foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
@@ -378,7 +385,7 @@ def test_foundry_remove_node(
     assert proof.pending
 
     prove_res = foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
@@ -436,7 +443,7 @@ def test_foundry_resume_proof(
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
 
     prove_res = foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test, None)],
         prove_options=ProveOptions(
             auto_abstract_gas=True,
@@ -454,7 +461,7 @@ def test_foundry_resume_proof(
     assert proof.pending
 
     prove_res = foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test, None)],
         prove_options=ProveOptions(
             auto_abstract_gas=True,
@@ -477,7 +484,7 @@ ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail
 def test_foundry_init_code(test: str, foundry_root: Path, bug_report: BugReport | None, use_booster: bool) -> None:
     # When
     prove_res = foundry_prove(
-        foundry_root,
+        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         tests=[(test, None)],
         prove_options=ProveOptions(
             run_constructor=True,

@@ -546,9 +546,7 @@ def foundry_to_dot(foundry_root: Path, test: str, version: int | None = None) ->
     proof_show.dump(proof, dump_dir, dot=True)
 
 
-def foundry_list(foundry_root: Path) -> list[str]:
-    foundry = Foundry(foundry_root)
-
+def foundry_list(foundry: Foundry) -> list[str]:
     all_methods = [
         f'{contract.name}.{method.signature}' for contract in foundry.contracts.values() for method in contract.methods
     ]
@@ -835,3 +833,11 @@ def foundry_node_printer(foundry: Foundry, contract_name: str, proof: APRProof) 
     if type(proof) is APRProof:
         return FoundryAPRNodePrinter(foundry, contract_name, proof)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
+
+
+def load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
+    try:
+        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
+    except FileNotFoundError:
+        _LOGGER.error('foundry.toml file not found. Are you running kontrol in a Foundry project?')
+    return foundry

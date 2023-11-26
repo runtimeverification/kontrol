@@ -29,6 +29,7 @@ from .foundry import (
     foundry_simplify_node,
     foundry_step_node,
     foundry_to_dot,
+    load_foundry,
 )
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
@@ -155,7 +156,7 @@ def exec_build(
     if target is None:
         target = KompileTarget.HASKELL
     foundry_kompile(
-        foundry_root=foundry_root,
+        foundry=load_foundry(foundry_root),
         includes=includes,
         regen=regen,
         rekompile=rekompile,
@@ -238,7 +239,7 @@ def exec_prove(
     )
 
     results = foundry_prove(
-        foundry_root=foundry_root,
+        foundry=(load_foundry(foundry_root=foundry_root, bug_report=prove_options.bug_report)),
         prove_options=prove_options,
         rpc_options=rpc_options,
         tests=tests,
@@ -304,12 +305,12 @@ def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: An
 
 
 def exec_list(foundry_root: Path, **kwargs: Any) -> None:
-    stats = foundry_list(foundry_root=foundry_root)
+    stats = foundry_list(foundry=load_foundry(foundry_root=foundry_root))
     print('\n'.join(stats))
 
 
 def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry = Foundry(foundry_root)
+    foundry = load_foundry(foundry_root=foundry_root)
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
