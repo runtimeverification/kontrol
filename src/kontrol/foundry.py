@@ -832,4 +832,5 @@ def load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Fou
         foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
     except FileNotFoundError:
         _LOGGER.error('foundry.toml file not found. Are you running kontrol in a Foundry project?')
+        sys.exit(1)
     return foundry
