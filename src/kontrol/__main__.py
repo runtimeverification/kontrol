@@ -281,7 +281,7 @@ def exec_show(
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
-        foundry_root=foundry_root,
+        foundry=load_foundry(foundry_root=foundry_root),
         test=test,
         version=version,
         nodes=nodes,
@@ -301,7 +301,7 @@ def exec_show(
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry_to_dot(foundry_root=foundry_root, test=test, version=version)
+    foundry_to_dot(foundry=load_foundry(foundry_root=foundry_root), test=test, version=version)
 
 
 def exec_list(foundry_root: Path, **kwargs: Any) -> None:
@@ -327,7 +327,7 @@ def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs:
 
 
 def exec_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
-    foundry_remove_node(foundry_root=foundry_root, test=test, version=version, node=node)
+    foundry_remove_node(foundry=load_foundry(foundry_root=foundry_root), test=test, version=version, node=node)
 
 
 def exec_simplify_node(
@@ -369,7 +369,7 @@ def exec_simplify_node(
     )
 
     pretty_term = foundry_simplify_node(
-        foundry_root=foundry_root,
+        foundry=load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         test=test,
         version=version,
         node=node,
@@ -420,7 +420,7 @@ def exec_step_node(
     )
 
     foundry_step_node(
-        foundry_root=foundry_root,
+        foundry=load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         test=test,
         version=version,
         node=node,
@@ -438,7 +438,7 @@ def exec_merge_nodes(
     nodes: Iterable[NodeIdLike],
     **kwargs: Any,
 ) -> None:
-    foundry_merge_nodes(foundry_root=foundry_root, node_ids=nodes, test=test, version=version)
+    foundry_merge_nodes(foundry=load_foundry(foundry_root=foundry_root), node_ids=nodes, test=test, version=version)
 
 
 def exec_section_edge(
@@ -479,7 +479,7 @@ def exec_section_edge(
     )
 
     foundry_section_edge(
-        foundry_root=foundry_root,
+        foundry=load_foundry(foundry_root=foundry_root, bug_report=bug_report),
         test=test,
         version=version,
         rpc_options=rpc_options,
@@ -527,7 +527,7 @@ def exec_get_model(
         maude_port=maude_port,
     )
     output = foundry_get_model(
-        foundry_root=foundry_root,
+        foundry=load_foundry(foundry_root=foundry_root),
         test=test,
         version=version,
         nodes=nodes,

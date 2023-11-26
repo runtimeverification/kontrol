@@ -163,7 +163,7 @@ def test_foundry_prove(
 
     # And when
     show_res = foundry_show(
-        foundry_root,
+        foundry=load_foundry(foundry_root),
         test=test_id,
         to_module=True,
         sort_collections=True,
@@ -212,7 +212,7 @@ def test_foundry_fail(
 
     # And when
     show_res = foundry_show(
-        foundry_root,
+        foundry=load_foundry(foundry_root),
         test=test_id,
         to_module=True,
         sort_collections=True,
@@ -256,9 +256,10 @@ def test_foundry_bmc(test_id: str, foundry_root: Path, bug_report: BugReport | N
 
 def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, server: KoreServer) -> None:
     test = 'MergeTest.test_branch_merge(uint256)'
+    foundry = load_foundry(foundry_root=foundry_root, bug_report=bug_report)
 
     foundry_prove(
-        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
+        foundry,
         tests=[(test, None)],
         prove_options=ProveOptions(
             max_iterations=2,
@@ -272,7 +273,7 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     check_pending(foundry_root, test, [4, 5])
 
     foundry_step_node(
-        foundry_root,
+        foundry,
         test,
         node=4,
         depth=49,
@@ -281,7 +282,7 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
         ),
     )
     foundry_step_node(
-        foundry_root,
+        foundry,
         test,
         node=5,
         depth=50,
@@ -291,12 +292,12 @@ def test_foundry_merge_nodes(foundry_root: Path, bug_report: BugReport | None, s
     )
     check_pending(foundry_root, test, [6, 7])
 
-    foundry_merge_nodes(foundry_root=foundry_root, test=test, node_ids=[6, 7], include_disjunct=True)
+    foundry_merge_nodes(foundry, test=test, node_ids=[6, 7], include_disjunct=True)
 
     check_pending(foundry_root, test, [8])
 
     prove_res = foundry_prove(
-        load_foundry(foundry_root=foundry_root, bug_report=bug_report),
+        foundry,
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
@@ -340,7 +341,7 @@ def test_foundry_auto_abstraction(
         return
 
     show_res = foundry_show(
-        foundry_root,
+        foundry=load_foundry(foundry_root),
         test=test_id,
         to_module=True,
         minimize=False,
@@ -375,7 +376,7 @@ def test_foundry_remove_node(
     assert_pass(test, single(prove_res))
 
     foundry_remove_node(
-        foundry_root=foundry_root,
+        foundry=load_foundry(foundry_root=foundry_root),
         test=test,
         node=4,
     )
