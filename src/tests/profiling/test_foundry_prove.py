@@ -29,8 +29,8 @@ FORGE_STD_REF: Final = '75f1746'
 
 def test_foundy_prove(profile: Profiler, use_booster: bool, bug_report: BugReport | None, tmp_path: Path) -> None:
     foundry_root = tmp_path / 'foundry'
-    foundry = load_foundry(foundry_root=foundry_root)
     _forge_build(foundry_root)
+    foundry = load_foundry(foundry_root=foundry_root)
 
     with profile('kompile.prof', sort_keys=('cumtime', 'tottime'), limit=15):
         foundry_kompile(foundry=foundry, includes=())
