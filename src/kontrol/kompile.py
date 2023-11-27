@@ -36,6 +36,8 @@ def foundry_kompile(
     llvm_kompile: bool = True,
     debug: bool = False,
     verbose: bool = False,
+    target: KompileTarget = KompileTarget.HASKELL_BOOSTER,
+    no_forge_build: bool = False,
 ) -> None:
     syntax_module = 'FOUNDRY-CONTRACTS'
     foundry = Foundry(foundry_root)
@@ -49,7 +51,8 @@ def foundry_kompile(
 
     requires_paths: dict[str, str] = {}
 
-    foundry.build()
+    if not no_forge_build:
+        foundry.build()
 
     if not foundry.up_to_date():
         _LOGGER.info('Detected updates to contracts, regenerating K definition.')
@@ -84,7 +87,7 @@ def foundry_kompile(
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
         imports = ['FOUNDRY']
-        kevm = KEVM(kdist.get('foundry'))
+        kevm = KEVM(kdist.get('kontrol.foundry'))
         empty_config = kevm.definition.empty_config(Foundry.Sorts.FOUNDRY_CELL)
         bin_runtime_definition = _foundry_to_contract_def(
             empty_config=empty_config,
@@ -101,7 +104,7 @@ def foundry_kompile(
         )
 
         kevm = KEVM(
-            kdist.get('foundry'),
+            kdist.get('kontrol.foundry'),
             extra_unparsing_modules=(bin_runtime_definition.all_modules + contract_main_definition.all_modules),
         )
 
@@ -133,10 +136,8 @@ def foundry_kompile(
         _LOGGER.info('Updated Kompilation digest')
 
     if not kompilation_up_to_date() or rekompile or not kompiled_timestamp.exists():
-        plugin_dir = kdist.get('plugin')
-
         kevm_kompile(
-            target=KompileTarget.HASKELL_BOOSTER,
+            target=target,
             output_dir=foundry.kompiled,
             main_file=foundry.main_file,
             main_module=main_module,
@@ -147,7 +148,6 @@ def foundry_kompile(
             llvm_library=foundry.llvm_library,
             debug=debug,
             verbose=verbose,
-            plugin_dir=plugin_dir,
         )
 
     update_kompilation_digest()

@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.333";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.372";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -10,8 +10,17 @@
     rv-utils.follows = "kevm/rv-utils";
     pyk.follows = "kevm/pyk";
     poetry2nix.follows = "kevm/poetry2nix";
-    foundry.follows = "kevm/foundry";
-    solc.follows = "kevm/solc";
+    foundry = {
+      url =
+        "github:shazow/foundry.nix/monthly"; # Use monthly branch for permanent releases
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+    solc = {
+      url = "github:hellwolf/solc.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
   outputs = { self, k-framework, nixpkgs, flake-utils, poetry2nix, kevm
     , rv-utils, pyk, foundry, solc, ... }@inputs:
@@ -79,6 +88,8 @@
                 libtool
                 openssl.dev
                 gmp
+                pkg-config
+                procps
               ];
               nativeBuildInputs = [ prev.makeWrapper ];
 
@@ -93,17 +104,15 @@
                   prev.lib.optionalString
                   (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
                   "APPLE_SILICON=true"
-                } kevm-dist build -j4 foundry
+                } kevm-dist build kontrol.foundry
               '';
 
               installPhase = ''
                 mkdir -p $out
                 cp -r ./kdist-*/* $out/
-                ln -s ${prev.kevm}/haskell $out/haskell
-                ln -s ${prev.kevm}/haskell-standalone $out/haskell-standalone
-                ln -s ${prev.kevm}/llvm $out/llvm
-                ln -s ${prev.kevm}/plugin $out/plugin
+                ln -s ${prev.kevm}/evm-semantics $out/evm-semantics
                 mkdir -p $out/bin
+                ln -s ${prev.kevm}/bin/kevm $out/bin/kevm
                 makeWrapper ${
                   (kontrol-pyk { inherit solc_version; })
                 }/bin/kontrol $out/bin/kontrol --prefix PATH : ${
@@ -142,6 +151,10 @@
           ];
         };
       in {
+        devShell = kevm.devShell.${system}.overrideAttrs (old: {
+          buildInputs = old.buildInputs
+            ++ [ pkgs.foundry-bin (solc.mkDefault pkgs pkgs.solc_0_8_13) ];
+        });
         packages = {
           kontrol = pkgs.kontrol { };
           default = pkgs.kontrol { };
