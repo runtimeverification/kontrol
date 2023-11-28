@@ -29,7 +29,6 @@ from .foundry import (
     foundry_simplify_node,
     foundry_step_node,
     foundry_to_dot,
-    load_foundry,
 )
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
@@ -58,6 +57,18 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         if args[arg] is not None:
             _LOGGER.warning(f'Ignoring command-line option: {cli_option}')
         args.pop(arg)
+
+
+def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
+    try:
+        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
+    except FileNotFoundError:
+        print(
+            f'File foundry.toml not found in: {foundry_root}. Are you running kontrol in a Foundry project?',
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return foundry
 
 
 def main() -> None:
@@ -156,7 +167,7 @@ def exec_build(
     if target is None:
         target = KompileTarget.HASKELL
     foundry_kompile(
-        foundry=load_foundry(foundry_root),
+        foundry=_load_foundry(foundry_root),
         includes=includes,
         regen=regen,
         rekompile=rekompile,
@@ -239,7 +250,7 @@ def exec_prove(
     )
 
     results = foundry_prove(
-        foundry=(load_foundry(foundry_root, bug_report)),
+        foundry=(_load_foundry(foundry_root, bug_report)),
         prove_options=prove_options,
         rpc_options=rpc_options,
         tests=tests,
@@ -281,7 +292,7 @@ def exec_show(
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
-        foundry=load_foundry(foundry_root),
+        foundry=_load_foundry(foundry_root),
         test=test,
         version=version,
         nodes=nodes,
@@ -301,16 +312,16 @@ def exec_show(
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry_to_dot(foundry=load_foundry(foundry_root), test=test, version=version)
+    foundry_to_dot(foundry=_load_foundry(foundry_root), test=test, version=version)
 
 
 def exec_list(foundry_root: Path, **kwargs: Any) -> None:
-    stats = foundry_list(foundry=load_foundry(foundry_root))
+    stats = foundry_list(foundry=_load_foundry(foundry_root))
     print('\n'.join(stats))
 
 
 def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry = load_foundry(foundry_root)
+    foundry = _load_foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -327,7 +338,7 @@ def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs:
 
 
 def exec_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
-    foundry_remove_node(foundry=load_foundry(foundry_root), test=test, version=version, node=node)
+    foundry_remove_node(foundry=_load_foundry(foundry_root), test=test, version=version, node=node)
 
 
 def exec_simplify_node(
@@ -369,7 +380,7 @@ def exec_simplify_node(
     )
 
     pretty_term = foundry_simplify_node(
-        foundry=load_foundry(foundry_root, bug_report),
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         node=node,
@@ -420,7 +431,7 @@ def exec_step_node(
     )
 
     foundry_step_node(
-        foundry=load_foundry(foundry_root, bug_report),
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         node=node,
@@ -438,7 +449,7 @@ def exec_merge_nodes(
     nodes: Iterable[NodeIdLike],
     **kwargs: Any,
 ) -> None:
-    foundry_merge_nodes(foundry=load_foundry(foundry_root), node_ids=nodes, test=test, version=version)
+    foundry_merge_nodes(foundry=_load_foundry(foundry_root), node_ids=nodes, test=test, version=version)
 
 
 def exec_section_edge(
@@ -479,7 +490,7 @@ def exec_section_edge(
     )
 
     foundry_section_edge(
-        foundry=load_foundry(foundry_root, bug_report),
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         rpc_options=rpc_options,
@@ -527,7 +538,7 @@ def exec_get_model(
         maude_port=maude_port,
     )
     output = foundry_get_model(
-        foundry=load_foundry(foundry_root),
+        foundry=_load_foundry(foundry_root),
         test=test,
         version=version,
         nodes=nodes,

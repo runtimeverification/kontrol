@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from pyk.proof.proof import Proof
 
-from kontrol.foundry import foundry_list, load_foundry
+from kontrol.foundry import Foundry, foundry_list
 from kontrol.solc_to_k import Contract
 
 from .utils import TEST_DATA_DIR
@@ -59,7 +59,7 @@ def test_foundry_list(mocker: MockerFixture, update_expected_output: bool) -> No
         foundry_list_expected = f.read().rstrip()
     assert foundry_list_expected
 
-    list_out = '\n'.join(foundry_list(load_foundry(foundry_root=LIST_DATA_DIR)))
+    list_out = '\n'.join(foundry_list(Foundry(foundry_root=LIST_DATA_DIR)))
 
     assert foundry_mock.called_once_with(LIST_DATA_DIR)
 

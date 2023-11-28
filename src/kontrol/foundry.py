@@ -825,12 +825,3 @@ def foundry_node_printer(foundry: Foundry, contract_name: str, proof: APRProof) 
     if type(proof) is APRProof:
         return FoundryAPRNodePrinter(foundry, contract_name, proof)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
-
-
-def load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
-    try:
-        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
-    except FileNotFoundError:
-        _LOGGER.error('foundry.toml file not found. Are you running kontrol in a Foundry project?')
-        sys.exit(1)
-    return foundry

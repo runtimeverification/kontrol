@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from pyk.utils import run_process
 
-from kontrol.foundry import load_foundry
+from kontrol.foundry import Foundry
 from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
@@ -29,8 +29,7 @@ FORGE_STD_REF: Final = '75f1746'
 
 def test_foundy_prove(profile: Profiler, use_booster: bool, bug_report: BugReport | None, tmp_path: Path) -> None:
     foundry_root = tmp_path / 'foundry'
-    _forge_build(foundry_root)
-    foundry = load_foundry(foundry_root=foundry_root)
+    foundry = _forge_build(foundry_root)
 
     with profile('kompile.prof', sort_keys=('cumtime', 'tottime'), limit=15):
         foundry_kompile(foundry=foundry, includes=())
@@ -51,7 +50,8 @@ def test_foundy_prove(profile: Profiler, use_booster: bool, bug_report: BugRepor
         )
 
 
-def _forge_build(target_dir: Path) -> None:
+def _forge_build(target_dir: Path) -> Foundry:
     copy_tree(str(TEST_DATA_DIR / 'foundry'), str(target_dir))
     run_process(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=target_dir)
     run_process(['forge', 'build'], cwd=target_dir)
+    return Foundry(foundry_root=TEST_DATA_DIR / 'foundry')
