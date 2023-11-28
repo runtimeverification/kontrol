@@ -66,7 +66,7 @@ Adapt rules to not use `#gas [ _, _ ]` and, by extension, its underlying auxilia
     rule <noGas> true </noGas> <k> #exec [ QOP:QuadStackOp ] => QOP W0 W1 W2 W3 ... </k> <wordStack> W0 : W1 : W2 : W3 : WS => WS </wordStack> [priority(40)]
     rule <noGas> true </noGas> <k> #exec [ SO:StackOp      ] => SO WS           ... </k> <wordStack> WS </wordStack>                           [priority(40)]
 
-    rule <noGas> true </noGas> <k> #exec [ CSO:CallSixOp   ] => CSO W0 W1    W2 W3 W4 W5 ... </k> <wordStack> W0 : W1 : W2 : W3 : W4 : W5 : WS      => WS </wordStack> [priority(40)]
+    rule <noGas> true </noGas> <k> #exec [ CSO:CallSixOp   ] => CSO W0 W1 W2 W3 W4 W5    ... </k> <wordStack> W0 : W1 : W2 : W3 : W4 : W5 :      WS => WS </wordStack> [priority(40)]
     rule <noGas> true </noGas> <k> #exec [ CO:CallOp       ] => CO  W0 W1 W2 W3 W4 W5 W6 ... </k> <wordStack> W0 : W1 : W2 : W3 : W4 : W5 : W6 : WS => WS </wordStack> [priority(40)]
 ```
 
