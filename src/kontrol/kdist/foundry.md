@@ -38,19 +38,19 @@ The indenting indicates dependence (e.g., `#memory[_, _]` is only called from `#
 ```k
     syntax KItem ::= "NOT_PERMITTED" String
 
-    rule       <noGas> true </noGas> <k>      #gas               [ _, _ ] => NOT_PERMITTED "#gas [ _, _ ]"       ... </k> [priority(40)]
-      rule     <noGas> true </noGas> <k>      #memory            [ _, _ ] => NOT_PERMITTED "#memory [ _, _ ]"    ... </k> [priority(40)]
-        rule   <noGas> true </noGas> <k> _ ~> #deductMemory               => NOT_PERMITTED "#deductMemory"       ... </k> [priority(40)]
-          rule <noGas> true </noGas> <k> _ ~> #deductMemoryGas            => NOT_PERMITTED "#deductMemoryGas"    ... </k> [priority(40)]
-      rule     <noGas> true </noGas> <k>      #access            [ _, _ ] => NOT_PERMITTED "#access [ _, _ ]"    ... </k> [priority(40)]
-        rule   <noGas> true </noGas> <k>      #gasAccess         ( _, _ ) => NOT_PERMITTED "#gasAccess ( _, _ )" ... </k> [priority(40)]
-      rule     <noGas> true </noGas> <k>      #gas               [    _ ] => NOT_PERMITTED "#gas [ _ ]"          ... </k> [priority(40)]
-        rule   <noGas> true </noGas> <k>      #gasExec           ( _, _ ) => NOT_PERMITTED "#gasExec ( _, _ )"   ... </k> [priority(40)]
-          rule <noGas> true </noGas> <k> _ ~> #allocateCallGas            => NOT_PERMITTED "#allocateCallGas"    ... </k> [priority(40)]
-          rule <noGas> true </noGas> <k>      #allocateCreateGas          => NOT_PERMITTED "#allocateCreateGas"  ... </k> [priority(40)]
+    rule       <noGas> true </noGas> <k>            #gas               [ _, _ ] => NOT_PERMITTED "#gas [ _, _ ]"       ... </k> [priority(40)]
+      rule     <noGas> true </noGas> <k>            #memory            [ _, _ ] => NOT_PERMITTED "#memory [ _, _ ]"    ... </k> [priority(40)]
+        rule   <noGas> true </noGas> <k> ( _:Int ~> #deductMemory             ) => NOT_PERMITTED "#deductMemory"       ... </k> [priority(40)]
+          rule <noGas> true </noGas> <k> ( _:Gas ~> #deductMemoryGas          ) => NOT_PERMITTED "#deductMemoryGas"    ... </k> [priority(40)]
+      rule     <noGas> true </noGas> <k>            #access            [ _, _ ] => NOT_PERMITTED "#access [ _, _ ]"    ... </k> [priority(40)]
+        rule   <noGas> true </noGas> <k>            #gasAccess         ( _, _ ) => NOT_PERMITTED "#gasAccess ( _, _ )" ... </k> [priority(40)]
+      rule     <noGas> true </noGas> <k>            #gas               [    _ ] => NOT_PERMITTED "#gas [ _ ]"          ... </k> [priority(40)]
+        rule   <noGas> true </noGas> <k>            #gasExec           ( _, _ ) => NOT_PERMITTED "#gasExec ( _, _ )"   ... </k> [priority(40)]
+          rule <noGas> true </noGas> <k> ( _:Gas ~> #allocateCallGas          ) => NOT_PERMITTED "#allocateCallGas"    ... </k> [priority(40)]
+          rule <noGas> true </noGas> <k>            #allocateCreateGas          => NOT_PERMITTED "#allocateCreateGas"  ... </k> [priority(40)]
 
-    rule <noGas> true </noGas> <k>      #refund    _ => NOT_PERMITTED "#refund _"  ... </k> [priority(40)]
-    rule <noGas> true </noGas> <k> _ ~> #deductGas   => NOT_PERMITTED "#deductGas" ... </k> [priority(40)]
+    rule <noGas> true </noGas> <k> #refund _               => NOT_PERMITTED "#refund _"  ... </k> [priority(40)]
+    rule <noGas> true </noGas> <k> ( _:Gas ~> #deductGas ) => NOT_PERMITTED "#deductGas" ... </k> [priority(40)]
 ```
 
 Overwrite KEVM rules to skip gas computations when the `<noGas>` cell is set to `true`.
@@ -188,6 +188,30 @@ Adapt other rules that use the `<gas>` cell.
          <account>
            <acctID> ACCTTO </acctID>
            <nonce> NONCE => NONCE +Int 1 </nonce>
+           ...
+         </account>
+      [priority(40)]
+```
+
+Maintain `#accessStorage` logic
+
+```k
+    rule <k> SLOAD INDEX => #accessStorage ACCT INDEX ~> #lookup(STORAGE, INDEX) ~> #push ... </k>
+         <noGas> true </noGas>
+         <id> ACCT </id>
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> STORAGE </storage>
+           ...
+         </account>
+      [priority(40)]
+
+    rule <k> SSTORE INDEX NEW => #accessStorage ACCT INDEX ... </k>
+         <noGas> true </noGas>
+         <id> ACCT </id>
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> STORAGE => STORAGE [ INDEX <- NEW ] </storage>
            ...
          </account>
       [priority(40)]
