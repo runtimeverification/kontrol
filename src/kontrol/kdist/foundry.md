@@ -31,9 +31,31 @@ module FOUNDRY
 
 ### Disable gas computations in KEVM rules
 
+Override functions that must not be called in no-gas mode.
+This will ensure that the execution gets stuck if these are called.
+The indenting indicates dependence (e.g., `#memory[_, _]` is only called from `#gas[_, _]`)
+
+```k
+    syntax KItem ::= "NOT_PERMITTED" String
+
+    rule       <noGas> true </noGas> <k>      #gas               [ _, _ ] => NOT_PERMITTED "#gas [ _, _ ]"       ... </k> [priority(40)]
+      rule     <noGas> true </noGas> <k>      #memory            [ _, _ ] => NOT_PERMITTED "#memory [ _, _ ]"    ... </k> [priority(40)]
+        rule   <noGas> true </noGas> <k> _ ~> #deductMemory               => NOT_PERMITTED "#deductMemory"       ... </k> [priority(40)]
+          rule <noGas> true </noGas> <k> _ ~> #deductMemoryGas            => NOT_PERMITTED "#deductMemoryGas"    ... </k> [priority(40)]
+      rule     <noGas> true </noGas> <k>      #access            [ _, _ ] => NOT_PERMITTED "#access [ _, _ ]"    ... </k> [priority(40)]
+        rule   <noGas> true </noGas> <k>      #gasAccess         ( _, _ ) => NOT_PERMITTED "#gasAccess ( _, _ )" ... </k> [priority(40)]
+      rule     <noGas> true </noGas> <k>      #gas               [    _ ] => NOT_PERMITTED "#gas [ _ ]"          ... </k> [priority(40)]
+        rule   <noGas> true </noGas> <k>      #gasExec           ( _, _ ) => NOT_PERMITTED "#gasExec ( _, _ )"   ... </k> [priority(40)]
+          rule <noGas> true </noGas> <k> _ ~> #allocateCallGas            => NOT_PERMITTED "#allocateCallGas"    ... </k> [priority(40)]
+          rule <noGas> true </noGas> <k>      #allocateCreateGas          => NOT_PERMITTED "#allocateCreateGas"  ... </k> [priority(40)]
+
+    rule <noGas> true </noGas> <k>      #refund    _ => NOT_PERMITTED "#refund _"  ... </k> [priority(40)]
+    rule <noGas> true </noGas> <k> _ ~> #deductGas   => NOT_PERMITTED "#deductGas" ... </k> [priority(40)]
+```
+
 Overwrite KEVM rules to skip gas computations when the `<noGas>` cell is set to `true`.
 
-Remove gas calculations for in OpCode execution.
+Adapt rules to not use `#gas [ _, _ ]` and, by extension, its underlying auxiliary functions.
 
 ```k
     rule <noGas> true </noGas> <k> #exec [ OP              ] => OP              ... </k> requires isNullStackOp(OP) orBool isPushOp(OP) [priority(40)]
@@ -48,8 +70,7 @@ Remove gas calculations for in OpCode execution.
     rule <noGas> true </noGas> <k> #exec [ CO:CallOp       ] => CO  W0 W1 W2 W3 W4 W5 W6 ... </k> <wordStack> W0 : W1 : W2 : W3 : W4 : W5 : W6 : WS => WS </wordStack> [priority(40)]
 ```
 
-Refactor rules that would use the `<callGas>` cell.
-Does not overwrite rules that only set the `<callGas>` cell to 0.
+Adapt rules to not use `#refund _`.
 
 ```k
     rule <k> #checkCall ACCT VALUE
@@ -69,25 +90,76 @@ Does not overwrite rules that only set the `<callGas>` cell to 0.
       requires VALUE >Int BAL orBool CD >=Int 1024 orBool notBool #rangeNonce(NONCE)
       [priority(45)]
 
-    rule <noGas> true </noGas> <k> _:Gas ~> #allocateCallGas => . ... </k> [priority(40)]
-    rule <noGas> true </noGas> <k> #allocateCreateGas => .        ... </k> [priority(40)]
-```
-
-Refactor rules that would normally use the `<gas>` cell.
-
-```k
-    rule <k> #finalizeTx(false) ... </k>
+    rule [return.revert.noGas]:
+         <statusCode> EVMC_REVERT </statusCode>
+         <k> #halt ~> #return RETSTART RETWIDTH
+          => #popCallStack ~> #popWorldState
+          ~> 0 ~> #push ~> #setLocalMem RETSTART RETWIDTH OUT
+         ...
+         </k>
          <noGas> true </noGas>
-         <refund> REFUND => 0 </refund>
-      requires REFUND =/=Int 0
+         <output> OUT </output>
       [priority(40)]
 
+    rule [return.success.noGas]:
+         <statusCode> EVMC_SUCCESS </statusCode>
+         <k> #halt ~> #return RETSTART RETWIDTH
+          => #popCallStack ~> #dropWorldState
+          ~> 1 ~> #push ~> #setLocalMem RETSTART RETWIDTH OUT
+         ...
+         </k>
+         <noGas> true </noGas>
+         <output> OUT </output>
+      [priority(40)]
+
+    rule <statusCode> EVMC_REVERT </statusCode>
+         <noGas> true </noGas>
+         <k> #halt ~> #codeDeposit _ => #popCallStack ~> #popWorldState ~> 0 ~> #push ... </k>
+      [priority(40)]
+
+    rule <k> #finishCodeDeposit ACCT OUT
+          => #popCallStack ~> #dropWorldState ~> ACCT ~> #push
+         ...
+         </k>
+         <noGas> true </noGas>
+         <account>
+           <acctID> ACCT </acctID>
+           <code> _ => OUT </code>
+           ...
+         </account>
+      [priority(40)]
+
+    rule <statusCode> _:ExceptionalStatusCode </statusCode>
+         <k> #halt ~> #finishCodeDeposit ACCT _
+          => #popCallStack ~> #dropWorldState ~> ACCT ~> #push
+         ...
+         </k>
+         <noGas> true </noGas>
+         <schedule> FRONTIER </schedule>
+      [priority(40)]
+```
+
+Adapt rules to not use `#deductGas`.
+
+```k
+    rule <k> #mkCodeDeposit ACCT => #finishCodeDeposit ACCT OUT ... </k>
+         <noGas> true </noGas>
+         <schedule> SCHED </schedule>
+         <output> OUT => .Bytes </output>
+      requires lengthBytes(OUT) <=Int maxCodeSize < SCHED > andBool #isValidCode(OUT, SCHED)
+      [priority(40)]
+```
+
+Adapt other rules that use the `<gas>` cell.
+
+```k
+    // Also used `<gasUsed>`, `<gasPrice>`, `<refund>`, `<balance>`, and `<txGasLimit>`
     rule <k> #finalizeTx(false => true) ... </k>
          <noGas> true </noGas>
-         <refund> 0 </refund>
          <txPending> ListItem(_:Int) REST => REST </txPending>
       [priority(40)]
 
+    // Also used `<callGas>`
     rule <k> #mkCall ACCTFROM ACCTTO ACCTCODE BYTES APPVALUE ARGS STATIC:Bool
           => #touchAccounts ACCTFROM ACCTTO ~> #accessAccounts ACCTFROM ACCTTO ~> #loadProgram BYTES ~> #initVM ~> #precompiled?(ACCTCODE, SCHED) ~> #execute
          ...
@@ -102,30 +174,7 @@ Refactor rules that would normally use the `<gas>` cell.
          <schedule> SCHED </schedule>
       [priority(40)]
 
-    rule [return.revert.noGas]:
-         <noGas> true </noGas>
-         <statusCode> EVMC_REVERT </statusCode>
-         <k> #halt ~> #return RETSTART RETWIDTH
-          => #popCallStack ~> #popWorldState
-          ~> 0 ~> #push ~> #setLocalMem RETSTART RETWIDTH OUT
-         ...
-         </k>
-         <output> OUT </output>
-      [priority(40)]
-
-    rule [return.success]:
-         <noGas> true </noGas>
-         <statusCode> EVMC_SUCCESS </statusCode>
-         <k> #halt ~> #return RETSTART RETWIDTH
-          => #popCallStack ~> #dropWorldState
-          ~> 1 ~> #push ~> #setLocalMem RETSTART RETWIDTH OUT
-         ...
-         </k>
-         <output> OUT </output>
-      [priority(40)]
-
-    rule [refund.noGas]: <k> #refund _ => . ... </k> <noGas> true </noGas> [priority(40)]
-
+    // Also used `<callGas>`
     rule <k> #mkCreate ACCTFROM ACCTTO VALUE INITCODE
           => #touchAccounts ACCTFROM ACCTTO ~> #accessAccounts ACCTFROM ACCTTO ~> #loadProgram INITCODE ~> #initVM ~> #execute
          ...
@@ -142,43 +191,31 @@ Refactor rules that would normally use the `<gas>` cell.
            ...
          </account>
       [priority(40)]
-
-    rule <statusCode> EVMC_REVERT </statusCode>
-         <noGas> true </noGas>
-         <k> #halt ~> #codeDeposit _ => #popCallStack ~> #popWorldState ~> 0 ~> #push ... </k>
-      [priority(40)]
-
-    rule <k> #finishCodeDeposit ACCT OUT
-          => #popCallStack ~> #dropWorldState
-        ~> ACCT ~> #push
-         ...
-         </k>
-         <noGas> true </noGas>
-         <account>
-           <acctID> ACCT </acctID>
-           <code> _ => OUT </code>
-           ...
-         </account>
-      [priority(40)]
-
-    rule <statusCode> _:ExceptionalStatusCode </statusCode>
-         <k> #halt ~> #finishCodeDeposit ACCT _
-          => #popCallStack ~> #dropWorldState
-          ~> ACCT ~> #push
-         ...
-         </k>
-         <noGas> true </noGas>
-         <schedule> FRONTIER </schedule>
-      [priority(40)]
-
-    rule <noGas> true </noGas> <k>  _:Gas ~> #deductGas => . ... </k> [priority(40)]
 ```
 
-Ignore `#gasExec` rules.
-`#gasExec` rules are triggered by the `#gas` in the `#exec`, and so this should be redundant by skipping `#gas`.
+Adapt cheatcode logic.
 
 ```k
-    rule <noGas> true </noGas> <k> #gasExec(_, _) => . ... </k> [priority(40)]
+    rule [foundry.call.infiniteGas.noGas]:
+         <k> #call_foundry SELECTOR _ARGS => NOT_PERMITTED "infiniteGas()" ... </k>
+         <noGas> true </noGas>
+      requires SELECTOR ==Int selector ( "infiniteGas()" )
+      [priority(40)]
+
+    rule [foundry.call.setGas.noGas]:
+         <k> #call_foundry SELECTOR ARGS => NOT_PERMITTED "setGas(uint256)" ... </k>
+         <noGas> true </noGas>
+      requires SELECTOR ==Int selector ( "setGas(uint256)" )
+      [priority(40)]
+
+    rule [foundry.return.noGas]:
+         <k> #return_foundry RETSTART RETWIDTH
+          => #setLocalMem RETSTART RETWIDTH OUT
+          ~> 1 ~> #push
+          ... </k>
+         <output> OUT </output>
+         <noGas> true </noGas>
+      [priority(40)]
 ```
 
 ```k
