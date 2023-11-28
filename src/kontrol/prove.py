@@ -12,7 +12,7 @@ from pyk.kast.inner import KApply, KSequence, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.k import GENERATED_TOP_CELL
-from pyk.prelude.kbool import FALSE, notBool
+from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
@@ -206,6 +206,7 @@ def _run_cfg_group(
                 kcfg_explore=kcfg_explore,
                 bmc_depth=prove_options.bmc_depth,
                 run_constructor=prove_options.run_constructor,
+                no_gas=prove_options.no_gas,
             )
 
             run_prover(
@@ -239,6 +240,7 @@ def method_to_apr_proof(
     kcfg_explore: KCFGExplore,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
+    no_gas: bool = False,
 ) -> APRProof | APRBMCProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -260,6 +262,7 @@ def method_to_apr_proof(
         test=test,
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
+        no_gas=no_gas,
     )
 
     if bmc_depth is not None:
@@ -300,15 +303,13 @@ def _method_to_initialized_cfg(
     kcfg_explore: KCFGExplore,
     *,
     setup_proof: APRProof | None = None,
+    no_gas: bool = False,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
-        empty_config,
-        test.contract,
-        test.method,
-        setup_proof,
+        empty_config, test.contract, test.method, setup_proof, no_gas
     )
 
     for node_id in new_node_ids:
@@ -337,6 +338,7 @@ def _method_to_cfg(
     contract: Contract,
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
+    no_gas: bool = False,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -357,6 +359,7 @@ def _method_to_cfg(
         program=program,
         calldata=calldata,
         callvalue=callvalue,
+        no_gas=no_gas,
     )
     new_node_ids = []
 
@@ -420,6 +423,7 @@ def _init_cterm(
     setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
+    no_gas: bool = False,
 ) -> CTerm:
     account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
@@ -484,6 +488,8 @@ def _init_cterm(
 
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue
+
+    init_subst['NOGAS_CELL'] = TRUE if no_gas else FALSE
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)

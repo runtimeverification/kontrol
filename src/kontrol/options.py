@@ -24,6 +24,7 @@ class ProveOptions:
     run_constructor: bool
     fail_fast: bool
     reinit: bool
+    no_gas: bool
 
     def __init__(
         self,
@@ -41,6 +42,7 @@ class ProveOptions:
         run_constructor: bool = False,
         fail_fast: bool = True,
         reinit: bool = False,
+        no_gas: bool = False,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
@@ -55,6 +57,7 @@ class ProveOptions:
         object.__setattr__(self, 'run_constructor', run_constructor)
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
+        object.__setattr__(self, 'no_gas', no_gas)
 
 
 @dataclass(frozen=True)
