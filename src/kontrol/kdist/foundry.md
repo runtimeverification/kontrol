@@ -1,4 +1,4 @@
-# [Kontrol documentation](https://docs.runtimeverification.com/kontrol).
+#[Kontrol documentation](https://docs.runtimeverification.com/kontrol).
 
 The documentation below may become deprecated. The documentation at the link above will be continuously updated and improved.
 
