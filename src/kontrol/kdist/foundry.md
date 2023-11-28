@@ -203,7 +203,7 @@ Adapt cheatcode logic.
       [priority(40)]
 
     rule [foundry.call.setGas.noGas]:
-         <k> #call_foundry SELECTOR ARGS => NOT_PERMITTED "setGas(uint256)" ... </k>
+         <k> #call_foundry SELECTOR _ARGS => NOT_PERMITTED "setGas(uint256)" ... </k>
          <noGas> true </noGas>
       requires SELECTOR ==Int selector ( "setGas(uint256)" )
       [priority(40)]
