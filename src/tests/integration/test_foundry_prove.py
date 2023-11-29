@@ -50,7 +50,7 @@ def server(foundry: Foundry, use_booster: bool) -> Iterator[KoreServer]:
 
 
 @pytest.fixture(scope='session')
-def foundry_root(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, worker_id: str) -> Foundry:
+def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, worker_id: str) -> Foundry:
     if foundry_root_dir:
         return Foundry(foundry_root_dir)
 
