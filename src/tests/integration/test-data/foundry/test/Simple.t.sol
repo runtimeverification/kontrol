@@ -7,6 +7,10 @@ import "../src/KEVMCheats.sol";
 contract AssertTest is Test, KEVMCheats {
     uint y;
 
+    function call_assert_false() public pure {
+        assert(false);
+    }
+
     function setUp() public {}
 
     function test_failing_branch(uint x) public {
@@ -28,15 +32,6 @@ contract AssertTest is Test, KEVMCheats {
         assert(y <= x);
     }
 
-    function test_branch_merge(uint x) public {
-        if (x < 10) {
-            y = 0;
-        } else {
-            y = 1;
-        }
-        assert(y < 2);
-    }
-
     function test_assert_false() public pure {
         assert(false);
     }
@@ -51,7 +46,7 @@ contract AssertTest is Test, KEVMCheats {
 
     function testFail_expect_revert() public {
         vm.expectRevert();
-        assert(false);
+        this.call_assert_false();
     }
 
     function test_revert_branch(uint x, uint y) public{

@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 from pyk.utils import run_process
 
 from kontrol.kompile import foundry_kompile
+from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
@@ -16,6 +17,7 @@ if TYPE_CHECKING:
     from typing import Final
 
     from pyk.testing import Profiler
+    from pyk.utils import BugReport
 
 
 sys.setrecursionlimit(10**7)
@@ -24,7 +26,7 @@ sys.setrecursionlimit(10**7)
 FORGE_STD_REF: Final = '75f1746'
 
 
-def test_foundy_prove(profile: Profiler, use_booster: bool, tmp_path: Path) -> None:
+def test_foundy_prove(profile: Profiler, use_booster: bool, bug_report: BugReport | None, tmp_path: Path) -> None:
     foundry_root = tmp_path / 'foundry'
 
     _forge_build(foundry_root)
@@ -36,11 +38,15 @@ def test_foundy_prove(profile: Profiler, use_booster: bool, tmp_path: Path) -> N
         foundry_prove(
             foundry_root,
             tests=[('AssertTest.test_revert_branch', None)],
-            simplify_init=False,
-            smt_timeout=300,
-            smt_retry_limit=10,
-            counterexample_info=True,
-            use_booster=use_booster,
+            prove_options=ProveOptions(
+                counterexample_info=True,
+                bug_report=bug_report,
+            ),
+            rpc_options=RPCOptions(
+                smt_timeout=300,
+                smt_retry_limit=10,
+                use_booster=use_booster,
+            ),
         )
 
 

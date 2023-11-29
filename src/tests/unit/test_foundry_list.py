@@ -48,7 +48,6 @@ class FoundryMock:
         return ret
 
     def get_optional_proof(self, test_id: str) -> Proof | None:
-        print(test_id)
         return Proof.read_proof_data(LIST_APR_PROOF, test_id)
 
 
