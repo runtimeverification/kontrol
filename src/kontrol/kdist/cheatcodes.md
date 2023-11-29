@@ -626,7 +626,7 @@ This is needed in order to prevent overwriting the caller for subcalls.
 `#injectPrank` and `#endPrank` are the productions that will update the address values for `msg.sender` and `tx.origin`.
 
 ```k
-    rule [foundry.prank]
+    rule [foundry.prank]:
          <k> #next [ OP:OpCode ] => #injectPrank ~> #next [ OP:OpCode ] ~> #endPrank ... </k>
          <callDepth> CD </callDepth>
          <id> ACCT </id>
