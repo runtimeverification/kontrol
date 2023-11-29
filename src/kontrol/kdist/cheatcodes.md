@@ -450,37 +450,39 @@ All cheat code calls which take place while `expectRevert` is active are ignored
       [priority(35)]
 ```
 
-The `#halt` production is used to examine the end of each call in KEVM.
-If the call depth of the current call is lower than the call depth of the `expectRevert` cheat code and the `<statusCode>` is not `EVMC_SUCCESS`, the `#checkRevertReason` will be used to compare the output of the call with the expect reason provided.
+We use the `#next[OP]` to identify OpCodes that can revert and insert a `#checkRevert` production used to examine the end of each call/create in KEVM.
+The check will be inserted only if the current depth is the same as the depth at which the `expectRevert` cheat code was used.
+WThe `#checkRevert` will be used to compare the status code of the execution and the output of the call against the expect reason provided.
 
 ```k
-    rule [foundry.handleExpectRevert]:
-         <k> (. => #checkRevertReason ~> #clearExpectRevert) ~> #halt ... </k>
-         <statusCode> SC </statusCode>
+    rule <k> #next [ _OP:CallOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
+         <wordStack> _ : _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-      requires CD <=Int ED
-       andBool SC =/=K EVMC_SUCCESS
       [priority(40)]
-```
 
-If the call is successful, a revert is triggered and the `FAILED` location of the `Foundry` contract is set to `true` using `#markAsFailed`.
+    rule <k> #next [ _OP:CallSixOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
+         <callDepth> CD </callDepth>
+         <wordStack> _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <expectedRevert>
+           <isRevertExpected> true </isRevertExpected>
+           <expectedDepth> CD </expectedDepth>
+           ...
+         </expectedRevert>
+      [priority(40)]
 
-```k
-    rule [foundry.handleExpectRevert.error]:
-         <k> (. => #markAsFailed ~> #clearExpectRevert) ~> #halt ... </k>
-         <statusCode> EVMC_SUCCESS => EVMC_REVERT </statusCode>
+    rule <k> #next [ OP:OpCode ] ~> (. => #checkRevert) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
-           <expectedDepth> ED </expectedDepth>
+           <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-      requires CD <=Int ED
+      requires (OP ==K CREATE orBool OP ==K CREATE2)
       [priority(40)]
 ```
 
@@ -1076,7 +1078,7 @@ Utils
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> false => true </isRevertExpected>
-           <expectedDepth> _ => CD +Int 1 </expectedDepth>
+           <expectedDepth> _ => CD </expectedDepth>
            <expectedReason> _ => EXPECTED </expectedReason>
          </expectedRevert>
 ```
@@ -1087,7 +1089,6 @@ Utils
     syntax KItem ::= "#clearExpectRevert" [klabel(foundry_clearExpectRevert)]
  // -------------------------------------------------------------------------
     rule <k> #clearExpectRevert => . ... </k>
-         <output> _ => #buf (512, 0) </output>
          <expectedRevert>
            <isRevertExpected> _ => false </isRevertExpected>
            <expectedDepth> _ => 0 </expectedDepth>
@@ -1095,39 +1096,75 @@ Utils
          </expectedRevert>
 ```
 
+- `#updateRevertOutput` if a call reverted as expected, resets the local memory at position `START` and width `WIDTH` with the modified output from `#checkRevert`.
+Otherwise, the output is already in the local memory, so `#setLocalMem` does not change anything.
+
+```k
+    syntax KItem ::= "#updateRevertOutput" Int Int [klabel("foundry_updateRevertOutput")]
+ // -------------------------------------------------------------------------------------
+    rule <k> #updateRevertOutput START WIDTH => #setLocalMem START WIDTH OUT ... </k> <output> OUT </output>
+```
+
+- `#checkRevert` is used to check if a `CALL`/`CREATE` opcode reverted as expected.
+If the status code is not `EVMC_SUCCESS` and `#matchReason` confirms that the output `OUT` matches the expected reason `REASON`, then we change the status code to `EVMC_SUCCESS` and update the output of the operation to remove the error message.
+Otherwise, if the status code is `EVMC_SUCCESS`, or the output does not match the reason, then it means that the operation did not revert as expected and `expectRevert` fails accordingly.
+`#clearExpectRevert` is used to end the `expectRevert` cheat code.
+
+```k
+    syntax KItem ::= "#checkRevert" [klabel("foundry_checkRevert")]
+ // ---------------------------------------------------------------
+    rule <k> #checkRevert => #clearExpectRevert ... </k>
+         <statusCode> SC => EVMC_SUCCESS </statusCode>
+         <wordStack> 0 : WS => 1 : WS </wordStack>
+         <output> OUT => #buf (512, 0) </output>
+         <callDepth> CD </callDepth>
+         <expectedRevert>
+           <isRevertExpected> true </isRevertExpected>
+           <expectedDepth> CD </expectedDepth>
+           <expectedReason> REASON </expectedReason>
+         </expectedRevert>
+      requires SC =/=K EVMC_SUCCESS
+       andBool #matchReason(REASON, #encodeOutput(OUT))
+
+    rule <k> #checkRevert => #markAsFailed ~> #clearExpectRevert ... </k>
+         <statusCode> SC </statusCode>
+         <output> OUT </output>
+         <callDepth> CD </callDepth>
+         <expectedRevert>
+           <isRevertExpected> true </isRevertExpected>
+           <expectedDepth> CD </expectedDepth>
+           <expectedReason> REASON </expectedReason>
+         </expectedRevert>
+      requires SC =/=K EVMC_SUCCESS
+       andBool notBool #matchReason(REASON, #encodeOutput(OUT))
+
+    rule <k> #checkRevert => #markAsFailed ~> #clearExpectRevert ... </k>
+         <statusCode> EVMC_SUCCESS => EVMC_REVERT </statusCode>
+         <wordStack> 1 : WS => 0 : WS </wordStack>
+         <callDepth> CD </callDepth>
+         <expectedRevert>
+           <isRevertExpected> true </isRevertExpected>
+           <expectedDepth> CD </expectedDepth>
+           ...
+         </expectedRevert>
+
+    rule <k> #checkRevert => . ... </k>
+         <expectedRevert>
+           <isRevertExpected> false </isRevertExpected>
+           ...
+         </expectedRevert>
+```
+
 - `#encodeOutput` - will encode the output `Bytes` to match the encoding of the `Bytes` in `<expectedReason>` cell.
-    - If the `revert` instruction  and the `expectRevert` cheat code are used with with a custom error, then `expectRevert` will store the message with the encoding `abi.encode(abi.encodeWithSelector(CustomError.selector, 1, 2))`, while the output cell will contain only the `abi.encodeWithSelector(CustomError.selector, 1, 2)`.
-    - If the `revert` instruction  and the `expectRevert` cheat code are used with with a string, then `expectRevert` will store the only the encoded string, while the `<output>` cell will store the encoded built-in error `Error(string)`.
-    Since the encoding `abi.encode(abi.encodeWithSelector(CustomError.selector, 1, 2))` cannot be easily decoded when symbolic variables are used, the `<output>` Bytes is encoded again when the default `Error(string)` is not used.
+    - If the `revert` instruction and the `expectRevert` cheat code are used with a custom error, then `expectRevert` will store the message with the encoding `abi.encode(abi.encodeWithSelector(CustomError.selector, 1, 2))`, while the output cell will contain only the `abi.encodeWithSelector(CustomError.selector, 1, 2)`.
+    - If the `revert` instruction and the `expectRevert` cheat code are used with a string, then `expectRevert` will store the only the encoded string, while the `<output>` cell will store the encoded built-in error `Error(string)`.
+    Since the encoding `abi.encode(abi.encodeWithSelector(Error.selector, 1, 2))` cannot be easily decoded when symbolic variables are used, the `<output>` Bytes object is encoded again when the default `Error(string)` is not used.
 
 ```k
     syntax Bytes ::= "#encodeOutput" "(" Bytes ")" [function, total, klabel(foundry_encodeOutput)]
  // ----------------------------------------------------------------------------------------------
     rule #encodeOutput(BA) => #abiCallData("expectRevert", #bytes(BA)) requires notBool #range(BA, 0, 4) ==K Int2Bytes(4, selector("Error(string)"), BE)
     rule #encodeOutput(BA) => BA [owise]
-```
-
-- `#checkRevertReason` will compare the contents of the `<output>` cell with the `Bytes` from `<expectReason>`.
-
-```k
-    syntax KItem ::= "#checkRevertReason" [klabel(foundry_checkRevertReason)]
- // -------------------------------------------------------------------------
-    rule <k> #checkRevertReason => . ... </k>
-         <statusCode> _ => EVMC_SUCCESS </statusCode>
-         <output> OUT </output>
-         <expectedRevert>
-           <expectedReason> REASON </expectedReason>
-           ...
-         </expectedRevert>
-      requires #matchReason(REASON, #encodeOutput(OUT))
-
-    rule <k> #checkRevertReason => #markAsFailed ... </k>
-         <output> OUT </output>
-         <expectedRevert>
-           <expectedReason> REASON </expectedReason>
-           ...
-         </expectedRevert>
-      requires notBool #matchReason(REASON, #encodeOutput(OUT))
 ```
 
 - `#matchReason(REASON,OUT)` will check if the returned message matches the expected reason of the revert.
