@@ -250,7 +250,7 @@ def exec_prove(
     )
 
     results = foundry_prove(
-        foundry=(_load_foundry(foundry_root, bug_report)),
+        foundry=_load_foundry(foundry_root, bug_report),
         prove_options=prove_options,
         rpc_options=rpc_options,
         tests=tests,

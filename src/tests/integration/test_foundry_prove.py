@@ -84,12 +84,12 @@ def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, use_boo
         return
     # Then
     assert_or_update_k_output(
-        foundry._root / 'out/kompiled/foundry.k',
+        foundry.main_file,
         TEST_DATA_DIR / 'foundry.k.expected',
         update=update_expected_output,
     )
     assert_or_update_k_output(
-        foundry._root / 'out/kompiled/contracts.k',
+        foundry.contracts_file,
         TEST_DATA_DIR / 'contracts.k.expected',
         update=update_expected_output,
     )

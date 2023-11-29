@@ -91,6 +91,10 @@ class Foundry:
     def main_file(self) -> Path:
         return self.kompiled / 'foundry.k'
 
+    @property
+    def contracts_file(self) -> Path:
+        return self.kompiled / 'contracts.k'
+
     @cached_property
     def kevm(self) -> KEVM:
         use_directory = self.out / 'tmp'
