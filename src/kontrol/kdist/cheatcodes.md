@@ -620,82 +620,24 @@ Pranks
 
 #### Injecting addresses in a call
 
-To inject the pranked `msg.sender` and `tx.origin` we add two new rules for each of the `#call` and `#create` productions, defined in [evm.md](./evm.md).
-These rules have a higher priority.
-The only difference between these rules is that one will also set the `tx.origin`, if required.
-First, will match only if the `<active>` cell has the `true` value, signaling that a prank is active, and if the current depth of the call is at the same level with the depth at which the prank was invoked.
+To inject the pranked `msg.sender` and `tx.origin` we use the `#next[OP:Opcode]` to identify when the next opcode `OP` is either `CALL`, `CALLCODE`, `STATICCALL`, `CREATE` or `CREATE2`.
+The `foundry.prank` rule will match only if the `<active>` cell has the `true` value, signaling that a prank is active, and if the current depth of the call is at the same level with the depth at which the prank was invoked.
 This is needed in order to prevent overwriting the caller for subcalls.
-Finally, the original sender of the transaction, `ACCTFROM` is changed to the new caller, `NCL`.
+`#injectPrank` and `#endPrank` are the productions that will update the address values for `msg.sender` and `tx.origin`.
 
 ```k
-    rule [foundry.CALL.withPrank]:
-      <k> CALL GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH
-       => #injectPrank ~> CALL GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH ~> #endPrank ... </k>
-       <id> ACCT </id>
-       <callDepth> CD </callDepth>
-       <prank>
-         <active> true </active>
-         <newCaller> NCL </newCaller>
-         <depth> CD </depth>
-         ...
-       </prank>
+    rule [foundry.prank]
+         <k> #next [ OP:OpCode ] => #injectPrank ~> #next [ OP:OpCode ] ~> #endPrank ... </k>
+         <callDepth> CD </callDepth>
+         <id> ACCT </id>
+         <prank>
+           <active> true </active>
+           <newCaller> NCL </newCaller>
+           <depth> CD </depth>
+           ...
+         </prank>
       requires ACCT =/=Int NCL
-      [priority(40)]
-
-    rule [foundry.CALLCODE.withPrank]:
-      <k> CALLCODE GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH
-       => #injectPrank ~> CALLCODE GCAP ACCTTO VALUE ARGSTART ARGWIDTH RETSTART RETWIDTH ~> #endPrank ... </k>
-       <id> ACCT </id>
-       <callDepth> CD </callDepth>
-       <prank>
-         <active> true </active>
-         <newCaller> NCL </newCaller>
-         <depth> CD </depth>
-         ...
-       </prank>
-      requires ACCT =/=Int NCL
-      [priority(40)]
-
-    rule [foundry.STATICCALL.withPrank]:
-      <k> STATICCALL GCAP ACCTTO ARGSTART ARGWIDTH RETSTART RETWIDTH
-       => #injectPrank ~> STATICCALL GCAP ACCTTO ARGSTART ARGWIDTH RETSTART RETWIDTH ~> #endPrank ... </k>
-       <id> ACCT </id>
-       <callDepth> CD </callDepth>
-       <prank>
-         <active> true </active>
-         <newCaller> NCL </newCaller>
-         <depth> CD </depth>
-         ...
-       </prank>
-      requires ACCT =/=Int NCL
-      [priority(40)]
-
-    rule [foundry.CREATE.withPrank]:
-      <k> CREATE VALUE MEMSTART MEMWIDTH
-       => #injectPrank ~> CREATE VALUE MEMSTART MEMWIDTH ~> #endPrank ... </k>
-       <id> ACCT </id>
-       <callDepth> CD </callDepth>
-       <prank>
-         <active> true </active>
-         <newCaller> NCL </newCaller>
-         <depth> CD </depth>
-         ...
-       </prank>
-      requires ACCT =/=Int NCL
-      [priority(40)]
-
-    rule [foundry.CREATE2.withPrank]:
-      <k> CREATE2 VALUE MEMSTART MEMWIDTH SALT
-       => #injectPrank ~> CREATE2 VALUE MEMSTART MEMWIDTH SALT ~> #endPrank ... </k>
-       <id> ACCT </id>
-       <callDepth> CD </callDepth>
-       <prank>
-         <active> true </active>
-         <newCaller> NCL </newCaller>
-         <depth> CD </depth>
-         ...
-       </prank>
-      requires ACCT =/=Int NCL
+       andBool (OP ==K CALL orBool OP ==K CALLCODE orBool OP ==K STATICCALL orBool OP ==K CREATE orBool OP ==K CREATE2)
       [priority(40)]
 ```
 
