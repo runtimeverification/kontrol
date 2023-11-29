@@ -712,9 +712,7 @@
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
                ))))))))))
-       ensures ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))
+       ensures VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
       [label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -918,17 +916,16 @@
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
       [label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
@@ -1131,17 +1128,16 @@
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
       [label(BASIC-BLOCK-6-TO-7)]
     
     rule [BASIC-BLOCK-7-TO-8]: <foundry>
@@ -1346,17 +1342,16 @@
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
       [label(BASIC-BLOCK-7-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1562,17 +1557,16 @@
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
       [label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
@@ -1778,17 +1772,16 @@
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
       [label(BASIC-BLOCK-9-TO-10)]
     
     rule [BASIC-BLOCK-10-TO-11]: <foundry>
@@ -1994,17 +1987,16 @@
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
       [label(BASIC-BLOCK-10-TO-11)]
 
 endmodule
