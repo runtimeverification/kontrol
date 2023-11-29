@@ -54,4 +54,4 @@ def _forge_build(target_dir: Path) -> Foundry:
     copy_tree(str(TEST_DATA_DIR / 'foundry'), str(target_dir))
     run_process(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=target_dir)
     run_process(['forge', 'build'], cwd=target_dir)
-    return Foundry(foundry_root=TEST_DATA_DIR / 'foundry')
+    return Foundry(foundry_root=target_dir)
