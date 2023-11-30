@@ -811,7 +811,6 @@ def _range_collection_predicates(abi: KApply) -> list[KInner | None]:
     rp: list[KInner | None] = []
     if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
         if type(abi.args[0]) is KApply:
-            print(f'calling for {abi.args[0]}')
             rp += _range_predicates(abi.args[0])
         if type(abi.args[1]) is KApply:
             rp += _range_collection_predicates(abi.args[1])

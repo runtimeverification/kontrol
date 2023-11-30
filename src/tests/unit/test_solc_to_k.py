@@ -26,8 +26,21 @@ PREDICATE_DATA: list[tuple[str, KApply, list[KApply]]] = [
         KApply(
             'abi_type_tuple',
             [
-                KApply('abi_type_uint256', [KVariable('V0_x')]),
-                KApply('abi_type_uint256', [KVariable('V1_y')]),
+                KApply(
+                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    [
+                        KApply('abi_type_uint256', [KVariable('V0_x')]),
+                        KApply(
+                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            [
+                                KApply('abi_type_uint256', [KVariable('V1_y')]),
+                                KApply(
+                                    '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                ),
+                            ],
+                        ),
+                    ],
+                )
             ],
         ),
         [KEVM.range_uint(256, KVariable('V0_x')), KEVM.range_uint(256, KVariable('V1_y'))],
@@ -37,8 +50,34 @@ PREDICATE_DATA: list[tuple[str, KApply, list[KApply]]] = [
         KApply(
             'abi_type_tuple',
             [
-                KApply('abi_type_uint256', [KVariable('V0_x')]),
-                KApply('abi_type_tuple', [KApply('abi_type_uint256', [KVariable('V1_y')])]),
+                KApply(
+                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    [
+                        KApply('abi_type_uint256', [KVariable('V0_x')]),
+                        KApply(
+                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            [
+                                KApply(
+                                    'abi_type_tuple',
+                                    [
+                                        KApply(
+                                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                                            [
+                                                KApply('abi_type_uint256', [KVariable('V1_y')]),
+                                                KApply(
+                                                    '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                                ),
+                                            ],
+                                        ),
+                                    ],
+                                ),
+                                KApply(
+                                    '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                ),
+                            ],
+                        ),
+                    ],
+                )
             ],
         ),
         [KEVM.range_uint(256, KVariable('V0_x')), KEVM.range_uint(256, KVariable('V1_y'))],
@@ -87,13 +126,33 @@ def test_escaping(test_id: str, prefix: str, input: str, output: str) -> None:
 
 INPUT_DATA: list[tuple[str, Input, KApply]] = [
     ('single_type', Input('RV', 'uint256'), KApply('abi_type_uint256', [KVariable('V0_RV')])),
-    ('empty_tuple', Input('EmptyStruct', 'tuple'), KApply('abi_type_tuple')),
+    (
+        'empty_tuple',
+        Input('EmptyStruct', 'tuple'),
+        KApply('abi_type_tuple', [KApply('.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs')]),
+    ),
     (
         'single_tuple',
         Input('SomeStruct', 'tuple', [Input('RV1', 'uint256'), Input('RV2', 'uint256', idx=1)]),
         KApply(
             'abi_type_tuple',
-            [KApply('abi_type_uint256', [KVariable('V0_RV1')]), KApply('abi_type_uint256', [KVariable('V1_RV2')])],
+            [
+                KApply(
+                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    [
+                        KApply('abi_type_uint256', [KVariable('V0_RV1')]),
+                        KApply(
+                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            [
+                                KApply('abi_type_uint256', [KVariable('V1_RV2')]),
+                                KApply(
+                                    '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                ),
+                            ],
+                        ),
+                    ],
+                )
+            ],
         ),
     ),
     (
@@ -106,8 +165,34 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
         KApply(
             'abi_type_tuple',
             [
-                KApply('abi_type_uint256', [KVariable('V0_RV')]),
-                KApply('abi_type_tuple', [KApply('abi_type_uint256', [KVariable('V1_RV')])]),
+                KApply(
+                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    [
+                        KApply('abi_type_uint256', [KVariable('V0_RV')]),
+                        KApply(
+                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            [
+                                KApply(
+                                    'abi_type_tuple',
+                                    [
+                                        KApply(
+                                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                                            [
+                                                KApply('abi_type_uint256', [KVariable('V1_RV')]),
+                                                KApply(
+                                                    '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                                ),
+                                            ],
+                                        ),
+                                    ],
+                                ),
+                                KApply(
+                                    '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                ),
+                            ],
+                        ),
+                    ],
+                )
             ],
         ),
     ),
