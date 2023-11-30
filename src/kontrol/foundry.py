@@ -379,9 +379,15 @@ class Foundry:
 
     def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method | Contract.Constructor]:
         contract_name, method_name = test.split('.')
-        contracts = [(contract_name_with_path, contract) for (contract_name_with_path, contract) in self.contracts.items() if contract_name_with_path.split('/')[-1] == contract_name]
+        contracts = [
+            (contract_name_with_path, contract)
+            for (contract_name_with_path, contract) in self.contracts.items()
+            if contract_name_with_path.split('/')[-1] == contract_name
+        ]
         if len(contracts) > 1:
-            raise ValueError('Tried to look up duplicate contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}')
+            raise ValueError(
+                'Tried to look up duplicate contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
+            )
         contract = single(contracts)[1]
 
         if method_name == 'init':

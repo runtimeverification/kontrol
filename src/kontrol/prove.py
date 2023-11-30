@@ -384,7 +384,9 @@ def _method_to_cfg(
 
             new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
                 set_cell(
-                    test_contract_account.config, 'CODE_CELL', KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
+                    test_contract_account.config,
+                    'CODE_CELL',
+                    KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}')),
                 ),
                 [],
             )
