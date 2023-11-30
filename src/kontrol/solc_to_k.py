@@ -795,20 +795,30 @@ def _evm_base_sort_int(type_label: str) -> bool:
 
     return success
 
+
 def _range_predicates(abi: KApply) -> list[KInner | None]:
     rp: list[KInner | None] = []
     if abi.label.name == 'abi_type_tuple':
-        for arg in abi.args:
-            if type(arg) is KApply:
-                rp += _range_predicates(arg)
+        if type(abi.args[0]) is KApply:
+            rp += _range_collection_predicates(abi.args[0])
     else:
-        if abi.label.name == 'abi_type_tuple':
-            for arg in abi.args:
-                if type(arg) is KApply:
-                    rp += _range_predicates(arg)
-        else:
-            type_label = abi.label.name.removeprefix('abi_type_')
-            rp.append(_range_predicate(single(abi.args), type_label))
+        type_label = abi.label.name.removeprefix('abi_type_')
+        rp.append(_range_predicate(single(abi.args), type_label))
+    return rp
+
+
+def _range_collection_predicates(abi: KApply) -> list[KInner | None]:
+    rp: list[KInner | None] = []
+    if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
+        if type(abi.args[0]) is KApply:
+            print(f'calling for {abi.args[0]}')
+            rp += _range_predicates(abi.args[0])
+        if type(abi.args[1]) is KApply:
+            rp += _range_collection_predicates(abi.args[1])
+    elif abi.label.name == '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs':
+        return rp
+    else:
+        raise AssertionError('No list of typed args found')
     return rp
 
 
