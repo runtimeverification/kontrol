@@ -80,7 +80,7 @@ class KontrolCLIArgs(KEVMCLIArgs):
             dest='kore_rpc_command',
             type=str,
             default=None,
-            help='Custom command to start RPC server',
+            help='Custom command to start RPC server.',
         )
         args.add_argument(
             '--use-booster',
@@ -88,5 +88,19 @@ class KontrolCLIArgs(KEVMCLIArgs):
             default=False,
             action='store_true',
             help='Use the booster RPC server instead of kore-rpc.',
+        )
+        args.add_argument(
+            '--port',
+            dest='port',
+            type=int,
+            default=None,
+            help='Use existing RPC server on named port.',
+        )
+        args.add_argument(
+            '--maude-port',
+            dest='maude_port',
+            type=int,
+            default=None,
+            help='Use existing Maude RPC server on named port.',
         )
         return args
