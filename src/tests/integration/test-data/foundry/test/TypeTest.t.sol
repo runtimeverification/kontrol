@@ -570,6 +570,7 @@ contract StructTypeTest {
     struct Vars {
         uint8 a;
         uint32 timestamp;
+        bytes32 b;
     }
 
     function test_vars(Vars calldata vars) public pure {
