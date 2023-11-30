@@ -310,7 +310,7 @@ class Contract:
         def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
             prod_klabel = self.unique_klabel
             arg_vars = [KVariable(name) for name in self.arg_names]
-            args: list[KApply] = []
+            args: list[KInner] = []
             conjuncts: list[KInner] = []
             for input in self.inputs:
                 abi_type = input.to_abi()
@@ -638,7 +638,7 @@ class Contract:
         """
         do a recursive build of inner types
         """
-        abi_types = []
+        abi_types: list[KInner] = []
         for comp in components:
             # nested tuple, go deeper
             if comp.type == 'tuple':
