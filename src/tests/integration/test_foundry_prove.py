@@ -51,7 +51,10 @@ def server(foundry_root: Path, use_booster: bool) -> Iterator[KoreServer]:
 
 
 @pytest.fixture(scope='session')
-def foundry_root(tmp_path_factory: TempPathFactory, worker_id: str) -> Path:
+def foundry_root(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, worker_id: str) -> Path:
+    if foundry_root_dir:
+        return foundry_root_dir
+
     if worker_id == 'master':
         root_tmp_dir = tmp_path_factory.getbasetemp()
     else:
