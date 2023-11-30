@@ -363,6 +363,11 @@ class Contract:
             self.fields = FrozenDict(_fields)
 
     @cached_property
+    def name_with_path(self) -> str:
+        contract_path_without_filename = '/'.join(self.contract_path.split('/')[0:-1])
+        return contract_path_without_filename + '/' + self.name
+
+    @cached_property
     def digest(self) -> str:
         return hash_str(f'{self.name} - {json.dumps(self.contract_json, sort_keys=True)}')
 
@@ -420,13 +425,9 @@ class Contract:
     def test_to_claim_name(t: str) -> str:
         return t.replace('_', '-')
 
-    @property
-    def name_upper(self) -> str:
-        return self.name[0:1].upper() + self.name[1:]
-
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$', '.']
+        return [Contract.PREFIX_CODE, '_', '$', '.', '/', '-']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -439,6 +440,10 @@ class Contract:
                 as_ecaped = 'Dlr'
             case '.':
                 as_ecaped = 'Dot'
+            case '/':
+                as_ecaped = 'Div'
+            case '-':
+                as_ecaped = 'Sub'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -491,27 +496,27 @@ class Contract:
 
     @property
     def sort(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name, "S2K")}Contract')
+        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Contract')
 
     @property
     def sort_field(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name, "S2K")}Field')
+        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Field')
 
     @property
     def sort_method(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name, "S2K")}Method')
+        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Method')
 
     @property
     def klabel(self) -> KLabel:
-        return KLabel(f'contract_{self.name}')
+        return KLabel(f'contract_{self.name_with_path}')
 
     @property
     def klabel_method(self) -> KLabel:
-        return KLabel(f'method_{self.name}')
+        return KLabel(f'method_{self.name_with_path}')
 
     @property
     def klabel_field(self) -> KLabel:
-        return KLabel(f'field_{self.name}')
+        return KLabel(f'field_{self.name_with_path}')
 
     @property
     def subsort(self) -> KProduction:
@@ -524,14 +529,14 @@ class Contract:
     @property
     def production(self) -> KProduction:
         return KProduction(
-            self.sort, [KTerminal(Contract.escaped(self.name, 'S2K'))], klabel=self.klabel, att=KAtt({'symbol': ''})
+            self.sort, [KTerminal(Contract.escaped(self.name_with_path, 'S2K'))], klabel=self.klabel, att=KAtt({'symbol': ''})
         )
 
     @property
     def macro_bin_runtime(self) -> KRule:
         if self.has_unlinked():
             raise ValueError(
-                f'Some library placeholders have been found in contract {self.name}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
+                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
             )
         return KRule(
             KRewrite(
@@ -543,7 +548,7 @@ class Contract:
     def macro_init_bytecode(self) -> KRule:
         if self.has_unlinked():
             raise ValueError(
-                f'Some library placeholders have been found in contract {self.name}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
+                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
             )
         return KRule(
             KRewrite(KEVM.init_bytecode(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.bytecode)))
@@ -562,7 +567,7 @@ class Contract:
         )
         res: list[KSentence] = [method_application_production]
         res.extend(method.production for method in self.methods)
-        method_rules = (method.rule(KApply(self.klabel), self.klabel_method, self.name) for method in self.methods)
+        method_rules = (method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path) for method in self.methods)
         res.extend(rule for rule in method_rules if rule)
         res.extend(method.selector_alias_rule for method in self.methods)
         return res if len(res) > 1 else []
@@ -653,13 +658,13 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
 
 
 def contract_to_main_module(contract: Contract, empty_config: KInner, imports: Iterable[str] = ()) -> KFlatModule:
-    module_name = Contract.contract_to_module_name(contract.name)
+    module_name = Contract.contract_to_module_name(contract.name_with_path)
     return KFlatModule(module_name, contract.sentences, [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, empty_config: KInner, imports: Iterable[str]) -> KFlatModule:
-    main_module_name = Contract.contract_to_module_name(contract.name)
-    verification_module_name = Contract.contract_to_verification_module_name(contract.name)
+    main_module_name = Contract.contract_to_module_name(contract.name_with_path)
+    verification_module_name = Contract.contract_to_verification_module_name(contract.name_with_path)
     return KFlatModule(verification_module_name, [], [KImport(main_module_name)] + [KImport(i) for i in list(imports)])
 
 

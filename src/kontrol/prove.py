@@ -342,18 +342,18 @@ def _method_to_cfg(
     callvalue = None
 
     if isinstance(method, Contract.Constructor):
-        program = KEVM.init_bytecode(KApply(f'contract_{contract.name}'))
+        program = KEVM.init_bytecode(KApply(f'contract_{contract.name_with_path}'))
         use_init_code = True
 
     elif isinstance(method, Contract.Method):
         calldata = method.calldata_cell(contract)
         callvalue = method.callvalue_cell
-        program = KEVM.bin_runtime(KApply(f'contract_{contract.name}'))
+        program = KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
         use_init_code = False
 
     init_cterm = _init_cterm(
         empty_config,
-        contract.name,
+        contract.name_with_path,
         program=program,
         calldata=calldata,
         callvalue=callvalue,
@@ -384,7 +384,7 @@ def _method_to_cfg(
 
             new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
                 set_cell(
-                    test_contract_account.config, 'CODE_CELL', KEVM.bin_runtime(KApply(f'contract_{contract.name}'))
+                    test_contract_account.config, 'CODE_CELL', KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
                 ),
                 [],
             )
@@ -405,7 +405,7 @@ def _method_to_cfg(
     is_test = method.signature.startswith('test')
     failing = method.signature.startswith('testFail')
     final_cterm = _final_cterm(
-        empty_config, contract.name, failing=failing, is_test=is_test, use_init_code=use_init_code
+        empty_config, contract.name_with_path, failing=failing, is_test=is_test, use_init_code=use_init_code
     )
     target_node = cfg.create_node(final_cterm)
 

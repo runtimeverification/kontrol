@@ -104,7 +104,7 @@ class Foundry:
 
     @cached_property
     def contracts(self) -> dict[str, Contract]:
-        pattern = '*.sol/*.json'
+        pattern = '**/*.sol/*.json'
         paths = self.out.glob(pattern)
         json_paths = [str(path) for path in paths]
         json_paths = [json_path for json_path in json_paths if not json_path.endswith('.metadata.json')]
@@ -116,12 +116,10 @@ class Foundry:
             contract_name = json_path.split('/')[-1]
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
-            if _contracts.get(contract_name) is not None:
-                raise RuntimeError(
-                    f'Project contains duplicated contract names that may clash in K definitions: {contract_name}'
-                )
+            contract = Contract(contract_name, contract_json, foundry=True)
 
-            _contracts[contract_name] = Contract(contract_name, contract_json, foundry=True)
+            _contracts[contract.name_with_path] = contract
+
         return _contracts
 
     def mk_proofs_dir(self) -> None:
@@ -381,7 +379,10 @@ class Foundry:
 
     def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method | Contract.Constructor]:
         contract_name, method_name = test.split('.')
-        contract = self.contracts[contract_name]
+        contracts = [(contract_name_with_path, contract) for (contract_name_with_path, contract) in self.contracts.items() if contract_name_with_path.split('/')[-1] == contract_name]
+        if len(contracts) > 1:
+            raise ValueError('Tried to look up duplicate contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}')
+        contract = single(contracts)[1]
 
         if method_name == 'init':
             constructor = self.contracts[contract_name].constructor

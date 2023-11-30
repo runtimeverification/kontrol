@@ -165,7 +165,7 @@ def _foundry_to_contract_def(
     modules = [contract_to_main_module(contract, empty_config, imports=['FOUNDRY']) for contract in contracts]
     # First module is chosen as main module arbitrarily, since the contract definition is just a set of
     # contract modules.
-    main_module = Contract.contract_to_module_name(list(contracts)[0].name_upper)
+    main_module = Contract.contract_to_module_name(list(contracts)[0].name_with_path)
 
     return KDefinition(
         main_module,
