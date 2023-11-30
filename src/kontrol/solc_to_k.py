@@ -8,7 +8,7 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
-from kevm_pyk import kdist
+from kevm_pyk.config import kdist
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.kast import KAtt

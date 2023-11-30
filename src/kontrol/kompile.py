@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from kevm_pyk import kdist
+from kevm_pyk.config import kdist
 from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import KompileTarget, kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
@@ -36,7 +36,7 @@ def foundry_kompile(
     llvm_kompile: bool = True,
     debug: bool = False,
     verbose: bool = False,
-    target: KompileTarget = KompileTarget.HASKELL_BOOSTER,
+    target: KompileTarget = KompileTarget.HASKELL,
     no_forge_build: bool = False,
 ) -> None:
     syntax_module = 'FOUNDRY-CONTRACTS'

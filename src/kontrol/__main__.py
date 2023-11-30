@@ -153,7 +153,7 @@ def exec_build(
     _ignore_arg(kwargs, 'o2', '-O2')
     _ignore_arg(kwargs, 'o3', '-O3')
     if target is None:
-        target = KompileTarget.HASKELL_BOOSTER
+        target = KompileTarget.HASKELL
     foundry_kompile(
         foundry_root=foundry_root,
         includes=includes,
