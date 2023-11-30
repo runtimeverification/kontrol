@@ -493,10 +493,9 @@ def _init_cterm(
 
     if no_gas:
         init_subst['NOGAS_CELL']   = TRUE
-        init_subst['GAS_CELL']     = KEVM.inf_gas(intToken(0))
-        init_subst['CALLGAS_CELL'] = KEVM.inf_gas(intToken(0))
+        init_subst['GAS_CELL']     = intToken(0)
+        init_subst['CALLGAS_CELL'] = intToken(0)
         init_subst['REFUND_CELL']  = intToken(0)
-
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
