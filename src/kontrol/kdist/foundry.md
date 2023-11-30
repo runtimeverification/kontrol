@@ -242,6 +242,145 @@ Adapt cheatcode logic.
       [priority(40)]
 ```
 
+Adapt optimiztions.
+
+```k
+    rule [opt.pushzero.noGas]:
+      <k> ( #next[ PUSHZERO ] => . ) ... </k>
+      <callState>
+        <wordStack>
+          ( WS => 0 : WS )
+        </wordStack>
+        <pc>
+          ( PCOUNT => ( PCOUNT +Int 1 ) )
+        </pc>
+        ...
+      </callState>
+      <noGas> true </noGas>
+      requires ( #sizeWordStack( WS ) <=Int 1023 )
+      [priority(30)]
+
+    rule [opt.pushN.noGas]:
+      <k> ( #next[ PUSH(N) ] => . ) ... </k>
+      <callState>
+        <program>
+          PGM
+        </program>
+        <wordStack>
+          ( WS => #asWord( #range(PGM, PCOUNT +Int 1, N) ) : WS )
+        </wordStack>
+        <pc>
+          ( PCOUNT => ( ( PCOUNT +Int N ) +Int 1 ) )
+        </pc>
+        ...
+      </callState>
+      <noGas> true </noGas>
+      requires ( #sizeWordStack( WS ) <=Int 1023 )
+      [priority(30)]
+
+    rule [opt.dupN.noGas]:
+      <k> ( #next[ DUP(N) ] => . ) ... </k>
+      <callState>
+        <wordStack>
+          ( WS => WS [ ( N +Int -1 ) ] : WS )
+        </wordStack>
+        <pc>
+          ( PCOUNT => ( PCOUNT +Int 1 ) )
+        </pc>
+        ...
+      </callState>
+      <noGas> true </noGas>
+      requires #stackNeeded(DUP(N)) <=Int #sizeWordStack(WS)
+       andBool ( #sizeWordStack( WS ) <=Int 1023 )
+      [priority(30)]
+
+    rule [opt.swapN:noGas]:
+      <k> ( #next[ SWAP(N) ] => . ) ... </k>
+      <callState>
+        <wordStack>
+          ( W0 : WS => WS [ ( N +Int -1 ) ] : ( WS [ ( N +Int -1 ) := W0 ] ) )
+        </wordStack>
+        <pc>
+          ( PCOUNT => ( PCOUNT +Int 1 ) )
+        </pc>
+        ...
+      </callState>
+      <noGas> true </noGas>
+      requires #stackNeeded(SWAP(N)) <=Int #sizeWordStack(W0 : WS)
+       andBool ( #sizeWordStack( WS ) <=Int 1023 )
+      [priority(30)]
+
+    rule [opt.add.noGas]:
+      <k> ( #next[ ADD ] => . ) ... </k>
+      <callState>
+        <wordStack>
+          ( W0 : W1 : WS => chop( ( W0 +Int W1 ) ) : WS )
+        </wordStack>
+        <pc>
+          ( PCOUNT => ( PCOUNT +Int 1 ) )
+        </pc>
+        ...
+      </callState>
+      <noGas> true </noGas>
+      [priority(30)]
+
+    rule [opt.sub.noGas]:
+      <k> ( #next[ SUB ] => . ) ... </k>
+      <callState>
+        <wordStack>
+          ( W0 : W1 : WS => chop( ( W0 -Int W1 ) ) : WS )
+        </wordStack>
+        <pc>
+          ( PCOUNT => ( PCOUNT +Int 1 ) )
+        </pc>
+        ...
+      </callState>
+      <noGas> true </noGas>
+      [priority(30)]
+
+    rule [opt.and.noGas]:
+      <k> ( #next[ AND ] => . ) ... </k>
+      <callState>
+        <wordStack>
+          ( W0 : W1 : WS => W0 &Int W1 : WS )
+        </wordStack>
+        <pc>
+          ( PCOUNT => ( PCOUNT +Int 1 ) )
+        </pc>
+        ...
+      </callState>
+      <noGas> true </noGas>
+      [priority(30)]
+
+    rule [opt.lt.noGas]:
+      <k> ( #next[ LT ] => . ) ... </k>
+      <callState>
+        <wordStack>
+          ( W0 : W1 : WS => bool2Word( W0 <Int W1 ) : WS )
+        </wordStack>
+        <pc>
+          ( PCOUNT => ( PCOUNT +Int 1 ) )
+        </pc>
+        ...
+      </callState>
+      <noGas> true </noGas>
+      [priority(30)]
+
+    rule [opt.gt.noGas]:
+      <k> ( #next[ GT ] => . ) ... </k>
+      <callState>
+        <wordStack>
+          ( W0 : W1 : WS => bool2Word( W1 <Int W0 ) : WS )
+        </wordStack>
+        <pc>
+          ( PCOUNT => ( PCOUNT +Int 1 ) )
+        </pc>
+        ...
+      </callState>
+      <noGas> true </noGas>
+      [priority(30)]
+```
+
 ```k
 endmodule
 ```
