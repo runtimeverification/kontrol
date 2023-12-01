@@ -31,6 +31,10 @@ interface KEVMCheatsBase {
     function freshUInt(uint8) external returns (uint256);
     // Returns a symbolic boolean value
     function freshBool() external returns (uint256);
+    // Make calldata symbolic
+    function symbolicCalldata() external;
+    // Add assumptions about the length of symbolic calldata
+    function assumeBytesLength(bytes calldata,uint256) external;
 }
 
 abstract contract KEVMCheats {
