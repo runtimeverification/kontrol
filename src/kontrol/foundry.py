@@ -855,6 +855,10 @@ class DeploymentSummary:
 
         lines.append('\tfunction execute() public {')
 
+        lines.append('\t\tbytes memory code;')
+        lines.append('\t\tbytes32 slot;')
+        lines.append('\t\tbytes32 value;')
+
         for command in self.commands:
             lines.append('\t\t' + command + ';')
 
@@ -874,7 +878,7 @@ class DeploymentSummary:
             return
 
         if deployed_code != '0x':
-            self.commands.append(f'bytes memory code = hex{deployed_code[2:]!r}')
+            self.commands.append(f'code = hex{deployed_code[2:]!r}')
             self.commands.append(f'vm.etch(address({account}), code)')
 
         self.commands.append(f'vm.deal(address({account}), {new_balance})')
@@ -889,6 +893,6 @@ class DeploymentSummary:
             if reverted or not is_write:
                 continue
 
-            self.commands.append(f'bytes32 slot = hex{slot[2:]!r}')
-            self.commands.append(f'bytes32 value = hex{new_value[2:]!r}')
+            self.commands.append(f'slot = hex{slot[2:]!r}')
+            self.commands.append(f'value = hex{new_value[2:]!r}')
             self.commands.append(f'vm.store(address({account}), slot, value)')
