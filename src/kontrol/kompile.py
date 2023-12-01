@@ -6,10 +6,10 @@ import shutil
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from kevm_pyk.config import kdist
 from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import KompileTarget, kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
+from pyk.kdist import kdist
 from pyk.utils import ensure_dir_path, hash_str
 
 from .foundry import Foundry
