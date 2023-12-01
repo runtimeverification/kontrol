@@ -900,7 +900,7 @@ The `ECDSASign` function returns the signed data in [r,s,v] form, which we conve
 function symbolicCallData() external;
 ```
 
-```k
+```{.k .symbolic}
     rule [foundry.call.symbolicCallData]:
          <k> #call_foundry SELECTOR _ARGS => . ... </k>
          <callData> CD:Bytes => #range( CD, 0, 4) +Bytes ?CALLDATA </callData>

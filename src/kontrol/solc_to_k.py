@@ -259,7 +259,14 @@ class Contract:
             args: list[KInner] = []
             conjuncts: list[KInner] = []
             for input_name, input_type in zip(self.arg_names, self.arg_types, strict=True):
-                args.append(KEVM.abi_type(input_type, KVariable(input_name)))
+                if input_type == 'bytes': # or is an array, e.g., ends with `[]`
+                    # getting the type
+                    element_type = KEVM.abi_type(input_type, KVariable(input_name))
+                    # if it's not `bytes`:
+                    # element_type = KEVM.abi_type(input_type[0 : input_type.index('[')], KVariable(input_name))
+                    args.append(KEVM.abi_dynamic_array(element_type))
+                else:
+                    args.append(KEVM.abi_type(input_type, KVariable(input_name)))
                 rp = _range_predicate(KVariable(input_name), input_type)
                 if rp is None:
                     _LOGGER.info(
