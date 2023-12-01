@@ -835,3 +835,60 @@ def foundry_node_printer(foundry: Foundry, contract_name: str, proof: APRProof) 
     if type(proof) is APRProof:
         return FoundryAPRNodePrinter(foundry, contract_name, proof)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
+
+
+class DeploymentSummary:
+    SOLIDITY_VERSION = '0.8.13'
+
+    name: str
+    commands: list[str]
+
+    def __init__(self, name: str) -> None:
+        self.commands = []
+        self.name = name
+
+    def generate(self) -> str:
+        lines = []
+        lines.append(f'pragma solidity ={self.SOLIDITY_VERSION};\n')
+        lines.append('import "forge-std/Test.sol";\n')
+        lines.append(f'contract {self.name} is Test ' + '{')
+
+        lines.append('\tfunction execute() public {')
+
+        for command in self.commands:
+            lines.append('\t\t' + command + ';')
+
+        lines.append('\t}')
+
+        lines.append('}')
+        return '\n'.join(lines)
+
+    def add_cheatcode(self, dct: dict) -> None:
+        account = dct['account']
+        deployed_code = dct['deployedCode']
+        new_balance = dct['newBalance']
+        reverted = dct['reverted']
+        storage_accesses = dct['storageAccesses']
+
+        if reverted:
+            return
+
+        if deployed_code != '0x':
+            self.commands.append(f'bytes memory code = hex{deployed_code[2:]!r}')
+            self.commands.append(f'vm.etch(address({account}), code)')
+
+        self.commands.append(f'vm.deal(address({account}), {new_balance})')
+
+        for storage_access in storage_accesses:
+            account = storage_access['account']
+            slot = storage_access['slot']
+            is_write = storage_access['isWrite']
+            new_value = storage_access['newValue']
+            reverted = storage_access['reverted']
+
+            if reverted or not is_write:
+                continue
+
+            self.commands.append(f'bytes32 slot = hex{slot[2:]!r}')
+            self.commands.append(f'bytes32 value = hex{new_value[2:]!r}')
+            self.commands.append(f'vm.store(address({account}), slot, value)')

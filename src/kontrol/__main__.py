@@ -18,6 +18,7 @@ from pyk.proof.tui import APRProofViewer
 from . import VERSION
 from .cli import KontrolCLIArgs
 from .foundry import (
+    DeploymentSummary,
     Foundry,
     foundry_get_model,
     foundry_list,
@@ -99,6 +100,15 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 
 
 # Command implementation
+
+
+def exec_summary(name: str, accesses_file: Path, **kwargs: Any) -> None:
+    accesses = json.loads(accesses_file.read_text())['accountAccesses']
+    summary_contract = DeploymentSummary(name=name)
+    for access in accesses:
+        summary_contract.add_cheatcode(access)
+
+    print(summary_contract.generate())
 
 
 def exec_version(**kwargs: Any) -> None:
@@ -610,6 +620,14 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help="Do not call 'forge build' during kompilation.",
     )
+
+    summary_args = command_parser.add_parser(
+        'summary',
+        help='Generate a solidity function summary from an account access dict',
+        parents=[],
+    )
+    summary_args.add_argument('name', type=str, help='Generated contract name')
+    summary_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
 
     prove_args = command_parser.add_parser(
         'prove',
