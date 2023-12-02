@@ -170,7 +170,7 @@ class Foundry:
     def contract_ids(self) -> dict[int, str]:
         _contract_ids = {}
         for c in self.contracts.values():
-            _contract_ids[c.contract_id] = c.name
+            _contract_ids[c.contract_id] = c.name_with_path
         return _contract_ids
 
     def srcmap_data(self, contract_name: str, pc: int) -> tuple[Path, int, int] | None:
@@ -229,7 +229,7 @@ class Foundry:
     @cached_property
     def all_tests(self) -> list[str]:
         return [
-            f'{contract.name}.{method.signature}'
+            f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
             if contract.name.endswith('Test')
             for method in contract.methods
@@ -239,11 +239,11 @@ class Foundry:
     @cached_property
     def all_non_tests(self) -> list[str]:
         return [
-            f'{contract.name}.{method.signature}'
+            f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
             for method in contract.methods
-            if f'{contract.name}.{method.signature}' not in self.all_tests
-        ] + [f'{contract.name}.init' for contract in self.contracts.values() if contract.constructor]
+            if f'{contract.name_with_path}.{method.signature}' not in self.all_tests
+        ] + [f'{contract.name_with_path}.init' for contract in self.contracts.values() if contract.constructor]
 
     @staticmethod
     def _escape_brackets(regs: list[str]) -> list[str]:
@@ -350,10 +350,11 @@ class Foundry:
         return res_lines
 
     def proofs_with_test(self, test: str) -> list[Proof]:
+        test_base_name = test.split('/')[1]
         proofs = [
             self.get_optional_proof(pid)
             for pid in listdir(self.proofs_dir)
-            if re.search(single(self._escape_brackets([test])), pid.split(':')[0])
+            if re.search(single(self._escape_brackets([test_base_name])), pid.split(':')[0])
         ]
         return [proof for proof in proofs if proof is not None]
 
@@ -382,11 +383,15 @@ class Foundry:
         contracts = [
             (contract_name_with_path, contract)
             for (contract_name_with_path, contract) in self.contracts.items()
-            if contract_name_with_path.split('/')[-1] == contract_name
+            if re.search(contract_name, contract_name_with_path)
         ]
+        if len(contracts) == 0:
+            raise ValueError(
+                f"Tried to look up contract name {contract_name}, found none out of {[contract_name_with_path.split('/')[-1] for contract_name_with_path in self.contracts.keys()]}"
+            )
         if len(contracts) > 1:
             raise ValueError(
-                'Tried to look up duplicate contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
+                f'Tried to look up duplicate contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
             )
         contract = single(contracts)[1]
 
@@ -489,8 +494,10 @@ def foundry_show(
     port: int | None = None,
     maude_port: int | None = None,
 ) -> str:
-    contract_name, _ = test.split('.')
     foundry = Foundry(foundry_root)
+    test = single(foundry.matching_tests([test]))
+    contract_name, _ = test.split('.')
+    print(contract_name)
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
