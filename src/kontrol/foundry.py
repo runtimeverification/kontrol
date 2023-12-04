@@ -347,7 +347,7 @@ class Foundry:
             res_lines.append('')
             res_lines.append('See `foundry_success` predicate for more information:')
             res_lines.append(
-                'https://github.com/runtimeverification/evm-semantics/blob/master/include/kframework/foundry.md#foundry-success-predicate'
+                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
             )
         res_lines.append('')
         res_lines.append(
