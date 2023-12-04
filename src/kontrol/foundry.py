@@ -91,6 +91,10 @@ class Foundry:
     def main_file(self) -> Path:
         return self.kompiled / 'foundry.k'
 
+    @property
+    def contracts_file(self) -> Path:
+        return self.kompiled / 'contracts.k'
+
     @cached_property
     def kevm(self) -> KEVM:
         use_directory = self.out / 'tmp'
@@ -476,7 +480,7 @@ class Foundry:
 
 
 def foundry_show(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     version: int | None = None,
     nodes: Iterable[NodeIdLike] = (),
@@ -494,10 +498,8 @@ def foundry_show(
     port: int | None = None,
     maude_port: int | None = None,
 ) -> str:
-    foundry = Foundry(foundry_root)
     test = single(foundry.matching_tests([test]))
     contract_name, _ = test.split('.')
-    print(contract_name)
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
@@ -547,8 +549,7 @@ def foundry_show(
     return '\n'.join(res_lines)
 
 
-def foundry_to_dot(foundry_root: Path, test: str, version: int | None = None) -> None:
-    foundry = Foundry(foundry_root)
+def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> None:
     dump_dir = foundry.proofs_dir / 'dump'
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test.split('.')
@@ -560,9 +561,7 @@ def foundry_to_dot(foundry_root: Path, test: str, version: int | None = None) ->
     proof_show.dump(proof, dump_dir, dot=True)
 
 
-def foundry_list(foundry_root: Path) -> list[str]:
-    foundry = Foundry(foundry_root)
-
+def foundry_list(foundry: Foundry) -> list[str]:
     all_methods = [
         f'{contract.name}.{method.signature}' for contract in foundry.contracts.values() for method in contract.methods
     ]
@@ -582,8 +581,7 @@ def foundry_list(foundry_root: Path) -> list[str]:
     return lines
 
 
-def foundry_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None = None) -> None:
-    foundry = Foundry(foundry_root)
+def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     node_ids = apr_proof.prune(node)
@@ -592,7 +590,7 @@ def foundry_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version
 
 
 def foundry_simplify_node(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     node: NodeIdLike,
     rpc_options: RPCOptions,
@@ -602,7 +600,6 @@ def foundry_simplify_node(
     sort_collections: bool = False,
     bug_report: BugReport | None = None,
 ) -> str:
-    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     cterm = apr_proof.kcfg.node(node).cterm
@@ -632,7 +629,7 @@ def foundry_simplify_node(
 
 
 def foundry_merge_nodes(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     node_ids: Iterable[NodeIdLike],
     version: int | None = None,
@@ -651,7 +648,6 @@ def foundry_merge_nodes(
                 return False
         return True
 
-    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
 
@@ -678,7 +674,7 @@ def foundry_merge_nodes(
 
 
 def foundry_step_node(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     node: NodeIdLike,
     rpc_options: RPCOptions,
@@ -692,7 +688,6 @@ def foundry_step_node(
     if depth < 1:
         raise ValueError(f'Expected positive value for --depth, got: {depth}')
 
-    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     start_server = rpc_options.port is None
@@ -718,7 +713,7 @@ def foundry_step_node(
 
 
 def foundry_section_edge(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     edge: tuple[str, str],
     rpc_options: RPCOptions,
@@ -727,7 +722,6 @@ def foundry_section_edge(
     replace: bool = False,
     bug_report: BugReport | None = None,
 ) -> None:
-    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     source_id, target_id = edge
@@ -755,7 +749,7 @@ def foundry_section_edge(
 
 
 def foundry_get_model(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     rpc_options: RPCOptions,
     version: int | None = None,
@@ -764,7 +758,6 @@ def foundry_get_model(
     failing: bool = False,
     bug_report: BugReport | None = None,
 ) -> str:
-    foundry = Foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
