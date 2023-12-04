@@ -633,11 +633,12 @@ This is needed in order to prevent overwriting the caller for subcalls.
          <prank>
            <active> true </active>
            <newCaller> NCL </newCaller>
-           <depth> CD </depth>
+           <depth> D </depth>
            ...
          </prank>
       requires ACCT =/=Int NCL
        andBool (OP ==K CALL orBool OP ==K CALLCODE orBool OP ==K STATICCALL orBool OP ==K CREATE orBool OP ==K CREATE2)
+       andBool (CD ==Int D)
       [priority(40)]
 ```
 
