@@ -7,12 +7,12 @@
 │
 │  (1000 steps)
 ├─ 3
-│   k: #accessStorage 491460923342184218035706888008750043977755113263 0 ~> 0 ~> #deduc ...
+│   k: 100 ~> #deductGas ~> #access [ SSTORE , SSTORE 0 0 ] ~> SSTORE 0 0 ~> #pc [ SSTO ...
 │   pc: 79
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (70 steps)
+│  (73 steps)
 ├─ 4
 │   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> #codeDeposit 4914609233421842 ...
 │   pc: 145
@@ -98,9 +98,9 @@
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => #accessStorage 491460923342184218035706888008750043977755113263 0
-               ~> 0
+               ( .K => 100
                ~> #deductGas
+               ~> #access [ SSTORE , SSTORE 0 0 ]
                ~> SSTORE 0 0
                ~> #pc [ SSTORE ]
                ~> #execute
@@ -419,9 +419,9 @@
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
              <k>
-               ( #accessStorage 491460923342184218035706888008750043977755113263 0
-               ~> 0
+               ( 100
                ~> #deductGas
+               ~> #access [ SSTORE , SSTORE 0 0 ]
                ~> SSTORE 0 0
                ~> #pc [ SSTORE ] => #end EVMC_SUCCESS
                ~> #pc [ RETURN ] )
