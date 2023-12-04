@@ -838,22 +838,31 @@ def foundry_node_printer(foundry: Foundry, contract_name: str, proof: APRProof) 
 
 
 class DeploymentSummary:
-    SOLIDITY_VERSION = '0.8.13'
+    SOLIDITY_VERSION = '^0.8.13'
 
     name: str
     commands: list[str]
+    accounts: dict[str, str] # address, name
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, accounts: dir) -> None:
         self.commands = []
+        self.accounts = accounts
         self.name = name
+        for acc_key in list(self.accounts):
+            self.accounts[acc_key] = self.accounts[acc_key] + 'Address'
 
     def generate(self) -> str:
         lines = []
-        lines.append(f'pragma solidity ={self.SOLIDITY_VERSION};\n')
+        lines.append(f'pragma solidity {self.SOLIDITY_VERSION};\n')
         lines.append('import "forge-std/Test.sol";\n')
         lines.append(f'contract {self.name} is Test ' + '{')
 
-        lines.append('\tfunction execute() public {')
+        for acc_key in list(self.accounts):
+            lines.append('\taddress public ' + self.accounts[acc_key] + ' = ' + acc_key + ';')
+
+        lines.append('\n')
+
+        lines.append('\tfunction recreateDeployment() public {')
 
         lines.append('\t\tbytes memory code;')
         lines.append('\t\tbytes32 slot;')
@@ -868,31 +877,44 @@ class DeploymentSummary:
         return '\n'.join(lines)
 
     def add_cheatcode(self, dct: dict) -> None:
-        account = dct['account']
-        deployed_code = dct['deployedCode']
-        new_balance = dct['newBalance']
-        reverted = dct['reverted']
+        kind             = dct['kind']
+        account          = dct['account']
+        accessor         = dct['accessor']
+        initialized      = dct['initialized']
+        old_balance      = dct['oldBalance']
+        new_balance      = dct['newBalance']
+        deployed_code    = dct['deployedCode']
+        value            = dct['value']
+        reverted         = dct['reverted']
         storage_accesses = dct['storageAccesses']
+
+        # Add a dummy name to the account and store it
+        if account not in list(self.accounts):
+            acc_name = 'acc' + str(len(list(self.accounts)))
+            self.accounts[account] = acc_name
 
         if reverted:
             return
 
-        if deployed_code != '0x':
+        if deployed_code != '0x' and kind == 'Create':
             self.commands.append(f'code = hex{deployed_code[2:]!r}')
-            self.commands.append(f'vm.etch(address({account}), code)')
+            self.commands.append(f'vm.etch({self.accounts[account]}, code)')
 
-        self.commands.append(f'vm.deal(address({account}), {new_balance})')
+        if new_balance != old_balance:
+            self.commands.append(f'vm.deal({self.accounts[account]}, {new_balance})')
 
         for storage_access in storage_accesses:
-            account = storage_access['account']
-            slot = storage_access['slot']
-            is_write = storage_access['isWrite']
-            new_value = storage_access['newValue']
-            reverted = storage_access['reverted']
+            account        = storage_access['account']
+            slot           = storage_access['slot']
+            is_write       = storage_access['isWrite']
+            previous_value = storage_access['previousValue']
+            new_value      = storage_access['newValue']
+            reverted       = storage_access['reverted']
 
-            if reverted or not is_write:
+            if reverted or not is_write or new_value == previous_value:
                 continue
 
+            acc_name = self.accounts[account] if account in list(self.accounts) else account
             self.commands.append(f'slot = hex{slot[2:]!r}')
             self.commands.append(f'value = hex{new_value[2:]!r}')
-            self.commands.append(f'vm.store(address({account}), slot, value)')
+            self.commands.append(f'vm.store({acc_name}, slot, value)')

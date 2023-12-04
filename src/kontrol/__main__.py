@@ -102,9 +102,12 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 # Command implementation
 
 
-def exec_summary(name: str, accesses_file: Path, **kwargs: Any) -> None:
+def exec_summary(name: str, accesses_file: Path, contract_names: Path, **kwargs: Any) -> None:
     accesses = json.loads(accesses_file.read_text())['accountAccesses']
-    summary_contract = DeploymentSummary(name=name)
+    accounts = {}
+    if contract_names.exists():
+        accounts = json.loads(contract_names.read_text())
+    summary_contract = DeploymentSummary(name=name, accounts=accounts)
     for access in accesses:
         summary_contract.add_cheatcode(access)
 
@@ -628,6 +631,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
     summary_args.add_argument('name', type=str, help='Generated contract name')
     summary_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
+    summary_args.add_argument('contract_names', type=file_path, help='Path to JSON containing deployment addresses and its respective contract names')
 
     prove_args = command_parser.add_parser(
         'prove',
