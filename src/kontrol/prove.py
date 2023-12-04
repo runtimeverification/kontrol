@@ -24,7 +24,6 @@ from .solc_to_k import Contract
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from pathlib import Path
     from typing import Final
 
     from pyk.kast.inner import KInner
@@ -37,7 +36,7 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 def foundry_prove(
-    foundry_root: Path,
+    foundry: Foundry,
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
     tests: Iterable[tuple[str, int | None]] = (),
@@ -57,7 +56,6 @@ def foundry_prove(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
             ) from None
 
-    foundry = Foundry(foundry_root, bug_report=prove_options.bug_report)
     foundry.mk_proofs_dir()
 
     test_suite = collect_tests(foundry, tests, reinit=prove_options.reinit)
