@@ -92,7 +92,9 @@ def _check_k_version() -> None:
     actual_k_version = k_version()
 
     if not _compare_versions(expected_k_version, actual_k_version):
-        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.')
+        _LOGGER.warning(
+            f'K version {expected_k_version.text} was expected but K version {actual_k_version.text} is being used.'
+        )
 
 
 def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
