@@ -8,12 +8,12 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
-from kevm_pyk import kdist
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.kast import KAtt
 from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
+from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import intToken
 from pyk.prelude.string import stringToken
@@ -410,11 +410,11 @@ class Contract:
 
     @staticmethod
     def contract_to_module_name(c: str) -> str:
-        return c + '-CONTRACT'
+        return Contract.escaped(c, 'S2K') + '-CONTRACT'
 
     @staticmethod
     def contract_to_verification_module_name(c: str) -> str:
-        return c + '-VERIFICATION'
+        return Contract.escaped(c, 'S2K') + '-VERIFICATION'
 
     @staticmethod
     def test_to_claim_name(t: str) -> str:
@@ -426,7 +426,7 @@ class Contract:
 
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$']
+        return [Contract.PREFIX_CODE, '_', '$', '.']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -437,6 +437,8 @@ class Contract:
                 as_ecaped = 'Und'
             case '$':
                 as_ecaped = 'Dlr'
+            case '.':
+                as_ecaped = 'Dot'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -449,6 +451,8 @@ class Contract:
             return '_', 3
         elif seq.startswith('Dlr'):
             return '$', 3
+        elif seq.startswith('Dot'):
+            return '.', 3
         else:
             return chr(int(seq, base=16)), 4
 

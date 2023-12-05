@@ -2,7 +2,7 @@ requires "../contracts.k"
 
 module SUM-TO-N-INVARIANT
 
-  imports LoopsTest-CONTRACT
+  imports S2KLoopsTest-CONTRACT
 
   rule N xorInt maxUInt256 => maxUInt256 -Int N 
   requires #rangeUInt(256, N)

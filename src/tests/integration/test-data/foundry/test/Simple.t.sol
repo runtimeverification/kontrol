@@ -7,6 +7,10 @@ import "../src/KEVMCheats.sol";
 contract AssertTest is Test, KEVMCheats {
     uint y;
 
+    function call_assert_false() public pure {
+        assert(false);
+    }
+
     function setUp() public {}
 
     function test_failing_branch(uint x) public {
@@ -42,7 +46,7 @@ contract AssertTest is Test, KEVMCheats {
 
     function testFail_expect_revert() public {
         vm.expectRevert();
-        assert(false);
+        this.call_assert_false();
     }
 
     function test_revert_branch(uint x, uint y) public{
