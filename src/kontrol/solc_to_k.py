@@ -219,6 +219,8 @@ class Contract:
         name: str
         id: int
         sort: KSort
+        arg_names: tuple[str, ...]
+        arg_types: tuple[str, ...]
         inputs: tuple[Input, ...]
         contract_name: str
         contract_digest: str
