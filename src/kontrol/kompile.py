@@ -6,10 +6,10 @@ import shutil
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from kevm_pyk import kdist
 from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import KompileTarget, kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
+from pyk.kdist import kdist
 from pyk.utils import ensure_dir_path, hash_str
 
 from .foundry import Foundry
@@ -26,7 +26,7 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 def foundry_kompile(
-    foundry_root: Path,
+    foundry: Foundry,
     includes: Iterable[str],
     regen: bool = False,
     rekompile: bool = False,
@@ -36,11 +36,10 @@ def foundry_kompile(
     llvm_kompile: bool = True,
     debug: bool = False,
     verbose: bool = False,
-    target: KompileTarget = KompileTarget.HASKELL_BOOSTER,
+    target: KompileTarget = KompileTarget.HASKELL,
     no_forge_build: bool = False,
 ) -> None:
     syntax_module = 'FOUNDRY-CONTRACTS'
-    foundry = Foundry(foundry_root)
     foundry_requires_dir = foundry.kompiled / 'requires'
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
