@@ -155,7 +155,7 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
         method = contract.method_by_name.get('setUp')
         if not method:
             continue
-        version = foundry.resolve_proof_version(f'{contract.name}.setUp()', reinit, None)
+        version = foundry.resolve_proof_version(f'{contract.name_with_path}.setUp()', reinit, None)
         res.append(FoundryTest(contract, method, version))
     return res
 
@@ -171,7 +171,7 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
         method = contract.constructor
         if not method:
             continue
-        version = foundry.resolve_proof_version(f'{contract.name}.init', reinit, None)
+        version = foundry.resolve_proof_version(f'{contract.name_with_path}.init', reinit, None)
         res.append(FoundryTest(contract, method, version))
     return res
 

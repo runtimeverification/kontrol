@@ -641,6 +641,8 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     }
 
     try:
+        run_process(['solc-select', 'install', '0.8.20'])
+        run_process(['solc-select', 'use', '0.8.20'])
         process_res = run_process(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
     except CalledProcessError as err:
         raise RuntimeError('solc error', err.stdout, err.stderr) from err

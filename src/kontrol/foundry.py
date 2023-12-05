@@ -278,6 +278,8 @@ class Foundry:
         return test_sigs
 
     def get_test_id(self, test: str, id: int | None) -> str:
+        #          test_base_name = test.split('/')[1]
+        #          matching_proofs = self.proofs_with_test(test_base_name)
         matching_proofs = self.proofs_with_test(test)
         if not matching_proofs:
             raise ValueError(f'Found no matching proofs for {test}.')
@@ -354,11 +356,10 @@ class Foundry:
         return res_lines
 
     def proofs_with_test(self, test: str) -> list[Proof]:
-        test_base_name = test.split('/')[1]
         proofs = [
             self.get_optional_proof(pid)
             for pid in listdir(self.proofs_dir)
-            if re.search(single(self._escape_brackets([test_base_name])), pid.split(':')[0])
+            if re.search(single(self._escape_brackets([test])), pid.split(':')[0])
         ]
         return [proof for proof in proofs if proof is not None]
 
@@ -408,17 +409,13 @@ class Foundry:
         method = contract.method_by_sig[method_name]
         return contract, method
 
-    def get_method(self, test: str) -> Contract.Method | Contract.Constructor:
-        _, method = self.get_contract_and_method(test)
-        return method
-
     def resolve_proof_version(
         self,
         test: str,
         reinit: bool,
         user_specified_version: int | None,
     ) -> int:
-        method = self.get_method(test)
+        _, method = self.get_contract_and_method(test)
 
         if reinit and user_specified_version is not None:
             raise ValueError('--reinit is not compatible with specifying proof versions.')
@@ -498,8 +495,7 @@ def foundry_show(
     port: int | None = None,
     maude_port: int | None = None,
 ) -> str:
-    test = single(foundry.matching_tests([test]))
-    contract_name, _ = test.split('.')
+    contract_name, _ = single(foundry.matching_tests([test])).split('.')
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
@@ -552,7 +548,7 @@ def foundry_show(
 def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> None:
     dump_dir = foundry.proofs_dir / 'dump'
     test_id = foundry.get_test_id(test, version)
-    contract_name, _ = test.split('.')
+    contract_name, _ = single(foundry.matching_tests([test])).split('.')
     proof = foundry.get_apr_proof(test_id)
 
     node_printer = foundry_node_printer(foundry, contract_name, proof)
@@ -648,6 +644,7 @@ def foundry_merge_nodes(
                 return False
         return True
 
+    #      test = single(foundry.matching_tests([test]))
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
 
@@ -688,6 +685,7 @@ def foundry_step_node(
     if depth < 1:
         raise ValueError(f'Expected positive value for --depth, got: {depth}')
 
+    #      test = single(foundry.matching_tests([test]))
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     start_server = rpc_options.port is None
@@ -722,6 +720,7 @@ def foundry_section_edge(
     replace: bool = False,
     bug_report: BugReport | None = None,
 ) -> None:
+    #      test = single(foundry.matching_tests([test]))
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     source_id, target_id = edge
@@ -758,6 +757,7 @@ def foundry_get_model(
     failing: bool = False,
     bug_report: BugReport | None = None,
 ) -> str:
+    #      test = single(foundry.matching_tests([test]))
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
