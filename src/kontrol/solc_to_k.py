@@ -126,9 +126,9 @@ class Input:
 
     def to_abi(self) -> KApply:
         if self.type == 'tuple':
-            return Input.make_complex_type(self.components)
+            return Input._make_complex_type(self.components)
         else:
-            return Input.make_single_type(self)
+            return Input._make_single_type(self)
 
     def flattened(self) -> list[Input]:
         if len(self.components) > 0:
