@@ -60,8 +60,8 @@ class KontrolCLIArgs(KEVMCLIArgs):
         args.add_argument(
             '--target',
             type=KompileTarget,
-            choices=[KompileTarget.HASKELL_BOOSTER, KompileTarget.MAUDE],
-            help='[haskell-booster|maude]',
+            choices=[KompileTarget.HASKELL, KompileTarget.MAUDE],
+            help='[haskell|maude]',
         )
         return args
 
