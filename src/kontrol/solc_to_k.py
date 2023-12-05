@@ -69,17 +69,17 @@ def solc_to_k(
 class Input:
     name: str
     type: str
-    components: list[Input] = field(default_factory=list)
+    components: tuple[Input, ...] = ()
     idx: int = 0
 
     @staticmethod
-    def from_dict(_input: dict, i: int = 0) -> Input:
-        name = _input['name']
-        type = _input['type']
-        if _input.get('components') is not None and _input['type'] != 'tuple[]':
-            return Input(name, type, Input.recurse_comp(_input['components'], i), i)
+    def from_dict(input: dict, idx: int = 0) -> Input:
+        name = input['name']
+        type = input['type']
+        if input.get('components') is not None and input['type'] != 'tuple[]':
+            return Input(name, type, Input.recurse_comp(input['components'], idx), idx)
         else:
-            return Input(name, type, idx=i)
+            return Input(name, type, idx=idx)
 
     @staticmethod
     def recurse_comp(components: dict, i: int = 0) -> list[Input]:
@@ -109,7 +109,7 @@ class Input:
             return [self]
 
 
-def inputs_from_abi(abi_inputs: list[dict]) -> list[Input]:
+def inputs_from_abi(abi_inputs: Iterable[dict]) -> list[Input]:
     inputs = []
     i = 0
     for input in abi_inputs:
@@ -190,7 +190,7 @@ class Contract:
         name: str
         id: int
         sort: KSort
-        inputs: list[Input]
+        inputs: tuple[Input, ...]
         contract_name: str
         contract_digest: str
         contract_storage_digest: str
@@ -634,7 +634,7 @@ class Contract:
         return KEVM.abi_type(input_type, KVariable(input_name))
 
     @staticmethod
-    def recurse_components(components: list[Input]) -> KApply:
+    def recurse_components(components: Iterable[Input]) -> KApply:
         """
         do a recursive build of inner types
         """
