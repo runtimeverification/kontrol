@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from kevm_pyk.cli import KEVMCLIArgs
+from kevm_pyk.kompile import KompileTarget
 from pyk.cli.utils import dir_path
 
 if TYPE_CHECKING:
@@ -50,5 +51,56 @@ class KontrolCLIArgs(KEVMCLIArgs):
             default=[],
             action='append',
             help='Extra modules to import into generated main module.',
+        )
+        return args
+
+    @cached_property
+    def kompile_target_args(self) -> ArgumentParser:
+        args = ArgumentParser(add_help=False)
+        args.add_argument(
+            '--target',
+            type=KompileTarget,
+            choices=[KompileTarget.HASKELL, KompileTarget.MAUDE],
+            help='[haskell|maude]',
+        )
+        return args
+
+    @cached_property
+    def rpc_args(self) -> ArgumentParser:
+        args = ArgumentParser(add_help=False)
+        args.add_argument(
+            '--trace-rewrites',
+            dest='trace_rewrites',
+            default=False,
+            action='store_true',
+            help='Log traces of all simplification and rewrite rule applications.',
+        )
+        args.add_argument(
+            '--kore-rpc-command',
+            dest='kore_rpc_command',
+            type=str,
+            default=None,
+            help='Custom command to start RPC server.',
+        )
+        args.add_argument(
+            '--use-booster',
+            dest='use_booster',
+            default=False,
+            action='store_true',
+            help='Use the booster RPC server instead of kore-rpc.',
+        )
+        args.add_argument(
+            '--port',
+            dest='port',
+            type=int,
+            default=None,
+            help='Use existing RPC server on named port.',
+        )
+        args.add_argument(
+            '--maude-port',
+            dest='maude_port',
+            type=int,
+            default=None,
+            help='Use existing Maude RPC server on named port.',
         )
         return args

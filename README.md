@@ -30,25 +30,25 @@ poetry install
 
 In order to build `kontrol`, you need to build these specific targets:
 ```sh
-poetry run kevm-dist --verbose build -j3 plugin haskell foundry
+poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry
 ```
 
 To change the default compiler:
 ```sh
-CXX=clang++-14 poetry run kevm-dist --verbose build -j3 plugin haskell foundry
+CXX=clang++-14 poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry
 ```
 
 On Apple Silicon:
 ```sh
-APPLE_SILICON=true poetry run kevm-dist --verbose build -j3 plugin haskell foundry
+APPLE_SILICON=true poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry
 ```
 
 Targets can be cleaned with:
 ```sh
-poetry run kevm-dist clean
+poetry run kdist clean
 ```
 
-For more information, refer to `kevm-dist --help`.
+For more information, refer to `kdist --help`.
 
 
 ## For developers
