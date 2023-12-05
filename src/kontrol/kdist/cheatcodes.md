@@ -1,5 +1,6 @@
-Foundry Cheat Codes
+Kontrol Cheat Codes
 -------------------
+This file contains the implementation of both Foundry and proprietary cheat codes supported by Kontrol.
 
 The configuration of the Foundry Cheat Codes is defined as follwing:
 1. The `<prank>` subconfiguration stores values which are used during the execution of any kind of `prank` cheat code:
