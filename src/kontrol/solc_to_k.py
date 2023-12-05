@@ -82,8 +82,12 @@ class Input:
             return Input(name, type, idx=idx)
 
     @staticmethod
+    def arg_name(input: Input) -> str:
+        return f'V{input.idx}_{input.name.replace("-", "_")}'
+
+    @staticmethod
     def _make_single_type(input: Input) -> KApply:
-        input_name = Contract.arg_name(input)
+        input_name = Input.arg_name(input)
         input_type = input.type
         return KEVM.abi_type(input_type, KVariable(input_name))
 
@@ -239,8 +243,8 @@ class Contract:
             self.id = id
             self.inputs = inputs_from_abi(abi['inputs'])
             flat_inputs = [input for sub_inputs in self.inputs for input in sub_inputs.flattened()]
-            self.arg_names = tuple([Contract.arg_name(input) for input in flat_inputs])
-            self.arg_types = tuple([input.type for input in flat_inputs])
+            self.arg_names = tuple(Input.arg_name(input) for input in flat_inputs)
+            self.arg_types = tuple(input.type for input in flat_inputs)
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
@@ -647,10 +651,6 @@ class Contract:
         res.extend(rule for rule in method_rules if rule)
         res.extend(method.selector_alias_rule for method in self.methods)
         return res if len(res) > 1 else []
-
-    @staticmethod
-    def arg_name(input: Input) -> str:
-        return f'V{input.idx}_{input.name.replace("-", "_")}'
 
     @property
     def field_sentences(self) -> list[KSentence]:
