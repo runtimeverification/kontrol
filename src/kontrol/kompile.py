@@ -6,10 +6,10 @@ import shutil
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from kevm_pyk import kdist
 from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import KompileTarget, kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
-from pyk.kdist import kdist
 from pyk.utils import ensure_dir_path, hash_str
 
 from .foundry import Foundry
@@ -26,7 +26,7 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 def foundry_kompile(
-    foundry: Foundry,
+    foundry_root: Path,
     includes: Iterable[str],
     regen: bool = False,
     rekompile: bool = False,
@@ -36,10 +36,9 @@ def foundry_kompile(
     llvm_kompile: bool = True,
     debug: bool = False,
     verbose: bool = False,
-    target: KompileTarget = KompileTarget.HASKELL,
-    no_forge_build: bool = False,
 ) -> None:
     syntax_module = 'FOUNDRY-CONTRACTS'
+    foundry = Foundry(foundry_root)
     foundry_requires_dir = foundry.kompiled / 'requires'
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
@@ -50,8 +49,7 @@ def foundry_kompile(
 
     requires_paths: dict[str, str] = {}
 
-    if not no_forge_build:
-        foundry.build()
+    foundry.build()
 
     if not foundry.up_to_date():
         _LOGGER.info('Detected updates to contracts, regenerating K definition.')
@@ -135,8 +133,10 @@ def foundry_kompile(
         _LOGGER.info('Updated Kompilation digest')
 
     if not kompilation_up_to_date() or rekompile or not kompiled_timestamp.exists():
+        plugin_dir = kdist.get('evm-semantics.plugin')
+
         kevm_kompile(
-            target=target,
+            target=KompileTarget.HASKELL_BOOSTER,
             output_dir=foundry.kompiled,
             main_file=foundry.main_file,
             main_module=main_module,
@@ -147,6 +147,7 @@ def foundry_kompile(
             llvm_library=foundry.llvm_library,
             debug=debug,
             verbose=verbose,
+            plugin_dir=plugin_dir,
         )
 
     update_kompilation_digest()

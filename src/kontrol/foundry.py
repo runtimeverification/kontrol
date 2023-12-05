@@ -38,8 +38,6 @@ if TYPE_CHECKING:
     from pyk.proof.show import NodePrinter
     from pyk.utils import BugReport
 
-    from .options import RPCOptions
-
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -90,10 +88,6 @@ class Foundry:
     @property
     def main_file(self) -> Path:
         return self.kompiled / 'foundry.k'
-
-    @property
-    def contracts_file(self) -> Path:
-        return self.kompiled / 'contracts.k'
 
     @cached_property
     def kevm(self) -> KEVM:
@@ -229,9 +223,6 @@ class Foundry:
     def build(self) -> None:
         try:
             run_process(['forge', 'build', '--root', str(self._root)], logger=_LOGGER)
-        except FileNotFoundError:
-            print("Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH.")
-            sys.exit(1)
         except CalledProcessError as err:
             raise RuntimeError("Couldn't forge build!") from err
 
@@ -350,7 +341,7 @@ class Foundry:
             res_lines.append('')
             res_lines.append('See `foundry_success` predicate for more information:')
             res_lines.append(
-                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
+                'https://github.com/runtimeverification/evm-semantics/blob/master/include/kframework/foundry.md#foundry-success-predicate'
             )
         res_lines.append('')
         res_lines.append(
@@ -471,7 +462,7 @@ class Foundry:
 
 
 def foundry_show(
-    foundry: Foundry,
+    foundry_root: Path,
     test: str,
     version: int | None = None,
     nodes: Iterable[NodeIdLike] = (),
@@ -487,9 +478,9 @@ def foundry_show(
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     port: int | None = None,
-    maude_port: int | None = None,
 ) -> str:
     contract_name, _ = test.split('.')
+    foundry = Foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
@@ -531,7 +522,6 @@ def foundry_show(
             smt_retry_limit=smt_retry_limit,
             start_server=start_server,
             port=port,
-            maude_port=maude_port,
         ) as kcfg_explore:
             res_lines += print_failure_info(proof, kcfg_explore, counterexample_info)
             res_lines += Foundry.help_info()
@@ -539,7 +529,8 @@ def foundry_show(
     return '\n'.join(res_lines)
 
 
-def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> None:
+def foundry_to_dot(foundry_root: Path, test: str, version: int | None = None) -> None:
+    foundry = Foundry(foundry_root)
     dump_dir = foundry.proofs_dir / 'dump'
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test.split('.')
@@ -551,7 +542,9 @@ def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> N
     proof_show.dump(proof, dump_dir, dot=True)
 
 
-def foundry_list(foundry: Foundry) -> list[str]:
+def foundry_list(foundry_root: Path) -> list[str]:
+    foundry = Foundry(foundry_root)
+
     all_methods = [
         f'{contract.name}.{method.signature}' for contract in foundry.contracts.values() for method in contract.methods
     ]
@@ -571,7 +564,8 @@ def foundry_list(foundry: Foundry) -> list[str]:
     return lines
 
 
-def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+def foundry_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None = None) -> None:
+    foundry = Foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     node_ids = apr_proof.prune(node)
@@ -580,35 +574,35 @@ def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: 
 
 
 def foundry_simplify_node(
-    foundry: Foundry,
+    foundry_root: Path,
     test: str,
     node: NodeIdLike,
-    rpc_options: RPCOptions,
     version: int | None = None,
     replace: bool = False,
     minimize: bool = True,
     sort_collections: bool = False,
     bug_report: BugReport | None = None,
+    smt_timeout: int | None = None,
+    smt_retry_limit: int | None = None,
+    trace_rewrites: bool = False,
+    port: int | None = None,
 ) -> str:
+    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     cterm = apr_proof.kcfg.node(node).cterm
-    start_server = rpc_options.port is None
+    start_server = port is None
 
     with legacy_explore(
         foundry.kevm,
         kcfg_semantics=KEVMSemantics(),
         id=apr_proof.id,
         bug_report=bug_report,
-        kore_rpc_command=rpc_options.kore_rpc_command,
-        llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-        smt_timeout=rpc_options.smt_timeout,
-        smt_retry_limit=rpc_options.smt_retry_limit,
-        smt_tactic=rpc_options.smt_tactic,
-        trace_rewrites=rpc_options.trace_rewrites,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        trace_rewrites=trace_rewrites,
         start_server=start_server,
-        port=rpc_options.port,
-        maude_port=rpc_options.maude_port,
+        port=port,
     ) as kcfg_explore:
         new_term, _ = kcfg_explore.cterm_simplify(cterm)
     if replace:
@@ -619,7 +613,7 @@ def foundry_simplify_node(
 
 
 def foundry_merge_nodes(
-    foundry: Foundry,
+    foundry_root: Path,
     test: str,
     node_ids: Iterable[NodeIdLike],
     version: int | None = None,
@@ -638,6 +632,7 @@ def foundry_merge_nodes(
                 return False
         return True
 
+    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
 
@@ -664,38 +659,38 @@ def foundry_merge_nodes(
 
 
 def foundry_step_node(
-    foundry: Foundry,
+    foundry_root: Path,
     test: str,
     node: NodeIdLike,
-    rpc_options: RPCOptions,
     version: int | None = None,
     repeat: int = 1,
     depth: int = 1,
     bug_report: BugReport | None = None,
+    smt_timeout: int | None = None,
+    smt_retry_limit: int | None = None,
+    trace_rewrites: bool = False,
+    port: int | None = None,
 ) -> None:
     if repeat < 1:
         raise ValueError(f'Expected positive value for --repeat, got: {repeat}')
     if depth < 1:
         raise ValueError(f'Expected positive value for --depth, got: {depth}')
 
+    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
-    start_server = rpc_options.port is None
+    start_server = port is None
 
     with legacy_explore(
         foundry.kevm,
         kcfg_semantics=KEVMSemantics(),
         id=apr_proof.id,
         bug_report=bug_report,
-        kore_rpc_command=rpc_options.kore_rpc_command,
-        llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-        smt_timeout=rpc_options.smt_timeout,
-        smt_retry_limit=rpc_options.smt_retry_limit,
-        smt_tactic=rpc_options.smt_tactic,
-        trace_rewrites=rpc_options.trace_rewrites,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        trace_rewrites=trace_rewrites,
         start_server=start_server,
-        port=rpc_options.port,
-        maude_port=rpc_options.maude_port,
+        port=port,
     ) as kcfg_explore:
         for _i in range(repeat):
             node = kcfg_explore.step(apr_proof.kcfg, node, apr_proof.logs, depth=depth)
@@ -703,34 +698,34 @@ def foundry_step_node(
 
 
 def foundry_section_edge(
-    foundry: Foundry,
+    foundry_root: Path,
     test: str,
     edge: tuple[str, str],
-    rpc_options: RPCOptions,
     version: int | None = None,
     sections: int = 2,
     replace: bool = False,
     bug_report: BugReport | None = None,
+    smt_timeout: int | None = None,
+    smt_retry_limit: int | None = None,
+    trace_rewrites: bool = False,
+    port: int | None = None,
 ) -> None:
+    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     source_id, target_id = edge
-    start_server = rpc_options.port is None
+    start_server = port is None
 
     with legacy_explore(
         foundry.kevm,
         kcfg_semantics=KEVMSemantics(),
         id=apr_proof.id,
         bug_report=bug_report,
-        kore_rpc_command=rpc_options.kore_rpc_command,
-        llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-        smt_timeout=rpc_options.smt_timeout,
-        smt_retry_limit=rpc_options.smt_retry_limit,
-        smt_tactic=rpc_options.smt_tactic,
-        trace_rewrites=rpc_options.trace_rewrites,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        trace_rewrites=trace_rewrites,
         start_server=start_server,
-        port=rpc_options.port,
-        maude_port=rpc_options.maude_port,
+        port=port,
     ) as kcfg_explore:
         kcfg_explore.section_edge(
             apr_proof.kcfg, source_id=int(source_id), target_id=int(target_id), logs=apr_proof.logs, sections=sections
@@ -739,15 +734,15 @@ def foundry_section_edge(
 
 
 def foundry_get_model(
-    foundry: Foundry,
+    foundry_root: Path,
     test: str,
-    rpc_options: RPCOptions,
     version: int | None = None,
     nodes: Iterable[NodeIdLike] = (),
     pending: bool = False,
     failing: bool = False,
-    bug_report: BugReport | None = None,
+    port: int | None = None,
 ) -> str:
+    foundry = Foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
@@ -763,22 +758,14 @@ def foundry_get_model(
 
     res_lines = []
 
-    start_server = rpc_options.port is None
+    start_server = port is None
 
     with legacy_explore(
         foundry.kevm,
         kcfg_semantics=KEVMSemantics(),
         id=proof.id,
-        bug_report=bug_report,
-        kore_rpc_command=rpc_options.kore_rpc_command,
-        llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-        smt_timeout=rpc_options.smt_timeout,
-        smt_retry_limit=rpc_options.smt_retry_limit,
-        smt_tactic=rpc_options.smt_tactic,
-        trace_rewrites=rpc_options.trace_rewrites,
         start_server=start_server,
-        port=rpc_options.port,
-        maude_port=rpc_options.maude_port,
+        port=port,
     ) as kcfg_explore:
         for node_id in nodes:
             res_lines.append('')

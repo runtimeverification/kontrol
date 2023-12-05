@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from functools import cached_property
 from os import listdir
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from pyk.proof.proof import Proof
 
@@ -15,18 +15,23 @@ if TYPE_CHECKING:
     from pathlib import Path
     from typing import Final
 
-    from kontrol.foundry import Foundry
+    from pytest_mock import MockerFixture
 
 
 LIST_DATA_DIR: Final = TEST_DATA_DIR / 'foundry-list'
-LIST_APR_PROOF: Final = LIST_DATA_DIR / 'apr_proofs'
+LIST_APR_PROOF: Final = LIST_DATA_DIR / 'apr_proofs/'
 LIST_EXPECTED: Final = LIST_DATA_DIR / 'foundry-list.expected'
 
 
 class FoundryMock:
+    out: Path
+
+    def __init__(self) -> None:
+        self.out = LIST_DATA_DIR
+
     @property
     def proofs_dir(self) -> Path:
-        return LIST_DATA_DIR / 'apr_proofs'
+        return self.out / 'apr_proofs'
 
     @cached_property
     def contracts(self) -> dict[str, Contract]:
@@ -46,17 +51,19 @@ class FoundryMock:
         return Proof.read_proof_data(LIST_APR_PROOF, test_id)
 
 
-def test_foundry_list(update_expected_output: bool) -> None:
-    # Given
-    foundry = cast('Foundry', FoundryMock())
-    expected = LIST_EXPECTED.read_text()
+def test_foundry_list(mocker: MockerFixture, update_expected_output: bool) -> None:
+    foundry_mock = mocker.patch('kontrol.foundry.Foundry')
+    foundry_mock.return_value = FoundryMock()
 
-    # When
-    actual = '\n'.join(foundry_list(foundry))
+    with LIST_EXPECTED.open() as f:
+        foundry_list_expected = f.read().rstrip()
+    assert foundry_list_expected
 
-    # Then
+    list_out = '\n'.join(foundry_list(LIST_DATA_DIR))
+
+    assert foundry_mock.called_once_with(LIST_DATA_DIR)
+
     if update_expected_output:
-        LIST_EXPECTED.write_text(actual)
-        return
-
-    assert actual == expected
+        LIST_EXPECTED.write_text(list_out)
+    else:
+        assert list_out == foundry_list_expected

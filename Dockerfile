@@ -44,4 +44,4 @@ USER user
 ENV PATH=/home/user/.local/bin:${PATH}
 RUN    pip install ./kontrol \
     && rm -rf kontrol        \
-    && CXX=clang++-14 kdist --verbose build -j4
+    && CXX=clang++-14 kevm-dist --verbose build -j4
