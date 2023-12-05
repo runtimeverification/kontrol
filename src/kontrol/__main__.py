@@ -60,6 +60,18 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         args.pop(arg)
 
 
+def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
+    try:
+        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
+    except FileNotFoundError:
+        print(
+            f'File foundry.toml not found in: {foundry_root}. Are you running kontrol in a Foundry project?',
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return foundry
+
+
 def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
@@ -81,7 +93,9 @@ def _check_k_version() -> None:
     actual_k_version = k_version()
 
     if not _compare_versions(expected_k_version, actual_k_version):
-        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.')
+        _LOGGER.warning(
+            f'K version {expected_k_version.text} was expected but K version {actual_k_version.text} is being used.'
+        )
 
 
 def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
@@ -166,9 +180,9 @@ def exec_build(
     _ignore_arg(kwargs, 'o2', '-O2')
     _ignore_arg(kwargs, 'o3', '-O3')
     if target is None:
-        target = KompileTarget.HASKELL_BOOSTER
+        target = KompileTarget.HASKELL
     foundry_kompile(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root),
         includes=includes,
         regen=regen,
         rekompile=rekompile,
@@ -251,7 +265,7 @@ def exec_prove(
     )
 
     results = foundry_prove(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         prove_options=prove_options,
         rpc_options=rpc_options,
         tests=tests,
@@ -293,7 +307,7 @@ def exec_show(
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root),
         test=test,
         version=version,
         nodes=nodes,
@@ -313,16 +327,16 @@ def exec_show(
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry_to_dot(foundry_root=foundry_root, test=test, version=version)
+    foundry_to_dot(foundry=_load_foundry(foundry_root), test=test, version=version)
 
 
 def exec_list(foundry_root: Path, **kwargs: Any) -> None:
-    stats = foundry_list(foundry_root=foundry_root)
+    stats = foundry_list(foundry=_load_foundry(foundry_root))
     print('\n'.join(stats))
 
 
 def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry = Foundry(foundry_root)
+    foundry = _load_foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -339,7 +353,7 @@ def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs:
 
 
 def exec_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
-    foundry_remove_node(foundry_root=foundry_root, test=test, version=version, node=node)
+    foundry_remove_node(foundry=_load_foundry(foundry_root), test=test, version=version, node=node)
 
 
 def exec_simplify_node(
@@ -381,7 +395,7 @@ def exec_simplify_node(
     )
 
     pretty_term = foundry_simplify_node(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         node=node,
@@ -432,7 +446,7 @@ def exec_step_node(
     )
 
     foundry_step_node(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         node=node,
@@ -450,7 +464,7 @@ def exec_merge_nodes(
     nodes: Iterable[NodeIdLike],
     **kwargs: Any,
 ) -> None:
-    foundry_merge_nodes(foundry_root=foundry_root, node_ids=nodes, test=test, version=version)
+    foundry_merge_nodes(foundry=_load_foundry(foundry_root), node_ids=nodes, test=test, version=version)
 
 
 def exec_section_edge(
@@ -491,7 +505,7 @@ def exec_section_edge(
     )
 
     foundry_section_edge(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         rpc_options=rpc_options,
@@ -539,7 +553,7 @@ def exec_get_model(
         maude_port=maude_port,
     )
     output = foundry_get_model(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root),
         test=test,
         version=version,
         nodes=nodes,
