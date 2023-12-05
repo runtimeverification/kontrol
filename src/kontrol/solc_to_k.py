@@ -77,18 +77,43 @@ class Input:
         name = input['name']
         type = input['type']
         if input.get('components') is not None and input['type'] != 'tuple[]':
-            return Input(name, type, Input.recurse_comp(input['components'], idx), idx)
+            return Input(name, type, Input._unwrap_components(input['components'], idx), idx)
         else:
             return Input(name, type, idx=idx)
 
     @staticmethod
-    def recurse_comp(components: dict, i: int = 0) -> list[Input]:
+    def _make_single_type(input: Input) -> KApply:
+        input_name = Contract.arg_name(input)
+        input_type = input.type
+        return KEVM.abi_type(input_type, KVariable(input_name))
+
+    @staticmethod
+    def _make_complex_type(components: Iterable[Input]) -> KApply:
+        """
+        recursively unwrap components in arguments of complex types and convert them to KEVM types
+        """
+        abi_types: list[KInner] = []
+        for comp in components:
+            # nested tuple, unwrap its components
+            if comp.type == 'tuple':
+                tuple = Input._make_complex_type(comp.components)
+                abi_type = tuple
+            else:
+                abi_type = Input._make_single_type(comp)
+            abi_types.append(abi_type)
+        return KEVM.abi_tuple(abi_types)
+
+    @staticmethod
+    def _unwrap_components(components: dict, i: int = 0) -> list[Input]:
+        """
+        recursively unwrap components in arguments of complex types
+        """
         comps = []
         for comp in components:
             _name = comp['name']
             _type = comp['type']
             if comp.get('components') is not None and type != 'tuple[]':
-                new_comps = Input.recurse_comp(comp['components'], i)
+                new_comps = Input._unwrap_components(comp['components'], i)
             else:
                 new_comps = []
             comps.append(Input(_name, _type, new_comps, i))
@@ -97,9 +122,9 @@ class Input:
 
     def to_abi(self) -> KApply:
         if self.type == 'tuple':
-            return Contract.recurse_components(self.components)
+            return Input.make_complex_type(self.components)
         else:
-            return Contract.make_single_type(self)
+            return Input.make_single_type(self)
 
     def flattened(self) -> list[Input]:
         if len(self.components) > 0:
@@ -626,28 +651,6 @@ class Contract:
     @staticmethod
     def arg_name(input: Input) -> str:
         return f'V{input.idx}_{input.name.replace("-", "_")}'
-
-    @staticmethod
-    def make_single_type(input: Input) -> KApply:
-        input_name = Contract.arg_name(input)
-        input_type = input.type
-        return KEVM.abi_type(input_type, KVariable(input_name))
-
-    @staticmethod
-    def recurse_components(components: Iterable[Input]) -> KApply:
-        """
-        do a recursive build of inner types
-        """
-        abi_types: list[KInner] = []
-        for comp in components:
-            # nested tuple, go deeper
-            if comp.type == 'tuple':
-                tup = Contract.recurse_components(comp.components)
-                abi_type = tup
-            else:
-                abi_type = Contract.make_single_type(comp)
-            abi_types.append(abi_type)
-        return KEVM.abi_tuple(abi_types)
 
     @property
     def field_sentences(self) -> list[KSentence]:
