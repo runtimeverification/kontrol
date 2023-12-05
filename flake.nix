@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.347";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.382";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -76,7 +76,7 @@
                 cmake
                 # This is somewhat hacky but it's only a build time dependency.
                 # We basically override kevm-pyk to add kontrol as a runtime dependency
-                # so that kevm-dist finds the foundry target.
+                # so that kdist finds the foundry target.
                 (prev.kevm-pyk.overridePythonAttrs (old: {
                   propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
                     ++ [
@@ -88,6 +88,8 @@
                 libtool
                 openssl.dev
                 gmp
+                pkg-config
+                procps
               ];
               nativeBuildInputs = [ prev.makeWrapper ];
 
@@ -102,7 +104,7 @@
                   prev.lib.optionalString
                   (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
                   "APPLE_SILICON=true"
-                } kevm-dist build kontrol.foundry
+                } kdist build kontrol.foundry
               '';
 
               installPhase = ''
@@ -120,7 +122,7 @@
                       final.foundry-bin
                       (solc.mkDefault final solc_version)
                     ])
-                } --set NIX_LIBS "${nixLibs prev}" --set KEVM_DIST_DIR $out
+                } --set NIX_LIBS "${nixLibs prev}" --set KDIST_DIR $out
               '';
 
               passthru = if solc_version == null then {
@@ -149,6 +151,10 @@
           ];
         };
       in {
+        devShell = kevm.devShell.${system}.overrideAttrs (old: {
+          buildInputs = old.buildInputs
+            ++ [ pkgs.foundry-bin (solc.mkDefault pkgs pkgs.solc_0_8_13) ];
+        });
         packages = {
           kontrol = pkgs.kontrol { };
           default = pkgs.kontrol { };
