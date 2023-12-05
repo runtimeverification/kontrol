@@ -123,7 +123,7 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
     ),
     (
         'single_tuple',
-        Input('SomeStruct', 'tuple', [Input('RV1', 'uint256'), Input('RV2', 'uint256', idx=1)]),
+        Input('SomeStruct', 'tuple', tuple([Input('RV1', 'uint256'), Input('RV2', 'uint256', idx=1)])),
         KApply(
             'abi_type_tuple',
             KApply(
@@ -144,7 +144,7 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
         Input(
             'SomeStruct',
             'tuple',
-            [Input('RV', 'uint256'), Input('SomeStruct', 'tuple', [Input('RV', 'uint256', idx=1)])],
+            tuple([Input('RV', 'uint256'), Input('SomeStruct', 'tuple', tuple([Input('RV', 'uint256', idx=1)]))]),
         ),
         KApply(
             'abi_type_tuple',

@@ -77,7 +77,7 @@ class Input:
         name = input['name']
         type = input['type']
         if input.get('components') is not None and input['type'] != 'tuple[]':
-            return Input(name, type, Input._unwrap_components(input['components'], idx), idx)
+            return Input(name, type, tuple(Input._unwrap_components(input['components'], idx)), idx)
         else:
             return Input(name, type, idx=idx)
 
@@ -120,7 +120,7 @@ class Input:
                 new_comps = Input._unwrap_components(comp['components'], i)
             else:
                 new_comps = []
-            comps.append(Input(_name, _type, new_comps, i))
+            comps.append(Input(_name, _type, tuple(new_comps), i))
             i += 1
         return comps
 
@@ -241,7 +241,7 @@ class Contract:
             self.signature = msig
             self.name = abi['name']
             self.id = id
-            self.inputs = inputs_from_abi(abi['inputs'])
+            self.inputs = tuple(inputs_from_abi(abi['inputs']))
             flat_inputs = [input for sub_inputs in self.inputs for input in sub_inputs.flattened()]
             self.arg_names = tuple(Input.arg_name(input) for input in flat_inputs)
             self.arg_types = tuple(input.type for input in flat_inputs)
