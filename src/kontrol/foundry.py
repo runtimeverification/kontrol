@@ -62,6 +62,22 @@ class Foundry:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
 
+    def lookup_full_contract_name(self, contract_name: str) -> str:
+        contracts = [
+            full_contract_name
+            for full_contract_name in self.contracts
+            if contract_name == full_contract_name.split('%')[-1]
+        ]
+        if len(contracts) == 0:
+            raise ValueError(
+                f"Tried to look up contract name {contract_name}, found none out of {[contract_name_with_path.split('/')[-1] for contract_name_with_path in self.contracts.keys()]}"
+            )
+        if len(contracts) > 1:
+            raise ValueError(
+                f'Tried to look up duplicate contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
+            )
+        return single(contracts)
+
     @property
     def profile(self) -> dict[str, Any]:
         profile_name = os.getenv('FOUNDRY_PROFILE', default='default')
@@ -238,7 +254,7 @@ class Foundry:
         return [
             f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
-            if contract.name.endswith('Test')
+            if contract.name_with_path.endswith('Test')
             for method in contract.methods
             if method.name.startswith('test')
         ]
@@ -388,20 +404,7 @@ class Foundry:
 
     def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method | Contract.Constructor]:
         contract_name, method_name = test.split('.')
-        contracts = [
-            (contract_name_with_path, contract)
-            for (contract_name_with_path, contract) in self.contracts.items()
-            if re.search(contract_name, contract_name_with_path)
-        ]
-        if len(contracts) == 0:
-            raise ValueError(
-                f"Tried to look up contract name {contract_name}, found none out of {[contract_name_with_path.split('/')[-1] for contract_name_with_path in self.contracts.keys()]}"
-            )
-        if len(contracts) > 1:
-            raise ValueError(
-                f'Tried to look up duplicate contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
-            )
-        contract = single(contracts)[1]
+        contract = self.contracts[contract_name]
 
         if method_name == 'init':
             constructor = self.contracts[contract_name].constructor
@@ -411,6 +414,9 @@ class Foundry:
 
         method = contract.method_by_sig[method_name]
         return contract, method
+
+    def list_proof_dir(self) -> list[str]:
+        return listdir(self.proofs_dir)
 
     def resolve_proof_version(
         self,
@@ -562,7 +568,9 @@ def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> N
 
 def foundry_list(foundry: Foundry) -> list[str]:
     all_methods = [
-        f'{contract.name}.{method.signature}' for contract in foundry.contracts.values() for method in contract.methods
+        f'{contract.name_with_path}.{method.signature}'
+        for contract in foundry.contracts.values()
+        for method in contract.methods
     ]
 
     lines: list[str] = []
@@ -647,7 +655,6 @@ def foundry_merge_nodes(
                 return False
         return True
 
-    #      test = single(foundry.matching_tests([test]))
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
 
@@ -688,7 +695,6 @@ def foundry_step_node(
     if depth < 1:
         raise ValueError(f'Expected positive value for --depth, got: {depth}')
 
-    #      test = single(foundry.matching_tests([test]))
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     start_server = rpc_options.port is None
@@ -723,7 +729,6 @@ def foundry_section_edge(
     replace: bool = False,
     bug_report: BugReport | None = None,
 ) -> None:
-    #      test = single(foundry.matching_tests([test]))
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     source_id, target_id = edge
@@ -760,7 +765,6 @@ def foundry_get_model(
     failing: bool = False,
     bug_report: BugReport | None = None,
 ) -> str:
-    #      test = single(foundry.matching_tests([test]))
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 

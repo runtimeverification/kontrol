@@ -2,7 +2,7 @@ requires "../contracts.k"
 
 module SUM-TO-N-INVARIANT
 
-  imports S2KtestZDivLoopsTest-CONTRACT
+  imports S2KtestZModLoopsTest-CONTRACT
 
   rule N xorInt maxUInt256 => maxUInt256 -Int N 
   requires #rangeUInt(256, N)
@@ -60,8 +60,8 @@ module SUM-TO-N-INVARIANT
    andBool #rangeUInt(256, S)
    andBool GAS_AMT >=Int N *Int 178
    andBool CONDITION ==K bool2Word ( N:Int ==Int 0 )
-   andBool PROGRAM ==K #binRuntime(S2KtestZDivLoopsTest)
-   andBool JUMPDESTS ==K #computeValidJumpDests(#binRuntime(S2KtestZDivLoopsTest))
+   andBool PROGRAM ==K #binRuntime(S2KtestZModLoopsTest)
+   andBool JUMPDESTS ==K #computeValidJumpDests(#binRuntime(S2KtestZModLoopsTest))
   [priority(40)]
 
 endmodule

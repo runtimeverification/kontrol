@@ -293,7 +293,7 @@ class Contract:
             ]
             return klabel(args)
 
-    name: str
+    _name: str
     contract_json: dict
     contract_id: int
     contract_path: str
@@ -306,7 +306,7 @@ class Contract:
     PREFIX_CODE: Final = 'Z'
 
     def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
-        self.name = contract_name
+        self._name = contract_name
         self.contract_json = contract_json
 
         self.contract_id = self.contract_json['id']
@@ -325,7 +325,7 @@ class Contract:
         contract_ast_nodes = [
             node
             for node in self.contract_json['ast']['nodes']
-            if node['nodeType'] == 'ContractDefinition' and node['name'] == self.name
+            if node['nodeType'] == 'ContractDefinition' and node['name'] == self._name
         ]
         contract_ast = single(contract_ast_nodes) if len(contract_ast_nodes) > 0 else {'nodes': []}
         function_asts = {
@@ -342,11 +342,11 @@ class Contract:
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 _m = Contract.Method(
-                    msig, mid, method, method_ast, self.name, self.digest, self.storage_digest, self.sort_method
+                    msig, mid, method, method_ast, self._name, self.digest, self.storage_digest, self.sort_method
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
-                _c = Contract.Constructor(method, self.name, self.digest, self.storage_digest, self.sort_method)
+                _c = Contract.Constructor(method, self._name, self.digest, self.storage_digest, self.sort_method)
                 self.constructor = _c
 
         self.methods = tuple(sorted(_methods, key=(lambda method: method.signature)))
@@ -357,24 +357,24 @@ class Contract:
             _fields = {}
             for _l, _s in _fields_list:
                 if _l in _fields:
-                    _LOGGER.info(f'Found duplicate field access key on contract {self.name}: {_l}')
+                    _LOGGER.info(f'Found duplicate field access key on contract {self._name}: {_l}')
                     continue
                 _fields[_l] = _s
             self.fields = FrozenDict(_fields)
 
     @cached_property
     def name_with_path(self) -> str:
-        contract_path_without_filename = '/'.join(self.contract_path.split('/')[0:-1])
-        return contract_path_without_filename + '/' + self.name
+        contract_path_without_filename = '%'.join(self.contract_path.split('/')[0:-1])
+        return contract_path_without_filename + '%' + self._name
 
     @cached_property
     def digest(self) -> str:
-        return hash_str(f'{self.name} - {json.dumps(self.contract_json, sort_keys=True)}')
+        return hash_str(f'{self.name_with_path} - {json.dumps(self.contract_json, sort_keys=True)}')
 
     @cached_property
     def storage_digest(self) -> str:
         storage_layout = self.contract_json.get('storageLayout') or {}
-        return hash_str(f'{self.name} - {json.dumps(storage_layout, sort_keys=True)}')
+        return hash_str(f'{self.name_with_path} - {json.dumps(storage_layout, sort_keys=True)}')
 
     @cached_property
     def srcmap(self) -> dict[int, tuple[int, int, int, str, int]]:
@@ -427,7 +427,7 @@ class Contract:
 
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$', '.', '/', '-']
+        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -440,10 +440,10 @@ class Contract:
                 as_ecaped = 'Dlr'
             case '.':
                 as_ecaped = 'Dot'
-            case '/':
-                as_ecaped = 'Div'
             case '-':
                 as_ecaped = 'Sub'
+            case '%':
+                as_ecaped = 'Mod'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -458,6 +458,10 @@ class Contract:
             return '$', 3
         elif seq.startswith('Dot'):
             return '.', 3
+        elif seq.startswith('Sub'):
+            return '-', 3
+        elif seq.startswith('Mod'):
+            return '%', 3
         else:
             return chr(int(seq, base=16)), 4
 
