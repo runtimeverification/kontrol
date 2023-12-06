@@ -365,7 +365,7 @@ class Contract:
     @cached_property
     def name_with_path(self) -> str:
         contract_path_without_filename = '%'.join(self.contract_path.split('/')[0:-1])
-        return contract_path_without_filename + '%' + self._name
+        return self._name if contract_path_without_filename == '' else contract_path_without_filename + '%' + self._name
 
     @cached_property
     def digest(self) -> str:

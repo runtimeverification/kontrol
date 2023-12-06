@@ -572,6 +572,8 @@ def foundry_list(foundry: Foundry) -> list[str]:
         for contract in foundry.contracts.values()
         for method in contract.methods
     ]
+    print(all_methods)
+    print(listdir(foundry.proofs_dir))
 
     lines: list[str] = []
     for method in sorted(all_methods):
