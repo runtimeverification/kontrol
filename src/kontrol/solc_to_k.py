@@ -288,7 +288,23 @@ class Contract:
             )
 
         def calldata_cell(self, contract: Contract) -> KInner:
-            return KApply(contract.klabel_method, [KApply(contract.klabel), self.application])
+            has_dynamic_types = False
+            args: list[KInner] = []
+            for input_name, input_type in zip(self.arg_names, self.arg_types, strict=True):
+                # TODO(palina): or of it is an array, e.g., ends with `[]`
+                if input_type == 'bytes': 
+                    # getting the type
+                    element_type = KEVM.abi_type(input_type, KVariable(input_name))
+                    # if it's not `bytes`:
+                    # element_type = KEVM.abi_type(input_type[0 : input_type.index('[')], KVariable(input_name))
+                    args.append(KEVM.abi_dynamic_array(element_type))
+                    has_dynamic_types = True
+                else:
+                    args.append(KEVM.abi_type(input_type, KVariable(input_name)))
+            if has_dynamic_types:
+                return KEVM.abi_symbolic_calldata(self.name, args)
+            else:
+                return KApply(contract.klabel_method, [KApply(contract.klabel), self.application])
 
         @cached_property
         def application(self) -> KInner:
