@@ -219,8 +219,6 @@ class Contract:
         name: str
         id: int
         sort: KSort
-        arg_names: tuple[str, ...]
-        arg_types: tuple[str, ...]
         inputs: tuple[Input, ...]
         contract_name: str
         contract_digest: str
@@ -244,9 +242,6 @@ class Contract:
             self.name = abi['name']
             self.id = id
             self.inputs = tuple(inputs_from_abi(abi['inputs']))
-            flat_inputs = [input for sub_inputs in self.inputs for input in sub_inputs.flattened()]
-            self.arg_names = tuple(Input.arg_name(input) for input in flat_inputs)
-            self.arg_types = tuple(input.type for input in flat_inputs)
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
@@ -280,6 +275,18 @@ class Contract:
         @cached_property
         def is_setup(self) -> bool:
             return self.name == 'setUp'
+
+        @cached_property
+        def flat_inputs(self) -> tuple[Input, ...]:
+            return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
+
+        @cached_property
+        def arg_names(self) -> Iterable[str]:
+            return tuple(Input.arg_name(input) for input in self.flat_inputs)
+
+        @cached_property
+        def arg_types(self) -> Iterable[str]:
+            return tuple(input.type for input in self.flat_inputs)
 
         def up_to_date(self, digest_file: Path) -> bool:
             if not digest_file.exists():
@@ -658,9 +665,9 @@ class Contract:
     def field_sentences(self) -> list[KSentence]:
         prods: list[KSentence] = [self.subsort_field]
         rules: list[KSentence] = []
-        for _field, slot in self.fields.items():
-            klabel = KLabel(self.klabel_field.name + f'_{_field}')
-            prods.append(KProduction(self.sort_field, [KTerminal(_field)], klabel=klabel, att=KAtt({'symbol': ''})))
+        for field, slot in self.fields.items():
+            klabel = KLabel(self.klabel_field.name + f'_{field}')
+            prods.append(KProduction(self.sort_field, [KTerminal(field)], klabel=klabel, att=KAtt({'symbol': ''})))
             rule_lhs = KEVM.loc(KApply(KLabel('contract_access_field'), [KApply(self.klabel), KApply(klabel)]))
             rule_rhs = intToken(slot)
             rules.append(KRule(KRewrite(rule_lhs, rule_rhs)))
