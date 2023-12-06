@@ -24,6 +24,7 @@ class ProveOptions:
     run_constructor: bool
     fail_fast: bool
     reinit: bool
+    init_cse: bool
 
     def __init__(
         self,
@@ -41,6 +42,7 @@ class ProveOptions:
         run_constructor: bool = False,
         fail_fast: bool = True,
         reinit: bool = False,
+        init_cse: bool = False,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
@@ -55,6 +57,7 @@ class ProveOptions:
         object.__setattr__(self, 'run_constructor', run_constructor)
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
+        object.__setattr__(self, 'init_cse', init_cse)
 
 
 @dataclass(frozen=True)

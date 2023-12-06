@@ -207,6 +207,7 @@ def exec_prove(
     auto_abstract_gas: bool = False,
     run_constructor: bool = False,
     fail_fast: bool = False,
+    init_cse: bool = False,
     port: int | None = None,
     maude_port: int | None = None,
     **kwargs: Any,
@@ -238,6 +239,7 @@ def exec_prove(
         max_iterations=max_iterations,
         run_constructor=run_constructor,
         fail_fast=fail_fast,
+        init_cse=init_cse,
     )
 
     rpc_options = RPCOptions(
@@ -672,6 +674,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Include the contract constructor in the test execution.',
+    )
+    prove_args.add_argument(
+        '--init-cse',
+        dest='init_cse',
+        default=False,
+        action='store_true',
+        help='CSE init.',
     )
 
     show_args = command_parser.add_parser(

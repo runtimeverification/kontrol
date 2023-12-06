@@ -204,6 +204,7 @@ def _run_cfg_group(
                 kcfg_explore=kcfg_explore,
                 bmc_depth=prove_options.bmc_depth,
                 run_constructor=prove_options.run_constructor,
+                init_cse=prove_options.init_cse,
             )
 
             run_prover(
@@ -237,6 +238,7 @@ def method_to_apr_proof(
     kcfg_explore: KCFGExplore,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
+    init_cse: bool = False,
 ) -> APRProof | APRBMCProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -258,6 +260,7 @@ def method_to_apr_proof(
         test=test,
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
+        init_cse=init_cse,
     )
 
     if bmc_depth is not None:
@@ -296,6 +299,7 @@ def _method_to_initialized_cfg(
     foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
+    init_cse: bool = False,
     *,
     setup_proof: APRProof | None = None,
 ) -> tuple[KCFG, int, int]:
@@ -307,6 +311,7 @@ def _method_to_initialized_cfg(
         test.contract,
         test.method,
         setup_proof,
+        init_cse,
     )
 
     for node_id in new_node_ids:
@@ -335,6 +340,7 @@ def _method_to_cfg(
     contract: Contract,
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
+    init_cse: bool = False,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -349,12 +355,23 @@ def _method_to_cfg(
         program = KEVM.bin_runtime(KApply(f'contract_{contract.name}'))
         use_init_code = False
 
-    init_cterm = _init_cterm(
-        empty_config,
-        contract.name,
-        program=program,
-        calldata=calldata,
-        callvalue=callvalue,
+    init_cterm = (
+        _init_cse_cterm(
+            empty_config,
+            contract.name,
+            method=method,
+            program=program,
+            calldata=calldata,
+            callvalue=callvalue,
+        )
+        if init_cse
+        else _init_cterm(
+            empty_config,
+            contract.name,
+            program=program,
+            calldata=calldata,
+            callvalue=callvalue,
+        )
     )
     new_node_ids = []
 
@@ -476,6 +493,105 @@ def _init_cterm(
     }
 
     constraints = None
+
+    if calldata is not None:
+        init_subst['CALLDATA_CELL'] = calldata
+
+    if callvalue is not None:
+        init_subst['CALLVALUE_CELL'] = callvalue
+
+    init_term = Subst(init_subst)(empty_config)
+    init_cterm = CTerm.from_kast(init_term)
+    init_cterm = KEVM.add_invariant(init_cterm)
+    if constraints is None:
+        return init_cterm
+    else:
+        for constraint in constraints:
+            init_cterm = init_cterm.add_constraint(constraint)
+        return init_cterm
+
+
+def _init_cse_cterm(
+    empty_config: KInner,
+    contract_name: str,
+    program: KInner,
+    method: Contract.Method | Contract.Constructor,
+    *,
+    setup_cterm: CTerm | None = None,
+    calldata: KInner | None = None,
+    callvalue: KInner | None = None,
+) -> CTerm:
+    acct_to = KEVM.account_cell(
+        KVariable('ACCT_TO'),
+        KVariable('ACCT_TO_BAL'),
+        program,
+        KVariable('ACCT_TO_STORAGE'),
+        KVariable('ACCT_TO_ORIG_STORAGE'),
+        KVariable('ACCT_TO_NONCE'),
+    )
+    acct_from = KEVM.account_cell(
+        KVariable('ACCT_FROM'),
+        KVariable('ACCT_FROM_BAL'),
+        KVariable('ACCT_FROM_CODE'),
+        KVariable('ACCT_FROM_STORAGE'),
+        KVariable('ACCT_FROM_ORIG_STORAGE'),
+        KVariable('ACCT_FROM_NONCE'),
+    )
+    schedule = KApply('SHANGHAI_EVM')
+    init_subst = {
+        'MODE_CELL': KApply('NORMAL'),
+        'SCHEDULE_CELL': schedule,
+        'CALLDEPTH_CELL': intToken(0),
+        'LOG_CELL': KApply('.List'),
+        'ID_CELL': KVariable('ACCT_FROM'),
+        'CALLER_CELL': KVariable('CALLER_ID'),
+        'INTERIMSTATES_CELL': KApply('.List'),
+        'ACTIVE_CELL': FALSE,
+        'STATIC_CELL': FALSE,
+        'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
+        'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
+        'K_CELL': KApply(
+            '_________EVM_InternalOp_CallOp_Int_Int_Int_Int_Int_Int_Int',
+            [
+                KApply('CALL_EVM_CallOp'),
+                intToken(1),
+                KVariable('ACCT_TO'),
+                intToken(0),
+                intToken(4),
+                intToken(method.argwidth),
+                intToken(0),
+                intToken(method.retwidth),
+            ],
+        ),
+        'ACCOUNTS_CELL': KEVM.accounts(
+            [
+                acct_to,  # test contract address
+                acct_from,
+                Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
+            ]
+        ),
+        'SINGLECALL_CELL': FALSE,
+        'ISREVERTEXPECTED_CELL': FALSE,
+        'ISOPCODEEXPECTED_CELL': FALSE,
+        'EXPECTEDADDRESS_CELL': KApply('.Account_EVM-TYPES_Account'),
+        'EXPECTEDVALUE_CELL': intToken(0),
+        'EXPECTEDDATA_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
+        'OPCODETYPE_CELL': KApply('.OpcodeType_FOUNDRY-CHEAT-CODES_OpcodeType'),
+        'RECORDEVENT_CELL': FALSE,
+        'ISEVENTEXPECTED_CELL': FALSE,
+        'ISCALLWHITELISTACTIVE_CELL': FALSE,
+        'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
+        'ADDRESSSET_CELL': KApply('.Set'),
+        'STORAGESLOTSET_CELL': KApply('.Set'),
+    }
+
+    constraints = [
+        mlEqualsTrue(KApply('_>=Int_', KVariable('ACCT_FROM_BAL'), intToken(0))),
+        mlEqualsTrue(KApply('#rangeNonce(_)_WORD_Bool_Int', KVariable('ACCT_FROM_NONCE'))),
+        mlEqualsTrue(
+            notBool(KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('ACCT_TO'), schedule]))
+        ),
+    ]
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata

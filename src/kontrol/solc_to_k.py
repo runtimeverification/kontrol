@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+import sys
 from dataclasses import dataclass
 from functools import cached_property
 from subprocess import CalledProcessError
@@ -72,6 +73,7 @@ class Contract:
         sort: KSort
         arg_names: tuple[str, ...]
         arg_types: tuple[str, ...]
+        output_types: tuple[str, ...]
         contract_name: str
         contract_digest: str
         contract_storage_digest: str
@@ -89,12 +91,21 @@ class Contract:
             self.signature = 'init'
             self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
             self.arg_types = tuple([input['type'] for input in abi['inputs']])
+            self.output_types = tuple([output['type'] for output in abi['outputs']])
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
+
+        @property
+        def argwidth(self) -> int:
+            return sum(map(Contract.calldata_type_width, self.arg_types))
+
+        @property
+        def retwidth(self) -> int:
+            return sum(map(Contract.calldata_type_width, self.output_types))
 
         @cached_property
         def is_setup(self) -> bool:
@@ -138,6 +149,7 @@ class Contract:
         sort: KSort
         arg_names: tuple[str, ...]
         arg_types: tuple[str, ...]
+        output_types: tuple[str, ...]
         contract_name: str
         contract_digest: str
         contract_storage_digest: str
@@ -161,6 +173,7 @@ class Contract:
             self.id = id
             self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
             self.arg_types = tuple([input['type'] for input in abi['inputs']])
+            self.output_types = tuple([output['type'] for output in abi['outputs']])
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
@@ -190,6 +203,14 @@ class Contract:
         @property
         def selector_alias_rule(self) -> KRule:
             return KRule(KRewrite(KEVM.abi_selector(self.signature), intToken(self.id)))
+
+        @property
+        def argwidth(self) -> int:
+            return sum(map(Contract.calldata_type_width, self.arg_types))
+
+        @property
+        def retwidth(self) -> int:
+            return sum(map(Contract.calldata_type_width, self.output_types))
 
         @cached_property
         def is_setup(self) -> bool:
@@ -488,6 +509,24 @@ class Contract:
                 res.append(next_char)
             i += 1
         return ''.join(res)
+
+    @staticmethod
+    def calldata_type_width(type: str) -> int:
+        if '[]' in type:
+            print('Dynamic types not supported')
+            sys.exit(1)
+
+        if '[' in type and ']' in type:
+            _, remainder = type.split('[', 1)
+            size_str, remainder = remainder.split(']', 1)
+            size = int(size_str)
+
+            if remainder:  # Check if there are more array dimensions
+                return Contract.calldata_type_width(remainder) * size
+            else:
+                return 32 * size  # Size of one dimension array
+
+        return 32  # Default size for non-array types
 
     @property
     def sort(self) -> KSort:
