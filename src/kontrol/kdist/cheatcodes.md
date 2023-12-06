@@ -637,7 +637,7 @@ This is needed in order to prevent overwriting the caller for subcalls.
            <depth> CD </depth>
            ...
          </prank>
-      requires ACCT =/=Int NCL
+      requires ACCT =/=K NCL
        andBool (OP ==K CALL orBool OP ==K CALLCODE orBool OP ==K STATICCALL orBool OP ==K CREATE orBool OP ==K CREATE2)
       [priority(40)]
 ```
@@ -1220,24 +1220,21 @@ If the production is matched when no prank is active, it will be ignored.
     rule <k> #injectPrank => . ...</k>
          <id> _ => NCL </id>
          <prank>
-            <newCaller> NCL </newCaller>
+            <newCaller> NCL:Int </newCaller>
             <newOrigin> .Account </newOrigin>
             <active> true </active>
             ...
          </prank>
-      requires NCL =/=K .Account
 
     rule <k> #injectPrank => . ...</k>
          <id> _ => NCL </id>
          <origin> _ => NOG </origin>
          <prank>
-            <newCaller> NCL </newCaller>
-            <newOrigin> NOG </newOrigin>
+            <newCaller> NCL:Int </newCaller>
+            <newOrigin> NOG:Int </newOrigin>
             <active> true </active>
             ...
          </prank>
-      requires NCL =/=K .Account
-       andBool NOG =/=K .Account
 ```
 
 ```k
