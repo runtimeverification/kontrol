@@ -538,25 +538,29 @@ def _init_cse_cterm(
         KVariable('ACCT_FROM_NONCE'),
     )
     schedule = KApply('SHANGHAI_EVM')
+    valid_calldata = KEVM.bytes_append(calldata, KVariable('LM')) if calldata is not None else KVariable('LM')
+
+    valid_callvalue = callvalue if callvalue is not None else KVariable('CALLVALUE')
+
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'SCHEDULE_CELL': schedule,
         'CALLDEPTH_CELL': intToken(0),
         'LOG_CELL': KApply('.List'),
         'ID_CELL': KVariable('ACCT_FROM'),
-        'CALLER_CELL': KVariable('CALLER_ID'),
         'INTERIMSTATES_CELL': KApply('.List'),
         'ACTIVE_CELL': FALSE,
         'STATIC_CELL': FALSE,
         'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
         'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
+        'LOCALMEM_CELL': valid_calldata,
         'K_CELL': KApply(
             '_________EVM_InternalOp_CallOp_Int_Int_Int_Int_Int_Int_Int',
             [
                 KApply('CALL_EVM_CallOp'),
                 intToken(1),
                 KVariable('ACCT_TO'),
-                intToken(0),
+                valid_callvalue,
                 intToken(4),
                 intToken(method.argwidth),
                 intToken(0),
@@ -592,12 +596,6 @@ def _init_cse_cterm(
             notBool(KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('ACCT_TO'), schedule]))
         ),
     ]
-
-    if calldata is not None:
-        init_subst['CALLDATA_CELL'] = calldata
-
-    if callvalue is not None:
-        init_subst['CALLVALUE_CELL'] = callvalue
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
