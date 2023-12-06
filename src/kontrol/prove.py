@@ -13,7 +13,7 @@ from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, notBool
-from pyk.prelude.kint import intToken
+from pyk.prelude.kint import intToken, leInt, eqInt
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
@@ -479,6 +479,34 @@ def _init_cterm(
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
+        # TODO(palina): EXPERIMENTAL: if calldata is symbolic,
+        # manually add assumptions corresponding to compiler-inserted checks
+        constraints = []
+        # lengthBytes(SYMBOLIC_CALLDATA) >= 32
+        constraints.append(mlEqualsTrue(leInt(intToken(32), KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')))))
+        # #asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) <= maxUInt64
+        #asWord(_)_EVM-TYPES_Int_Bytes`(`#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int`(DATA,I,#token("32","Int")))
+        offset = KApply('#asWord(_)_EVM-TYPES_Int_Bytes', [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [KVariable('SYMBOLIC_CALLDATA'), intToken(0), intToken(32)])])
+        constraints.append(mlEqualsTrue(leInt(offset, intToken("18446744073709551615"))))
+
+        # chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 )
+        offset_loc = KApply('_+Int_', [offset, intToken(4)])
+        chopped_offset_loc = KApply('chop(_)_WORD_Int_Int', [offset_loc])
+
+        length = KApply('#asWord(_)_EVM-TYPES_Int_Bytes', [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, chopped_offset_loc, intToken("32")])])
+        constraints.append(mlEqualsTrue(leInt(length, intToken("18446744073709551615"))))
+
+        # chopped_sum_offset_length = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [offset, length])])
+        # chopped_sum_offset_length_32 = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [chopped_sum_offset_length, intToken("32")])])
+        # minus_four = KApply('_+Int_', [chopped_sum_offset_length_32, intToken("-4")])
+        # constraints.append(mlEqualsTrue(notBool(leInt(minus_four, KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA'))))))
+
+        # notBool ( chop (chopped_offset +Int 31) s<Word lengthBytes (SYMBOLIC_CALLDATA) + 4 == 0)
+        sum_offset = KApply('_+Int_', [chopped_offset_loc, intToken(31)])
+        chopped_sum_offset = KApply('chop(_)_WORD_Int_Int', [sum_offset])
+        sum_length = KApply('_+Int_', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), intToken(4)])
+        less_than_expr = KApply('_s<Word__EVM-TYPES_Int_Int_Int', chopped_sum_offset, sum_length)
+        constraints.append(mlEqualsTrue(notBool(eqInt(less_than_expr, intToken("0")))))
 
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue
