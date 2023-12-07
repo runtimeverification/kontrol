@@ -3,12 +3,15 @@ from __future__ import annotations
 import sys
 from distutils.dir_util import copy_tree
 from typing import TYPE_CHECKING
+import json
 
 import pytest
 from filelock import FileLock
 from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.utils import run_process, single
+from pyk.kast import KInner
+from pyk.konvert import kast_to_kore
 
 from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
 from kontrol.kompile import foundry_kompile
@@ -16,10 +19,10 @@ from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR
+from pathlib import Path
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
-    from pathlib import Path
     from typing import Final
 
     from pyk.kore.rpc import KoreServer
@@ -489,3 +492,16 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
 
     # Then
     assert_pass(test, single(prove_res))
+
+
+def test_kast_to_kore_bug(
+    foundry: Foundry,
+) -> None:
+
+    sys.setrecursionlimit(10**8)
+
+    bug_json = json.loads(Path(TEST_DATA_DIR / 'bug.json').read_text())
+
+    kast = KInner.from_dict(bug_json)
+
+    kore = kast_to_kore(foundry.kevm.definition, foundry.kevm.kompiled_kore, kast)
