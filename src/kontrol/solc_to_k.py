@@ -65,6 +65,89 @@ def solc_to_k(
     return _kprint.pretty_print(bin_runtime_definition, unalias=False) + '\n'
 
 
+@dataclass(frozen=True)
+class Input:
+    name: str
+    type: str
+    components: tuple[Input, ...] = ()
+    idx: int = 0
+
+    @staticmethod
+    def from_dict(input: dict, idx: int = 0) -> Input:
+        name = input['name']
+        type = input['type']
+        if input.get('components') is not None and input['type'] != 'tuple[]':
+            return Input(name, type, tuple(Input._unwrap_components(input['components'], idx)), idx)
+        else:
+            return Input(name, type, idx=idx)
+
+    @staticmethod
+    def arg_name(input: Input) -> str:
+        return f'V{input.idx}_{input.name.replace("-", "_")}'
+
+    @staticmethod
+    def _make_single_type(input: Input) -> KApply:
+        input_name = Input.arg_name(input)
+        input_type = input.type
+        return KEVM.abi_type(input_type, KVariable(input_name))
+
+    @staticmethod
+    def _make_complex_type(components: Iterable[Input]) -> KApply:
+        """
+        recursively unwrap components in arguments of complex types and convert them to KEVM types
+        """
+        abi_types: list[KInner] = []
+        for comp in components:
+            # nested tuple, unwrap its components
+            if comp.type == 'tuple':
+                tuple = Input._make_complex_type(comp.components)
+                abi_type = tuple
+            else:
+                abi_type = Input._make_single_type(comp)
+            abi_types.append(abi_type)
+        return KEVM.abi_tuple(abi_types)
+
+    @staticmethod
+    def _unwrap_components(components: dict, i: int = 0) -> list[Input]:
+        """
+        recursively unwrap components in arguments of complex types
+        """
+        comps = []
+        for comp in components:
+            _name = comp['name']
+            _type = comp['type']
+            if comp.get('components') is not None and type != 'tuple[]':
+                new_comps = Input._unwrap_components(comp['components'], i)
+            else:
+                new_comps = []
+            comps.append(Input(_name, _type, tuple(new_comps), i))
+            i += 1
+        return comps
+
+    def to_abi(self) -> KApply:
+        if self.type == 'tuple':
+            return Input._make_complex_type(self.components)
+        else:
+            return Input._make_single_type(self)
+
+    def flattened(self) -> list[Input]:
+        if len(self.components) > 0:
+            nest = [comp.flattened() for comp in self.components]
+            return [fcomp for fncomp in nest for fcomp in fncomp]
+        else:
+            return [self]
+
+
+def inputs_from_abi(abi_inputs: Iterable[dict]) -> list[Input]:
+    inputs = []
+    i = 0
+    for input in abi_inputs:
+        cur_input = Input.from_dict(input, i)
+        inputs.append(cur_input)
+        i += len(cur_input.flattened())
+    return inputs
+
+
 @dataclass
 class Contract:
     @dataclass
@@ -136,8 +219,7 @@ class Contract:
         name: str
         id: int
         sort: KSort
-        arg_names: tuple[str, ...]
-        arg_types: tuple[str, ...]
+        inputs: tuple[Input, ...]
         contract_name: str
         contract_digest: str
         contract_storage_digest: str
@@ -159,8 +241,7 @@ class Contract:
             self.signature = msig
             self.name = abi['name']
             self.id = id
-            self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
-            self.arg_types = tuple([input['type'] for input in abi['inputs']])
+            self.inputs = tuple(inputs_from_abi(abi['inputs']))
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
@@ -194,6 +275,18 @@ class Contract:
         @cached_property
         def is_setup(self) -> bool:
             return self.name == 'setUp'
+
+        @cached_property
+        def flat_inputs(self) -> tuple[Input, ...]:
+            return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
+
+        @cached_property
+        def arg_names(self) -> Iterable[str]:
+            return tuple(Input.arg_name(input) for input in self.flat_inputs)
+
+        @cached_property
+        def arg_types(self) -> Iterable[str]:
+            return tuple(input.type for input in self.flat_inputs)
 
         def up_to_date(self, digest_file: Path) -> bool:
             if not digest_file.exists():
@@ -253,27 +346,36 @@ class Contract:
             )
 
         def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
-            arg_vars = [KVariable(aname) for aname in self.arg_names]
             prod_klabel = self.unique_klabel
-            assert prod_klabel is not None
+            arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
-            for input_name, input_type in zip(self.arg_names, self.arg_types, strict=True):
-                if input_type == 'bytes': # or is an array, e.g., ends with `[]`
+            # TODO(palina): to be refactored
+            for input in self.inputs:
+                if input.type == 'bytes': # or is an array, e.g., ends with `[]`
                     # getting the type
-                    element_type = KEVM.abi_type(input_type, KVariable(input_name))
+                    element_type = KEVM.abi_type(input.type, KVariable(input.name))
                     # if it's not `bytes`:
-                    # element_type = KEVM.abi_type(input_type[0 : input_type.index('[')], KVariable(input_name))
+                    # element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.name))
                     args.append(KEVM.abi_dynamic_array(element_type))
+                    rp = _range_predicate(KVariable(input.name), input.type)
+                    if rp is None:
+                        _LOGGER.info(
+                            f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
+                        )
+                        return None
+                    conjuncts.append(rp)
                 else:
-                    args.append(KEVM.abi_type(input_type, KVariable(input_name)))
-                rp = _range_predicate(KVariable(input_name), input_type)
-                if rp is None:
-                    _LOGGER.info(
-                        f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input_type}'
-                    )
-                    return None
-                conjuncts.append(rp)
+                    abi_type = input.to_abi()
+                    args.append(abi_type)
+                    rps = _range_predicates(abi_type)
+                    for rp in rps:
+                        if rp is None:
+                            _LOGGER.info(
+                                f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
+                            )
+                            return None
+                        conjuncts.append(rp)
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
             ensures = andBool(conjuncts)
@@ -737,6 +839,31 @@ def _evm_base_sort_int(type_label: str) -> bool:
     return success
 
 
+def _range_predicates(abi: KApply) -> list[KInner | None]:
+    rp: list[KInner | None] = []
+    if abi.label.name == 'abi_type_tuple':
+        if type(abi.args[0]) is KApply:
+            rp += _range_collection_predicates(abi.args[0])
+    else:
+        type_label = abi.label.name.removeprefix('abi_type_')
+        rp.append(_range_predicate(single(abi.args), type_label))
+    return rp
+
+
+def _range_collection_predicates(abi: KApply) -> list[KInner | None]:
+    rp: list[KInner | None] = []
+    if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
+        if type(abi.args[0]) is KApply:
+            rp += _range_predicates(abi.args[0])
+        if type(abi.args[1]) is KApply:
+            rp += _range_collection_predicates(abi.args[1])
+    elif abi.label.name == '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs':
+        return rp
+    else:
+        raise AssertionError('No list of typed args found')
+    return rp
+
+
 def _range_predicate(term: KInner, type_label: str) -> KInner | None:
     match type_label:
         case 'address':
@@ -763,7 +890,7 @@ def _range_predicate(term: KInner, type_label: str) -> KInner | None:
     return None
 
 
-def _range_predicate_uint(term: KInner, type_label: str) -> tuple[bool, KInner | None]:
+def _range_predicate_uint(term: KInner, type_label: str) -> tuple[bool, KApply | None]:
     if type_label.startswith('uint') and not type_label.endswith(']'):
         if type_label == 'uint':
             width = 256
@@ -776,7 +903,7 @@ def _range_predicate_uint(term: KInner, type_label: str) -> tuple[bool, KInner |
         return (False, None)
 
 
-def _range_predicate_int(term: KInner, type_label: str) -> tuple[bool, KInner | None]:
+def _range_predicate_int(term: KInner, type_label: str) -> tuple[bool, KApply | None]:
     if type_label.startswith('int') and not type_label.endswith(']'):
         if type_label == 'int':
             width = 256
@@ -789,7 +916,7 @@ def _range_predicate_int(term: KInner, type_label: str) -> tuple[bool, KInner | 
         return (False, None)
 
 
-def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KInner | None]:
+def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KApply | None]:
     if type_label.startswith('bytes') and not type_label.endswith(']'):
         str_width = type_label[5:]
         if str_width != '':

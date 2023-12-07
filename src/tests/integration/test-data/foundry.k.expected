@@ -90,6 +90,7 @@ module FOUNDRY-MAIN
     imports public S2KToken-VERIFICATION
     imports public S2KBytesTypeTest-VERIFICATION
     imports public S2KIntTypeTest-VERIFICATION
+    imports public S2KStructTypeTest-VERIFICATION
     imports public S2KUintTypeTest-VERIFICATION
     imports public S2KVm-VERIFICATION
     imports public S2KVmSafe-VERIFICATION
@@ -714,6 +715,13 @@ endmodule
 
 module S2KIntTypeTest-VERIFICATION
     imports public S2KIntTypeTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KStructTypeTest-VERIFICATION
+    imports public S2KStructTypeTest-CONTRACT
     
     
 
