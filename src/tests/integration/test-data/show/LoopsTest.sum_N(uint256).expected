@@ -744,7 +744,7 @@
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
                ))))))))
-       ensures VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
+       ensures VV0_n_114b9705:Int <=Int 51816696836262767
       [label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -951,11 +951,11 @@
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
                )))))))))
       [label(BASIC-BLOCK-5-TO-6)]
     
@@ -1164,11 +1164,11 @@
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
                )))))))))
       [label(BASIC-BLOCK-6-TO-7)]
     
@@ -1208,7 +1208,7 @@
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"~\x8e#\xd0" +Bytes #buf ( 32 , VV0_n_114b9705:Int ) => b"~\x8e#\xd0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     b"~\x8e#\xd0" +Bytes #buf ( 32 , VV0_n_114b9705:Int )
                    </callData>
                    <callValue>
                      0
@@ -1376,11 +1376,11 @@
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
        andBool ( VV0_n_114b9705:Int ==Int 0
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
                ))))))))))
        ensures VV0_n_114b9705:Int ==K 0
       [label(BASIC-BLOCK-8-TO-10)]
@@ -1588,15 +1588,15 @@
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( VV0_n_114b9705:Int =/=Int 0
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
                ))))))))))
-       ensures ( VV0_n_114b9705:Int =/=K 0
-       andBool ( 0 <Int VV0_n_114b9705:Int
+       ensures ( 0 <Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int =/=Int 0
        andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772579
        andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772582
        andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772585
@@ -1662,7 +1662,7 @@
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"~\x8e#\xd0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     b"~\x8e#\xd0" +Bytes #buf ( 32 , VV0_n_114b9705:Int )
                    </callData>
                    <callValue>
                      0
@@ -1825,14 +1825,17 @@
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( _VV0_n_114b9705 ==K 0
+      requires ( VV0_n_114b9705:Int ==K 0
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               )))))))
+       andBool ( VV0_n_114b9705:Int <Int pow256
+               ))))))))))
       [label(BASIC-BLOCK-10-TO-12)]
     
     rule [BASIC-BLOCK-11-TO-13]: <foundry>
@@ -2036,12 +2039,13 @@
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( VV0_n_114b9705:Int =/=K 0
-       andBool ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <Int VV0_n_114b9705:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int =/=Int 0
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -2068,7 +2072,6 @@
        andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772635
        andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772638
        andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772639
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
        andBool ( 0 <=Int ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 )
        andBool ( ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 ) <Int pow256
                )))))))))))))))))))))))))))))))))))
@@ -2112,7 +2115,7 @@
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"~\x8e#\xd0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     b"~\x8e#\xd0" +Bytes #buf ( 32 , VV0_n_114b9705:Int )
                    </callData>
                    <callValue>
                      0
@@ -2275,14 +2278,17 @@
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( _VV0_n_114b9705 ==K 0
+      requires ( VV0_n_114b9705:Int ==K 0
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               )))))))
+       andBool ( VV0_n_114b9705:Int <Int pow256
+               ))))))))))
       [label(BASIC-BLOCK-12-TO-14)]
     
     rule [BASIC-BLOCK-13-TO-15]: <foundry>
@@ -2486,12 +2492,13 @@
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( VV0_n_114b9705:Int =/=K 0
-       andBool ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <Int VV0_n_114b9705:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int =/=Int 0
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -2518,7 +2525,6 @@
        andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772635
        andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772638
        andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772639
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
        andBool ( 0 <=Int ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 )
        andBool ( ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 ) <Int pow256
                )))))))))))))))))))))))))))))))))))
