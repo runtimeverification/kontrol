@@ -297,8 +297,6 @@ class Foundry:
         return test_sigs
 
     def get_test_id(self, test: str, id: int | None) -> str:
-        #          test_base_name = test.split('/')[1]
-        #          matching_proofs = self.proofs_with_test(test_base_name)
         matching_proofs = self.proofs_with_test(test)
         if not matching_proofs:
             raise ValueError(f'Found no matching proofs for {test}.')
