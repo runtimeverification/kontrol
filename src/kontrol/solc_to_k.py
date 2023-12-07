@@ -91,7 +91,7 @@ class Contract:
             self.signature = 'init'
             self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
             self.arg_types = tuple([input['type'] for input in abi['inputs']])
-            self.output_types = tuple([output['type'] for output in abi['outputs']])
+            self.output_types = tuple([output['type'] for output in abi['outputs']]) if 'outputs' in abi.keys() else ()
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
@@ -173,7 +173,7 @@ class Contract:
             self.id = id
             self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
             self.arg_types = tuple([input['type'] for input in abi['inputs']])
-            self.output_types = tuple([output['type'] for output in abi['outputs']])
+            self.output_types = tuple([output['type'] for output in abi['outputs']]) if 'outputs' in abi.keys() else ()
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
