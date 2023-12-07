@@ -72,6 +72,10 @@ class Input:
     components: tuple[Input, ...] = ()
     idx: int = 0
 
+    @cached_property
+    def arg_name(self) -> str:
+        return f'V{self.idx}_{self.name.replace("-", "_")}'
+
     @staticmethod
     def from_dict(input: dict, idx: int = 0) -> Input:
         name = input['name']
@@ -82,12 +86,8 @@ class Input:
             return Input(name, type, idx=idx)
 
     @staticmethod
-    def arg_name(input: Input) -> str:
-        return f'V{input.idx}_{input.name.replace("-", "_")}'
-
-    @staticmethod
     def _make_single_type(input: Input) -> KApply:
-        input_name = Input.arg_name(input)
+        input_name = input.arg_name
         input_type = input.type
         return KEVM.abi_type(input_type, KVariable(input_name))
 
@@ -282,7 +282,7 @@ class Contract:
 
         @cached_property
         def arg_names(self) -> Iterable[str]:
-            return tuple(Input.arg_name(input) for input in self.flat_inputs)
+            return tuple(input.arg_name for input in self.flat_inputs)
 
         @cached_property
         def arg_types(self) -> Iterable[str]:
@@ -354,11 +354,11 @@ class Contract:
             for input in self.inputs:
                 if input.type == 'bytes': # or is an array, e.g., ends with `[]`
                     # getting the type
-                    element_type = KEVM.abi_type(input.type, KVariable(input.name))
+                    element_type = KEVM.abi_type(input.type, KVariable(input.arg_name))
                     # if it's not `bytes`:
                     # element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.name))
                     args.append(KEVM.abi_dynamic_array(element_type))
-                    rp = _range_predicate(KVariable(input.name), input.type)
+                    rp = _range_predicate(KVariable(input.arg_name), input.type)
                     if rp is None:
                         _LOGGER.info(
                             f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
