@@ -489,3 +489,8 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
 
     # Then
     assert_pass(test, single(prove_res))
+
+
+def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
+    assert 'src%duplicates%1%DuplicateName' in foundry.contracts.keys()
+    assert 'src%duplicates%2%DuplicateName' in foundry.contracts.keys()
