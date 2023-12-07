@@ -46,7 +46,6 @@ module FOUNDRY-MAIN
     imports public S2KtestZModLabelTest-VERIFICATION
     imports public S2KtestZModLoopsTest-VERIFICATION
     imports public S2KtestZModMergeTest-VERIFICATION
-    imports public S2KtestZModMerkleProofTest-VERIFICATION
     imports public S2KtestZModMethodDisambiguateTest-VERIFICATION
     imports public S2KtestZModMockCallTest-VERIFICATION
     imports public S2KsrcZModMyIERC20-VERIFICATION
@@ -407,13 +406,6 @@ endmodule
 
 module S2KtestZModMergeTest-VERIFICATION
     imports public S2KtestZModMergeTest-CONTRACT
-    
-    
-
-endmodule
-
-module S2KtestZModMerkleProofTest-VERIFICATION
-    imports public S2KtestZModMerkleProofTest-CONTRACT
     
     
 
