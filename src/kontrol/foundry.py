@@ -851,8 +851,13 @@ class DeploymentSummary:
     def generate(self) -> str:
         lines = []
         lines.append(f'pragma solidity {self.SOLIDITY_VERSION};\n')
-        lines.append('import "forge-std/Test.sol";\n')
-        lines.append(f'contract {self.name} is Test ' + '{')
+        lines.append('/* import "forge-std/Test.sol"; */')
+        lines.append('import { Vm } from "forge-std/Vm.sol";\n')
+        lines.append(f'contract {self.name} ' + '{')
+        # Appending the cheatcode address to be able to avoid extending `Test`
+        lines.append('\t// Cheat code address, 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D')
+        lines.append('\taddress internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));')
+        lines.append('\tVm internal constant vm = Vm(VM_ADDRESS);\n')
 
         for acc_key in list(self.accounts):
             lines.append('\taddress public ' + self.accounts[acc_key] + ' = ' + acc_key + ';')
