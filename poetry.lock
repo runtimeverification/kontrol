@@ -338,13 +338,13 @@ flake8 = "*"
 
 [[package]]
 name = "flake8-type-checking"
-version = "2.7.0"
+version = "2.8.0"
 description = "A flake8 plugin for managing type-checking imports & forward references"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "flake8_type_checking-2.7.0-py3-none-any.whl", hash = "sha256:bcb0f8bd88d2921482dcdc8349017f1c55d024c207e02c4f13cdd47c2d898a56"},
-    {file = "flake8_type_checking-2.7.0.tar.gz", hash = "sha256:a738157af62e2040b0cd501a548d57dba49480dbb2227809aba2c0140c7856d2"},
+    {file = "flake8_type_checking-2.8.0-py3-none-any.whl", hash = "sha256:a6f9ded325f0c9845f073609c557bf481882adc4d18571a39b137ef2d284dc85"},
+    {file = "flake8_type_checking-2.8.0.tar.gz", hash = "sha256:07d949b686f39eb0cb828a394aa29d48bd1ca0df92d552d9794d17b22c309cd7"},
 ]
 
 [package.dependencies]
@@ -430,7 +430,7 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.386"
+version = "1.0.388"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -439,14 +439,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.530"}
+pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.534"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.386"
-resolved_reference = "c743e3f60d52f6436cce437d9bf43638445cd96c"
+reference = "v1.0.388"
+resolved_reference = "a744dfb2cafe5149ba4b66088990113e83c7121d"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -809,7 +809,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.530"
+version = "0.1.534"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -830,8 +830,8 @@ xdg-base-dirs = "^6.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.530"
-resolved_reference = "00e07a30cf0049a33ae1df1c28c6d3f95792e2ab"
+reference = "v0.1.534"
+resolved_reference = "3d24ec6c377d33b0466729ceeccb5541f732c8f1"
 
 [[package]]
 name = "pyperclip"
@@ -1081,4 +1081,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "d19498b44b9c9b0898f7906b0963af24b2f5ac944eb99252edcb6f087a994060"
+content-hash = "a954cb4049ebc1798d1e07a32e41ef2ab2eb8b4e771cf5b0ca1ad34eb651cfa4"
