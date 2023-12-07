@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import faulthandler
 import json
 import logging
 import sys
@@ -211,6 +212,9 @@ def exec_prove(
     maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
+
+    faulthandler.enable()
+
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
     _ignore_arg(kwargs, 'syntax_module', f'--syntax-module: {kwargs["syntax_module"]}')
     _ignore_arg(kwargs, 'definition_dir', f'--definition: {kwargs["definition_dir"]}')
