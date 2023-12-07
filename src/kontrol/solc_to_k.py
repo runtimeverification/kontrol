@@ -101,7 +101,7 @@ class Contract:
 
         @property
         def argwidth(self) -> int:
-            return sum(map(Contract.calldata_type_width, self.arg_types))
+            return 4 + sum(map(Contract.calldata_type_width, self.arg_types))
 
         @property
         def retwidth(self) -> int:
@@ -206,7 +206,7 @@ class Contract:
 
         @property
         def argwidth(self) -> int:
-            return sum(map(Contract.calldata_type_width, self.arg_types))
+            return 4 + sum(map(Contract.calldata_type_width, self.arg_types))
 
         @property
         def retwidth(self) -> int:

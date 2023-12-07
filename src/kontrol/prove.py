@@ -11,6 +11,7 @@ from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
+from pyk.prelude.bytes import bytesToken_from_str
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, notBool
 from pyk.prelude.kint import intToken
@@ -538,22 +539,16 @@ def _init_cse_cterm(
         KVariable('ACCT_FROM_NONCE'),
     )
     schedule = KApply('SHANGHAI_EVM')
-    valid_calldata = KEVM.bytes_append(calldata, KVariable('LM')) if calldata is not None else KVariable('LM')
 
     valid_callvalue = callvalue if callvalue is not None else KVariable('CALLVALUE')
 
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'SCHEDULE_CELL': schedule,
-        'CALLDEPTH_CELL': intToken(0),
-        'LOG_CELL': KApply('.List'),
         'ID_CELL': KVariable('ACCT_FROM'),
-        'INTERIMSTATES_CELL': KApply('.List'),
         'ACTIVE_CELL': FALSE,
         'STATIC_CELL': FALSE,
-        'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
         'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
-        'LOCALMEM_CELL': valid_calldata,
         'K_CELL': KApply(
             '_________EVM_InternalOp_CallOp_Int_Int_Int_Int_Int_Int_Int',
             [
@@ -561,9 +556,9 @@ def _init_cse_cterm(
                 intToken(1),
                 KVariable('ACCT_TO'),
                 valid_callvalue,
-                intToken(4),
+                KVariable('ARGSTART'),
                 intToken(method.argwidth),
-                intToken(0),
+                KVariable('RETSTART'),
                 intToken(method.retwidth),
             ],
         ),
@@ -574,19 +569,11 @@ def _init_cse_cterm(
                 Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
             ]
         ),
-        'SINGLECALL_CELL': FALSE,
         'ISREVERTEXPECTED_CELL': FALSE,
         'ISOPCODEEXPECTED_CELL': FALSE,
-        'EXPECTEDADDRESS_CELL': KApply('.Account_EVM-TYPES_Account'),
-        'EXPECTEDVALUE_CELL': intToken(0),
-        'EXPECTEDDATA_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
-        'OPCODETYPE_CELL': KApply('.OpcodeType_FOUNDRY-CHEAT-CODES_OpcodeType'),
-        'RECORDEVENT_CELL': FALSE,
         'ISEVENTEXPECTED_CELL': FALSE,
         'ISCALLWHITELISTACTIVE_CELL': FALSE,
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
-        'ADDRESSSET_CELL': KApply('.Set'),
-        'STORAGESLOTSET_CELL': KApply('.Set'),
     }
 
     constraints = [
@@ -595,7 +582,41 @@ def _init_cse_cterm(
         mlEqualsTrue(
             notBool(KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('ACCT_TO'), schedule]))
         ),
+        mlEqualsTrue(
+            KApply(
+                '_==K_',
+                [
+                    KApply(
+                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                        [KVariable('LM'), KVariable('ARGSTART'), intToken(4)],
+                    ),
+                    bytesToken_from_str(method.signature),
+                ],
+            )
+        ),
     ]
+
+    offset = 4
+    for arg_name, arg_type in zip(method.arg_names, method.arg_types, strict=True):
+        t_offset = intToken(offset)
+        c_arg = mlEqualsTrue(
+            KApply(
+                '_==K_',
+                [
+                    KApply(
+                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                        [
+                            KVariable('LM'),
+                            KApply('_+Int_', KVariable('ARGSTART'), t_offset),
+                            intToken(Contract.calldata_type_width(arg_type)),
+                        ],
+                    ),
+                    KVariable(arg_name),
+                ],
+            )
+        )
+        constraints.append(c_arg)
+        offset += 32
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
