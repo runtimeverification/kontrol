@@ -90,6 +90,7 @@ module FOUNDRY-MAIN
     imports public S2KsrcZModToken-VERIFICATION
     imports public S2KtestZModBytesTypeTest-VERIFICATION
     imports public S2KtestZModIntTypeTest-VERIFICATION
+    imports public S2KtestZModStructTypeTest-VERIFICATION
     imports public S2KtestZModUintTypeTest-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModVm-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModVmSafe-VERIFICATION
@@ -714,6 +715,13 @@ endmodule
 
 module S2KtestZModIntTypeTest-VERIFICATION
     imports public S2KtestZModIntTypeTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModStructTypeTest-VERIFICATION
+    imports public S2KtestZModStructTypeTest-CONTRACT
     
     
 
