@@ -87,9 +87,17 @@ class Input:
 
     @staticmethod
     def _make_single_type(input: Input) -> KApply:
-        input_name = input.arg_name
-        input_type = input.type
-        return KEVM.abi_type(input_type, KVariable(input_name))
+        # TODO(palina): make a dynamic array if it's `bytes` or ends with `[]`
+        if input.type == 'bytes': # or is an array, e.g., ends with `[]`
+            # getting the type
+            element_type = KEVM.abi_type(input.type, KVariable(input.arg_name))
+            # if it's not `bytes`:
+            # element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.name))
+            return KEVM.abi_dynamic_array(element_type)
+        else:
+            input_name = input.arg_name
+            input_type = input.type
+            return KEVM.abi_type(input_type, KVariable(input_name))
 
     @staticmethod
     def _make_complex_type(components: Iterable[Input]) -> KApply:
@@ -389,7 +397,7 @@ class Contract:
                 else abstract_term_safely(KVariable('_###CALLVALUE###_'), base_name='CALLVALUE')
             )
 
-        def calldata_cell(self, contract: Contract) -> KInner:
+        def calldata_cell(self, contract: Contract) -> (KInner, bool):
             has_dynamic_types = False
             args: list[KInner] = []
             for input_name, input_type in zip(self.arg_names, self.arg_types, strict=True):
@@ -404,9 +412,9 @@ class Contract:
                 else:
                     args.append(KEVM.abi_type(input_type, KVariable(input_name)))
             if has_dynamic_types:
-                return KEVM.abi_symbolic_calldata(self.name, args)
+                return (KEVM.abi_symbolic_calldata(self.name, args), True)
             else:
-                return KApply(contract.klabel_method, [KApply(contract.klabel), self.application])
+                return (KApply(contract.klabel_method, [KApply(contract.klabel), self.application]), False)
 
         @cached_property
         def application(self) -> KInner:
