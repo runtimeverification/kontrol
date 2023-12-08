@@ -29,6 +29,7 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
+    from pyk.utils import FrozenDict
 
     from .options import ProveOptions, RPCOptions
 
@@ -361,6 +362,7 @@ def _method_to_cfg(
             empty_config,
             contract.name,
             method=method,
+            fields=contract.fields,
             program=program,
             calldata=calldata,
             callvalue=callvalue,
@@ -517,18 +519,19 @@ def _init_cse_cterm(
     contract_name: str,
     program: KInner,
     method: Contract.Method | Contract.Constructor,
+    fields: FrozenDict,
     *,
     setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
 ) -> CTerm:
-    acct_to = KEVM.account_cell(
-        KVariable('ACCT_TO'),
-        KVariable('ACCT_TO_BAL'),
+    contract = KEVM.account_cell(
+        KVariable('CONTRACT'),
+        KVariable('CONTRACT_BAL'),
         program,
-        KVariable('ACCT_TO_STORAGE'),
-        KVariable('ACCT_TO_ORIG_STORAGE'),
-        KVariable('ACCT_TO_NONCE'),
+        KVariable('CONTRACT_STORAGE'),
+        KVariable('CONTRACT_STORAGE'),
+        KVariable('CONTRACT_NONCE'),
     )
     acct_from = KEVM.account_cell(
         KVariable('ACCT_FROM'),
@@ -555,7 +558,7 @@ def _init_cse_cterm(
             [
                 KApply('CALL_EVM_CallOp'),
                 intToken(1),
-                KVariable('ACCT_TO'),
+                KVariable('CONTRACT'),
                 valid_callvalue,
                 KVariable('ARGSTART'),
                 intToken(method.argwidth),
@@ -565,7 +568,7 @@ def _init_cse_cterm(
         ),
         'ACCOUNTS_CELL': KEVM.accounts(
             [
-                acct_to,  # test contract address
+                contract,  # test contract address
                 acct_from,
                 Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
             ]
@@ -581,7 +584,7 @@ def _init_cse_cterm(
         mlEqualsTrue(KApply('_>=Int_', KVariable('ACCT_FROM_BAL'), intToken(0))),
         mlEqualsTrue(KApply('#rangeNonce(_)_WORD_Bool_Int', KVariable('ACCT_FROM_NONCE'))),
         mlEqualsTrue(
-            notBool(KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('ACCT_TO'), schedule]))
+            notBool(KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('CONTRACT'), schedule]))
         ),
         mlEqualsTrue(
             KApply(
@@ -632,6 +635,12 @@ def _init_cse_cterm(
         )
         constraints.append(c_arg)
         offset += type_width
+
+    for var, loc in fields.items():
+        c_loc = mlEqualsTrue(
+            KApply('_==Int_', [KEVM.lookup(KVariable('CONTRACT_STORAGE'), intToken(loc)), KVariable(var.upper())])
+        )
+        constraints.append(c_loc)
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
