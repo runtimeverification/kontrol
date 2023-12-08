@@ -8,14 +8,14 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KSequence, KVariable, Subst
+from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
-from pyk.prelude.bytes import bytesToken_from_str
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, notBool
-from pyk.prelude.kint import intToken
+from pyk.prelude.kint import INT, intToken
 from pyk.prelude.ml import mlEqualsTrue
+from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
@@ -549,6 +549,7 @@ def _init_cse_cterm(
         'ACTIVE_CELL': FALSE,
         'STATIC_CELL': FALSE,
         'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
+        'LOCALMEM_CELL': KVariable('LM', sort=KSort('Bytes')),
         'K_CELL': KApply(
             '_________EVM_InternalOp_CallOp_Int_Int_Int_Int_Int_Int_Int',
             [
@@ -590,7 +591,17 @@ def _init_cse_cterm(
                         '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
                         [KVariable('LM'), KVariable('ARGSTART'), intToken(4)],
                     ),
-                    bytesToken_from_str(method.signature),
+                    KEVM.parse_bytestack(
+                        KApply(
+                            'substrString(_,_,_)_STRING-COMMON_String_String_Int_Int',
+                            KApply(
+                                'Keccak256bytes(_)_SERIALIZATION_String_Bytes',
+                                KApply('String2Bytes(_)_BYTES-HOOKED_Bytes_String', stringToken(method.signature)),
+                            ),
+                            intToken(0),
+                            intToken(8),
+                        )
+                    ),
                 ],
             )
         ),
@@ -599,24 +610,28 @@ def _init_cse_cterm(
     offset = 4
     for arg_name, arg_type in zip(method.arg_names, method.arg_types, strict=True):
         t_offset = intToken(offset)
+        type_width = Contract.calldata_type_width(arg_type)
         c_arg = mlEqualsTrue(
             KApply(
-                '_==K_',
+                '_==Int_',
                 [
                     KApply(
-                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                        [
-                            KVariable('LM'),
-                            KApply('_+Int_', KVariable('ARGSTART'), t_offset),
-                            intToken(Contract.calldata_type_width(arg_type)),
-                        ],
+                        '#asWord(_)_EVM-TYPES_Int_Bytes',
+                        KApply(
+                            '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                            [
+                                KVariable('LM'),
+                                KApply('_+Int_', KVariable('ARGSTART'), t_offset),
+                                intToken(type_width),
+                            ],
+                        ),
                     ),
-                    KVariable(arg_name),
+                    KVariable(arg_name, sort=INT),
                 ],
             )
         )
         constraints.append(c_arg)
-        offset += 32
+        offset += type_width
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
