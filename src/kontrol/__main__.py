@@ -17,8 +17,8 @@ from pyk.proof.tui import APRProofViewer
 
 from . import VERSION
 from .cli import KontrolCLIArgs
+from .deployment import DeploymentSummary
 from .foundry import (
-    DeploymentSummary,
     Foundry,
     foundry_get_model,
     foundry_list,
@@ -116,16 +116,20 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 # Command implementation
 
 
-def exec_summary(name: str, accesses_file: Path, contract_names: Path, **kwargs: Any) -> None:
+def exec_summary(name: str, accesses_file: Path, contract_names: Path | None, **kwargs: Any) -> None:
+    if not accesses_file.exists():
+        raise FileNotFoundError('Given account accesses dictionary file not found.')
     accesses = json.loads(accesses_file.read_text())['accountAccesses']
     accounts = {}
-    if contract_names.exists():
+    if contract_names is not None:
+        if not contract_names.exists():
+            raise FileNotFoundError('Given contract names dictionary file not found.')
         accounts = json.loads(contract_names.read_text())
     summary_contract = DeploymentSummary(name=name, accounts=accounts)
     for access in accesses:
         summary_contract.add_cheatcode(access)
 
-    print(summary_contract.generate())
+    print('\n'.join(summary_contract.generate_full_file()))
 
 
 def exec_version(**kwargs: Any) -> None:
@@ -645,7 +649,13 @@ def _create_argument_parser() -> ArgumentParser:
     )
     summary_args.add_argument('name', type=str, help='Generated contract name')
     summary_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
-    summary_args.add_argument('contract_names', type=file_path, help='Path to JSON containing deployment addresses and its respective contract names')
+    summary_args.add_argument(
+        '--contract_names',
+        dest='contract_names',
+        default=None,
+        type=file_path,
+        help='Path to JSON containing deployment addresses and its respective contract names',
+    )
 
     prove_args = command_parser.add_parser(
         'prove',
