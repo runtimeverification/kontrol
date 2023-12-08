@@ -2,6 +2,8 @@ requires "contracts.k"
 requires "requires/lemmas.k"
 
 module FOUNDRY-MAIN
+    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
+    imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
     imports public S2KtestZModAccountParamsTest-VERIFICATION
     imports public S2KtestZModAddrTest-VERIFICATION
     imports public S2KtestZModAllowChangesTest-VERIFICATION
@@ -98,6 +100,20 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole2-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
+    
+    
+
+endmodule
+
+module S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
+    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
+    imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-CONTRACT
     
     
 

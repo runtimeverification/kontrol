@@ -1,5 +1,33 @@
 requires "foundry.md"
 
+module S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KsrcZModduplicatesZMod1ZModDuplicateNameContract
+    
+    syntax S2KsrcZModduplicatesZMod1ZModDuplicateNameContract ::= "S2KsrcZModduplicatesZMod1ZModDuplicateName" [symbol(), klabel(contract_src%duplicates%1%DuplicateName)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KsrcZModduplicatesZMod1ZModDuplicateName ) => #parseByteStack ( "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212206da0d60edea336af3823d2a862b513414597e5f713902a9bf28b51cf02d0bddd64736f6c634300080d0033" ) )
+      
+
+endmodule
+
+module S2KsrcZModduplicatesZMod2ZModDuplicateName-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KsrcZModduplicatesZMod2ZModDuplicateNameContract
+    
+    syntax S2KsrcZModduplicatesZMod2ZModDuplicateNameContract ::= "S2KsrcZModduplicatesZMod2ZModDuplicateName" [symbol(), klabel(contract_src%duplicates%2%DuplicateName)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KsrcZModduplicatesZMod2ZModDuplicateName ) => #parseByteStack ( "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220a114430ee56f170dc5152c65a4e19e034b77f7b9e9b5a70cec4346f145bfc35864736f6c634300080d0033" ) )
+      
+
+endmodule
+
 module S2KtestZModAccountParamsTest-CONTRACT
     imports public FOUNDRY
     
