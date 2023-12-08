@@ -1,3 +1,11 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+
 class DeploymentSummary:
     SOLIDITY_VERSION = '^0.8.13'
 
@@ -17,6 +25,7 @@ class DeploymentSummary:
     def generate_header(self) -> list[str]:
         lines = []
         lines.append(f'pragma solidity {self.SOLIDITY_VERSION};\n')
+        lines.append('import { Vm } from "forge-std/Vm.sol";\n')
         return lines
 
     def generate_code_contract(self) -> list[str]:
@@ -31,7 +40,7 @@ class DeploymentSummary:
         lines = []
         lines.append('')
 
-        lines.append(f'contract {self.name} ' + '{')
+        lines.append(f'contract {self.name} is {self.name}Code ' + '{')
         # Appending the cheatcode address to be able to avoid extending `Test`
         lines.append('\t// Cheat code address, 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D')
         lines.append(
@@ -46,7 +55,6 @@ class DeploymentSummary:
 
         lines.append('\tfunction recreateDeployment() public {')
 
-        lines.append('\t\tABCDEFCode code;')
         lines.append('\t\tbytes32 slot;')
         lines.append('\t\tbytes32 value;')
 
@@ -58,12 +66,22 @@ class DeploymentSummary:
         lines.append('}')
         return lines
 
-    def generate_full_file(self) -> list[str]:
+    def generate_condensed_file(self) -> list[str]:
         lines = self.generate_header()
-        lines.append('/* import "forge-std/Test.sol"; */')
-        lines.append('import { Vm } from "forge-std/Vm.sol";\n')
         lines += self.generate_code_contract()
         lines += self.generate_main_contract()
+        return lines
+
+    def generate_main_contract_file(self, imports: Iterable[str] = ()) -> list[str]:
+        lines = self.generate_header()
+        for imp in imports:
+            lines.append(f'import {imp!r};')
+        lines += self.generate_main_contract()
+        return lines
+
+    def generate_code_contract_file(self) -> list[str]:
+        lines = self.generate_header()
+        lines += self.generate_code_contract()
         return lines
 
     def add_cheatcode(self, dct: dict) -> None:
@@ -89,7 +107,7 @@ class DeploymentSummary:
         if deployed_code != '0x' and kind == 'Create':
             acc_name = self.accounts[account]
             self.code[acc_name] = deployed_code[2:]
-            self.commands.append(f'vm.etch({acc_name}Address, code.{acc_name}Code())')
+            self.commands.append(f'vm.etch({acc_name}Address, {acc_name}Code)')
 
         if new_balance != old_balance:
             self.commands.append(f'vm.deal({self.accounts[account]}, {new_balance})')

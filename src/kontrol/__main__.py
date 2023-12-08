@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 from argparse import ArgumentParser
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
@@ -14,6 +15,7 @@ from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
+from pyk.utils import ensure_dir_path
 
 from . import VERSION
 from .cli import KontrolCLIArgs
@@ -39,7 +41,6 @@ from .solc_to_k import solc_compile, solc_to_k
 if TYPE_CHECKING:
     from argparse import Namespace
     from collections.abc import Callable, Iterable
-    from pathlib import Path
     from typing import Any, Final, TypeVar
 
     from pyk.cterm import CTerm
@@ -65,7 +66,7 @@ def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Fo
         foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
     except FileNotFoundError:
         print(
-            f'File foundry.toml not found in: {foundry_root}. Are you running kontrol in a Foundry project?',
+            f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
             file=sys.stderr,
         )
         sys.exit(1)
@@ -116,7 +117,17 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 # Command implementation
 
 
-def exec_summary(name: str, accesses_file: Path, contract_names: Path | None, **kwargs: Any) -> None:
+def exec_summary(
+    name: str,
+    accesses_file: Path,
+    contract_names: Path | None,
+    output_dir_name: Path | None,
+    foundry_root: Path,
+    condense_summary: bool = False,
+    **kwargs: Any,
+) -> None:
+    foundry = _load_foundry(foundry_root)
+
     if not accesses_file.exists():
         raise FileNotFoundError('Given account accesses dictionary file not found.')
     accesses = json.loads(accesses_file.read_text())['accountAccesses']
@@ -129,7 +140,24 @@ def exec_summary(name: str, accesses_file: Path, contract_names: Path | None, **
     for access in accesses:
         summary_contract.add_cheatcode(access)
 
-    print('\n'.join(summary_contract.generate_full_file()))
+    if output_dir_name is None:
+        output_dir_name = foundry.profile.get('test', '')
+
+    output_dir = foundry_root / output_dir_name
+    ensure_dir_path(output_dir)
+
+    main_file = output_dir / Path(name + '.sol')
+
+    if condense_summary:
+        main_file.write_text('\n'.join(summary_contract.generate_condensed_file()))
+    else:
+        code_file = output_dir / Path(name + 'Code.sol')
+        main_file.write_text(
+            '\n'.join(
+                summary_contract.generate_main_contract_file(imports=[str(output_dir_name / Path(name + 'Code.sol'))])
+            )
+        )
+        code_file.write_text('\n'.join(summary_contract.generate_code_contract_file()))
 
 
 def exec_version(**kwargs: Any) -> None:
@@ -645,16 +673,32 @@ def _create_argument_parser() -> ArgumentParser:
     summary_args = command_parser.add_parser(
         'summary',
         help='Generate a solidity function summary from an account access dict',
-        parents=[],
+        parents=[
+            kontrol_cli_args.foundry_args,
+        ],
     )
     summary_args.add_argument('name', type=str, help='Generated contract name')
     summary_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
     summary_args.add_argument(
-        '--contract_names',
+        '--contract-names',
         dest='contract_names',
         default=None,
         type=file_path,
         help='Path to JSON containing deployment addresses and its respective contract names',
+    )
+    summary_args.add_argument(
+        '--condense-summary',
+        dest='condense_summary',
+        default=False,
+        type=bool,
+        help='Deploy summary as a single file',
+    )
+    summary_args.add_argument(
+        '--output-dir',
+        dest='output_dir_name',
+        default=None,
+        type=str,
+        help='Path to write summary .sol files, relative to foundry root',
     )
 
     prove_args = command_parser.add_parser(
