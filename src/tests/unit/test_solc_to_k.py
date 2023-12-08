@@ -176,7 +176,7 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
 @pytest.mark.parametrize('test_id,input,expected', INPUT_DATA, ids=[test_id for test_id, *_ in INPUT_DATA])
 def test_input_to_abi(test_id: str, input: Input, expected: KApply) -> None:
     # When
-    abi = input.to_abi()
+    abi, _ = input.to_abi()
 
     # Then
     assert abi == expected

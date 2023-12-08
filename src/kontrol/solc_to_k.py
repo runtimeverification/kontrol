@@ -86,34 +86,35 @@ class Input:
             return Input(name, type, idx=idx)
 
     @staticmethod
-    def _make_single_type(input: Input) -> KApply:
+    def _make_single_type(input: Input) -> (KApply, bool):
         # TODO(palina): make a dynamic array if it's `bytes` or ends with `[]`
         if input.type == 'bytes': # or is an array, e.g., ends with `[]`
             # getting the type
             element_type = KEVM.abi_type(input.type, KVariable(input.arg_name))
             # if it's not `bytes`:
             # element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.name))
-            return KEVM.abi_dynamic_array(element_type)
+            return (KEVM.abi_dynamic_array(element_type), True)
         else:
             input_name = input.arg_name
             input_type = input.type
-            return KEVM.abi_type(input_type, KVariable(input_name))
+            return (KEVM.abi_type(input_type, KVariable(input_name)), False)
 
     @staticmethod
-    def _make_complex_type(components: Iterable[Input]) -> KApply:
+    def _make_complex_type(components: Iterable[Input]) -> (KApply, bool):
         """
         recursively unwrap components in arguments of complex types and convert them to KEVM types
         """
+        has_dynamic_type = False
         abi_types: list[KInner] = []
         for comp in components:
             # nested tuple, unwrap its components
             if comp.type == 'tuple':
-                tuple = Input._make_complex_type(comp.components)
+                tuple, has_dynamic_type = Input._make_complex_type(comp.components)
                 abi_type = tuple
             else:
-                abi_type = Input._make_single_type(comp)
+                abi_type, has_dynamic_type = Input._make_single_type(comp)
             abi_types.append(abi_type)
-        return KEVM.abi_tuple(abi_types)
+        return (KEVM.abi_tuple(abi_types), has_dynamic_type)
 
     @staticmethod
     def _unwrap_components(components: dict, i: int = 0) -> list[Input]:
@@ -132,7 +133,7 @@ class Input:
             i += 1
         return comps
 
-    def to_abi(self) -> KApply:
+    def to_abi(self) -> (KApply, bool):
         if self.type == 'tuple':
             return Input._make_complex_type(self.components)
         else:
@@ -360,30 +361,17 @@ class Contract:
             conjuncts: list[KInner] = []
             # TODO(palina): to be refactored
             for input in self.inputs:
-                if input.type == 'bytes': # or is an array, e.g., ends with `[]`
-                    # getting the type
-                    element_type = KEVM.abi_type(input.type, KVariable(input.arg_name))
-                    # if it's not `bytes`:
-                    # element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.name))
-                    args.append(KEVM.abi_dynamic_array(element_type))
-                    rp = _range_predicate(KVariable(input.arg_name), input.type)
+                abi_type, _ = input.to_abi()
+                args.append(abi_type)
+                rps = _range_predicates(abi_type)
+                for rp in rps:
+                    # TODO(palina): if the type is `bytes`, shall we still generate a rule?
                     if rp is None:
                         _LOGGER.info(
                             f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
                         )
                         return None
                     conjuncts.append(rp)
-                else:
-                    abi_type = input.to_abi()
-                    args.append(abi_type)
-                    rps = _range_predicates(abi_type)
-                    for rp in rps:
-                        if rp is None:
-                            _LOGGER.info(
-                                f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
-                            )
-                            return None
-                        conjuncts.append(rp)
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
             ensures = andBool(conjuncts)
@@ -400,17 +388,13 @@ class Contract:
         def calldata_cell(self, contract: Contract) -> (KInner, bool):
             has_dynamic_types = False
             args: list[KInner] = []
-            for input_name, input_type in zip(self.arg_names, self.arg_types, strict=True):
-                # TODO(palina): or of it is an array, e.g., ends with `[]`
-                if input_type == 'bytes': 
-                    # getting the type
-                    element_type = KEVM.abi_type(input_type, KVariable(input_name))
-                    # if it's not `bytes`:
-                    # element_type = KEVM.abi_type(input_type[0 : input_type.index('[')], KVariable(input_name))
-                    args.append(KEVM.abi_dynamic_array(element_type))
-                    has_dynamic_types = True
-                else:
-                    args.append(KEVM.abi_type(input_type, KVariable(input_name)))
+
+            for input in self.inputs:
+                abi_type, input_has_dynamic_types = input.to_abi()
+                # if any of the inputs contain dynamic types, make it symbolic
+                has_dynamic_types = has_dynamic_types or input_has_dynamic_types
+                args.append(abi_type)
+
             if has_dynamic_types:
                 return (KEVM.abi_symbolic_calldata(self.name, args), True)
             else:
@@ -852,6 +836,10 @@ def _range_predicates(abi: KApply) -> list[KInner | None]:
     if abi.label.name == 'abi_type_tuple':
         if type(abi.args[0]) is KApply:
             rp += _range_collection_predicates(abi.args[0])
+    elif abi.label.name == 'abi_dynamic_array':
+        # TODO(palina): support other arrays
+        type_label = "bytes"
+        rp.append(_range_predicate(single(abi.args), type_label))
     else:
         type_label = abi.label.name.removeprefix('abi_type_')
         rp.append(_range_predicate(single(abi.args), type_label))
