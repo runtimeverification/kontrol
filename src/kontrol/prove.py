@@ -13,9 +13,8 @@ from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, notBool
-from pyk.prelude.kint import INT, intToken
+from pyk.prelude.kint import INT, intToken, ltInt
 from pyk.prelude.ml import mlEqualsTrue
-from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
@@ -586,25 +585,19 @@ def _init_cse_cterm(
         mlEqualsTrue(
             notBool(KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('CONTRACT'), schedule]))
         ),
+        mlEqualsTrue(ltInt(KVariable('CALLDEPTH_CELL'), intToken(1024))),
         mlEqualsTrue(
             KApply(
-                '_==K_',
+                '_==Int_',
                 [
                     KApply(
-                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                        [KVariable('LM'), KVariable('ARGSTART'), intToken(4)],
-                    ),
-                    KEVM.parse_bytestack(
+                        '#asWord(_)_EVM-TYPES_Int_Bytes',
                         KApply(
-                            'substrString(_,_,_)_STRING-COMMON_String_String_Int_Int',
-                            KApply(
-                                'Keccak256bytes(_)_SERIALIZATION_String_Bytes',
-                                KApply('String2Bytes(_)_BYTES-HOOKED_Bytes_String', stringToken(method.signature)),
-                            ),
-                            intToken(0),
-                            intToken(8),
-                        )
+                            '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                            [KVariable('LM'), KVariable('ARGSTART'), intToken(4)],
+                        ),
                     ),
+                    KEVM.abi_selector(method.signature),
                 ],
             )
         ),
