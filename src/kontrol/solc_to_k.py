@@ -87,13 +87,16 @@ class Input:
 
     @staticmethod
     def _make_single_type(input: Input) -> (KApply, bool):
-        # TODO(palina): make a dynamic array if it's `bytes` or ends with `[]`
-        if input.type == 'bytes': # or is an array, e.g., ends with `[]`
+        if input.type == 'bytes':
             # getting the type
             element_type = KEVM.abi_type(input.type, KVariable(input.arg_name))
-            # if it's not `bytes`:
-            # element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.name))
-            return (KEVM.abi_dynamic_array(element_type), True)
+            return (KEVM.abi_dynamic_bytes_array(element_type), True)
+        elif input.type.endswith('[]'):
+            element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.arg_name))
+            if element_type == 'bytes':
+                return (KEVM.abi_dynamic_bytes_array(element_type), True)
+            else:
+                return (KEVM.abi_dynamic_array(element_type), True)
         else:
             input_name = input.arg_name
             input_type = input.type
@@ -101,6 +104,7 @@ class Input:
 
     @staticmethod
     def _make_complex_type(components: Iterable[Input]) -> (KApply, bool):
+        # TODO(palina): add support for static arrays
         """
         recursively unwrap components in arguments of complex types and convert them to KEVM types
         """
