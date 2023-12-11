@@ -497,54 +497,95 @@ def _init_cterm(
 
             # calldata_length_range = mlEqualsTrue(leInt(KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), KEVM.pow256()))
             # constraints.append(calldata_length_range)
-            calldata_length_224 = mlEqualsTrue(eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [chopped_calldata_length, intToken(224)])))
+            calldata_length_224 = mlEqualsTrue(
+                eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [chopped_calldata_length, intToken(224)]))
+            )
             constraints.append(calldata_length_224)
 
-            calldata_length_480 = mlEqualsTrue(eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [chopped_calldata_length, intToken(480)])))
+            calldata_length_480 = mlEqualsTrue(
+                eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [chopped_calldata_length, intToken(480)]))
+            )
             constraints.append(calldata_length_480)
-            
-            #asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) <=Int maxUInt64
-            offset_struct = KApply('#asWord(_)_EVM-TYPES_Int_Bytes', [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [KVariable('SYMBOLIC_CALLDATA'), intToken(0), intToken(32)])])
+
+            # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) <=Int maxUInt64
+            offset_struct = KApply(
+                '#asWord(_)_EVM-TYPES_Int_Bytes',
+                [
+                    KApply(
+                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                        [KVariable('SYMBOLIC_CALLDATA'), intToken(0), intToken(32)],
+                    )
+                ],
+            )
             constraints.append(mlEqualsTrue(leInt(offset_struct, intToken("18446744073709551615"))))
 
-            #And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )           
-            # And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )           
-            struct_loc = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [offset_struct, intToken(4)])])            
-            struct_subtr = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [KApply('_-Int_', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), struct_loc]), intToken(4)])])
-            struct_length_192 = mlEqualsTrue(eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [struct_subtr, intToken(192)])))
+            # And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )
+            # And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )
+            struct_loc = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [offset_struct, intToken(4)])])
+            struct_subtr = KApply(
+                'chop(_)_WORD_Int_Int',
+                [
+                    KApply(
+                        '_+Int_',
+                        [KApply('_-Int_', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), struct_loc]), intToken(4)],
+                    )
+                ],
+            )
+            struct_length_192 = mlEqualsTrue(
+                eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [struct_subtr, intToken(192)]))
+            )
             constraints.append(struct_length_192)
-            
-            #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) 
-            #Equals ( maxUInt160 &Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) ) 
+
+            # asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) )
+            # Equals ( maxUInt160 &Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) )
             struct_data_one = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, intToken(32)])])
-            struct_data_one_lhs = KApply('#asWord(_)_EVM-TYPES_Int_Bytes', [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_data_one, intToken(32)])])
-            struct_data_one_rhs = KApply('_&Int_', [intToken(1461501637330902918203684832716283019655932542975), struct_data_one_lhs])
+            struct_data_one_lhs = KApply(
+                '#asWord(_)_EVM-TYPES_Int_Bytes',
+                [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_data_one, intToken(32)])],
+            )
+            struct_data_one_rhs = KApply(
+                '_&Int_', [intToken(1461501637330902918203684832716283019655932542975), struct_data_one_lhs]
+            )
             struct_data_one_constraint = mlEqualsTrue(eqInt(struct_data_one_lhs, struct_data_one_rhs))
             constraints.append(struct_data_one_constraint)
 
-            #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) 
-            #Equals ( maxUInt160 &Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) ) 
+            # asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) )
+            # Equals ( maxUInt160 &Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) )
             struct_data_two = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, intToken(64)])])
-            struct_data_two_lhs = KApply('#asWord(_)_EVM-TYPES_Int_Bytes', [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_data_two, intToken(32)])])
-            struct_data_two_rhs = KApply('_&Int_', [intToken(1461501637330902918203684832716283019655932542975), struct_data_two_lhs])
+            struct_data_two_lhs = KApply(
+                '#asWord(_)_EVM-TYPES_Int_Bytes',
+                [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_data_two, intToken(32)])],
+            )
+            struct_data_two_rhs = KApply(
+                '_&Int_', [intToken(1461501637330902918203684832716283019655932542975), struct_data_two_lhs]
+            )
             struct_data_two_constraint = mlEqualsTrue(eqInt(struct_data_two_lhs, struct_data_two_rhs))
             constraints.append(struct_data_two_constraint)
 
-            #( (chop ( ( chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) )
+            # ( (chop ( ( chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) )
             #    +Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 160 ) ) , 32 ) ) ) ) +Int maxUInt5 ) ))
-            #  s<Word (( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) +Int 4 )) ) ==Int 0 
+            #  s<Word (( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) +Int 4 )) ) ==Int 0
             struct_three = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, intToken(160)])])
-            struct_array_offset = KApply('#asWord(_)_EVM-TYPES_Int_Bytes', [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_three, intToken(32)])])
-            struct_three_lhs_lhs_two = KApply('chop(_)_WORD_Int_Int',[KApply('_+Int_', [struct_loc, struct_array_offset])])
-            struct_three_lhs_sum = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_three_lhs_lhs_two, intToken(31)])])
+            struct_array_offset = KApply(
+                '#asWord(_)_EVM-TYPES_Int_Bytes',
+                [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_three, intToken(32)])],
+            )
+            struct_three_lhs_lhs_two = KApply(
+                'chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, struct_array_offset])]
+            )
+            struct_three_lhs_sum = KApply(
+                'chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_three_lhs_lhs_two, intToken(31)])]
+            )
             struct_three_rhs = KApply('_+Int_', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), intToken(4)])
-            struct_three_constraint = mlEqualsTrue(eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [struct_three_lhs_sum, struct_three_rhs])))
+            struct_three_constraint = mlEqualsTrue(
+                eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [struct_three_lhs_sum, struct_three_rhs]))
+            )
             constraints.append(struct_three_constraint)
 
-            #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 160 ) ) , 32 ) ) <=Int maxUInt64 }
+            # asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 160 ) ) , 32 ) ) <=Int maxUInt64 }
             struct_array_offset_constraint = mlEqualsTrue(leInt(struct_array_offset, intToken("18446744073709551615")))
             constraints.append(struct_array_offset_constraint)
-        
+
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue
 
