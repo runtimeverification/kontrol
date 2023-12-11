@@ -49,7 +49,7 @@ class DeploymentSummary:
         lines.append('\tVm internal constant vm = Vm(VM_ADDRESS);\n')
 
         for acc_key in list(self.accounts):
-            lines.append('\taddress public ' + self.accounts[acc_key] + 'Address = ' + acc_key + ';')
+            lines.append('\taddress internal constant ' + self.accounts[acc_key] + 'Address = ' + acc_key + ';')
 
         lines.append('\n')
 
