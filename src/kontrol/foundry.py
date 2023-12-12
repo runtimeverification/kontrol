@@ -735,7 +735,7 @@ def foundry_summary(
         main_file.write_text('\n'.join(summary_contract.generate_condensed_file()))
     else:
         code_file = output_dir / Path(name + 'Code.sol')
-        main_file.write_text('\n'.join(summary_contract.generate_main_contract_file(target_dir=output_dir_name)))
+        main_file.write_text('\n'.join(summary_contract.generate_main_contract_file(target_dir='.')))
         code_file.write_text('\n'.join(summary_contract.generate_code_contract_file()))
 
 
