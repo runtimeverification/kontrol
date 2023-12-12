@@ -1,5 +1,8 @@
 # Kontrol
 
+## Documentation
+Documentation for Kontrol can be found here: [https://docs.runtimeverification.com/kontrol](https://docs.runtimeverification.com/kontrol).
+
 ## Fast Installation
 
 -   `bash <(curl https://kframework.org/install)`: install [kup package manager].
