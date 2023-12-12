@@ -1,4 +1,5 @@
 # Kontrol
+Kontrol combines KEVM and Foundry to grant developers the ability to perform formal verification without learning a new language or tool. This is especially useful for those who are not verification engineers. Additionally, developers can leverage Foundry test suites they have already developed and use symbolic execution to increase the level of confidence.
 
 ## Documentation
 Documentation for Kontrol can be found here: [https://docs.runtimeverification.com/kontrol](https://docs.runtimeverification.com/kontrol).
