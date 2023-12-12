@@ -64,9 +64,9 @@ class DeploymentSummary:
         lines += self.generate_main_contract()
         return lines
 
-    def generate_main_contract_file(self, target_dir: str) -> list[str]:
+    def generate_main_contract_file(self) -> list[str]:
         lines = self.generate_header()
-        lines.append('import { ' + self.name + 'Code } from "' + str(target_dir) + '/' + self.name + 'Code.sol";')
+        lines.append('import { ' + self.name + 'Code } from "./' + self.name + 'Code.sol";')
         lines += self.generate_main_contract()
         return lines
 
