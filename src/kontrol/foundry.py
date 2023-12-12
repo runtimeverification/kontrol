@@ -735,11 +735,7 @@ def foundry_summary(
         main_file.write_text('\n'.join(summary_contract.generate_condensed_file()))
     else:
         code_file = output_dir / Path(name + 'Code.sol')
-        main_file.write_text(
-            '\n'.join(
-                summary_contract.generate_main_contract_file(imports=[str(output_dir_name / Path(name + 'Code.sol'))])
-            )
-        )
+        main_file.write_text('\n'.join(summary_contract.generate_main_contract_file(target_dir='src')))
         code_file.write_text('\n'.join(summary_contract.generate_code_contract_file()))
 
 

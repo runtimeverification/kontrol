@@ -1,11 +1,3 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from collections.abc import Iterable
-
-
 class DeploymentSummary:
     SOLIDITY_VERSION = '^0.8.13'
 
@@ -32,7 +24,7 @@ class DeploymentSummary:
         lines = []
         lines.append(f'contract {self.name}Code ' + '{')
         for code_alias, code in self.code.items():
-            lines.append(f'\tbytes constant public {code_alias}Code = hex{code!r};')
+            lines.append(f'\tbytes constant internal {code_alias}Code = hex{code!r};')
         lines.append('}')
         return lines
 
@@ -72,10 +64,9 @@ class DeploymentSummary:
         lines += self.generate_main_contract()
         return lines
 
-    def generate_main_contract_file(self, imports: Iterable[str] = ()) -> list[str]:
+    def generate_main_contract_file(self, target_dir: str) -> list[str]:
         lines = self.generate_header()
-        for imp in imports:
-            lines.append(f'import {imp!r};')
+        lines.append('import { ' + self.name + 'Code } from "' + str(target_dir) + '/' + self.name + 'Code.sol";')
         lines += self.generate_main_contract()
         return lines
 

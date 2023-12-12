@@ -504,7 +504,7 @@ def test_deployment_summary(
     bug_report: BugReport,
     worker_id: str,
     tmp_path_factory: TempPathFactory,
-    update_expected_output: bool = False,
+    update_expected_output: bool,
 ) -> None:
     if not foundry_root_dir:
         if worker_id == 'master':
@@ -516,19 +516,19 @@ def test_deployment_summary(
     foundry = Foundry(foundry_root=foundry_root_dir)
 
     foundry_summary(
-        'DeploymentSummary1',
+        'DeploymentSummary',
         TEST_DATA_DIR / 'accesses.json',
         contract_names=None,
         output_dir_name=Path('src'),
         foundry=foundry,
     )
 
-    generated_main_file = foundry_root_dir / 'src' / 'DeploymentSummary1.sol'
-    generated_code_file = foundry_root_dir / 'src' / 'DeploymentSummary1Code.sol'
+    generated_main_file = foundry_root_dir / 'src' / 'DeploymentSummary.sol'
+    generated_code_file = foundry_root_dir / 'src' / 'DeploymentSummaryCode.sol'
 
     assert_or_update_show_output(
-        generated_main_file.read_text(), TEST_DATA_DIR / 'deployment-main.expected', update=update_expected_output
+        generated_main_file.read_text(), TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummary.sol', update=update_expected_output
     )
     assert_or_update_show_output(
-        generated_code_file.read_text(), TEST_DATA_DIR / 'deployment-code.expected', update=update_expected_output
+        generated_code_file.read_text(), TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummaryCode.sol', update=update_expected_output
     )
