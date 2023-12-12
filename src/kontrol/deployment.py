@@ -89,7 +89,9 @@ class DeploymentSummary:
             acc_name = 'acc' + str(len(list(self.accounts)))
             self.accounts[account] = acc_name
 
-        if reverted:
+        # Ignore the access and account accessed if its one of the following
+        ignored_kinds = ['Balance, Extcodesize, Extcodehash, Extcodecopy']
+        if kind in ignored_kinds or reverted:
             return
 
         if deployed_code != '0x' and kind == 'Create':
