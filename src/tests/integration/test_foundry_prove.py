@@ -527,8 +527,12 @@ def test_deployment_summary(
     generated_code_file = foundry_root_dir / 'src' / 'DeploymentSummaryCode.sol'
 
     assert_or_update_show_output(
-        generated_main_file.read_text(), TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummary.sol', update=update_expected_output
+        generated_main_file.read_text(),
+        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummary.sol',
+        update=update_expected_output,
     )
     assert_or_update_show_output(
-        generated_code_file.read_text(), TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummaryCode.sol', update=update_expected_output
+        generated_code_file.read_text(),
+        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummaryCode.sol',
+        update=update_expected_output,
     )
