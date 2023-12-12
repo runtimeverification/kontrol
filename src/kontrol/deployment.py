@@ -87,12 +87,9 @@ class DeploymentSummary:
     def add_cheatcode(self, dct: dict) -> None:
         kind = dct['kind']
         account = dct['account']
-        #          accessor         = dct['accessor']
-        #          initialized      = dct['initialized']
         old_balance = dct['oldBalance']
         new_balance = dct['newBalance']
         deployed_code = dct['deployedCode']
-        #          value            = dct['value']
         reverted = dct['reverted']
         storage_accesses = dct['storageAccesses']
 

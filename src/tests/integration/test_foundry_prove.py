@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import shutil
 import sys
 from distutils.dir_util import copy_tree
 from typing import TYPE_CHECKING
@@ -10,7 +11,14 @@ from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.utils import run_process, single
 
-from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
+from kontrol.foundry import (
+    Foundry,
+    foundry_merge_nodes,
+    foundry_remove_node,
+    foundry_show,
+    foundry_step_node,
+    foundry_summary,
+)
 from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
@@ -489,3 +497,35 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
 
     # Then
     assert_pass(test, single(prove_res))
+
+
+def test_deployment_summary(
+    foundry_root_dir: Path | None,
+    server: KoreServer,
+    bug_report: BugReport,
+    worker_id: str,
+    tmp_path_factory: TempPathFactory,
+    update_expected_output: bool = False,
+) -> None:
+    if not foundry_root_dir:
+        if worker_id == 'master':
+            root_tmp_dir = tmp_path_factory.getbasetemp()
+        else:
+            root_tmp_dir = tmp_path_factory.getbasetemp().parent
+
+        foundry_root_dir = root_tmp_dir / 'foundry'
+    foundry = Foundry(foundry_root=foundry_root_dir)
+
+    foundry_summary(
+        'DeploymentSummary1',
+        TEST_DATA_DIR / 'accesses.json',
+        contract_names=None,
+        output_dir_name='src',
+        foundry=foundry,
+    )
+
+    generated_main_file = foundry_root_dir / 'src' / 'DeploymentSummary1.sol'
+    generated_code_file = foundry_root_dir / 'src' / 'DeploymentSummary1Code.sol'
+
+    assert_or_update_show_output(generated_main_file.read_text(), TEST_DATA_DIR / 'deployment-main.expected', update=update_expected_output)
+    assert_or_update_show_output(generated_code_file.read_text(), TEST_DATA_DIR / 'deployment-code.expected', update=update_expected_output)

@@ -4,7 +4,6 @@ import json
 import logging
 import sys
 from argparse import ArgumentParser
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
@@ -15,11 +14,9 @@ from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
-from pyk.utils import ensure_dir_path
 
 from . import VERSION
 from .cli import KontrolCLIArgs
-from .deployment import DeploymentSummary
 from .foundry import (
     Foundry,
     foundry_get_model,
@@ -31,6 +28,7 @@ from .foundry import (
     foundry_show,
     foundry_simplify_node,
     foundry_step_node,
+    foundry_summary,
     foundry_to_dot,
 )
 from .kompile import foundry_kompile
@@ -41,6 +39,7 @@ from .solc_to_k import solc_compile, solc_to_k
 if TYPE_CHECKING:
     from argparse import Namespace
     from collections.abc import Callable, Iterable
+    from pathlib import Path
     from typing import Any, Final, TypeVar
 
     from pyk.cterm import CTerm
@@ -126,38 +125,14 @@ def exec_summary(
     condense_summary: bool = False,
     **kwargs: Any,
 ) -> None:
-    foundry = _load_foundry(foundry_root)
-
-    if not accesses_file.exists():
-        raise FileNotFoundError('Given account accesses dictionary file not found.')
-    accesses = json.loads(accesses_file.read_text())['accountAccesses']
-    accounts = {}
-    if contract_names is not None:
-        if not contract_names.exists():
-            raise FileNotFoundError('Given contract names dictionary file not found.')
-        accounts = json.loads(contract_names.read_text())
-    summary_contract = DeploymentSummary(name=name, accounts=accounts)
-    for access in accesses:
-        summary_contract.add_cheatcode(access)
-
-    if output_dir_name is None:
-        output_dir_name = foundry.profile.get('test', '')
-
-    output_dir = foundry_root / output_dir_name
-    ensure_dir_path(output_dir)
-
-    main_file = output_dir / Path(name + '.sol')
-
-    if condense_summary:
-        main_file.write_text('\n'.join(summary_contract.generate_condensed_file()))
-    else:
-        code_file = output_dir / Path(name + 'Code.sol')
-        main_file.write_text(
-            '\n'.join(
-                summary_contract.generate_main_contract_file(imports=[str(output_dir_name / Path(name + 'Code.sol'))])
-            )
-        )
-        code_file.write_text('\n'.join(summary_contract.generate_code_contract_file()))
+    foundry_summary(
+        name,
+        accesses_file,
+        contract_names=contract_names,
+        output_dir_name=output_dir_name,
+        foundry=_load_foundry(foundry_root),
+        condense_summary=condense_summary,
+    )
 
 
 def exec_version(**kwargs: Any) -> None:
