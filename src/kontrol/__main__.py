@@ -209,6 +209,7 @@ def exec_prove(
     fail_fast: bool = False,
     port: int | None = None,
     maude_port: int | None = None,
+    use_gas: bool = True,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -238,6 +239,7 @@ def exec_prove(
         max_iterations=max_iterations,
         run_constructor=run_constructor,
         fail_fast=fail_fast,
+        use_gas=use_gas,
     )
 
     rpc_options = RPCOptions(
@@ -672,6 +674,9 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Include the contract constructor in the test execution.',
+    )
+    prove_args.add_argument(
+        '--no-gas', dest='use_gas', default=True, action='store_false', help='Disables gas computation.'
     )
 
     show_args = command_parser.add_parser(
