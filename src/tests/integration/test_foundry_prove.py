@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import sys
 from distutils.dir_util import copy_tree
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
@@ -27,6 +26,7 @@ from .utils import TEST_DATA_DIR
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
+    from pathlib import Path
     from typing import Final
 
     from pyk.kore.rpc import KoreServer
@@ -519,7 +519,7 @@ def test_deployment_summary(
         'DeploymentSummary',
         TEST_DATA_DIR / 'accesses.json',
         contract_names=None,
-        output_dir_name=Path('src'),
+        output_dir_name='src',
         foundry=foundry,
     )
 

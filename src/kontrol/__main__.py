@@ -120,7 +120,7 @@ def exec_summary(
     name: str,
     accesses_file: Path,
     contract_names: Path | None,
-    output_dir_name: Path | None,
+    output_dir_name: str | None,
     foundry_root: Path,
     condense_summary: bool = False,
     **kwargs: Any,
