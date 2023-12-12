@@ -117,7 +117,7 @@ class DeploymentSummary:
                 continue
 
             self.add_account(account_storage)
-            acc_name = self.accounts[account]
+            acc_name = self.accounts[account_storage]
             self.commands.append(f'slot = hex{slot[2:]!r}')
             self.commands.append(f'value = hex{new_value[2:]!r}')
             self.commands.append(f'vm.store({acc_name}Address, slot, value)')
