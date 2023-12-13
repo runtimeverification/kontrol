@@ -487,13 +487,13 @@ def _init_cterm(
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue
 
-    init_subst['NOGAS_CELL'] = FALSE
+    # init_subst['NOGAS_CELL'] = FALSE
 
-    if no_gas:
-        init_subst['NOGAS_CELL'] = TRUE
-        init_subst['GAS_CELL'] = intToken(0)
-        init_subst['CALLGAS_CELL'] = intToken(0)
-        init_subst['REFUND_CELL'] = intToken(0)
+    # if no_gas:
+    init_subst['NOGAS_CELL'] = TRUE
+    init_subst['GAS_CELL'] = intToken(0)
+    init_subst['CALLGAS_CELL'] = intToken(0)
+    init_subst['REFUND_CELL'] = intToken(0)
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
