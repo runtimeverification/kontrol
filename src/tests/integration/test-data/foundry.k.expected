@@ -22,6 +22,8 @@ module FOUNDRY-MAIN
     imports public S2KContractBTest-VERIFICATION
     imports public S2KCounter-VERIFICATION
     imports public S2KCounterTest-VERIFICATION
+    imports public S2KDeploymentSummary-VERIFICATION
+    imports public S2KDeploymentSummaryCode-VERIFICATION
     imports public S2KDynamicTypes-VERIFICATION
     imports public S2KExpectEmit-VERIFICATION
     imports public S2KEmitContractTest-VERIFICATION
@@ -48,6 +50,8 @@ module FOUNDRY-MAIN
     imports public S2KMergeTest-VERIFICATION
     imports public S2KMethodDisambiguateTest-VERIFICATION
     imports public S2KMockCallTest-VERIFICATION
+    imports public S2KMyContract-VERIFICATION
+    imports public S2KMyContractCode-VERIFICATION
     imports public S2KMyIERC20-VERIFICATION
     imports public S2KMyToken-VERIFICATION
     imports public S2KNoImport-VERIFICATION
@@ -243,6 +247,20 @@ module S2KCounterTest-VERIFICATION
 
 endmodule
 
+module S2KDeploymentSummary-VERIFICATION
+    imports public S2KDeploymentSummary-CONTRACT
+    
+    
+
+endmodule
+
+module S2KDeploymentSummaryCode-VERIFICATION
+    imports public S2KDeploymentSummaryCode-CONTRACT
+    
+    
+
+endmodule
+
 module S2KDynamicTypes-VERIFICATION
     imports public S2KDynamicTypes-CONTRACT
     
@@ -421,6 +439,20 @@ endmodule
 
 module S2KMockCallTest-VERIFICATION
     imports public S2KMockCallTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KMyContract-VERIFICATION
+    imports public S2KMyContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KMyContractCode-VERIFICATION
+    imports public S2KMyContractCode-CONTRACT
     
     
 
