@@ -50,8 +50,6 @@ module FOUNDRY-MAIN
     imports public S2KMergeTest-VERIFICATION
     imports public S2KMethodDisambiguateTest-VERIFICATION
     imports public S2KMockCallTest-VERIFICATION
-    imports public S2KMyContract-VERIFICATION
-    imports public S2KMyContractCode-VERIFICATION
     imports public S2KMyIERC20-VERIFICATION
     imports public S2KMyToken-VERIFICATION
     imports public S2KNoImport-VERIFICATION
@@ -439,20 +437,6 @@ endmodule
 
 module S2KMockCallTest-VERIFICATION
     imports public S2KMockCallTest-CONTRACT
-    
-    
-
-endmodule
-
-module S2KMyContract-VERIFICATION
-    imports public S2KMyContract-CONTRACT
-    
-    
-
-endmodule
-
-module S2KMyContractCode-VERIFICATION
-    imports public S2KMyContractCode-CONTRACT
     
     
 
