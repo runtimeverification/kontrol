@@ -71,7 +71,8 @@ class DeploymentSummary:
         return lines
 
     def generate_code_contract_file(self) -> list[str]:
-        lines = self.generate_header()
+        lines = []
+        lines.append(f'pragma solidity {self.SOLIDITY_VERSION};\n')
         lines += self.generate_code_contract()
         return lines
 
