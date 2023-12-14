@@ -363,13 +363,11 @@ class Contract:
             arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
-            # TODO(palina): to be refactored
             for input in self.inputs:
                 abi_type, _ = input.to_abi()
                 args.append(abi_type)
                 rps = _range_predicates(abi_type)
                 for rp in rps:
-                    # TODO(palina): if the type is `bytes`, shall we still generate a rule?
                     if rp is None:
                         _LOGGER.info(
                             f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
