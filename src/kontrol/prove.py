@@ -492,6 +492,10 @@ def _init_cterm(
         if is_calldata_symbolic:
             # TODO(palina): adding constraints that represent assumptions on calldata
 
+            # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) == 224
+            first_offset = eqInt(offset_struct, intToken(224))
+            constraints.append(mlEqualsTrue(first_offset))
+
             chopped_calldata_length = KApply('chop(_)_WORD_Int_Int', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA'))])
             # TODO: another constraint: chopped is equal to the actual length
 
