@@ -27,7 +27,7 @@ def pytest_addoption(parser: Parser) -> None:
         '--no-use-booster',
         action='store_true',
         default=False,
-        help='Use the kore-rpc-booster binary instead of kore-rpc',
+        help='Use the kore-rpc binary instead of kore-rpc-booster',
     )
 
 
