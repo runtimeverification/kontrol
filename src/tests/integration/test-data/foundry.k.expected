@@ -22,6 +22,8 @@ module FOUNDRY-MAIN
     imports public S2KContractBTest-VERIFICATION
     imports public S2KCounter-VERIFICATION
     imports public S2KCounterTest-VERIFICATION
+    imports public S2KDeploymentSummary-VERIFICATION
+    imports public S2KDeploymentSummaryCode-VERIFICATION
     imports public S2KDynamicTypes-VERIFICATION
     imports public S2KExpectEmit-VERIFICATION
     imports public S2KEmitContractTest-VERIFICATION
@@ -90,6 +92,7 @@ module FOUNDRY-MAIN
     imports public S2KToken-VERIFICATION
     imports public S2KBytesTypeTest-VERIFICATION
     imports public S2KIntTypeTest-VERIFICATION
+    imports public S2KStructTypeTest-VERIFICATION
     imports public S2KUintTypeTest-VERIFICATION
     imports public S2KVm-VERIFICATION
     imports public S2KVmSafe-VERIFICATION
@@ -237,6 +240,20 @@ endmodule
 
 module S2KCounterTest-VERIFICATION
     imports public S2KCounterTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KDeploymentSummary-VERIFICATION
+    imports public S2KDeploymentSummary-CONTRACT
+    
+    
+
+endmodule
+
+module S2KDeploymentSummaryCode-VERIFICATION
+    imports public S2KDeploymentSummaryCode-CONTRACT
     
     
 
@@ -714,6 +731,13 @@ endmodule
 
 module S2KIntTypeTest-VERIFICATION
     imports public S2KIntTypeTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KStructTypeTest-VERIFICATION
+    imports public S2KStructTypeTest-CONTRACT
     
     
 
