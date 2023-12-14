@@ -417,18 +417,21 @@ files = [
 
 [[package]]
 name = "isort"
-version = "5.13.1"
+version = "5.13.2"
 description = "A Python utility / library to sort Python imports."
 optional = false
 python-versions = ">=3.8.0"
 files = [
-    {file = "isort-5.13.1-py3-none-any.whl", hash = "sha256:56a51732c25f94ca96f6721be206dd96a95f42950502eb26c1015d333bc6edb7"},
-    {file = "isort-5.13.1.tar.gz", hash = "sha256:aaed790b463e8703fb1eddb831dfa8e8616bacde2c083bd557ef73c8189b7263"},
+    {file = "isort-5.13.2-py3-none-any.whl", hash = "sha256:8ca5e72a8d85860d5a3fa69b8745237f2939afe12dbf656afbcb47fe72d947a6"},
+    {file = "isort-5.13.2.tar.gz", hash = "sha256:48fdfcb9face5d58a4f6dde2e72a1fb8dcaf8ab26f95ab49fab84c2ddefb0109"},
 ]
+
+[package.extras]
+colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.393"
+version = "1.0.394"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -437,14 +440,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.543"}
+pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.546"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.393"
-resolved_reference = "b031099e6916a153c4a174c6894bf9e480334079"
+reference = "v1.0.394"
+resolved_reference = "f74bb95a736cba96fd532b7ccc59f48c9b6cf57b"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -807,7 +810,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.543"
+version = "0.1.546"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -828,8 +831,8 @@ xdg-base-dirs = "^6.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.543"
-resolved_reference = "f9a2da504dd4d4b366973185b7d66f07b00bba12"
+reference = "v0.1.546"
+resolved_reference = "1613585a09a656994ffc20fcbbe05d157fb98423"
 
 [[package]]
 name = "pyperclip"
@@ -1079,4 +1082,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "a7eca0c41995a25122ecd1b0cccbdc4ec9b4e70b659dd9d2321cb1d8cc95ee95"
+content-hash = "6526aeb445209d218b17423d9b3b5aca9149adb777441fe1b47a76fb9188551a"
