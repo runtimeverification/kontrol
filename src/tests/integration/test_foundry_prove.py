@@ -478,7 +478,7 @@ ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail
 
 
 @pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, use_booster: bool) -> None:
+def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
     # When
     prove_res = foundry_prove(
         foundry,
@@ -490,7 +490,7 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
         rpc_options=RPCOptions(
             smt_timeout=300,
             smt_retry_limit=10,
-            use_booster=use_booster,
+            use_booster=not no_use_booster,
         ),
     )
 
