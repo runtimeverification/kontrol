@@ -204,7 +204,7 @@ def _run_cfg_group(
                 kcfg_explore=kcfg_explore,
                 bmc_depth=prove_options.bmc_depth,
                 run_constructor=prove_options.run_constructor,
-                use_gas=prove_options.use_gas,
+                usegas=prove_options.usegas,
             )
 
             run_prover(
@@ -217,6 +217,7 @@ def _run_cfg_group(
                     prove_options.break_on_jumpi, prove_options.break_on_calls
                 ),
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
+                counterexample_info=prove_options.counterexample_info,
             )
             return proof
 
@@ -238,7 +239,7 @@ def method_to_apr_proof(
     kcfg_explore: KCFGExplore,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
-    use_gas: bool = True,
+    usegas: bool = True,
 ) -> APRProof | APRBMCProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -260,7 +261,7 @@ def method_to_apr_proof(
         test=test,
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
-        use_gas=use_gas,
+        usegas=usegas,
     )
 
     if bmc_depth is not None:
@@ -301,7 +302,7 @@ def _method_to_initialized_cfg(
     kcfg_explore: KCFGExplore,
     *,
     setup_proof: APRProof | None = None,
-    use_gas: bool = True,
+    usegas: bool = True,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -311,7 +312,7 @@ def _method_to_initialized_cfg(
         test.contract,
         test.method,
         setup_proof,
-        use_gas,
+        usegas,
     )
 
     for node_id in new_node_ids:
@@ -340,7 +341,7 @@ def _method_to_cfg(
     contract: Contract,
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
-    use_gas: bool,
+    usegas: bool,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -361,7 +362,7 @@ def _method_to_cfg(
         program=program,
         calldata=calldata,
         callvalue=callvalue,
-        use_gas=use_gas,
+        usegas=usegas,
     )
     new_node_ids = []
 
@@ -421,7 +422,7 @@ def _init_cterm(
     empty_config: KInner,
     contract_name: str,
     program: KInner,
-    use_gas: bool,
+    usegas: bool,
     *,
     setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
