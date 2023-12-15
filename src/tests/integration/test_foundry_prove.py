@@ -42,9 +42,9 @@ sys.setrecursionlimit(10**7)
 
 
 @pytest.fixture(scope='module')
-def server(foundry: Foundry, use_booster: bool) -> Iterator[KoreServer]:
-    llvm_definition_dir = foundry.out / 'kompiled' / 'llvm-library' if use_booster else None
-    kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
+def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
+    llvm_definition_dir = foundry.out / 'kompiled' / 'llvm-library' if not no_use_booster else None
+    kore_rpc_command = ('kore-rpc-booster',) if not no_use_booster else ('kore-rpc',)
 
     yield kore_server(
         definition_dir=foundry.kevm.definition_dir,
@@ -86,8 +86,8 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
     return Foundry(session_foundry_root)
 
 
-def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, use_booster: bool) -> None:
-    if use_booster:
+def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_booster: bool) -> None:
+    if not no_use_booster:
         return
     # Then
     assert_or_update_k_output(
@@ -130,13 +130,13 @@ def test_foundry_prove(
     test_id: str,
     foundry: Foundry,
     update_expected_output: bool,
-    use_booster: bool,
+    no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
     if (
         test_id in SKIPPED_PROVE_TESTS
-        or (not use_booster and test_id in SKIPPED_LEGACY_TESTS)
+        or (no_use_booster and test_id in SKIPPED_LEGACY_TESTS)
         or (update_expected_output and not test_id in SHOW_TESTS)
     ):
         pytest.skip()
@@ -157,7 +157,7 @@ def test_foundry_prove(
     # Then
     assert_pass(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or use_booster:
+    if test_id not in SHOW_TESTS or not no_use_booster:
         return
 
     # And when
@@ -186,7 +186,7 @@ def test_foundry_fail(
     test_id: str,
     foundry: Foundry,
     update_expected_output: bool,
-    use_booster: bool,
+    no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
@@ -206,7 +206,7 @@ def test_foundry_fail(
     # Then
     assert_fail(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or use_booster:
+    if test_id not in SHOW_TESTS or not no_use_booster:
         return
 
     # And when
@@ -319,7 +319,7 @@ def test_foundry_auto_abstraction(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    use_booster: bool,
+    no_use_booster: bool,
 ) -> None:
     test_id = 'GasTest.testInfiniteGas()'
 
@@ -335,7 +335,7 @@ def test_foundry_auto_abstraction(
         ),
     )
 
-    if use_booster:
+    if not no_use_booster:
         return
 
     show_res = foundry_show(
@@ -478,7 +478,7 @@ ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail
 
 
 @pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, use_booster: bool) -> None:
+def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
     # When
     prove_res = foundry_prove(
         foundry,
@@ -490,7 +490,7 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
         rpc_options=RPCOptions(
             smt_timeout=300,
             smt_retry_limit=10,
-            use_booster=use_booster,
+            use_booster=not no_use_booster,
         ),
     )
 
