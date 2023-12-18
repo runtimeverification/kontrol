@@ -29,10 +29,11 @@ from .foundry import (
     foundry_show,
     foundry_simplify_node,
     foundry_step_node,
+    foundry_summary,
     foundry_to_dot,
 )
 from .kompile import foundry_kompile
-from .options import ProveOptions
+from .options import ProveOptions, RPCOptions
 from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
 
@@ -60,6 +61,18 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         args.pop(arg)
 
 
+def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
+    try:
+        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
+    except FileNotFoundError:
+        print(
+            f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return foundry
+
+
 def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
@@ -81,7 +94,9 @@ def _check_k_version() -> None:
     actual_k_version = k_version()
 
     if not _compare_versions(expected_k_version, actual_k_version):
-        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.')
+        _LOGGER.warning(
+            f'K version {expected_k_version.text} was expected but K version {actual_k_version.text} is being used.'
+        )
 
 
 def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
@@ -100,6 +115,25 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 
 
 # Command implementation
+
+
+def exec_summary(
+    name: str,
+    accesses_file: Path,
+    contract_names: Path | None,
+    output_dir_name: str | None,
+    foundry_root: Path,
+    condense_summary: bool = False,
+    **kwargs: Any,
+) -> None:
+    foundry_summary(
+        name,
+        accesses_file,
+        contract_names=contract_names,
+        output_dir_name=output_dir_name,
+        foundry=_load_foundry(foundry_root),
+        condense_summary=condense_summary,
+    )
 
 
 def exec_version(**kwargs: Any) -> None:
@@ -143,6 +177,7 @@ def exec_build(
     llvm_library: bool = False,
     verbose: bool = False,
     target: KompileTarget | None = None,
+    no_forge_build: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module {kwargs["main_module"]}')
@@ -153,9 +188,9 @@ def exec_build(
     _ignore_arg(kwargs, 'o2', '-O2')
     _ignore_arg(kwargs, 'o3', '-O3')
     if target is None:
-        target = KompileTarget.HASKELL_BOOSTER
+        target = KompileTarget.HASKELL
     foundry_kompile(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root),
         includes=includes,
         regen=regen,
         rekompile=rekompile,
@@ -166,6 +201,7 @@ def exec_build(
         debug=debug,
         verbose=verbose,
         target=target,
+        no_forge_build=no_forge_build,
     )
 
 
@@ -182,9 +218,10 @@ def exec_prove(
     bmc_depth: int | None = None,
     bug_report: BugReport | None = None,
     kore_rpc_command: str | Iterable[str] | None = None,
-    use_booster: bool = False,
+    use_booster: bool = True,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
     failure_info: bool = True,
     counterexample_info: bool = False,
     trace_rewrites: bool = False,
@@ -215,14 +252,10 @@ def exec_prove(
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
 
-    options = ProveOptions(
+    prove_options = ProveOptions(
         abstract_cells=abstract_cells,
         reinit=reinit,
         bug_report=bug_report,
-        kore_rpc_command=kore_rpc_command,
-        smt_timeout=smt_timeout,
-        smt_retry_limit=smt_retry_limit,
-        trace_rewrites=trace_rewrites,
         bmc_depth=bmc_depth,
         max_depth=max_depth,
         break_every_step=break_every_step,
@@ -233,13 +266,23 @@ def exec_prove(
         max_iterations=max_iterations,
         run_constructor=run_constructor,
         fail_fast=fail_fast,
+    )
+
+    rpc_options = RPCOptions(
+        use_booster=use_booster,
+        kore_rpc_command=kore_rpc_command,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
+        trace_rewrites=trace_rewrites,
         port=port,
         maude_port=maude_port,
     )
 
     results = foundry_prove(
-        foundry_root=foundry_root,
-        options=options,
+        foundry=_load_foundry(foundry_root, bug_report),
+        prove_options=prove_options,
+        rpc_options=rpc_options,
         tests=tests,
     )
     failed = 0
@@ -290,7 +333,7 @@ def exec_show(
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root),
         test=test,
         version=version,
         nodes=nodes,
@@ -310,16 +353,16 @@ def exec_show(
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry_to_dot(foundry_root=foundry_root, test=test, version=version)
+    foundry_to_dot(foundry=_load_foundry(foundry_root), test=test, version=version)
 
 
 def exec_list(foundry_root: Path, **kwargs: Any) -> None:
-    stats = foundry_list(foundry_root=foundry_root)
+    stats = foundry_list(foundry=_load_foundry(foundry_root))
     print('\n'.join(stats))
 
 
 def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry = Foundry(foundry_root)
+    foundry = _load_foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -336,7 +379,7 @@ def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs:
 
 
 def exec_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
-    foundry_remove_node(foundry_root=foundry_root, test=test, version=version, node=node)
+    foundry_remove_node(foundry=_load_foundry(foundry_root), test=test, version=version, node=node)
 
 
 def exec_simplify_node(
@@ -348,8 +391,11 @@ def exec_simplify_node(
     minimize: bool = True,
     sort_collections: bool = False,
     bug_report: BugReport | None = None,
+    kore_rpc_command: str | Iterable[str] | None = None,
+    use_booster: bool = False,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
     trace_rewrites: bool = False,
     port: int | None = None,
     maude_port: int | None = None,
@@ -360,20 +406,30 @@ def exec_simplify_node(
     if smt_retry_limit is None:
         smt_retry_limit = 10
 
+    if isinstance(kore_rpc_command, str):
+        kore_rpc_command = kore_rpc_command.split()
+
+    rpc_options = RPCOptions(
+        use_booster=use_booster,
+        kore_rpc_command=kore_rpc_command,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
+        trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
+    )
+
     pretty_term = foundry_simplify_node(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         node=node,
+        rpc_options=rpc_options,
         replace=replace,
         minimize=minimize,
         sort_collections=sort_collections,
         bug_report=bug_report,
-        smt_timeout=smt_timeout,
-        smt_retry_limit=smt_retry_limit,
-        trace_rewrites=trace_rewrites,
-        port=port,
-        maude_port=maude_port,
     )
     print(f'Simplified:\n{pretty_term}')
 
@@ -386,8 +442,11 @@ def exec_step_node(
     repeat: int = 1,
     depth: int = 1,
     bug_report: BugReport | None = None,
+    kore_rpc_command: str | Iterable[str] | None = None,
+    use_booster: bool = False,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
     trace_rewrites: bool = False,
     port: int | None = None,
     maude_port: int | None = None,
@@ -398,19 +457,29 @@ def exec_step_node(
     if smt_retry_limit is None:
         smt_retry_limit = 10
 
-    foundry_step_node(
-        foundry_root=foundry_root,
-        test=test,
-        version=version,
-        node=node,
-        repeat=repeat,
-        depth=depth,
-        bug_report=bug_report,
+    if isinstance(kore_rpc_command, str):
+        kore_rpc_command = kore_rpc_command.split()
+
+    rpc_options = RPCOptions(
+        use_booster=use_booster,
+        kore_rpc_command=kore_rpc_command,
         smt_timeout=smt_timeout,
         smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
         trace_rewrites=trace_rewrites,
         port=port,
         maude_port=maude_port,
+    )
+
+    foundry_step_node(
+        foundry=_load_foundry(foundry_root, bug_report),
+        test=test,
+        version=version,
+        node=node,
+        rpc_options=rpc_options,
+        repeat=repeat,
+        depth=depth,
+        bug_report=bug_report,
     )
 
 
@@ -421,7 +490,7 @@ def exec_merge_nodes(
     nodes: Iterable[NodeIdLike],
     **kwargs: Any,
 ) -> None:
-    foundry_merge_nodes(foundry_root=foundry_root, node_ids=nodes, test=test, version=version)
+    foundry_merge_nodes(foundry=_load_foundry(foundry_root), node_ids=nodes, test=test, version=version)
 
 
 def exec_section_edge(
@@ -432,8 +501,11 @@ def exec_section_edge(
     sections: int = 2,
     replace: bool = False,
     bug_report: BugReport | None = None,
+    kore_rpc_command: str | Iterable[str] | None = None,
+    use_booster: bool = False,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
     trace_rewrites: bool = False,
     port: int | None = None,
     maude_port: int | None = None,
@@ -444,19 +516,29 @@ def exec_section_edge(
     if smt_retry_limit is None:
         smt_retry_limit = 10
 
+    if isinstance(kore_rpc_command, str):
+        kore_rpc_command = kore_rpc_command.split()
+
+    rpc_options = RPCOptions(
+        use_booster=use_booster,
+        kore_rpc_command=kore_rpc_command,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
+        trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
+    )
+
     foundry_section_edge(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
+        rpc_options=rpc_options,
         edge=edge,
         sections=sections,
         replace=replace,
         bug_report=bug_report,
-        smt_timeout=smt_timeout,
-        smt_retry_limit=smt_retry_limit,
-        trace_rewrites=trace_rewrites,
-        port=port,
-        maude_port=maude_port,
     )
 
 
@@ -467,19 +549,44 @@ def exec_get_model(
     nodes: Iterable[NodeIdLike] = (),
     pending: bool = False,
     failing: bool = False,
+    bug_report: BugReport | None = None,
+    kore_rpc_command: str | Iterable[str] | None = None,
+    use_booster: bool = False,
+    smt_timeout: int | None = None,
+    smt_retry_limit: int | None = None,
+    smt_tactic: str | None = None,
+    trace_rewrites: bool = False,
     port: int | None = None,
     maude_port: int | None = None,
     **kwargs: Any,
 ) -> None:
+    if smt_timeout is None:
+        smt_timeout = 300
+    if smt_retry_limit is None:
+        smt_retry_limit = 10
+
+    if isinstance(kore_rpc_command, str):
+        kore_rpc_command = kore_rpc_command.split()
+
+    rpc_options = RPCOptions(
+        use_booster=use_booster,
+        kore_rpc_command=kore_rpc_command,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        smt_tactic=smt_tactic,
+        trace_rewrites=trace_rewrites,
+        port=port,
+        maude_port=maude_port,
+    )
     output = foundry_get_model(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root),
         test=test,
         version=version,
         nodes=nodes,
+        rpc_options=rpc_options,
         pending=pending,
         failing=failing,
-        port=port,
-        maude_port=maude_port,
+        bug_report=bug_report,
     )
     print(output)
 
@@ -549,6 +656,44 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Rekompile foundry.k even if kompiled definition already exists.',
     )
+    build.add_argument(
+        '--no-forge-build',
+        dest='no_forge_build',
+        default=False,
+        action='store_true',
+        help="Do not call 'forge build' during kompilation.",
+    )
+
+    summary_args = command_parser.add_parser(
+        'summary',
+        help='Generate a solidity function summary from an account access dict',
+        parents=[
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    summary_args.add_argument('name', type=str, help='Generated contract name')
+    summary_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
+    summary_args.add_argument(
+        '--contract-names',
+        dest='contract_names',
+        default=None,
+        type=file_path,
+        help='Path to JSON containing deployment addresses and its respective contract names',
+    )
+    summary_args.add_argument(
+        '--condense-summary',
+        dest='condense_summary',
+        default=False,
+        type=bool,
+        help='Deploy summary as a single file',
+    )
+    summary_args.add_argument(
+        '--output-dir',
+        dest='output_dir_name',
+        default=None,
+        type=str,
+        help='Path to write summary .sol files, relative to foundry root',
+    )
 
     prove_args = command_parser.add_parser(
         'prove',
@@ -573,8 +718,8 @@ def _create_argument_parser() -> ArgumentParser:
         action='append',
         help=(
             'Specify contract function(s) to test using a regular expression. This will match functions'
-            "based on their full signature,  e.g., 'ERC20Test.testTransfer(address,uint256)'. This option"
-            'can be used multiple times to add more functions to test.'
+            " based on their full signature,  e.g., 'ERC20Test.testTransfer(address,uint256)'. This option"
+            ' can be used multiple times to add more functions to test.'
         ),
     )
     prove_args.add_argument(
@@ -629,7 +774,7 @@ def _create_argument_parser() -> ArgumentParser:
 
     show_args = command_parser.add_parser(
         'show',
-        help='Display a given Foundry CFG.',
+        help='Print the CFG for a given proof.',
         parents=[
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
@@ -661,7 +806,7 @@ def _create_argument_parser() -> ArgumentParser:
 
     command_parser.add_parser(
         'view-kcfg',
-        help='Display tree view of CFG',
+        help='Explore a given proof in the KCFG visualizer.',
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
 
@@ -747,6 +892,7 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.rpc_args,
+            kontrol_cli_args.bug_report_args,
             kontrol_cli_args.smt_args,
             kontrol_cli_args.foundry_args,
         ],

@@ -13,12 +13,6 @@ if TYPE_CHECKING:
 class ProveOptions:
     abstract_cells: tuple[str, ...]
     bug_report: BugReport | None
-    use_booster: bool
-    kore_rpc_command: tuple[str, ...]
-    smt_timeout: int | None
-    smt_retry_limit: int | None
-    trace_rewrites: bool
-    simplify_init: bool
     bmc_depth: int | None
     max_depth: int
     break_every_step: bool
@@ -30,19 +24,12 @@ class ProveOptions:
     run_constructor: bool
     fail_fast: bool
     reinit: bool
-    port: int | None
-    maude_port: int | None
 
     def __init__(
         self,
         *,
         abstract_cells: Iterable[str] = (),
         bug_report: BugReport | None = None,
-        use_booster: bool = True,
-        kore_rpc_command: str | Iterable[str] | None = None,
-        smt_timeout: int | None = None,
-        smt_retry_limit: int | None = None,
-        trace_rewrites: bool = False,
         bmc_depth: int | None = None,
         max_depth: int = 1000,
         break_every_step: bool = False,
@@ -54,22 +41,9 @@ class ProveOptions:
         run_constructor: bool = False,
         fail_fast: bool = True,
         reinit: bool = False,
-        port: int | None = None,
-        maude_port: int | None = None,
     ) -> None:
-        if kore_rpc_command is None:
-            kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
-        elif isinstance(kore_rpc_command, str):
-            kore_rpc_command = (kore_rpc_command,)
-        else:
-            kore_rpc_command = tuple(kore_rpc_command)
         object.__setattr__(self, 'abstract_cells', tuple(abstract_cells))
         object.__setattr__(self, 'bug_report', bug_report)
-        object.__setattr__(self, 'use_booster', use_booster)
-        object.__setattr__(self, 'kore_rpc_command', kore_rpc_command)
-        object.__setattr__(self, 'smt_timeout', smt_timeout)
-        object.__setattr__(self, 'smt_retry_limit', smt_retry_limit)
-        object.__setattr__(self, 'trace_rewrites', trace_rewrites)
         object.__setattr__(self, 'bmc_depth', bmc_depth)
         object.__setattr__(self, 'max_depth', max_depth)
         object.__setattr__(self, 'break_every_step', break_every_step)
@@ -81,5 +55,42 @@ class ProveOptions:
         object.__setattr__(self, 'run_constructor', run_constructor)
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
+
+
+@dataclass(frozen=True)
+class RPCOptions:
+    use_booster: bool
+    kore_rpc_command: tuple[str, ...]
+    smt_timeout: int | None
+    smt_retry_limit: int | None
+    smt_tactic: str | None
+    trace_rewrites: bool
+    port: int | None
+    maude_port: int | None
+
+    def __init__(
+        self,
+        *,
+        use_booster: bool = True,
+        kore_rpc_command: str | Iterable[str] | None = None,
+        smt_timeout: int | None = None,
+        smt_retry_limit: int | None = None,
+        smt_tactic: str | None = None,
+        trace_rewrites: bool = False,
+        port: int | None = None,
+        maude_port: int | None = None,
+    ) -> None:
+        if kore_rpc_command is None:
+            kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
+        elif isinstance(kore_rpc_command, str):
+            kore_rpc_command = (kore_rpc_command,)
+        else:
+            kore_rpc_command = tuple(kore_rpc_command)
+        object.__setattr__(self, 'use_booster', use_booster)
+        object.__setattr__(self, 'kore_rpc_command', kore_rpc_command)
+        object.__setattr__(self, 'smt_timeout', smt_timeout)
+        object.__setattr__(self, 'smt_retry_limit', smt_retry_limit)
+        object.__setattr__(self, 'smt_tactic', smt_tactic)
+        object.__setattr__(self, 'trace_rewrites', trace_rewrites)
         object.__setattr__(self, 'port', port)
         object.__setattr__(self, 'maude_port', maude_port)
