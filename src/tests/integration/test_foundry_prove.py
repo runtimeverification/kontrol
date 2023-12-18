@@ -363,17 +363,20 @@ def test_foundry_abstract_nodes(
     use_booster: bool,
 ) -> None:
     test_id = 'AccountParamsTest.testDealSymbolic'
-    options = ProveOptions(
+    prove_options = ProveOptions(
         abstract_cells=[],
         bug_report=bug_report,
-        port=server.port,
         max_iterations=1,
         max_depth=100,
     )
+    rpc_options = RPCOptions(port=server.port)
+    foundry = _load_foundry(foundry_root, bug_report)
+
     foundry_prove(
-        foundry_root,
-        options=options,
+        foundry=foundry,
         tests=[(test_id, None)],
+        prove_options=prove_options,
+        rpc_options=rpc_options,
     )
 
     foundry_abstract_node(
@@ -384,7 +387,7 @@ def test_foundry_abstract_nodes(
     )
 
     show_res = foundry_show(
-        foundry_root,
+        foundry=foundry,
         test=test_id,
         to_module=True,
         minimize=False,
