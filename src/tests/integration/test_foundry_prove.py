@@ -356,7 +356,7 @@ def test_foundry_auto_abstraction(
 
 
 def test_foundry_abstract_nodes(
-    foundry_root: Path,
+    foundry: Foundry,
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
@@ -370,7 +370,6 @@ def test_foundry_abstract_nodes(
         max_depth=100,
     )
     rpc_options = RPCOptions(port=server.port)
-    foundry = _load_foundry(foundry_root, bug_report)
 
     foundry_prove(
         foundry=foundry,
@@ -380,7 +379,7 @@ def test_foundry_abstract_nodes(
     )
 
     foundry_abstract_node(
-        foundry_root,
+        foundry._root,
         test_id,
         [3],
         ['localMem', 'gas', 'wordStack', 'callData'],
