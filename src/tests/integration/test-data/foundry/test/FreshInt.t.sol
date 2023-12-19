@@ -32,6 +32,7 @@ contract FreshIntTest is Test, KEVMCheats {
     function testFail_int128() public {
         int128 val = int128(uint128(kevm.freshUInt(16)));
         assertGt(val, max);
+    }
 
     function test_bytes() public {
         bytes memory fresh_bytes_1 = kevm.freshBytes(5);
