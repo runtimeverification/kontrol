@@ -623,7 +623,6 @@ def _init_cse_cterm(
     ]
 
     offset = 4
-    offset = 4
     for arg_name, arg_type in zip(method.arg_names, method.arg_types, strict=True):
         t_offset = intToken(offset)
         type_width = Contract.calldata_type_width(arg_type)
