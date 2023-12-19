@@ -408,7 +408,7 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
          <output> _ => #bufStrict(32, ?WORD1) </output>
       requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
        andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
-       ensures 0 <=Int ?WORD1 andBool ?WORD1 <Int 2 ^Int (8 *Int #asWord(ARGS))
+       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
        [preserves-definedness]
 ```
 
