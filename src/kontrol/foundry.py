@@ -289,8 +289,9 @@ class Foundry:
             raise ValueError(f'Found no matching proofs for {test}.')
         if id is None:
             if len(matching_proofs) > 1:
+                proof_versions = [proof.id for proof in matching_proofs]
                 raise ValueError(
-                    f'Found {len(matching_proofs)} matching proofs for {test}. Use the --version flag to choose one.'
+                        f'Found {len(matching_proofs)} matching proofs for {test}: {proof_versions}. Use the --version flag to choose one.'
                 )
             test_id = single(matching_proofs).id
             return test_id

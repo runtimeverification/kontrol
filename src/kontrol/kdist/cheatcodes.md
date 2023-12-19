@@ -405,10 +405,10 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
 ```{.k .symbolic}
     rule [foundry.call.freshUInt]:
          <k> #call_foundry SELECTOR ARGS => . ... </k>
-         <output> _ => #bufStrict(32, ?WORD) </output>
+         <output> _ => #bufStrict(32, ?WORD1) </output>
       requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
        andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
-       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
+       ensures 0 <=Int ?WORD1 andBool ?WORD1 <Int 2 ^Int (8 *Int #asWord(ARGS))
        [preserves-definedness]
 ```
 
@@ -424,9 +424,34 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 ```{.k .symbolic}
     rule [foundry.call.freshBool]:
          <k> #call_foundry SELECTOR _ => . ... </k>
-         <output> _ => #buf(32, ?WORD) </output>
+         <output> _ => #buf(32, ?WORD2) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
-       ensures #rangeBool(?WORD)
+       ensures #rangeBool(?WORD2)
+       [preserves-definedness]
+```
+
+#### `freshBytes` - Returns a single symbolic boolean.
+
+```
+function freshBytes(uint256) external returns (bytes memory);
+```
+
+`foundry.call.freshBytes` will match when the `freshBytes` cheat code function is called.
+This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
+
+```{.k .symbolic}
+    rule [foundry.call.freshBytes]:
+         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <output> _ => Int2Bytes(32, 32, BE) +Bytes Int2Bytes(32, #asWord(ARGS), BE) +Bytes ?BYTES +Bytes
+         Int2Bytes(#asWord(ARGS) modInt 32, 0, BE) </output>
+//         <output> _ => Int2Bytes(32, #asWord(ARGS), BE) +Bytes Int2Bytes(32, 12345, BE) </output>
+//         <output> _ => #padToWidth(32, Int2Bytes(#asWord(ARGS), BE, Unsigned)) +Bytes #padRightToWidth(32, ?BYTES) </output>
+//         <output> _ =>  #buf(#asWord(ARGS), ?BYTES) </output>
+//         <localMem> LM => LM [ 12345 := ?BYTES ] </localMem>
+      requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
+//      andBool 0 <=Int #asWord(ARGS) andBool #asWord(ARGS) <Int 32
+      andBool 0 <=Int #asWord(ARGS)
+      ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
        [preserves-definedness]
 ```
 
@@ -1346,6 +1371,8 @@ If the production is matched when no prank is active, it will be ignored.
     rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
     rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
+    rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
+
     rule ( selector ( "prank(address)" )                           => 3395723175 )
     rule ( selector ( "prank(address,address)" )                   => 1206193358 )
     rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )
