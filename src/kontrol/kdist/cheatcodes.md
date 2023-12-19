@@ -1367,7 +1367,6 @@ If the production is matched when no prank is active, it will be ignored.
     rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
-
     rule ( selector ( "prank(address)" )                           => 3395723175 )
     rule ( selector ( "prank(address,address)" )                   => 1206193358 )
     rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )
