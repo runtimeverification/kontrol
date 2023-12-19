@@ -8,25 +8,24 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
+from pyk.kast.inner import KApply, KInner, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, notBool
-from pyk.prelude.kint import INT, intToken, ltInt
+from pyk.prelude.kint import INT, eqInt, intToken, ltInt
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
-from .solc_to_k import Contract
+from .solc_to_k import Contract, _range_predicate
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Final
 
-    from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
     from pyk.utils import FrozenDict
 
@@ -572,6 +571,13 @@ def _init_cse_cterm(
                 Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
             ]
         ),
+        'ACCESSEDSTORAGE_CELL': KApply(
+            '_Map_',
+            [
+                KApply('_|->_', [KVariable('CONTRACT'), KVariable('CONTRACT_ACCESSED_STORAGE', sort=KSort('Set'))]),
+                KVariable('ACCESSED_STORAGE_MAP'),
+            ],
+        ),
         'ISREVERTEXPECTED_CELL': FALSE,
         'ISOPCODEEXPECTED_CELL': FALSE,
         'ISEVENTEXPECTED_CELL': FALSE,
@@ -582,6 +588,17 @@ def _init_cse_cterm(
     constraints = [
         mlEqualsTrue(KApply('_>=Int_', KVariable('ACCT_FROM_BAL'), intToken(0))),
         mlEqualsTrue(KApply('#rangeNonce(_)_WORD_Bool_Int', KVariable('ACCT_FROM_NONCE'))),
+        mlEqualsTrue(
+            eqInt(
+                KEVM.size_bytes(
+                    KApply(
+                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                        [KVariable('LM'), KVariable('ARGSTART'), intToken(method.argwidth)],
+                    )
+                ),
+                intToken(method.argwidth),
+            )
+        ),
         mlEqualsTrue(
             notBool(KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('CONTRACT'), schedule]))
         ),
@@ -601,8 +618,11 @@ def _init_cse_cterm(
                 ],
             )
         ),
+        mlEqualsTrue(KEVM.range_uint(256, KVariable('ARGSTART'))),
+        mlEqualsTrue(KEVM.range_uint(256, KVariable('RETSTART'))),
     ]
 
+    offset = 4
     offset = 4
     for arg_name, arg_type in zip(method.arg_names, method.arg_types, strict=True):
         t_offset = intToken(offset)
@@ -626,14 +646,20 @@ def _init_cse_cterm(
                 ],
             )
         )
+        c_type = _range_predicate(KVariable(arg_name), arg_type)
         constraints.append(c_arg)
+        if isinstance(c_type, KInner):
+            constraints.append(mlEqualsTrue(c_type))
         offset += type_width
 
     for var, loc in fields.items():
         c_loc = mlEqualsTrue(
             KApply('_==Int_', [KEVM.lookup(KVariable('CONTRACT_STORAGE'), intToken(loc)), KVariable(var.upper())])
         )
+        c_type = mlEqualsTrue(KEVM.range_uint(256, KVariable(var.upper())))
+
         constraints.append(c_loc)
+        constraints.append(c_type)
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
