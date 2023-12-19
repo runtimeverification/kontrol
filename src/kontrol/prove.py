@@ -493,19 +493,15 @@ def _init_cterm(
         if is_calldata_symbolic:
             # TODO(palina): adding constraints that represent assumptions on calldata
 
-            # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) == 224
-            first_offset = eqInt(offset_struct, intToken(224))
-            constraints.append(mlEqualsTrue(first_offset))
-
             chopped_calldata_length = KApply('chop(_)_WORD_Int_Int', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA'))])
             # TODO: another constraint: chopped is equal to the actual length
 
             # calldata_length_range = mlEqualsTrue(leInt(KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), KEVM.pow256()))
             # constraints.append(calldata_length_range)
-            calldata_length_224 = mlEqualsTrue(
-                eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [chopped_calldata_length, intToken(224)]))
+            calldata_length_416 = mlEqualsTrue(
+                eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [chopped_calldata_length, intToken(416)]))
             )
-            constraints.append(calldata_length_224)
+            constraints.append(calldata_length_416)
 
 
             # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) <=Int maxUInt64
@@ -519,6 +515,10 @@ def _init_cterm(
                 ],
             )
             constraints.append(mlEqualsTrue(leInt(offset_struct, intToken("18446744073709551615"))))
+
+            # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) == 224
+            first_offset = eqInt(offset_struct, intToken(224))
+            constraints.append(mlEqualsTrue(first_offset))
 
             # And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )
             # And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )
