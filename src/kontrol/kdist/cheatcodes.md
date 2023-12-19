@@ -444,12 +444,7 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
          <k> #call_foundry SELECTOR ARGS => . ... </k>
          <output> _ => Int2Bytes(32, 32, BE) +Bytes Int2Bytes(32, #asWord(ARGS), BE) +Bytes ?BYTES +Bytes
          Int2Bytes(#asWord(ARGS) modInt 32, 0, BE) </output>
-//         <output> _ => Int2Bytes(32, #asWord(ARGS), BE) +Bytes Int2Bytes(32, 12345, BE) </output>
-//         <output> _ => #padToWidth(32, Int2Bytes(#asWord(ARGS), BE, Unsigned)) +Bytes #padRightToWidth(32, ?BYTES) </output>
-//         <output> _ =>  #buf(#asWord(ARGS), ?BYTES) </output>
-//         <localMem> LM => LM [ 12345 := ?BYTES ] </localMem>
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
-//      andBool 0 <=Int #asWord(ARGS) andBool #asWord(ARGS) <Int 32
       andBool 0 <=Int #asWord(ARGS)
       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
        [preserves-definedness]
