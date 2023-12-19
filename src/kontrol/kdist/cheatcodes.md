@@ -405,10 +405,10 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
 ```{.k .symbolic}
     rule [foundry.call.freshUInt]:
          <k> #call_foundry SELECTOR ARGS => . ... </k>
-         <output> _ => #bufStrict(32, ?WORD1) </output>
+         <output> _ => #bufStrict(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
        andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
-       ensures 0 <=Int ?WORD1 andBool ?WORD1 <Int 2 ^Int (8 *Int #asWord(ARGS))
+       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
        [preserves-definedness]
 ```
 
@@ -424,7 +424,7 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 ```{.k .symbolic}
     rule [foundry.call.freshBool]:
          <k> #call_foundry SELECTOR _ => . ... </k>
-         <output> _ => #buf(32, ?WORD2) </output>
+         <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
        ensures #rangeBool(?WORD2)
        [preserves-definedness]
@@ -1367,7 +1367,6 @@ If the production is matched when no prank is active, it will be ignored.
     rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
-
     rule ( selector ( "prank(address)" )                           => 3395723175 )
     rule ( selector ( "prank(address,address)" )                   => 1206193358 )
     rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )
