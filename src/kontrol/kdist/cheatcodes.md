@@ -424,7 +424,7 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 ```{.k .symbolic}
     rule [foundry.call.freshBool]:
          <k> #call_foundry SELECTOR _ => . ... </k>
-         <output> _ => #buf(32, ?WORD2) </output>
+         <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
        ensures #rangeBool(?WORD2)
        [preserves-definedness]
