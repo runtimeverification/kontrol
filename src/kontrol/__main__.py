@@ -28,6 +28,7 @@ from .foundry import (
     foundry_show,
     foundry_simplify_node,
     foundry_step_node,
+    foundry_summary,
     foundry_to_dot,
 )
 from .kompile import foundry_kompile
@@ -64,7 +65,7 @@ def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Fo
         foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
     except FileNotFoundError:
         print(
-            f'File foundry.toml not found in: {foundry_root}. Are you running kontrol in a Foundry project?',
+            f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
             file=sys.stderr,
         )
         sys.exit(1)
@@ -113,6 +114,25 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 
 
 # Command implementation
+
+
+def exec_summary(
+    name: str,
+    accesses_file: Path,
+    contract_names: Path | None,
+    output_dir_name: str | None,
+    foundry_root: Path,
+    condense_summary: bool = False,
+    **kwargs: Any,
+) -> None:
+    foundry_summary(
+        name,
+        accesses_file,
+        contract_names=contract_names,
+        output_dir_name=output_dir_name,
+        foundry=_load_foundry(foundry_root),
+        condense_summary=condense_summary,
+    )
 
 
 def exec_version(**kwargs: Any) -> None:
@@ -197,7 +217,7 @@ def exec_prove(
     bmc_depth: int | None = None,
     bug_report: BugReport | None = None,
     kore_rpc_command: str | Iterable[str] | None = None,
-    use_booster: bool = False,
+    use_booster: bool = True,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     smt_tactic: str | None = None,
@@ -623,6 +643,37 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help="Do not call 'forge build' during kompilation.",
+    )
+
+    summary_args = command_parser.add_parser(
+        'summary',
+        help='Generate a solidity function summary from an account access dict',
+        parents=[
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    summary_args.add_argument('name', type=str, help='Generated contract name')
+    summary_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
+    summary_args.add_argument(
+        '--contract-names',
+        dest='contract_names',
+        default=None,
+        type=file_path,
+        help='Path to JSON containing deployment addresses and its respective contract names',
+    )
+    summary_args.add_argument(
+        '--condense-summary',
+        dest='condense_summary',
+        default=False,
+        type=bool,
+        help='Deploy summary as a single file',
+    )
+    summary_args.add_argument(
+        '--output-dir',
+        dest='output_dir_name',
+        default=None,
+        type=str,
+        help='Path to write summary .sol files, relative to foundry root',
     )
 
     prove_args = command_parser.add_parser(

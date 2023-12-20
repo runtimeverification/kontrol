@@ -25,6 +25,7 @@ from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.proof.show import APRBMCProofNodePrinter, APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
+from .deployment import DeploymentSummary
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
@@ -715,6 +716,42 @@ def foundry_step_node(
         for _i in range(repeat):
             node = kcfg_explore.step(apr_proof.kcfg, node, apr_proof.logs, depth=depth)
             apr_proof.write_proof_data()
+
+
+def foundry_summary(
+    name: str,
+    accesses_file: Path,
+    contract_names: Path | None,
+    output_dir_name: str | None,
+    foundry: Foundry,
+    condense_summary: bool = False,
+) -> None:
+    if not accesses_file.exists():
+        raise FileNotFoundError('Given account accesses dictionary file not found.')
+    accesses = json.loads(accesses_file.read_text())['accountAccesses']
+    accounts = {}
+    if contract_names is not None:
+        if not contract_names.exists():
+            raise FileNotFoundError('Given contract names dictionary file not found.')
+        accounts = json.loads(contract_names.read_text())
+    summary_contract = DeploymentSummary(name=name, accounts=accounts)
+    for access in accesses:
+        summary_contract.add_cheatcode(access)
+
+    if output_dir_name is None:
+        output_dir_name = foundry.profile.get('test', '')
+
+    output_dir = foundry._root / output_dir_name
+    ensure_dir_path(output_dir)
+
+    main_file = output_dir / Path(name + '.sol')
+
+    if condense_summary:
+        main_file.write_text('\n'.join(summary_contract.generate_condensed_file()))
+    else:
+        code_file = output_dir / Path(name + 'Code.sol')
+        main_file.write_text('\n'.join(summary_contract.generate_main_contract_file()))
+        code_file.write_text('\n'.join(summary_contract.generate_code_contract_file()))
 
 
 def foundry_section_edge(

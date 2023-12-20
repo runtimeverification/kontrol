@@ -2,6 +2,7 @@ requires "contracts.k"
 requires "requires/lemmas.k"
 
 module FOUNDRY-MAIN
+<<<<<<< HEAD
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
     imports public S2KtestZModAccountParamsTest-VERIFICATION
@@ -100,6 +101,106 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole2-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
+=======
+    imports public S2KAccountParamsTest-VERIFICATION
+    imports public S2KAddrTest-VERIFICATION
+    imports public S2KAllowChangesTest-VERIFICATION
+    imports public S2KValueStore-VERIFICATION
+    imports public S2KAmbiguousTest-VERIFICATION
+    imports public S2KArithmeticTest-VERIFICATION
+    imports public S2KAssumeTest-VERIFICATION
+    imports public S2KBMCLoopsTest-VERIFICATION
+    imports public S2KCommonBase-VERIFICATION
+    imports public S2KScriptBase-VERIFICATION
+    imports public S2KTestBase-VERIFICATION
+    imports public S2KBlockParamsTest-VERIFICATION
+    imports public S2KRollTest-VERIFICATION
+    imports public S2KBroadcastTest-VERIFICATION
+    imports public S2KConstants-VERIFICATION
+    imports public S2KContract-VERIFICATION
+    imports public S2KContractTest-VERIFICATION
+    imports public S2KContractBTest-VERIFICATION
+    imports public S2KCounter-VERIFICATION
+    imports public S2KCounterTest-VERIFICATION
+    imports public S2KDeploymentSummary-VERIFICATION
+    imports public S2KDeploymentSummaryCode-VERIFICATION
+    imports public S2KDynamicTypes-VERIFICATION
+    imports public S2KExpectEmit-VERIFICATION
+    imports public S2KEmitContractTest-VERIFICATION
+    imports public S2KEnvTest-VERIFICATION
+    imports public S2KDummy-VERIFICATION
+    imports public S2KExpectCallTest-VERIFICATION
+    imports public S2KDepthReverter-VERIFICATION
+    imports public S2KExpectRevertTest-VERIFICATION
+    imports public S2KReverter-VERIFICATION
+    imports public S2KReverterWithReturn-VERIFICATION
+    imports public S2KFfiTest-VERIFICATION
+    imports public S2KFilesTest-VERIFICATION
+    imports public S2KForkTest-VERIFICATION
+    imports public S2KFreshIntTest-VERIFICATION
+    imports public S2KGasTest-VERIFICATION
+    imports public S2KGetCodeTest-VERIFICATION
+    imports public S2KIMulticall3-VERIFICATION
+    imports public S2KInitCodeTest-VERIFICATION
+    imports public S2KInitCodeBranchTest-VERIFICATION
+    imports public S2KKEVMCheats-VERIFICATION
+    imports public S2KKEVMCheatsBase-VERIFICATION
+    imports public S2KLabelTest-VERIFICATION
+    imports public S2KLoopsTest-VERIFICATION
+    imports public S2KMergeTest-VERIFICATION
+    imports public S2KMethodDisambiguateTest-VERIFICATION
+    imports public S2KMockCallTest-VERIFICATION
+    imports public S2KMyIERC20-VERIFICATION
+    imports public S2KMyToken-VERIFICATION
+    imports public S2KNoImport-VERIFICATION
+    imports public S2KOwnerUpOnly-VERIFICATION
+    imports public S2KOwnerUpOnlyTest-VERIFICATION
+    imports public S2KAdditionalToken-VERIFICATION
+    imports public S2KMyErc20-VERIFICATION
+    imports public S2KPlainPrankTest-VERIFICATION
+    imports public S2KPrank-VERIFICATION
+    imports public S2KPrankTest-VERIFICATION
+    imports public S2KPreconditionsTest-VERIFICATION
+    imports public S2KRecordLogsTest-VERIFICATION
+    imports public S2KSafe-VERIFICATION
+    imports public S2KSafeTest-VERIFICATION
+    imports public S2KSetup2Test-VERIFICATION
+    imports public S2KSetUpDeployTest-VERIFICATION
+    imports public S2KSetUpTest-VERIFICATION
+    imports public S2KSignTest-VERIFICATION
+    imports public S2KAssertTest-VERIFICATION
+    imports public S2KSnapshotTest-VERIFICATION
+    imports public S2KStdAssertions-VERIFICATION
+    imports public S2KStdChains-VERIFICATION
+    imports public S2KStdCheats-VERIFICATION
+    imports public S2KStdCheatsSafe-VERIFICATION
+    imports public S2KstdError-VERIFICATION
+    imports public S2KStdInvariant-VERIFICATION
+    imports public S2KstdJson-VERIFICATION
+    imports public S2KstdMath-VERIFICATION
+    imports public S2KstdStorage-VERIFICATION
+    imports public S2KstdStorageSafe-VERIFICATION
+    imports public S2KStdStyle-VERIFICATION
+    imports public S2KStdUtils-VERIFICATION
+    imports public S2KStore-VERIFICATION
+    imports public S2KStoreTest-VERIFICATION
+    imports public S2KSymbolicStorageTest-VERIFICATION
+    imports public S2KSymbolicStore-VERIFICATION
+    imports public S2KTest-VERIFICATION
+    imports public S2KTestNumber-VERIFICATION
+    imports public S2KToStringTest-VERIFICATION
+    imports public S2KToken-VERIFICATION
+    imports public S2KBytesTypeTest-VERIFICATION
+    imports public S2KIntTypeTest-VERIFICATION
+    imports public S2KStructTypeTest-VERIFICATION
+    imports public S2KUintTypeTest-VERIFICATION
+    imports public S2KVm-VERIFICATION
+    imports public S2KVmSafe-VERIFICATION
+    imports public S2Kconsole-VERIFICATION
+    imports public S2Kconsole2-VERIFICATION
+    imports public S2Ksafeconsole-VERIFICATION
+    imports public S2KDSTest-VERIFICATION
+>>>>>>> origin/master
     
     
 
@@ -245,8 +346,27 @@ module S2KtestZModContractBTest-VERIFICATION
 
 endmodule
 
+<<<<<<< HEAD
 module S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounter-CONTRACT
+=======
+module S2KDeploymentSummary-VERIFICATION
+    imports public S2KDeploymentSummary-CONTRACT
+    
+    
+
+endmodule
+
+module S2KDeploymentSummaryCode-VERIFICATION
+    imports public S2KDeploymentSummaryCode-CONTRACT
+    
+    
+
+endmodule
+
+module S2KDynamicTypes-VERIFICATION
+    imports public S2KDynamicTypes-CONTRACT
+>>>>>>> origin/master
     
     
 

@@ -216,6 +216,7 @@ def _run_cfg_group(
                     prove_options.break_on_jumpi, prove_options.break_on_calls
                 ),
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
+                counterexample_info=prove_options.counterexample_info,
             )
             return proof
 
