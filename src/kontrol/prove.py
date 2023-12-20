@@ -204,7 +204,7 @@ def _run_cfg_group(
                 kcfg_explore=kcfg_explore,
                 bmc_depth=prove_options.bmc_depth,
                 run_constructor=prove_options.run_constructor,
-                usegas=prove_options.usegas,
+                use_gas=prove_options.use_gas,
             )
 
             run_prover(
@@ -239,7 +239,7 @@ def method_to_apr_proof(
     kcfg_explore: KCFGExplore,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
-    usegas: bool = True,
+    use_gas: bool = False,
 ) -> APRProof | APRBMCProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -261,7 +261,7 @@ def method_to_apr_proof(
         test=test,
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
-        usegas=usegas,
+        use_gas=use_gas,
     )
 
     if bmc_depth is not None:
@@ -302,7 +302,7 @@ def _method_to_initialized_cfg(
     kcfg_explore: KCFGExplore,
     *,
     setup_proof: APRProof | None = None,
-    usegas: bool = True,
+    use_gas: bool = False,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -312,7 +312,7 @@ def _method_to_initialized_cfg(
         test.contract,
         test.method,
         setup_proof,
-        usegas,
+        use_gas,
     )
 
     for node_id in new_node_ids:
@@ -341,7 +341,7 @@ def _method_to_cfg(
     contract: Contract,
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
-    usegas: bool,
+    use_gas: bool,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -362,7 +362,7 @@ def _method_to_cfg(
         program=program,
         calldata=calldata,
         callvalue=callvalue,
-        usegas=usegas,
+        use_gas=use_gas,
     )
     new_node_ids = []
 
@@ -422,7 +422,7 @@ def _init_cterm(
     empty_config: KInner,
     contract_name: str,
     program: KInner,
-    usegas: bool,
+    use_gas: bool,
     *,
     setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
