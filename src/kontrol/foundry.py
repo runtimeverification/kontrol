@@ -74,7 +74,7 @@ class Foundry:
             )
         if len(contracts) > 1:
             raise ValueError(
-                f'Tried to look up duplicate contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
+                f'Tried to look up contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
             )
         return single(contracts)
 
