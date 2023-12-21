@@ -5,9 +5,9 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (875 steps)
+│  (560 steps)
 ├─ 3
-│   k: STATICCALL ( VGAS:Int +Int -3048 ) 645326474426547203313410069153905908525362434 ...
+│   k: STATICCALL VGAS:Int 645326474426547203313410069153905908525362434349 128 36 128  ...
 │   pc: 563
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -19,7 +19,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (299 steps)
+│  (189 steps)
 ├─ 5
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 281
@@ -64,7 +64,7 @@ Node 7:
         SHANGHAI
       </schedule>
       <useGas>
-        true
+        false
       </useGas>
       <ethereum>
         <evm>
@@ -100,11 +100,8 @@ Node 7:
               b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
             </localMem>
             <memoryUsed>
-              6
+              0
             </memoryUsed>
-            <callGas>
-              #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
-            </callGas>
             <static>
               false
             </static>
@@ -118,7 +115,7 @@ Node 7:
               .List
             </log>
             <accessedAccounts>
-              SetItem ( 645326474426547203313410069153905908525362434349 )
+              .Set
             </accessedAccounts>
             <accessedStorage>
               .Map
@@ -269,7 +266,7 @@ Node 7:
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => STATICCALL ( VGAS:Int +Int -3048 ) 645326474426547203313410069153905908525362434349 128 36 128 0
+               ( .K => STATICCALL VGAS:Int 645326474426547203313410069153905908525362434349 128 36 128 0
                ~> #pc [ STATICCALL ] )
                ~> #execute
                ~> _CONTINUATION
@@ -281,7 +278,7 @@ Node 7:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -315,24 +312,22 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 6 )
+                     0
                    </memoryUsed>
-                   <callGas>
-                     ( _CALLGAS_CELL => #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) ) )
-                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
                    <accessedAccounts>
-                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                     .Set
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -480,7 +475,7 @@ Node 7:
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL ( VGAS:Int +Int -3048 ) 645326474426547203313410069153905908525362434349 128 36 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( STATICCALL VGAS:Int 645326474426547203313410069153905908525362434349 128 36 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) true
                ~> #return 128 0 )
                ~> #pc [ STATICCALL ]
@@ -494,7 +489,7 @@ Node 7:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -528,24 +523,22 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
-                   <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
-                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                     .Set
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -708,7 +701,7 @@ Node 7:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -745,24 +738,22 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
-                   <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
-                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                     .Set
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -923,7 +914,7 @@ Node 7:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -963,24 +954,22 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
-                   <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
-                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                     .Set
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1139,7 +1128,7 @@ Node 7:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -1179,24 +1168,22 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
-                   <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
-                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                     .Set
                    </accessedAccounts>
                    <accessedStorage>
                      .Map

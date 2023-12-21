@@ -329,6 +329,7 @@ def test_foundry_auto_abstraction(
         prove_options=ProveOptions(
             auto_abstract_gas=True,
             bug_report=bug_report,
+            use_gas=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
