@@ -145,17 +145,19 @@ def test_foundry_prove(
     prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=test_id in GAS_TESTS)
 
     # When
-    prove_res = foundry_prove(
-        foundry,
-        tests=[(test_id, None)],
-        prove_options=prove_options,
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
+    prove_res = single(
+        foundry_prove(
+            foundry,
+            tests=[(test_id, None)],
+            prove_options=prove_options,
+            rpc_options=RPCOptions(
+                port=server.port,
+            ),
+        )
     )
 
     # Then
-    assert_pass(test_id, single(prove_res))
+    assert_pass(test_id, prove_res)
 
     if test_id not in SHOW_TESTS or not no_use_booster:
         return
