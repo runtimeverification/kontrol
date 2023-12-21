@@ -117,7 +117,7 @@ class FoundryTest(NamedTuple):
 
     @property
     def name(self) -> str:
-        return f'{self.contract.name}.{self.method.signature}'
+        return f'{self.contract.name_with_path}.{self.method.signature}'
 
     @property
     def id(self) -> str:
@@ -148,14 +148,14 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
     for contract in contracts:
-        if contract.name in contract_names:
+        if contract.name_with_path in contract_names:
             continue
-        contract_names.add(contract.name)
+        contract_names.add(contract.name_with_path)
 
         method = contract.method_by_name.get('setUp')
         if not method:
             continue
-        version = foundry.resolve_proof_version(f'{contract.name}.setUp()', reinit, None)
+        version = foundry.resolve_proof_version(f'{contract.name_with_path}.setUp()', reinit, None)
         res.append(FoundryTest(contract, method, version))
     return res
 
@@ -164,14 +164,14 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
     for contract in contracts:
-        if contract.name in contract_names:
+        if contract.name_with_path in contract_names:
             continue
-        contract_names.add(contract.name)
+        contract_names.add(contract.name_with_path)
 
         method = contract.constructor
         if not method:
             continue
-        version = foundry.resolve_proof_version(f'{contract.name}.init', reinit, None)
+        version = foundry.resolve_proof_version(f'{contract.name_with_path}.init', reinit, None)
         res.append(FoundryTest(contract, method, version))
     return res
 
@@ -280,15 +280,15 @@ def method_to_apr_proof(
 
 
 def _load_setup_proof(foundry: Foundry, contract: Contract) -> APRProof:
-    latest_version = foundry.latest_proof_version(f'{contract.name}.setUp()')
-    setup_digest = f'{contract.name}.setUp():{latest_version}'
+    latest_version = foundry.latest_proof_version(f'{contract.name_with_path}.setUp()')
+    setup_digest = f'{contract.name_with_path}.setUp():{latest_version}'
     apr_proof = APRProof.read_proof_data(foundry.proofs_dir, setup_digest)
     return apr_proof
 
 
 def _load_constructor_proof(foundry: Foundry, contract: Contract) -> APRProof:
-    latest_version = foundry.latest_proof_version(f'{contract.name}.init')
-    setup_digest = f'{contract.name}.init:{latest_version}'
+    latest_version = foundry.latest_proof_version(f'{contract.name_with_path}.init')
+    setup_digest = f'{contract.name_with_path}.init:{latest_version}'
     apr_proof = APRProof.read_proof_data(foundry.proofs_dir, setup_digest)
     return apr_proof
 
@@ -341,18 +341,18 @@ def _method_to_cfg(
     callvalue = None
 
     if isinstance(method, Contract.Constructor):
-        program = KEVM.init_bytecode(KApply(f'contract_{contract.name}'))
+        program = KEVM.init_bytecode(KApply(f'contract_{contract.name_with_path}'))
         use_init_code = True
 
     elif isinstance(method, Contract.Method):
         calldata, is_calldata_symbolic = method.calldata_cell(contract)
         callvalue = method.callvalue_cell
-        program = KEVM.bin_runtime(KApply(f'contract_{contract.name}'))
+        program = KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
         use_init_code = False
 
     init_cterm = _init_cterm(
         empty_config,
-        contract.name,
+        contract.name_with_path,
         program=program,
         calldata=calldata,
         is_calldata_symbolic=is_calldata_symbolic,
@@ -363,7 +363,7 @@ def _method_to_cfg(
     if setup_proof:
         if setup_proof.pending:
             raise RuntimeError(
-                f'Initial state proof {setup_proof.id} for {contract.name}.{method.signature} still has pending branches.'
+                f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} still has pending branches.'
             )
 
         init_node_id = setup_proof.init
@@ -373,7 +373,7 @@ def _method_to_cfg(
         cfg.remove_node(setup_proof.target)
         if not final_states:
             _LOGGER.warning(
-                f'Initial state proof {setup_proof.id} for {contract.name}.{method.signature} has no passing branches to build on. Method will not be executed.'
+                f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )
         for final_node in final_states:
             new_accounts_cell = final_node.cterm.cell('ACCOUNTS_CELL')
@@ -384,7 +384,9 @@ def _method_to_cfg(
 
             new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
                 set_cell(
-                    test_contract_account.config, 'CODE_CELL', KEVM.bin_runtime(KApply(f'contract_{contract.name}'))
+                    test_contract_account.config,
+                    'CODE_CELL',
+                    KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}')),
                 ),
                 [],
             )
@@ -409,7 +411,7 @@ def _method_to_cfg(
     is_test = method.signature.startswith('test')
     failing = method.signature.startswith('testFail')
     final_cterm = _final_cterm(
-        empty_config, contract.name, failing=failing, is_test=is_test, use_init_code=use_init_code
+        empty_config, contract.name_with_path, failing=failing, is_test=is_test, use_init_code=use_init_code
     )
     target_node = cfg.create_node(final_cterm)
 
