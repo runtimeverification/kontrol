@@ -34,7 +34,18 @@ contract FreshIntTest is Test, KEVMCheats {
         assertGt(val, max);
     }
 
-    function test_bytes() public {
+    function manip_symbolic_bytes(bytes memory b) public {
+        uint middle = b.length / 2;
+        b[middle] = hex'aa';
+    }
+
+    function test_symbolic_bytes_function() public {
+        bytes memory fresh_bytes = kevm.freshBytes(5);
+        manip_symbolic_bytes(fresh_bytes);
+        assertEq(hex'aa', fresh_bytes[2]);
+    }
+
+    function test_symbolic_bytes() public {
         bytes memory fresh_bytes_1 = kevm.freshBytes(5);
         assertEq(fresh_bytes_1.length, 5);
         local_byte = fresh_bytes_1[0];
@@ -42,5 +53,11 @@ contract FreshIntTest is Test, KEVMCheats {
         bytes memory fresh_bytes_2 = kevm.freshBytes(67);
         assertEq(fresh_bytes_2.length, 67);
         local_bytes = fresh_bytes_2;
+    }
+
+    function test_symbolic_bytes_symbolic_length(uint256 l) public {
+        vm.assume(l < 2**64);
+        bytes memory fresh_bytes = kevm.freshBytes(l);
+        assertEq(fresh_bytes.length, l);
     }
 }
