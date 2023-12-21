@@ -12,7 +12,7 @@ from pyk.kast.inner import KApply, KSequence, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.k import GENERATED_TOP_CELL
-from pyk.prelude.kbool import FALSE, notBool
+from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
@@ -433,6 +433,7 @@ def _init_cterm(
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'SCHEDULE_CELL': KApply('SHANGHAI_EVM'),
+        'USEGAS_CELL': TRUE,
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'CALLSTACK_CELL': KApply('.List'),
         'CALLDEPTH_CELL': intToken(0),
