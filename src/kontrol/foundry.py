@@ -63,6 +63,22 @@ class Foundry:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
 
+    def lookup_full_contract_name(self, contract_name: str) -> str:
+        contracts = [
+            full_contract_name
+            for full_contract_name in self.contracts
+            if contract_name == full_contract_name.split('%')[-1]
+        ]
+        if len(contracts) == 0:
+            raise ValueError(
+                f"Tried to look up contract name {contract_name}, found none out of {[contract_name_with_path.split('/')[-1] for contract_name_with_path in self.contracts.keys()]}"
+            )
+        if len(contracts) > 1:
+            raise ValueError(
+                f'Tried to look up contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
+            )
+        return single(contracts)
+
     @property
     def profile(self) -> dict[str, Any]:
         profile_name = os.getenv('FOUNDRY_PROFILE', default='default')
@@ -109,7 +125,7 @@ class Foundry:
 
     @cached_property
     def contracts(self) -> dict[str, Contract]:
-        pattern = '*.sol/*.json'
+        pattern = '**/*.sol/*.json'
         paths = self.out.glob(pattern)
         json_paths = [str(path) for path in paths]
         json_paths = [json_path for json_path in json_paths if not json_path.endswith('.metadata.json')]
@@ -121,12 +137,10 @@ class Foundry:
             contract_name = json_path.split('/')[-1]
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
-            if _contracts.get(contract_name) is not None:
-                raise RuntimeError(
-                    f'Project contains duplicated contract names that may clash in K definitions: {contract_name}'
-                )
+            contract = Contract(contract_name, contract_json, foundry=True)
 
-            _contracts[contract_name] = Contract(contract_name, contract_json, foundry=True)
+            _contracts[contract.name_with_path] = contract
+
         return _contracts
 
     def mk_proofs_dir(self) -> None:
@@ -177,7 +191,7 @@ class Foundry:
     def contract_ids(self) -> dict[int, str]:
         _contract_ids = {}
         for c in self.contracts.values():
-            _contract_ids[c.contract_id] = c.name
+            _contract_ids[c.contract_id] = c.name_with_path
         return _contract_ids
 
     def srcmap_data(self, contract_name: str, pc: int) -> tuple[Path, int, int] | None:
@@ -239,9 +253,9 @@ class Foundry:
     @cached_property
     def all_tests(self) -> list[str]:
         return [
-            f'{contract.name}.{method.signature}'
+            f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
-            if contract.name.endswith('Test')
+            if contract.name_with_path.endswith('Test')
             for method in contract.methods
             if method.name.startswith('test')
         ]
@@ -249,11 +263,11 @@ class Foundry:
     @cached_property
     def all_non_tests(self) -> list[str]:
         return [
-            f'{contract.name}.{method.signature}'
+            f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
             for method in contract.methods
-            if f'{contract.name}.{method.signature}' not in self.all_tests
-        ] + [f'{contract.name}.init' for contract in self.contracts.values() if contract.constructor]
+            if f'{contract.name_with_path}.{method.signature}' not in self.all_tests
+        ] + [f'{contract.name_with_path}.init' for contract in self.contracts.values() if contract.constructor]
 
     @staticmethod
     def _escape_brackets(regs: list[str]) -> list[str]:
@@ -400,9 +414,8 @@ class Foundry:
         method = contract.method_by_sig[method_name]
         return contract, method
 
-    def get_method(self, test: str) -> Contract.Method | Contract.Constructor:
-        _, method = self.get_contract_and_method(test)
-        return method
+    def list_proof_dir(self) -> list[str]:
+        return listdir(self.proofs_dir)
 
     def resolve_proof_version(
         self,
@@ -410,7 +423,7 @@ class Foundry:
         reinit: bool,
         user_specified_version: int | None,
     ) -> int:
-        method = self.get_method(test)
+        _, method = self.get_contract_and_method(test)
 
         if reinit and user_specified_version is not None:
             raise ValueError('--reinit is not compatible with specifying proof versions.')
@@ -490,7 +503,7 @@ def foundry_show(
     port: int | None = None,
     maude_port: int | None = None,
 ) -> str:
-    contract_name, _ = test.split('.')
+    contract_name, _ = single(foundry.matching_tests([test])).split('.')
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
@@ -543,7 +556,7 @@ def foundry_show(
 def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> None:
     dump_dir = foundry.proofs_dir / 'dump'
     test_id = foundry.get_test_id(test, version)
-    contract_name, _ = test.split('.')
+    contract_name, _ = single(foundry.matching_tests([test])).split('.')
     proof = foundry.get_apr_proof(test_id)
 
     node_printer = foundry_node_printer(foundry, contract_name, proof)
@@ -554,7 +567,9 @@ def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> N
 
 def foundry_list(foundry: Foundry) -> list[str]:
     all_methods = [
-        f'{contract.name}.{method.signature}' for contract in foundry.contracts.values() for method in contract.methods
+        f'{contract.name_with_path}.{method.signature}'
+        for contract in foundry.contracts.values()
+        for method in contract.methods
     ]
 
     lines: list[str] = []
