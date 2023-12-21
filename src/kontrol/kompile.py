@@ -72,15 +72,16 @@ def foundry_kompile(
             shutil.copy(req, req_path)
             regen = True
 
-    _imports: dict[str, list[str]] = {contract.name: [] for contract in foundry.contracts.values()}
+    _imports: dict[str, list[str]] = {contract.name_with_path: [] for contract in foundry.contracts.values()}
     for i in imports:
         imp = i.split(':')
+        full_import_name = foundry.lookup_full_contract_name(imp[0])
         if not len(imp) == 2:
             raise ValueError(f'module imports must be of the form "[ContractName]:[MODULE-NAME]". Got: {i}')
-        if imp[0] in _imports:
-            _imports[imp[0]].append(imp[1])
+        if full_import_name in _imports:
+            _imports[full_import_name].append(imp[1])
         else:
-            raise ValueError(f'Could not find contract: {imp[0]}')
+            raise ValueError(f'Could not find contract: {full_import_name}')
 
     if regen or not foundry_contracts_file.exists() or not foundry.main_file.exists():
         copied_requires = []
@@ -161,7 +162,7 @@ def _foundry_to_contract_def(
     modules = [contract_to_main_module(contract, empty_config, imports=['FOUNDRY']) for contract in contracts]
     # First module is chosen as main module arbitrarily, since the contract definition is just a set of
     # contract modules.
-    main_module = Contract.contract_to_module_name(list(contracts)[0].name_upper)
+    main_module = Contract.contract_to_module_name(list(contracts)[0].name_with_path)
 
     return KDefinition(
         main_module,
@@ -178,7 +179,7 @@ def _foundry_to_main_def(
     imports: dict[str, list[str]],
 ) -> KDefinition:
     modules = [
-        contract_to_verification_module(contract, empty_config, imports=imports[contract.name])
+        contract_to_verification_module(contract, empty_config, imports=imports[contract.name_with_path])
         for contract in contracts
     ]
     _main_module = KFlatModule(
