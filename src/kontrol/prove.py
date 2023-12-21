@@ -442,7 +442,6 @@ def _init_cterm(
         'MODE_CELL': KApply('NORMAL'),
         'USEGAS_CELL': TRUE if use_gas else FALSE,
         'SCHEDULE_CELL': KApply('SHANGHAI_EVM'),
-        'USEGAS_CELL': TRUE,
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'CALLSTACK_CELL': KApply('.List'),
         'CALLDEPTH_CELL': intToken(0),
