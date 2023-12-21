@@ -304,6 +304,7 @@ def exec_show(
     nodes: Iterable[NodeIdLike] = (),
     node_deltas: Iterable[tuple[NodeIdLike, NodeIdLike]] = (),
     to_module: bool = False,
+    to_kevm_claims: bool = False,
     minimize: bool = True,
     sort_collections: bool = False,
     omit_unstable_output: bool = False,
@@ -322,6 +323,7 @@ def exec_show(
         nodes=nodes,
         node_deltas=node_deltas,
         to_module=to_module,
+        to_kevm_claims=to_kevm_claims,
         minimize=minimize,
         omit_unstable_output=omit_unstable_output,
         sort_collections=sort_collections,
@@ -748,6 +750,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Strip output that is likely to change without the contract logic changing',
+    )
+    show_args.add_argument(
+        '--to-kevm-claims',
+        dest='to_kevm_claims',
+        default=False,
+        action='store_true',
+        help='Generate a K module which can be run directly as KEVM claims for the given KCFG (best-effort).',
     )
 
     command_parser.add_parser(
