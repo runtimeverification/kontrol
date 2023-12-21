@@ -486,23 +486,53 @@ def _init_cterm(
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
-        # TODO(palina): EXPERIMENTAL: if calldata is symbolic,
-        # manually add assumptions corresponding to compiler-inserted checks
         constraints = []
 
         if is_calldata_symbolic:
-            # TODO(palina): adding constraints that represent assumptions on calldata
+            # TODO(palina): EXPERIMENTAL: if calldata is symbolic,
+            # add assumptions that correspond to the test w/`BYTES_DATA` being 320 bytes long, and `bytes[]` containing
+            # 10 elements, each 600 bytes long
+            target_constraint = mlEqualsTrue(KEVM.range_address(KVariable('target', 'Int')))
+            sender_constraint = mlEqualsTrue(KEVM.range_address(KVariable('sender', 'Int')))
+            l2_output_constraint = mlEqualsTrue(KEVM.range_uint('256', KVariable('l2OutputIndex', 'Int')))
+            constraints.append(l2_output_constraint)
 
+            constraints.append(target_constraint)
+            constraints.append(sender_constraint)
+
+            length_bytes_data_constraint = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_DATA', 'Bytes')), intToken("320")))
+            constraints.append(length_bytes_data_constraint)
+
+            length_bytes_arr_constraint_1 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_1', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_1)
+            length_bytes_arr_constraint_2 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_2', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_2)
+            length_bytes_arr_constraint_3 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_3', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_3)
+            length_bytes_arr_constraint_4 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_4', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_4)
+            length_bytes_arr_constraint_5 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_5', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_5)
+            length_bytes_arr_constraint_6 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_6', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_6)
+            length_bytes_arr_constraint_7 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_7', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_7)
+            length_bytes_arr_constraint_8 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_8', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_8)
+            length_bytes_arr_constraint_9 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_9', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_9)
+            length_bytes_arr_constraint_10 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_10', 'Bytes')), intToken("600")))
+            constraints.append(length_bytes_arr_constraint_10)
+
+            # TODO(palina): uncomment to add assumptions that correspond to compiler-inserted checks on fully symbolic calldata
+            '''
             chopped_calldata_length = KApply('chop(_)_WORD_Int_Int', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA'))])
-            # TODO: another constraint: chopped is equal to the actual length
-
             # calldata_length_range = mlEqualsTrue(leInt(KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), KEVM.pow256()))
             # constraints.append(calldata_length_range)
             calldata_length_416 = mlEqualsTrue(
                 eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [chopped_calldata_length, intToken(416)]))
             )
             constraints.append(calldata_length_416)
-
 
             # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) <=Int maxUInt64
             offset_struct = KApply(
@@ -587,13 +617,8 @@ def _init_cterm(
             )
             constraints.append(struct_three_constraint)
 
-            # asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 160 ) ) , 32 ) ) <=Int maxUInt64 }
             struct_array_offset_constraint = mlEqualsTrue(leInt(struct_array_offset, intToken("18446744073709551615")))
             constraints.append(struct_array_offset_constraint)
-
-            # asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int
-            # #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 164 ) , 32 ) ) ) +Int 4 ) ) , 32 ) )
-            # <=Int maxUInt64 }
 
             array_length_lhs_one = KApply(
                 '#asWord(_)_EVM-TYPES_Int_Bytes',
@@ -638,12 +663,6 @@ def _init_cterm(
                 ],
             )
             constraints.append(mlEqualsTrue(leInt(array_length_lhs_one, intToken("18446744073709551615"))))
-
-            # ( notBool ( chop ( ( ( notMaxUInt5 &Int chop ( ( ( notMaxUInt5 &Int ( #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) )
-            # +Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 164 ) , 32 ) ) ) +Int 4 ) ) , 32 ) ) +Int maxUInt5 ) ) +Int 63 ) ) ) +Int 320 ) )
-            # <Int 320 orBool maxUInt64 <Int chop ( ( ( notMaxUInt5 &Int chop ( ( ( notMaxUInt5 &Int ( #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes ,
-            # chop ( ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 164 ) , 32 ) ) ) +Int 4 ) ) , 32 ) ) +Int maxUInt5 ) ) +Int 63 ) ) )
-            #  +Int 320 ) ) ) )
 
             chopped_val = KApply(
                 label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
@@ -1263,6 +1282,7 @@ def _init_cterm(
 
             bytes_three = KApply(label=KLabel(name='_<=Int_', params=()), args=(KApply(label=KLabel(name='_+Int_', params=()), args=(KApply(label=KLabel(name='chop(_)_WORD_Int_Int', params=()), args=(KApply(label=KLabel(name='_+Int_', params=()), args=(KApply(label=KLabel(name='_+Int_', params=()), args=(KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KToken(token='192', sort=KSort(name='Int')), KToken(token='32', sort=KSort(name='Int')))),)), KApply(label=KLabel(name='_<<Int_', params=()), args=(KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KToken(token='192', sort=KSort(name='Int')), KToken(token='32', sort=KSort(name='Int')))),)), KToken(token='32', sort=KSort(name='Int')))),)), KToken(token='5', sort=KSort(name='Int')))))), KToken(token='36', sort=KSort(name='Int')))),)), KToken(token='-4', sort=KSort(name='Int')))), KApply(label=KLabel(name='lengthBytes(_)_BYTES-HOOKED_Int_Bytes', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),))))
             constraints.append(mlEqualsTrue(bytes_three))
+            '''
 
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue
