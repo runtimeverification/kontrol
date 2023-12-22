@@ -5,7 +5,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (272 steps)
+│  (179 steps)
 ├─ 3
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 317
@@ -33,7 +33,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (376 steps)
+│  (244 steps)
 ├─ 8
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
 │   pc: 2984
@@ -81,6 +81,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -116,7 +119,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -286,6 +289,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -324,7 +330,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -494,6 +500,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -532,7 +541,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -700,6 +709,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -738,7 +750,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     ( 3 => 0 )
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -908,6 +920,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -940,7 +955,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -1094,6 +1109,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1129,7 +1147,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -1283,6 +1301,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1318,7 +1339,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
                    <static>
                      false

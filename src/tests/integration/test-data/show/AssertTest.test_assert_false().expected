@@ -5,7 +5,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (272 steps)
+│  (179 steps)
 ├─ 3
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 317
@@ -33,7 +33,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (469 steps)
+│  (307 steps)
 ├─ 8
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
 │   pc: 2984
@@ -77,6 +77,9 @@ Node 10:
       <schedule>
         SHANGHAI
       </schedule>
+      <useGas>
+        false
+      </useGas>
       <ethereum>
         <evm>
           <output>
@@ -108,7 +111,7 @@ Node 10:
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
             </localMem>
             <memoryUsed>
-              3
+              0
             </memoryUsed>
             <static>
               false
@@ -267,6 +270,9 @@ Node 10:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -302,7 +308,7 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -472,6 +478,9 @@ Node 10:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -510,7 +519,7 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -680,6 +689,9 @@ Node 10:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -718,7 +730,7 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -886,6 +898,9 @@ Node 10:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -924,7 +939,7 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     ( 3 => 0 )
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -1094,6 +1109,9 @@ Node 10:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1126,7 +1144,7 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -1280,6 +1298,9 @@ Node 10:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1315,7 +1336,7 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
                    <static>
                      false
@@ -1469,6 +1490,9 @@ Node 10:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1504,7 +1528,7 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
                    <static>
                      false

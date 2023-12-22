@@ -12,8 +12,8 @@ from pyk.kast.inner import KApply, KSequence, KVariable, Subst, KLabel, KToken, 
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.k import GENERATED_TOP_CELL
-from pyk.prelude.kbool import FALSE, notBool
-from pyk.prelude.kint import intToken, leInt, eqInt
+from pyk.prelude.kbool import FALSE, TRUE, notBool
+from pyk.prelude.kint import intToken, eqInt
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
@@ -204,6 +204,7 @@ def _run_cfg_group(
                 kcfg_explore=kcfg_explore,
                 bmc_depth=prove_options.bmc_depth,
                 run_constructor=prove_options.run_constructor,
+                use_gas=prove_options.use_gas,
             )
 
             run_prover(
@@ -238,6 +239,7 @@ def method_to_apr_proof(
     kcfg_explore: KCFGExplore,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
+    use_gas: bool = False,
 ) -> APRProof | APRBMCProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -259,6 +261,7 @@ def method_to_apr_proof(
         test=test,
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
+        use_gas=use_gas,
     )
 
     if bmc_depth is not None:
@@ -299,6 +302,7 @@ def _method_to_initialized_cfg(
     kcfg_explore: KCFGExplore,
     *,
     setup_proof: APRProof | None = None,
+    use_gas: bool = False,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -308,6 +312,7 @@ def _method_to_initialized_cfg(
         test.contract,
         test.method,
         setup_proof,
+        use_gas,
     )
 
     for node_id in new_node_ids:
@@ -336,6 +341,7 @@ def _method_to_cfg(
     contract: Contract,
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
+    use_gas: bool,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -357,6 +363,7 @@ def _method_to_cfg(
         calldata=calldata,
         is_calldata_symbolic=is_calldata_symbolic,
         callvalue=callvalue,
+        use_gas=use_gas,
     )
     new_node_ids = []
 
@@ -422,6 +429,7 @@ def _init_cterm(
     empty_config: KInner,
     contract_name: str,
     program: KInner,
+    use_gas: bool,
     *,
     setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
@@ -438,6 +446,7 @@ def _init_cterm(
     )
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
+        'USEGAS_CELL': TRUE if use_gas else FALSE,
         'SCHEDULE_CELL': KApply('SHANGHAI_EVM'),
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'CALLSTACK_CELL': KApply('.List'),
