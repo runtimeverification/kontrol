@@ -13,7 +13,7 @@ from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
-from pyk.prelude.kint import intToken, eqInt
+from pyk.prelude.kint import intToken, eqInt, leInt
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
@@ -503,242 +503,267 @@ def _init_cterm(
             # TODO(palina): EXPERIMENTAL: if calldata is symbolic,
             # add assumptions that correspond to the test w/`BYTES_DATA` being 320 bytes long, and `bytes[]` containing
             # 10 elements, each 600 bytes long
-            target_constraint = mlEqualsTrue(KEVM.range_address(KVariable('target', 'Int')))
-            sender_constraint = mlEqualsTrue(KEVM.range_address(KVariable('sender', 'Int')))
-            l2_output_constraint = mlEqualsTrue(KEVM.range_uint('256', KVariable('l2OutputIndex', 'Int')))
-            constraints.append(l2_output_constraint)
-
-            constraints.append(target_constraint)
-            constraints.append(sender_constraint)
-
-            length_bytes_data_constraint = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_DATA', 'Bytes')), intToken("320")))
-            constraints.append(length_bytes_data_constraint)
-
-            length_bytes_arr_constraint_1 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_1', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_1)
-            length_bytes_arr_constraint_2 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_2', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_2)
-            length_bytes_arr_constraint_3 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_3', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_3)
-            length_bytes_arr_constraint_4 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_4', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_4)
-            length_bytes_arr_constraint_5 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_5', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_5)
-            length_bytes_arr_constraint_6 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_6', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_6)
-            length_bytes_arr_constraint_7 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_7', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_7)
-            length_bytes_arr_constraint_8 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_8', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_8)
-            length_bytes_arr_constraint_9 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_9', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_9)
-            length_bytes_arr_constraint_10 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_10', 'Bytes')), intToken("600")))
-            constraints.append(length_bytes_arr_constraint_10)
-
+            structured_calldata_constraints = structured_calldata_assumptions()
+            constraints.extend(structured_calldata_constraints)
             # TODO(palina): uncomment to add assumptions that correspond to compiler-inserted checks on fully symbolic calldata
             '''
-            chopped_calldata_length = KApply('chop(_)_WORD_Int_Int', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA'))])
-            # calldata_length_range = mlEqualsTrue(leInt(KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), KEVM.pow256()))
-            # constraints.append(calldata_length_range)
-            calldata_length_416 = mlEqualsTrue(
-                eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [chopped_calldata_length, intToken(416)]))
-            )
-            constraints.append(calldata_length_416)
+            compiler_constraints = compiler_assumptions(calldata)
+            constraints.extend(compiler_constraints)
+            '''
 
-            # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) <=Int maxUInt64
-            offset_struct = KApply(
-                '#asWord(_)_EVM-TYPES_Int_Bytes',
+    if callvalue is not None:
+        init_subst['CALLVALUE_CELL'] = callvalue
+
+    init_term = Subst(init_subst)(empty_config)
+    init_cterm = CTerm.from_kast(init_term)
+    init_cterm = KEVM.add_invariant(init_cterm)
+    if constraints is None:
+        return init_cterm
+    else:
+        for constraint in constraints:
+            init_cterm = init_cterm.add_constraint(constraint)
+        return init_cterm
+
+
+def structured_calldata_assumptions() -> list[KApply]:
+    constraints = []
+
+    target_constraint = mlEqualsTrue(KEVM.range_address(KVariable('target', 'Int')))
+    sender_constraint = mlEqualsTrue(KEVM.range_address(KVariable('sender', 'Int')))
+    l2_output_constraint = mlEqualsTrue(KEVM.range_uint('256', KVariable('l2OutputIndex', 'Int')))
+    constraints.append(l2_output_constraint)
+
+    constraints.append(target_constraint)
+    constraints.append(sender_constraint)
+
+    length_bytes_data_constraint = mlEqualsTrue(
+        eqInt(KEVM.size_bytes(KVariable('BYTES_DATA', 'Bytes')), intToken("320"))
+    )
+    constraints.append(length_bytes_data_constraint)
+
+    length_bytes_arr_constraint_1 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_1', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_1)
+    length_bytes_arr_constraint_2 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_2', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_2)
+    length_bytes_arr_constraint_3 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_3', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_3)
+    length_bytes_arr_constraint_4 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_4', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_4)
+    length_bytes_arr_constraint_5 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_5', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_5)
+    length_bytes_arr_constraint_6 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_6', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_6)
+    length_bytes_arr_constraint_7 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_7', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_7)
+    length_bytes_arr_constraint_8 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_8', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_8)
+    length_bytes_arr_constraint_9 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_9', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_9)
+    length_bytes_arr_constraint_10 = mlEqualsTrue(
+        eqInt(KEVM.size_bytes(KVariable('BYTES_10', 'Bytes')), intToken("600"))
+    )
+    constraints.append(length_bytes_arr_constraint_10)
+    return constraints
+
+
+def compiler_assumptions(calldata: KInner) -> list[KApply]:
+    constraints = []
+    chopped_calldata_length = KApply('chop(_)_WORD_Int_Int', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA'))])
+    # calldata_length_range = mlEqualsTrue(leInt(KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), KEVM.pow256()))
+    # constraints.append(calldata_length_range)
+    calldata_length_416 = mlEqualsTrue(
+        eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [chopped_calldata_length, intToken(416)]))
+    )
+    constraints.append(calldata_length_416)
+
+    # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) <=Int maxUInt64
+    offset_struct = KApply(
+        '#asWord(_)_EVM-TYPES_Int_Bytes',
+        [
+            KApply(
+                '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                [KVariable('SYMBOLIC_CALLDATA'), intToken(0), intToken(32)],
+            )
+        ],
+    )
+    constraints.append(mlEqualsTrue(leInt(offset_struct, intToken("18446744073709551615"))))
+
+    # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) == 224
+    first_offset = eqInt(offset_struct, intToken(224))
+    constraints.append(mlEqualsTrue(first_offset))
+
+    # And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )
+    # And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )
+    struct_loc = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [offset_struct, intToken(4)])])
+    struct_subtr = KApply(
+        'chop(_)_WORD_Int_Int',
+        [
+            KApply(
+                '_+Int_',
+                [KApply('_-Int_', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), struct_loc]), intToken(4)],
+            )
+        ],
+    )
+    struct_length_192 = mlEqualsTrue(
+        eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [struct_subtr, intToken(192)]))
+    )
+    constraints.append(struct_length_192)
+
+    # asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) )
+    # Equals ( maxUInt160 &Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) )
+    struct_data_one = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, intToken(32)])])
+    struct_data_one_lhs = KApply(
+        '#asWord(_)_EVM-TYPES_Int_Bytes',
+        [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_data_one, intToken(32)])],
+    )
+    struct_data_one_rhs = KApply(
+        '_&Int_', [intToken(1461501637330902918203684832716283019655932542975), struct_data_one_lhs]
+    )
+    struct_data_one_constraint = mlEqualsTrue(eqInt(struct_data_one_lhs, struct_data_one_rhs))
+    constraints.append(struct_data_one_constraint)
+
+    # asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) )
+    # Equals ( maxUInt160 &Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) )
+    struct_data_two = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, intToken(64)])])
+    struct_data_two_lhs = KApply(
+        '#asWord(_)_EVM-TYPES_Int_Bytes',
+        [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_data_two, intToken(32)])],
+    )
+    struct_data_two_rhs = KApply(
+        '_&Int_', [intToken(1461501637330902918203684832716283019655932542975), struct_data_two_lhs]
+    )
+    struct_data_two_constraint = mlEqualsTrue(eqInt(struct_data_two_lhs, struct_data_two_rhs))
+    constraints.append(struct_data_two_constraint)
+
+    # ( (chop ( ( chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) )
+    #    +Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 160 ) ) , 32 ) ) ) ) +Int maxUInt5 ) ))
+    #  s<Word (( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) +Int 4 )) ) ==Int 0
+    struct_three = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, intToken(160)])])
+    struct_array_offset = KApply(
+        '#asWord(_)_EVM-TYPES_Int_Bytes',
+        [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_three, intToken(32)])],
+    )
+    struct_three_lhs_lhs_two = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, struct_array_offset])])
+    struct_three_lhs_sum = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_three_lhs_lhs_two, intToken(31)])])
+    struct_three_rhs = KApply('_+Int_', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), intToken(4)])
+    struct_three_constraint = mlEqualsTrue(
+        notBool(eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [struct_three_lhs_sum, struct_three_rhs])))
+    )
+    constraints.append(struct_three_constraint)
+
+    struct_array_offset_constraint = mlEqualsTrue(leInt(struct_array_offset, intToken("18446744073709551615")))
+    constraints.append(struct_array_offset_constraint)
+
+    array_length_lhs_one = KApply(
+        '#asWord(_)_EVM-TYPES_Int_Bytes',
+        [
+            KApply(
+                '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
                 [
+                    calldata,
                     KApply(
-                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                        [KVariable('SYMBOLIC_CALLDATA'), intToken(0), intToken(32)],
-                    )
-                ],
-            )
-            constraints.append(mlEqualsTrue(leInt(offset_struct, intToken("18446744073709551615"))))
-
-            # asWord(#range(SYMBOLIC_CALLDATA, 0, 32)) == 224
-            first_offset = eqInt(offset_struct, intToken(224))
-            constraints.append(mlEqualsTrue(first_offset))
-
-            # And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )
-            # And { true #Equals ( (chop ( ( ( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) -Int chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) ) +Int 4 ) )) s<Word (192) ) ==Int 0 } ) ) ) ) ) ) ) ) ) ) )
-            struct_loc = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [offset_struct, intToken(4)])])
-            struct_subtr = KApply(
-                'chop(_)_WORD_Int_Int',
-                [
-                    KApply(
-                        '_+Int_',
-                        [KApply('_-Int_', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), struct_loc]), intToken(4)],
-                    )
-                ],
-            )
-            struct_length_192 = mlEqualsTrue(
-                eqInt(intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [struct_subtr, intToken(192)]))
-            )
-            constraints.append(struct_length_192)
-
-            # asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) )
-            # Equals ( maxUInt160 &Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) )
-            struct_data_one = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, intToken(32)])])
-            struct_data_one_lhs = KApply(
-                '#asWord(_)_EVM-TYPES_Int_Bytes',
-                [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_data_one, intToken(32)])],
-            )
-            struct_data_one_rhs = KApply(
-                '_&Int_', [intToken(1461501637330902918203684832716283019655932542975), struct_data_one_lhs]
-            )
-            struct_data_one_constraint = mlEqualsTrue(eqInt(struct_data_one_lhs, struct_data_one_rhs))
-            constraints.append(struct_data_one_constraint)
-
-            # asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) )
-            # Equals ( maxUInt160 &Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 32 ) ) , 32 ) ) )
-            struct_data_two = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, intToken(64)])])
-            struct_data_two_lhs = KApply(
-                '#asWord(_)_EVM-TYPES_Int_Bytes',
-                [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_data_two, intToken(32)])],
-            )
-            struct_data_two_rhs = KApply(
-                '_&Int_', [intToken(1461501637330902918203684832716283019655932542975), struct_data_two_lhs]
-            )
-            struct_data_two_constraint = mlEqualsTrue(eqInt(struct_data_two_lhs, struct_data_two_rhs))
-            constraints.append(struct_data_two_constraint)
-
-            # ( (chop ( ( chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) )
-            #    +Int #asWord ( #range ( b"\xfd'\xd8\xba" +Bytes SYMBOLIC_CALLDATA:Bytes , chop ( ( chop ( ( #asWord ( #range ( SYMBOLIC_CALLDATA:Bytes , 0 , 32 ) ) +Int 4 ) ) +Int 160 ) ) , 32 ) ) ) ) +Int maxUInt5 ) ))
-            #  s<Word (( lengthBytes ( SYMBOLIC_CALLDATA:Bytes ) +Int 4 )) ) ==Int 0
-            struct_three = KApply('chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, intToken(160)])])
-            struct_array_offset = KApply(
-                '#asWord(_)_EVM-TYPES_Int_Bytes',
-                [KApply('#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', [calldata, struct_three, intToken(32)])],
-            )
-            struct_three_lhs_lhs_two = KApply(
-                'chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_loc, struct_array_offset])]
-            )
-            struct_three_lhs_sum = KApply(
-                'chop(_)_WORD_Int_Int', [KApply('_+Int_', [struct_three_lhs_lhs_two, intToken(31)])]
-            )
-            struct_three_rhs = KApply('_+Int_', [KEVM.size_bytes(KVariable('SYMBOLIC_CALLDATA')), intToken(4)])
-            struct_three_constraint = mlEqualsTrue(
-                notBool(
-                    eqInt(
-                        intToken(0), KApply('_s<Word__EVM-TYPES_Int_Int_Int', [struct_three_lhs_sum, struct_three_rhs])
-                    )
-                )
-            )
-            constraints.append(struct_three_constraint)
-
-            struct_array_offset_constraint = mlEqualsTrue(leInt(struct_array_offset, intToken("18446744073709551615")))
-            constraints.append(struct_array_offset_constraint)
-
-            array_length_lhs_one = KApply(
-                '#asWord(_)_EVM-TYPES_Int_Bytes',
-                [
-                    KApply(
-                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                        'chop(_)_WORD_Int_Int',
                         [
-                            calldata,
                             KApply(
-                                'chop(_)_WORD_Int_Int',
+                                '_+Int_',
                                 [
                                     KApply(
                                         '_+Int_',
                                         [
+                                            offset_struct,
                                             KApply(
-                                                '_+Int_',
+                                                '#asWord(_)_EVM-TYPES_Int_Bytes',
                                                 [
-                                                    offset_struct,
                                                     KApply(
-                                                        '#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
                                                         [
-                                                            KApply(
-                                                                '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                                                                [
-                                                                    calldata,
-                                                                    KApply('_+Int_', [offset_struct, intToken(164)]),
-                                                                    intToken(32),
-                                                                ],
-                                                            )
+                                                            calldata,
+                                                            KApply('_+Int_', [offset_struct, intToken(164)]),
+                                                            intToken(32),
                                                         ],
-                                                    ),
+                                                    )
                                                 ],
                                             ),
-                                            intToken(4),
                                         ],
-                                    )
+                                    ),
+                                    intToken(4),
                                 ],
-                            ),
-                            intToken(32),
+                            )
                         ],
-                    )
+                    ),
+                    intToken(32),
                 ],
             )
-            constraints.append(mlEqualsTrue(leInt(array_length_lhs_one, intToken("18446744073709551615"))))
+        ],
+    )
+    constraints.append(mlEqualsTrue(leInt(array_length_lhs_one, intToken("18446744073709551615"))))
 
-            chopped_val = KApply(
-                label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
+    chopped_val = KApply(
+        label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
+        args=(
+            KApply(
+                label=KLabel(name='_+Int_', params=()),
                 args=(
                     KApply(
-                        label=KLabel(name='_+Int_', params=()),
+                        label=KLabel(name='_&Int_', params=()),
                         args=(
+                            KToken(
+                                token='115792089237316195423570985008687907853269984665640564039457584007913129639904',
+                                sort=KSort(name='Int'),
+                            ),
                             KApply(
-                                label=KLabel(name='_&Int_', params=()),
+                                label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
                                 args=(
-                                    KToken(
-                                        token='115792089237316195423570985008687907853269984665640564039457584007913129639904',
-                                        sort=KSort(name='Int'),
-                                    ),
                                     KApply(
-                                        label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
+                                        label=KLabel(name='_+Int_', params=()),
                                         args=(
                                             KApply(
-                                                label=KLabel(name='_+Int_', params=()),
+                                                label=KLabel(name='_&Int_', params=()),
                                                 args=(
+                                                    KToken(
+                                                        token='115792089237316195423570985008687907853269984665640564039457584007913129639904',
+                                                        sort=KSort(name='Int'),
+                                                    ),
                                                     KApply(
-                                                        label=KLabel(name='_&Int_', params=()),
+                                                        label=KLabel(name='_+Int_', params=()),
                                                         args=(
-                                                            KToken(
-                                                                token='115792089237316195423570985008687907853269984665640564039457584007913129639904',
-                                                                sort=KSort(name='Int'),
-                                                            ),
                                                             KApply(
-                                                                label=KLabel(name='_+Int_', params=()),
+                                                                label=KLabel(
+                                                                    name='#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                                    params=(),
+                                                                ),
                                                                 args=(
                                                                     KApply(
                                                                         label=KLabel(
-                                                                            name='#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
                                                                             params=(),
                                                                         ),
                                                                         args=(
                                                                             KApply(
                                                                                 label=KLabel(
-                                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                                    name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                                                                    params=(),
+                                                                                ),
+                                                                                args=(
+                                                                                    KToken(
+                                                                                        token='b"\\xfd\'\\xd8\\xba"',
+                                                                                        sort=KSort(name='Bytes'),
+                                                                                    ),
+                                                                                    KVariable(
+                                                                                        name='SYMBOLIC_CALLDATA',
+                                                                                        sort=KSort(name='Bytes'),
+                                                                                    ),
+                                                                                ),
+                                                                            ),
+                                                                            KApply(
+                                                                                label=KLabel(
+                                                                                    name='chop(_)_WORD_Int_Int',
                                                                                     params=(),
                                                                                 ),
                                                                                 args=(
                                                                                     KApply(
                                                                                         label=KLabel(
-                                                                                            name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                                                                                            params=(),
-                                                                                        ),
-                                                                                        args=(
-                                                                                            KToken(
-                                                                                                token='b"\\xfd\'\\xd8\\xba"',
-                                                                                                sort=KSort(
-                                                                                                    name='Bytes'
-                                                                                                ),
-                                                                                            ),
-                                                                                            KVariable(
-                                                                                                name='SYMBOLIC_CALLDATA',
-                                                                                                sort=KSort(
-                                                                                                    name='Bytes'
-                                                                                                ),
-                                                                                            ),
-                                                                                        ),
-                                                                                    ),
-                                                                                    KApply(
-                                                                                        label=KLabel(
-                                                                                            name='chop(_)_WORD_Int_Int',
+                                                                                            name='_+Int_',
                                                                                             params=(),
                                                                                         ),
                                                                                         args=(
@@ -748,6 +773,400 @@ def _init_cterm(
                                                                                                     params=(),
                                                                                                 ),
                                                                                                 args=(
+                                                                                                    KApply(
+                                                                                                        label=KLabel(
+                                                                                                            name='#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                                                                            params=(),
+                                                                                                        ),
+                                                                                                        args=(
+                                                                                                            KApply(
+                                                                                                                label=KLabel(
+                                                                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                                                                    params=(),
+                                                                                                                ),
+                                                                                                                args=(
+                                                                                                                    KVariable(
+                                                                                                                        name='SYMBOLIC_CALLDATA',
+                                                                                                                        sort=KSort(
+                                                                                                                            name='Bytes'
+                                                                                                                        ),
+                                                                                                                    ),
+                                                                                                                    KToken(
+                                                                                                                        token='0',
+                                                                                                                        sort=KSort(
+                                                                                                                            name='Int'
+                                                                                                                        ),
+                                                                                                                    ),
+                                                                                                                    KToken(
+                                                                                                                        token='32',
+                                                                                                                        sort=KSort(
+                                                                                                                            name='Int'
+                                                                                                                        ),
+                                                                                                                    ),
+                                                                                                                ),
+                                                                                                            ),
+                                                                                                        ),
+                                                                                                    ),
+                                                                                                    KApply(
+                                                                                                        label=KLabel(
+                                                                                                            name='#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                                                                            params=(),
+                                                                                                        ),
+                                                                                                        args=(
+                                                                                                            KApply(
+                                                                                                                label=KLabel(
+                                                                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                                                                    params=(),
+                                                                                                                ),
+                                                                                                                args=(
+                                                                                                                    KApply(
+                                                                                                                        label=KLabel(
+                                                                                                                            name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                                                                                                            params=(),
+                                                                                                                        ),
+                                                                                                                        args=(
+                                                                                                                            KToken(
+                                                                                                                                token='b"\\xfd\'\\xd8\\xba"',
+                                                                                                                                sort=KSort(
+                                                                                                                                    name='Bytes'
+                                                                                                                                ),
+                                                                                                                            ),
+                                                                                                                            KVariable(
+                                                                                                                                name='SYMBOLIC_CALLDATA',
+                                                                                                                                sort=KSort(
+                                                                                                                                    name='Bytes'
+                                                                                                                                ),
+                                                                                                                            ),
+                                                                                                                        ),
+                                                                                                                    ),
+                                                                                                                    KApply(
+                                                                                                                        label=KLabel(
+                                                                                                                            name='_+Int_',
+                                                                                                                            params=(),
+                                                                                                                        ),
+                                                                                                                        args=(
+                                                                                                                            KApply(
+                                                                                                                                label=KLabel(
+                                                                                                                                    name='#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                                                                                                    params=(),
+                                                                                                                                ),
+                                                                                                                                args=(
+                                                                                                                                    KApply(
+                                                                                                                                        label=KLabel(
+                                                                                                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                                                                                            params=(),
+                                                                                                                                        ),
+                                                                                                                                        args=(
+                                                                                                                                            KVariable(
+                                                                                                                                                name='SYMBOLIC_CALLDATA',
+                                                                                                                                                sort=KSort(
+                                                                                                                                                    name='Bytes'
+                                                                                                                                                ),
+                                                                                                                                            ),
+                                                                                                                                            KToken(
+                                                                                                                                                token='0',
+                                                                                                                                                sort=KSort(
+                                                                                                                                                    name='Int'
+                                                                                                                                                ),
+                                                                                                                                            ),
+                                                                                                                                            KToken(
+                                                                                                                                                token='32',
+                                                                                                                                                sort=KSort(
+                                                                                                                                                    name='Int'
+                                                                                                                                                ),
+                                                                                                                                            ),
+                                                                                                                                        ),
+                                                                                                                                    ),
+                                                                                                                                ),
+                                                                                                                            ),
+                                                                                                                            KToken(
+                                                                                                                                token='164',
+                                                                                                                                sort=KSort(
+                                                                                                                                    name='Int'
+                                                                                                                                ),
+                                                                                                                            ),
+                                                                                                                        ),
+                                                                                                                    ),
+                                                                                                                    KToken(
+                                                                                                                        token='32',
+                                                                                                                        sort=KSort(
+                                                                                                                            name='Int'
+                                                                                                                        ),
+                                                                                                                    ),
+                                                                                                                ),
+                                                                                                            ),
+                                                                                                        ),
+                                                                                                    ),
+                                                                                                ),
+                                                                                            ),
+                                                                                            KToken(
+                                                                                                token='4',
+                                                                                                sort=KSort(name='Int'),
+                                                                                            ),
+                                                                                        ),
+                                                                                    ),
+                                                                                ),
+                                                                            ),
+                                                                            KToken(
+                                                                                token='32',
+                                                                                sort=KSort(name='Int'),
+                                                                            ),
+                                                                        ),
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                            KToken(
+                                                                token='31',
+                                                                sort=KSort(name='Int'),
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                            KToken(token='63', sort=KSort(name='Int')),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    KToken(token='320', sort=KSort(name='Int')),
+                ),
+            ),
+        ),
+    )
+    notMaxUint5_term = KApply(
+        label=KLabel(name='notBool_', params=()),
+        args=(
+            KApply(
+                label=KLabel(name='_orBool_', params=()),
+                args=(
+                    KApply(
+                        label=KLabel(name='_<Int_', params=()),
+                        args=(
+                            chopped_val,
+                            KToken(token='320', sort=KSort(name='Int')),
+                        ),
+                    ),
+                    KApply(
+                        label=KLabel(name='_<Int_', params=()),
+                        args=(KToken(token='18446744073709551615', sort=KSort(name='Int')), chopped_val),
+                    ),
+                ),
+            ),
+        ),
+    )
+
+    constraints.append(mlEqualsTrue(notMaxUint5_term))
+
+    another_term = KApply(
+        label=KLabel(name='_<=Int_', params=()),
+        args=(
+            KApply(
+                label=KLabel(name='_+Int_', params=()),
+                args=(
+                    KApply(
+                        label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
+                        args=(
+                            KApply(
+                                label=KLabel(name='_+Int_', params=()),
+                                args=(
+                                    KApply(
+                                        label=KLabel(name='_+Int_', params=()),
+                                        args=(
+                                            KApply(
+                                                label=KLabel(name='_+Int_', params=()),
+                                                args=(
+                                                    KApply(
+                                                        label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()),
+                                                        args=(
+                                                            KApply(
+                                                                label=KLabel(
+                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                    params=(),
+                                                                ),
+                                                                args=(
+                                                                    KVariable(
+                                                                        name='SYMBOLIC_CALLDATA',
+                                                                        sort=KSort(name='Bytes'),
+                                                                    ),
+                                                                    KToken(token='0', sort=KSort(name='Int')),
+                                                                    KToken(token='32', sort=KSort(name='Int')),
+                                                                ),
+                                                            ),
+                                                        ),
+                                                    ),
+                                                    KApply(
+                                                        label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()),
+                                                        args=(
+                                                            KApply(
+                                                                label=KLabel(
+                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                    params=(),
+                                                                ),
+                                                                args=(
+                                                                    KApply(
+                                                                        label=KLabel(
+                                                                            name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                                                            params=(),
+                                                                        ),
+                                                                        args=(
+                                                                            KToken(
+                                                                                token='b"\\xfd\'\\xd8\\xba"',
+                                                                                sort=KSort(name='Bytes'),
+                                                                            ),
+                                                                            KVariable(
+                                                                                name='SYMBOLIC_CALLDATA',
+                                                                                sort=KSort(name='Bytes'),
+                                                                            ),
+                                                                        ),
+                                                                    ),
+                                                                    KApply(
+                                                                        label=KLabel(name='_+Int_', params=()),
+                                                                        args=(
+                                                                            KApply(
+                                                                                label=KLabel(
+                                                                                    name='#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                                                    params=(),
+                                                                                ),
+                                                                                args=(
+                                                                                    KApply(
+                                                                                        label=KLabel(
+                                                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                                            params=(),
+                                                                                        ),
+                                                                                        args=(
+                                                                                            KVariable(
+                                                                                                name='SYMBOLIC_CALLDATA',
+                                                                                                sort=KSort(
+                                                                                                    name='Bytes'
+                                                                                                ),
+                                                                                            ),
+                                                                                            KToken(
+                                                                                                token='0',
+                                                                                                sort=KSort(name='Int'),
+                                                                                            ),
+                                                                                            KToken(
+                                                                                                token='32',
+                                                                                                sort=KSort(name='Int'),
+                                                                                            ),
+                                                                                        ),
+                                                                                    ),
+                                                                                ),
+                                                                            ),
+                                                                            KToken(
+                                                                                token='164',
+                                                                                sort=KSort(name='Int'),
+                                                                            ),
+                                                                        ),
+                                                                    ),
+                                                                    KToken(token='32', sort=KSort(name='Int')),
+                                                                ),
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                            KApply(
+                                                label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()),
+                                                args=(
+                                                    KApply(
+                                                        label=KLabel(
+                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                            params=(),
+                                                        ),
+                                                        args=(
+                                                            KApply(
+                                                                label=KLabel(
+                                                                    name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                                                    params=(),
+                                                                ),
+                                                                args=(
+                                                                    KToken(
+                                                                        token='b"\\xfd\'\\xd8\\xba"',
+                                                                        sort=KSort(name='Bytes'),
+                                                                    ),
+                                                                    KVariable(
+                                                                        name='SYMBOLIC_CALLDATA',
+                                                                        sort=KSort(name='Bytes'),
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                            KApply(
+                                                                label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
+                                                                args=(
+                                                                    KApply(
+                                                                        label=KLabel(name='_+Int_', params=()),
+                                                                        args=(
+                                                                            KApply(
+                                                                                label=KLabel(name='_+Int_', params=()),
+                                                                                args=(
+                                                                                    KApply(
+                                                                                        label=KLabel(
+                                                                                            name='#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                                                            params=(),
+                                                                                        ),
+                                                                                        args=(
+                                                                                            KApply(
+                                                                                                label=KLabel(
+                                                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                                                    params=(),
+                                                                                                ),
+                                                                                                args=(
+                                                                                                    KVariable(
+                                                                                                        name='SYMBOLIC_CALLDATA',
+                                                                                                        sort=KSort(
+                                                                                                            name='Bytes'
+                                                                                                        ),
+                                                                                                    ),
+                                                                                                    KToken(
+                                                                                                        token='0',
+                                                                                                        sort=KSort(
+                                                                                                            name='Int'
+                                                                                                        ),
+                                                                                                    ),
+                                                                                                    KToken(
+                                                                                                        token='32',
+                                                                                                        sort=KSort(
+                                                                                                            name='Int'
+                                                                                                        ),
+                                                                                                    ),
+                                                                                                ),
+                                                                                            ),
+                                                                                        ),
+                                                                                    ),
+                                                                                    KApply(
+                                                                                        label=KLabel(
+                                                                                            name='#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                                                            params=(),
+                                                                                        ),
+                                                                                        args=(
+                                                                                            KApply(
+                                                                                                label=KLabel(
+                                                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                                                    params=(),
+                                                                                                ),
+                                                                                                args=(
+                                                                                                    KApply(
+                                                                                                        label=KLabel(
+                                                                                                            name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                                                                                            params=(),
+                                                                                                        ),
+                                                                                                        args=(
+                                                                                                            KToken(
+                                                                                                                token='b"\\xfd\'\\xd8\\xba"',
+                                                                                                                sort=KSort(
+                                                                                                                    name='Bytes'
+                                                                                                                ),
+                                                                                                            ),
+                                                                                                            KVariable(
+                                                                                                                name='SYMBOLIC_CALLDATA',
+                                                                                                                sort=KSort(
+                                                                                                                    name='Bytes'
+                                                                                                                ),
+                                                                                                            ),
+                                                                                                        ),
+                                                                                                    ),
                                                                                                     KApply(
                                                                                                         label=KLabel(
                                                                                                             name='_+Int_',
@@ -788,251 +1207,12 @@ def _init_cterm(
                                                                                                                     ),
                                                                                                                 ),
                                                                                                             ),
-                                                                                                            KApply(
-                                                                                                                label=KLabel(
-                                                                                                                    name='#asWord(_)_EVM-TYPES_Int_Bytes',
-                                                                                                                    params=(),
-                                                                                                                ),
-                                                                                                                args=(
-                                                                                                                    KApply(
-                                                                                                                        label=KLabel(
-                                                                                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                                                                                                                            params=(),
-                                                                                                                        ),
-                                                                                                                        args=(
-                                                                                                                            KApply(
-                                                                                                                                label=KLabel(
-                                                                                                                                    name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                                                                                                                                    params=(),
-                                                                                                                                ),
-                                                                                                                                args=(
-                                                                                                                                    KToken(
-                                                                                                                                        token='b"\\xfd\'\\xd8\\xba"',
-                                                                                                                                        sort=KSort(
-                                                                                                                                            name='Bytes'
-                                                                                                                                        ),
-                                                                                                                                    ),
-                                                                                                                                    KVariable(
-                                                                                                                                        name='SYMBOLIC_CALLDATA',
-                                                                                                                                        sort=KSort(
-                                                                                                                                            name='Bytes'
-                                                                                                                                        ),
-                                                                                                                                    ),
-                                                                                                                                ),
-                                                                                                                            ),
-                                                                                                                            KApply(
-                                                                                                                                label=KLabel(
-                                                                                                                                    name='_+Int_',
-                                                                                                                                    params=(),
-                                                                                                                                ),
-                                                                                                                                args=(
-                                                                                                                                    KApply(
-                                                                                                                                        label=KLabel(
-                                                                                                                                            name='#asWord(_)_EVM-TYPES_Int_Bytes',
-                                                                                                                                            params=(),
-                                                                                                                                        ),
-                                                                                                                                        args=(
-                                                                                                                                            KApply(
-                                                                                                                                                label=KLabel(
-                                                                                                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                                                                                                                                                    params=(),
-                                                                                                                                                ),
-                                                                                                                                                args=(
-                                                                                                                                                    KVariable(
-                                                                                                                                                        name='SYMBOLIC_CALLDATA',
-                                                                                                                                                        sort=KSort(
-                                                                                                                                                            name='Bytes'
-                                                                                                                                                        ),
-                                                                                                                                                    ),
-                                                                                                                                                    KToken(
-                                                                                                                                                        token='0',
-                                                                                                                                                        sort=KSort(
-                                                                                                                                                            name='Int'
-                                                                                                                                                        ),
-                                                                                                                                                    ),
-                                                                                                                                                    KToken(
-                                                                                                                                                        token='32',
-                                                                                                                                                        sort=KSort(
-                                                                                                                                                            name='Int'
-                                                                                                                                                        ),
-                                                                                                                                                    ),
-                                                                                                                                                ),
-                                                                                                                                            ),
-                                                                                                                                        ),
-                                                                                                                                    ),
-                                                                                                                                    KToken(
-                                                                                                                                        token='164',
-                                                                                                                                        sort=KSort(
-                                                                                                                                            name='Int'
-                                                                                                                                        ),
-                                                                                                                                    ),
-                                                                                                                                ),
-                                                                                                                            ),
-                                                                                                                            KToken(
-                                                                                                                                token='32',
-                                                                                                                                sort=KSort(
-                                                                                                                                    name='Int'
-                                                                                                                                ),
-                                                                                                                            ),
-                                                                                                                        ),
-                                                                                                                    ),
+                                                                                                            KToken(
+                                                                                                                token='164',
+                                                                                                                sort=KSort(
+                                                                                                                    name='Int'
                                                                                                                 ),
                                                                                                             ),
-                                                                                                        ),
-                                                                                                    ),
-                                                                                                    KToken(
-                                                                                                        token='4',
-                                                                                                        sort=KSort(
-                                                                                                            name='Int'
-                                                                                                        ),
-                                                                                                    ),
-                                                                                                ),
-                                                                                            ),
-                                                                                        ),
-                                                                                    ),
-                                                                                    KToken(
-                                                                                        token='32',
-                                                                                        sort=KSort(name='Int'),
-                                                                                    ),
-                                                                                ),
-                                                                            ),
-                                                                        ),
-                                                                    ),
-                                                                    KToken(
-                                                                        token='31',
-                                                                        sort=KSort(name='Int'),
-                                                                    ),
-                                                                ),
-                                                            ),
-                                                        ),
-                                                    ),
-                                                    KToken(token='63', sort=KSort(name='Int')),
-                                                ),
-                                            ),
-                                        ),
-                                    ),
-                                ),
-                            ),
-                            KToken(token='320', sort=KSort(name='Int')),
-                        ),
-                    ),
-                ),
-            )
-            notMaxUint5_term = KApply(
-                label=KLabel(name='notBool_', params=()),
-                args=(
-                    KApply(
-                        label=KLabel(name='_orBool_', params=()),
-                        args=(
-                            KApply(
-                                label=KLabel(name='_<Int_', params=()),
-                                args=(
-                                    chopped_val,
-                                    KToken(token='320', sort=KSort(name='Int')),
-                                ),
-                            ),
-                            KApply(
-                                label=KLabel(name='_<Int_', params=()),
-                                args=(KToken(token='18446744073709551615', sort=KSort(name='Int')), chopped_val),
-                            ),
-                        ),
-                    ),
-                ),
-            )
-
-            constraints.append(mlEqualsTrue(notMaxUint5_term))
-
-            another_term = KApply(
-                label=KLabel(name='_<=Int_', params=()),
-                args=(
-                    KApply(
-                        label=KLabel(name='_+Int_', params=()),
-                        args=(
-                            KApply(
-                                label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
-                                args=(
-                                    KApply(
-                                        label=KLabel(name='_+Int_', params=()),
-                                        args=(
-                                            KApply(
-                                                label=KLabel(name='_+Int_', params=()),
-                                                args=(
-                                                    KApply(
-                                                        label=KLabel(name='_+Int_', params=()),
-                                                        args=(
-                                                            KApply(
-                                                                label=KLabel(
-                                                                    name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()
-                                                                ),
-                                                                args=(
-                                                                    KApply(
-                                                                        label=KLabel(
-                                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                                                                            params=(),
-                                                                        ),
-                                                                        args=(
-                                                                            KVariable(
-                                                                                name='SYMBOLIC_CALLDATA',
-                                                                                sort=KSort(name='Bytes'),
-                                                                            ),
-                                                                            KToken(token='0', sort=KSort(name='Int')),
-                                                                            KToken(token='32', sort=KSort(name='Int')),
-                                                                        ),
-                                                                    ),
-                                                                ),
-                                                            ),
-                                                            KApply(
-                                                                label=KLabel(
-                                                                    name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()
-                                                                ),
-                                                                args=(
-                                                                    KApply(
-                                                                        label=KLabel(
-                                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                                                                            params=(),
-                                                                        ),
-                                                                        args=(
-                                                                            KApply(
-                                                                                label=KLabel(
-                                                                                    name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                                                                                    params=(),
-                                                                                ),
-                                                                                args=(
-                                                                                    KToken(
-                                                                                        token='b"\\xfd\'\\xd8\\xba"',
-                                                                                        sort=KSort(name='Bytes'),
-                                                                                    ),
-                                                                                    KVariable(
-                                                                                        name='SYMBOLIC_CALLDATA',
-                                                                                        sort=KSort(name='Bytes'),
-                                                                                    ),
-                                                                                ),
-                                                                            ),
-                                                                            KApply(
-                                                                                label=KLabel(name='_+Int_', params=()),
-                                                                                args=(
-                                                                                    KApply(
-                                                                                        label=KLabel(
-                                                                                            name='#asWord(_)_EVM-TYPES_Int_Bytes',
-                                                                                            params=(),
-                                                                                        ),
-                                                                                        args=(
-                                                                                            KApply(
-                                                                                                label=KLabel(
-                                                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                                                                                                    params=(),
-                                                                                                ),
-                                                                                                args=(
-                                                                                                    KVariable(
-                                                                                                        name='SYMBOLIC_CALLDATA',
-                                                                                                        sort=KSort(
-                                                                                                            name='Bytes'
-                                                                                                        ),
-                                                                                                    ),
-                                                                                                    KToken(
-                                                                                                        token='0',
-                                                                                                        sort=KSort(
-                                                                                                            name='Int'
                                                                                                         ),
                                                                                                     ),
                                                                                                     KToken(
@@ -1045,19 +1225,202 @@ def _init_cterm(
                                                                                             ),
                                                                                         ),
                                                                                     ),
-                                                                                    KToken(
-                                                                                        token='164',
-                                                                                        sort=KSort(name='Int'),
-                                                                                    ),
                                                                                 ),
                                                                             ),
-                                                                            KToken(token='32', sort=KSort(name='Int')),
+                                                                            KToken(
+                                                                                token='4',
+                                                                                sort=KSort(name='Int'),
+                                                                            ),
                                                                         ),
                                                                     ),
                                                                 ),
                                                             ),
+                                                            KToken(token='32', sort=KSort(name='Int')),
                                                         ),
                                                     ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    KToken(token='36', sort=KSort(name='Int')),
+                                ),
+                            ),
+                        ),
+                    ),
+                    KToken(token='-4', sort=KSort(name='Int')),
+                ),
+            ),
+            KApply(
+                label=KLabel(name='lengthBytes(_)_BYTES-HOOKED_Int_Bytes', params=()),
+                args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),),
+            ),
+        ),
+    )
+    constraints.append(mlEqualsTrue(another_term))
+
+    new_term = KApply(
+        label=KLabel(name='_==Int_', params=()),
+        args=(
+            KApply(
+                label=KLabel(name='_s<Word__EVM-TYPES_Int_Int_Int', params=()),
+                args=(
+                    KApply(
+                        label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
+                        args=(
+                            KApply(
+                                label=KLabel(name='_+Int_', params=()),
+                                args=(
+                                    KApply(
+                                        label=KLabel(name='lengthBytes(_)_BYTES-HOOKED_Int_Bytes', params=()),
+                                        args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),),
+                                    ),
+                                    KToken(token='-64', sort=KSort(name='Int')),
+                                ),
+                            ),
+                        ),
+                    ),
+                    KToken(token='128', sort=KSort(name='Int')),
+                ),
+            ),
+            KToken(token='0', sort=KSort(name='Int')),
+        ),
+    )
+    constraints.append(mlEqualsTrue(new_term))
+
+    another_offset_check = KApply(
+        label=KLabel(name='_<=Int_', params=()),
+        args=(
+            KApply(
+                label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()),
+                args=(
+                    KApply(
+                        label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()),
+                        args=(
+                            KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),
+                            KToken(token='192', sort=KSort(name='Int')),
+                            KToken(token='32', sort=KSort(name='Int')),
+                        ),
+                    ),
+                ),
+            ),
+            KToken(token='18446744073709551615', sort=KSort(name='Int')),
+        ),
+    )
+    constraints.append(mlEqualsTrue(another_offset_check))
+
+    bytes_one = notBool(
+        KApply(
+            label=KLabel(name='_==Int_', params=()),
+            args=(
+                KApply(
+                    label=KLabel(name='_s<Word__EVM-TYPES_Int_Int_Int', params=()),
+                    args=(
+                        KApply(
+                            label=KLabel(name='_+Int_', params=()),
+                            args=(
+                                KApply(
+                                    label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()),
+                                    args=(
+                                        KApply(
+                                            label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()),
+                                            args=(
+                                                KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),
+                                                KToken(token='192', sort=KSort(name='Int')),
+                                                KToken(token='32', sort=KSort(name='Int')),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                                KToken(token='35', sort=KSort(name='Int')),
+                            ),
+                        ),
+                        KApply(
+                            label=KLabel(name='_+Int_', params=()),
+                            args=(
+                                KApply(
+                                    label=KLabel(name='lengthBytes(_)_BYTES-HOOKED_Int_Bytes', params=()),
+                                    args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),),
+                                ),
+                                KToken(token='4', sort=KSort(name='Int')),
+                            ),
+                        ),
+                    ),
+                ),
+                KToken(token='0', sort=KSort(name='Int')),
+            ),
+        )
+    )
+    constraints.append(mlEqualsTrue(bytes_one))
+
+    bytes_two = KApply(
+        label=KLabel(name='_<=Int_', params=()),
+        args=(
+            KApply(
+                label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()),
+                args=(
+                    KApply(
+                        label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()),
+                        args=(
+                            KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),
+                            KApply(
+                                label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()),
+                                args=(
+                                    KApply(
+                                        label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()),
+                                        args=(
+                                            KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),
+                                            KToken(token='192', sort=KSort(name='Int')),
+                                            KToken(token='32', sort=KSort(name='Int')),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            KToken(token='32', sort=KSort(name='Int')),
+                        ),
+                    ),
+                ),
+            ),
+            KToken(token='18446744073709551615', sort=KSort(name='Int')),
+        ),
+    )
+    constraints.append(mlEqualsTrue(bytes_two))
+
+    bytes_three = KApply(
+        label=KLabel(name='_<=Int_', params=()),
+        args=(
+            KApply(
+                label=KLabel(name='_+Int_', params=()),
+                args=(
+                    KApply(
+                        label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
+                        args=(
+                            KApply(
+                                label=KLabel(name='_+Int_', params=()),
+                                args=(
+                                    KApply(
+                                        label=KLabel(name='_+Int_', params=()),
+                                        args=(
+                                            KApply(
+                                                label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()),
+                                                args=(
+                                                    KApply(
+                                                        label=KLabel(
+                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                            params=(),
+                                                        ),
+                                                        args=(
+                                                            KVariable(
+                                                                name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')
+                                                            ),
+                                                            KToken(token='192', sort=KSort(name='Int')),
+                                                            KToken(token='32', sort=KSort(name='Int')),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                            KApply(
+                                                label=KLabel(name='_<<Int_', params=()),
+                                                args=(
                                                     KApply(
                                                         label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()),
                                                         args=(
@@ -1067,163 +1430,32 @@ def _init_cterm(
                                                                     params=(),
                                                                 ),
                                                                 args=(
-                                                                    KApply(
-                                                                        label=KLabel(
-                                                                            name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                                                                            params=(),
-                                                                        ),
-                                                                        args=(
-                                                                            KToken(
-                                                                                token='b"\\xfd\'\\xd8\\xba"',
-                                                                                sort=KSort(name='Bytes'),
-                                                                            ),
-                                                                            KVariable(
-                                                                                name='SYMBOLIC_CALLDATA',
-                                                                                sort=KSort(name='Bytes'),
-                                                                            ),
-                                                                        ),
+                                                                    KVariable(
+                                                                        name='SYMBOLIC_CALLDATA',
+                                                                        sort=KSort(name='Bytes'),
                                                                     ),
                                                                     KApply(
                                                                         label=KLabel(
-                                                                            name='chop(_)_WORD_Int_Int', params=()
+                                                                            name='#asWord(_)_EVM-TYPES_Int_Bytes',
+                                                                            params=(),
                                                                         ),
                                                                         args=(
                                                                             KApply(
-                                                                                label=KLabel(name='_+Int_', params=()),
+                                                                                label=KLabel(
+                                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                                                                    params=(),
+                                                                                ),
                                                                                 args=(
-                                                                                    KApply(
-                                                                                        label=KLabel(
-                                                                                            name='_+Int_', params=()
-                                                                                        ),
-                                                                                        args=(
-                                                                                            KApply(
-                                                                                                label=KLabel(
-                                                                                                    name='#asWord(_)_EVM-TYPES_Int_Bytes',
-                                                                                                    params=(),
-                                                                                                ),
-                                                                                                args=(
-                                                                                                    KApply(
-                                                                                                        label=KLabel(
-                                                                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                                                                                                            params=(),
-                                                                                                        ),
-                                                                                                        args=(
-                                                                                                            KVariable(
-                                                                                                                name='SYMBOLIC_CALLDATA',
-                                                                                                                sort=KSort(
-                                                                                                                    name='Bytes'
-                                                                                                                ),
-                                                                                                            ),
-                                                                                                            KToken(
-                                                                                                                token='0',
-                                                                                                                sort=KSort(
-                                                                                                                    name='Int'
-                                                                                                                ),
-                                                                                                            ),
-                                                                                                            KToken(
-                                                                                                                token='32',
-                                                                                                                sort=KSort(
-                                                                                                                    name='Int'
-                                                                                                                ),
-                                                                                                            ),
-                                                                                                        ),
-                                                                                                    ),
-                                                                                                ),
-                                                                                            ),
-                                                                                            KApply(
-                                                                                                label=KLabel(
-                                                                                                    name='#asWord(_)_EVM-TYPES_Int_Bytes',
-                                                                                                    params=(),
-                                                                                                ),
-                                                                                                args=(
-                                                                                                    KApply(
-                                                                                                        label=KLabel(
-                                                                                                            name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                                                                                                            params=(),
-                                                                                                        ),
-                                                                                                        args=(
-                                                                                                            KApply(
-                                                                                                                label=KLabel(
-                                                                                                                    name='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                                                                                                                    params=(),
-                                                                                                                ),
-                                                                                                                args=(
-                                                                                                                    KToken(
-                                                                                                                        token='b"\\xfd\'\\xd8\\xba"',
-                                                                                                                        sort=KSort(
-                                                                                                                            name='Bytes'
-                                                                                                                        ),
-                                                                                                                    ),
-                                                                                                                    KVariable(
-                                                                                                                        name='SYMBOLIC_CALLDATA',
-                                                                                                                        sort=KSort(
-                                                                                                                            name='Bytes'
-                                                                                                                        ),
-                                                                                                                    ),
-                                                                                                                ),
-                                                                                                            ),
-                                                                                                            KApply(
-                                                                                                                label=KLabel(
-                                                                                                                    name='_+Int_',
-                                                                                                                    params=(),
-                                                                                                                ),
-                                                                                                                args=(
-                                                                                                                    KApply(
-                                                                                                                        label=KLabel(
-                                                                                                                            name='#asWord(_)_EVM-TYPES_Int_Bytes',
-                                                                                                                            params=(),
-                                                                                                                        ),
-                                                                                                                        args=(
-                                                                                                                            KApply(
-                                                                                                                                label=KLabel(
-                                                                                                                                    name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                                                                                                                                    params=(),
-                                                                                                                                ),
-                                                                                                                                args=(
-                                                                                                                                    KVariable(
-                                                                                                                                        name='SYMBOLIC_CALLDATA',
-                                                                                                                                        sort=KSort(
-                                                                                                                                            name='Bytes'
-                                                                                                                                        ),
-                                                                                                                                    ),
-                                                                                                                                    KToken(
-                                                                                                                                        token='0',
-                                                                                                                                        sort=KSort(
-                                                                                                                                            name='Int'
-                                                                                                                                        ),
-                                                                                                                                    ),
-                                                                                                                                    KToken(
-                                                                                                                                        token='32',
-                                                                                                                                        sort=KSort(
-                                                                                                                                            name='Int'
-                                                                                                                                        ),
-                                                                                                                                    ),
-                                                                                                                                ),
-                                                                                                                            ),
-                                                                                                                        ),
-                                                                                                                    ),
-                                                                                                                    KToken(
-                                                                                                                        token='164',
-                                                                                                                        sort=KSort(
-                                                                                                                            name='Int'
-                                                                                                                        ),
-                                                                                                                    ),
-                                                                                                                ),
-                                                                                                            ),
-                                                                                                            KToken(
-                                                                                                                token='32',
-                                                                                                                sort=KSort(
-                                                                                                                    name='Int'
-                                                                                                                ),
-                                                                                                            ),
-                                                                                                        ),
-                                                                                                    ),
-                                                                                                ),
-                                                                                            ),
-                                                                                        ),
+                                                                                    KVariable(
+                                                                                        name='SYMBOLIC_CALLDATA',
+                                                                                        sort=KSort(name='Bytes'),
                                                                                     ),
                                                                                     KToken(
-                                                                                        token='4',
+                                                                                        token='192',
+                                                                                        sort=KSort(name='Int'),
+                                                                                    ),
+                                                                                    KToken(
+                                                                                        token='32',
                                                                                         sort=KSort(name='Int'),
                                                                                     ),
                                                                                 ),
@@ -1235,78 +1467,27 @@ def _init_cterm(
                                                             ),
                                                         ),
                                                     ),
+                                                    KToken(token='5', sort=KSort(name='Int')),
                                                 ),
                                             ),
-                                            KToken(token='36', sort=KSort(name='Int')),
                                         ),
                                     ),
+                                    KToken(token='36', sort=KSort(name='Int')),
                                 ),
                             ),
-                            KToken(token='-4', sort=KSort(name='Int')),
                         ),
                     ),
-                    KApply(
-                        label=KLabel(name='lengthBytes(_)_BYTES-HOOKED_Int_Bytes', params=()),
-                        args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),),
-                    ),
+                    KToken(token='-4', sort=KSort(name='Int')),
                 ),
-            )
-            constraints.append(mlEqualsTrue(another_term))
-
-            new_term = KApply(
-                label=KLabel(name='_==Int_', params=()),
-                args=(
-                    KApply(
-                        label=KLabel(name='_s<Word__EVM-TYPES_Int_Int_Int', params=()),
-                        args=(
-                            KApply(
-                                label=KLabel(name='chop(_)_WORD_Int_Int', params=()),
-                                args=(
-                                    KApply(
-                                        label=KLabel(name='_+Int_', params=()),
-                                        args=(
-                                            KApply(
-                                                label=KLabel(name='lengthBytes(_)_BYTES-HOOKED_Int_Bytes', params=()),
-                                                args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),),
-                                            ),
-                                            KToken(token='-64', sort=KSort(name='Int')),
-                                        ),
-                                    ),
-                                ),
-                            ),
-                            KToken(token='128', sort=KSort(name='Int')),
-                        ),
-                    ),
-                    KToken(token='0', sort=KSort(name='Int')),
-                ),
-            )
-            constraints.append(mlEqualsTrue(new_term))
-
-            another_offset_check = KApply(label=KLabel(name='_<=Int_', params=()), args=(KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KToken(token='192', sort=KSort(name='Int')), KToken(token='32', sort=KSort(name='Int')))),)), KToken(token='18446744073709551615', sort=KSort(name='Int'))))
-            constraints.append(mlEqualsTrue(another_offset_check))
-
-            bytes_one = notBool(KApply(label=KLabel(name='_==Int_', params=()), args=(KApply(label=KLabel(name='_s<Word__EVM-TYPES_Int_Int_Int', params=()), args=(KApply(label=KLabel(name='_+Int_', params=()), args=(KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KToken(token='192', sort=KSort(name='Int')), KToken(token='32', sort=KSort(name='Int')))),)), KToken(token='35', sort=KSort(name='Int')))), KApply(label=KLabel(name='_+Int_', params=()), args=(KApply(label=KLabel(name='lengthBytes(_)_BYTES-HOOKED_Int_Bytes', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),)), KToken(token='4', sort=KSort(name='Int')))))), KToken(token='0', sort=KSort(name='Int')))))
-            constraints.append(mlEqualsTrue(bytes_one))
-
-            bytes_two = KApply(label=KLabel(name='_<=Int_', params=()), args=(KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KToken(token='192', sort=KSort(name='Int')), KToken(token='32', sort=KSort(name='Int')))),)), KToken(token='32', sort=KSort(name='Int')))),)), KToken(token='18446744073709551615', sort=KSort(name='Int'))))
-            constraints.append(mlEqualsTrue(bytes_two))
-
-            bytes_three = KApply(label=KLabel(name='_<=Int_', params=()), args=(KApply(label=KLabel(name='_+Int_', params=()), args=(KApply(label=KLabel(name='chop(_)_WORD_Int_Int', params=()), args=(KApply(label=KLabel(name='_+Int_', params=()), args=(KApply(label=KLabel(name='_+Int_', params=()), args=(KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KToken(token='192', sort=KSort(name='Int')), KToken(token='32', sort=KSort(name='Int')))),)), KApply(label=KLabel(name='_<<Int_', params=()), args=(KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KApply(label=KLabel(name='#asWord(_)_EVM-TYPES_Int_Bytes', params=()), args=(KApply(label=KLabel(name='#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')), KToken(token='192', sort=KSort(name='Int')), KToken(token='32', sort=KSort(name='Int')))),)), KToken(token='32', sort=KSort(name='Int')))),)), KToken(token='5', sort=KSort(name='Int')))))), KToken(token='36', sort=KSort(name='Int')))),)), KToken(token='-4', sort=KSort(name='Int')))), KApply(label=KLabel(name='lengthBytes(_)_BYTES-HOOKED_Int_Bytes', params=()), args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),))))
-            constraints.append(mlEqualsTrue(bytes_three))
-            '''
-
-    if callvalue is not None:
-        init_subst['CALLVALUE_CELL'] = callvalue
-
-    init_term = Subst(init_subst)(empty_config)
-    init_cterm = CTerm.from_kast(init_term)
-    init_cterm = KEVM.add_invariant(init_cterm)
-    if constraints is None:
-        return init_cterm
-    else:
-        for constraint in constraints:
-            init_cterm = init_cterm.add_constraint(constraint)
-        return init_cterm
+            ),
+            KApply(
+                label=KLabel(name='lengthBytes(_)_BYTES-HOOKED_Int_Bytes', params=()),
+                args=(KVariable(name='SYMBOLIC_CALLDATA', sort=KSort(name='Bytes')),),
+            ),
+        ),
+    )
+    constraints.append(mlEqualsTrue(bytes_three))
+    return constraints
 
 
 def _final_cterm(
