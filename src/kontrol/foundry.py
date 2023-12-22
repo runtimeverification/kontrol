@@ -575,10 +575,21 @@ def foundry_show(
         # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
         proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
 
-        module_name = (
+        _module_name = (
             proof.id.upper().replace('%', '-').replace('.', '-').replace('(', '-').replace(')', '-').replace(':', '-')
         )
-        module_name += '-SPEC'
+        _module_name += '-SPEC'
+        module_name = ''
+        is_hyphen = False
+        for char in _module_name:
+            if char == '-':
+                if not is_hyphen:
+                    module_name += char
+                is_hyphen = True
+            else:
+                is_hyphen = False
+                module_name += char
+
         module = proof.kcfg.to_module(module_name=module_name, imports=[KImport('VERIFICATION')])
         new_claims = [
             KClaim(sent.body, requires=sent.requires, ensures=sent.ensures, att=KAtt({'label': sent.label}))
