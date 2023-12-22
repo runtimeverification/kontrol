@@ -17,7 +17,7 @@ from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_i
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSort, KToken, KVariable
 from pyk.kast.manip import minimize_term
-from pyk.kast.outer import KAtt, KClaim, KFlatModule, KRule
+from pyk.kast.outer import KAtt, KClaim, KDefinition, KFlatModule, KImport, KRequire, KRule
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.kbool import notBool
@@ -493,6 +493,7 @@ def foundry_show(
     node_deltas: Iterable[tuple[NodeIdLike, NodeIdLike]] = (),
     to_module: bool = False,
     to_kevm_claims: bool = False,
+    kevm_claim_dir: Path | None = None,
     minimize: bool = True,
     sort_collections: bool = False,
     omit_unstable_output: bool = False,
@@ -574,15 +575,26 @@ def foundry_show(
         # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
         proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
 
-        module = proof.kcfg.to_module()
+        module_name = (
+            proof.id.upper().replace('%', '-').replace('.', '-').replace('(', '-').replace(')', '-').replace(':', '-')
+        )
+        module_name += '-SPEC'
+        module = proof.kcfg.to_module(module_name=module_name, imports=[KImport('VERIFICATION')])
         new_claims = [
             KClaim(sent.body, requires=sent.requires, ensures=sent.ensures, att=KAtt({'label': sent.label}))
             for sent in module.sentences
             if type(sent) is KRule
         ]
         module = KFlatModule(module.name, sentences=new_claims, imports=module.imports)
+        defn = KDefinition(module.name, [module], requires=[KRequire('verification.k')])
 
-        res_lines += foundry.kevm.pretty_print(module, in_module='EVM').split('\n')
+        defn_lines = foundry.kevm.pretty_print(defn, in_module='EVM').split('\n')
+
+        res_lines += defn_lines
+
+        if kevm_claim_dir is not None:
+            kevm_claims_file = kevm_claim_dir / (module_name.lower() + '.k')
+            kevm_claims_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
 
     return '\n'.join([line.rstrip() for line in res_lines])
 

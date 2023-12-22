@@ -14,6 +14,7 @@ from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
+from pyk.utils import ensure_dir_path
 
 from . import VERSION
 from .cli import KontrolCLIArgs
@@ -305,6 +306,7 @@ def exec_show(
     node_deltas: Iterable[tuple[NodeIdLike, NodeIdLike]] = (),
     to_module: bool = False,
     to_kevm_claims: bool = False,
+    kevm_claim_dir: Path | None = None,
     minimize: bool = True,
     sort_collections: bool = False,
     omit_unstable_output: bool = False,
@@ -324,6 +326,7 @@ def exec_show(
         node_deltas=node_deltas,
         to_module=to_module,
         to_kevm_claims=to_kevm_claims,
+        kevm_claim_dir=kevm_claim_dir,
         minimize=minimize,
         omit_unstable_output=omit_unstable_output,
         sort_collections=sort_collections,
@@ -757,6 +760,12 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Generate a K module which can be run directly as KEVM claims for the given KCFG (best-effort).',
+    )
+    show_args.add_argument(
+        '--kevm-claim-dir',
+        dest='kevm_claim_dir',
+        type=ensure_dir_path,
+        help='Path to write KEVM claim files at.',
     )
 
     command_parser.add_parser(
