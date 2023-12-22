@@ -503,8 +503,15 @@ def _init_cterm(
             # TODO(palina): EXPERIMENTAL: if calldata is symbolic,
             # add assumptions that correspond to the test w/`BYTES_DATA` being 320 bytes long, and `bytes[]` containing
             # 10 elements, each 600 bytes long
-            structured_calldata_constraints = structured_calldata_assumptions()
-            constraints.extend(structured_calldata_constraints)
+            # structured_calldata_constraints = structured_calldata_symbolic_data_assumptions()
+            # constraints.extend(structured_calldata_constraints)
+
+            # TODO(palina):
+            # add assumptions that correspond to the test w/`BYTES_DATA` being 320 bytes long, and `bytes[]` containing
+            # 10 elements, each 600 bytes long
+            structured_calldata_symbolic_data_constraints = structured_calldata_symbolic_data_assumptions()
+            constraints.extend(structured_calldata_symbolic_data_constraints)
+
             # TODO(palina): uncomment to add assumptions that correspond to compiler-inserted checks on fully symbolic calldata
             '''
             compiler_constraints = compiler_assumptions(calldata)
@@ -565,6 +572,46 @@ def structured_calldata_assumptions() -> list[KApply]:
     constraints.append(length_bytes_arr_constraint_10)
     return constraints
 
+def structured_calldata_symbolic_data_assumptions() -> list[KApply]:
+    constraints = []
+
+    target_constraint = mlEqualsTrue(KEVM.range_address(KVariable('target', 'Int')))
+    sender_constraint = mlEqualsTrue(KEVM.range_address(KVariable('sender', 'Int')))
+    l2_output_constraint = mlEqualsTrue(KEVM.range_uint('256', KVariable('l2OutputIndex', 'Int')))
+    constraints.append(l2_output_constraint)
+
+    constraints.append(target_constraint)
+    constraints.append(sender_constraint)
+
+    length_bytes_data_constraint = mlEqualsTrue(
+        eqInt(KEVM.size_bytes(KVariable('BYTES_DATA', 'Bytes')), KVariable('BYTES_SIZE', 'Int'))
+    )
+
+    constraints.append(length_bytes_data_constraint)
+
+    length_bytes_arr_constraint_1 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_1', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_1)
+    length_bytes_arr_constraint_2 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_2', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_2)
+    length_bytes_arr_constraint_3 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_3', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_3)
+    length_bytes_arr_constraint_4 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_4', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_4)
+    length_bytes_arr_constraint_5 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_5', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_5)
+    length_bytes_arr_constraint_6 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_6', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_6)
+    length_bytes_arr_constraint_7 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_7', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_7)
+    length_bytes_arr_constraint_8 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_8', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_8)
+    length_bytes_arr_constraint_9 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_9', 'Bytes')), intToken("600")))
+    constraints.append(length_bytes_arr_constraint_9)
+    length_bytes_arr_constraint_10 = mlEqualsTrue(
+        eqInt(KEVM.size_bytes(KVariable('BYTES_10', 'Bytes')), intToken("600"))
+    )
+    constraints.append(length_bytes_arr_constraint_10)
+    return constraints
 
 def compiler_assumptions(calldata: KInner) -> list[KApply]:
     constraints = []
