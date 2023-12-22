@@ -12,7 +12,11 @@ authors = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
+<<<<<<< HEAD
 kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", branch = "symbolic-calldata", subdirectory = "kevm-pyk" }
+=======
+kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.406", subdirectory = "kevm-pyk" }
+>>>>>>> 81217f8 (Update dependency: deps/kevm_release (#256))
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
