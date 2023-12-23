@@ -577,8 +577,9 @@ def foundry_show(
             ]
 
             def _collect_klabel(_k: KInner) -> None:
+                nonlocal _contains
                 if type(_k) is KApply and _k.label.name in _foundry_labels:
-                    pass
+                    _contains = True
 
             collect(_collect_klabel, _kast)
             return _contains
