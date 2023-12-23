@@ -17,7 +17,7 @@ from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_i
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSort, KToken, KVariable
 from pyk.kast.manip import collect, minimize_term
-from pyk.kast.outer import KAtt, KClaim, KDefinition, KFlatModule, KImport, KRequire, KRule
+from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.kbool import notBool
@@ -604,14 +604,12 @@ def foundry_show(
                 is_hyphen = False
                 module_name += char
 
-        module = proof.kcfg.to_module(module_name=module_name, imports=[KImport('VERIFICATION')])
-        new_claims = [
-            KClaim(sent.body, requires=sent.requires, ensures=sent.ensures, att=KAtt({'label': sent.label}))
-            for sent in module.sentences
-            if type(sent) is KRule and not _contains_foundry_klabel(sent.body)
+        claims = [
+            edge.to_rule(f'BASIC-BLOCK-{edge.source.id}-TO-{edge.target.id}', claim=True) for edge in proof.kcfg.edges()
         ]
-        module = KFlatModule(module.name, sentences=new_claims, imports=module.imports)
-        defn = KDefinition(module.name, [module], requires=[KRequire('verification.k')])
+        claims = [claim for claim in claims if not _contains_foundry_klabel(claim.body)]
+        module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
+        defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
 
         defn_lines = foundry.kevm.pretty_print(defn, in_module='EVM').split('\n')
 
