@@ -16,7 +16,7 @@ from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSort, KToken, KVariable
-from pyk.kast.manip import minimize_term
+from pyk.kast.manip import collect, minimize_term
 from pyk.kast.outer import KAtt, KClaim, KDefinition, KFlatModule, KImport, KRequire, KRule
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
@@ -569,6 +569,20 @@ def foundry_show(
                 return _cterm
             return CTerm(kevm_config_match['KEVM_CELL'], _cterm.constraints)
 
+        def _contains_foundry_klabel(_kast: KInner) -> bool:
+            _contains = False
+            _foundry_labels = [
+                '#error_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Bytes',
+                '#return_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Int',
+            ]
+
+            def _collect_klabel(_k: KInner) -> None:
+                if type(_k) is KApply and _k.label.name in _foundry_labels:
+                    pass
+
+            collect(_collect_klabel, _kast)
+            return _contains
+
         for node in proof.kcfg.nodes:
             proof.kcfg.replace_node(node.id, _remove_foundry_config(node.cterm))
 
@@ -594,7 +608,7 @@ def foundry_show(
         new_claims = [
             KClaim(sent.body, requires=sent.requires, ensures=sent.ensures, att=KAtt({'label': sent.label}))
             for sent in module.sentences
-            if type(sent) is KRule
+            if type(sent) is KRule and not _contains_foundry_klabel(sent.body)
         ]
         module = KFlatModule(module.name, sentences=new_claims, imports=module.imports)
         defn = KDefinition(module.name, [module], requires=[KRequire('verification.k')])
