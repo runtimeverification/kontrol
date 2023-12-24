@@ -16,7 +16,7 @@ from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSort, KToken, KVariable
-from pyk.kast.manip import collect, minimize_term
+from pyk.kast.manip import collect, extract_lhs, minimize_term
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
@@ -608,6 +608,9 @@ def foundry_show(
 
         claims = [edge.to_rule('BASIC-BLOCK', claim=True) for edge in proof.kcfg.edges()]
         claims = [claim for claim in claims if not _contains_foundry_klabel(claim.body)]
+        claims = [
+            claim for claim in claims if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(claim.body)))
+        ]
         module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
         defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
 
