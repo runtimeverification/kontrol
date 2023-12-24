@@ -605,9 +605,7 @@ def foundry_show(
                 is_hyphen = False
                 module_name += char
 
-        claims = [
-            edge.to_rule(f'BASIC-BLOCK-{edge.source.id}-TO-{edge.target.id}', claim=True) for edge in proof.kcfg.edges()
-        ]
+        claims = [edge.to_rule('BASIC-BLOCK', claim=True) for edge in proof.kcfg.edges()]
         claims = [claim for claim in claims if not _contains_foundry_klabel(claim.body)]
         module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
         defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
