@@ -572,6 +572,7 @@ def foundry_show(
         def _contains_foundry_klabel(_kast: KInner) -> bool:
             _contains = False
             _foundry_labels = [
+                '#call_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Bytes',
                 '#error_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Bytes',
                 '#return_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Int',
             ]
