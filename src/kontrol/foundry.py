@@ -622,16 +622,20 @@ def foundry_show(
         claims = [
             claim for claim in claims if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(claim.body)))
         ]
-        module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
-        defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
+        if len(claims) == 0:
+            _LOGGER.warning(f'No claims retained for proof {proof.id}')
 
-        defn_lines = foundry.kevm.pretty_print(defn, in_module='EVM').split('\n')
+        else:
+            module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
+            defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
 
-        res_lines += defn_lines
+            defn_lines = foundry.kevm.pretty_print(defn, in_module='EVM').split('\n')
 
-        if kevm_claim_dir is not None:
-            kevm_claims_file = kevm_claim_dir / (module_name.lower() + '.k')
-            kevm_claims_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
+            res_lines += defn_lines
+
+            if kevm_claim_dir is not None:
+                kevm_claims_file = kevm_claim_dir / (module_name.lower() + '.k')
+                kevm_claims_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
 
     return '\n'.join([line.rstrip() for line in res_lines])
 
