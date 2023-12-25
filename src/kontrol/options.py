@@ -18,6 +18,7 @@ class ProveOptions:
     break_every_step: bool
     break_on_jumpi: bool
     break_on_calls: bool
+    break_on_foundry: bool
     workers: int
     counterexample_info: bool
     max_iterations: int | None
@@ -36,6 +37,7 @@ class ProveOptions:
         break_every_step: bool = False,
         break_on_jumpi: bool = False,
         break_on_calls: bool = True,
+        break_on_foundry: bool = False,
         workers: int = 1,
         counterexample_info: bool = False,
         max_iterations: int | None = None,
@@ -51,6 +53,7 @@ class ProveOptions:
         object.__setattr__(self, 'break_every_step', break_every_step)
         object.__setattr__(self, 'break_on_jumpi', break_on_jumpi)
         object.__setattr__(self, 'break_on_calls', break_on_calls)
+        object.__setattr__(self, 'break_on_foundry', break_on_foundry)
         object.__setattr__(self, 'workers', workers)
         object.__setattr__(self, 'counterexample_info', counterexample_info)
         object.__setattr__(self, 'max_iterations', max_iterations)

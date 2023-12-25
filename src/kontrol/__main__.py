@@ -729,6 +729,13 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--use-gas', dest='use_gas', default=False, action='store_true', help='Enables gas computation in KEVM.'
     )
+    prove_args.add_argument(
+        '--break-on-foundry',
+        dest='break_on_foundry',
+        default=False,
+        action='store_true',
+        help='Break on all Foundry rules.',
+    )
 
     show_args = command_parser.add_parser(
         'show',
