@@ -208,7 +208,15 @@ def _run_cfg_group(
             )
 
             cut_point_rules = KEVMSemantics.cut_point_rules(prove_options.break_on_jumpi, prove_options.break_on_calls)
-            cut_point_rules += ['FOUNDRY-CHEAT-CODES.foundry.call', 'FOUNDRY-CHEAT-CODES.foundry.return']
+            cut_point_rules += [
+                'FOUNDRY-CHEAT-CODES.foundry.call',
+                'FOUNDRY-CHEAT-CODES.foundry.return',
+                'FOUNDRY-CHEAT-CODES.foundry.catchNonWhitelistedCalls',
+                'FOUNDRY-CHEAT-CODES.foundry.catchNonWhitelistedStorageChanges',
+                'FOUNDRY-CHEAT-CODES.foundry.set.expectrevert.1',
+                'FOUNDRY-CHEAT-CODES.foundry.set.expectrevert.2',
+                'FOUNDRY-CHEAT-CODES.foundry.set.expectrevert.3',
+            ]
 
             run_prover(
                 foundry.kevm,
