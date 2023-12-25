@@ -575,6 +575,11 @@ def foundry_show(
                 '#call_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Bytes',
                 '#error_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Bytes',
                 '#return_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Int',
+                'FOUNDRY_WHITELISTCALL_FOUNDRY-CHEAT-CODES_ExceptionalStatusCode',
+                'FOUNDRY_WHITELISTSTORAGE_FOUNDRY-CHEAT-CODES_ExceptionalStatusCode',
+                '#updateRevertOutput___FOUNDRY-CHEAT-CODES_KItem_Int_Int',
+                '#checkRevert_FOUNDRY-CHEAT-CODES_KItem',
+                '#clearExpectRevert_FOUNDRY-CHEAT-CODES_KItem',
             ]
 
             def _collect_klabel(_k: KInner) -> None:
