@@ -207,7 +207,9 @@ def _run_cfg_group(
                 use_gas=prove_options.use_gas,
             )
 
-            cut_point_rules = KEVMSemantics.cut_point_rules(prove_options.break_on_jumpi, prove_options.break_on_calls)
+            cut_point_rules = KEVMSemantics.cut_point_rules(
+                prove_options.break_on_jumpi, prove_options.break_on_calls, prove_options.break_on_storage
+            )
             if prove_options.break_on_foundry:
                 cut_point_rules += [
                     'FOUNDRY-CHEAT-CODES.foundry.allowCallsToAddress',
