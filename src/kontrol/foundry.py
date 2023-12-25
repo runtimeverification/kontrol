@@ -592,7 +592,13 @@ def foundry_show(
         proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
 
         _module_name = (
-            proof.id.upper().replace('%', '-').replace('.', '-').replace('(', '-').replace(')', '-').replace(':', '-')
+            proof.id.upper()
+            .replace('%', '-')
+            .replace('.', '-')
+            .replace('(', '-')
+            .replace(')', '-')
+            .replace(':', '-')
+            .replace(',', '-')
         )
         _module_name += '-SPEC'
         module_name = ''
