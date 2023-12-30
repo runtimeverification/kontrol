@@ -8,12 +8,12 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KSequence, KVariable, Subst, KLabel, KToken, KSort
+from pyk.kast.inner import KApply, KLabel, KSequence, KSort, KToken, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
-from pyk.prelude.kint import intToken, eqInt, leInt
+from pyk.prelude.kint import eqInt, intToken, leInt
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
@@ -503,14 +503,14 @@ def _init_cterm(
             # TODO(palina): EXPERIMENTAL: if calldata is symbolic,
             # add assumptions that correspond to the test w/`BYTES_DATA` being 320 bytes long, and `bytes[]` containing
             # 10 elements, each 600 bytes long
-            structured_calldata_constraints = structured_calldata_assumptions()
-            constraints.extend(structured_calldata_constraints)
+            # structured_calldata_constraints = structured_calldata_assumptions()
+            # constraints.extend(structured_calldata_constraints)
 
             # TODO(palina):
             # add assumptions that correspond to the test w/`BYTES_DATA` having symbolic length, and `bytes[]` containing
             # 10 elements, each 600 bytes long
-            # structured_calldata_symbolic_data_constraints = structured_calldata_symbolic_data_assumptions()
-            # constraints.extend(structured_calldata_symbolic_data_constraints)
+            structured_calldata_symbolic_data_constraints = structured_calldata_symbolic_data_assumptions()
+            constraints.extend(structured_calldata_symbolic_data_constraints)
 
             # TODO(palina): uncomment to add assumptions that correspond to compiler-inserted checks on fully symbolic calldata
             # compiler_constraints = compiler_assumptions(calldata)
@@ -570,6 +570,7 @@ def structured_calldata_assumptions() -> list[KApply]:
     constraints.append(length_bytes_arr_constraint_10)
     return constraints
 
+
 def structured_calldata_symbolic_data_assumptions() -> list[KApply]:
     constraints = []
 
@@ -581,10 +582,14 @@ def structured_calldata_symbolic_data_assumptions() -> list[KApply]:
     constraints.append(target_constraint)
     constraints.append(sender_constraint)
 
-    length_bytes_data_constraint = mlEqualsTrue(
+    length_bytes_data_equality = mlEqualsTrue(
         eqInt(KEVM.size_bytes(KVariable('BYTES_DATA', 'Bytes')), KVariable('BYTES_SIZE', 'Int'))
     )
 
+    # Size of the symbolic bytes is limited to 1Mb
+    length_bytes_data_constraint = mlEqualsTrue(leInt(KVariable('BYTES_SIZE', 'Int'), intToken("1048576")))
+
+    constraints.append(length_bytes_data_equality)
     constraints.append(length_bytes_data_constraint)
 
     length_bytes_arr_constraint_1 = mlEqualsTrue(eqInt(KEVM.size_bytes(KVariable('BYTES_1', 'Bytes')), intToken("600")))
@@ -610,6 +615,7 @@ def structured_calldata_symbolic_data_assumptions() -> list[KApply]:
     )
     constraints.append(length_bytes_arr_constraint_10)
     return constraints
+
 
 def compiler_assumptions(calldata: KInner) -> list[KApply]:
     constraints = []
