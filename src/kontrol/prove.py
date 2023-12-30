@@ -587,7 +587,7 @@ def structured_calldata_symbolic_data_assumptions() -> list[KApply]:
     )
 
     # Size of the symbolic bytes is limited to 1Mb
-    length_bytes_data_constraint = mlEqualsTrue(leInt(KVariable('BYTES_SIZE', 'Int'), intToken("1048576")))
+    length_bytes_data_constraint = mlEqualsTrue(leInt(KVariable('BYTES_SIZE', 'Int'), intToken("1073741824")))
 
     constraints.append(length_bytes_data_equality)
     constraints.append(length_bytes_data_constraint)
