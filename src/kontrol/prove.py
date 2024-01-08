@@ -495,6 +495,11 @@ def _init_cterm(
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue
 
+    if not use_gas:
+        init_subst['GAS_CELL'] = intToken(0)
+        init_subst['CALLGAS_CELL'] = intToken(0)
+        init_subst['REFUND_CELL'] = intToken(0)
+
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
     init_cterm = KEVM.add_invariant(init_cterm)
