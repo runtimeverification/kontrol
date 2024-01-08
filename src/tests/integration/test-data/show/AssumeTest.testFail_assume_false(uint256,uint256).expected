@@ -7,7 +7,7 @@
 │
 │  (560 steps)
 ├─ 3
-│   k: STATICCALL VGAS:Int 645326474426547203313410069153905908525362434349 128 36 128  ...
+│   k: STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 ~> #p ...
 │   pc: 563
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -102,6 +102,9 @@ Node 7:
             <memoryUsed>
               0
             </memoryUsed>
+            <callGas>
+              0
+            </callGas>
             <static>
               false
             </static>
@@ -114,6 +117,9 @@ Node 7:
             <log>
               .List
             </log>
+            <refund>
+              0
+            </refund>
             <accessedAccounts>
               .Set
             </accessedAccounts>
@@ -266,7 +272,7 @@ Node 7:
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => STATICCALL VGAS:Int 645326474426547203313410069153905908525362434349 128 36 128 0
+               ( .K => STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0
                ~> #pc [ STATICCALL ] )
                ~> #execute
                ~> _CONTINUATION
@@ -314,18 +320,23 @@ Node 7:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -475,7 +486,7 @@ Node 7:
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL VGAS:Int 645326474426547203313410069153905908525362434349 128 36 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) true
                ~> #return 128 0 )
                ~> #pc [ STATICCALL ]
@@ -525,18 +536,23 @@ Node 7:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -740,18 +756,23 @@ Node 7:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -956,18 +977,23 @@ Node 7:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1170,18 +1196,23 @@ Node 7:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>

@@ -35,7 +35,7 @@
 │
 │  (416 steps)
 ├─ 8
-│   k: CALL VGAS:Int 645326474426547203313410069153905908525362434349 0 128 4 128 0 ~>  ...
+│   k: CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0 ~> #pc [ C ...
 │   pc: 800
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -49,7 +49,7 @@
 │
 │  (228 steps)
 ├─ 10
-│   k: STATICCALL VGAS:Int 728815563385977040452943777879061427756277306518 128 4 128 0 ...
+│   k: STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0 ~> #pc ...
 │   pc: 881
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -84,7 +84,7 @@
 │
 │  (1 step)
 ├─ 15
-│   k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #refund #gas ( VGAS:Int ) ~> #s ...
+│   k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem 128 0 ...
 │   pc: 2984
 │   callDepth: 1
 │   statusCode: EVMC_REVERT
@@ -172,6 +172,9 @@ Node 18:
             <memoryUsed>
               0
             </memoryUsed>
+            <callGas>
+              0
+            </callGas>
             <static>
               false
             </static>
@@ -184,6 +187,9 @@ Node 18:
             <log>
               .List
             </log>
+            <refund>
+              0
+            </refund>
             <accessedAccounts>
               .Set
             </accessedAccounts>
@@ -374,18 +380,23 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -585,18 +596,23 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -796,18 +812,23 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1005,18 +1026,23 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1162,7 +1188,7 @@ Node 18:
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
            <kevm>
              <k>
-               ( .K => CALL VGAS:Int 645326474426547203313410069153905908525362434349 0 128 4 128 0
+               ( .K => CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0
                ~> #pc [ CALL ] )
                ~> #execute
                ~> _CONTINUATION
@@ -1207,6 +1233,9 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1219,6 +1248,9 @@ Node 18:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1348,7 +1380,7 @@ Node 18:
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
            <kevm>
              <k>
-               ( CALL VGAS:Int 645326474426547203313410069153905908525362434349 0 128 4 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\xf4\x84H\x14" false
                ~> #return 128 0 )
                ~> #pc [ CALL ]
@@ -1395,6 +1427,9 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1407,6 +1442,9 @@ Node 18:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1539,7 +1577,7 @@ Node 18:
                ( #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\xf4\x84H\x14" false
                ~> #return 128 0
-               ~> #pc [ CALL ] => STATICCALL VGAS:Int 728815563385977040452943777879061427756277306518 128 4 128 0
+               ~> #pc [ CALL ] => STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0
                ~> #pc [ STATICCALL ]
                ~> #checkRevert
                ~> #updateRevertOutput 128 0 )
@@ -1589,6 +1627,9 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1601,6 +1642,9 @@ Node 18:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1735,7 +1779,7 @@ Node 18:
     rule [BASIC-BLOCK-10-TO-11]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL VGAS:Int 728815563385977040452943777879061427756277306518 128 4 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 0 0 b"\xf3\xad0#" true
                ~> #return 128 0 )
                ~> #pc [ STATICCALL ]
@@ -1787,6 +1831,9 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1799,6 +1846,9 @@ Node 18:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1974,7 +2024,7 @@ Node 18:
                    </localMem> ... ... <memoryUsed>
                      0
                    </memoryUsed> <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas> <static>
                      false
                    </static> <callDepth>
@@ -2022,7 +2072,7 @@ Node 18:
                    </selfDestruct> <log>
                      .List
                    </log> <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund> <accessedAccounts>
                      .Set
                    </accessedAccounts> <accessedStorage>
@@ -2059,7 +2109,7 @@ Node 18:
                      0
                    </memoryUsed>
                    <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas>
                    <static>
                      ( false => true )
@@ -2076,7 +2126,7 @@ Node 18:
                      .List
                    </log>
                    <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund>
                    <accessedAccounts>
                      ( .Set => SetItem ( 728815563385977040452943777879061427756277306518 ) )
@@ -2252,7 +2302,7 @@ Node 18:
                    </localMem> ... ... <memoryUsed>
                      0
                    </memoryUsed> <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas> <static>
                      false
                    </static> <callDepth>
@@ -2300,7 +2350,7 @@ Node 18:
                    </selfDestruct> <log>
                      .List
                    </log> <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund> <accessedAccounts>
                      .Set
                    </accessedAccounts> <accessedStorage>
@@ -2337,7 +2387,7 @@ Node 18:
                      0
                    </memoryUsed>
                    <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas>
                    <static>
                      true
@@ -2354,7 +2404,7 @@ Node 18:
                      .List
                    </log>
                    <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund>
                    <accessedAccounts>
                      SetItem ( 728815563385977040452943777879061427756277306518 )
@@ -2530,7 +2580,7 @@ Node 18:
                    </localMem> ... ... <memoryUsed>
                      0
                    </memoryUsed> <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas> <static>
                      false
                    </static> <callDepth>
@@ -2578,7 +2628,7 @@ Node 18:
                    </selfDestruct> <log>
                      .List
                    </log> <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund> <accessedAccounts>
                      .Set
                    </accessedAccounts> <accessedStorage>
@@ -2615,7 +2665,7 @@ Node 18:
                      0
                    </memoryUsed>
                    <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas>
                    <static>
                      true
@@ -2632,7 +2682,7 @@ Node 18:
                      .List
                    </log>
                    <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund>
                    <accessedAccounts>
                      SetItem ( 728815563385977040452943777879061427756277306518 )
@@ -2772,7 +2822,7 @@ Node 18:
                ~> #popWorldState
                ~> 0
                ~> #push
-               ~> #refund #gas ( VGAS:Int )
+               ~> #refund 0
                ~> #setLocalMem 128 0 b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                ~> #pc [ STATICCALL ]
                ~> #checkRevert
@@ -2811,7 +2861,7 @@ Node 18:
                    </localMem> ... ... <memoryUsed>
                      0
                    </memoryUsed> <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas> <static>
                      false
                    </static> <callDepth>
@@ -2859,7 +2909,7 @@ Node 18:
                    </selfDestruct> <log>
                      .List
                    </log> <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund> <accessedAccounts>
                      .Set
                    </accessedAccounts> <accessedStorage>
@@ -2896,7 +2946,7 @@ Node 18:
                      0
                    </memoryUsed>
                    <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas>
                    <static>
                      true
@@ -2913,7 +2963,7 @@ Node 18:
                      .List
                    </log>
                    <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund>
                    <accessedAccounts>
                      SetItem ( 728815563385977040452943777879061427756277306518 )
@@ -3052,7 +3102,7 @@ Node 18:
                ~> #popWorldState
                ~> 0
                ~> #push
-               ~> #refund #gas ( VGAS:Int )
+               ~> #refund 0
                ~> #setLocalMem 128 0 b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                ~> #pc [ STATICCALL ]
                ~> #checkRevert
@@ -3094,7 +3144,7 @@ Node 18:
                    </localMem> ... ... <memoryUsed>
                      0
                    </memoryUsed> <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas> <static>
                      false
                    </static> <callDepth>
@@ -3142,7 +3192,7 @@ Node 18:
                    </selfDestruct> <log>
                      .List
                    </log> <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund> <accessedAccounts>
                      .Set
                    </accessedAccounts> <accessedStorage>
@@ -3179,7 +3229,7 @@ Node 18:
                      0
                    </memoryUsed>
                    <callGas>
-                     CALLGAS_CELL:Gas
+                     0
                    </callGas>
                    <static>
                      ( true => false )
@@ -3196,7 +3246,7 @@ Node 18:
                      .List
                    </log>
                    <refund>
-                     REFUND_CELL:Int
+                     0
                    </refund>
                    <accessedAccounts>
                      ( SetItem ( 728815563385977040452943777879061427756277306518 ) => .Set )
@@ -3385,6 +3435,9 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -3397,6 +3450,9 @@ Node 18:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -3585,6 +3641,9 @@ Node 18:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -3597,6 +3656,9 @@ Node 18:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
