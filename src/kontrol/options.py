@@ -24,6 +24,7 @@ class ProveOptions:
     run_constructor: bool
     fail_fast: bool
     reinit: bool
+    use_gas: bool
     init_cse: bool
 
     def __init__(
@@ -42,6 +43,7 @@ class ProveOptions:
         run_constructor: bool = False,
         fail_fast: bool = True,
         reinit: bool = False,
+        use_gas: bool = False,
         init_cse: bool = False,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
@@ -57,6 +59,7 @@ class ProveOptions:
         object.__setattr__(self, 'run_constructor', run_constructor)
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
+        object.__setattr__(self, 'use_gas', use_gas)
         object.__setattr__(self, 'init_cse', init_cse)
 
 

@@ -27,7 +27,7 @@ sys.setrecursionlimit(10**7)
 FORGE_STD_REF: Final = '75f1746'
 
 
-def test_foundy_prove(profile: Profiler, use_booster: bool, bug_report: BugReport | None, tmp_path: Path) -> None:
+def test_foundy_prove(profile: Profiler, no_use_booster: bool, bug_report: BugReport | None, tmp_path: Path) -> None:
     foundry_root = tmp_path / 'foundry'
     foundry = _forge_build(foundry_root)
 
@@ -45,7 +45,7 @@ def test_foundy_prove(profile: Profiler, use_booster: bool, bug_report: BugRepor
             rpc_options=RPCOptions(
                 smt_timeout=300,
                 smt_retry_limit=10,
-                use_booster=use_booster,
+                use_booster=not no_use_booster,
             ),
         )
 

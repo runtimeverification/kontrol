@@ -35,7 +35,8 @@ class FoundryMock:
             contract = Contract.__new__(Contract)
             method = Contract.Method.__new__(Contract.Method)
             contract_method, *_ = full_method.split(':')
-            contract.name, method.signature = contract_method.split('.')
+            contract._name, method.signature = contract_method.split('.')
+            contract.contract_path = contract._name
             if not hasattr(contract, 'methods'):
                 contract.methods = ()
             contract.methods = contract.methods + (method,)

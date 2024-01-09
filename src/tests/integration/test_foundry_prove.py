@@ -10,7 +10,14 @@ from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.utils import run_process, single
 
-from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
+from kontrol.foundry import (
+    Foundry,
+    foundry_merge_nodes,
+    foundry_remove_node,
+    foundry_show,
+    foundry_step_node,
+    foundry_summary,
+)
 from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
@@ -35,9 +42,9 @@ sys.setrecursionlimit(10**7)
 
 
 @pytest.fixture(scope='module')
-def server(foundry: Foundry, use_booster: bool) -> Iterator[KoreServer]:
-    llvm_definition_dir = foundry.out / 'kompiled' / 'llvm-library' if use_booster else None
-    kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
+def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
+    llvm_definition_dir = foundry.out / 'kompiled' / 'llvm-library' if not no_use_booster else None
+    kore_rpc_command = ('kore-rpc-booster',) if not no_use_booster else ('kore-rpc',)
 
     yield kore_server(
         definition_dir=foundry.kevm.definition_dir,
@@ -79,8 +86,8 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
     return Foundry(session_foundry_root)
 
 
-def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, use_booster: bool) -> None:
-    if use_booster:
+def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_booster: bool) -> None:
+    if not no_use_booster:
         return
     # Then
     assert_or_update_k_output(
@@ -114,6 +121,7 @@ def assert_or_update_k_output(k_file: Path, expected_file: Path, *, update: bool
 ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-prove-all').read_text().splitlines())
 SKIPPED_PROVE_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip').read_text().splitlines())
 SKIPPED_LEGACY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip-legacy').read_text().splitlines())
+GAS_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-with-gas').read_text().splitlines())
 
 SHOW_TESTS = set((TEST_DATA_DIR / 'foundry-show').read_text().splitlines())
 
@@ -123,25 +131,24 @@ def test_foundry_prove(
     test_id: str,
     foundry: Foundry,
     update_expected_output: bool,
-    use_booster: bool,
+    no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
     if (
         test_id in SKIPPED_PROVE_TESTS
-        or (not use_booster and test_id in SKIPPED_LEGACY_TESTS)
+        or (no_use_booster and test_id in SKIPPED_LEGACY_TESTS)
         or (update_expected_output and not test_id in SHOW_TESTS)
     ):
         pytest.skip()
+
+    prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=test_id in GAS_TESTS)
 
     # When
     prove_res = foundry_prove(
         foundry,
         tests=[(test_id, None)],
-        prove_options=ProveOptions(
-            counterexample_info=True,
-            bug_report=bug_report,
-        ),
+        prove_options=prove_options,
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -150,7 +157,7 @@ def test_foundry_prove(
     # Then
     assert_pass(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or use_booster:
+    if test_id not in SHOW_TESTS or not no_use_booster:
         return
 
     # And when
@@ -179,7 +186,7 @@ def test_foundry_fail(
     test_id: str,
     foundry: Foundry,
     update_expected_output: bool,
-    use_booster: bool,
+    no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
@@ -199,7 +206,7 @@ def test_foundry_fail(
     # Then
     assert_fail(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or use_booster:
+    if test_id not in SHOW_TESTS or not no_use_booster:
         return
 
     # And when
@@ -312,7 +319,7 @@ def test_foundry_auto_abstraction(
     update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    use_booster: bool,
+    no_use_booster: bool,
 ) -> None:
     test_id = 'GasTest.testInfiniteGas()'
 
@@ -322,13 +329,14 @@ def test_foundry_auto_abstraction(
         prove_options=ProveOptions(
             auto_abstract_gas=True,
             bug_report=bug_report,
+            use_gas=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
         ),
     )
 
-    if use_booster:
+    if not no_use_booster:
         return
 
     show_res = foundry_show(
@@ -471,7 +479,7 @@ ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail
 
 
 @pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, use_booster: bool) -> None:
+def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
     # When
     prove_res = foundry_prove(
         foundry,
@@ -483,9 +491,54 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
         rpc_options=RPCOptions(
             smt_timeout=300,
             smt_retry_limit=10,
-            use_booster=use_booster,
+            use_booster=not no_use_booster,
         ),
     )
 
     # Then
     assert_pass(test, single(prove_res))
+
+
+def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
+    assert 'src%duplicates%1%DuplicateName' in foundry.contracts.keys()
+    assert 'src%duplicates%2%DuplicateName' in foundry.contracts.keys()
+
+
+def test_deployment_summary(
+    foundry_root_dir: Path | None,
+    server: KoreServer,
+    bug_report: BugReport,
+    worker_id: str,
+    tmp_path_factory: TempPathFactory,
+    update_expected_output: bool,
+) -> None:
+    if not foundry_root_dir:
+        if worker_id == 'master':
+            root_tmp_dir = tmp_path_factory.getbasetemp()
+        else:
+            root_tmp_dir = tmp_path_factory.getbasetemp().parent
+
+        foundry_root_dir = root_tmp_dir / 'foundry'
+    foundry = Foundry(foundry_root=foundry_root_dir)
+
+    foundry_summary(
+        'DeploymentSummary',
+        TEST_DATA_DIR / 'accesses.json',
+        contract_names=None,
+        output_dir_name='src',
+        foundry=foundry,
+    )
+
+    generated_main_file = foundry_root_dir / 'src' / 'DeploymentSummary.sol'
+    generated_code_file = foundry_root_dir / 'src' / 'DeploymentSummaryCode.sol'
+
+    assert_or_update_show_output(
+        generated_main_file.read_text(),
+        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummary.sol',
+        update=update_expected_output,
+    )
+    assert_or_update_show_output(
+        generated_code_file.read_text(),
+        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummaryCode.sol',
+        update=update_expected_output,
+    )
