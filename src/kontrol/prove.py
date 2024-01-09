@@ -432,7 +432,12 @@ def _method_to_cfg(
     is_test = method.signature.startswith('test')
     failing = method.signature.startswith('testFail')
     final_cterm = _final_cterm(
-        empty_config, contract.name_with_path, failing=failing, is_test=is_test, use_init_code=use_init_code
+        empty_config,
+        contract.name_with_path,
+        failing=failing,
+        is_test=is_test,
+        use_init_code=use_init_code,
+        init_cse=init_cse,
     )
     target_node = cfg.create_node(final_cterm)
 
@@ -575,7 +580,7 @@ def _init_cse_cterm(
             '_________EVM_InternalOp_CallOp_Int_Int_Int_Int_Int_Int_Int',
             [
                 KApply('CALL_EVM_CallOp'),
-                intToken(1),
+                KVariable('_GCAP'),
                 KVariable('CONTRACT'),
                 valid_callvalue,
                 KVariable('ARGSTART'),
@@ -611,7 +616,8 @@ def _init_cse_cterm(
         init_subst['REFUND_CELL'] = intToken(0)
 
     constraints = [
-        mlEqualsTrue(KApply('_>=Int_', KVariable('ACCT_FROM_BAL'), intToken(0))),
+        mlEqualsTrue(KEVM.range_uint(256, KVariable('ACCT_FROM_BAL'))),
+        mlEqualsTrue(KEVM.range_uint(256, KVariable('CONTRACT_BAL'))),
         mlEqualsTrue(KApply('#rangeNonce(_)_WORD_Bool_Int', KVariable('ACCT_FROM_NONCE'))),
         mlEqualsTrue(
             eqInt(
@@ -676,14 +682,9 @@ def _init_cse_cterm(
             constraints.append(mlEqualsTrue(c_type))
         offset += type_width
 
-    for var, loc in fields.items():
-        c_loc = mlEqualsTrue(
-            KApply('_==Int_', [KEVM.lookup(KVariable('CONTRACT_STORAGE'), intToken(loc)), KVariable(var.upper())])
-        )
-        c_type = mlEqualsTrue(KEVM.range_uint(256, KVariable(var.upper())))
-
+    for _var, loc in fields.items():
+        c_loc = mlEqualsTrue(KEVM.range_uint(256, KEVM.lookup(KVariable('CONTRACT_STORAGE'), intToken(loc))))
         constraints.append(c_loc)
-        constraints.append(c_type)
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
@@ -697,9 +698,15 @@ def _init_cse_cterm(
 
 
 def _final_cterm(
-    empty_config: KInner, contract_name: str, *, failing: bool, is_test: bool = True, use_init_code: bool = False
+    empty_config: KInner,
+    contract_name: str,
+    *,
+    failing: bool,
+    is_test: bool = True,
+    use_init_code: bool = False,
+    init_cse: bool = False,
 ) -> CTerm:
-    final_term = _final_term(empty_config, contract_name, use_init_code=use_init_code)
+    final_term = _final_term(empty_config, contract_name, use_init_code=use_init_code, init_cse=init_cse)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     foundry_success = Foundry.success(
         KVariable('STATUSCODE_FINAL'),
@@ -718,7 +725,12 @@ def _final_cterm(
     return final_cterm
 
 
-def _final_term(empty_config: KInner, contract_name: str, use_init_code: bool = False) -> KInner:
+def _final_term(
+    empty_config: KInner,
+    contract_name: str,
+    use_init_code: bool = False,
+    init_cse: bool = False,
+) -> KInner:
     program = (
         KEVM.init_bytecode(KApply(f'contract_{contract_name}'))
         if use_init_code
@@ -732,26 +744,58 @@ def _final_term(empty_config: KInner, contract_name: str, use_init_code: bool = 
         KVariable('ACCT_ORIGSTORAGE_FINAL'),
         KVariable('ACCT_NONCE_FINAL'),
     )
-    final_subst = {
-        'K_CELL': KSequence([KEVM.halt(), KVariable('CONTINUATION')]),
-        'STATUSCODE_CELL': KVariable('STATUSCODE_FINAL'),
-        'ID_CELL': Foundry.address_TEST_CONTRACT(),
-        'ACCOUNTS_CELL': KEVM.accounts(
-            [
-                post_account_cell,  # test contract address
-                Foundry.account_CHEATCODE_ADDRESS(KVariable('CHEATCODE_STORAGE_FINAL')),
-                KVariable('ACCOUNTS_FINAL'),
-            ]
-        ),
-        'ISREVERTEXPECTED_CELL': KVariable('ISREVERTEXPECTED_FINAL'),
-        'ISOPCODEEXPECTED_CELL': KVariable('ISOPCODEEXPECTED_FINAL'),
-        'RECORDEVENT_CELL': KVariable('RECORDEVENT_FINAL'),
-        'ISEVENTEXPECTED_CELL': KVariable('ISEVENTEXPECTED_FINAL'),
-        'ISCALLWHITELISTACTIVE_CELL': KVariable('ISCALLWHITELISTACTIVE_FINAL'),
-        'ISSTORAGEWHITELISTACTIVE_CELL': KVariable('ISSTORAGEWHITELISTACTIVE_FINAL'),
-        'ADDRESSSET_CELL': KVariable('ADDRESSSET_FINAL'),
-        'STORAGESLOTSET_CELL': KVariable('STORAGESLOTSET_FINAL'),
-    }
+
+    contract = KEVM.account_cell(
+        KVariable('CONTRACT'),
+        KVariable('CONTRACT_BAL'),
+        program,
+        KVariable('CONTRACT_STORAGE_FINAL'),
+        KVariable('CONTRACT_ORIG_STORAGE_FINAL'),
+        KVariable('CONTRACT_NONCE'),
+    )
+    acct_from = KEVM.account_cell(
+        KVariable('ACCT_FROM'),
+        KVariable('ACCT_FROM_BAL'),
+        KVariable('ACCT_FROM_CODE'),
+        KVariable('ACCT_FROM_STORAGE'),
+        KVariable('ACCT_FROM_ORIG_STORAGE'),
+        KVariable('ACCT_FROM_NONCE'),
+    )
+    final_subst = (
+        {
+            'K_CELL': KSequence([KEVM.halt(), KVariable('CONTINUATION')]),
+            'STATUSCODE_CELL': KVariable('STATUSCODE_FINAL'),
+            'ID_CELL': Foundry.address_TEST_CONTRACT(),
+            'ACCOUNTS_CELL': KEVM.accounts(
+                [
+                    post_account_cell,  # test contract address
+                    Foundry.account_CHEATCODE_ADDRESS(KVariable('CHEATCODE_STORAGE_FINAL')),
+                    KVariable('ACCOUNTS_FINAL'),
+                ]
+            ),
+            'ISREVERTEXPECTED_CELL': KVariable('ISREVERTEXPECTED_FINAL'),
+            'ISOPCODEEXPECTED_CELL': KVariable('ISOPCODEEXPECTED_FINAL'),
+            'RECORDEVENT_CELL': KVariable('RECORDEVENT_FINAL'),
+            'ISEVENTEXPECTED_CELL': KVariable('ISEVENTEXPECTED_FINAL'),
+            'ISCALLWHITELISTACTIVE_CELL': KVariable('ISCALLWHITELISTACTIVE_FINAL'),
+            'ISSTORAGEWHITELISTACTIVE_CELL': KVariable('ISSTORAGEWHITELISTACTIVE_FINAL'),
+            'ADDRESSSET_CELL': KVariable('ADDRESSSET_FINAL'),
+            'STORAGESLOTSET_CELL': KVariable('STORAGESLOTSET_FINAL'),
+        }
+        if not init_cse
+        else {
+            'K_CELL': KSequence([]),
+            'ID_CELL': KVariable('ACCT_FROM'),
+            'ACCOUNTS_CELL': KEVM.accounts(
+                [
+                    contract,  # test contract address
+                    acct_from,
+                    Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
+                ]
+            ),
+        }
+    )
+
     return abstract_cell_vars(
         Subst(final_subst)(empty_config),
         [
