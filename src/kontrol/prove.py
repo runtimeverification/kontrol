@@ -362,26 +362,16 @@ def _method_to_cfg(
         program = KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
         use_init_code = False
 
-    init_cterm = (
-        _init_cse_cterm(
-            empty_config,
-            contract._name,
-            method=method,
-            fields=contract.fields,
-            program=program,
-            calldata=calldata,
-            callvalue=callvalue,
-            use_gas=use_gas,
-        )
-        if init_cse
-        else _init_cterm(
-            empty_config,
-            contract._name,
-            program=program,
-            calldata=calldata,
-            callvalue=callvalue,
-            use_gas=use_gas,
-        )
+    init_cterm = _init_cterm(
+        empty_config,
+        contract._name,
+        program=program,
+        calldata=calldata,
+        callvalue=callvalue,
+        use_gas=use_gas,
+        init_cse=init_cse,
+        method=method,
+        fields=contract.fields,
     )
     new_node_ids = []
 
@@ -449,6 +439,9 @@ def _init_cterm(
     contract_name: str,
     program: KInner,
     use_gas: bool,
+    init_cse: bool,
+    method: Contract.Method | Contract.Constructor,
+    fields: FrozenDict,
     *,
     setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
@@ -462,91 +455,6 @@ def _init_cterm(
         KApply('.Map'),
         intToken(1),
     )
-    init_subst = {
-        'MODE_CELL': KApply('NORMAL'),
-        'USEGAS_CELL': TRUE if use_gas else FALSE,
-        'SCHEDULE_CELL': KApply('SHANGHAI_EVM'),
-        'STATUSCODE_CELL': KVariable('STATUSCODE'),
-        'CALLSTACK_CELL': KApply('.List'),
-        'CALLDEPTH_CELL': intToken(0),
-        'PROGRAM_CELL': program,
-        'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
-        'ORIGIN_CELL': KVariable('ORIGIN_ID'),
-        'LOG_CELL': KApply('.List'),
-        'ID_CELL': Foundry.address_TEST_CONTRACT(),
-        'CALLER_CELL': KVariable('CALLER_ID'),
-        'ACCESSEDACCOUNTS_CELL': KApply('.Set'),
-        'ACCESSEDSTORAGE_CELL': KApply('.Map'),
-        'INTERIMSTATES_CELL': KApply('.List'),
-        'LOCALMEM_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
-        'PREVCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
-        'PREVORIGIN_CELL': KApply('.Account_EVM-TYPES_Account'),
-        'NEWCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
-        'NEWORIGIN_CELL': KApply('.Account_EVM-TYPES_Account'),
-        'ACTIVE_CELL': FALSE,
-        'STATIC_CELL': FALSE,
-        'MEMORYUSED_CELL': intToken(0),
-        'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
-        'PC_CELL': intToken(0),
-        'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
-        'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),
-        'ACCOUNTS_CELL': KEVM.accounts(
-            [
-                account_cell,  # test contract address
-                Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
-            ]
-        ),
-        'SINGLECALL_CELL': FALSE,
-        'ISREVERTEXPECTED_CELL': FALSE,
-        'ISOPCODEEXPECTED_CELL': FALSE,
-        'EXPECTEDADDRESS_CELL': KApply('.Account_EVM-TYPES_Account'),
-        'EXPECTEDVALUE_CELL': intToken(0),
-        'EXPECTEDDATA_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
-        'OPCODETYPE_CELL': KApply('.OpcodeType_FOUNDRY-CHEAT-CODES_OpcodeType'),
-        'RECORDEVENT_CELL': FALSE,
-        'ISEVENTEXPECTED_CELL': FALSE,
-        'ISCALLWHITELISTACTIVE_CELL': FALSE,
-        'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
-        'ADDRESSSET_CELL': KApply('.Set'),
-        'STORAGESLOTSET_CELL': KApply('.Set'),
-    }
-
-    constraints = None
-
-    if calldata is not None:
-        init_subst['CALLDATA_CELL'] = calldata
-
-    if callvalue is not None:
-        init_subst['CALLVALUE_CELL'] = callvalue
-
-    if not use_gas:
-        init_subst['GAS_CELL'] = intToken(0)
-        init_subst['CALLGAS_CELL'] = intToken(0)
-        init_subst['REFUND_CELL'] = intToken(0)
-
-    init_term = Subst(init_subst)(empty_config)
-    init_cterm = CTerm.from_kast(init_term)
-    init_cterm = KEVM.add_invariant(init_cterm)
-    if constraints is None:
-        return init_cterm
-    else:
-        for constraint in constraints:
-            init_cterm = init_cterm.add_constraint(constraint)
-        return init_cterm
-
-
-def _init_cse_cterm(
-    empty_config: KInner,
-    contract_name: str,
-    program: KInner,
-    use_gas: bool,
-    method: Contract.Method | Contract.Constructor,
-    fields: FrozenDict,
-    *,
-    setup_cterm: CTerm | None = None,
-    calldata: KInner | None = None,
-    callvalue: KInner | None = None,
-) -> CTerm:
     contract = KEVM.account_cell(
         KVariable('CONTRACT'),
         KVariable('CONTRACT_BAL'),
@@ -567,7 +475,7 @@ def _init_cse_cterm(
 
     valid_callvalue = callvalue if callvalue is not None else KVariable('CALLVALUE')
 
-    init_subst = {
+    cse_init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'USEGAS_CELL': TRUE if use_gas else FALSE,
         'SCHEDULE_CELL': schedule,
@@ -610,81 +518,143 @@ def _init_cse_cterm(
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
     }
 
+    init_subst = (
+        cse_init_subst
+        if init_cse
+        else {
+            'MODE_CELL': KApply('NORMAL'),
+            'USEGAS_CELL': TRUE if use_gas else FALSE,
+            'SCHEDULE_CELL': KApply('SHANGHAI_EVM'),
+            'STATUSCODE_CELL': KVariable('STATUSCODE'),
+            'CALLSTACK_CELL': KApply('.List'),
+            'CALLDEPTH_CELL': intToken(0),
+            'PROGRAM_CELL': program,
+            'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
+            'ORIGIN_CELL': KVariable('ORIGIN_ID'),
+            'LOG_CELL': KApply('.List'),
+            'ID_CELL': Foundry.address_TEST_CONTRACT(),
+            'CALLER_CELL': KVariable('CALLER_ID'),
+            'ACCESSEDACCOUNTS_CELL': KApply('.Set'),
+            'ACCESSEDSTORAGE_CELL': KApply('.Map'),
+            'INTERIMSTATES_CELL': KApply('.List'),
+            'LOCALMEM_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
+            'PREVCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
+            'PREVORIGIN_CELL': KApply('.Account_EVM-TYPES_Account'),
+            'NEWCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
+            'NEWORIGIN_CELL': KApply('.Account_EVM-TYPES_Account'),
+            'ACTIVE_CELL': FALSE,
+            'STATIC_CELL': FALSE,
+            'MEMORYUSED_CELL': intToken(0),
+            'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
+            'PC_CELL': intToken(0),
+            'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
+            'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),
+            'ACCOUNTS_CELL': KEVM.accounts(
+                [
+                    account_cell,  # test contract address
+                    Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
+                ]
+            ),
+            'SINGLECALL_CELL': FALSE,
+            'ISREVERTEXPECTED_CELL': FALSE,
+            'ISOPCODEEXPECTED_CELL': FALSE,
+            'EXPECTEDADDRESS_CELL': KApply('.Account_EVM-TYPES_Account'),
+            'EXPECTEDVALUE_CELL': intToken(0),
+            'EXPECTEDDATA_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
+            'OPCODETYPE_CELL': KApply('.OpcodeType_FOUNDRY-CHEAT-CODES_OpcodeType'),
+            'RECORDEVENT_CELL': FALSE,
+            'ISEVENTEXPECTED_CELL': FALSE,
+            'ISCALLWHITELISTACTIVE_CELL': FALSE,
+            'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
+            'ADDRESSSET_CELL': KApply('.Set'),
+            'STORAGESLOTSET_CELL': KApply('.Set'),
+        }
+    )
+
+    constraints = None
+
+    if init_cse:
+        constraints = [
+            mlEqualsTrue(KEVM.range_uint(256, KVariable('ACCT_FROM_BAL'))),
+            mlEqualsTrue(KEVM.range_uint(256, KVariable('CONTRACT_BAL'))),
+            mlEqualsTrue(KApply('#rangeNonce(_)_WORD_Bool_Int', KVariable('ACCT_FROM_NONCE'))),
+            mlEqualsTrue(
+                eqInt(
+                    KEVM.size_bytes(
+                        KApply(
+                            '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                            [KVariable('LM'), KVariable('ARGSTART'), intToken(method.argwidth)],
+                        )
+                    ),
+                    intToken(method.argwidth),
+                )
+            ),
+            mlEqualsTrue(
+                notBool(KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('CONTRACT'), schedule]))
+            ),
+            mlEqualsTrue(ltInt(KVariable('CALLDEPTH_CELL'), intToken(1024))),
+            mlEqualsTrue(
+                KApply(
+                    '_==Int_',
+                    [
+                        KApply(
+                            '#asWord(_)_EVM-TYPES_Int_Bytes',
+                            KApply(
+                                '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                [KVariable('LM'), KVariable('ARGSTART'), intToken(4)],
+                            ),
+                        ),
+                        KEVM.abi_selector(method.signature),
+                    ],
+                )
+            ),
+            mlEqualsTrue(KEVM.range_uint(256, KVariable('ARGSTART'))),
+            mlEqualsTrue(KEVM.range_uint(256, KVariable('RETSTART'))),
+        ]
+
+        offset = 4
+        for arg_name, arg_type in zip(method.arg_names, method.arg_types, strict=True):
+            t_offset = intToken(offset)
+            type_width = Contract.calldata_type_width(arg_type)
+            c_arg = mlEqualsTrue(
+                KApply(
+                    '_==Int_',
+                    [
+                        KApply(
+                            '#asWord(_)_EVM-TYPES_Int_Bytes',
+                            KApply(
+                                '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
+                                [
+                                    KVariable('LM'),
+                                    KApply('_+Int_', KVariable('ARGSTART'), t_offset),
+                                    intToken(type_width),
+                                ],
+                            ),
+                        ),
+                        KVariable(arg_name, sort=INT),
+                    ],
+                )
+            )
+            c_type = _range_predicate(KVariable(arg_name), arg_type)
+            constraints.append(c_arg)
+            if isinstance(c_type, KInner):
+                constraints.append(mlEqualsTrue(c_type))
+            offset += type_width
+
+        for _var, loc in fields.items():
+            c_loc = mlEqualsTrue(KEVM.range_uint(256, KEVM.lookup(KVariable('CONTRACT_STORAGE'), intToken(loc))))
+            constraints.append(c_loc)
+
+    if calldata is not None:
+        init_subst['CALLDATA_CELL'] = calldata
+
+    if callvalue is not None:
+        init_subst['CALLVALUE_CELL'] = callvalue
+
     if not use_gas:
         init_subst['GAS_CELL'] = intToken(0)
         init_subst['CALLGAS_CELL'] = intToken(0)
         init_subst['REFUND_CELL'] = intToken(0)
-
-    constraints = [
-        mlEqualsTrue(KEVM.range_uint(256, KVariable('ACCT_FROM_BAL'))),
-        mlEqualsTrue(KEVM.range_uint(256, KVariable('CONTRACT_BAL'))),
-        mlEqualsTrue(KApply('#rangeNonce(_)_WORD_Bool_Int', KVariable('ACCT_FROM_NONCE'))),
-        mlEqualsTrue(
-            eqInt(
-                KEVM.size_bytes(
-                    KApply(
-                        '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                        [KVariable('LM'), KVariable('ARGSTART'), intToken(method.argwidth)],
-                    )
-                ),
-                intToken(method.argwidth),
-            )
-        ),
-        mlEqualsTrue(
-            notBool(KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('CONTRACT'), schedule]))
-        ),
-        mlEqualsTrue(ltInt(KVariable('CALLDEPTH_CELL'), intToken(1024))),
-        mlEqualsTrue(
-            KApply(
-                '_==Int_',
-                [
-                    KApply(
-                        '#asWord(_)_EVM-TYPES_Int_Bytes',
-                        KApply(
-                            '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                            [KVariable('LM'), KVariable('ARGSTART'), intToken(4)],
-                        ),
-                    ),
-                    KEVM.abi_selector(method.signature),
-                ],
-            )
-        ),
-        mlEqualsTrue(KEVM.range_uint(256, KVariable('ARGSTART'))),
-        mlEqualsTrue(KEVM.range_uint(256, KVariable('RETSTART'))),
-    ]
-
-    offset = 4
-    for arg_name, arg_type in zip(method.arg_names, method.arg_types, strict=True):
-        t_offset = intToken(offset)
-        type_width = Contract.calldata_type_width(arg_type)
-        c_arg = mlEqualsTrue(
-            KApply(
-                '_==Int_',
-                [
-                    KApply(
-                        '#asWord(_)_EVM-TYPES_Int_Bytes',
-                        KApply(
-                            '#range(_,_,_)_EVM-TYPES_Bytes_Bytes_Int_Int',
-                            [
-                                KVariable('LM'),
-                                KApply('_+Int_', KVariable('ARGSTART'), t_offset),
-                                intToken(type_width),
-                            ],
-                        ),
-                    ),
-                    KVariable(arg_name, sort=INT),
-                ],
-            )
-        )
-        c_type = _range_predicate(KVariable(arg_name), arg_type)
-        constraints.append(c_arg)
-        if isinstance(c_type, KInner):
-            constraints.append(mlEqualsTrue(c_type))
-        offset += type_width
-
-    for _var, loc in fields.items():
-        c_loc = mlEqualsTrue(KEVM.range_uint(256, KEVM.lookup(KVariable('CONTRACT_STORAGE'), intToken(loc))))
-        constraints.append(c_loc)
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
