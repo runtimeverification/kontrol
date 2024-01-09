@@ -20,6 +20,7 @@ class ProveOptions:
     break_on_calls: bool
     break_on_storage: bool
     break_on_foundry: bool
+    break_on_basic_blocks: bool
     workers: int
     counterexample_info: bool
     max_iterations: int | None
@@ -40,6 +41,7 @@ class ProveOptions:
         break_on_calls: bool = True,
         break_on_storage: bool = False,
         break_on_foundry: bool = False,
+        break_on_basic_blocks: bool = False,
         workers: int = 1,
         counterexample_info: bool = False,
         max_iterations: int | None = None,
@@ -57,6 +59,7 @@ class ProveOptions:
         object.__setattr__(self, 'break_on_calls', break_on_calls)
         object.__setattr__(self, 'break_on_storage', break_on_storage)
         object.__setattr__(self, 'break_on_foundry', break_on_foundry)
+        object.__setattr__(self, 'break_on_basic_blocks', break_on_basic_blocks)
         object.__setattr__(self, 'workers', workers)
         object.__setattr__(self, 'counterexample_info', counterexample_info)
         object.__setattr__(self, 'max_iterations', max_iterations)
