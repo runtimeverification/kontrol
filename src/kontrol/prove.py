@@ -473,103 +473,97 @@ def _init_cterm(
     )
     schedule = KApply('SHANGHAI_EVM')
 
-    valid_callvalue = callvalue if callvalue is not None else KVariable('CALLVALUE')
-
-    cse_init_subst = {
+    init_subst = {
         'MODE_CELL': KApply('NORMAL'),
-        'USEGAS_CELL': TRUE if use_gas else FALSE,
-        'SCHEDULE_CELL': schedule,
-        'ID_CELL': KVariable('ACCT_FROM'),
+        'USEGAS_CELL': FALSE,
+        'SCHEDULE_CELL': KApply('SHANGHAI_EVM'),
         'ACTIVE_CELL': FALSE,
         'STATIC_CELL': FALSE,
-        'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
-        'LOCALMEM_CELL': KVariable('LM', sort=KSort('Bytes')),
-        'K_CELL': KApply(
-            '_________EVM_InternalOp_CallOp_Int_Int_Int_Int_Int_Int_Int',
-            [
-                KApply('CALL_EVM_CallOp'),
-                KVariable('_GCAP'),
-                KVariable('CONTRACT'),
-                valid_callvalue,
-                KVariable('ARGSTART'),
-                intToken(method.argwidth),
-                KVariable('RETSTART'),
-                intToken(method.retwidth),
-            ],
-        ),
-        'ACCOUNTS_CELL': KEVM.accounts(
-            [
-                contract,  # test contract address
-                acct_from,
-                Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
-            ]
-        ),
-        'ACCESSEDSTORAGE_CELL': KApply(
-            '_Map_',
-            [
-                KApply('_|->_', [KVariable('CONTRACT'), KVariable('CONTRACT_ACCESSED_STORAGE', sort=KSort('Set'))]),
-                KVariable('ACCESSED_STORAGE_MAP'),
-            ],
-        ),
+        'GAS_CELL': intToken(0),
+        'CALLGAS_CELL': intToken(0),
+        'REFUND_CELL': intToken(0),
         'ISREVERTEXPECTED_CELL': FALSE,
         'ISOPCODEEXPECTED_CELL': FALSE,
         'ISEVENTEXPECTED_CELL': FALSE,
         'ISCALLWHITELISTACTIVE_CELL': FALSE,
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
     }
-
-    init_subst = (
-        cse_init_subst
-        if init_cse
-        else {
-            'MODE_CELL': KApply('NORMAL'),
-            'USEGAS_CELL': TRUE if use_gas else FALSE,
-            'SCHEDULE_CELL': KApply('SHANGHAI_EVM'),
-            'STATUSCODE_CELL': KVariable('STATUSCODE'),
-            'CALLSTACK_CELL': KApply('.List'),
-            'CALLDEPTH_CELL': intToken(0),
-            'PROGRAM_CELL': program,
-            'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
-            'ORIGIN_CELL': KVariable('ORIGIN_ID'),
-            'LOG_CELL': KApply('.List'),
-            'ID_CELL': Foundry.address_TEST_CONTRACT(),
-            'CALLER_CELL': KVariable('CALLER_ID'),
-            'ACCESSEDACCOUNTS_CELL': KApply('.Set'),
-            'ACCESSEDSTORAGE_CELL': KApply('.Map'),
-            'INTERIMSTATES_CELL': KApply('.List'),
-            'LOCALMEM_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
-            'PREVCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
-            'PREVORIGIN_CELL': KApply('.Account_EVM-TYPES_Account'),
-            'NEWCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
-            'NEWORIGIN_CELL': KApply('.Account_EVM-TYPES_Account'),
-            'ACTIVE_CELL': FALSE,
-            'STATIC_CELL': FALSE,
-            'MEMORYUSED_CELL': intToken(0),
-            'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
-            'PC_CELL': intToken(0),
-            'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
-            'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),
-            'ACCOUNTS_CELL': KEVM.accounts(
-                [
-                    account_cell,  # test contract address
-                    Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
-                ]
-            ),
-            'SINGLECALL_CELL': FALSE,
-            'ISREVERTEXPECTED_CELL': FALSE,
-            'ISOPCODEEXPECTED_CELL': FALSE,
-            'EXPECTEDADDRESS_CELL': KApply('.Account_EVM-TYPES_Account'),
-            'EXPECTEDVALUE_CELL': intToken(0),
-            'EXPECTEDDATA_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
-            'OPCODETYPE_CELL': KApply('.OpcodeType_FOUNDRY-CHEAT-CODES_OpcodeType'),
-            'RECORDEVENT_CELL': FALSE,
-            'ISEVENTEXPECTED_CELL': FALSE,
-            'ISCALLWHITELISTACTIVE_CELL': FALSE,
-            'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
-            'ADDRESSSET_CELL': KApply('.Set'),
-            'STORAGESLOTSET_CELL': KApply('.Set'),
-        }
-    )
+    if init_cse:
+        init_subst.update(
+            {
+                'ID_CELL': KVariable('ACCT_FROM'),
+                'LOCALMEM_CELL': KVariable('LM', sort=KSort('Bytes')),
+                'K_CELL': KApply(
+                    '_________EVM_InternalOp_CallOp_Int_Int_Int_Int_Int_Int_Int',
+                    [
+                        KApply('CALL_EVM_CallOp'),
+                        KVariable('_GCAP'),
+                        KVariable('CONTRACT'),
+                        callvalue or KVariable('CALLVALUE'),
+                        KVariable('ARGSTART'),
+                        intToken(method.argwidth),
+                        KVariable('RETSTART'),
+                        intToken(method.retwidth),
+                    ],
+                ),
+                'ACCOUNTS_CELL': KEVM.accounts(
+                    [
+                        contract,  # test contract address
+                        acct_from,
+                        Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
+                    ]
+                ),
+                'ACCESSEDSTORAGE_CELL': KApply(
+                    '_Map_',
+                    [
+                        KApply(
+                            '_|->_', [KVariable('CONTRACT'), KVariable('CONTRACT_ACCESSED_STORAGE', sort=KSort('Set'))]
+                        ),
+                        KVariable('ACCESSED_STORAGE_MAP'),
+                    ],
+                ),
+            }
+        )
+    else:
+        init_subst.update(
+            {
+                'STATUSCODE_CELL': KVariable('STATUSCODE'),
+                'CALLSTACK_CELL': KApply('.List'),
+                'CALLDEPTH_CELL': intToken(0),
+                'PROGRAM_CELL': program,
+                'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
+                'ORIGIN_CELL': KVariable('ORIGIN_ID'),
+                'LOG_CELL': KApply('.List'),
+                'ID_CELL': Foundry.address_TEST_CONTRACT(),
+                'CALLER_CELL': KVariable('CALLER_ID'),
+                'ACCESSEDACCOUNTS_CELL': KApply('.Set'),
+                'ACCESSEDSTORAGE_CELL': KApply('.Map'),
+                'INTERIMSTATES_CELL': KApply('.List'),
+                'LOCALMEM_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
+                'PREVCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
+                'PREVORIGIN_CELL': KApply('.Account_EVM-TYPES_Account'),
+                'NEWCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
+                'NEWORIGIN_CELL': KApply('.Account_EVM-TYPES_Account'),
+                'MEMORYUSED_CELL': intToken(0),
+                'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
+                'PC_CELL': intToken(0),
+                'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),
+                'ACCOUNTS_CELL': KEVM.accounts(
+                    [
+                        account_cell,  # test contract address
+                        Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
+                    ]
+                ),
+                'SINGLECALL_CELL': FALSE,
+                'EXPECTEDADDRESS_CELL': KApply('.Account_EVM-TYPES_Account'),
+                'EXPECTEDVALUE_CELL': intToken(0),
+                'EXPECTEDDATA_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
+                'OPCODETYPE_CELL': KApply('.OpcodeType_FOUNDRY-CHEAT-CODES_OpcodeType'),
+                'RECORDEVENT_CELL': FALSE,
+                'ADDRESSSET_CELL': KApply('.Set'),
+                'STORAGESLOTSET_CELL': KApply('.Set'),
+            }
+        )
 
     constraints = None
 
@@ -645,16 +639,17 @@ def _init_cterm(
             c_loc = mlEqualsTrue(KEVM.range_uint(256, KEVM.lookup(KVariable('CONTRACT_STORAGE'), intToken(loc))))
             constraints.append(c_loc)
 
-    if calldata is not None:
+    if calldata is not None and not init_cse:
         init_subst['CALLDATA_CELL'] = calldata
 
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue
 
-    if not use_gas:
-        init_subst['GAS_CELL'] = intToken(0)
-        init_subst['CALLGAS_CELL'] = intToken(0)
-        init_subst['REFUND_CELL'] = intToken(0)
+    if use_gas:
+        init_subst['USEGAS_CELL'] = TRUE
+        init_subst['GAS_CELL'] = KEVM.inf_gas(KVariable('VGAS'))
+        del init_subst['CALLGAS_CELL']
+        del init_subst['REFUND_CELL']
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
