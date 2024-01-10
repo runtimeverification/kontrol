@@ -442,8 +442,12 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 ```{.k .symbolic}
     rule [foundry.call.freshBytes]:
          <k> #call_foundry SELECTOR ARGS => . ... </k>
-         <output> _ => Int2Bytes(32, 32, BE) +Bytes Int2Bytes(32, #asWord(ARGS), BE) +Bytes ?BYTES +Bytes
-         Int2Bytes(#asWord(ARGS) modInt 32, 0, BE) </output>
+//         <output> _ => Int2Bytes(32, 32, BE) +Bytes Int2Bytes(32, #asWord(ARGS), BE) +Bytes ?BYTES +Bytes
+//         Int2Bytes(#asWord(ARGS) modInt 32, 0, BE) </output>
+         <output> _ => 
+            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES 
+            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 ) 
+         </output>
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
       andBool 0 <=Int #asWord(ARGS)
       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)

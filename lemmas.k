@@ -76,11 +76,11 @@ module TEST-LEMMAS
 
 // rule #Ceil (BYTES:Bytes [KEY:Int <- VAL:Int]) => { true #Equals KEY <Int lengthBytes(BYTES) } #And { true #Equals VAL <=Int 255 } #And #Ceil(BYTES) #And #Ceil(KEY) #And #Ceil(VAL) [simplification]
 
-  rule notMaxUInt248 &Int #asWord( BYTES:Bytes ) => #asWord( #range(BYTES, 0, 1) +Bytes Int2Bytes(31, 0, BE) ) [simplification]
-
-  rule #range( BYTES:Bytes [OFFSET:Int <- N:Int], OFFSET, 1) => Int2Bytes(1, N, BE) [simplification]
-
-  rule #range( BYTES:Bytes [OFFSET1:Int <- _:Int], OFFSET2, 1) => #range( BYTES:Bytes, OFFSET2, 1) 
-  requires notBool (OFFSET1 ==Int OFFSET2) [simplification]
+//   rule notMaxUInt248 &Int #asWord( BYTES:Bytes ) => #asWord( #range(BYTES, 0, 1) +Bytes Int2Bytes(31, 0, BE) ) [simplification]
+// 
+//   rule #range( BYTES:Bytes [OFFSET:Int <- N:Int], OFFSET, 1) => Int2Bytes(1, N, BE) [simplification]
+// 
+//   rule #range( BYTES:Bytes [OFFSET1:Int <- _:Int], OFFSET2, 1) => #range( BYTES:Bytes, OFFSET2, 1) 
+//   requires notBool (OFFSET1 ==Int OFFSET2) [simplification]
 
 endmodule
