@@ -391,7 +391,7 @@ Node 6:
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
-#And { true #Equals VGAS:Int <Int ( VGAS:Int +Int 91 ) } ) ) ) ) ) ) )
+#And { true #Equals ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 ) } ) ) ) ) ) ) )
 
 
 
@@ -603,7 +603,7 @@ Node 6:
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
                ))))))
-       ensures VGAS:Int <Int ( VGAS:Int +Int 91 )
+       ensures ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 )
       [label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -814,7 +814,7 @@ Node 6:
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( VGAS:Int <Int ( VGAS:Int +Int 91 )
+       andBool ( ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 )
                )))))))
       [label(BASIC-BLOCK-4-TO-5)]
     
@@ -1026,7 +1026,7 @@ Node 6:
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( VGAS:Int <Int ( VGAS:Int +Int 91 )
+       andBool ( ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 )
                )))))))
       [label(BASIC-BLOCK-5-TO-6)]
 
@@ -1044,7 +1044,7 @@ Failing nodes:
     #And ( { true #Equals CALLER_ID:Int <Int pow160 }
     #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
     #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
-    #And { true #Equals VGAS:Int <Int ( VGAS:Int +Int 91 ) } ) ) ) ) ) ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
+    #And { true #Equals ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 ) } ) ) ) ) ) ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
   Path condition:
     #Top
 
