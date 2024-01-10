@@ -431,7 +431,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.406"
+version = "1.0.408"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -446,8 +446,8 @@ tomlkit = "^0.11.6"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.406"
-resolved_reference = "b70fd067cbf4c5dbba777073a501e8665b83559c"
+reference = "symbolic-calldata"
+resolved_reference = "26b3ca296fdb0e39d6296e3d500878caf0f3e623"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -1082,4 +1082,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "505cff03237905bf289d9dfd215bf3fbafc4fba4df08b62ef35c4a5c7c995660"
+content-hash = "35a824ad0aa983800da8c7a525ae1c27181642c81c0b1c3038568448367a6fe5"
