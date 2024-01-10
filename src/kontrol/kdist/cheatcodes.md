@@ -1161,8 +1161,8 @@ Will also return true if REASON is `.Bytes`.
          <id> CL </id>
          <origin> OG </origin>
          <prank>
-           <prevCaller> .Account => CL </prevCaller>
-           <prevOrigin> .Account => OG </prevOrigin>
+           <prevCaller> _ => CL </prevCaller>
+           <prevOrigin> _ => OG </prevOrigin>
            <newCaller> _ => NEWCALLER </newCaller>
            <newOrigin> _ => NEWORIGIN </newOrigin>
            <active> false => true </active>
