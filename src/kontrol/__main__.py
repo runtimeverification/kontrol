@@ -214,6 +214,8 @@ def exec_prove(
     break_every_step: bool = False,
     break_on_jumpi: bool = False,
     break_on_calls: bool = True,
+    break_on_storage: bool = False,
+    break_on_basic_blocks: bool = False,
     bmc_depth: int | None = None,
     bug_report: BugReport | None = None,
     kore_rpc_command: str | Iterable[str] | None = None,
@@ -229,6 +231,7 @@ def exec_prove(
     fail_fast: bool = False,
     port: int | None = None,
     maude_port: int | None = None,
+    use_gas: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -253,11 +256,14 @@ def exec_prove(
         break_every_step=break_every_step,
         break_on_jumpi=break_on_jumpi,
         break_on_calls=break_on_calls,
+        break_on_storage=break_on_storage,
+        break_on_basic_blocks=break_on_basic_blocks,
         workers=workers,
         counterexample_info=counterexample_info,
         max_iterations=max_iterations,
         run_constructor=run_constructor,
         fail_fast=fail_fast,
+        use_gas=use_gas,
     )
 
     rpc_options = RPCOptions(
@@ -723,6 +729,9 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Include the contract constructor in the test execution.',
+    )
+    prove_args.add_argument(
+        '--use-gas', dest='use_gas', default=False, action='store_true', help='Enables gas computation in KEVM.'
     )
 
     show_args = command_parser.add_parser(

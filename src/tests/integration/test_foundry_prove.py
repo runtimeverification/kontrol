@@ -121,6 +121,7 @@ def assert_or_update_k_output(k_file: Path, expected_file: Path, *, update: bool
 ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-prove-all').read_text().splitlines())
 SKIPPED_PROVE_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip').read_text().splitlines())
 SKIPPED_LEGACY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip-legacy').read_text().splitlines())
+GAS_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-with-gas').read_text().splitlines())
 
 SHOW_TESTS = set((TEST_DATA_DIR / 'foundry-show').read_text().splitlines())
 
@@ -141,14 +142,13 @@ def test_foundry_prove(
     ):
         pytest.skip()
 
+    prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=test_id in GAS_TESTS)
+
     # When
     prove_res = foundry_prove(
         foundry,
         tests=[(test_id, None)],
-        prove_options=ProveOptions(
-            counterexample_info=True,
-            bug_report=bug_report,
-        ),
+        prove_options=prove_options,
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -329,6 +329,7 @@ def test_foundry_auto_abstraction(
         prove_options=ProveOptions(
             auto_abstract_gas=True,
             bug_report=bug_report,
+            use_gas=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -496,6 +497,11 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
 
     # Then
     assert_pass(test, single(prove_res))
+
+
+def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
+    assert 'src%duplicates%1%DuplicateName' in foundry.contracts.keys()
+    assert 'src%duplicates%2%DuplicateName' in foundry.contracts.keys()
 
 
 def test_deployment_summary(
