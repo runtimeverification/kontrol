@@ -214,50 +214,9 @@ def _run_cfg_group(
                 prove_options.break_on_basic_blocks,
             )
             if prove_options.break_on_cheatcodes:
-                cut_point_rules += [
-                    'FOUNDRY-CHEAT-CODES.foundry.allowCallsToAddress',
-                    'FOUNDRY-CHEAT-CODES.foundry.allowStorageSlotToAddress',
-                    'FOUNDRY-CHEAT-CODES.foundry.call',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.addr',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.assume',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.chainId',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.coinbase',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.deal',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.etch',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.expectCreate',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.expectCreate2',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.expectDelegateCall',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.expectEmit',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.expectEmitAddr',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.expectRegularCall',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.expectRevert',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.expectStaticCall',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.fee',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.freshBool',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.freshUInt',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.getNonce',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.ignoreCalls',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.infiniteGas',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.label',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.load',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.owise',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.prank',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.prankWithOrigin',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.roll',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.setGas',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.setNonce',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.sign',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.startPrank',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.startPrankWithOrigin',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.stopPrank',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.store',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.symbolicStorage',
-                    'FOUNDRY-CHEAT-CODES.foundry.call.warp',
-                    'FOUNDRY-CHEAT-CODES.foundry.catchNonWhitelistedCalls',
-                    'FOUNDRY-CHEAT-CODES.foundry.catchNonWhitelistedStorageChanges',
-                    'FOUNDRY-CHEAT-CODES.foundry.prank',
-                    'FOUNDRY-CHEAT-CODES.foundry.return',
-                ]
+                cut_point_rules.extend(
+                    rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
+                )
 
             run_prover(
                 foundry.kevm,
