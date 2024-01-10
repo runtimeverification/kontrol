@@ -33,7 +33,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (416 steps)
+│  (417 steps)
 ├─ 8
 │   k: CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0 ~> #pc [ C ...
 │   pc: 800
@@ -42,12 +42,12 @@
 │
 │  (1 step)
 ├─ 9
-│   k: #checkCall 728815563385977040452943777879061427756277306518 0 ~> #call 728815563 ...
+│   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
 │   pc: 800
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (228 steps)
+│  (230 steps)
 ├─ 10
 │   k: STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0 ~> #pc ...
 │   pc: 881
@@ -56,12 +56,12 @@
 │
 │  (1 step)
 ├─ 11
-│   k: #checkCall 728815563385977040452943777879061427756277306518 0 ~> #call 728815563 ...
+│   k: #accessAccounts 728815563385977040452943777879061427756277306518 ~> #checkCall 7 ...
 │   pc: 881
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (338 steps)
+│  (339 steps)
 ├─ 12
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> #return 128 0 ~> #pc [ STATICC ...
 │   pc: 2984
@@ -191,7 +191,7 @@ Node 18:
               0
             </refund>
             <accessedAccounts>
-              .Set
+              ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
             </accessedAccounts>
             <accessedStorage>
               .Map
@@ -1252,7 +1252,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1380,7 +1380,8 @@ Node 18:
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
            <kevm>
              <k>
-               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\xf4\x84H\x14" false
                ~> #return 128 0 )
                ~> #pc [ CALL ]
@@ -1446,7 +1447,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1574,7 +1575,8 @@ Node 18:
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
            <kevm>
              <k>
-               ( #checkCall 728815563385977040452943777879061427756277306518 0
+               ( #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\xf4\x84H\x14" false
                ~> #return 128 0
                ~> #pc [ CALL ] => STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0
@@ -1646,7 +1648,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) => ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1779,7 +1781,8 @@ Node 18:
     rule [BASIC-BLOCK-10-TO-11]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0 => #accessAccounts 728815563385977040452943777879061427756277306518
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 0 0 b"\xf3\xad0#" true
                ~> #return 128 0 )
                ~> #pc [ STATICCALL ]
@@ -1850,7 +1853,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1983,7 +1986,8 @@ Node 18:
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
            <kevm>
              <k>
-               ( #checkCall 728815563385977040452943777879061427756277306518 0
+               ( #accessAccounts 728815563385977040452943777879061427756277306518
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 0 0 b"\xf3\xad0#" true => #end EVMC_REVERT
                ~> #pc [ REVERT ]
                ~> #execute )
@@ -2074,7 +2078,7 @@ Node 18:
                    </log> <refund>
                      0
                    </refund> <accessedAccounts>
-                     .Set
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts> <accessedStorage>
                      .Map
                    </accessedStorage> </substate>-fragment } ) )
@@ -2129,7 +2133,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -2352,7 +2356,7 @@ Node 18:
                    </log> <refund>
                      0
                    </refund> <accessedAccounts>
-                     .Set
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts> <accessedStorage>
                      .Map
                    </accessedStorage> </substate>-fragment } )
@@ -2407,7 +2411,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 728815563385977040452943777879061427756277306518 )
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -2630,7 +2634,7 @@ Node 18:
                    </log> <refund>
                      0
                    </refund> <accessedAccounts>
-                     .Set
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts> <accessedStorage>
                      .Map
                    </accessedStorage> </substate>-fragment } )
@@ -2685,7 +2689,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 728815563385977040452943777879061427756277306518 )
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -2911,7 +2915,7 @@ Node 18:
                    </log> <refund>
                      0
                    </refund> <accessedAccounts>
-                     .Set
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts> <accessedStorage>
                      .Map
                    </accessedStorage> </substate>-fragment } )
@@ -2966,7 +2970,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 728815563385977040452943777879061427756277306518 )
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -3194,7 +3198,7 @@ Node 18:
                    </log> <refund>
                      0
                    </refund> <accessedAccounts>
-                     .Set
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts> <accessedStorage>
                      .Map
                    </accessedStorage> </substate>-fragment } ) => .List )
@@ -3249,7 +3253,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 728815563385977040452943777879061427756277306518 ) => .Set )
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -3454,7 +3458,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -3660,7 +3664,7 @@ Node 18:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
