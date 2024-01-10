@@ -5,7 +5,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (272 steps)
+│  (179 steps)
 ├─ 3
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 317
@@ -33,7 +33,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (303 steps)
+│  (200 steps)
 ├─ 8
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 317
@@ -78,7 +78,7 @@ Node 10:
         SHANGHAI
       </schedule>
       <useGas>
-        true
+        false
       </useGas>
       <ethereum>
         <evm>
@@ -111,8 +111,11 @@ Node 10:
               b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
             </localMem>
             <memoryUsed>
-              3
+              0
             </memoryUsed>
+            <callGas>
+              0
+            </callGas>
             <static>
               false
             </static>
@@ -125,6 +128,9 @@ Node 10:
             <log>
               .List
             </log>
+            <refund>
+              0
+            </refund>
             <accessedAccounts>
               .Set
             </accessedAccounts>
@@ -271,7 +277,7 @@ Node 10:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -308,20 +314,25 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -479,7 +490,7 @@ Node 10:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -519,20 +530,25 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -690,7 +706,7 @@ Node 10:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -730,20 +746,25 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -899,7 +920,7 @@ Node 10:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -939,20 +960,25 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     ( 3 => 0 )
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1110,7 +1136,7 @@ Node 10:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -1144,8 +1170,11 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1158,6 +1187,9 @@ Node 10:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1299,7 +1331,7 @@ Node 10:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -1336,8 +1368,11 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1350,6 +1385,9 @@ Node 10:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1491,7 +1529,7 @@ Node 10:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -1528,8 +1566,11 @@ Node 10:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1542,6 +1583,9 @@ Node 10:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>

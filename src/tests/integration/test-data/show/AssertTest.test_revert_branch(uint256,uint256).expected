@@ -5,7 +5,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (272 steps)
+│  (179 steps)
 ├─ 3
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 317
@@ -33,7 +33,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (580 steps)
+│  (387 steps)
 ├─ 8 (split)
 │   k: JUMPI 1583 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) ~> #pc [ JU ...
 │   pc: 1579
@@ -49,7 +49,7 @@
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (116 steps)
+┃  │  (72 steps)
 ┃  ├─ 11
 ┃  │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 2984
@@ -78,7 +78,7 @@
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (62 steps)
+   │  (37 steps)
    ├─ 12
    │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
    │   pc: 317
@@ -125,7 +125,7 @@ Node 15:
         SHANGHAI
       </schedule>
       <useGas>
-        true
+        false
       </useGas>
       <ethereum>
         <evm>
@@ -158,8 +158,11 @@ Node 15:
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
             </localMem>
             <memoryUsed>
-              3
+              0
             </memoryUsed>
+            <callGas>
+              0
+            </callGas>
             <static>
               false
             </static>
@@ -172,6 +175,9 @@ Node 15:
             <log>
               .List
             </log>
+            <refund>
+              0
+            </refund>
             <accessedAccounts>
               .Set
             </accessedAccounts>
@@ -323,7 +329,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -360,20 +366,25 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -531,7 +542,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -571,20 +582,25 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -742,7 +758,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -782,20 +798,25 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -951,7 +972,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -991,20 +1012,25 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     ( 3 => 0 )
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1167,7 +1193,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -1198,8 +1224,11 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1212,6 +1241,9 @@ Node 15:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1359,7 +1391,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -1393,8 +1425,11 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1407,6 +1442,9 @@ Node 15:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1555,7 +1593,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -1589,8 +1627,11 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1603,6 +1644,9 @@ Node 15:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1751,7 +1795,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -1788,8 +1832,11 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1802,6 +1849,9 @@ Node 15:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1949,7 +1999,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -1986,8 +2036,11 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -2000,6 +2053,9 @@ Node 15:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -2147,7 +2203,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -2184,8 +2240,11 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -2198,6 +2257,9 @@ Node 15:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -2345,7 +2407,7 @@ Node 15:
                SHANGHAI
              </schedule>
              <useGas>
-               true
+               false
              </useGas>
              <ethereum>
                <evm>
@@ -2382,8 +2444,11 @@ Node 15:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -2396,6 +2461,9 @@ Node 15:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
