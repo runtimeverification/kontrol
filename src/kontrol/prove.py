@@ -213,7 +213,7 @@ def _run_cfg_group(
                 prove_options.break_on_storage,
                 prove_options.break_on_basic_blocks,
             )
-            if prove_options.break_on_foundry:
+            if prove_options.break_on_cheatcodes:
                 cut_point_rules += [
                     'FOUNDRY-CHEAT-CODES.foundry.allowCallsToAddress',
                     'FOUNDRY-CHEAT-CODES.foundry.allowStorageSlotToAddress',
