@@ -413,7 +413,8 @@ def _method_to_cfg(
         new_node_ids = [init_node.id]
         init_node_id = init_node.id
 
-    is_test = method.signature.startswith('test')
+    proof_prefixes = ['test', 'proof', 'check']
+    is_test = any(method.signature.startswith(prefix) for prefix in proof_prefixes)
     failing = method.signature.startswith('testFail')
     final_cterm = _final_cterm(
         empty_config, contract.name_with_path, failing=failing, is_test=is_test, use_init_code=use_init_code

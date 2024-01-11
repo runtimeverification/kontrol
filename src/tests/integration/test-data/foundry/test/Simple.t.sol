@@ -21,6 +21,10 @@ contract AssertTest is Test, KEVMCheats {
         assert(true);
     }
 
+    function prove_assert_true() public pure {
+        assert(true);
+    }
+
     function test_assert_true_branch(uint x) public {
         if (x < 3) {
             y = x;
