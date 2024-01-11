@@ -10,6 +10,7 @@ from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import KompileTarget, kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
+from pyk.kore.kompiled import KompiledKore
 from pyk.utils import ensure_dir_path, hash_str
 
 from .foundry import Foundry
@@ -136,9 +137,10 @@ def foundry_kompile(
         _LOGGER.info('Updated Kompilation digest')
 
     if not kompilation_up_to_date() or rekompile or not kompiled_timestamp.exists():
+        output_dir = foundry.kompiled
         kevm_kompile(
             target=target,
-            output_dir=foundry.kompiled,
+            output_dir=output_dir,
             main_file=foundry.main_file,
             main_module=main_module,
             syntax_module=syntax_module,
@@ -149,6 +151,7 @@ def foundry_kompile(
             debug=debug,
             verbose=verbose,
         )
+        KompiledKore.load(output_dir).write(output_dir)
 
     update_kompilation_digest()
     foundry.update_digest()
