@@ -476,6 +476,7 @@ def _init_cterm(
                 Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
             ]
         ),
+        'RECORDEVENT_CELL': FALSE,
         'ISREVERTEXPECTED_CELL': FALSE,
         'ISOPCODEEXPECTED_CELL': FALSE,
         'ISEVENTEXPECTED_CELL': FALSE,
