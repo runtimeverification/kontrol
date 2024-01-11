@@ -214,7 +214,10 @@ def _run_cfg_group(
                 max_depth=prove_options.max_depth,
                 max_iterations=prove_options.max_iterations,
                 cut_point_rules=KEVMSemantics.cut_point_rules(
-                    prove_options.break_on_jumpi, prove_options.break_on_calls
+                    prove_options.break_on_jumpi,
+                    prove_options.break_on_calls,
+                    prove_options.break_on_storage,
+                    prove_options.break_on_basic_blocks,
                 ),
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
                 counterexample_info=prove_options.counterexample_info,

@@ -5,7 +5,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (560 steps)
+│  (561 steps)
 ├─ 3
 │   k: STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 ~> #p ...
 │   pc: 563
@@ -14,12 +14,12 @@
 │
 │  (1 step)
 ├─ 4
-│   k: #checkCall 728815563385977040452943777879061427756277306518 0 ~> #call 728815563 ...
+│   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
 │   pc: 563
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (189 steps)
+│  (190 steps)
 ├─ 5
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 281
@@ -121,7 +121,7 @@ Node 7:
               0
             </refund>
             <accessedAccounts>
-              .Set
+              SetItem ( 645326474426547203313410069153905908525362434349 )
             </accessedAccounts>
             <accessedStorage>
               .Map
@@ -338,7 +338,7 @@ Node 7:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -486,7 +486,8 @@ Node 7:
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) true
                ~> #return 128 0 )
                ~> #pc [ STATICCALL ]
@@ -554,7 +555,7 @@ Node 7:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -702,7 +703,8 @@ Node 7:
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
            <kevm>
              <k>
-               ( #checkCall 728815563385977040452943777879061427756277306518 0
+               ( #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) true
                ~> #return 128 0
                ~> #pc [ STATICCALL ] => #end EVMC_SUCCESS
@@ -774,7 +776,7 @@ Node 7:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -995,7 +997,7 @@ Node 7:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1214,7 +1216,7 @@ Node 7:
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
