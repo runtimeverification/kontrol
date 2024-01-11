@@ -216,6 +216,7 @@ def exec_prove(
     break_on_calls: bool = True,
     break_on_storage: bool = False,
     break_on_basic_blocks: bool = False,
+    break_on_cheatcodes: bool = False,
     bmc_depth: int | None = None,
     bug_report: BugReport | None = None,
     kore_rpc_command: str | Iterable[str] | None = None,
@@ -258,6 +259,7 @@ def exec_prove(
         break_on_calls=break_on_calls,
         break_on_storage=break_on_storage,
         break_on_basic_blocks=break_on_basic_blocks,
+        break_on_cheatcodes=break_on_cheatcodes,
         workers=workers,
         counterexample_info=counterexample_info,
         max_iterations=max_iterations,
@@ -732,6 +734,13 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--use-gas', dest='use_gas', default=False, action='store_true', help='Enables gas computation in KEVM.'
+    )
+    prove_args.add_argument(
+        '--break-on-cheatcodes',
+        dest='break_on_cheatcodes',
+        default=False,
+        action='store_true',
+        help='Break on all Foundry rules.',
     )
 
     show_args = command_parser.add_parser(
