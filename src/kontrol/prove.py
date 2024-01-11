@@ -525,16 +525,6 @@ def _init_cterm(
         del init_subst['LOG_CELL']
         del init_subst['INTERIMSTATES_CELL']
 
-        constraints = [
-            mlEqualsTrue(KEVM.range_uint(256, KVariable('CONTRACT_BAL'))),
-            mlEqualsTrue(KApply('#rangeNonce(_)_WORD_Bool_Int', KVariable('CONTRACT_NONCE'))),
-            mlEqualsTrue(
-                notBool(
-                    KApply('#isPrecompiledAccount(_,_)_EVM_Bool_Int_Schedule', [KVariable('CONTRACT_ID'), schedule])
-                )
-            ),
-        ]
-
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
     init_cterm = KEVM.add_invariant(init_cterm)
