@@ -836,7 +836,7 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def read_summary(accesses_file: Path, contract_names: Path | None) -> tuple[dict, dict]:
+def read_summary(accesses_file: Path, contract_names: Path | None = None) -> tuple[dict, dict]:
     if not accesses_file.exists():
         raise FileNotFoundError('Given account accesses dictionary file not found.')
     accesses = json.loads(accesses_file.read_text())['accountAccesses']

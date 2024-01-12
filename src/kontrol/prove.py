@@ -208,8 +208,7 @@ def _run_cfg_group(
                 bmc_depth=prove_options.bmc_depth,
                 run_constructor=prove_options.run_constructor,
                 use_gas=prove_options.use_gas,
-                summary_accesses=prove_options.summary_accesses,
-                summary_accounts=prove_options.summary_accounts,
+                summary=prove_options.summary,
             )
 
             run_prover(
@@ -248,8 +247,7 @@ def method_to_apr_proof(
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     use_gas: bool = False,
-    summary_accesses: dict | None = None,
-    summary_accounts: dict | None = None,
+    summary: dict | None = None,
 ) -> APRProof | APRBMCProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -272,8 +270,7 @@ def method_to_apr_proof(
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
         use_gas=use_gas,
-        summary_accesses=summary_accesses,
-        summary_accounts=summary_accounts,
+        summary=summary,
     )
 
     if bmc_depth is not None:
@@ -315,8 +312,7 @@ def _method_to_initialized_cfg(
     *,
     setup_proof: APRProof | None = None,
     use_gas: bool = False,
-    summary_accesses: dict | None = None,
-    summary_accounts: dict | None = None,
+    summary: dict | None = None,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -327,8 +323,7 @@ def _method_to_initialized_cfg(
         test.method,
         setup_proof,
         use_gas,
-        summary_accesses,
-        summary_accounts,
+        summary,
     )
 
     for node_id in new_node_ids:
@@ -358,8 +353,7 @@ def _method_to_cfg(
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
     use_gas: bool,
-    summary_accesses: dict | None,
-    summary_accounts: dict | None,
+    summary: dict | None,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -381,8 +375,7 @@ def _method_to_cfg(
         calldata=calldata,
         callvalue=callvalue,
         use_gas=use_gas,
-        summary_accesses=summary_accesses,
-        summary_accounts=summary_accounts,
+        summary=summary,
     )
     new_node_ids = []
 
@@ -492,8 +485,8 @@ def process_summary(accesses: dict, contracts: dict[str, str] | None) -> dict:
     return accounts
 
 
-def summary_to_account_cells(summary_accesses: dict, summary_accounts: dict[str, str] | None) -> list[KApply]:
-    accounts = process_summary(summary_accesses, summary_accounts)
+def summary_to_account_cells(summary: dict) -> list[KApply]:
+    accounts = process_summary(summary, summary)
     address_list = accounts.keys()
     k_accounts = []
     for addr in address_list:
@@ -519,8 +512,7 @@ def _init_cterm(
     setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
-    summary_accesses: dict | None = None,
-    summary_accounts: dict | None = None,
+    summary: dict | None = None,
 ) -> CTerm:
     account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
@@ -534,8 +526,8 @@ def _init_cterm(
         account_cell,  # test contract address
         Foundry.account_CHEATCODE_ADDRESS(map_empty()),
     ]
-    if summary_accesses is not None:
-        init_account_list.extend(summary_to_account_cells(summary_accesses, summary_accounts))
+    if summary is not None:
+        init_account_list.extend(summary_to_account_cells(summary))
 
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
