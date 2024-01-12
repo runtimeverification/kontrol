@@ -21,7 +21,7 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
 
-from .deployment import DeploymentSummary
+from .deployment import SummaryEntry
 from .foundry import Foundry
 from .solc_to_k import Contract, hex_string_to_int
 
@@ -433,51 +433,32 @@ def _method_to_cfg(
     return cfg, new_node_ids, init_node_id, target_node.id
 
 
-def process_summary(accesses: dict, contracts: dict[str, str] | None) -> dict:
-    def _new_account() -> dict:
-        return {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
+def process_summary(summary: dict) -> dict:
+    accounts: dict[int, dict] = {}
 
-    accounts = {}
-    address_list = contracts.keys() if contracts is not None else []
-    for address in address_list:
-        accounts[hex_string_to_int(address)] = _new_account()
-    for dct in accesses:
-        kind = dct['kind']
-        account = dct['account']
-        old_balance = dct['oldBalance']
-        new_balance = dct['newBalance']
-        deployed_code = dct['deployedCode']
-        reverted = dct['reverted']
-        storage_accesses = dct['storageAccesses']
-        _addr = hex_string_to_int(account)
+    def _init_account(address: int) -> None:
+        if address not in accounts.keys():
+            accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
 
-        if kind in DeploymentSummary._ignored_kinds() or reverted:
+    for entry in summary:
+        e = SummaryEntry(entry)
+
+        if e.has_ignored_kind or e.reverted:
             continue
 
-        if deployed_code != '0x' and kind == 'Create':
-            if _addr not in accounts.keys():
-                accounts[_addr] = _new_account()
-            accounts[_addr]['code'] = deployed_code
+        _addr = hex_string_to_int(e.account)
 
-        if new_balance != old_balance:
-            if _addr not in accounts.keys():
-                accounts[_addr] = _new_account()
-            accounts[_addr]['balance'] = hex_string_to_int(new_balance)
+        if e.is_create:
+            _init_account(_addr)
+            accounts[_addr]['code'] = e.deployed_code
 
-        for storage_access in storage_accesses:
-            account_storage = storage_access['account']
+        if e.updates_balance:
+            _init_account(_addr)
+            accounts[_addr]['balance'] = e.new_balance
+
+        for account_storage, slot, new_value in e.storage_updates:
             _addr_account_storage = hex_string_to_int(account_storage)
-            slot = storage_access['slot']
-            is_write = storage_access['isWrite']
-            previous_value = storage_access['previousValue']
-            new_value = storage_access['newValue']
-            reverted = storage_access['reverted']
-
-            if reverted or not is_write or new_value == previous_value:
-                continue
-
-            if _addr_account_storage not in accounts.keys():
-                accounts[_addr_account_storage] = _new_account()
+            _init_account(_addr_account_storage)
             accounts[_addr_account_storage]['storage'][intToken(hex_string_to_int(slot))] = intToken(
                 hex_string_to_int(new_value)
             )
@@ -486,7 +467,7 @@ def process_summary(accesses: dict, contracts: dict[str, str] | None) -> dict:
 
 
 def summary_to_account_cells(summary: dict) -> list[KApply]:
-    accounts = process_summary(summary, summary)
+    accounts = process_summary(summary)
     address_list = accounts.keys()
     k_accounts = []
     for addr in address_list:

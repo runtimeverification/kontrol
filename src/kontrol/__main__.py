@@ -249,9 +249,7 @@ def exec_prove(
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
 
-    summary: dict | None = None
-    if summary_path is not None:
-        summary, _ = read_summary(summary_path)
+    summary, _ = read_summary(summary_path) if summary_path else (None, None)
 
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
@@ -741,11 +739,11 @@ def _create_argument_parser() -> ArgumentParser:
         '--use-gas', dest='use_gas', default=False, action='store_true', help='Enables gas computation in KEVM.'
     )
     prove_args.add_argument(
-        '--with-json-summary',
+        '--init-node-from',
         dest='summary_path',
         default=None,
         type=file_path,
-        help='Path to JSON file containing the deployment summary.',
+        help='Path to JSON file containing the summary of the deployment process used for the project.',
     )
 
     show_args = command_parser.add_parser(

@@ -1,3 +1,51 @@
+class SummaryEntry:
+    kind: str
+    account: str
+    old_balance: int
+    new_balance: int
+    deployed_code: str
+    reverted: bool
+    storage_accesses: list[dict]
+
+    def __init__(self, e: dict) -> None:
+        self.kind = e['kind']
+        self.account = e['account']
+        self.old_balance = e['oldBalance']
+        self.new_balance = e['newBalance']
+        self.deployed_code = e['deployedCode']
+        self.reverted = e['reverted']
+        self.storage_accesses = e['storageAccesses']
+
+    @property
+    def has_ignored_kind(self) -> bool:
+        return self.kind in ['Balance, Extcodesize, Extcodehash, Extcodecopy']
+
+    @property
+    def is_create(self) -> bool:
+        return self.deployed_code != '0x' and self.kind == 'Create'
+
+    @property
+    def updates_balance(self) -> bool:
+        return self.new_balance != self.old_balance
+
+    @property
+    def storage_updates(self) -> list[tuple[str, str, str]]:
+        storage_changes = []
+        for storage_access in self.storage_accesses:
+            account_storage = storage_access['account']
+            slot = storage_access['slot']
+            is_write = storage_access['isWrite']
+            previous_value = storage_access['previousValue']
+            new_value = storage_access['newValue']
+            reverted = storage_access['reverted']
+
+            if reverted or not is_write or new_value == previous_value:
+                continue
+
+            storage_changes.append((account_storage, slot, new_value))
+        return storage_changes
+
+
 class DeploymentSummary:
     SOLIDITY_VERSION = '^0.8.13'
 
@@ -86,40 +134,22 @@ class DeploymentSummary:
             acc_name = 'acc' + str(len(list(self.accounts)))
             self.accounts[addr] = acc_name
 
-    def add_cheatcode(self, dct: dict) -> None:
-        kind = dct['kind']
-        account = dct['account']
-        old_balance = dct['oldBalance']
-        new_balance = dct['newBalance']
-        deployed_code = dct['deployedCode']
-        reverted = dct['reverted']
-        storage_accesses = dct['storageAccesses']
-
-        if kind in self._ignored_kinds() or reverted:
+    def extend(self, e: SummaryEntry) -> None:
+        if e.has_ignored_kind or e.reverted:
             return
 
-        if deployed_code != '0x' and kind == 'Create':
-            self.add_account(account)
-            acc_name = self.accounts[account]
-            self.code[acc_name] = deployed_code[2:]
+        if e.is_create:
+            self.add_account(e.account)
+            acc_name = self.accounts[e.account]
+            self.code[acc_name] = e.deployed_code[2:]
             self.commands.append(f'vm.etch({acc_name}Address, {acc_name}Code)')
 
-        if new_balance != old_balance:
-            self.add_account(account)
-            acc_name = self.accounts[account]
-            self.commands.append(f'vm.deal({acc_name}Address, {new_balance})')
+        if e.updates_balance:
+            self.add_account(e.account)
+            acc_name = self.accounts[e.account]
+            self.commands.append(f'vm.deal({acc_name}Address, {e.new_balance})')
 
-        for storage_access in storage_accesses:
-            account_storage = storage_access['account']
-            slot = storage_access['slot']
-            is_write = storage_access['isWrite']
-            previous_value = storage_access['previousValue']
-            new_value = storage_access['newValue']
-            reverted = storage_access['reverted']
-
-            if reverted or not is_write or new_value == previous_value:
-                continue
-
+        for account_storage, slot, new_value in e.storage_updates:
             self.add_account(account_storage)
             acc_name = self.accounts[account_storage]
             self.commands.append(f'slot = hex{slot[2:]!r}')

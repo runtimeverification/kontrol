@@ -26,7 +26,7 @@ from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.proof.show import APRBMCProofNodePrinter, APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
-from .deployment import DeploymentSummary
+from .deployment import DeploymentSummary, SummaryEntry
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
@@ -731,7 +731,7 @@ def foundry_summary(
 
     summary_contract = DeploymentSummary(name=name, accounts=accounts)
     for access in accesses:
-        summary_contract.add_cheatcode(access)
+        summary_contract.extend(SummaryEntry(access))
 
     if output_dir_name is None:
         output_dir_name = foundry.profile.get('test', '')
