@@ -2013,75 +2013,98 @@ Node 18:
                    ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                  </output>
                  <callStack>
-                   ( .List => ListItem ( <callState>-fragment ... ... <id>
-                     728815563385977040452943777879061427756277306518
-                   </id> <caller>
-                     CALLER_ID:Account
-                   </caller> <callData>
-                     b"*M\xe1\xa1"
-                   </callData> <callValue>
-                     0
-                   </callValue> <wordStack>
-                     ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 327 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
-                   </wordStack> <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem> ... ... <memoryUsed>
-                     0
-                   </memoryUsed> <callGas>
-                     0
-                   </callGas> <static>
-                     false
-                   </static> <callDepth>
-                     0
-                   </callDepth> </callState>-fragment ) )
+                   ( .List => ListItem ( <callState>
+                     ...
+                     ...
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Account
+                     </caller>
+                     <callData>
+                       b"*M\xe1\xa1"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 316 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     ...
+                     ...
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                   </callState> ) )
                  </callStack>
                  <interimStates>
-                   ( .List => ListItem ( { <accounts>-fragment ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
+                   ( .List => ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                     </account> )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
                        0
-                     </balance>
-                     ...
-                     <storage>
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
                        .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     ...
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                   </account> ) </accounts>-fragment | <substate>-fragment <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct> <log>
-                     .List
-                   </log> <refund>
-                     0
-                   </refund> <accessedAccounts>
-                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts> <accessedStorage>
-                     .Map
-                   </accessedStorage> </substate>-fragment } ) )
+                     </accessedStorage>
+                   </substate> } ) )
                  </interimStates>
                  <touchedAccounts>
                    ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( 728815563385977040452943777879061427756277306518 ) )
@@ -2293,73 +2316,96 @@ Node 18:
                    ( _STATUSCODE => EVMC_REVERT )
                  </statusCode>
                  <callStack>
-                   ListItem ( <callState>-fragment ... ... <id>
-                     728815563385977040452943777879061427756277306518
-                   </id> <callData>
-                     b"*M\xe1\xa1"
-                   </callData> <callValue>
-                     0
-                   </callValue> <wordStack>
-                     ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 327 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
-                   </wordStack> <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem> ... ... <memoryUsed>
-                     0
-                   </memoryUsed> <callGas>
-                     0
-                   </callGas> <static>
-                     false
-                   </static> <callDepth>
-                     0
-                   </callDepth> ... </callState>-fragment )
+                   ListItem ( <callState>
+                     ...
+                     ...
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <callData>
+                       b"*M\xe1\xa1"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 316 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     ...
+                     ...
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> )
                  </callStack>
                  <interimStates>
-                   ListItem ( { <accounts>-fragment ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                     </account> )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
                        0
-                     </balance>
-                     ...
-                     <storage>
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
                        .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     ...
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                   </account> ) </accounts>-fragment | <substate>-fragment <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct> <log>
-                     .List
-                   </log> <refund>
-                     0
-                   </refund> <accessedAccounts>
-                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts> <accessedStorage>
-                     .Map
-                   </accessedStorage> </substate>-fragment } )
+                     </accessedStorage>
+                   </substate> } )
                  </interimStates>
                  <touchedAccounts>
                    _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
@@ -2571,73 +2617,96 @@ Node 18:
                    EVMC_REVERT
                  </statusCode>
                  <callStack>
-                   ListItem ( <callState>-fragment ... ... <id>
-                     728815563385977040452943777879061427756277306518
-                   </id> <callData>
-                     b"*M\xe1\xa1"
-                   </callData> <callValue>
-                     0
-                   </callValue> <wordStack>
-                     ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 327 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
-                   </wordStack> <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem> ... ... <memoryUsed>
-                     0
-                   </memoryUsed> <callGas>
-                     0
-                   </callGas> <static>
-                     false
-                   </static> <callDepth>
-                     0
-                   </callDepth> ... </callState>-fragment )
+                   ListItem ( <callState>
+                     ...
+                     ...
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <callData>
+                       b"*M\xe1\xa1"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 316 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     ...
+                     ...
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> )
                  </callStack>
                  <interimStates>
-                   ListItem ( { <accounts>-fragment ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                     </account> )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
                        0
-                     </balance>
-                     ...
-                     <storage>
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
                        .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     ...
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                   </account> ) </accounts>-fragment | <substate>-fragment <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct> <log>
-                     .List
-                   </log> <refund>
-                     0
-                   </refund> <accessedAccounts>
-                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts> <accessedStorage>
-                     .Map
-                   </accessedStorage> </substate>-fragment } )
+                     </accessedStorage>
+                   </substate> } )
                  </interimStates>
                  <touchedAccounts>
                    _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
@@ -2852,73 +2921,96 @@ Node 18:
                    EVMC_REVERT
                  </statusCode>
                  <callStack>
-                   ListItem ( <callState>-fragment ... ... <id>
-                     728815563385977040452943777879061427756277306518
-                   </id> <callData>
-                     b"*M\xe1\xa1"
-                   </callData> <callValue>
-                     0
-                   </callValue> <wordStack>
-                     ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 327 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
-                   </wordStack> <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem> ... ... <memoryUsed>
-                     0
-                   </memoryUsed> <callGas>
-                     0
-                   </callGas> <static>
-                     false
-                   </static> <callDepth>
-                     0
-                   </callDepth> ... </callState>-fragment )
+                   ListItem ( <callState>
+                     ...
+                     ...
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <callData>
+                       b"*M\xe1\xa1"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 316 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     ...
+                     ...
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> )
                  </callStack>
                  <interimStates>
-                   ListItem ( { <accounts>-fragment ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                     </account> )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
                        0
-                     </balance>
-                     ...
-                     <storage>
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
                        .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     ...
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                   </account> ) </accounts>-fragment | <substate>-fragment <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct> <log>
-                     .List
-                   </log> <refund>
-                     0
-                   </refund> <accessedAccounts>
-                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts> <accessedStorage>
-                     .Map
-                   </accessedStorage> </substate>-fragment } )
+                     </accessedStorage>
+                   </substate> } )
                  </interimStates>
                  <touchedAccounts>
                    _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
@@ -3133,75 +3225,98 @@ Node 18:
                    ( EVMC_REVERT => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
-                   ( ListItem ( <callState>-fragment ... ... <id>
-                     728815563385977040452943777879061427756277306518
-                   </id> <caller>
-                     CALLER_ID:Account
-                   </caller> <callData>
-                     b"*M\xe1\xa1"
-                   </callData> <callValue>
-                     0
-                   </callValue> <wordStack>
-                     ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 327 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
-                   </wordStack> <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem> ... ... <memoryUsed>
-                     0
-                   </memoryUsed> <callGas>
-                     0
-                   </callGas> <static>
-                     false
-                   </static> <callDepth>
-                     0
-                   </callDepth> </callState>-fragment ) => .List )
+                   ( ListItem ( <callState>
+                     ...
+                     ...
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Account
+                     </caller>
+                     <callData>
+                       b"*M\xe1\xa1"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "call_assert_false()" ) : ( 728815563385977040452943777879061427756277306518 : ( 316 : ( selector ( "testFail_expect_revert()" ) : .WordStack ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3\xad0#\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     ...
+                     ...
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                   </callState> ) => .List )
                  </callStack>
                  <interimStates>
-                   ( ListItem ( { <accounts>-fragment ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
+                   ( ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       ...
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                     </account> )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
                        0
-                     </balance>
-                     ...
-                     <storage>
+                     </refund>
+                     <accessedAccounts>
+                       ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                     </accessedAccounts>
+                     <accessedStorage>
                        .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     ...
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                   </account> ) </accounts>-fragment | <substate>-fragment <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct> <log>
-                     .List
-                   </log> <refund>
-                     0
-                   </refund> <accessedAccounts>
-                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts> <accessedStorage>
-                     .Map
-                   </accessedStorage> </substate>-fragment } ) => .List )
+                     </accessedStorage>
+                   </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
                    _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
