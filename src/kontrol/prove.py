@@ -207,18 +207,24 @@ def _run_cfg_group(
                 use_gas=prove_options.use_gas,
             )
 
+            cut_point_rules = KEVMSemantics.cut_point_rules(
+                prove_options.break_on_jumpi,
+                prove_options.break_on_calls,
+                prove_options.break_on_storage,
+                prove_options.break_on_basic_blocks,
+            )
+            if prove_options.break_on_cheatcodes:
+                cut_point_rules.extend(
+                    rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
+                )
+
             run_prover(
                 foundry.kevm,
                 proof,
                 kcfg_explore,
                 max_depth=prove_options.max_depth,
                 max_iterations=prove_options.max_iterations,
-                cut_point_rules=KEVMSemantics.cut_point_rules(
-                    prove_options.break_on_jumpi,
-                    prove_options.break_on_calls,
-                    prove_options.break_on_storage,
-                    prove_options.break_on_basic_blocks,
-                ),
+                cut_point_rules=cut_point_rules,
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
                 counterexample_info=prove_options.counterexample_info,
             )
