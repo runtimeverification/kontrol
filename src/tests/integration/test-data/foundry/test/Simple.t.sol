@@ -44,7 +44,7 @@ contract AssertTest is Test, KEVMCheats {
         assert(true);
     }
 
-    function testFail_assert_false() public pure {
+    function checkFail_assert_false() public pure {
          assert(false);
      }
 
