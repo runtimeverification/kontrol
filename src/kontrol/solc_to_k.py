@@ -945,3 +945,10 @@ def method_sig_from_abi(method_json: dict) -> str:
             method_args += ','
         method_args += unparse_input(_input)
     return f'{method_name}({method_args})'
+
+
+def hex_string_to_int(address: str) -> int:
+    if address.startswith('0x'):
+        return int(address, 16)
+    else:
+        raise ValueError('Invalid hex format')

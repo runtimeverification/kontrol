@@ -14,6 +14,11 @@ class DeploymentSummary:
         for acc_key in list(self.accounts):
             self.accounts[acc_key] = self.accounts[acc_key]
 
+    @staticmethod
+    def _ignored_kinds() -> list[str]:
+        # Ignore the access and account accessed if its one of the following
+        return ['Balance, Extcodesize, Extcodehash, Extcodecopy']
+
     def generate_header(self) -> list[str]:
         lines = []
         lines.append(f'pragma solidity {self.SOLIDITY_VERSION};\n')
@@ -90,9 +95,7 @@ class DeploymentSummary:
         reverted = dct['reverted']
         storage_accesses = dct['storageAccesses']
 
-        # Ignore the access and account accessed if its one of the following
-        ignored_kinds = ['Balance, Extcodesize, Extcodehash, Extcodecopy']
-        if kind in ignored_kinds or reverted:
+        if kind in self._ignored_kinds() or reverted:
             return
 
         if deployed_code != '0x' and kind == 'Create':

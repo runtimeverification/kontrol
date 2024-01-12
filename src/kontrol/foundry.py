@@ -18,6 +18,7 @@ from pyk.kast.inner import KApply, KSort, KToken
 from pyk.kast.manip import minimize_term
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
+from pyk.prelude.collections import map_empty
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.proof.proof import Proof
@@ -353,7 +354,7 @@ class Foundry:
             intToken(0),
             bytesToken(b'\x00'),
             store_var,
-            KApply('.Map'),
+            map_empty(),
             intToken(0),
         )
 
@@ -726,14 +727,8 @@ def foundry_summary(
     foundry: Foundry,
     condense_summary: bool = False,
 ) -> None:
-    if not accesses_file.exists():
-        raise FileNotFoundError('Given account accesses dictionary file not found.')
-    accesses = json.loads(accesses_file.read_text())['accountAccesses']
-    accounts = {}
-    if contract_names is not None:
-        if not contract_names.exists():
-            raise FileNotFoundError('Given contract names dictionary file not found.')
-        accounts = json.loads(contract_names.read_text())
+    accesses, accounts = read_summary(accesses_file, contract_names)
+
     summary_contract = DeploymentSummary(name=name, accounts=accounts)
     for access in accesses:
         summary_contract.add_cheatcode(access)
@@ -841,9 +836,17 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def _write_cfg(cfg: KCFG, path: Path) -> None:
-    path.write_text(cfg.to_json())
-    _LOGGER.info(f'Updated CFG file: {path}')
+def read_summary(accesses_file: Path, contract_names: Path | None) -> tuple[dict, dict]:
+    if not accesses_file.exists():
+        raise FileNotFoundError('Given account accesses dictionary file not found.')
+    accesses = json.loads(accesses_file.read_text())['accountAccesses']
+    accounts = {}
+    if contract_names is not None:
+        if not contract_names.exists():
+            raise FileNotFoundError('Given contract names dictionary file not found.')
+        accounts = json.loads(contract_names.read_text())
+
+    return accesses, accounts
 
 
 class FoundryNodePrinter(KEVMNodePrinter):

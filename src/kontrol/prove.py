@@ -11,16 +11,19 @@ from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
+from pyk.prelude.collections import map_empty, map_of
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
+from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
 
+from .deployment import DeploymentSummary
 from .foundry import Foundry
-from .solc_to_k import Contract
+from .solc_to_k import Contract, hex_string_to_int
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -205,6 +208,8 @@ def _run_cfg_group(
                 bmc_depth=prove_options.bmc_depth,
                 run_constructor=prove_options.run_constructor,
                 use_gas=prove_options.use_gas,
+                summary_accesses=prove_options.summary_accesses,
+                summary_accounts=prove_options.summary_accounts,
             )
 
             run_prover(
@@ -243,6 +248,8 @@ def method_to_apr_proof(
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     use_gas: bool = False,
+    summary_accesses: dict | None = None,
+    summary_accounts: dict | None = None,
 ) -> APRProof | APRBMCProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -265,6 +272,8 @@ def method_to_apr_proof(
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
         use_gas=use_gas,
+        summary_accesses=summary_accesses,
+        summary_accounts=summary_accounts,
     )
 
     if bmc_depth is not None:
@@ -306,6 +315,8 @@ def _method_to_initialized_cfg(
     *,
     setup_proof: APRProof | None = None,
     use_gas: bool = False,
+    summary_accesses: dict | None = None,
+    summary_accounts: dict | None = None,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -316,6 +327,8 @@ def _method_to_initialized_cfg(
         test.method,
         setup_proof,
         use_gas,
+        summary_accesses,
+        summary_accounts,
     )
 
     for node_id in new_node_ids:
@@ -345,6 +358,8 @@ def _method_to_cfg(
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
     use_gas: bool,
+    summary_accesses: dict | None,
+    summary_accounts: dict | None,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -366,6 +381,8 @@ def _method_to_cfg(
         calldata=calldata,
         callvalue=callvalue,
         use_gas=use_gas,
+        summary_accesses=summary_accesses,
+        summary_accounts=summary_accounts,
     )
     new_node_ids = []
 
@@ -423,6 +440,76 @@ def _method_to_cfg(
     return cfg, new_node_ids, init_node_id, target_node.id
 
 
+def process_summary(accesses: dict, contracts: dict[str, str] | None) -> dict:
+    def _new_account() -> dict:
+        return {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
+
+    accounts = {}
+    address_list = contracts.keys() if contracts is not None else []
+    for address in address_list:
+        accounts[hex_string_to_int(address)] = _new_account()
+    for dct in accesses:
+        kind = dct['kind']
+        account = dct['account']
+        old_balance = dct['oldBalance']
+        new_balance = dct['newBalance']
+        deployed_code = dct['deployedCode']
+        reverted = dct['reverted']
+        storage_accesses = dct['storageAccesses']
+        _addr = hex_string_to_int(account)
+
+        if kind in DeploymentSummary._ignored_kinds() or reverted:
+            continue
+
+        if deployed_code != '0x' and kind == 'Create':
+            if _addr not in accounts.keys():
+                accounts[_addr] = _new_account()
+            accounts[_addr]['code'] = deployed_code
+
+        if new_balance != old_balance:
+            if _addr not in accounts.keys():
+                accounts[_addr] = _new_account()
+            accounts[_addr]['balance'] = hex_string_to_int(new_balance)
+
+        for storage_access in storage_accesses:
+            account_storage = storage_access['account']
+            _addr_account_storage = hex_string_to_int(account_storage)
+            slot = storage_access['slot']
+            is_write = storage_access['isWrite']
+            previous_value = storage_access['previousValue']
+            new_value = storage_access['newValue']
+            reverted = storage_access['reverted']
+
+            if reverted or not is_write or new_value == previous_value:
+                continue
+
+            if _addr_account_storage not in accounts.keys():
+                accounts[_addr_account_storage] = _new_account()
+            accounts[_addr_account_storage]['storage'][intToken(hex_string_to_int(slot))] = intToken(
+                hex_string_to_int(new_value)
+            )
+
+    return accounts
+
+
+def summary_to_account_cells(summary_accesses: dict, summary_accounts: dict[str, str] | None) -> list[KApply]:
+    accounts = process_summary(summary_accesses, summary_accounts)
+    address_list = accounts.keys()
+    k_accounts = []
+    for addr in address_list:
+        k_accounts.append(
+            KEVM.account_cell(
+                intToken(addr),
+                intToken(accounts[addr]['balance']),
+                KEVM.parse_bytestack(stringToken(accounts[addr]['code'])),
+                map_of(accounts[addr]['storage']),
+                map_empty(),
+                intToken(accounts[addr]['nonce']),
+            )
+        )
+    return k_accounts
+
+
 def _init_cterm(
     empty_config: KInner,
     contract_name: str,
@@ -432,15 +519,24 @@ def _init_cterm(
     setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
+    summary_accesses: dict | None = None,
+    summary_accounts: dict | None = None,
 ) -> CTerm:
     account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
         intToken(0),
         program,
-        KApply('.Map'),
-        KApply('.Map'),
+        map_empty(),
+        map_empty(),
         intToken(1),
     )
+    init_account_list: list[KInner] = [
+        account_cell,  # test contract address
+        Foundry.account_CHEATCODE_ADDRESS(map_empty()),
+    ]
+    if summary_accesses is not None:
+        init_account_list.extend(summary_to_account_cells(summary_accesses, summary_accounts))
+
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'USEGAS_CELL': TRUE if use_gas else FALSE,
@@ -455,7 +551,7 @@ def _init_cterm(
         'ID_CELL': Foundry.address_TEST_CONTRACT(),
         'CALLER_CELL': KVariable('CALLER_ID'),
         'ACCESSEDACCOUNTS_CELL': KApply('.Set'),
-        'ACCESSEDSTORAGE_CELL': KApply('.Map'),
+        'ACCESSEDSTORAGE_CELL': map_empty(),
         'INTERIMSTATES_CELL': KApply('.List'),
         'LOCALMEM_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
         'PREVCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
@@ -469,12 +565,7 @@ def _init_cterm(
         'PC_CELL': intToken(0),
         'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
         'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),
-        'ACCOUNTS_CELL': KEVM.accounts(
-            [
-                account_cell,  # test contract address
-                Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
-            ]
-        ),
+        'ACCOUNTS_CELL': KEVM.accounts(init_account_list),
         'SINGLECALL_CELL': FALSE,
         'ISREVERTEXPECTED_CELL': FALSE,
         'ISOPCODEEXPECTED_CELL': FALSE,

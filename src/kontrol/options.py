@@ -27,6 +27,8 @@ class ProveOptions:
     fail_fast: bool
     reinit: bool
     use_gas: bool
+    summary_accesses: dict | None
+    summary_accounts: dict | None
 
     def __init__(
         self,
@@ -47,6 +49,8 @@ class ProveOptions:
         fail_fast: bool = True,
         reinit: bool = False,
         use_gas: bool = False,
+        summary_accesses: dict | None = None,
+        summary_accounts: dict | None = None,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
@@ -64,6 +68,8 @@ class ProveOptions:
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
         object.__setattr__(self, 'use_gas', use_gas)
+        object.__setattr__(self, 'summary_accesses', summary_accesses)
+        object.__setattr__(self, 'summary_accounts', summary_accounts)
 
 
 @dataclass(frozen=True)

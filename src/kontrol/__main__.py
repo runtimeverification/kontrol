@@ -30,6 +30,7 @@ from .foundry import (
     foundry_step_node,
     foundry_summary,
     foundry_to_dot,
+    read_summary,
 )
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
@@ -232,6 +233,8 @@ def exec_prove(
     port: int | None = None,
     maude_port: int | None = None,
     use_gas: bool = False,
+    summary_file: Path | None = None,
+    summary_contracts: Path | None = None,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -246,6 +249,11 @@ def exec_prove(
 
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
+
+    accesses: dict | None = None
+    accounts: dict | None = None
+    if summary_file is not None:
+        accesses, accounts = read_summary(summary_file, summary_contracts)
 
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
@@ -264,6 +272,8 @@ def exec_prove(
         run_constructor=run_constructor,
         fail_fast=fail_fast,
         use_gas=use_gas,
+        summary_accesses=accesses,
+        summary_accounts=accounts,
     )
 
     rpc_options = RPCOptions(
@@ -733,7 +743,16 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--use-gas', dest='use_gas', default=False, action='store_true', help='Enables gas computation in KEVM.'
     )
-
+    prove_args.add_argument(
+        '--summary-file', dest='summary_file', default=None, type=file_path, help='Path to accesses file'
+    )
+    prove_args.add_argument(
+        '--summary-contracts',
+        dest='summary_contracts',
+        default=None,
+        type=file_path,
+        help='Path to JSON containing deployment addresses and its respective contract names',
+    )
     show_args = command_parser.add_parser(
         'show',
         help='Print the CFG for a given proof.',
