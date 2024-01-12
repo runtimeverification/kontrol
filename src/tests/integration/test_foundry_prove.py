@@ -157,7 +157,7 @@ def test_foundry_prove(
     # Then
     assert_pass(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or not no_use_booster:
+    if test_id not in SHOW_TESTS:
         return
 
     # And when
@@ -206,7 +206,7 @@ def test_foundry_fail(
     # Then
     assert_fail(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or not no_use_booster:
+    if test_id not in SHOW_TESTS:
         return
 
     # And when
@@ -335,9 +335,6 @@ def test_foundry_auto_abstraction(
             port=server.port,
         ),
     )
-
-    if not no_use_booster:
-        return
 
     show_res = foundry_show(
         foundry,
