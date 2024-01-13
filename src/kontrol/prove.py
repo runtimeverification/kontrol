@@ -440,7 +440,7 @@ def _method_to_cfg(
     return cfg, new_node_ids, init_node_id, target_node.id
 
 
-def process_summary(summary: dict) -> dict:
+def _process_summary(summary: dict) -> dict:
     accounts: dict[int, dict] = {}
 
     def _init_account(address: int) -> None:
@@ -474,7 +474,7 @@ def process_summary(summary: dict) -> dict:
 
 
 def summary_to_account_cells(summary: dict) -> list[KApply]:
-    accounts = process_summary(summary)
+    accounts = _process_summary(summary)
     address_list = accounts.keys()
     k_accounts = []
     for addr in address_list:

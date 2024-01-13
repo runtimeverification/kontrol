@@ -18,7 +18,7 @@ class SummaryEntry:
 
     @property
     def has_ignored_kind(self) -> bool:
-        return self.kind in ['Balance, Extcodesize, Extcodehash, Extcodecopy']
+        return self.kind in ['Balance', 'Extcodesize', 'Extcodehash', 'Extcodecopy']
 
     @property
     def is_create(self) -> bool:
@@ -61,11 +61,6 @@ class DeploymentSummary:
         self.code = {}
         for acc_key in list(self.accounts):
             self.accounts[acc_key] = self.accounts[acc_key]
-
-    @staticmethod
-    def _ignored_kinds() -> list[str]:
-        # Ignore the access and account accessed if its one of the following
-        return ['Balance, Extcodesize, Extcodehash, Extcodecopy']
 
     def generate_header(self) -> list[str]:
         lines = []
