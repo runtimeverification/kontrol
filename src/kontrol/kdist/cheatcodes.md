@@ -894,6 +894,7 @@ The `ECDSASign` function returns the signed data in [r,s,v] form, which we conve
          <k> #call_foundry SELECTOR ARGS => . ... </k>
          <output> _ => #sign(#range(ARGS, 32, 32),#range(ARGS,0,32)) </output>
       requires SELECTOR ==Int selector ( "sign(uint256,bytes32)" )
+      [preserves-definedness]
 ```
 
 #### `symbolicCallData` — Changes the current calldata after a function selector to a symbolic variable.
