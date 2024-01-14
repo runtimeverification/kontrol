@@ -345,6 +345,7 @@ The `<output>` cell will be updated with the value of the address generated from
          <k> #call_foundry SELECTOR ARGS => . ... </k>
          <output> _ => #bufStrict(32, #addrFromPrivateKey(#unparseDataBytes(ARGS))) </output>
       requires SELECTOR ==Int selector ( "addr(uint256)" )
+      [preserves-definedness]
 ```
 
 #### `load` - Loads a storage slot from an address.
@@ -965,6 +966,7 @@ Utils
            <code> _ => #if #asWord(CODE) ==Int 0 #then .Bytes #else CODE #fi </code>
            ...
          </account>
+    [preserves-definedness]
 ```
 
 - `#returnNonce ACCTID` takes the nonce of a given account and places it on the `<output>` cell.
@@ -1019,6 +1021,7 @@ Utils
            <storage> STORAGE => STORAGE [ LOC <- VALUE ] </storage>
              ...
          </account>
+    [preserves-definedness]
 ```
 
 `#setSymbolicStorage ACCTID` takes a given account and makes its storage fully symbolic.
