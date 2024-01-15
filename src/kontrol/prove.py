@@ -252,7 +252,7 @@ def method_to_apr_proof(
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     use_gas: bool = False,
-    summary_entries: list[SummaryEntry] | None = None,
+    summary_entries: Iterable[SummaryEntry] | None = None,
 ) -> APRProof | APRBMCProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -317,7 +317,7 @@ def _method_to_initialized_cfg(
     *,
     setup_proof: APRProof | None = None,
     use_gas: bool = False,
-    summary_entries: list[SummaryEntry] | None = None,
+    summary_entries: Iterable[SummaryEntry] | None = None,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -358,7 +358,7 @@ def _method_to_cfg(
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
     use_gas: bool,
-    summary_entries: list[SummaryEntry] | None,
+    summary_entries: Iterable[SummaryEntry] | None,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -439,38 +439,37 @@ def _method_to_cfg(
     return cfg, new_node_ids, init_node_id, target_node.id
 
 
-def _process_summary(summary: list[SummaryEntry]) -> dict:
-    accounts: dict[int, dict] = {}
+def summary_to_account_cells(summary_entries: Iterable[SummaryEntry]) -> list[KApply]:
+    def _process_summary(summary: Iterable[SummaryEntry]) -> dict:
+        accounts: dict[int, dict] = {}
 
-    def _init_account(address: int) -> None:
-        if address not in accounts.keys():
-            accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
+        def _init_account(address: int) -> None:
+            if address not in accounts.keys():
+                accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
 
-    for entry in summary:
-        if entry.has_ignored_kind or entry.reverted:
-            continue
+        for entry in summary:
+            if entry.has_ignored_kind or entry.reverted:
+                continue
 
-        _addr = hex_string_to_int(entry.account)
+            _addr = hex_string_to_int(entry.account)
 
-        if entry.is_create:
-            _init_account(_addr)
-            accounts[_addr]['code'] = entry.deployed_code
+            if entry.is_create:
+                _init_account(_addr)
+                accounts[_addr]['code'] = entry.deployed_code
 
-        if entry.updates_balance:
-            _init_account(_addr)
-            accounts[_addr]['balance'] = entry.new_balance
+            if entry.updates_balance:
+                _init_account(_addr)
+                accounts[_addr]['balance'] = entry.new_balance
 
-        for update in entry.storage_updates:
-            _int_address = hex_string_to_int(update.address)
-            _init_account(_int_address)
-            accounts[_int_address]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
-                hex_string_to_int(update.value)
-            )
+            for update in entry.storage_updates:
+                _int_address = hex_string_to_int(update.address)
+                _init_account(_int_address)
+                accounts[_int_address]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
+                    hex_string_to_int(update.value)
+                )
 
-    return accounts
+        return accounts
 
-
-def summary_to_account_cells(summary_entries: list[SummaryEntry]) -> list[KApply]:
     accounts = _process_summary(summary_entries)
     address_list = accounts.keys()
     k_accounts = []
@@ -497,7 +496,7 @@ def _init_cterm(
     setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
-    summary_entries: list[SummaryEntry] | None = None,
+    summary_entries: Iterable[SummaryEntry] | None = None,
 ) -> CTerm:
     account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),

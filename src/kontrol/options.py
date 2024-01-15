@@ -30,7 +30,7 @@ class ProveOptions:
     fail_fast: bool
     reinit: bool
     use_gas: bool
-    summary_entries: list[SummaryEntry] | None
+    summary_entries: Iterable[SummaryEntry] | None
 
     def __init__(
         self,

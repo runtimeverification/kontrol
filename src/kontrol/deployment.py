@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import NamedTuple
 
 
@@ -7,6 +8,7 @@ class StorageUpdate(NamedTuple):
     value: str
 
 
+@dataclass
 class SummaryEntry:
     kind: str
     account: str
@@ -14,7 +16,7 @@ class SummaryEntry:
     new_balance: int
     deployed_code: str
     reverted: bool
-    storage_updates: list[StorageUpdate]
+    storage_updates: tuple[StorageUpdate, ...]
 
     def __init__(self, e: dict) -> None:
         self.kind = e['kind']
@@ -23,20 +25,7 @@ class SummaryEntry:
         self.new_balance = e['newBalance']
         self.deployed_code = e['deployedCode']
         self.reverted = e['reverted']
-        storage_changes = []
-        for storage_access in e['storageAccesses']:
-            account_storage = storage_access['account']
-            slot = storage_access['slot']
-            is_write = storage_access['isWrite']
-            previous_value = storage_access['previousValue']
-            new_value = storage_access['newValue']
-            reverted = storage_access['reverted']
-
-            if reverted or not is_write or new_value == previous_value:
-                continue
-
-            storage_changes.append(StorageUpdate(account_storage, slot, new_value))
-        self.storage_updates = storage_changes
+        self.storage_updates = self._get_storage_updates(e['storageAccesses'])
 
     @property
     def has_ignored_kind(self) -> bool:
@@ -49,6 +38,23 @@ class SummaryEntry:
     @property
     def updates_balance(self) -> bool:
         return self.new_balance != self.old_balance
+
+    @staticmethod
+    def _get_storage_updates(storage_access: list[dict]) -> tuple[StorageUpdate, ...]:
+        storage_updates = []
+        for _a in storage_access:
+            account_storage = _a['account']
+            slot = _a['slot']
+            is_write = _a['isWrite']
+            previous_value = _a['previousValue']
+            new_value = _a['newValue']
+            reverted = _a['reverted']
+
+            if reverted or not is_write or new_value == previous_value:
+                continue
+
+            storage_updates.append(StorageUpdate(account_storage, slot, new_value))
+        return tuple(storage_updates)
 
 
 class DeploymentSummary:
