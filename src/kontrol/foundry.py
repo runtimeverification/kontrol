@@ -727,11 +727,11 @@ def foundry_summary(
     foundry: Foundry,
     condense_summary: bool = False,
 ) -> None:
-    accesses, accounts = read_summary(accesses_file, contract_names)
-
+    access_entries = read_summary(accesses_file)
+    accounts = read_contract_names(contract_names) if contract_names else {}
     summary_contract = DeploymentSummary(name=name, accounts=accounts)
-    for access in accesses:
-        summary_contract.extend(SummaryEntry(access))
+    for access in access_entries:
+        summary_contract.extend(access)
 
     if output_dir_name is None:
         output_dir_name = foundry.profile.get('test', '')
@@ -836,17 +836,17 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def read_summary(accesses_file: Path, contract_names: Path | None = None) -> tuple[dict, dict]:
+def read_summary(accesses_file: Path) -> list[SummaryEntry]:
     if not accesses_file.exists():
         raise FileNotFoundError(f'Account accesses dictionary file not found: {accesses_file}')
     accesses = json.loads(accesses_file.read_text())['accountAccesses']
-    accounts = {}
-    if contract_names is not None:
-        if not contract_names.exists():
-            raise FileNotFoundError(f'Contract names dictionary file not found: {contract_names}')
-        accounts = json.loads(contract_names.read_text())
+    return [SummaryEntry(_a) for _a in accesses]
 
-    return accesses, accounts
+
+def read_contract_names(contract_names: Path) -> dict[str, str]:
+    if not contract_names.exists():
+        raise FileNotFoundError(f'Contract names dictionary file not found: {contract_names}')
+    return json.loads(contract_names.read_text())
 
 
 class FoundryNodePrinter(KEVMNodePrinter):

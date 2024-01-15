@@ -250,7 +250,7 @@ def exec_prove(
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
 
-    summary, _ = read_summary(summary_path) if summary_path else (None, None)
+    summary_entries = read_summary(summary_path) if summary_path else None
 
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
@@ -270,7 +270,7 @@ def exec_prove(
         run_constructor=run_constructor,
         fail_fast=fail_fast,
         use_gas=use_gas,
-        summary=summary,
+        summary_entries=summary_entries,
     )
 
     rpc_options = RPCOptions(
