@@ -555,9 +555,9 @@ def foundry_show(
 
     if to_kevm_claims:
         _foundry_labels = [
-            prod.label
+            prod.klabel
             for prod in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].productions
-            if prod.label is not None
+            if prod.klabel is not None
         ]
 
         def _remove_foundry_config(_cterm: CTerm) -> CTerm:
