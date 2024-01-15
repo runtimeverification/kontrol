@@ -121,8 +121,8 @@ def exec_summary(
     accesses_file: Path,
     contract_names: Path | None,
     output_dir_name: str | None,
-    license: str,
     foundry_root: Path,
+    license: str,
     comment_generated_file: str,
     condense_summary: bool = False,
     **kwargs: Any,
@@ -132,10 +132,10 @@ def exec_summary(
         accesses_file,
         contract_names=contract_names,
         output_dir_name=output_dir_name,
-        license=license,
         foundry=_load_foundry(foundry_root),
-        condense_summary=condense_summary,
+        license=license,
         comment_generated_file=comment_generated_file,
+        condense_summary=condense_summary,
     )
 
 
