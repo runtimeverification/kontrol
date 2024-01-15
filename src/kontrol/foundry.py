@@ -838,12 +838,12 @@ def foundry_get_model(
 
 def read_summary(accesses_file: Path, contract_names: Path | None = None) -> tuple[dict, dict]:
     if not accesses_file.exists():
-        raise FileNotFoundError('Given account accesses dictionary file not found.')
+        raise FileNotFoundError(f'Account accesses dictionary file not found: {accesses_file}')
     accesses = json.loads(accesses_file.read_text())['accountAccesses']
     accounts = {}
     if contract_names is not None:
         if not contract_names.exists():
-            raise FileNotFoundError('Given contract names dictionary file not found.')
+            raise FileNotFoundError(f'Contract names dictionary file not found: {contract_names}')
         accounts = json.loads(contract_names.read_text())
 
     return accesses, accounts
