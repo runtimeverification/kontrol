@@ -8,21 +8,21 @@
 │  (179 steps)
 ├─ 3
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 317
+│   pc: 328
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1 step)
 ├─ 4
 │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 317
+│   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
 │
 │  (2 steps)
 ├─ 5 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 317
+│   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
 │
@@ -36,21 +36,21 @@
 │  (307 steps)
 ├─ 8
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 2984
+│   pc: 2995
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1 step)
 ├─ 9
 │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 2984
+│   pc: 2995
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
 │
 │  (2 steps)
 └─ 10 (leaf, terminal)
     k: #halt ~> CONTINUATION:K
-    pc: 2984
+    pc: 2995
     callDepth: 0
     statusCode: EVMC_REVERT
 
@@ -105,7 +105,7 @@ Node 10:
               0
             </callValue>
             <wordStack>
-              ( 603 : ( 316 : ( selector ( "test_assert_false()" ) : .WordStack ) ) )
+              ( 614 : ( 327 : ( selector ( "test_assert_false()" ) : .WordStack ) ) )
             </wordStack>
             <localMem>
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -113,6 +113,9 @@ Node 10:
             <memoryUsed>
               0
             </memoryUsed>
+            <callGas>
+              0
+            </callGas>
             <static>
               false
             </static>
@@ -125,6 +128,9 @@ Node 10:
             <log>
               .List
             </log>
+            <refund>
+              0
+            </refund>
             <accessedAccounts>
               .Set
             </accessedAccounts>
@@ -310,18 +316,23 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -521,18 +532,23 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -732,18 +748,23 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -941,18 +962,23 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1136,7 +1162,7 @@ Node 10:
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 603 : ( 316 : ( selector ( "test_assert_false()" ) : .WordStack ) ) ) )
+                     ( .WordStack => ( 614 : ( 327 : ( selector ( "test_assert_false()" ) : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -1146,6 +1172,9 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1158,6 +1187,9 @@ Node 10:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1328,7 +1360,7 @@ Node 10:
                      0
                    </callValue>
                    <wordStack>
-                     ( 603 : ( 316 : ( selector ( "test_assert_false()" ) : .WordStack ) ) )
+                     ( 614 : ( 327 : ( selector ( "test_assert_false()" ) : .WordStack ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1338,6 +1370,9 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1350,6 +1385,9 @@ Node 10:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1520,7 +1558,7 @@ Node 10:
                      0
                    </callValue>
                    <wordStack>
-                     ( 603 : ( 316 : ( selector ( "test_assert_false()" ) : .WordStack ) ) )
+                     ( 614 : ( 327 : ( selector ( "test_assert_false()" ) : .WordStack ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1530,6 +1568,9 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1542,6 +1583,9 @@ Node 10:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>

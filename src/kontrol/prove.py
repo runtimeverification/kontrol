@@ -207,15 +207,24 @@ def _run_cfg_group(
                 use_gas=prove_options.use_gas,
             )
 
+            cut_point_rules = KEVMSemantics.cut_point_rules(
+                prove_options.break_on_jumpi,
+                prove_options.break_on_calls,
+                prove_options.break_on_storage,
+                prove_options.break_on_basic_blocks,
+            )
+            if prove_options.break_on_cheatcodes:
+                cut_point_rules.extend(
+                    rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
+                )
+
             run_prover(
                 foundry.kevm,
                 proof,
                 kcfg_explore,
                 max_depth=prove_options.max_depth,
                 max_iterations=prove_options.max_iterations,
-                cut_point_rules=KEVMSemantics.cut_point_rules(
-                    prove_options.break_on_jumpi, prove_options.break_on_calls
-                ),
+                cut_point_rules=cut_point_rules,
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
                 counterexample_info=prove_options.counterexample_info,
             )
@@ -415,8 +424,9 @@ def _method_to_cfg(
         new_node_ids = [init_node.id]
         init_node_id = init_node.id
 
-    is_test = method.signature.startswith('test')
-    failing = method.signature.startswith('testFail')
+    proof_prefixes = ['test', 'prove', 'check']
+    is_test = any(method.signature.startswith(prefix) for prefix in proof_prefixes)
+    failing = any(method.signature.startswith(prefix + 'Fail') for prefix in proof_prefixes)
     final_cterm = _final_cterm(
         empty_config, contract.name_with_path, failing=failing, is_test=is_test, use_init_code=use_init_code
     )
@@ -518,6 +528,11 @@ def _init_cterm(
 
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue
+
+    if not use_gas:
+        init_subst['GAS_CELL'] = intToken(0)
+        init_subst['CALLGAS_CELL'] = intToken(0)
+        init_subst['REFUND_CELL'] = intToken(0)
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)

@@ -5,42 +5,42 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (570 steps)
+│  (571 steps)
 ├─ 3
-│   k: STATICCALL VGAS:Int 645326474426547203313410069153905908525362434349 128 36 128  ...
+│   k: STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 ~> #p ...
 │   pc: 563
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1 step)
 ├─ 4
-│   k: #checkCall 728815563385977040452943777879061427756277306518 0 ~> #call 728815563 ...
+│   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
 │   pc: 563
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1000 steps)
 ├─ 5
-│   k: #gas [ ISZERO , ISZERO 1 ] ~> ISZERO 1 ~> #pc [ ISZERO ] ~> #execute ~> CONTINUA ...
+│   k: #addr [ ISZERO ] ~> #exec [ ISZERO ] ~> #pc [ ISZERO ] ~> #execute ~> CONTINUATI ...
 │   pc: 4206
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (825 steps)
+│  (827 steps)
 ├─ 6
-│   k: CALL VGAS:Int 645326474426547203313410069153905908525362434349 0 388 100 388 0 ~ ...
+│   k: CALL 0 645326474426547203313410069153905908525362434349 0 388 100 388 0 ~> #pc [ ...
 │   pc: 3785
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1 step)
 ├─ 7
-│   k: #checkCall 728815563385977040452943777879061427756277306518 0 ~> #call 728815563 ...
+│   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
 │   pc: 3785
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (241 steps)
+│  (244 steps)
 ├─ 8
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 281
@@ -123,6 +123,9 @@ Node 10:
             <memoryUsed>
               0
             </memoryUsed>
+            <callGas>
+              0
+            </callGas>
             <static>
               false
             </static>
@@ -135,6 +138,9 @@ Node 10:
             <log>
               ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 29485693714967335757563038618841744472215891622979272243827124658718922284880 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\"Error: a == b not satisfied [uint]\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV0_a_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n      Left\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV1_b_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n     Right\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } )
             </log>
+            <refund>
+              0
+            </refund>
             <accessedAccounts>
               SetItem ( 645326474426547203313410069153905908525362434349 )
             </accessedAccounts>
@@ -280,8 +286,7 @@ Node 10:
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals VV0_a_114b9705:Int <Int pow256 }
-#And ( { true #Equals VV1_b_114b9705:Int <Int pow256 }
-#And { true #Equals ( notBool VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ==Bool true } ) ) ) ) ) ) ) ) ) ) ) )
+#And { true #Equals VV1_b_114b9705:Int <Int pow256 } ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -290,7 +295,7 @@ Node 10:
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => STATICCALL VGAS:Int 645326474426547203313410069153905908525362434349 128 36 128 0
+               ( .K => STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0
                ~> #pc [ STATICCALL ] )
                ~> #execute
                ~> _CONTINUATION
@@ -338,6 +343,9 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -350,6 +358,9 @@ Node 10:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -499,7 +510,8 @@ Node 10:
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL VGAS:Int 645326474426547203313410069153905908525362434349 128 36 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ( notBool VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) ) true
                ~> #return 128 0 )
                ~> #pc [ STATICCALL ]
@@ -549,6 +561,9 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -561,6 +576,9 @@ Node 10:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -710,11 +728,12 @@ Node 10:
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
            <kevm>
              <k>
-               ( #checkCall 728815563385977040452943777879061427756277306518 0
+               ( #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ( notBool VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) ) true
                ~> #return 128 0
-               ~> #pc [ STATICCALL ] => #gas [ ISZERO , ISZERO 1 ]
-               ~> ISZERO 1
+               ~> #pc [ STATICCALL ] => #addr [ ISZERO ]
+               ~> #exec [ ISZERO ]
                ~> #pc [ ISZERO ] )
                ~> #execute
                ~> _CONTINUATION
@@ -755,7 +774,7 @@ Node 10:
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => 64 ) : ( ( selector ( "assume(bool)" ) => 160 ) : ( ( 645326474426547203313410069153905908525362434349 => 292 ) : ( ( VV1_b_114b9705:Int => 96 ) : ( ( VV0_a_114b9705:Int => 4586 ) : ( ( 280 => 96 ) : ( ( selector ( "test_assume_false(uint256,uint256)" ) => 0 ) : ( .WordStack => ( 288 : ( 128 : ( 51016057639858100040180367130768047423658391221723556551037572491782395555780 : ( 3745 : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 594 : ( VV1_b_114b9705:Int : ( VV0_a_114b9705:Int : ( 594 : ( VV1_b_114b9705:Int : ( VV0_a_114b9705:Int : ( 280 : ( selector ( "test_assume_false(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+                     ( ( 164 => 1 ) : ( ( selector ( "assume(bool)" ) => 64 ) : ( ( 645326474426547203313410069153905908525362434349 => 160 ) : ( ( VV1_b_114b9705:Int => 292 ) : ( ( VV0_a_114b9705:Int => 96 ) : ( ( 280 => 4586 ) : ( ( selector ( "test_assume_false(uint256,uint256)" ) => 96 ) : ( .WordStack => ( 0 : ( 288 : ( 128 : ( 51016057639858100040180367130768047423658391221723556551037572491782395555780 : ( 3745 : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 594 : ( VV1_b_114b9705:Int : ( VV0_a_114b9705:Int : ( 594 : ( VV1_b_114b9705:Int : ( VV0_a_114b9705:Int : ( 280 : ( selector ( "test_assume_false(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ( notBool VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) ) => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00p\xca\x10\xbb\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -765,6 +784,9 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -777,6 +799,9 @@ Node 10:
                    <log>
                      ( .List => ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 29485693714967335757563038618841744472215891622979272243827124658718922284880 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\"Error: a == b not satisfied [uint]\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV0_a_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n      Left\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV1_b_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n     Right\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) )
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -921,17 +946,15 @@ Node 10:
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
                ))))))))))
-       ensures ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))
+       ensures VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
       [label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
            <kevm>
              <k>
-               ( #gas [ ISZERO , ISZERO 1 ]
-               ~> ISZERO 1
-               ~> #pc [ ISZERO ] => CALL VGAS:Int 645326474426547203313410069153905908525362434349 0 388 100 388 0
+               ( #addr [ ISZERO ]
+               ~> #exec [ ISZERO ]
+               ~> #pc [ ISZERO ] => CALL 0 645326474426547203313410069153905908525362434349 0 388 100 388 0
                ~> #pc [ CALL ] )
                ~> #execute
                ~> _CONTINUATION
@@ -972,7 +995,7 @@ Node 10:
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 64 => 488 ) : ( ( 160 => 645326474426547203313410069153905908525362434349 ) : ( ( 292 => 0 ) : ( ( 96 => 594 ) : ( ( 4586 => VV1_b_114b9705:Int ) : ( ( 96 => VV0_a_114b9705:Int ) : ( ( 0 => 594 ) : ( ( 288 => VV1_b_114b9705:Int ) : ( ( 128 => VV0_a_114b9705:Int ) : ( ( 51016057639858100040180367130768047423658391221723556551037572491782395555780 => 280 ) : ( ( 3745 => selector ( "test_assume_false(uint256,uint256)" ) ) : ( ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 594 : ( VV1_b_114b9705:Int : ( VV0_a_114b9705:Int : ( 594 : ( VV1_b_114b9705:Int : ( VV0_a_114b9705:Int : ( 280 : ( selector ( "test_assume_false(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( ( 1 => 488 ) : ( ( 64 => 645326474426547203313410069153905908525362434349 ) : ( ( 160 => 0 ) : ( ( 292 => 594 ) : ( ( 96 => VV1_b_114b9705:Int ) : ( ( 4586 => VV0_a_114b9705:Int ) : ( ( 96 => 594 ) : ( ( 0 => VV1_b_114b9705:Int ) : ( ( 288 => VV0_a_114b9705:Int ) : ( ( 128 => 280 ) : ( ( 51016057639858100040180367130768047423658391221723556551037572491782395555780 => selector ( "test_assume_false(uint256,uint256)" ) ) : ( ( 3745 : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 594 : ( VV1_b_114b9705:Int : ( VV0_a_114b9705:Int : ( 594 : ( VV1_b_114b9705:Int : ( VV0_a_114b9705:Int : ( 280 : ( selector ( "test_assume_false(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00p\xca\x10\xbb\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x84\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00dp\xca\x10\xbb\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01p\xca\x10\xbb\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -982,6 +1005,9 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -994,6 +1020,9 @@ Node 10:
                    <log>
                      ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 29485693714967335757563038618841744472215891622979272243827124658718922284880 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\"Error: a == b not satisfied [uint]\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV0_a_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n      Left\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV1_b_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n     Right\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } )
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1138,14 +1167,14 @@ Node 10:
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
       [label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
            <kevm>
              <k>
-               ( CALL VGAS:Int 645326474426547203313410069153905908525362434349 0 388 100 388 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( CALL 0 645326474426547203313410069153905908525362434349 0 388 100 388 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"p\xca\x10\xbb\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" false
                ~> #return 388 0 )
                ~> #pc [ CALL ]
@@ -1198,20 +1227,25 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 29485693714967335757563038618841744472215891622979272243827124658718922284880 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\"Error: a == b not satisfied [uint]\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV0_a_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n      Left\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV1_b_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n     Right\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } )
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
-                     .Set
+                     SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -1354,14 +1388,14 @@ Node 10:
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
       [label(BASIC-BLOCK-6-TO-7)]
     
     rule [BASIC-BLOCK-7-TO-8]: <foundry>
            <kevm>
              <k>
-               ( #checkCall 728815563385977040452943777879061427756277306518 0
+               ( #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"p\xca\x10\xbb\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" false
                ~> #return 388 0
                ~> #pc [ CALL ] => #end EVMC_SUCCESS
@@ -1415,6 +1449,9 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1427,6 +1464,9 @@ Node 10:
                    <log>
                      ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 29485693714967335757563038618841744472215891622979272243827124658718922284880 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\"Error: a == b not satisfied [uint]\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV0_a_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n      Left\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV1_b_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n     Right\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } )
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
@@ -1571,8 +1611,7 @@ Node 10:
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
       [label(BASIC-BLOCK-7-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1632,6 +1671,9 @@ Node 10:
                    <memoryUsed>
                      0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1644,6 +1686,9 @@ Node 10:
                    <log>
                      ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 29485693714967335757563038618841744472215891622979272243827124658718922284880 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\"Error: a == b not satisfied [uint]\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV0_a_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n      Left\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV1_b_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n     Right\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } )
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -2005,8 +2050,228 @@ Node 10:
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int ==Bool true
-               ))))))))))))
+               )))))))))))
+      [label(BASIC-BLOCK-8-TO-9)]
+    
+    rule [BASIC-BLOCK-9-TO-10]: <foundry>
+           <kevm>
+             <k>
+               #halt
+               ~> ( #pc [ STOP ]
+               ~> #execute => .K )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <callState>
+                   ...
+                   ...
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\xe4\x1b\xef\xb4" +Bytes #buf ( 32 , VV0_a_114b9705:Int ) +Bytes #buf ( 32 , VV1_b_114b9705:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( selector ( "test_assume_false(uint256,uint256)" ) : .WordStack )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x84\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00dp\xca\x10\xbb\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01p\xca\x10\xbb\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-failed\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   ...
+                   ...
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                 </callState>
+                 <substate>
+                   <log>
+                     ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 29485693714967335757563038618841744472215891622979272243827124658718922284880 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\"Error: a == b not satisfied [uint]\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV0_a_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n      Left\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } ) ListItem ( { 728815563385977040452943777879061427756277306518 | ListItem ( 80904256614161075919025625882663817043659112028191499838463115877652359487912 ) | b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" +Bytes #buf ( 32 , VV1_b_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n     Right\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" } )
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     ( 728815563385977040452943777879061427756277306518 |-> SetItem ( 7 ) )
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     ...
+                     <storage>
+                       ( 46308022326495007027972728677917914892729792999299745830475596687180801507328 |-> 1 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     ...
+                     <storage>
+                       ( 7 |-> 256 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                   </account> )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <cheatcodes>
+             <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressSet>
+                 .Set
+               </addressSet>
+               <storageSlotSet>
+                 .Set
+               </storageSlotSet>
+             </whitelist>
+           </cheatcodes>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int VV0_a_114b9705:Int
+       andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( VV0_a_114b9705:Int <Int pow256
+       andBool ( VV1_b_114b9705:Int <Int pow256
+               )))))))))))
       [label(BASIC-BLOCK-9-TO-10)]
 
 endmodule
@@ -2027,8 +2292,7 @@ Failing nodes:
     #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
     #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
     #And ( { true #Equals VV0_a_114b9705:Int <Int pow256 }
-    #And ( { true #Equals VV1_b_114b9705:Int <Int pow256 }
-    #And { true #Equals ( notBool VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ==Bool true } ) ) ) ) ) ) ) ) ) ) ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( ( 46308022326495007027972728677917914892729792999299745830475596687180801507328 |-> 1 ) , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
+    #And { true #Equals VV1_b_114b9705:Int <Int pow256 } ) ) ) ) ) ) ) ) ) ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( ( 46308022326495007027972728677917914892729792999299745830475596687180801507328 |-> 1 ) , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
   Path condition:
     #Top
   Model:
