@@ -596,27 +596,6 @@ def foundry_show(
         # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
         proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
 
-        _module_name = (
-            proof.id.upper()
-            .replace('%', '-')
-            .replace('.', '-')
-            .replace('(', '-')
-            .replace(')', '-')
-            .replace(':', '-')
-            .replace(',', '-')
-        )
-        _module_name += '-SPEC'
-        module_name = ''
-        is_hyphen = False
-        for char in _module_name:
-            if char == '-':
-                if not is_hyphen:
-                    module_name += char
-                is_hyphen = True
-            else:
-                is_hyphen = False
-                module_name += char
-
         claims = [edge.to_rule('BASIC-BLOCK', claim=True) for edge in proof.kcfg.edges()]
         claims = [claim for claim in claims if not _contains_foundry_klabel(claim.body)]
         claims = [
@@ -626,6 +605,7 @@ def foundry_show(
             _LOGGER.warning(f'No claims retained for proof {proof.id}')
 
         else:
+            module_name = re.sub(r'[%().:,]+', '-', proof.id.upper()) + '-SPEC'
             module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
             defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
 
