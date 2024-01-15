@@ -526,7 +526,7 @@ def test_deployment_summary(
         TEST_DATA_DIR / 'accesses.json',
         contract_names=None,
         output_dir_name='src',
-        license=None,
+        license='UNLICENSED',
         foundry=foundry,
     )
 

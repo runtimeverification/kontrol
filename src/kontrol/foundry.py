@@ -748,12 +748,9 @@ def foundry_summary(
 
     main_file = output_dir / Path(name + '.sol')
 
-    if license is None:
-        license = 'UNLICENSED'
-    else:
-        if not license:
-            raise ValueError('License cannot be empty')
-
+    if not license.strip():
+        raise ValueError('License cannot be empty or blank')
+    
     if condense_summary:
         main_file.write_text('\n'.join(summary_contract.generate_condensed_file(comment_generated_file, license)))
     else:
