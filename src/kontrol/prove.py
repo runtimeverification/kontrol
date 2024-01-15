@@ -463,11 +463,11 @@ def _process_summary(summary: dict) -> dict:
             _init_account(_addr)
             accounts[_addr]['balance'] = e.new_balance
 
-        for account_storage, slot, new_value in e.storage_updates:
-            _addr_account_storage = hex_string_to_int(account_storage)
-            _init_account(_addr_account_storage)
-            accounts[_addr_account_storage]['storage'][intToken(hex_string_to_int(slot))] = intToken(
-                hex_string_to_int(new_value)
+        for update in e.storage_updates:
+            _int_address = hex_string_to_int(update.address)
+            _init_account(_int_address)
+            accounts[_int_address]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
+                hex_string_to_int(update.value)
             )
 
     return accounts

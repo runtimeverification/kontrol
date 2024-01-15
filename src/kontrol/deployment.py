@@ -1,3 +1,12 @@
+from typing import NamedTuple
+
+
+class StorageUpdate(NamedTuple):
+    address: str
+    slot: str
+    value: str
+
+
 class SummaryEntry:
     kind: str
     account: str
@@ -5,7 +14,7 @@ class SummaryEntry:
     new_balance: int
     deployed_code: str
     reverted: bool
-    storage_accesses: list[dict]
+    storage_updates: list[StorageUpdate]
 
     def __init__(self, e: dict) -> None:
         self.kind = e['kind']
@@ -14,7 +23,20 @@ class SummaryEntry:
         self.new_balance = e['newBalance']
         self.deployed_code = e['deployedCode']
         self.reverted = e['reverted']
-        self.storage_accesses = e['storageAccesses']
+        storage_changes = []
+        for storage_access in e['storageAccesses']:
+            account_storage = storage_access['account']
+            slot = storage_access['slot']
+            is_write = storage_access['isWrite']
+            previous_value = storage_access['previousValue']
+            new_value = storage_access['newValue']
+            reverted = storage_access['reverted']
+
+            if reverted or not is_write or new_value == previous_value:
+                continue
+
+            storage_changes.append(StorageUpdate(account_storage, slot, new_value))
+        self.storage_updates = storage_changes
 
     @property
     def has_ignored_kind(self) -> bool:
@@ -27,23 +49,6 @@ class SummaryEntry:
     @property
     def updates_balance(self) -> bool:
         return self.new_balance != self.old_balance
-
-    @property
-    def storage_updates(self) -> list[tuple[str, str, str]]:
-        storage_changes = []
-        for storage_access in self.storage_accesses:
-            account_storage = storage_access['account']
-            slot = storage_access['slot']
-            is_write = storage_access['isWrite']
-            previous_value = storage_access['previousValue']
-            new_value = storage_access['newValue']
-            reverted = storage_access['reverted']
-
-            if reverted or not is_write or new_value == previous_value:
-                continue
-
-            storage_changes.append((account_storage, slot, new_value))
-        return storage_changes
 
 
 class DeploymentSummary:
@@ -144,9 +149,9 @@ class DeploymentSummary:
             acc_name = self.accounts[e.account]
             self.commands.append(f'vm.deal({acc_name}Address, {e.new_balance})')
 
-        for account_storage, slot, new_value in e.storage_updates:
-            self.add_account(account_storage)
-            acc_name = self.accounts[account_storage]
-            self.commands.append(f'slot = hex{slot[2:]!r}')
-            self.commands.append(f'value = hex{new_value[2:]!r}')
+        for update in e.storage_updates:
+            self.add_account(update.address)
+            acc_name = self.accounts[update.address]
+            self.commands.append(f'slot = hex{update.slot[2:]!r}')
+            self.commands.append(f'value = hex{update.value[2:]!r}')
             self.commands.append(f'vm.store({acc_name}Address, slot, value)')
