@@ -44,6 +44,7 @@ def foundry_prove(
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
     tests: Iterable[tuple[str, int | None]] = (),
+    include_tests: Iterable[tuple[str, int | None]] = (),
 ) -> list[APRProof]:
     if prove_options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {prove_options.workers}')
@@ -61,6 +62,15 @@ def foundry_prove(
             ) from None
 
     foundry.mk_proofs_dir()
+
+    subproof_ids = (
+        [
+            foundry.get_apr_proof(include_test.id).id
+            for include_test in collect_tests(foundry, include_tests, reinit=False)
+        ]
+        if include_tests
+        else []
+    )
 
     test_suite = collect_tests(foundry, tests, reinit=prove_options.reinit)
     test_names = [test.name for test in test_suite]
@@ -87,30 +97,31 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    def _run_prover(_test_suite: list[FoundryTest]) -> list[APRProof]:
+    def _run_prover(_test_suite: list[FoundryTest], include_subproofs: bool = False) -> list[APRProof]:
         return _run_cfg_group(
             tests=_test_suite,
             foundry=foundry,
             prove_options=prove_options,
             rpc_options=rpc_options,
+            subproof_ids=(subproof_ids if include_subproofs else []),
         )
 
     if prove_options.run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
-        results = _run_prover(constructor_tests)
+        results = _run_prover(constructor_tests, include_subproofs=False)
         failed = [proof for proof in results if not proof.passed]
         if failed:
             raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
-    results = _run_prover(setup_method_tests)
+    results = _run_prover(setup_method_tests, include_subproofs=False)
 
     failed = [proof for proof in results if not proof.passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
-    results = _run_prover(test_suite)
+    results = _run_prover(test_suite, include_subproofs=False)
     return results
 
 
@@ -185,6 +196,7 @@ def _run_cfg_group(
     foundry: Foundry,
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
+    subproof_ids: Iterable[str],
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | None:
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
@@ -214,6 +226,7 @@ def _run_cfg_group(
                 run_constructor=prove_options.run_constructor,
                 use_gas=prove_options.use_gas,
                 summary_entries=prove_options.summary_entries,
+                subproof_ids=subproof_ids,
             )
 
             cut_point_rules = KEVMSemantics.cut_point_rules(
@@ -268,6 +281,7 @@ def method_to_apr_proof(
     run_constructor: bool = False,
     use_gas: bool = False,
     summary_entries: Iterable[SummaryEntry] | None = None,
+    subproof_ids: Iterable[str] = (),
 ) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -303,9 +317,12 @@ def method_to_apr_proof(
             {},
             bmc_depth,
             proof_dir=foundry.proofs_dir,
+            subproof_ids=subproof_ids,
         )
     else:
-        apr_proof = APRProof(test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=foundry.proofs_dir)
+        apr_proof = APRProof(
+            test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=foundry.proofs_dir, subproof_ids=subproof_ids
+        )
 
     apr_proof.write_proof_data()
     return apr_proof
