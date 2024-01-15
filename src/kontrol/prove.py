@@ -440,36 +440,6 @@ def _method_to_cfg(
 
 
 def summary_to_account_cells(summary_entries: Iterable[SummaryEntry]) -> list[KApply]:
-    def _process_summary(summary: Iterable[SummaryEntry]) -> dict:
-        accounts: dict[int, dict] = {}
-
-        def _init_account(address: int) -> None:
-            if address not in accounts.keys():
-                accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
-
-        for entry in summary:
-            if entry.has_ignored_kind or entry.reverted:
-                continue
-
-            _addr = hex_string_to_int(entry.account)
-
-            if entry.is_create:
-                _init_account(_addr)
-                accounts[_addr]['code'] = entry.deployed_code
-
-            if entry.updates_balance:
-                _init_account(_addr)
-                accounts[_addr]['balance'] = entry.new_balance
-
-            for update in entry.storage_updates:
-                _int_address = hex_string_to_int(update.address)
-                _init_account(_int_address)
-                accounts[_int_address]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
-                    hex_string_to_int(update.value)
-                )
-
-        return accounts
-
     accounts = _process_summary(summary_entries)
     address_list = accounts.keys()
     k_accounts = []
@@ -485,6 +455,37 @@ def summary_to_account_cells(summary_entries: Iterable[SummaryEntry]) -> list[KA
             )
         )
     return k_accounts
+
+
+def _process_summary(summary: Iterable[SummaryEntry]) -> dict:
+    accounts: dict[int, dict] = {}
+
+    def _init_account(address: int) -> None:
+        if address not in accounts.keys():
+            accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
+
+    for entry in summary:
+        if entry.has_ignored_kind or entry.reverted:
+            continue
+
+        _addr = hex_string_to_int(entry.account)
+
+        if entry.is_create:
+            _init_account(_addr)
+            accounts[_addr]['code'] = entry.deployed_code
+
+        if entry.updates_balance:
+            _init_account(_addr)
+            accounts[_addr]['balance'] = entry.new_balance
+
+        for update in entry.storage_updates:
+            _int_address = hex_string_to_int(update.address)
+            _init_account(_int_address)
+            accounts[_int_address]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
+                hex_string_to_int(update.value)
+            )
+
+    return accounts
 
 
 def _init_cterm(
