@@ -14,8 +14,10 @@ from typing import TYPE_CHECKING
 import tomlkit
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
-from pyk.kast.inner import KApply, KSort, KToken
-from pyk.kast.manip import minimize_term
+from pyk.cterm import CTerm
+from pyk.kast.inner import KApply, KSort, KToken, KVariable
+from pyk.kast.manip import collect, extract_lhs, minimize_term
+from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
@@ -33,7 +35,6 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Any, Final
 
-    from pyk.cterm import CTerm
     from pyk.kast.inner import KInner
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.tui import KCFGElem
@@ -492,6 +493,8 @@ def foundry_show(
     nodes: Iterable[NodeIdLike] = (),
     node_deltas: Iterable[tuple[NodeIdLike, NodeIdLike]] = (),
     to_module: bool = False,
+    to_kevm_claims: bool = False,
+    kevm_claim_dir: Path | None = None,
     minimize: bool = True,
     sort_collections: bool = False,
     omit_unstable_output: bool = False,
@@ -551,7 +554,66 @@ def foundry_show(
             res_lines += print_failure_info(proof, kcfg_explore, counterexample_info)
             res_lines += Foundry.help_info()
 
-    return '\n'.join(res_lines)
+    if to_kevm_claims:
+        _foundry_labels = [
+            prod.klabel
+            for prod in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].productions
+            if prod.klabel is not None
+        ]
+
+        def _remove_foundry_config(_cterm: CTerm) -> CTerm:
+            kevm_config_pattern = KApply(
+                '<generatedTop>',
+                [
+                    KApply('<foundry>', [KVariable('KEVM_CELL'), KVariable('CHEATCODES_CELL')]),
+                    KVariable('GENERATEDCOUNTER_CELL'),
+                ],
+            )
+            kevm_config_match = kevm_config_pattern.match(_cterm.config)
+            if kevm_config_match is None:
+                _LOGGER.warning('Unable to match on <kevm> cell.')
+                return _cterm
+            return CTerm(kevm_config_match['KEVM_CELL'], _cterm.constraints)
+
+        def _contains_foundry_klabel(_kast: KInner) -> bool:
+            _contains = False
+
+            def _collect_klabel(_k: KInner) -> None:
+                nonlocal _contains
+                if type(_k) is KApply and _k.label.name in _foundry_labels:
+                    _contains = True
+
+            collect(_collect_klabel, _kast)
+            return _contains
+
+        for node in proof.kcfg.nodes:
+            proof.kcfg.replace_node(node.id, _remove_foundry_config(node.cterm))
+
+        # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
+        proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
+
+        claims = [edge.to_rule('BASIC-BLOCK', claim=True) for edge in proof.kcfg.edges()]
+        claims = [claim for claim in claims if not _contains_foundry_klabel(claim.body)]
+        claims = [
+            claim for claim in claims if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(claim.body)))
+        ]
+        if len(claims) == 0:
+            _LOGGER.warning(f'No claims retained for proof {proof.id}')
+
+        else:
+            module_name = re.sub(r'[%().:,]+', '-', proof.id.upper()) + '-SPEC'
+            module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
+            defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
+
+            defn_lines = foundry.kevm.pretty_print(defn, in_module='EVM').split('\n')
+
+            res_lines += defn_lines
+
+            if kevm_claim_dir is not None:
+                kevm_claims_file = kevm_claim_dir / (module_name.lower() + '.k')
+                kevm_claims_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
+
+    return '\n'.join([line.rstrip() for line in res_lines])
 
 
 def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> None:
