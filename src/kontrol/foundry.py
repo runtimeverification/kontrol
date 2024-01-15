@@ -554,6 +554,11 @@ def foundry_show(
             res_lines += Foundry.help_info()
 
     if to_kevm_claims:
+        _foundry_labels = [
+            prod.label
+            for prod in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].productions
+            if prod.label is not None
+        ]
 
         def _remove_foundry_config(_cterm: CTerm) -> CTerm:
             kevm_config_pattern = KApply(
@@ -571,16 +576,6 @@ def foundry_show(
 
         def _contains_foundry_klabel(_kast: KInner) -> bool:
             _contains = False
-            _foundry_labels = [
-                '#call_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Bytes',
-                '#error_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Bytes',
-                '#return_foundry___FOUNDRY-CHEAT-CODES_KItem_Int_Int',
-                'FOUNDRY_WHITELISTCALL_FOUNDRY-CHEAT-CODES_ExceptionalStatusCode',
-                'FOUNDRY_WHITELISTSTORAGE_FOUNDRY-CHEAT-CODES_ExceptionalStatusCode',
-                '#updateRevertOutput___FOUNDRY-CHEAT-CODES_KItem_Int_Int',
-                '#checkRevert_FOUNDRY-CHEAT-CODES_KItem',
-                '#clearExpectRevert_FOUNDRY-CHEAT-CODES_KItem',
-            ]
 
             def _collect_klabel(_k: KInner) -> None:
                 nonlocal _contains
