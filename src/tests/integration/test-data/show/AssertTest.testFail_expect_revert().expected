@@ -70,21 +70,21 @@
 │
 │  (1 step)
 ├─ 13
-│   k: #halt ~> #pc [ REVERT ] ~> #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #c ...
+│   k: #halt ~> #pc [ REVERT ] ~> #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #e ...
 │   pc: 2995
 │   callDepth: 1
 │   statusCode: EVMC_REVERT
 │
 │  (5 steps)
 ├─ 14
-│   k: #halt ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #checkRevert ~> #updateRevertOut ...
+│   k: #halt ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 │   pc: 2995
 │   callDepth: 1
 │   statusCode: EVMC_SUCCESS
 │
 │  (1 step)
 ├─ 15
-│   k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem 128 0 ...
+│   k: #popCallStack ~> #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128  ...
 │   pc: 2995
 │   callDepth: 1
 │   statusCode: EVMC_SUCCESS

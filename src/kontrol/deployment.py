@@ -16,7 +16,7 @@ class DeploymentSummary:
 
     def generate_header(self, comment_generated_file: str, license: str) -> list[str]:
         lines = []
-        lines.append(license)
+        lines.append(f'// SPDX-License-Identifier: {license}')
         lines.append(comment_generated_file)
         lines.append(f'pragma solidity {self.SOLIDITY_VERSION};\n')
         lines.append('import { Vm } from "forge-std/Vm.sol";\n')
@@ -74,7 +74,7 @@ class DeploymentSummary:
 
     def generate_code_contract_file(self, comment_generated_file: str, license: str) -> list[str]:
         lines = []
-        lines.append(license)
+        lines.append(f'// SPDX-License-Identifier: {license}')
         lines.append(comment_generated_file)
         lines.append(f'pragma solidity {self.SOLIDITY_VERSION};\n')
         lines += self.generate_code_contract()
