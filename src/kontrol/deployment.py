@@ -14,8 +14,9 @@ class DeploymentSummary:
         for acc_key in list(self.accounts):
             self.accounts[acc_key] = self.accounts[acc_key]
 
-    def generate_header(self, comment_generated_file: str) -> list[str]:
+    def generate_header(self, comment_generated_file: str, license: str) -> list[str]:
         lines = []
+        lines.append(license)
         lines.append(comment_generated_file)
         lines.append(f'pragma solidity {self.SOLIDITY_VERSION};\n')
         lines.append('import { Vm } from "forge-std/Vm.sol";\n')
@@ -59,20 +60,21 @@ class DeploymentSummary:
         lines.append('}')
         return lines
 
-    def generate_condensed_file(self, comment_generated_file: str) -> list[str]:
-        lines = self.generate_header(comment_generated_file)
+    def generate_condensed_file(self, comment_generated_file: str, license: str) -> list[str]:
+        lines = self.generate_header(comment_generated_file, license)
         lines += self.generate_code_contract()
         lines += self.generate_main_contract()
         return lines
 
-    def generate_main_contract_file(self, comment_generated_file: str) -> list[str]:
-        lines = self.generate_header(comment_generated_file)
+    def generate_main_contract_file(self, comment_generated_file: str, license: str) -> list[str]:
+        lines = self.generate_header(comment_generated_file, license)
         lines.append('import { ' + self.name + 'Code } from "./' + self.name + 'Code.sol";')
         lines += self.generate_main_contract()
         return lines
 
-    def generate_code_contract_file(self, comment_generated_file: str) -> list[str]:
+    def generate_code_contract_file(self, comment_generated_file: str, license: str) -> list[str]:
         lines = []
+        lines.append(license)
         lines.append(comment_generated_file)
         lines.append(f'pragma solidity {self.SOLIDITY_VERSION};\n')
         lines += self.generate_code_contract()
