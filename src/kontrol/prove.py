@@ -397,6 +397,13 @@ def _method_to_cfg(
             basefee_cell = final_node.cterm.cell('BASEFEE_CELL')
             chainid_cell = final_node.cterm.cell('CHAINID_CELL')
             coinbase_cell = final_node.cterm.cell('COINBASE_CELL')
+            prevcaller_cell = final_node.cterm.cell('PREVCALLER_CELL')
+            prevorigin_cell = final_node.cterm.cell('PREVORIGIN_CELL')
+            newcaller_cell = final_node.cterm.cell('NEWCALLER_CELL')
+            neworigin_cell = final_node.cterm.cell('NEWORIGIN_CELL')
+            active_cell = final_node.cterm.cell('ACTIVE_CELL')
+            depth_cell = final_node.cterm.cell('DEPTH_CELL')
+            singlecall_cell = final_node.cterm.cell('SINGLECALL_CELL')
             new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
             new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
             test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
@@ -418,6 +425,13 @@ def _method_to_cfg(
             new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'BASEFEE_CELL', basefee_cell), [])
             new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CHAINID_CELL', chainid_cell), [])
             new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'COINBASE_CELL', coinbase_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVCALLER_CELL', prevcaller_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVORIGIN_CELL', prevorigin_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWCALLER_CELL', newcaller_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWORIGIN_CELL', neworigin_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACTIVE_CELL', active_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'DEPTH_CELL', depth_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'SINGLECALL_CELL', singlecall_cell), [])
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
