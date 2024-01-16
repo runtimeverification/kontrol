@@ -974,3 +974,10 @@ def method_sig_from_abi(method_json: dict) -> str:
             method_args += ','
         method_args += unparse_input(_input)
     return f'{method_name}({method_args})'
+
+
+def hex_string_to_int(hex: str) -> int:
+    if hex.startswith('0x'):
+        return int(hex, 16)
+    else:
+        raise ValueError('Invalid hex format')
