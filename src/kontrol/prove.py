@@ -11,7 +11,7 @@ from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSequence, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
-from pyk.prelude.collections import map_empty, map_of
+from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
@@ -379,7 +379,6 @@ def _method_to_cfg(
 
     init_cterm = _init_cterm(
         empty_config,
-        contract.name_with_path,
         program=program,
         calldata=calldata,
         callvalue=callvalue,
@@ -493,12 +492,10 @@ def _process_summary(summary: Iterable[SummaryEntry]) -> dict:
 
 def _init_cterm(
     empty_config: KInner,
-    contract_name: str,
     program: KInner,
     use_gas: bool,
     is_test: bool,
     *,
-    setup_cterm: CTerm | None = None,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
     summary_entries: Iterable[SummaryEntry] | None = None,
@@ -511,18 +508,18 @@ def _init_cterm(
         'USEGAS_CELL': TRUE if use_gas else FALSE,
         'SCHEDULE_CELL': schedule,
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
-        'CALLSTACK_CELL': KApply('.List'),
+        'CALLSTACK_CELL': list_empty(),
         'CALLDEPTH_CELL': intToken(0),
         'PROGRAM_CELL': program,
         'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
         'ORIGIN_CELL': KVariable('ORIGIN_ID'),
-        'LOG_CELL': KApply('.List'),
+        'LOG_CELL': list_empty(),
         'ID_CELL': Foundry.address_TEST_CONTRACT(),
         'CALLER_CELL': KVariable('CALLER_ID'),
-        'TOUCHEDACCOUNTS_CELL': KApply('.Set'),
-        'ACCESSEDACCOUNTS_CELL': KApply('.Set'),
+        'TOUCHEDACCOUNTS_CELL': set_empty(),
+        'ACCESSEDACCOUNTS_CELL': set_empty(),
         'ACCESSEDSTORAGE_CELL': map_empty(),
-        'INTERIMSTATES_CELL': KApply('.List'),
+        'INTERIMSTATES_CELL': list_empty(),
         'LOCALMEM_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
         'ACTIVE_CELL': FALSE,
         'STATIC_CELL': FALSE,
@@ -539,8 +536,8 @@ def _init_cterm(
         'ISEVENTEXPECTED_CELL': FALSE,
         'ISCALLWHITELISTACTIVE_CELL': FALSE,
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
-        'ADDRESSSET_CELL': KApply('.Set'),
-        'STORAGESLOTSET_CELL': KApply('.Set'),
+        'ADDRESSSET_CELL': set_empty(),
+        'STORAGESLOTSET_CELL': set_empty(),
     }
 
     constraints = None
