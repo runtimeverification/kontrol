@@ -477,7 +477,8 @@ The check will be inserted only if the current depth is the same as the depth at
 WThe `#checkRevert` will be used to compare the status code of the execution and the output of the call against the expect reason provided.
 
 ```k
-    rule <k> #next [ _OP:CallOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
+    rule [foundry.set.expectrevert.1]:
+         <k> #next [ _OP:CallOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <wordStack> _ : _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
@@ -487,7 +488,8 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
          </expectedRevert>
       [priority(40)]
 
-    rule <k> #next [ _OP:CallSixOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
+    rule [foundry.set.expectrevert.2]:
+         <k> #next [ _OP:CallSixOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <wordStack> _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
@@ -497,7 +499,8 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
          </expectedRevert>
       [priority(40)]
 
-    rule <k> #next [ OP:OpCode ] ~> (. => #checkRevert) ~> #execute ... </k>
+    rule [foundry.set.expectrevert.3]:
+         <k> #next [ OP:OpCode ] ~> (. => #checkRevert) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>

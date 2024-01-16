@@ -8,6 +8,8 @@ if TYPE_CHECKING:
 
     from pyk.utils import BugReport
 
+    from .deployment import SummaryEntry
+
 
 @dataclass(frozen=True)
 class ProveOptions:
@@ -20,6 +22,7 @@ class ProveOptions:
     break_on_calls: bool
     break_on_storage: bool
     break_on_basic_blocks: bool
+    break_on_cheatcodes: bool
     workers: int
     counterexample_info: bool
     max_iterations: int | None
@@ -27,6 +30,7 @@ class ProveOptions:
     fail_fast: bool
     reinit: bool
     use_gas: bool
+    summary_entries: Iterable[SummaryEntry] | None
 
     def __init__(
         self,
@@ -40,6 +44,7 @@ class ProveOptions:
         break_on_calls: bool = True,
         break_on_storage: bool = False,
         break_on_basic_blocks: bool = False,
+        break_on_cheatcodes: bool = False,
         workers: int = 1,
         counterexample_info: bool = False,
         max_iterations: int | None = None,
@@ -47,6 +52,7 @@ class ProveOptions:
         fail_fast: bool = True,
         reinit: bool = False,
         use_gas: bool = False,
+        summary_entries: list[SummaryEntry] | None = None,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
@@ -57,6 +63,7 @@ class ProveOptions:
         object.__setattr__(self, 'break_on_calls', break_on_calls)
         object.__setattr__(self, 'break_on_storage', break_on_storage)
         object.__setattr__(self, 'break_on_basic_blocks', break_on_basic_blocks)
+        object.__setattr__(self, 'break_on_cheatcodes', break_on_cheatcodes)
         object.__setattr__(self, 'workers', workers)
         object.__setattr__(self, 'counterexample_info', counterexample_info)
         object.__setattr__(self, 'max_iterations', max_iterations)
@@ -64,6 +71,7 @@ class ProveOptions:
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
         object.__setattr__(self, 'use_gas', use_gas)
+        object.__setattr__(self, 'summary_entries', summary_entries)
 
 
 @dataclass(frozen=True)

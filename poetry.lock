@@ -298,13 +298,13 @@ pyflakes = ">=3.2.0,<3.3.0"
 
 [[package]]
 name = "flake8-bugbear"
-version = "23.12.2"
+version = "24.1.16"
 description = "A plugin for flake8 finding likely bugs and design problems in your program. Contains warnings that don't belong in pyflakes and pycodestyle."
 optional = false
 python-versions = ">=3.8.1"
 files = [
-    {file = "flake8-bugbear-23.12.2.tar.gz", hash = "sha256:32b2903e22331ae04885dae25756a32a8c666c85142e933f43512a70f342052a"},
-    {file = "flake8_bugbear-23.12.2-py3-none-any.whl", hash = "sha256:83324bad4d90fee4bf64dd69c61aff94debf8073fbd807c8b6a36eec7a2f0719"},
+    {file = "flake8-bugbear-24.1.16.tar.gz", hash = "sha256:e94514b1f866270663ce047d23dea731025c24ebacb4ce5999d8959076027504"},
+    {file = "flake8_bugbear-24.1.16-py3-none-any.whl", hash = "sha256:1648f4a433d11da8fb4e148cbaa845692ff51379f3f598e3225010e3b9a667b7"},
 ]
 
 [package.dependencies]
@@ -432,7 +432,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.410"
+version = "1.0.418"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -441,14 +441,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.564"}
+pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.572"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.410"
-resolved_reference = "5ab752002fdc669e5d3736f8350676ec9aec76d6"
+reference = "v1.0.418"
+resolved_reference = "7efaf7ad58ea0c91ae485ed02bb9223e23ae3d04"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -811,7 +811,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.564"
+version = "0.1.572"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -832,8 +832,8 @@ xdg-base-dirs = "^6.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.564"
-resolved_reference = "667b0dc62b9ee386d95fc78d8f0325de84fb3e3d"
+reference = "v0.1.572"
+resolved_reference = "e47333fd09cac67a69c074a302e890466e88b964"
 
 [[package]]
 name = "pyperclip"
@@ -1083,4 +1083,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "ea209eefdaaca5b5712422de2e7f37d57d49837ff813cd7b59672d5239400f1f"
+content-hash = "8d24f63c5e0280ba9885afb3c84e379af93becdcc558f4c830cbbf1810cc3a10"
