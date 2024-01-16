@@ -291,6 +291,7 @@ def exec_prove(
         tests=tests,
     )
     failed = 0
+    models = 0
     for proof in results:
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
@@ -301,11 +302,18 @@ def exec_prove(
             if isinstance(proof, APRProof):
                 failure_log = proof.failure_info
             if failure_info and failure_log is not None:
+                if failure_log.models:
+                    models += 1
                 log = failure_log.print() + Foundry.help_info()
                 for line in log:
                     print(line)
 
-    sys.exit(failed)
+    if failed and failed == models:
+        sys.exit(2)
+    elif failed:
+        sys.exit(3)
+    else:
+        sys.exit(0)
 
 
 def exec_show(
