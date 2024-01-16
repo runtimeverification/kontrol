@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING
 import tomlkit
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
-from pyk.kast.inner import KApply, KSort, KToken
+from pyk.kast.inner import KApply, KSort, KToken, KVariable
 from pyk.kast.manip import minimize_term
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
@@ -339,6 +339,10 @@ class Foundry:
     @staticmethod
     def address_TEST_CONTRACT() -> KToken:  # noqa: N802
         return intToken(0x7FA9385BE102AC3EAC297483DD6233D62B3E1496)
+
+    @staticmethod
+    def address_TEST_SYMBOLIC() -> KVariable:  # noqa: N802
+        return KVariable('CONTRACT_ID')
 
     @staticmethod
     def address_CHEATCODE() -> KToken:  # noqa: N802

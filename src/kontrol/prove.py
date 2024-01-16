@@ -380,6 +380,7 @@ def _method_to_cfg(
             )
 
         init_node_id = setup_proof.init
+        test_contract_address = Foundry.address_TEST_CONTRACT() if is_test else Foundry.address_TEST_SYMBOLIC()
 
         cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())  # Copy KCFG
         final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
@@ -393,9 +394,9 @@ def _method_to_cfg(
             number_cell = final_node.cterm.cell('NUMBER_CELL')
             new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
             new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
-            test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
+            test_contract_account = new_accounts_map[Foundry.address_TEST_SYMBOLIC()]
 
-            new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
+            new_accounts_map[test_contract_address] = CTerm(
                 set_cell(
                     test_contract_account.config,
                     'CODE_CELL',
@@ -472,13 +473,13 @@ def _init_cterm(
         'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),
         'ACCOUNTS_CELL': KEVM.accounts(
             [
-                account_cell,  # test contract address
+                account_cell,
                 Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
             ]
         ),
-        'RECORDEVENT_CELL': FALSE,
         'ISREVERTEXPECTED_CELL': FALSE,
         'ISOPCODEEXPECTED_CELL': FALSE,
+        'RECORDEVENT_CELL': FALSE,
         'ISEVENTEXPECTED_CELL': FALSE,
         'ISCALLWHITELISTACTIVE_CELL': FALSE,
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
@@ -501,7 +502,7 @@ def _init_cterm(
 
     if not is_test:
         contract = KEVM.account_cell(
-            KVariable('CONTRACT_ID'),
+            Foundry.address_TEST_SYMBOLIC(),
             KVariable('CONTRACT_BAL'),
             program,
             KVariable('CONTRACT_STORAGE'),
@@ -513,7 +514,7 @@ def _init_cterm(
                 'CALLSTACK_CELL': KVariable('CALLSTACK'),
                 'CALLDEPTH_CELL': KVariable('CALLDEPTH'),
                 'LOG_CELL': KVariable('LOGS'),
-                'ID_CELL': KVariable('CONTRACT_ID'),
+                'ID_CELL': Foundry.address_TEST_SYMBOLIC(),
                 'ACCOUNTS_CELL': KEVM.accounts(
                     [
                         contract,
@@ -595,7 +596,7 @@ def _final_term(empty_config: KInner, contract_name: str, is_test: bool, use_ini
     }
     if not is_test:
         contract = KEVM.account_cell(
-            KVariable('CONTRACT_ID'),
+            Foundry.address_TEST_SYMBOLIC(),
             KVariable('CONTRACT_BAL_FINAL'),
             program,
             KVariable('CONTRACT_STORAGE_FINAL'),
@@ -604,7 +605,7 @@ def _final_term(empty_config: KInner, contract_name: str, is_test: bool, use_ini
         )
         final_subst.update(
             {
-                'ID_CELL': KVariable('CONTRACT_ID'),
+                'ID_CELL': Foundry.address_TEST_SYMBOLIC(),
                 'ACCOUNTS_CELL': KEVM.accounts(
                     [
                         contract,  # test contract address
