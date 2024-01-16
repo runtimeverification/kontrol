@@ -216,7 +216,7 @@ def exec_prove(
     max_iterations: int | None = None,
     reinit: bool = False,
     tests: Iterable[tuple[str, int | None]] = (),
-    include_tests: Iterable[tuple[str, int | None]] = (),
+    include_summaries: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
     break_every_step: bool = False,
     break_on_jumpi: bool = False,
@@ -295,7 +295,7 @@ def exec_prove(
         prove_options=prove_options,
         rpc_options=rpc_options,
         tests=tests,
-        include_tests=include_tests,
+        include_summaries=include_summaries,
     )
     failed = 0
     for proof in results:
@@ -780,12 +780,12 @@ def _create_argument_parser() -> ArgumentParser:
         help='Path to JSON file containing the summary of the deployment process used for the project.',
     )
     prove_args.add_argument(
-        '--include-subproof',
+        '--include-summary',
         type=_parse_test_version_tuple,
-        dest='include_subproofs',
+        dest='include_summaries',
         default=[],
         action='append',
-        help='Specify a subproof to include as a lemma.',
+        help='Specify a summary to include as a lemma.',
     )
 
     show_args = command_parser.add_parser(
