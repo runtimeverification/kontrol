@@ -787,6 +787,8 @@ def foundry_summary(
     contract_names: Path | None,
     output_dir_name: str | None,
     foundry: Foundry,
+    license: str,
+    comment_generated_file: str,
     condense_summary: bool = False,
 ) -> None:
     access_entries = read_summary(accesses_file)
@@ -803,12 +805,15 @@ def foundry_summary(
 
     main_file = output_dir / Path(name + '.sol')
 
+    if not license.strip():
+        raise ValueError('License cannot be empty or blank')
+
     if condense_summary:
-        main_file.write_text('\n'.join(summary_contract.generate_condensed_file()))
+        main_file.write_text('\n'.join(summary_contract.generate_condensed_file(comment_generated_file, license)))
     else:
         code_file = output_dir / Path(name + 'Code.sol')
-        main_file.write_text('\n'.join(summary_contract.generate_main_contract_file()))
-        code_file.write_text('\n'.join(summary_contract.generate_code_contract_file()))
+        main_file.write_text('\n'.join(summary_contract.generate_main_contract_file(comment_generated_file, license)))
+        code_file.write_text('\n'.join(summary_contract.generate_code_contract_file(comment_generated_file, license)))
 
 
 def foundry_section_edge(
