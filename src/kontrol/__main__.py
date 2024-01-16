@@ -31,6 +31,7 @@ from .foundry import (
     foundry_step_node,
     foundry_summary,
     foundry_to_dot,
+    read_summary,
 )
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
@@ -238,6 +239,7 @@ def exec_prove(
     port: int | None = None,
     maude_port: int | None = None,
     use_gas: bool = False,
+    summary_path: Path | None = None,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -252,6 +254,8 @@ def exec_prove(
 
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
+
+    summary_entries = read_summary(summary_path) if summary_path else None
 
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
@@ -271,6 +275,7 @@ def exec_prove(
         run_constructor=run_constructor,
         fail_fast=fail_fast,
         use_gas=use_gas,
+        summary_entries=summary_entries,
     )
 
     rpc_options = RPCOptions(
@@ -764,6 +769,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Break on all Foundry rules.',
+    )
+    prove_args.add_argument(
+        '--init-node-from',
+        dest='summary_path',
+        default=None,
+        type=file_path,
+        help='Path to JSON file containing the summary of the deployment process used for the project.',
     )
 
     show_args = command_parser.add_parser(
