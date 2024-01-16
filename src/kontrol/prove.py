@@ -384,7 +384,7 @@ def _method_to_cfg(
         callvalue=callvalue,
         use_gas=use_gas,
         summary_entries=summary_entries,
-        is_test=is_test,
+        symbolic_exploration=not (is_test or method.is_setup),
     )
     new_node_ids = []
 
@@ -395,7 +395,6 @@ def _method_to_cfg(
             )
 
         init_node_id = setup_proof.init
-        test_contract_address = Foundry.address_TEST_CONTRACT() if is_test else Foundry.address_TEST_SYMBOLIC()
 
         cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())  # Copy KCFG
         final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
@@ -409,9 +408,9 @@ def _method_to_cfg(
             number_cell = final_node.cterm.cell('NUMBER_CELL')
             new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
             new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
-            test_contract_account = new_accounts_map[Foundry.address_TEST_SYMBOLIC()]
+            test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
 
-            new_accounts_map[test_contract_address] = CTerm(
+            new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
                 set_cell(
                     test_contract_account.config,
                     'CODE_CELL',
@@ -494,13 +493,13 @@ def _init_cterm(
     empty_config: KInner,
     program: KInner,
     use_gas: bool,
-    is_test: bool,
+    symbolic_exploration: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
     summary_entries: Iterable[SummaryEntry] | None = None,
 ) -> CTerm:
-    init_account_list = _create_initial_account_list(program, is_test, summary_entries)
+    init_account_list = _create_initial_account_list(program, symbolic_exploration, summary_entries)
     schedule = KApply('SHANGHAI_EVM')
 
     init_subst = {
@@ -553,7 +552,7 @@ def _init_cterm(
         init_subst['CALLGAS_CELL'] = intToken(0)
         init_subst['REFUND_CELL'] = intToken(0)
 
-    if not is_test:
+    if symbolic_exploration:
         init_subst.update(
             {
                 'CALLSTACK_CELL': KVariable('CALLSTACK'),
@@ -578,25 +577,25 @@ def _init_cterm(
 
 
 def _create_initial_account_list(
-    program: KInner, is_test: bool, summary: Iterable[SummaryEntry] | None
+    program: KInner, symbolic_exploration: bool, summary: Iterable[SummaryEntry] | None
 ) -> list[KInner]:
     _contract = (
         KEVM.account_cell(
-            Foundry.address_TEST_CONTRACT(),
-            intToken(0),
-            program,
-            map_empty(),
-            map_empty(),
-            intToken(1),
-        )
-        if is_test
-        else KEVM.account_cell(
             Foundry.address_TEST_SYMBOLIC(),
             KVariable('CONTRACT_BAL'),
             program,
             KVariable('CONTRACT_STORAGE'),
             KVariable('CONTRACT_STORAGE'),
             KVariable('CONTRACT_NONCE'),
+        )
+        if symbolic_exploration
+        else KEVM.account_cell(
+            Foundry.address_TEST_CONTRACT(),
+            intToken(0),
+            program,
+            map_empty(),
+            map_empty(),
+            intToken(1),
         )
     )
     init_account_list: list[KInner] = [
