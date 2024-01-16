@@ -393,6 +393,10 @@ def _method_to_cfg(
         for final_node in final_states:
             new_accounts_cell = final_node.cterm.cell('ACCOUNTS_CELL')
             number_cell = final_node.cterm.cell('NUMBER_CELL')
+            timestamp_cell = final_node.cterm.cell('TIMESTAMP_CELL')
+            basefee_cell = final_node.cterm.cell('BASEFEE_CELL')
+            chainid_cell = final_node.cterm.cell('CHAINID_CELL')
+            coinbase_cell = final_node.cterm.cell('COINBASE_CELL')
             new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
             new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
             test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
@@ -410,6 +414,10 @@ def _method_to_cfg(
 
             new_init_cterm = CTerm(set_cell(init_cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
             new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NUMBER_CELL', number_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'TIMESTAMP_CELL', timestamp_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'BASEFEE_CELL', basefee_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CHAINID_CELL', chainid_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'COINBASE_CELL', coinbase_cell), [])
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
