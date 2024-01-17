@@ -384,7 +384,7 @@ def _method_to_cfg(
         callvalue=callvalue,
         use_gas=use_gas,
         summary_entries=summary_entries,
-        symbolic_exploration=not (is_test or method.is_setup),
+        symbolic_exploration=not (is_test or method.is_setup or use_init_code),
     )
     new_node_ids = []
 
