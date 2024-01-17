@@ -55,3 +55,4 @@ skip-string-normalization = true
 
 [tool.mypy]
 disallow_untyped_defs = true
+exclude = "src/tests/integration/test-data"
