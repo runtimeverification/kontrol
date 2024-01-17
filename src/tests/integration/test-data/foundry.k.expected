@@ -56,6 +56,9 @@ module FOUNDRY-MAIN
     imports public S2KtestZModMergeTest-VERIFICATION
     imports public S2KtestZModMethodDisambiguateTest-VERIFICATION
     imports public S2KtestZModMockCallTest-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-VERIFICATION
     imports public S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyToken-VERIFICATION
     imports public S2KtestZModNoImport-VERIFICATION
@@ -66,6 +69,10 @@ module FOUNDRY-MAIN
     imports public S2KtestZModPlainPrankTest-VERIFICATION
     imports public S2KsrcZModPrank-VERIFICATION
     imports public S2KtestZModPrankTest-VERIFICATION
+    imports public S2KtestZModPrankTestMsgSender-VERIFICATION
+    imports public S2KtestZModPrankTestOrigin-VERIFICATION
+    imports public S2KtestZModStartPrankTestMsgSender-VERIFICATION
+    imports public S2KtestZModStartPrankTestOrigin-VERIFICATION
     imports public S2KtestZModPreconditionsTest-VERIFICATION
     imports public S2KtestZModRecordLogsTest-VERIFICATION
     imports public S2KsrcZModSafe-VERIFICATION
@@ -490,6 +497,27 @@ module S2KtestZModMockCallTest-VERIFICATION
 
 endmodule
 
+module S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-CONTRACT
+    
+    
+
+endmodule
+
 module S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyIERC20-CONTRACT
     
@@ -555,6 +583,34 @@ endmodule
 
 module S2KtestZModPrankTest-VERIFICATION
     imports public S2KtestZModPrankTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModPrankTestMsgSender-VERIFICATION
+    imports public S2KtestZModPrankTestMsgSender-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModPrankTestOrigin-VERIFICATION
+    imports public S2KtestZModPrankTestOrigin-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModStartPrankTestMsgSender-VERIFICATION
+    imports public S2KtestZModStartPrankTestMsgSender-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModStartPrankTestOrigin-VERIFICATION
+    imports public S2KtestZModStartPrankTestOrigin-CONTRACT
     
     
 

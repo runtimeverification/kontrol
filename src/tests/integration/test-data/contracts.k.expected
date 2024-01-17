@@ -8532,6 +8532,423 @@ module S2KtestZModMockCallTest-CONTRACT
 
 endmodule
 
+module S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Contract
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Contract ::= "S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20" [symbol(), klabel(contract_lib%forge-std%src%mocks%MockERC20)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 ) => #parseByteStack ( "0x608060405234801561001057600080fd5b50610e33806100206000396000f3fe608060405234801561001057600080fd5b50600436106100cf5760003560e01c80633644e5151161008c57806395d89b411161006657806395d89b41146101bb578063a9059cbb146101c3578063d505accf146101d6578063dd62ed3e146101e957600080fd5b80633644e5151461017357806370a082311461017b5780637ecebe001461019b57600080fd5b806306fdde03146100d4578063095ea7b3146100f25780631624f6c61461011557806318160ddd1461012a57806323b872dd14610141578063313ce56714610154575b600080fd5b6100dc610214565b6040516100e99190610a13565b60405180910390f35b610105610100366004610a84565b6102a2565b60405190151581526020016100e9565b610128610123366004610b62565b61030e565b005b61013360035481565b6040519081526020016100e9565b61010561014f366004610bd6565b6103bb565b6002546101619060ff1681565b60405160ff90911681526020016100e9565b6101336104d0565b610133610189366004610c12565b60046020526000908152604090205481565b6101336101a9366004610c12565b60086020526000908152604090205481565b6100dc6104f6565b6101056101d1366004610a84565b610503565b6101286101e4366004610c2d565b61059a565b6101336101f7366004610c97565b600560209081526000928352604080842090915290825290205481565b6000805461022190610cca565b80601f016020809104026020016040519081016040528092919081815260200182805461024d90610cca565b801561029a5780601f1061026f5761010080835404028352916020019161029a565b820191906000526020600020905b81548152906001019060200180831161027d57829003601f168201915b505050505081565b3360008181526005602090815260408083206001600160a01b038716808552925280832085905551919290917f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925906102fd9086815260200190565b60405180910390a350600192915050565b60095460ff161561035c5760405162461bcd60e51b81526020600482015260136024820152721053149150511657d253925512505312569151606a1b60448201526064015b60405180910390fd5b825161036f90600090602086019061097a565b50815161038390600190602085019061097a565b506002805460ff191660ff831617905561039b6107f8565b6006556103a6610811565b60075550506009805460ff1916600117905550565b6001600160a01b03831660009081526005602090815260408083203384529091528120546000198114610417576103f281846108b4565b6001600160a01b03861660009081526005602090815260408083203384529091529020555b6001600160a01b03851660009081526004602052604090205461043a90846108b4565b6001600160a01b0380871660009081526004602052604080822093909355908616815220546104699084610917565b6001600160a01b0380861660008181526004602052604090819020939093559151908716907fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef906104bd9087815260200190565b60405180910390a3506001949350505050565b60006006546104dd6107f8565b146104ef576104ea610811565b905090565b5060075490565b6001805461022190610cca565b3360009081526004602052604081205461051d90836108b4565b33600090815260046020526040808220929092556001600160a01b038516815220546105499083610917565b6001600160a01b0384166000818152600460205260409081902092909255905133907fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef906102fd9086815260200190565b428410156105ea5760405162461bcd60e51b815260206004820152601760248201527f5045524d49545f444541444c494e455f455850495245440000000000000000006044820152606401610353565b600060016105f66104d0565b6001600160a01b038a16600090815260086020526040812080547f6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9928d928d928d9290919061064483610d1a565b909155506040805160208101969096526001600160a01b0394851690860152929091166060840152608083015260a082015260c0810188905260e001604051602081830303815290604052805190602001206040516020016106bd92919061190160f01b81526002810192909252602282015260420190565b60408051601f198184030181528282528051602091820120600084529083018083525260ff871690820152606081018590526080810184905260a0016020604051602081039080840390855afa15801561071b573d6000803e3d6000fd5b5050604051601f1901519150506001600160a01b038116158015906107515750876001600160a01b0316816001600160a01b0316145b61078e5760405162461bcd60e51b815260206004820152600e60248201526d24a72b20a624a22fa9a4a3a722a960911b6044820152606401610353565b6001600160a01b0381811660009081526005602090815260408083208b8516808552908352928190208a90555189815291928b16917f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925910160405180910390a35050505050505050565b60006109768061080a63ffffffff8216565b9250505090565b60007f8b73c3c69bb8fe3d512ecc4cf759cc79239f7b179b0ffacaa9a75d522b39400f60006040516108439190610d33565b60405180910390207fc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc66108746107f8565b604080516020810195909552840192909252606083015260808201523060a082015260c00160405160208183030381529060405280519060200120905090565b6000818310156109065760405162461bcd60e51b815260206004820152601c60248201527f45524332303a207375627472616374696f6e20756e646572666c6f77000000006044820152606401610353565b6109108284610dce565b9392505050565b6000806109248385610de5565b9050838110156109105760405162461bcd60e51b815260206004820152601860248201527f45524332303a206164646974696f6e206f766572666c6f7700000000000000006044820152606401610353565b4690565b82805461098690610cca565b90600052602060002090601f0160209004810192826109a857600085556109ee565b82601f106109c157805160ff19168380011785556109ee565b828001600101855582156109ee579182015b828111156109ee5782518255916020019190600101906109d3565b506109fa9291506109fe565b5090565b5b808211156109fa57600081556001016109ff565b600060208083528351808285015260005b81811015610a4057858101830151858201604001528201610a24565b81811115610a52576000604083870101525b50601f01601f1916929092016040019392505050565b80356001600160a01b0381168114610a7f57600080fd5b919050565b60008060408385031215610a9757600080fd5b610aa083610a68565b946020939093013593505050565b634e487b7160e01b600052604160045260246000fd5b600082601f830112610ad557600080fd5b813567ffffffffffffffff80821115610af057610af0610aae565b604051601f8301601f19908116603f01168101908282118183101715610b1857610b18610aae565b81604052838152866020858801011115610b3157600080fd5b836020870160208301376000602085830101528094505050505092915050565b803560ff81168114610a7f57600080fd5b600080600060608486031215610b7757600080fd5b833567ffffffffffffffff80821115610b8f57600080fd5b610b9b87838801610ac4565b94506020860135915080821115610bb157600080fd5b50610bbe86828701610ac4565b925050610bcd60408501610b51565b90509250925092565b600080600060608486031215610beb57600080fd5b610bf484610a68565b9250610c0260208501610a68565b9150604084013590509250925092565b600060208284031215610c2457600080fd5b61091082610a68565b600080600080600080600060e0888a031215610c4857600080fd5b610c5188610a68565b9650610c5f60208901610a68565b95506040880135945060608801359350610c7b60808901610b51565b925060a0880135915060c0880135905092959891949750929550565b60008060408385031215610caa57600080fd5b610cb383610a68565b9150610cc160208401610a68565b90509250929050565b600181811c90821680610cde57607f821691505b602082108103610cfe57634e487b7160e01b600052602260045260246000fd5b50919050565b634e487b7160e01b600052601160045260246000fd5b600060018201610d2c57610d2c610d04565b5060010190565b600080835481600182811c915080831680610d4f57607f831692505b60208084108203610d6e57634e487b7160e01b86526022600452602486fd5b818015610d825760018114610d9357610dc0565b60ff19861689528489019650610dc0565b60008a81526020902060005b86811015610db85781548b820152908501908301610d9f565b505084890196505b509498975050505050505050565b600082821015610de057610de0610d04565b500390565b60008219821115610df857610df8610d04565b50019056fea26469706673582212203b8558c88c8e4c8757c7a209f421be6e54d96a8e7f96a0e2a5422e412da2396e64736f6c634300080d0033" ) )
+      
+    
+    syntax Field ::= S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "name" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_name)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "symbol" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_symbol)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "decimals" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_decimals)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "totalSupply" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_totalSupply)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "balanceOf" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_balanceOf)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "allowance" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_allowance)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "INITIAL_CHAIN_ID" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_INITIAL_CHAIN_ID)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "INITIAL_DOMAIN_SEPARATOR" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_INITIAL_DOMAIN_SEPARATOR)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "nonces" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_nonces)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Field ::= "initialized" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC20_initialized)]
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . name ) => 0 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . symbol ) => 1 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . decimals ) => 2 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . totalSupply ) => 3 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . balanceOf ) => 4 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . allowance ) => 5 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . INITIAL_CHAIN_ID ) => 6 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . INITIAL_DOMAIN_SEPARATOR ) => 7 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . nonces ) => 8 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . initialized ) => 9 )
+      
+    
+    syntax Bytes ::= S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Contract "." S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method [function(), symbol(), klabel(method_lib%forge-std%src%mocks%MockERC20)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2KDOMAINZUndSEPARATOR" "(" ")" [symbol(), klabel(method_MockERC20_S2KDOMAINZUndSEPARATOR_)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2Kallowance" "(" Int ":" "address" "," Int ":" "address" ")" [symbol(), klabel(method_MockERC20_S2Kallowance_address_address)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2Kapprove" "(" Int ":" "address" "," Int ":" "uint256" ")" [symbol(), klabel(method_MockERC20_S2Kapprove_address_uint256)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2KbalanceOf" "(" Int ":" "address" ")" [symbol(), klabel(method_MockERC20_S2KbalanceOf_address)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2Kdecimals" "(" ")" [symbol(), klabel(method_MockERC20_S2Kdecimals_)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2Kinitialize" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint8" ")" [symbol(), klabel(method_MockERC20_S2Kinitialize_string_string_uint8)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2Kname" "(" ")" [symbol(), klabel(method_MockERC20_S2Kname_)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2Knonces" "(" Int ":" "address" ")" [symbol(), klabel(method_MockERC20_S2Knonces_address)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2Kpermit" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "uint8" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol(), klabel(method_MockERC20_S2Kpermit_address_address_uint256_uint256_uint8_bytes32_bytes32)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2Ksymbol" "(" ")" [symbol(), klabel(method_MockERC20_S2Ksymbol_)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2KtotalSupply" "(" ")" [symbol(), klabel(method_MockERC20_S2KtotalSupply_)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2Ktransfer" "(" Int ":" "address" "," Int ":" "uint256" ")" [symbol(), klabel(method_MockERC20_S2Ktransfer_address_uint256)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20Method ::= "S2KtransferFrom" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" ")" [symbol(), klabel(method_MockERC20_S2KtransferFrom_address_address_uint256)]
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2KDOMAINZUndSEPARATOR ( ) => #abiCallData ( "DOMAIN_SEPARATOR" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2Kallowance ( V0_ : address , V1_ : address ) => #abiCallData ( "allowance" , #address ( V0_ ) , #address ( V1_ ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_ )
+       andBool ( #rangeAddress ( V1_ )
+               ))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2Kapprove ( V0_spender : address , V1_amount : uint256 ) => #abiCallData ( "approve" , #address ( V0_spender ) , #uint256 ( V1_amount ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_spender )
+       andBool ( #rangeUInt ( 256 , V1_amount )
+               ))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2KbalanceOf ( V0_ : address ) => #abiCallData ( "balanceOf" , #address ( V0_ ) , .TypedArgs ) )
+       ensures #rangeAddress ( V0_ )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2Kdecimals ( ) => #abiCallData ( "decimals" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2Kinitialize ( V0__name : string , V1__symbol : string , V2__decimals : uint8 ) => #abiCallData ( "initialize" , #string ( V0__name ) , #string ( V1__symbol ) , #uint8 ( V2__decimals ) , .TypedArgs ) )
+       ensures #rangeUInt ( 8 , V2__decimals )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2Kname ( ) => #abiCallData ( "name" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2Knonces ( V0_ : address ) => #abiCallData ( "nonces" , #address ( V0_ ) , .TypedArgs ) )
+       ensures #rangeAddress ( V0_ )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2Kpermit ( V0_owner : address , V1_spender : address , V2_value : uint256 , V3_deadline : uint256 , V4_v : uint8 , V5_r : bytes32 , V6_s : bytes32 ) => #abiCallData ( "permit" , #address ( V0_owner ) , #address ( V1_spender ) , #uint256 ( V2_value ) , #uint256 ( V3_deadline ) , #uint8 ( V4_v ) , #bytes32 ( V5_r ) , #bytes32 ( V6_s ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_owner )
+       andBool ( #rangeAddress ( V1_spender )
+       andBool ( #rangeUInt ( 256 , V2_value )
+       andBool ( #rangeUInt ( 256 , V3_deadline )
+       andBool ( #rangeUInt ( 8 , V4_v )
+       andBool ( #rangeBytes ( 32 , V5_r )
+       andBool ( #rangeBytes ( 32 , V6_s )
+               )))))))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2Ksymbol ( ) => #abiCallData ( "symbol" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2KtotalSupply ( ) => #abiCallData ( "totalSupply" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2Ktransfer ( V0_to : address , V1_amount : uint256 ) => #abiCallData ( "transfer" , #address ( V0_to ) , #uint256 ( V1_amount ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_to )
+       andBool ( #rangeUInt ( 256 , V1_amount )
+               ))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20 . S2KtransferFrom ( V0_from : address , V1_to : address , V2_amount : uint256 ) => #abiCallData ( "transferFrom" , #address ( V0_from ) , #address ( V1_to ) , #uint256 ( V2_amount ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_from )
+       andBool ( #rangeAddress ( V1_to )
+       andBool ( #rangeUInt ( 256 , V2_amount )
+               )))
+      
+    
+    rule  ( selector ( "DOMAIN_SEPARATOR()" ) => 910484757 )
+      
+    
+    rule  ( selector ( "allowance(address,address)" ) => 3714247998 )
+      
+    
+    rule  ( selector ( "approve(address,uint256)" ) => 157198259 )
+      
+    
+    rule  ( selector ( "balanceOf(address)" ) => 1889567281 )
+      
+    
+    rule  ( selector ( "decimals()" ) => 826074471 )
+      
+    
+    rule  ( selector ( "initialize(string,string,uint8)" ) => 371521222 )
+      
+    
+    rule  ( selector ( "name()" ) => 117300739 )
+      
+    
+    rule  ( selector ( "nonces(address)" ) => 2127478272 )
+      
+    
+    rule  ( selector ( "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)" ) => 3573918927 )
+      
+    
+    rule  ( selector ( "symbol()" ) => 2514000705 )
+      
+    
+    rule  ( selector ( "totalSupply()" ) => 404098525 )
+      
+    
+    rule  ( selector ( "transfer(address,uint256)" ) => 2835717307 )
+      
+    
+    rule  ( selector ( "transferFrom(address,address,uint256)" ) => 599290589 )
+      
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiverContract
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiverContract ::= "S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver" [symbol(), klabel(contract_lib%forge-std%src%mocks%IERC721TokenReceiver)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver ) => #parseByteStack ( "0x" ) )
+      
+    
+    syntax Bytes ::= S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiverContract "." S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiverMethod [function(), symbol(), klabel(method_lib%forge-std%src%mocks%IERC721TokenReceiver)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiverMethod ::= "S2KonERC721Received" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_IERC721TokenReceiver_S2KonERC721Received_address_address_uint256_bytes)]
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver . S2KonERC721Received ( V0_ : address , V1_ : address , V2_ : uint256 , V3_ : bytes ) => #abiCallData ( "onERC721Received" , #address ( V0_ ) , #address ( V1_ ) , #uint256 ( V2_ ) , #bytes ( V3_ ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_ )
+       andBool ( #rangeAddress ( V1_ )
+       andBool ( #rangeUInt ( 256 , V2_ )
+       andBool ( #rangeUInt ( 128 , lengthBytes ( V3_ ) )
+               ))))
+      
+    
+    rule  ( selector ( "onERC721Received(address,address,uint256,bytes)" ) => 353073666 )
+      
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Contract
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Contract ::= "S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721" [symbol(), klabel(contract_lib%forge-std%src%mocks%MockERC721)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 ) => #parseByteStack ( "0x608060405234801561001057600080fd5b50610e91806100206000396000f3fe608060405234801561001057600080fd5b50600436106100ea5760003560e01c80636352211e1161008c578063a22cb46511610066578063a22cb465146101f7578063b88d4fde1461020a578063c87b56dd1461021d578063e985e9c51461023157600080fd5b80636352211e146101bb57806370a08231146101ce57806395d89b41146101ef57600080fd5b8063095ea7b3116100c8578063095ea7b31461016d57806323b872dd1461018257806342842e0e146101955780634cd88b76146101a857600080fd5b806301ffc9a7146100ef57806306fdde0314610117578063081812fc1461012c575b600080fd5b6101026100fd366004610a51565b61025f565b60405190151581526020015b60405180910390f35b61011f6102b1565b60405161010e9190610ac2565b61015561013a366004610ad5565b6004602052600090815260409020546001600160a01b031681565b6040516001600160a01b03909116815260200161010e565b61018061017b366004610b05565b61033f565b005b610180610190366004610b2f565b610426565b6101806101a3366004610b2f565b61061f565b6101806101b6366004610c17565b61070e565b6101556101c9366004610ad5565b610790565b6101e16101dc366004610c7b565b6107e7565b60405190815260200161010e565b61011f61084a565b610180610205366004610c96565b610857565b610180610218366004610cd2565b6108c3565b61011f61022b366004610ad5565b50606090565b61010261023f366004610d4e565b600560209081526000928352604080842090915290825290205460ff1681565b60006301ffc9a760e01b6001600160e01b03198316148061029057506380ac58cd60e01b6001600160e01b03198316145b806102ab5750635b5e139f60e01b6001600160e01b03198316145b92915050565b600080546102be90610d81565b80601f01602080910402602001604051908101604052809291908181526020018280546102ea90610d81565b80156103375780601f1061030c57610100808354040283529160200191610337565b820191906000526020600020905b81548152906001019060200180831161031a57829003601f168201915b505050505081565b6000818152600260205260409020546001600160a01b03163381148061038857506001600160a01b038116600090815260056020908152604080832033845290915290205460ff165b6103ca5760405162461bcd60e51b815260206004820152600e60248201526d1393d517d055551213d49256915160921b60448201526064015b60405180910390fd5b60008281526004602052604080822080546001600160a01b0319166001600160a01b0387811691821790925591518593918516917f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b92591a4505050565b6000818152600260205260409020546001600160a01b0384811691161461047c5760405162461bcd60e51b815260206004820152600a60248201526957524f4e475f46524f4d60b01b60448201526064016103c1565b6001600160a01b0382166104c65760405162461bcd60e51b81526020600482015260116024820152701253959053125117d49150d25412515395607a1b60448201526064016103c1565b336001600160a01b038416148061050057506001600160a01b038316600090815260056020908152604080832033845290915290205460ff165b8061052157506000818152600460205260409020546001600160a01b031633145b61055e5760405162461bcd60e51b815260206004820152600e60248201526d1393d517d055551213d49256915160921b60448201526064016103c1565b6001600160a01b038316600090815260036020526040812080549161058283610dd1565b90915550506001600160a01b03821660009081526003602052604081208054916105ab83610de8565b9091555050600081815260026020908152604080832080546001600160a01b038088166001600160a01b031992831681179093556004909452828520805490911690559051849391928716917fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef91a4505050565b61062a838383610426565b813b15806106ca5750604051630a85bd0160e11b8082523360048301526001600160a01b03858116602484015260448301849052608060648401526000608484015290919084169063150b7a029060a4016020604051808303816000875af115801561069a573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106be9190610e01565b6001600160e01b031916145b6107095760405162461bcd60e51b815260206004820152601060248201526f155394d0519157d49150d2541251539560821b60448201526064016103c1565b505050565b60065460ff16156107575760405162461bcd60e51b81526020600482015260136024820152721053149150511657d253925512505312569151606a1b60448201526064016103c1565b815161076a90600090602085019061099f565b50805161077e90600190602084019061099f565b50506006805460ff1916600117905550565b6000818152600260205260409020546001600160a01b0316806107e25760405162461bcd60e51b815260206004820152600a6024820152691393d517d3525395115160b21b60448201526064016103c1565b919050565b60006001600160a01b03821661082e5760405162461bcd60e51b815260206004820152600c60248201526b5a45524f5f4144445245535360a01b60448201526064016103c1565b506001600160a01b031660009081526003602052604090205490565b600180546102be90610d81565b3360008181526005602090815260408083206001600160a01b03871680855290835292819020805460ff191686151590811790915590519081529192917f17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31910160405180910390a35050565b6108ce848484610426565b823b158061095a5750604051630a85bd0160e11b808252906001600160a01b0385169063150b7a029061090b903390899088908890600401610e1e565b6020604051808303816000875af115801561092a573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061094e9190610e01565b6001600160e01b031916145b6109995760405162461bcd60e51b815260206004820152601060248201526f155394d0519157d49150d2541251539560821b60448201526064016103c1565b50505050565b8280546109ab90610d81565b90600052602060002090601f0160209004810192826109cd5760008555610a13565b82601f106109e657805160ff1916838001178555610a13565b82800160010185558215610a13579182015b82811115610a135782518255916020019190600101906109f8565b50610a1f929150610a23565b5090565b5b80821115610a1f5760008155600101610a24565b6001600160e01b031981168114610a4e57600080fd5b50565b600060208284031215610a6357600080fd5b8135610a6e81610a38565b9392505050565b6000815180845260005b81811015610a9b57602081850181015186830182015201610a7f565b81811115610aad576000602083870101525b50601f01601f19169290920160200192915050565b602081526000610a6e6020830184610a75565b600060208284031215610ae757600080fd5b5035919050565b80356001600160a01b03811681146107e257600080fd5b60008060408385031215610b1857600080fd5b610b2183610aee565b946020939093013593505050565b600080600060608486031215610b4457600080fd5b610b4d84610aee565b9250610b5b60208501610aee565b9150604084013590509250925092565b634e487b7160e01b600052604160045260246000fd5b600067ffffffffffffffff80841115610b9c57610b9c610b6b565b604051601f8501601f19908116603f01168101908282118183101715610bc457610bc4610b6b565b81604052809350858152868686011115610bdd57600080fd5b858560208301376000602087830101525050509392505050565b600082601f830112610c0857600080fd5b610a6e83833560208501610b81565b60008060408385031215610c2a57600080fd5b823567ffffffffffffffff80821115610c4257600080fd5b610c4e86838701610bf7565b93506020850135915080821115610c6457600080fd5b50610c7185828601610bf7565b9150509250929050565b600060208284031215610c8d57600080fd5b610a6e82610aee565b60008060408385031215610ca957600080fd5b610cb283610aee565b915060208301358015158114610cc757600080fd5b809150509250929050565b60008060008060808587031215610ce857600080fd5b610cf185610aee565b9350610cff60208601610aee565b925060408501359150606085013567ffffffffffffffff811115610d2257600080fd5b8501601f81018713610d3357600080fd5b610d4287823560208401610b81565b91505092959194509250565b60008060408385031215610d6157600080fd5b610d6a83610aee565b9150610d7860208401610aee565b90509250929050565b600181811c90821680610d9557607f821691505b602082108103610db557634e487b7160e01b600052602260045260246000fd5b50919050565b634e487b7160e01b600052601160045260246000fd5b600081610de057610de0610dbb565b506000190190565b600060018201610dfa57610dfa610dbb565b5060010190565b600060208284031215610e1357600080fd5b8151610a6e81610a38565b6001600160a01b0385811682528416602082015260408101839052608060608201819052600090610e5190830184610a75565b969550505050505056fea2646970667358221220fd5359dae850633bcfff57877d3c5934ca2a8be123439232a65df025a4e4eae764736f6c634300080d0033" ) )
+      
+    
+    syntax Field ::= S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Field
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Field ::= "name" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC721_name)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Field ::= "symbol" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC721_symbol)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Field ::= "_ownerOf" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC721__ownerOf)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Field ::= "_balanceOf" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC721__balanceOf)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Field ::= "getApproved" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC721_getApproved)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Field ::= "isApprovedForAll" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC721_isApprovedForAll)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Field ::= "initialized" [symbol(), klabel(field_lib%forge-std%src%mocks%MockERC721_initialized)]
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . name ) => 0 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . symbol ) => 1 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . _ownerOf ) => 2 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . _balanceOf ) => 3 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . getApproved ) => 4 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . isApprovedForAll ) => 5 )
+      
+    
+    rule  ( #loc ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . initialized ) => 6 )
+      
+    
+    syntax Bytes ::= S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Contract "." S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method [function(), symbol(), klabel(method_lib%forge-std%src%mocks%MockERC721)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2Kapprove" "(" Int ":" "address" "," Int ":" "uint256" ")" [symbol(), klabel(method_MockERC721_S2Kapprove_address_uint256)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KbalanceOf" "(" Int ":" "address" ")" [symbol(), klabel(method_MockERC721_S2KbalanceOf_address)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KgetApproved" "(" Int ":" "uint256" ")" [symbol(), klabel(method_MockERC721_S2KgetApproved_uint256)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2Kinitialize" "(" String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_MockERC721_S2Kinitialize_string_string)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KisApprovedForAll" "(" Int ":" "address" "," Int ":" "address" ")" [symbol(), klabel(method_MockERC721_S2KisApprovedForAll_address_address)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2Kname" "(" ")" [symbol(), klabel(method_MockERC721_S2Kname_)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KownerOf" "(" Int ":" "uint256" ")" [symbol(), klabel(method_MockERC721_S2KownerOf_uint256)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KsafeTransferFrom" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" ")" [symbol(), klabel(method_MockERC721_S2KsafeTransferFrom_address_address_uint256)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KsafeTransferFrom" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_MockERC721_S2KsafeTransferFrom_address_address_uint256_bytes)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KsetApprovalForAll" "(" Int ":" "address" "," Int ":" "bool" ")" [symbol(), klabel(method_MockERC721_S2KsetApprovalForAll_address_bool)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KsupportsInterface" "(" Int ":" "bytes4" ")" [symbol(), klabel(method_MockERC721_S2KsupportsInterface_bytes4)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2Ksymbol" "(" ")" [symbol(), klabel(method_MockERC721_S2Ksymbol_)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KtokenURI" "(" Int ":" "uint256" ")" [symbol(), klabel(method_MockERC721_S2KtokenURI_uint256)]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721Method ::= "S2KtransferFrom" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" ")" [symbol(), klabel(method_MockERC721_S2KtransferFrom_address_address_uint256)]
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2Kapprove ( V0_spender : address , V1_id : uint256 ) => #abiCallData ( "approve" , #address ( V0_spender ) , #uint256 ( V1_id ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_spender )
+       andBool ( #rangeUInt ( 256 , V1_id )
+               ))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KbalanceOf ( V0_owner : address ) => #abiCallData ( "balanceOf" , #address ( V0_owner ) , .TypedArgs ) )
+       ensures #rangeAddress ( V0_owner )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KgetApproved ( V0_ : uint256 ) => #abiCallData ( "getApproved" , #uint256 ( V0_ ) , .TypedArgs ) )
+       ensures #rangeUInt ( 256 , V0_ )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2Kinitialize ( V0__name : string , V1__symbol : string ) => #abiCallData ( "initialize" , #string ( V0__name ) , #string ( V1__symbol ) , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KisApprovedForAll ( V0_ : address , V1_ : address ) => #abiCallData ( "isApprovedForAll" , #address ( V0_ ) , #address ( V1_ ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_ )
+       andBool ( #rangeAddress ( V1_ )
+               ))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2Kname ( ) => #abiCallData ( "name" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KownerOf ( V0_id : uint256 ) => #abiCallData ( "ownerOf" , #uint256 ( V0_id ) , .TypedArgs ) )
+       ensures #rangeUInt ( 256 , V0_id )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KsafeTransferFrom ( V0_from : address , V1_to : address , V2_id : uint256 ) => #abiCallData ( "safeTransferFrom" , #address ( V0_from ) , #address ( V1_to ) , #uint256 ( V2_id ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_from )
+       andBool ( #rangeAddress ( V1_to )
+       andBool ( #rangeUInt ( 256 , V2_id )
+               )))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KsafeTransferFrom ( V0_from : address , V1_to : address , V2_id : uint256 , V3_data : bytes ) => #abiCallData ( "safeTransferFrom" , #address ( V0_from ) , #address ( V1_to ) , #uint256 ( V2_id ) , #bytes ( V3_data ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_from )
+       andBool ( #rangeAddress ( V1_to )
+       andBool ( #rangeUInt ( 256 , V2_id )
+       andBool ( #rangeUInt ( 128 , lengthBytes ( V3_data ) )
+               ))))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KsetApprovalForAll ( V0_operator : address , V1_approved : bool ) => #abiCallData ( "setApprovalForAll" , #address ( V0_operator ) , #bool ( V1_approved ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_operator )
+       andBool ( #rangeBool ( V1_approved )
+               ))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KsupportsInterface ( V0_interfaceId : bytes4 ) => #abiCallData ( "supportsInterface" , #bytes4 ( V0_interfaceId ) , .TypedArgs ) )
+       ensures #rangeBytes ( 4 , V0_interfaceId )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2Ksymbol ( ) => #abiCallData ( "symbol" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KtokenURI ( V0_id : uint256 ) => #abiCallData ( "tokenURI" , #uint256 ( V0_id ) , .TypedArgs ) )
+       ensures #rangeUInt ( 256 , V0_id )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721 . S2KtransferFrom ( V0_from : address , V1_to : address , V2_id : uint256 ) => #abiCallData ( "transferFrom" , #address ( V0_from ) , #address ( V1_to ) , #uint256 ( V2_id ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_from )
+       andBool ( #rangeAddress ( V1_to )
+       andBool ( #rangeUInt ( 256 , V2_id )
+               )))
+      
+    
+    rule  ( selector ( "approve(address,uint256)" ) => 157198259 )
+      
+    
+    rule  ( selector ( "balanceOf(address)" ) => 1889567281 )
+      
+    
+    rule  ( selector ( "getApproved(uint256)" ) => 135795452 )
+      
+    
+    rule  ( selector ( "initialize(string,string)" ) => 1289259894 )
+      
+    
+    rule  ( selector ( "isApprovedForAll(address,address)" ) => 3917867461 )
+      
+    
+    rule  ( selector ( "name()" ) => 117300739 )
+      
+    
+    rule  ( selector ( "ownerOf(uint256)" ) => 1666326814 )
+      
+    
+    rule  ( selector ( "safeTransferFrom(address,address,uint256)" ) => 1115958798 )
+      
+    
+    rule  ( selector ( "safeTransferFrom(address,address,uint256,bytes)" ) => 3096268766 )
+      
+    
+    rule  ( selector ( "setApprovalForAll(address,bool)" ) => 2720838757 )
+      
+    
+    rule  ( selector ( "supportsInterface(bytes4)" ) => 33540519 )
+      
+    
+    rule  ( selector ( "symbol()" ) => 2514000705 )
+      
+    
+    rule  ( selector ( "tokenURI(uint256)" ) => 3363526365 )
+      
+    
+    rule  ( selector ( "transferFrom(address,address,uint256)" ) => 599290589 )
+      
+
+endmodule
+
 module S2KsrcZModMyIERC20-CONTRACT
     imports public FOUNDRY
     
@@ -9312,7 +9729,7 @@ module S2KsrcZModPrank-CONTRACT
     
       
     
-    rule  ( #initBytecode ( S2KsrcZModPrank ) => #parseByteStack ( "0x60a060405234801561001057600080fd5b503360805260805161021561003560003960008181609a015260df01526102156000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c806306661abd146100515780631003e2d21461006d5780631dc05f17146100825780638da5cb5b14610095575b600080fd5b61005a60005481565b6040519081526020015b60405180910390f35b61008061007b366004610181565b6100d4565b005b610080610090366004610181565b610156565b6100bc7f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b039091168152602001610064565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461013d5760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b604482015260640160405180910390fd5b8060008082825461014e91906101b0565b909155505050565b321561016157600080fd5b80600054101561017057600080fd5b8060008082825461014e91906101c8565b60006020828403121561019357600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b600082198211156101c3576101c361019a565b500190565b6000828210156101da576101da61019a565b50039056fea2646970667358221220576c66ed00ea73f0e268ced3370e2f9eb32d0943dd3d09852caf3160c1aa619764736f6c634300080d0033" ) )
+    rule  ( #initBytecode ( S2KsrcZModPrank ) => #parseByteStack ( "0x60a060405234801561001057600080fd5b50336080526080516102376100366000396000818160b0015261010101526102376000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c806306661abd146100675780631003e2d2146100835780631dc05f17146100985780638da5cb5b146100ab578063d737d0c7146100ea578063f96757d1146100f0575b600080fd5b61007060005481565b6040519081526020015b60405180910390f35b6100966100913660046101a3565b6100f6565b005b6100966100a63660046101a3565b610178565b6100d27f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b03909116815260200161007a565b336100d2565b326100d2565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461015f5760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b604482015260640160405180910390fd5b8060008082825461017091906101d2565b909155505050565b321561018357600080fd5b80600054101561019257600080fd5b8060008082825461017091906101ea565b6000602082840312156101b557600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b600082198211156101e5576101e56101bc565b500190565b6000828210156101fc576101fc6101bc565b50039056fea26469706673582212209fec2a98ce783918a505ab8dd5902fd0124c28b9082bff3625e1ca56841a14c364736f6c634300080d0033" ) )
       
     
     syntax Field ::= S2KsrcZModPrankField
@@ -9328,15 +9745,22 @@ module S2KsrcZModPrank-CONTRACT
     
     syntax S2KsrcZModPrankMethod ::= "S2Kcount" "(" ")" [symbol(), klabel(method_Prank_S2Kcount_)]
     
+    syntax S2KsrcZModPrankMethod ::= "S2KmsgSender" "(" ")" [symbol(), klabel(method_Prank_S2KmsgSender_)]
+    
     syntax S2KsrcZModPrankMethod ::= "S2Kowner" "(" ")" [symbol(), klabel(method_Prank_S2Kowner_)]
     
     syntax S2KsrcZModPrankMethod ::= "S2Ksubtract" "(" Int ":" "uint256" ")" [symbol(), klabel(method_Prank_S2Ksubtract_uint256)]
+    
+    syntax S2KsrcZModPrankMethod ::= "S2KtxOrigin" "(" ")" [symbol(), klabel(method_Prank_S2KtxOrigin_)]
     
     rule  ( S2KsrcZModPrank . S2Kadd ( V0_value : uint256 ) => #abiCallData ( "add" , #uint256 ( V0_value ) , .TypedArgs ) )
        ensures #rangeUInt ( 256 , V0_value )
       
     
     rule  ( S2KsrcZModPrank . S2Kcount ( ) => #abiCallData ( "count" , .TypedArgs ) )
+      
+    
+    rule  ( S2KsrcZModPrank . S2KmsgSender ( ) => #abiCallData ( "msgSender" , .TypedArgs ) )
       
     
     rule  ( S2KsrcZModPrank . S2Kowner ( ) => #abiCallData ( "owner" , .TypedArgs ) )
@@ -9346,16 +9770,25 @@ module S2KsrcZModPrank-CONTRACT
        ensures #rangeUInt ( 256 , V0_value )
       
     
+    rule  ( S2KsrcZModPrank . S2KtxOrigin ( ) => #abiCallData ( "txOrigin" , .TypedArgs ) )
+      
+    
     rule  ( selector ( "add(uint256)" ) => 268690130 )
       
     
     rule  ( selector ( "count()" ) => 107354813 )
       
     
+    rule  ( selector ( "msgSender()" ) => 3610759367 )
+      
+    
     rule  ( selector ( "owner()" ) => 2376452955 )
       
     
     rule  ( selector ( "subtract(uint256)" ) => 499146519 )
+      
+    
+    rule  ( selector ( "txOrigin()" ) => 4184299473 )
       
 
 endmodule
@@ -9369,7 +9802,7 @@ module S2KtestZModPrankTest-CONTRACT
     
       
     
-    rule  ( #initBytecode ( S2KtestZModPrankTest ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b50611a018061003d6000396000f3fe608060405234801561001057600080fd5b506004361061010b5760003560e01c80635f63e631116100a2578063b5508aa911610071578063b5508aa9146101d9578063ba414fa6146101e1578063e20c9f71146101f9578063e26f697f14610201578063fa7626d41461021457600080fd5b80635f63e6311461019457806366d9a9a0146101a757806385226c81146101bc578063916a17c6146101d157600080fd5b80633e5e3c23116100de5780633e5e3c231461015e5780633f7286f4146101665780634f7f8fd31461016e578063556fcf591461018157600080fd5b80630a9254e4146101105780630fab23fe1461011a5780631ed7831c1461012d5780633881b1461461014b575b600080fd5b610118610221565b005b610118610128366004611487565b61026c565b6101356104fc565b60405161014291906114a9565b60405180910390f35b6101186101593660046114f6565b61055e565b610135610624565b610135610684565b61011861017c3660046114f6565b6106e4565b61011861018f3660046114f6565b61090d565b6101186101a23660046114f6565b610a3a565b6101af610b63565b604051610142919061150f565b6101c4610c52565b604051610142919061161e565b6101af610d22565b6101c4610e08565b6101e9610ed8565b6040519015158152602001610142565b610135611005565b61011861020f366004611487565b611065565b6007546101e99060ff1681565b60405161022d9061147a565b604051809103906000f080158015610249573d6000803e3d6000fd5b50601b80546001600160a01b0319166001600160a01b0392909216919091179055565b601b54604051630801f16960e11b8152600481018490526001600160a01b0390911690631003e2d290602401600060405180830381600087803b1580156102b257600080fd5b505af11580156102c6573d6000803e3d6000fd5b50506040516308b6ac0f60e31b81526000600482018190526024820152737109709ecfa91a80626ff3989d68f67f5b1dd12d92506345b560789150604401600060405180830381600087803b15801561031e57600080fd5b505af1158015610332573d6000803e3d6000fd5b5050604051632631f2b160e11b8152848411156004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d9250634c63e562915060240160006040518083038186803b15801561038357600080fd5b505afa158015610397573d6000803e3d6000fd5b5050601b54604051631dc05f1760e01b8152600481018590526001600160a01b039091169250631dc05f179150602401600060405180830381600087803b1580156103e157600080fd5b505af11580156103f5573d6000803e3d6000fd5b50505050610482601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561044f573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104739190611680565b61047d8385611699565b61124c565b7f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d60001c6001600160a01b03166390c5013b6040518163ffffffff1660e01b8152600401600060405180830381600087803b1580156104e057600080fd5b505af11580156104f4573d6000803e3d6000fd5b505050505050565b6060601480548060200260200160405190810160405280929190818152602001828054801561055457602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610536575b5050505050905090565b60405163ca669fa760e01b815260006004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d9063ca669fa790602401600060405180830381600087803b1580156105ab57600080fd5b505af11580156105bf573d6000803e3d6000fd5b5050601b54604051630801f16960e11b8152600481018590526001600160a01b039091169250631003e2d29150602401600060405180830381600087803b15801561060957600080fd5b505af115801561061d573d6000803e3d6000fd5b5050505050565b60606016805480602002602001604051908101604052809291908181526020018280548015610554576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610536575050505050905090565b60606015805480602002602001604051908101604052809291908181526020018280548015610554576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610536575050505050905090565b604080518082018252600a81526927b7363c9037bbb732b960b11b6020820152905163f28dceb360e01b8152737109709ecfa91a80626ff3989d68f67f5b1dd12d9163f28dceb39161073991906004016116be565b600060405180830381600087803b15801561075357600080fd5b505af1158015610767573d6000803e3d6000fd5b50506040516303223eab60e11b815260006004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d92506306447d569150602401600060405180830381600087803b1580156107b857600080fd5b505af11580156107cc573d6000803e3d6000fd5b5050601b54604051630801f16960e11b8152600481018590526001600160a01b039091169250631003e2d29150602401600060405180830381600087803b15801561081657600080fd5b505af115801561082a573d6000803e3d6000fd5b505050506108af601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610884573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906108a89190611680565b600061124c565b7f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d60001c6001600160a01b03166390c5013b6040518163ffffffff1660e01b8152600401600060405180830381600087803b15801561060957600080fd5b7f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d60001c6001600160a01b031663f48448146040518163ffffffff1660e01b8152600401600060405180830381600087803b15801561096b57600080fd5b505af115801561097f573d6000803e3d6000fd5b5050601b54604051631dc05f1760e01b8152600481018590526001600160a01b039091169250631dc05f179150602401600060405180830381600087803b1580156109c957600080fd5b505af11580156109dd573d6000803e3d6000fd5b50505050610a37601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610884573d6000803e3d6000fd5b50565b601b54604080516306661abd60e01b81529051610a85926001600160a01b0316916306661abd9160048083019260209291908290030181865afa158015610884573d6000803e3d6000fd5b601b54604051630801f16960e11b8152600481018390526001600160a01b0390911690631003e2d290602401600060405180830381600087803b158015610acb57600080fd5b505af1158015610adf573d6000803e3d6000fd5b50505050610a37601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610b39573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610b5d9190611680565b8261124c565b60606019805480602002602001604051908101604052809291908181526020016000905b82821015610c495760008481526020908190206040805180820182526002860290920180546001600160a01b03168352600181018054835181870281018701909452808452939491938583019392830182828015610c3157602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b03191681526020019060040190602082600301049283019260010382029150808411610bf35790505b50505050508152505081526020019060010190610b87565b50505050905090565b60606018805480602002602001604051908101604052809291908181526020016000905b82821015610c49578382906000526020600020018054610c95906116d8565b80601f0160208091040260200160405190810160405280929190818152602001828054610cc1906116d8565b8015610d0e5780601f10610ce357610100808354040283529160200191610d0e565b820191906000526020600020905b815481529060010190602001808311610cf157829003601f168201915b505050505081526020019060010190610c76565b6060601a805480602002602001604051908101604052809291908181526020016000905b82821015610c495760008481526020908190206040805180820182526002860290920180546001600160a01b03168352600181018054835181870281018701909452808452939491938583019392830182828015610df057602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b03191681526020019060040190602082600301049283019260010382029150808411610db25790505b50505050508152505081526020019060010190610d46565b60606017805480602002602001604051908101604052809291908181526020016000905b82821015610c49578382906000526020600020018054610e4b906116d8565b80601f0160208091040260200160405190810160405280929190818152602001828054610e77906116d8565b8015610ec45780601f10610e9957610100808354040283529160200191610ec4565b820191906000526020600020905b815481529060010190602001808311610ea757829003601f168201915b505050505081526020019060010190610e2c565b600754600090610100900460ff1615610efa5750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b156110005760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b82840152825180830384018152606083019093526000929091610f88917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001611712565b60408051601f1981840301815290829052610fa291611743565b6000604051808303816000865af19150503d8060008114610fdf576040519150601f19603f3d011682016040523d82523d6000602084013e610fe4565b606091505b5091505080806020019051810190610ffc919061175f565b9150505b919050565b60606013805480602002602001604051908101604052809291908181526020018280548015610554576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610536575050505050905090565b601b54604051630801f16960e11b8152600481018490526001600160a01b0390911690631003e2d290602401600060405180830381600087803b1580156110ab57600080fd5b505af11580156110bf573d6000803e3d6000fd5b5050604051632631f2b160e11b8152848411156004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d9250634c63e562915060240160006040518083038186803b15801561111057600080fd5b505afa158015611124573d6000803e3d6000fd5b50506040516323f2866760e11b81526000600482018190526024820152737109709ecfa91a80626ff3989d68f67f5b1dd12d92506347e50cce9150604401600060405180830381600087803b15801561117c57600080fd5b505af1158015611190573d6000803e3d6000fd5b5050601b54604051631dc05f1760e01b8152600481018590526001600160a01b039091169250631dc05f179150602401600060405180830381600087803b1580156111da57600080fd5b505af11580156111ee573d6000803e3d6000fd5b50505050611248601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561044f573d6000803e3d6000fd5b5050565b808214611248577f41304facd9323d75b11bcdd609cb38effffdb05710f7caf0e9b16c6d9d709f506040516112bd9060208082526022908201527f4572726f723a2061203d3d2062206e6f7420736174697366696564205b75696e604082015261745d60f01b606082015260800190565b60405180910390a160408051818152600a81830152690808080808081319599d60b21b60608201526020810184905290517fb2de2fbe801a0df6c0cbddfd448ba3c41d48a040ca35c56c8196ef0fcae721a89181900360800190a160408051818152600a81830152690808080808149a59da1d60b21b60608201526020810183905290517fb2de2fbe801a0df6c0cbddfd448ba3c41d48a040ca35c56c8196ef0fcae721a89181900360800190a1611248737109709ecfa91a80626ff3989d68f67f5b1dd12d3b156114695760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b9282019290925260016060820152600091907f70ca10bbd0dbfd9020a9f4b13402c16cb120705e0d1c0aeab10fa353ae586fc49060800160408051601f19818403018152908290526114089291602001611712565b60408051601f198184030181529082905261142291611743565b6000604051808303816000865af19150503d806000811461145f576040519150601f19603f3d011682016040523d82523d6000602084013e611464565b606091505b505050505b6007805461ff001916610100179055565b61024a8061178283390190565b6000806040838503121561149a57600080fd5b50508035926020909101359150565b6020808252825182820181905260009190848201906040850190845b818110156114ea5783516001600160a01b0316835292840192918401916001016114c5565b50909695505050505050565b60006020828403121561150857600080fd5b5035919050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b848110156115b357898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b8083101561159e5783516001600160e01b0319168252928b019260019290920191908b0190611574565b50978a01979550505091870191600101611537565b50919998505050505050505050565b60005b838110156115dd5781810151838201526020016115c5565b838111156115ec576000848401525b50505050565b6000815180845261160a8160208601602086016115c2565b601f01601f19169290920160200192915050565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b8281101561167357603f198886030184526116618583516115f2565b94509285019290850190600101611645565b5092979650505050505050565b60006020828403121561169257600080fd5b5051919050565b6000828210156116b957634e487b7160e01b600052601160045260246000fd5b500390565b6020815260006116d160208301846115f2565b9392505050565b600181811c908216806116ec57607f821691505b60208210810361170c57634e487b7160e01b600052602260045260246000fd5b50919050565b6001600160e01b03198316815281516000906117358160048501602087016115c2565b919091016004019392505050565b600082516117558184602087016115c2565b9190910192915050565b60006020828403121561177157600080fd5b815180151581146116d157600080fdfe60a060405234801561001057600080fd5b503360805260805161021561003560003960008181609a015260df01526102156000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c806306661abd146100515780631003e2d21461006d5780631dc05f17146100825780638da5cb5b14610095575b600080fd5b61005a60005481565b6040519081526020015b60405180910390f35b61008061007b366004610181565b6100d4565b005b610080610090366004610181565b610156565b6100bc7f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b039091168152602001610064565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461013d5760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b604482015260640160405180910390fd5b8060008082825461014e91906101b0565b909155505050565b321561016157600080fd5b80600054101561017057600080fd5b8060008082825461014e91906101c8565b60006020828403121561019357600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b600082198211156101c3576101c361019a565b500190565b6000828210156101da576101da61019a565b50039056fea2646970667358221220576c66ed00ea73f0e268ced3370e2f9eb32d0943dd3d09852caf3160c1aa619764736f6c634300080d0033a264697066735822122016b1d5d3d000cef5fbd9bd1cc4f097d9334b528856b176f9753cde9a10465dae64736f6c634300080d0033" ) )
+    rule  ( #initBytecode ( S2KtestZModPrankTest ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b50611a248061003d6000396000f3fe608060405234801561001057600080fd5b506004361061010b5760003560e01c80635f63e631116100a2578063b5508aa911610071578063b5508aa9146101d9578063ba414fa6146101e1578063e20c9f71146101f9578063e26f697f14610201578063fa7626d41461021457600080fd5b80635f63e6311461019457806366d9a9a0146101a757806385226c81146101bc578063916a17c6146101d157600080fd5b80633e5e3c23116100de5780633e5e3c231461015e5780633f7286f4146101665780634f7f8fd31461016e578063556fcf591461018157600080fd5b80630a9254e4146101105780630fab23fe1461011a5780631ed7831c1461012d5780633881b1461461014b575b600080fd5b610118610221565b005b610118610128366004611487565b61026c565b6101356104fc565b60405161014291906114a9565b60405180910390f35b6101186101593660046114f6565b61055e565b610135610624565b610135610684565b61011861017c3660046114f6565b6106e4565b61011861018f3660046114f6565b61090d565b6101186101a23660046114f6565b610a3a565b6101af610b63565b604051610142919061150f565b6101c4610c52565b604051610142919061161e565b6101af610d22565b6101c4610e08565b6101e9610ed8565b6040519015158152602001610142565b610135611005565b61011861020f366004611487565b611065565b6007546101e99060ff1681565b60405161022d9061147a565b604051809103906000f080158015610249573d6000803e3d6000fd5b50601b80546001600160a01b0319166001600160a01b0392909216919091179055565b601b54604051630801f16960e11b8152600481018490526001600160a01b0390911690631003e2d290602401600060405180830381600087803b1580156102b257600080fd5b505af11580156102c6573d6000803e3d6000fd5b50506040516308b6ac0f60e31b81526000600482018190526024820152737109709ecfa91a80626ff3989d68f67f5b1dd12d92506345b560789150604401600060405180830381600087803b15801561031e57600080fd5b505af1158015610332573d6000803e3d6000fd5b5050604051632631f2b160e11b8152848411156004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d9250634c63e562915060240160006040518083038186803b15801561038357600080fd5b505afa158015610397573d6000803e3d6000fd5b5050601b54604051631dc05f1760e01b8152600481018590526001600160a01b039091169250631dc05f179150602401600060405180830381600087803b1580156103e157600080fd5b505af11580156103f5573d6000803e3d6000fd5b50505050610482601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561044f573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104739190611680565b61047d8385611699565b61124c565b7f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d60001c6001600160a01b03166390c5013b6040518163ffffffff1660e01b8152600401600060405180830381600087803b1580156104e057600080fd5b505af11580156104f4573d6000803e3d6000fd5b505050505050565b6060601480548060200260200160405190810160405280929190818152602001828054801561055457602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610536575b5050505050905090565b60405163ca669fa760e01b815260006004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d9063ca669fa790602401600060405180830381600087803b1580156105ab57600080fd5b505af11580156105bf573d6000803e3d6000fd5b5050601b54604051630801f16960e11b8152600481018590526001600160a01b039091169250631003e2d29150602401600060405180830381600087803b15801561060957600080fd5b505af115801561061d573d6000803e3d6000fd5b5050505050565b60606016805480602002602001604051908101604052809291908181526020018280548015610554576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610536575050505050905090565b60606015805480602002602001604051908101604052809291908181526020018280548015610554576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610536575050505050905090565b604080518082018252600a81526927b7363c9037bbb732b960b11b6020820152905163f28dceb360e01b8152737109709ecfa91a80626ff3989d68f67f5b1dd12d9163f28dceb39161073991906004016116be565b600060405180830381600087803b15801561075357600080fd5b505af1158015610767573d6000803e3d6000fd5b50506040516303223eab60e11b815260006004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d92506306447d569150602401600060405180830381600087803b1580156107b857600080fd5b505af11580156107cc573d6000803e3d6000fd5b5050601b54604051630801f16960e11b8152600481018590526001600160a01b039091169250631003e2d29150602401600060405180830381600087803b15801561081657600080fd5b505af115801561082a573d6000803e3d6000fd5b505050506108af601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610884573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906108a89190611680565b600061124c565b7f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d60001c6001600160a01b03166390c5013b6040518163ffffffff1660e01b8152600401600060405180830381600087803b15801561060957600080fd5b7f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d60001c6001600160a01b031663f48448146040518163ffffffff1660e01b8152600401600060405180830381600087803b15801561096b57600080fd5b505af115801561097f573d6000803e3d6000fd5b5050601b54604051631dc05f1760e01b8152600481018590526001600160a01b039091169250631dc05f179150602401600060405180830381600087803b1580156109c957600080fd5b505af11580156109dd573d6000803e3d6000fd5b50505050610a37601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610884573d6000803e3d6000fd5b50565b601b54604080516306661abd60e01b81529051610a85926001600160a01b0316916306661abd9160048083019260209291908290030181865afa158015610884573d6000803e3d6000fd5b601b54604051630801f16960e11b8152600481018390526001600160a01b0390911690631003e2d290602401600060405180830381600087803b158015610acb57600080fd5b505af1158015610adf573d6000803e3d6000fd5b50505050610a37601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610b39573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610b5d9190611680565b8261124c565b60606019805480602002602001604051908101604052809291908181526020016000905b82821015610c495760008481526020908190206040805180820182526002860290920180546001600160a01b03168352600181018054835181870281018701909452808452939491938583019392830182828015610c3157602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b03191681526020019060040190602082600301049283019260010382029150808411610bf35790505b50505050508152505081526020019060010190610b87565b50505050905090565b60606018805480602002602001604051908101604052809291908181526020016000905b82821015610c49578382906000526020600020018054610c95906116d8565b80601f0160208091040260200160405190810160405280929190818152602001828054610cc1906116d8565b8015610d0e5780601f10610ce357610100808354040283529160200191610d0e565b820191906000526020600020905b815481529060010190602001808311610cf157829003601f168201915b505050505081526020019060010190610c76565b6060601a805480602002602001604051908101604052809291908181526020016000905b82821015610c495760008481526020908190206040805180820182526002860290920180546001600160a01b03168352600181018054835181870281018701909452808452939491938583019392830182828015610df057602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b03191681526020019060040190602082600301049283019260010382029150808411610db25790505b50505050508152505081526020019060010190610d46565b60606017805480602002602001604051908101604052809291908181526020016000905b82821015610c49578382906000526020600020018054610e4b906116d8565b80601f0160208091040260200160405190810160405280929190818152602001828054610e77906116d8565b8015610ec45780601f10610e9957610100808354040283529160200191610ec4565b820191906000526020600020905b815481529060010190602001808311610ea757829003601f168201915b505050505081526020019060010190610e2c565b600754600090610100900460ff1615610efa5750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b156110005760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b82840152825180830384018152606083019093526000929091610f88917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001611712565b60408051601f1981840301815290829052610fa291611743565b6000604051808303816000865af19150503d8060008114610fdf576040519150601f19603f3d011682016040523d82523d6000602084013e610fe4565b606091505b5091505080806020019051810190610ffc919061175f565b9150505b919050565b60606013805480602002602001604051908101604052809291908181526020018280548015610554576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610536575050505050905090565b601b54604051630801f16960e11b8152600481018490526001600160a01b0390911690631003e2d290602401600060405180830381600087803b1580156110ab57600080fd5b505af11580156110bf573d6000803e3d6000fd5b5050604051632631f2b160e11b8152848411156004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d9250634c63e562915060240160006040518083038186803b15801561111057600080fd5b505afa158015611124573d6000803e3d6000fd5b50506040516323f2866760e11b81526000600482018190526024820152737109709ecfa91a80626ff3989d68f67f5b1dd12d92506347e50cce9150604401600060405180830381600087803b15801561117c57600080fd5b505af1158015611190573d6000803e3d6000fd5b5050601b54604051631dc05f1760e01b8152600481018590526001600160a01b039091169250631dc05f179150602401600060405180830381600087803b1580156111da57600080fd5b505af11580156111ee573d6000803e3d6000fd5b50505050611248601b60009054906101000a90046001600160a01b03166001600160a01b03166306661abd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561044f573d6000803e3d6000fd5b5050565b808214611248577f41304facd9323d75b11bcdd609cb38effffdb05710f7caf0e9b16c6d9d709f506040516112bd9060208082526022908201527f4572726f723a2061203d3d2062206e6f7420736174697366696564205b75696e604082015261745d60f01b606082015260800190565b60405180910390a160408051818152600a81830152690808080808081319599d60b21b60608201526020810184905290517fb2de2fbe801a0df6c0cbddfd448ba3c41d48a040ca35c56c8196ef0fcae721a89181900360800190a160408051818152600a81830152690808080808149a59da1d60b21b60608201526020810183905290517fb2de2fbe801a0df6c0cbddfd448ba3c41d48a040ca35c56c8196ef0fcae721a89181900360800190a1611248737109709ecfa91a80626ff3989d68f67f5b1dd12d3b156114695760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b9282019290925260016060820152600091907f70ca10bbd0dbfd9020a9f4b13402c16cb120705e0d1c0aeab10fa353ae586fc49060800160408051601f19818403018152908290526114089291602001611712565b60408051601f198184030181529082905261142291611743565b6000604051808303816000865af19150503d806000811461145f576040519150601f19603f3d011682016040523d82523d6000602084013e611464565b606091505b505050505b6007805461ff001916610100179055565b61026d8061178283390190565b6000806040838503121561149a57600080fd5b50508035926020909101359150565b6020808252825182820181905260009190848201906040850190845b818110156114ea5783516001600160a01b0316835292840192918401916001016114c5565b50909695505050505050565b60006020828403121561150857600080fd5b5035919050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b848110156115b357898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b8083101561159e5783516001600160e01b0319168252928b019260019290920191908b0190611574565b50978a01979550505091870191600101611537565b50919998505050505050505050565b60005b838110156115dd5781810151838201526020016115c5565b838111156115ec576000848401525b50505050565b6000815180845261160a8160208601602086016115c2565b601f01601f19169290920160200192915050565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b8281101561167357603f198886030184526116618583516115f2565b94509285019290850190600101611645565b5092979650505050505050565b60006020828403121561169257600080fd5b5051919050565b6000828210156116b957634e487b7160e01b600052601160045260246000fd5b500390565b6020815260006116d160208301846115f2565b9392505050565b600181811c908216806116ec57607f821691505b60208210810361170c57634e487b7160e01b600052602260045260246000fd5b50919050565b6001600160e01b03198316815281516000906117358160048501602087016115c2565b919091016004019392505050565b600082516117558184602087016115c2565b9190910192915050565b60006020828403121561177157600080fd5b815180151581146116d157600080fdfe60a060405234801561001057600080fd5b50336080526080516102376100366000396000818160b0015261010101526102376000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c806306661abd146100675780631003e2d2146100835780631dc05f17146100985780638da5cb5b146100ab578063d737d0c7146100ea578063f96757d1146100f0575b600080fd5b61007060005481565b6040519081526020015b60405180910390f35b6100966100913660046101a3565b6100f6565b005b6100966100a63660046101a3565b610178565b6100d27f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b03909116815260200161007a565b336100d2565b326100d2565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461015f5760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b604482015260640160405180910390fd5b8060008082825461017091906101d2565b909155505050565b321561018357600080fd5b80600054101561019257600080fd5b8060008082825461017091906101ea565b6000602082840312156101b557600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b600082198211156101e5576101e56101bc565b500190565b6000828210156101fc576101fc6101bc565b50039056fea26469706673582212209fec2a98ce783918a505ab8dd5902fd0124c28b9082bff3625e1ca56841a14c364736f6c634300080d0033a2646970667358221220c9627e20d5b94a5bfe029b0f66a6894717fec53920ab4fdf8aca0f2e3762131764736f6c634300080d0033" ) )
       
     
     syntax Field ::= S2KtestZModPrankTestField
@@ -9610,6 +10043,854 @@ module S2KtestZModPrankTest-CONTRACT
       
     
     rule  ( selector ( "testSubtractStartPrank(uint256,uint256)" ) => 262874110 )
+      
+
+endmodule
+
+module S2KtestZModPrankTestMsgSender-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModPrankTestMsgSenderContract
+    
+    syntax S2KtestZModPrankTestMsgSenderContract ::= "S2KtestZModPrankTestMsgSender" [symbol(), klabel(contract_test%PrankTestMsgSender)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KtestZModPrankTestMsgSender ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b50610e458061003d6000396000f3fe608060405234801561001057600080fd5b50600436106100cf5760003560e01c8063916a17c61161008c578063b5508aa911610066578063b5508aa914610171578063ba414fa614610179578063e20c9f7114610191578063fa7626d41461019957600080fd5b8063916a17c614610136578063a3b1b1661461013e578063a48fd9171461016957600080fd5b80630a9254e4146100d45780631ed7831c146100de5780633e5e3c23146100fc5780633f7286f41461010457806366d9a9a01461010c57806385226c8114610121575b600080fd5b6100dc6101a6565b005b6100e6610256565b6040516100f3919061090d565b60405180910390f35b6100e66102b8565b6100e6610318565b610114610378565b6040516100f3919061095a565b610129610467565b6040516100f39190610a39565b610114610537565b601b54610151906001600160a01b031681565b6040516001600160a01b0390911681526020016100f3565b6100dc61061d565b6101296106a3565b610181610773565b60405190151581526020016100f3565b6100e66108a0565b6007546101819060ff1681565b6040516101b290610900565b604051809103906000f0801580156101ce573d6000803e3d6000fd5b50601b80546001600160a01b0319166001600160a01b039290921691909117905560405163ca669fa760e01b815260006004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d9063ca669fa790602401600060405180830381600087803b15801561023c57600080fd5b505af1158015610250573d6000803e3d6000fd5b50505050565b606060148054806020026020016040519081016040528092919081815260200182805480156102ae57602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610290575b5050505050905090565b606060168054806020026020016040519081016040528092919081815260200182805480156102ae576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610290575050505050905090565b606060158054806020026020016040519081016040528092919081815260200182805480156102ae576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610290575050505050905090565b60606019805480602002602001604051908101604052809291908181526020016000905b8282101561045e5760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561044657602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116104085790505b5050505050815250508152602001906001019061039c565b50505050905090565b60606018805480602002602001604051908101604052809291908181526020016000905b8282101561045e5783829060005260206000200180546104aa90610ab3565b80601f01602080910402602001604051908101604052809291908181526020018280546104d690610ab3565b80156105235780601f106104f857610100808354040283529160200191610523565b820191906000526020600020905b81548152906001019060200180831161050657829003601f168201915b50505050508152602001906001019061048b565b6060601a805480602002602001604051908101604052809291908181526020016000905b8282101561045e5760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561060557602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116105c75790505b5050505050815250508152602001906001019061055b565b601b546040805163d737d0c760e01b815290516000926001600160a01b03169163d737d0c79160048083019260209291908290030181865afa158015610667573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061068b9190610aed565b6001600160a01b0316146106a1576106a1610b1d565b565b60606017805480602002602001604051908101604052809291908181526020016000905b8282101561045e5783829060005260206000200180546106e690610ab3565b80601f016020809104026020016040519081016040528092919081815260200182805461071290610ab3565b801561075f5780601f106107345761010080835404028352916020019161075f565b820191906000526020600020905b81548152906001019060200180831161074257829003601f168201915b5050505050815260200190600101906106c7565b600754600090610100900460ff16156107955750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b1561089b5760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b82840152825180830384018152606083019093526000929091610823917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001610b33565b60408051601f198184030181529082905261083d91610b64565b6000604051808303816000865af19150503d806000811461087a576040519150601f19603f3d011682016040523d82523d6000602084013e61087f565b606091505b50915050808060200190518101906108979190610b80565b9150505b919050565b606060138054806020026020016040519081016040528092919081815260200182805480156102ae576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610290575050505050905090565b61026d80610ba383390190565b6020808252825182820181905260009190848201906040850190845b8181101561094e5783516001600160a01b031683529284019291840191600101610929565b50909695505050505050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b848110156109fe57898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b808310156109e95783516001600160e01b0319168252928b019260019290920191908b01906109bf565b50978a01979550505091870191600101610982565b50919998505050505050505050565b60005b83811015610a28578181015183820152602001610a10565b838111156102505750506000910152565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b82811015610aa657878503603f1901845281518051808752610a87818989018a8501610a0d565b601f01601f191695909501860194509285019290850190600101610a60565b5092979650505050505050565b600181811c90821680610ac757607f821691505b602082108103610ae757634e487b7160e01b600052602260045260246000fd5b50919050565b600060208284031215610aff57600080fd5b81516001600160a01b0381168114610b1657600080fd5b9392505050565b634e487b7160e01b600052600160045260246000fd5b6001600160e01b0319831681528151600090610b56816004850160208701610a0d565b919091016004019392505050565b60008251610b76818460208701610a0d565b9190910192915050565b600060208284031215610b9257600080fd5b81518015158114610b1657600080fdfe60a060405234801561001057600080fd5b50336080526080516102376100366000396000818160b0015261010101526102376000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c806306661abd146100675780631003e2d2146100835780631dc05f17146100985780638da5cb5b146100ab578063d737d0c7146100ea578063f96757d1146100f0575b600080fd5b61007060005481565b6040519081526020015b60405180910390f35b6100966100913660046101a3565b6100f6565b005b6100966100a63660046101a3565b610178565b6100d27f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b03909116815260200161007a565b336100d2565b326100d2565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461015f5760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b604482015260640160405180910390fd5b8060008082825461017091906101d2565b909155505050565b321561018357600080fd5b80600054101561019257600080fd5b8060008082825461017091906101ea565b6000602082840312156101b557600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b600082198211156101e5576101e56101bc565b500190565b6000828210156101fc576101fc6101bc565b50039056fea26469706673582212209fec2a98ce783918a505ab8dd5902fd0124c28b9082bff3625e1ca56841a14c364736f6c634300080d0033a264697066735822122031d3b5bca876b4fcdd49884859a17f394b6a9c88580006583a0c6115722d848e64736f6c634300080d0033" ) )
+      
+    
+    syntax Field ::= S2KtestZModPrankTestMsgSenderField
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "stdstore" [symbol(), klabel(field_test%PrankTestMsgSender_stdstore)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "IS_TEST" [symbol(), klabel(field_test%PrankTestMsgSender_IS_TEST)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "_failed" [symbol(), klabel(field_test%PrankTestMsgSender__failed)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "stdChainsInitialized" [symbol(), klabel(field_test%PrankTestMsgSender_stdChainsInitialized)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "chains" [symbol(), klabel(field_test%PrankTestMsgSender_chains)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "defaultRpcUrls" [symbol(), klabel(field_test%PrankTestMsgSender_defaultRpcUrls)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "idToAlias" [symbol(), klabel(field_test%PrankTestMsgSender_idToAlias)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "fallbackToDefaultRpcUrls" [symbol(), klabel(field_test%PrankTestMsgSender_fallbackToDefaultRpcUrls)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "gasMeteringOff" [symbol(), klabel(field_test%PrankTestMsgSender_gasMeteringOff)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "_excludedContracts" [symbol(), klabel(field_test%PrankTestMsgSender__excludedContracts)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "_excludedSenders" [symbol(), klabel(field_test%PrankTestMsgSender__excludedSenders)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "_targetedContracts" [symbol(), klabel(field_test%PrankTestMsgSender__targetedContracts)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "_targetedSenders" [symbol(), klabel(field_test%PrankTestMsgSender__targetedSenders)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "_excludedArtifacts" [symbol(), klabel(field_test%PrankTestMsgSender__excludedArtifacts)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "_targetedArtifacts" [symbol(), klabel(field_test%PrankTestMsgSender__targetedArtifacts)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "_targetedArtifactSelectors" [symbol(), klabel(field_test%PrankTestMsgSender__targetedArtifactSelectors)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "_targetedSelectors" [symbol(), klabel(field_test%PrankTestMsgSender__targetedSelectors)]
+    
+    syntax S2KtestZModPrankTestMsgSenderField ::= "prankcontract" [symbol(), klabel(field_test%PrankTestMsgSender_prankcontract)]
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . stdstore ) => 0 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . IS_TEST ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . _failed ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . stdChainsInitialized ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . chains ) => 8 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . defaultRpcUrls ) => 9 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . idToAlias ) => 10 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . fallbackToDefaultRpcUrls ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . gasMeteringOff ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . _excludedContracts ) => 19 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . _excludedSenders ) => 20 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . _targetedContracts ) => 21 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . _targetedSenders ) => 22 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . _excludedArtifacts ) => 23 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . _targetedArtifacts ) => 24 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . _targetedArtifactSelectors ) => 25 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . _targetedSelectors ) => 26 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestMsgSender . prankcontract ) => 27 )
+      
+    
+    syntax Bytes ::= S2KtestZModPrankTestMsgSenderContract "." S2KtestZModPrankTestMsgSenderMethod [function(), symbol(), klabel(method_test%PrankTestMsgSender)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KISZUndTEST" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KexcludeContracts" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KexcludeSenders" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2Kfailed" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2Kfailed_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2Kprankcontract" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2Kprankcontract_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KsetUp" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KsetUp_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KtargetContracts" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KtargetContracts_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KtargetSelectors" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KtargetSenders" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KtargetSenders_)]
+    
+    syntax S2KtestZModPrankTestMsgSenderMethod ::= "S2KtestZUndmsgsenderZUndsetup" "(" ")" [symbol(), klabel(method_PrankTestMsgSender_S2KtestZUndmsgsenderZUndsetup_)]
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2Kprankcontract ( ) => #abiCallData ( "prankcontract" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestMsgSender . S2KtestZUndmsgsenderZUndsetup ( ) => #abiCallData ( "test_msgsender_setup" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "prankcontract()" ) => 2746331494 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_msgsender_setup()" ) => 2760890647 )
+      
+
+endmodule
+
+module S2KtestZModPrankTestOrigin-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModPrankTestOriginContract
+    
+    syntax S2KtestZModPrankTestOriginContract ::= "S2KtestZModPrankTestOrigin" [symbol(), klabel(contract_test%PrankTestOrigin)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KtestZModPrankTestOrigin ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b50610e4c8061003d6000396000f3fe608060405234801561001057600080fd5b50600436106100cf5760003560e01c8063916a17c61161008c578063ba414fa611610066578063ba414fa614610171578063cdd25add14610189578063e20c9f7114610191578063fa7626d41461019957600080fd5b8063916a17c614610136578063a3b1b1661461013e578063b5508aa91461016957600080fd5b80630a9254e4146100d45780631ed7831c146100de5780633e5e3c23146100fc5780633f7286f41461010457806366d9a9a01461010c57806385226c8114610121575b600080fd5b6100dc6101a6565b005b6100e661025d565b6040516100f39190610914565b60405180910390f35b6100e66102bf565b6100e661031f565b61011461037f565b6040516100f39190610961565b61012961046e565b6040516100f39190610a40565b61011461053e565b601b54610151906001600160a01b031681565b6040516001600160a01b0390911681526020016100f3565b610129610624565b6101796106f4565b60405190151581526020016100f3565b6100dc610821565b6100e66108a7565b6007546101799060ff1681565b6040516101b290610907565b604051809103906000f0801580156101ce573d6000803e3d6000fd5b50601b80546001600160a01b0319166001600160a01b03929092169190911790556040516323f2866760e11b81526000600482018190526024820152737109709ecfa91a80626ff3989d68f67f5b1dd12d906347e50cce90604401600060405180830381600087803b15801561024357600080fd5b505af1158015610257573d6000803e3d6000fd5b50505050565b606060148054806020026020016040519081016040528092919081815260200182805480156102b557602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610297575b5050505050905090565b606060168054806020026020016040519081016040528092919081815260200182805480156102b5576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610297575050505050905090565b606060158054806020026020016040519081016040528092919081815260200182805480156102b5576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610297575050505050905090565b60606019805480602002602001604051908101604052809291908181526020016000905b828210156104655760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561044d57602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b0319168152602001906004019060208260030104928301926001038202915080841161040f5790505b505050505081525050815260200190600101906103a3565b50505050905090565b60606018805480602002602001604051908101604052809291908181526020016000905b828210156104655783829060005260206000200180546104b190610aba565b80601f01602080910402602001604051908101604052809291908181526020018280546104dd90610aba565b801561052a5780601f106104ff5761010080835404028352916020019161052a565b820191906000526020600020905b81548152906001019060200180831161050d57829003601f168201915b505050505081526020019060010190610492565b6060601a805480602002602001604051908101604052809291908181526020016000905b828210156104655760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561060c57602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116105ce5790505b50505050508152505081526020019060010190610562565b60606017805480602002602001604051908101604052809291908181526020016000905b8282101561046557838290600052602060002001805461066790610aba565b80601f016020809104026020016040519081016040528092919081815260200182805461069390610aba565b80156106e05780601f106106b5576101008083540402835291602001916106e0565b820191906000526020600020905b8154815290600101906020018083116106c357829003601f168201915b505050505081526020019060010190610648565b600754600090610100900460ff16156107165750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b1561081c5760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b828401528251808303840181526060830190935260009290916107a4917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001610af4565b60408051601f19818403018152908290526107be91610b25565b6000604051808303816000865af19150503d80600081146107fb576040519150601f19603f3d011682016040523d82523d6000602084013e610800565b606091505b50915050808060200190518101906108189190610b41565b9150505b919050565b601b546040805163f96757d160e01b815290516000926001600160a01b03169163f96757d19160048083019260209291908290030181865afa15801561086b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061088f9190610b6a565b6001600160a01b0316146108a5576108a5610b93565b565b606060138054806020026020016040519081016040528092919081815260200182805480156102b5576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610297575050505050905090565b61026d80610baa83390190565b6020808252825182820181905260009190848201906040850190845b818110156109555783516001600160a01b031683529284019291840191600101610930565b50909695505050505050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b84811015610a0557898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b808310156109f05783516001600160e01b0319168252928b019260019290920191908b01906109c6565b50978a01979550505091870191600101610989565b50919998505050505050505050565b60005b83811015610a2f578181015183820152602001610a17565b838111156102575750506000910152565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b82811015610aad57878503603f1901845281518051808752610a8e818989018a8501610a14565b601f01601f191695909501860194509285019290850190600101610a67565b5092979650505050505050565b600181811c90821680610ace57607f821691505b602082108103610aee57634e487b7160e01b600052602260045260246000fd5b50919050565b6001600160e01b0319831681528151600090610b17816004850160208701610a14565b919091016004019392505050565b60008251610b37818460208701610a14565b9190910192915050565b600060208284031215610b5357600080fd5b81518015158114610b6357600080fd5b9392505050565b600060208284031215610b7c57600080fd5b81516001600160a01b0381168114610b6357600080fd5b634e487b7160e01b600052600160045260246000fdfe60a060405234801561001057600080fd5b50336080526080516102376100366000396000818160b0015261010101526102376000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c806306661abd146100675780631003e2d2146100835780631dc05f17146100985780638da5cb5b146100ab578063d737d0c7146100ea578063f96757d1146100f0575b600080fd5b61007060005481565b6040519081526020015b60405180910390f35b6100966100913660046101a3565b6100f6565b005b6100966100a63660046101a3565b610178565b6100d27f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b03909116815260200161007a565b336100d2565b326100d2565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461015f5760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b604482015260640160405180910390fd5b8060008082825461017091906101d2565b909155505050565b321561018357600080fd5b80600054101561019257600080fd5b8060008082825461017091906101ea565b6000602082840312156101b557600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b600082198211156101e5576101e56101bc565b500190565b6000828210156101fc576101fc6101bc565b50039056fea26469706673582212209fec2a98ce783918a505ab8dd5902fd0124c28b9082bff3625e1ca56841a14c364736f6c634300080d0033a2646970667358221220feb90fc26e7c7c8e8fb0c1247dc10854ac689434070abdcda5e8abb620ee878964736f6c634300080d0033" ) )
+      
+    
+    syntax Field ::= S2KtestZModPrankTestOriginField
+    
+    syntax S2KtestZModPrankTestOriginField ::= "stdstore" [symbol(), klabel(field_test%PrankTestOrigin_stdstore)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "IS_TEST" [symbol(), klabel(field_test%PrankTestOrigin_IS_TEST)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "_failed" [symbol(), klabel(field_test%PrankTestOrigin__failed)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "stdChainsInitialized" [symbol(), klabel(field_test%PrankTestOrigin_stdChainsInitialized)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "chains" [symbol(), klabel(field_test%PrankTestOrigin_chains)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "defaultRpcUrls" [symbol(), klabel(field_test%PrankTestOrigin_defaultRpcUrls)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "idToAlias" [symbol(), klabel(field_test%PrankTestOrigin_idToAlias)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "fallbackToDefaultRpcUrls" [symbol(), klabel(field_test%PrankTestOrigin_fallbackToDefaultRpcUrls)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "gasMeteringOff" [symbol(), klabel(field_test%PrankTestOrigin_gasMeteringOff)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "_excludedContracts" [symbol(), klabel(field_test%PrankTestOrigin__excludedContracts)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "_excludedSenders" [symbol(), klabel(field_test%PrankTestOrigin__excludedSenders)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "_targetedContracts" [symbol(), klabel(field_test%PrankTestOrigin__targetedContracts)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "_targetedSenders" [symbol(), klabel(field_test%PrankTestOrigin__targetedSenders)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "_excludedArtifacts" [symbol(), klabel(field_test%PrankTestOrigin__excludedArtifacts)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "_targetedArtifacts" [symbol(), klabel(field_test%PrankTestOrigin__targetedArtifacts)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "_targetedArtifactSelectors" [symbol(), klabel(field_test%PrankTestOrigin__targetedArtifactSelectors)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "_targetedSelectors" [symbol(), klabel(field_test%PrankTestOrigin__targetedSelectors)]
+    
+    syntax S2KtestZModPrankTestOriginField ::= "prankcontract" [symbol(), klabel(field_test%PrankTestOrigin_prankcontract)]
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . stdstore ) => 0 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . IS_TEST ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . _failed ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . stdChainsInitialized ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . chains ) => 8 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . defaultRpcUrls ) => 9 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . idToAlias ) => 10 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . fallbackToDefaultRpcUrls ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . gasMeteringOff ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . _excludedContracts ) => 19 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . _excludedSenders ) => 20 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . _targetedContracts ) => 21 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . _targetedSenders ) => 22 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . _excludedArtifacts ) => 23 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . _targetedArtifacts ) => 24 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . _targetedArtifactSelectors ) => 25 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . _targetedSelectors ) => 26 )
+      
+    
+    rule  ( #loc ( S2KtestZModPrankTestOrigin . prankcontract ) => 27 )
+      
+    
+    syntax Bytes ::= S2KtestZModPrankTestOriginContract "." S2KtestZModPrankTestOriginMethod [function(), symbol(), klabel(method_test%PrankTestOrigin)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KISZUndTEST" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KexcludeContracts" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KexcludeSenders" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2Kfailed" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2Kfailed_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2Kprankcontract" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2Kprankcontract_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KsetUp" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KsetUp_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KtargetContracts" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KtargetContracts_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KtargetSelectors" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KtargetSenders" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KtargetSenders_)]
+    
+    syntax S2KtestZModPrankTestOriginMethod ::= "S2KtestZUndoriginZUndsetup" "(" ")" [symbol(), klabel(method_PrankTestOrigin_S2KtestZUndoriginZUndsetup_)]
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2Kprankcontract ( ) => #abiCallData ( "prankcontract" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPrankTestOrigin . S2KtestZUndoriginZUndsetup ( ) => #abiCallData ( "test_origin_setup" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "prankcontract()" ) => 2746331494 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_origin_setup()" ) => 3453115101 )
+      
+
+endmodule
+
+module S2KtestZModStartPrankTestMsgSender-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModStartPrankTestMsgSenderContract
+    
+    syntax S2KtestZModStartPrankTestMsgSenderContract ::= "S2KtestZModStartPrankTestMsgSender" [symbol(), klabel(contract_test%StartPrankTestMsgSender)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KtestZModStartPrankTestMsgSender ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b50610e458061003d6000396000f3fe608060405234801561001057600080fd5b50600436106100cf5760003560e01c806385226c811161008c578063b5508aa911610066578063b5508aa914610171578063ba414fa614610179578063e20c9f7114610191578063fa7626d41461019957600080fd5b806385226c8114610129578063916a17c61461013e578063a3b1b1661461014657600080fd5b80630a9254e4146100d45780631ed7831c146100de5780633e5e3c23146100fc5780633f7286f41461010457806366d9a9a01461010c57806370acffd514610121575b600080fd5b6100dc6101a6565b005b6100e6610256565b6040516100f3919061090d565b60405180910390f35b6100e66102b8565b6100e6610318565b610114610378565b6040516100f3919061095a565b6100dc610467565b6101316104ed565b6040516100f39190610a39565b6101146105bd565b601b54610159906001600160a01b031681565b6040516001600160a01b0390911681526020016100f3565b6101316106a3565b610181610773565b60405190151581526020016100f3565b6100e66108a0565b6007546101819060ff1681565b6040516101b290610900565b604051809103906000f0801580156101ce573d6000803e3d6000fd5b50601b80546001600160a01b0319166001600160a01b03929092169190911790556040516303223eab60e11b815260006004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d906306447d5690602401600060405180830381600087803b15801561023c57600080fd5b505af1158015610250573d6000803e3d6000fd5b50505050565b606060148054806020026020016040519081016040528092919081815260200182805480156102ae57602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610290575b5050505050905090565b606060168054806020026020016040519081016040528092919081815260200182805480156102ae576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610290575050505050905090565b606060158054806020026020016040519081016040528092919081815260200182805480156102ae576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610290575050505050905090565b60606019805480602002602001604051908101604052809291908181526020016000905b8282101561045e5760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561044657602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116104085790505b5050505050815250508152602001906001019061039c565b50505050905090565b601b546040805163d737d0c760e01b815290516000926001600160a01b03169163d737d0c79160048083019260209291908290030181865afa1580156104b1573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104d59190610ab3565b6001600160a01b0316146104eb576104eb610ae3565b565b60606018805480602002602001604051908101604052809291908181526020016000905b8282101561045e57838290600052602060002001805461053090610af9565b80601f016020809104026020016040519081016040528092919081815260200182805461055c90610af9565b80156105a95780601f1061057e576101008083540402835291602001916105a9565b820191906000526020600020905b81548152906001019060200180831161058c57829003601f168201915b505050505081526020019060010190610511565b6060601a805480602002602001604051908101604052809291908181526020016000905b8282101561045e5760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561068b57602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b0319168152602001906004019060208260030104928301926001038202915080841161064d5790505b505050505081525050815260200190600101906105e1565b60606017805480602002602001604051908101604052809291908181526020016000905b8282101561045e5783829060005260206000200180546106e690610af9565b80601f016020809104026020016040519081016040528092919081815260200182805461071290610af9565b801561075f5780601f106107345761010080835404028352916020019161075f565b820191906000526020600020905b81548152906001019060200180831161074257829003601f168201915b5050505050815260200190600101906106c7565b600754600090610100900460ff16156107955750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b1561089b5760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b82840152825180830384018152606083019093526000929091610823917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001610b33565b60408051601f198184030181529082905261083d91610b64565b6000604051808303816000865af19150503d806000811461087a576040519150601f19603f3d011682016040523d82523d6000602084013e61087f565b606091505b50915050808060200190518101906108979190610b80565b9150505b919050565b606060138054806020026020016040519081016040528092919081815260200182805480156102ae576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610290575050505050905090565b61026d80610ba383390190565b6020808252825182820181905260009190848201906040850190845b8181101561094e5783516001600160a01b031683529284019291840191600101610929565b50909695505050505050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b848110156109fe57898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b808310156109e95783516001600160e01b0319168252928b019260019290920191908b01906109bf565b50978a01979550505091870191600101610982565b50919998505050505050505050565b60005b83811015610a28578181015183820152602001610a10565b838111156102505750506000910152565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b82811015610aa657878503603f1901845281518051808752610a87818989018a8501610a0d565b601f01601f191695909501860194509285019290850190600101610a60565b5092979650505050505050565b600060208284031215610ac557600080fd5b81516001600160a01b0381168114610adc57600080fd5b9392505050565b634e487b7160e01b600052600160045260246000fd5b600181811c90821680610b0d57607f821691505b602082108103610b2d57634e487b7160e01b600052602260045260246000fd5b50919050565b6001600160e01b0319831681528151600090610b56816004850160208701610a0d565b919091016004019392505050565b60008251610b76818460208701610a0d565b9190910192915050565b600060208284031215610b9257600080fd5b81518015158114610adc57600080fdfe60a060405234801561001057600080fd5b50336080526080516102376100366000396000818160b0015261010101526102376000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c806306661abd146100675780631003e2d2146100835780631dc05f17146100985780638da5cb5b146100ab578063d737d0c7146100ea578063f96757d1146100f0575b600080fd5b61007060005481565b6040519081526020015b60405180910390f35b6100966100913660046101a3565b6100f6565b005b6100966100a63660046101a3565b610178565b6100d27f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b03909116815260200161007a565b336100d2565b326100d2565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461015f5760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b604482015260640160405180910390fd5b8060008082825461017091906101d2565b909155505050565b321561018357600080fd5b80600054101561019257600080fd5b8060008082825461017091906101ea565b6000602082840312156101b557600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b600082198211156101e5576101e56101bc565b500190565b6000828210156101fc576101fc6101bc565b50039056fea26469706673582212209fec2a98ce783918a505ab8dd5902fd0124c28b9082bff3625e1ca56841a14c364736f6c634300080d0033a26469706673582212209394bea316c91cb1d29713bb7e69c8bdb2c6066d5f537310f7a90568a314375c64736f6c634300080d0033" ) )
+      
+    
+    syntax Field ::= S2KtestZModStartPrankTestMsgSenderField
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "stdstore" [symbol(), klabel(field_test%StartPrankTestMsgSender_stdstore)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "IS_TEST" [symbol(), klabel(field_test%StartPrankTestMsgSender_IS_TEST)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "_failed" [symbol(), klabel(field_test%StartPrankTestMsgSender__failed)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "stdChainsInitialized" [symbol(), klabel(field_test%StartPrankTestMsgSender_stdChainsInitialized)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "chains" [symbol(), klabel(field_test%StartPrankTestMsgSender_chains)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "defaultRpcUrls" [symbol(), klabel(field_test%StartPrankTestMsgSender_defaultRpcUrls)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "idToAlias" [symbol(), klabel(field_test%StartPrankTestMsgSender_idToAlias)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "fallbackToDefaultRpcUrls" [symbol(), klabel(field_test%StartPrankTestMsgSender_fallbackToDefaultRpcUrls)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "gasMeteringOff" [symbol(), klabel(field_test%StartPrankTestMsgSender_gasMeteringOff)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "_excludedContracts" [symbol(), klabel(field_test%StartPrankTestMsgSender__excludedContracts)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "_excludedSenders" [symbol(), klabel(field_test%StartPrankTestMsgSender__excludedSenders)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "_targetedContracts" [symbol(), klabel(field_test%StartPrankTestMsgSender__targetedContracts)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "_targetedSenders" [symbol(), klabel(field_test%StartPrankTestMsgSender__targetedSenders)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "_excludedArtifacts" [symbol(), klabel(field_test%StartPrankTestMsgSender__excludedArtifacts)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "_targetedArtifacts" [symbol(), klabel(field_test%StartPrankTestMsgSender__targetedArtifacts)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "_targetedArtifactSelectors" [symbol(), klabel(field_test%StartPrankTestMsgSender__targetedArtifactSelectors)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "_targetedSelectors" [symbol(), klabel(field_test%StartPrankTestMsgSender__targetedSelectors)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderField ::= "prankcontract" [symbol(), klabel(field_test%StartPrankTestMsgSender_prankcontract)]
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . stdstore ) => 0 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . IS_TEST ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . _failed ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . stdChainsInitialized ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . chains ) => 8 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . defaultRpcUrls ) => 9 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . idToAlias ) => 10 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . fallbackToDefaultRpcUrls ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . gasMeteringOff ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . _excludedContracts ) => 19 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . _excludedSenders ) => 20 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . _targetedContracts ) => 21 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . _targetedSenders ) => 22 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . _excludedArtifacts ) => 23 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . _targetedArtifacts ) => 24 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . _targetedArtifactSelectors ) => 25 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . _targetedSelectors ) => 26 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestMsgSender . prankcontract ) => 27 )
+      
+    
+    syntax Bytes ::= S2KtestZModStartPrankTestMsgSenderContract "." S2KtestZModStartPrankTestMsgSenderMethod [function(), symbol(), klabel(method_test%StartPrankTestMsgSender)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KISZUndTEST" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KexcludeContracts" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KexcludeSenders" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2Kfailed" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2Kfailed_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2Kprankcontract" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2Kprankcontract_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KsetUp" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KsetUp_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KtargetContracts" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KtargetContracts_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KtargetSelectors" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KtargetSenders" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KtargetSenders_)]
+    
+    syntax S2KtestZModStartPrankTestMsgSenderMethod ::= "S2KtestZUndstartprankZUndmsgsenderZUndsetup" "(" ")" [symbol(), klabel(method_StartPrankTestMsgSender_S2KtestZUndstartprankZUndmsgsenderZUndsetup_)]
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2Kprankcontract ( ) => #abiCallData ( "prankcontract" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestMsgSender . S2KtestZUndstartprankZUndmsgsenderZUndsetup ( ) => #abiCallData ( "test_startprank_msgsender_setup" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "prankcontract()" ) => 2746331494 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_startprank_msgsender_setup()" ) => 1890385877 )
+      
+
+endmodule
+
+module S2KtestZModStartPrankTestOrigin-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModStartPrankTestOriginContract
+    
+    syntax S2KtestZModStartPrankTestOriginContract ::= "S2KtestZModStartPrankTestOrigin" [symbol(), klabel(contract_test%StartPrankTestOrigin)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KtestZModStartPrankTestOrigin ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b50610e4c8061003d6000396000f3fe608060405234801561001057600080fd5b50600436106100cf5760003560e01c8063916a17c61161008c578063b5508aa911610066578063b5508aa914610171578063ba414fa614610179578063e20c9f7114610191578063fa7626d41461019957600080fd5b8063916a17c614610136578063a3b1b1661461013e578063a98cd4cd1461016957600080fd5b80630a9254e4146100d45780631ed7831c146100de5780633e5e3c23146100fc5780633f7286f41461010457806366d9a9a01461010c57806385226c8114610121575b600080fd5b6100dc6101a6565b005b6100e661025d565b6040516100f39190610914565b60405180910390f35b6100e66102bf565b6100e661031f565b61011461037f565b6040516100f39190610961565b61012961046e565b6040516100f39190610a40565b61011461053e565b601b54610151906001600160a01b031681565b6040516001600160a01b0390911681526020016100f3565b6100dc610624565b6101296106aa565b61018161077a565b60405190151581526020016100f3565b6100e66108a7565b6007546101819060ff1681565b6040516101b290610907565b604051809103906000f0801580156101ce573d6000803e3d6000fd5b50601b80546001600160a01b0319166001600160a01b03929092169190911790556040516308b6ac0f60e31b81526000600482018190526024820152737109709ecfa91a80626ff3989d68f67f5b1dd12d906345b5607890604401600060405180830381600087803b15801561024357600080fd5b505af1158015610257573d6000803e3d6000fd5b50505050565b606060148054806020026020016040519081016040528092919081815260200182805480156102b557602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610297575b5050505050905090565b606060168054806020026020016040519081016040528092919081815260200182805480156102b5576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610297575050505050905090565b606060158054806020026020016040519081016040528092919081815260200182805480156102b5576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610297575050505050905090565b60606019805480602002602001604051908101604052809291908181526020016000905b828210156104655760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561044d57602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b0319168152602001906004019060208260030104928301926001038202915080841161040f5790505b505050505081525050815260200190600101906103a3565b50505050905090565b60606018805480602002602001604051908101604052809291908181526020016000905b828210156104655783829060005260206000200180546104b190610aba565b80601f01602080910402602001604051908101604052809291908181526020018280546104dd90610aba565b801561052a5780601f106104ff5761010080835404028352916020019161052a565b820191906000526020600020905b81548152906001019060200180831161050d57829003601f168201915b505050505081526020019060010190610492565b6060601a805480602002602001604051908101604052809291908181526020016000905b828210156104655760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561060c57602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116105ce5790505b50505050508152505081526020019060010190610562565b601b546040805163f96757d160e01b815290516000926001600160a01b03169163f96757d19160048083019260209291908290030181865afa15801561066e573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106929190610af4565b6001600160a01b0316146106a8576106a8610b24565b565b60606017805480602002602001604051908101604052809291908181526020016000905b828210156104655783829060005260206000200180546106ed90610aba565b80601f016020809104026020016040519081016040528092919081815260200182805461071990610aba565b80156107665780601f1061073b57610100808354040283529160200191610766565b820191906000526020600020905b81548152906001019060200180831161074957829003601f168201915b5050505050815260200190600101906106ce565b600754600090610100900460ff161561079c5750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b156108a25760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b8284015282518083038401815260608301909352600092909161082a917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001610b3a565b60408051601f198184030181529082905261084491610b6b565b6000604051808303816000865af19150503d8060008114610881576040519150601f19603f3d011682016040523d82523d6000602084013e610886565b606091505b509150508080602001905181019061089e9190610b87565b9150505b919050565b606060138054806020026020016040519081016040528092919081815260200182805480156102b5576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610297575050505050905090565b61026d80610baa83390190565b6020808252825182820181905260009190848201906040850190845b818110156109555783516001600160a01b031683529284019291840191600101610930565b50909695505050505050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b84811015610a0557898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b808310156109f05783516001600160e01b0319168252928b019260019290920191908b01906109c6565b50978a01979550505091870191600101610989565b50919998505050505050505050565b60005b83811015610a2f578181015183820152602001610a17565b838111156102575750506000910152565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b82811015610aad57878503603f1901845281518051808752610a8e818989018a8501610a14565b601f01601f191695909501860194509285019290850190600101610a67565b5092979650505050505050565b600181811c90821680610ace57607f821691505b602082108103610aee57634e487b7160e01b600052602260045260246000fd5b50919050565b600060208284031215610b0657600080fd5b81516001600160a01b0381168114610b1d57600080fd5b9392505050565b634e487b7160e01b600052600160045260246000fd5b6001600160e01b0319831681528151600090610b5d816004850160208701610a14565b919091016004019392505050565b60008251610b7d818460208701610a14565b9190910192915050565b600060208284031215610b9957600080fd5b81518015158114610b1d57600080fdfe60a060405234801561001057600080fd5b50336080526080516102376100366000396000818160b0015261010101526102376000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c806306661abd146100675780631003e2d2146100835780631dc05f17146100985780638da5cb5b146100ab578063d737d0c7146100ea578063f96757d1146100f0575b600080fd5b61007060005481565b6040519081526020015b60405180910390f35b6100966100913660046101a3565b6100f6565b005b6100966100a63660046101a3565b610178565b6100d27f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b03909116815260200161007a565b336100d2565b326100d2565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461015f5760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b604482015260640160405180910390fd5b8060008082825461017091906101d2565b909155505050565b321561018357600080fd5b80600054101561019257600080fd5b8060008082825461017091906101ea565b6000602082840312156101b557600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b600082198211156101e5576101e56101bc565b500190565b6000828210156101fc576101fc6101bc565b50039056fea26469706673582212209fec2a98ce783918a505ab8dd5902fd0124c28b9082bff3625e1ca56841a14c364736f6c634300080d0033a264697066735822122012bf0971bcdbf9b5655ae6dfda134a56a3ea53ce3f18dc7742c556e9deae128a64736f6c634300080d0033" ) )
+      
+    
+    syntax Field ::= S2KtestZModStartPrankTestOriginField
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "stdstore" [symbol(), klabel(field_test%StartPrankTestOrigin_stdstore)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "IS_TEST" [symbol(), klabel(field_test%StartPrankTestOrigin_IS_TEST)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "_failed" [symbol(), klabel(field_test%StartPrankTestOrigin__failed)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "stdChainsInitialized" [symbol(), klabel(field_test%StartPrankTestOrigin_stdChainsInitialized)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "chains" [symbol(), klabel(field_test%StartPrankTestOrigin_chains)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "defaultRpcUrls" [symbol(), klabel(field_test%StartPrankTestOrigin_defaultRpcUrls)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "idToAlias" [symbol(), klabel(field_test%StartPrankTestOrigin_idToAlias)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "fallbackToDefaultRpcUrls" [symbol(), klabel(field_test%StartPrankTestOrigin_fallbackToDefaultRpcUrls)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "gasMeteringOff" [symbol(), klabel(field_test%StartPrankTestOrigin_gasMeteringOff)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "_excludedContracts" [symbol(), klabel(field_test%StartPrankTestOrigin__excludedContracts)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "_excludedSenders" [symbol(), klabel(field_test%StartPrankTestOrigin__excludedSenders)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "_targetedContracts" [symbol(), klabel(field_test%StartPrankTestOrigin__targetedContracts)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "_targetedSenders" [symbol(), klabel(field_test%StartPrankTestOrigin__targetedSenders)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "_excludedArtifacts" [symbol(), klabel(field_test%StartPrankTestOrigin__excludedArtifacts)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "_targetedArtifacts" [symbol(), klabel(field_test%StartPrankTestOrigin__targetedArtifacts)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "_targetedArtifactSelectors" [symbol(), klabel(field_test%StartPrankTestOrigin__targetedArtifactSelectors)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "_targetedSelectors" [symbol(), klabel(field_test%StartPrankTestOrigin__targetedSelectors)]
+    
+    syntax S2KtestZModStartPrankTestOriginField ::= "prankcontract" [symbol(), klabel(field_test%StartPrankTestOrigin_prankcontract)]
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . stdstore ) => 0 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . IS_TEST ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . _failed ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . stdChainsInitialized ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . chains ) => 8 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . defaultRpcUrls ) => 9 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . idToAlias ) => 10 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . fallbackToDefaultRpcUrls ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . gasMeteringOff ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . _excludedContracts ) => 19 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . _excludedSenders ) => 20 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . _targetedContracts ) => 21 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . _targetedSenders ) => 22 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . _excludedArtifacts ) => 23 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . _targetedArtifacts ) => 24 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . _targetedArtifactSelectors ) => 25 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . _targetedSelectors ) => 26 )
+      
+    
+    rule  ( #loc ( S2KtestZModStartPrankTestOrigin . prankcontract ) => 27 )
+      
+    
+    syntax Bytes ::= S2KtestZModStartPrankTestOriginContract "." S2KtestZModStartPrankTestOriginMethod [function(), symbol(), klabel(method_test%StartPrankTestOrigin)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KISZUndTEST" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KexcludeContracts" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KexcludeSenders" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2Kfailed" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2Kfailed_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2Kprankcontract" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2Kprankcontract_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KsetUp" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KsetUp_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KtargetContracts" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KtargetContracts_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KtargetSelectors" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KtargetSenders" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KtargetSenders_)]
+    
+    syntax S2KtestZModStartPrankTestOriginMethod ::= "S2KtestZUndstartprankZUndoriginZUndsetup" "(" ")" [symbol(), klabel(method_StartPrankTestOrigin_S2KtestZUndstartprankZUndoriginZUndsetup_)]
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2Kprankcontract ( ) => #abiCallData ( "prankcontract" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModStartPrankTestOrigin . S2KtestZUndstartprankZUndoriginZUndsetup ( ) => #abiCallData ( "test_startprank_origin_setup" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "prankcontract()" ) => 2746331494 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_startprank_origin_setup()" ) => 2844579021 )
       
 
 endmodule

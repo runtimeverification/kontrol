@@ -404,6 +404,8 @@ def _method_to_cfg(
             active_cell = final_node.cterm.cell('ACTIVE_CELL')
             depth_cell = final_node.cterm.cell('DEPTH_CELL')
             singlecall_cell = final_node.cterm.cell('SINGLECALL_CELL')
+            gas_cell = final_node.cterm.cell('GAS_CELL')
+            callgas_cell = final_node.cterm.cell('CALLGAS_CELL')
             new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
             new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
             test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
@@ -432,6 +434,8 @@ def _method_to_cfg(
             new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACTIVE_CELL', active_cell), [])
             new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'DEPTH_CELL', depth_cell), [])
             new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'SINGLECALL_CELL', singlecall_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
