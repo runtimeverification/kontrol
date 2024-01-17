@@ -555,13 +555,12 @@ def _init_cterm(
     if symbolic_exploration:
         init_subst.update(
             {
-                'CALLSTACK_CELL': KVariable('CALLSTACK'),
-                'CALLDEPTH_CELL': KVariable('CALLDEPTH'),
-                'LOG_CELL': KVariable('LOGS'),
                 'ID_CELL': Foundry.address_TEST_SYMBOLIC(),
             }
         )
         del init_subst['CALLSTACK_CELL']
+        del init_subst['CALLDEPTH_CELL']
+        del init_subst['LOGS_CELL']
         del init_subst['LOG_CELL']
         del init_subst['INTERIMSTATES_CELL']
 
