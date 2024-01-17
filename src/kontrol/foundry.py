@@ -300,21 +300,14 @@ class Foundry:
         return test_sigs
 
     def get_test_id(self, test: str, id: int | None) -> str:
-        matching_proofs = self.proofs_with_test(test)
-        if not matching_proofs:
-            raise ValueError(f'Found no matching proofs for {test}.')
-        if id is None:
-            if len(matching_proofs) > 1:
-                raise ValueError(
-                    f'Found {len(matching_proofs)} matching proofs for {test}. Use the --version flag to choose one.'
-                )
-            test_id = single(matching_proofs).id
-            return test_id
-        else:
-            for proof in matching_proofs:
-                if proof.id.endswith(str(id)):
-                    return proof.id
-            raise ValueError('No proof matching this predicate.')
+        matching_proofs_ids = self.proof_ids_with_test(test, id)
+        if len(matching_proofs_ids) == 0:
+            raise ValueError(f'Found no matching proofs for {test}:{id}.')
+        if len(matching_proofs_ids) > 1:
+            raise ValueError(
+                f'Found {len(matching_proofs_ids)} matching proofs for {test}:{id}. Use the --version flag to choose one.'
+            )
+        return single(matching_proofs_ids)
 
     @staticmethod
     def success(s: KInner, dst: KInner, r: KInner, c: KInner, e1: KInner, e2: KInner) -> KApply:
@@ -375,13 +368,11 @@ class Foundry:
         )
         return res_lines
 
-    def proofs_with_test(self, test: str) -> list[Proof]:
-        proofs = [
-            self.get_optional_proof(pid)
-            for pid in listdir(self.proofs_dir)
-            if re.search(single(self._escape_brackets([test])), pid.split(':')[0])
-        ]
-        return [proof for proof in proofs if proof is not None]
+    def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
+        regex = single(self._escape_brackets([test]))
+        if version is not None:
+            regex += f'.*:{version}'
+        return [pid for pid in listdir(self.proofs_dir) if re.search(regex, pid)]
 
     def get_apr_proof(self, test_id: str) -> APRProof:
         proof = Proof.read_proof_data(self.proofs_dir, test_id)
