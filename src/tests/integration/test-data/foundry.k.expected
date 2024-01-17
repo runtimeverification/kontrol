@@ -56,9 +56,6 @@ module FOUNDRY-MAIN
     imports public S2KtestZModMergeTest-VERIFICATION
     imports public S2KtestZModMethodDisambiguateTest-VERIFICATION
     imports public S2KtestZModMockCallTest-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-VERIFICATION
     imports public S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyToken-VERIFICATION
     imports public S2KtestZModNoImport-VERIFICATION
@@ -492,27 +489,6 @@ endmodule
 
 module S2KtestZModMockCallTest-VERIFICATION
     imports public S2KtestZModMockCallTest-CONTRACT
-    
-    
-
-endmodule
-
-module S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-CONTRACT
-    
-    
-
-endmodule
-
-module S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-CONTRACT
-    
-    
-
-endmodule
-
-module S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-CONTRACT
     
     
 
