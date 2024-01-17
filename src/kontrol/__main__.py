@@ -14,6 +14,7 @@ from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRProof
 from pyk.proof.tui import APRProofViewer
+from pyk.utils import ensure_dir_path
 
 from . import VERSION
 from .cli import KontrolCLIArgs
@@ -28,7 +29,9 @@ from .foundry import (
     foundry_show,
     foundry_simplify_node,
     foundry_step_node,
+    foundry_summary,
     foundry_to_dot,
+    read_summary,
 )
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
@@ -59,6 +62,18 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         args.pop(arg)
 
 
+def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
+    try:
+        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
+    except FileNotFoundError:
+        print(
+            f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return foundry
+
+
 def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
@@ -80,7 +95,9 @@ def _check_k_version() -> None:
     actual_k_version = k_version()
 
     if not _compare_versions(expected_k_version, actual_k_version):
-        _LOGGER.warning(f'K version {expected_k_version} was expected but K version {actual_k_version} is being used.')
+        _LOGGER.warning(
+            f'K version {expected_k_version.text} was expected but K version {actual_k_version.text} is being used.'
+        )
 
 
 def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
@@ -99,6 +116,29 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 
 
 # Command implementation
+
+
+def exec_summary(
+    name: str,
+    accesses_file: Path,
+    contract_names: Path | None,
+    output_dir_name: str | None,
+    foundry_root: Path,
+    license: str,
+    comment_generated_file: str,
+    condense_summary: bool = False,
+    **kwargs: Any,
+) -> None:
+    foundry_summary(
+        name,
+        accesses_file,
+        contract_names=contract_names,
+        output_dir_name=output_dir_name,
+        foundry=_load_foundry(foundry_root),
+        license=license,
+        comment_generated_file=comment_generated_file,
+        condense_summary=condense_summary,
+    )
 
 
 def exec_version(**kwargs: Any) -> None:
@@ -153,9 +193,9 @@ def exec_build(
     _ignore_arg(kwargs, 'o2', '-O2')
     _ignore_arg(kwargs, 'o3', '-O3')
     if target is None:
-        target = KompileTarget.HASKELL_BOOSTER
+        target = KompileTarget.HASKELL
     foundry_kompile(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root),
         includes=includes,
         regen=regen,
         rekompile=rekompile,
@@ -180,10 +220,13 @@ def exec_prove(
     break_every_step: bool = False,
     break_on_jumpi: bool = False,
     break_on_calls: bool = True,
+    break_on_storage: bool = False,
+    break_on_basic_blocks: bool = False,
+    break_on_cheatcodes: bool = False,
     bmc_depth: int | None = None,
     bug_report: BugReport | None = None,
     kore_rpc_command: str | Iterable[str] | None = None,
-    use_booster: bool = False,
+    use_booster: bool = True,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     smt_tactic: str | None = None,
@@ -195,6 +238,8 @@ def exec_prove(
     fail_fast: bool = False,
     port: int | None = None,
     maude_port: int | None = None,
+    use_gas: bool = False,
+    summary_path: Path | None = None,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -210,6 +255,8 @@ def exec_prove(
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
 
+    summary_entries = read_summary(summary_path) if summary_path else None
+
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
         reinit=reinit,
@@ -219,11 +266,16 @@ def exec_prove(
         break_every_step=break_every_step,
         break_on_jumpi=break_on_jumpi,
         break_on_calls=break_on_calls,
+        break_on_storage=break_on_storage,
+        break_on_basic_blocks=break_on_basic_blocks,
+        break_on_cheatcodes=break_on_cheatcodes,
         workers=workers,
         counterexample_info=counterexample_info,
         max_iterations=max_iterations,
         run_constructor=run_constructor,
         fail_fast=fail_fast,
+        use_gas=use_gas,
+        summary_entries=summary_entries,
     )
 
     rpc_options = RPCOptions(
@@ -238,7 +290,7 @@ def exec_prove(
     )
 
     results = foundry_prove(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         prove_options=prove_options,
         rpc_options=rpc_options,
         tests=tests,
@@ -268,6 +320,8 @@ def exec_show(
     nodes: Iterable[NodeIdLike] = (),
     node_deltas: Iterable[tuple[NodeIdLike, NodeIdLike]] = (),
     to_module: bool = False,
+    to_kevm_claims: bool = False,
+    kevm_claim_dir: Path | None = None,
     minimize: bool = True,
     sort_collections: bool = False,
     omit_unstable_output: bool = False,
@@ -280,12 +334,14 @@ def exec_show(
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root),
         test=test,
         version=version,
         nodes=nodes,
         node_deltas=node_deltas,
         to_module=to_module,
+        to_kevm_claims=to_kevm_claims,
+        kevm_claim_dir=kevm_claim_dir,
         minimize=minimize,
         omit_unstable_output=omit_unstable_output,
         sort_collections=sort_collections,
@@ -300,16 +356,16 @@ def exec_show(
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry_to_dot(foundry_root=foundry_root, test=test, version=version)
+    foundry_to_dot(foundry=_load_foundry(foundry_root), test=test, version=version)
 
 
 def exec_list(foundry_root: Path, **kwargs: Any) -> None:
-    stats = foundry_list(foundry_root=foundry_root)
+    stats = foundry_list(foundry=_load_foundry(foundry_root))
     print('\n'.join(stats))
 
 
 def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry = Foundry(foundry_root)
+    foundry = _load_foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -326,7 +382,7 @@ def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs:
 
 
 def exec_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
-    foundry_remove_node(foundry_root=foundry_root, test=test, version=version, node=node)
+    foundry_remove_node(foundry=_load_foundry(foundry_root), test=test, version=version, node=node)
 
 
 def exec_simplify_node(
@@ -368,7 +424,7 @@ def exec_simplify_node(
     )
 
     pretty_term = foundry_simplify_node(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         node=node,
@@ -419,7 +475,7 @@ def exec_step_node(
     )
 
     foundry_step_node(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         node=node,
@@ -437,7 +493,7 @@ def exec_merge_nodes(
     nodes: Iterable[NodeIdLike],
     **kwargs: Any,
 ) -> None:
-    foundry_merge_nodes(foundry_root=foundry_root, node_ids=nodes, test=test, version=version)
+    foundry_merge_nodes(foundry=_load_foundry(foundry_root), node_ids=nodes, test=test, version=version)
 
 
 def exec_section_edge(
@@ -478,7 +534,7 @@ def exec_section_edge(
     )
 
     foundry_section_edge(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root, bug_report),
         test=test,
         version=version,
         rpc_options=rpc_options,
@@ -526,7 +582,7 @@ def exec_get_model(
         maude_port=maude_port,
     )
     output = foundry_get_model(
-        foundry_root=foundry_root,
+        foundry=_load_foundry(foundry_root),
         test=test,
         version=version,
         nodes=nodes,
@@ -611,6 +667,51 @@ def _create_argument_parser() -> ArgumentParser:
         help="Do not call 'forge build' during kompilation.",
     )
 
+    summary_args = command_parser.add_parser(
+        'summary',
+        help='Generate a solidity function summary from an account access dict',
+        parents=[
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    summary_args.add_argument('name', type=str, help='Generated contract name')
+    summary_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
+    summary_args.add_argument(
+        '--contract-names',
+        dest='contract_names',
+        default=None,
+        type=file_path,
+        help='Path to JSON containing deployment addresses and its respective contract names',
+    )
+    summary_args.add_argument(
+        '--condense-summary',
+        dest='condense_summary',
+        default=False,
+        type=bool,
+        help='Deploy summary as a single file',
+    )
+    summary_args.add_argument(
+        '--output-dir',
+        dest='output_dir_name',
+        default=None,
+        type=str,
+        help='Path to write summary .sol files, relative to foundry root',
+    )
+    summary_args.add_argument(
+        '--comment-generated-files',
+        dest='comment_generated_file',
+        default='// This file was autogenerated by running `kontrol summary`. Do not edit this file manually.\n',
+        type=str,
+        help='Comment to write at the top of the auto generated summary files',
+    )
+    summary_args.add_argument(
+        '--license',
+        dest='license',
+        default='UNLICENSED',
+        type=str,
+        help='License for the auto generated contracts',
+    )
+
     prove_args = command_parser.add_parser(
         'prove',
         help='Run Foundry Proof.',
@@ -659,6 +760,23 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Include the contract constructor in the test execution.',
     )
+    prove_args.add_argument(
+        '--use-gas', dest='use_gas', default=False, action='store_true', help='Enables gas computation in KEVM.'
+    )
+    prove_args.add_argument(
+        '--break-on-cheatcodes',
+        dest='break_on_cheatcodes',
+        default=False,
+        action='store_true',
+        help='Break on all Foundry rules.',
+    )
+    prove_args.add_argument(
+        '--init-node-from',
+        dest='summary_path',
+        default=None,
+        type=file_path,
+        help='Path to JSON file containing the summary of the deployment process used for the project.',
+    )
 
     show_args = command_parser.add_parser(
         'show',
@@ -678,6 +796,19 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Strip output that is likely to change without the contract logic changing',
+    )
+    show_args.add_argument(
+        '--to-kevm-claims',
+        dest='to_kevm_claims',
+        default=False,
+        action='store_true',
+        help='Generate a K module which can be run directly as KEVM claims for the given KCFG (best-effort).',
+    )
+    show_args.add_argument(
+        '--kevm-claim-dir',
+        dest='kevm_claim_dir',
+        type=ensure_dir_path,
+        help='Path to write KEVM claim files at.',
     )
 
     command_parser.add_parser(

@@ -4,36 +4,85 @@ from typing import TYPE_CHECKING
 
 import pytest
 from kevm_pyk.kevm import KEVM
-from pyk.kast.inner import KToken, KVariable
+from pyk.kast.inner import KApply, KToken, KVariable
 
-from kontrol.solc_to_k import Contract, _range_predicate, find_function_calls
+from kontrol.solc_to_k import Contract, Input, _range_predicates, find_function_calls
 
 from .utils import TEST_DATA_DIR
 
 if TYPE_CHECKING:
     from typing import Final
 
-    from pyk.kast.inner import KInner
-
 
 EXAMPLES_DIR: Final = TEST_DATA_DIR / 'examples'
 
-PREDICATE_DATA: list[tuple[str, KInner, str, KInner | None]] = [
-    ('bytes4', KVariable('V0_x'), 'bytes4', KEVM.range_bytes(KToken('4', 'Int'), KVariable('V0_x'))),
-    ('int128', KVariable('V0_x'), 'int128', KEVM.range_sint(128, KVariable('V0_x'))),
-    ('int24', KVariable('V0_x'), 'int24', KEVM.range_sint(24, KVariable('V0_x'))),
-    ('uint24', KVariable('V0_x'), 'uint24', KEVM.range_uint(24, KVariable('V0_x'))),
+PREDICATE_DATA: list[tuple[str, KApply, list[KApply]]] = [
+    ('bytes4', KApply('bytes4', KVariable('V0_x')), [KEVM.range_bytes(KToken('4', 'Int'), KVariable('V0_x'))]),
+    ('int128', KApply('int128', KVariable('V0_x')), [KEVM.range_sint(128, KVariable('V0_x'))]),
+    ('int24', KApply('int24', KVariable('V0_x')), [KEVM.range_sint(24, KVariable('V0_x'))]),
+    ('uint24', KApply('uint24', KVariable('V0_x')), [KEVM.range_uint(24, KVariable('V0_x'))]),
+    (
+        'tuple',
+        KApply(
+            'abi_type_tuple',
+            [
+                KApply(
+                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    [
+                        KApply('abi_type_uint256', [KVariable('V0_x')]),
+                        KApply(
+                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            [
+                                KApply('abi_type_uint256', [KVariable('V1_y')]),
+                                KApply(
+                                    '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                ),
+                            ],
+                        ),
+                    ],
+                )
+            ],
+        ),
+        [KEVM.range_uint(256, KVariable('V0_x')), KEVM.range_uint(256, KVariable('V1_y'))],
+    ),
+    (
+        'nested_tuple',
+        KApply(
+            'abi_type_tuple',
+            KApply(
+                '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                KApply('abi_type_uint256', [KVariable('V0_x')]),
+                KApply(
+                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    KApply(
+                        'abi_type_tuple',
+                        KApply(
+                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            KApply('abi_type_uint256', [KVariable('V1_y')]),
+                            KApply(
+                                '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                            ),
+                        ),
+                    ),
+                    KApply(
+                        '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                    ),
+                ),
+            ),
+        ),
+        [KEVM.range_uint(256, KVariable('V0_x')), KEVM.range_uint(256, KVariable('V1_y'))],
+    ),
 ]
 
 
 @pytest.mark.parametrize(
-    'test_id,term,type,expected',
+    'test_id,term,expected',
     PREDICATE_DATA,
     ids=[test_id for test_id, *_ in PREDICATE_DATA],
 )
-def test_range_predicate(test_id: str, term: KInner, type: str, expected: KInner | None) -> None:
+def test_range_predicate(test_id: str, term: KApply, expected: list[KApply]) -> None:
     # When
-    ret = _range_predicate(term, type)
+    ret = _range_predicates(term)
 
     # Then
     assert ret == expected
@@ -377,3 +426,71 @@ def test_find_in_dict() -> None:
         'Counter.setNumber',
         'Counter.number',
     ]
+
+
+INPUT_DATA: list[tuple[str, Input, KApply]] = [
+    ('single_type', Input('RV', 'uint256'), KApply('abi_type_uint256', [KVariable('V0_RV')])),
+    (
+        'empty_tuple',
+        Input('EmptyStruct', 'tuple'),
+        KApply('abi_type_tuple', KApply('.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs')),
+    ),
+    (
+        'single_tuple',
+        Input('SomeStruct', 'tuple', (Input('RV1', 'uint256'), Input('RV2', 'uint256', idx=1))),
+        KApply(
+            'abi_type_tuple',
+            KApply(
+                '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                KApply('abi_type_uint256', [KVariable('V0_RV1')]),
+                KApply(
+                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    KApply('abi_type_uint256', [KVariable('V1_RV2')]),
+                    KApply(
+                        '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                    ),
+                ),
+            ),
+        ),
+    ),
+    (
+        'nested_tuple',
+        Input(
+            'SomeStruct',
+            'tuple',
+            (Input('RV', 'uint256'), Input('SomeStruct', 'tuple', (Input('RV', 'uint256', idx=1),))),
+        ),
+        KApply(
+            'abi_type_tuple',
+            KApply(
+                '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                KApply('abi_type_uint256', [KVariable('V0_RV')]),
+                KApply(
+                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    KApply(
+                        'abi_type_tuple',
+                        KApply(
+                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            KApply('abi_type_uint256', [KVariable('V1_RV')]),
+                            KApply(
+                                '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                            ),
+                        ),
+                    ),
+                    KApply(
+                        '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                    ),
+                ),
+            ),
+        ),
+    ),
+]
+
+
+@pytest.mark.parametrize('test_id,input,expected', INPUT_DATA, ids=[test_id for test_id, *_ in INPUT_DATA])
+def test_input_to_abi(test_id: str, input: Input, expected: KApply) -> None:
+    # When
+    abi = input.to_abi()
+
+    # Then
+    assert abi == expected
