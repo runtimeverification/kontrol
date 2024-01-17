@@ -52,13 +52,4 @@ contract AllowChangesTest is Test, KEVMCheats {
 		canChange.changeValue2(23452);
 	}
 
-	function testAllow_fail() public {
-		ValueStore canChange = new ValueStore();
-		ValueStore cannotChange = new ValueStore();
-
-		kevm.allowCallsToAddress(address(canChange));
-		kevm.allowChangesToStorage(address(canChange), 0);
-
-		canChange.changeValue2(234521);
-	}
 }

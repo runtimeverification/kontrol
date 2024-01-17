@@ -5,35 +5,35 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (808 steps)
+│  (526 steps)
 ├─ 3
-│   k: STATICCALL ( VGAS:Int +Int -3034 ) 645326474426547203313410069153905908525362434 ...
+│   k: STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 ~> #p ...
 │   pc: 2255
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1 step)
 ├─ 4
-│   k: #checkCall 728815563385977040452943777879061427756277306518 0 ~> #call 728815563 ...
+│   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
 │   pc: 2255
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (355 steps)
+│  (222 steps)
 ├─ 5
-│   k: CALL ( VGAS:Int +Int -3376 ) 645326474426547203313410069153905908525362434349 0  ...
+│   k: CALL 0 645326474426547203313410069153905908525362434349 0 128 36 128 0 ~> #pc [  ...
 │   pc: 2363
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1 step)
 ├─ 6
-│   k: #checkCall 728815563385977040452943777879061427756277306518 0 ~> #call 728815563 ...
+│   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
 │   pc: 2363
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (152 steps)
+│  (98 steps)
 ├─ 7 (split)
 │   k: JUMPI 2423 bool2Word ( VV0_n_114b9705:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ...
 │   pc: 2393
@@ -49,7 +49,7 @@
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (162 steps)
+┃  │  (100 steps)
 ┃  ├─ 10
 ┃  │   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 477
@@ -86,7 +86,7 @@
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (162 steps)
+   │  (100 steps)
    ├─ 11
    │   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
    │   pc: 477
@@ -123,7 +123,7 @@
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => STATICCALL ( VGAS:Int +Int -3034 ) 645326474426547203313410069153905908525362434349 128 36 128 0
+               ( .K => STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0
                ~> #pc [ STATICCALL ] )
                ~> #execute
                ~> _CONTINUATION
@@ -134,6 +134,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <callStack>
@@ -166,10 +169,10 @@
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 6 )
+                     0
                    </memoryUsed>
                    <callGas>
-                     ( _CALLGAS_CELL => #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3034 ) , ( VGAS:Int +Int -3034 ) , 100 ) ) )
+                     0
                    </callGas>
                    <static>
                      false
@@ -182,6 +185,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
@@ -329,7 +335,8 @@
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL ( VGAS:Int +Int -3034 ) 645326474426547203313410069153905908525362434349 128 36 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_n_114b9705:Int <=Int 51816696836262767 ) ) true
                ~> #return 128 0 )
                ~> #pc [ STATICCALL ]
@@ -342,6 +349,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <callStack>
@@ -374,10 +384,10 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3034 ) , ( VGAS:Int +Int -3034 ) , 100 ) )
+                     0
                    </callGas>
                    <static>
                      false
@@ -390,6 +400,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -537,10 +550,11 @@
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
            <kevm>
              <k>
-               ( #checkCall 728815563385977040452943777879061427756277306518 0
+               ( #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_n_114b9705:Int <=Int 51816696836262767 ) ) true
                ~> #return 128 0
-               ~> #pc [ STATICCALL ] => CALL ( VGAS:Int +Int -3376 ) 645326474426547203313410069153905908525362434349 0 128 36 128 0
+               ~> #pc [ STATICCALL ] => CALL 0 645326474426547203313410069153905908525362434349 0 128 36 128 0
                ~> #pc [ CALL ] )
                ~> #execute
                ~> _CONTINUATION
@@ -551,6 +565,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -586,10 +603,10 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int ( -3034 => -3376 ) ) , ( VGAS:Int +Int ( -3034 => -3376 ) ) , 100 ) )
+                     0
                    </callGas>
                    <static>
                      false
@@ -602,6 +619,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -744,13 +764,14 @@
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
                ))))))))
-       ensures VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
+       ensures VV0_n_114b9705:Int <=Int 51816696836262767
       [label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
            <kevm>
              <k>
-               ( CALL ( VGAS:Int +Int -3376 ) 645326474426547203313410069153905908525362434349 0 128 36 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 36 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\xddQ\xfa\xa2\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xff\xff\xff\xff\xff\xf3\xd5" false
                ~> #return 128 0 )
                ~> #pc [ CALL ]
@@ -763,6 +784,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -798,10 +822,10 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3376 ) , ( VGAS:Int +Int -3376 ) , 100 ) )
+                     0
                    </callGas>
                    <static>
                      false
@@ -814,6 +838,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -951,18 +978,19 @@
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
                )))))))))
       [label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
            <kevm>
              <k>
-               ( #checkCall 728815563385977040452943777879061427756277306518 0
+               ( #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\xddQ\xfa\xa2\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xff\xff\xff\xff\xff\xf3\xd5" false
                ~> #return 128 0
                ~> #pc [ CALL ] => JUMPI 2423 bool2Word ( VV0_n_114b9705:Int ==Int 0 )
@@ -976,6 +1004,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1011,10 +1042,10 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
-                     ( #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3376 ) , ( VGAS:Int +Int -3376 ) , 100 ) ) => 0 )
+                     0
                    </callGas>
                    <static>
                      false
@@ -1027,6 +1058,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -1164,11 +1198,11 @@
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
                )))))))))
       [label(BASIC-BLOCK-6-TO-7)]
     
@@ -1187,6 +1221,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1222,7 +1259,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
                      0
@@ -1238,6 +1275,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -1376,11 +1416,11 @@
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
        andBool ( VV0_n_114b9705:Int ==Int 0
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
                ))))))))))
        ensures VV0_n_114b9705:Int ==K 0
       [label(BASIC-BLOCK-8-TO-10)]
@@ -1400,6 +1440,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1435,7 +1478,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
                      0
@@ -1451,6 +1494,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -1588,40 +1634,19 @@
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( VV0_n_114b9705:Int =/=Int 0
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
                ))))))))))
-       ensures ( VV0_n_114b9705:Int =/=K 0
-       andBool ( 0 <Int VV0_n_114b9705:Int
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772579
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772582
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772585
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772588
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772591
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772594
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772597
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772598
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772601
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772604
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772607
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772610
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772613
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772616
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772619
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772620
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772628
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772630
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772632
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772635
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772638
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772639
+       ensures ( 0 <Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int =/=Int 0
+       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772693
        andBool ( 0 <=Int ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 )
        andBool ( ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 ) <Int pow256
-               ))))))))))))))))))))))))))
+               )))))
       [label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-10-TO-12]: <foundry>
@@ -1638,6 +1663,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1676,7 +1704,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
                      0
@@ -1692,6 +1720,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -1849,6 +1880,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1887,7 +1921,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
                      0
@@ -1903,6 +1937,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -2036,42 +2073,21 @@
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( VV0_n_114b9705:Int =/=K 0
-       andBool ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <Int VV0_n_114b9705:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int =/=Int 0
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772579
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772582
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772585
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772588
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772591
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772594
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772597
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772598
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772601
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772604
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772607
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772610
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772613
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772616
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772619
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772620
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772628
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772630
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772632
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772635
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772638
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772639
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
+       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772693
        andBool ( 0 <=Int ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 )
        andBool ( ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 ) <Int pow256
-               )))))))))))))))))))))))))))))))))))
+               ))))))))))))))
       [label(BASIC-BLOCK-11-TO-13)]
     
     rule [BASIC-BLOCK-12-TO-14]: <foundry>
@@ -2088,6 +2104,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -2126,7 +2145,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
                      0
@@ -2142,6 +2161,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -2299,6 +2321,9 @@
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -2337,7 +2362,7 @@
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
                      0
@@ -2353,6 +2378,9 @@
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -2486,42 +2514,21 @@
              </whitelist>
            </cheatcodes>
          </foundry>
-      requires ( VV0_n_114b9705:Int =/=K 0
-       andBool ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <Int VV0_n_114b9705:Int
        andBool ( 0 <=Int VV0_n_114b9705:Int
+       andBool ( VV0_n_114b9705:Int =/=Int 0
+       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772579
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772582
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772585
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772588
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772591
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772594
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772597
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772598
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772601
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772604
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772607
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772610
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772613
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772616
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772619
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772620
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772628
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772630
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772632
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772635
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772638
-       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772639
-       andBool ( VV0_n_114b9705:Int <=Int 51816696836262767 ==Bool true
+       andBool ( ( VV0_n_114b9705:Int *Int 178 ) <=Int 9223372036854772693
        andBool ( 0 <=Int ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 )
        andBool ( ( ( VV0_n_114b9705:Int *Int ( VV0_n_114b9705:Int +Int 1 ) ) /Int 2 ) <Int pow256
-               )))))))))))))))))))))))))))))))))))
+               ))))))))))))))
       [label(BASIC-BLOCK-13-TO-15)]
 
 endmodule
