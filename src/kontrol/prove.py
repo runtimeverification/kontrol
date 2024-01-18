@@ -387,10 +387,6 @@ def _method_to_cfg(
         program = KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
         use_init_code = False
 
-    proof_prefixes = ['test', 'prove', 'check']
-    is_test = any(method.signature.startswith(prefix) for prefix in proof_prefixes)
-    failing = any(method.signature.startswith(prefix + 'Fail') for prefix in proof_prefixes)
-
     init_cterm = _init_cterm(
         empty_config,
         program=program,
@@ -398,7 +394,7 @@ def _method_to_cfg(
         callvalue=callvalue,
         use_gas=use_gas,
         summary_entries=summary_entries,
-        symbolic_exploration=not (is_test or method.is_setup or use_init_code),
+        symbolic_exploration=not (method.is_test or method.is_setup or use_init_code),
     )
     new_node_ids = []
 
@@ -429,7 +425,11 @@ def _method_to_cfg(
         init_node_id = init_node.id
 
     final_cterm = _final_cterm(
-        empty_config, contract.name_with_path, failing=failing, is_test=is_test, use_init_code=use_init_code
+        empty_config,
+        contract.name_with_path,
+        failing=method.is_testfail,
+        is_test=method.is_test,
+        use_init_code=use_init_code,
     )
     target_node = cfg.create_node(final_cterm)
 
