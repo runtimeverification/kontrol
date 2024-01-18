@@ -299,15 +299,15 @@ class Foundry:
         test_sigs = self.matching_tests([test])
         return test_sigs
 
-    def get_test_id(self, test: str, id: int | None) -> str:
-        matching_proofs_ids = self.proof_ids_with_test(test, id)
-        if len(matching_proofs_ids) == 0:
-            raise ValueError(f'Found no matching proofs for {test}:{id}.')
-        if len(matching_proofs_ids) > 1:
+    def get_test_id(self, test: str, version: int | None) -> str:
+        matching_proof_ids = self.proof_ids_with_test(test, version)
+        if len(matching_proof_ids) == 0:
+            raise ValueError(f'Found no matching proofs for {test}:{version}.')
+        if len(matching_proof_ids) > 1:
             raise ValueError(
-                f'Found {len(matching_proofs_ids)} matching proofs for {test}:{id}. Use the --version flag to choose one.'
+                f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
             )
-        return single(matching_proofs_ids)
+        return single(matching_proof_ids)
 
     @staticmethod
     def success(s: KInner, dst: KInner, r: KInner, c: KInner, e1: KInner, e2: KInner) -> KApply:
@@ -370,9 +370,17 @@ class Foundry:
 
     def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
         regex = single(self._escape_brackets([test]))
-        if version is not None:
-            regex += f'.*:{version}'
-        return [pid for pid in listdir(self.proofs_dir) if re.search(regex, pid)]
+        all_proof_ids: list[tuple[str, str, int]] = []
+        for pid in listdir(self.proofs_dir):
+            proof_type = pid.split('%')[0]
+            proof_name = pid.split('%')[1].split(':')[0]
+            proof_version = int(pid.split(':')[1])
+            all_proof_ids.append((proof_type, proof_name, proof_version))
+        proof_ids = [
+            (pt, pn, pv) for pt, pn, pv in all_proof_ids if re.search(regex, pn) and (version is None or version == pv)
+        ]
+        _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {regex}:{version}: {proof_ids}')
+        return [f'{pt}%{pn}:{pv}' for pt, pn, pv in proof_ids]
 
     def get_apr_proof(self, test_id: str) -> APRProof:
         proof = Proof.read_proof_data(self.proofs_dir, test_id)
