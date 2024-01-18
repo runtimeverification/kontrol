@@ -465,7 +465,7 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-      [priority(40)]
+      [priority(38)]
 
     rule [foundry.set.expectrevert.2]:
          <k> #next [ _OP:CallSixOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
@@ -476,7 +476,7 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-      [priority(40)]
+      [priority(38)]
 
     rule [foundry.set.expectrevert.3]:
          <k> #next [ OP:OpCode ] ~> (. => #checkRevert) ~> #execute ... </k>
@@ -487,7 +487,7 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
            ...
          </expectedRevert>
       requires (OP ==K CREATE orBool OP ==K CREATE2)
-      [priority(40)]
+      [priority(38)]
 ```
 
 If the `expectRevert()` selector is matched, call the `#setExpectRevert` production to initialize the `<expectedRevert>` subconfiguration.
