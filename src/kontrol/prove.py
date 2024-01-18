@@ -560,7 +560,6 @@ def _init_cterm(
         )
         del init_subst['CALLSTACK_CELL']
         del init_subst['CALLDEPTH_CELL']
-        del init_subst['LOGS_CELL']
         del init_subst['LOG_CELL']
         del init_subst['INTERIMSTATES_CELL']
 
