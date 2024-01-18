@@ -47,3 +47,46 @@ contract RollTest is Test {
 
     }
 }
+
+contract WarpTest is Test {
+    function setUp() external {
+        vm.warp(1641070800);
+    }
+
+    function test_warp_setup() external {
+        assert(block.timestamp == 1641070800);
+    }
+}
+
+contract FeeTest is Test {
+    function setUp() external {
+        vm.fee(25 gwei);
+    }
+
+    function test_fee_setup() external {
+        assert(block.basefee == 25 gwei);
+
+    }
+}
+
+contract ChainIdTest is Test {
+    function setUp() external {
+        vm.chainId(31337);
+    }
+
+    function test_chainid_setup() external {
+        assert(block.chainid == 31337);
+
+    }
+}
+
+contract CoinBaseTest is Test {
+    function setUp() external {
+        vm.coinbase(0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8);
+    }
+
+    function test_coinbase_setup() external {
+        assert(block.coinbase == 0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8);
+
+    }
+}
