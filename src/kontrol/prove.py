@@ -400,51 +400,7 @@ def _method_to_cfg(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )
         for final_node in final_states:
-            new_accounts_cell = final_node.cterm.cell('ACCOUNTS_CELL')
-            number_cell = final_node.cterm.cell('NUMBER_CELL')
-            timestamp_cell = final_node.cterm.cell('TIMESTAMP_CELL')
-            basefee_cell = final_node.cterm.cell('BASEFEE_CELL')
-            chainid_cell = final_node.cterm.cell('CHAINID_CELL')
-            coinbase_cell = final_node.cterm.cell('COINBASE_CELL')
-            prevcaller_cell = final_node.cterm.cell('PREVCALLER_CELL')
-            prevorigin_cell = final_node.cterm.cell('PREVORIGIN_CELL')
-            newcaller_cell = final_node.cterm.cell('NEWCALLER_CELL')
-            neworigin_cell = final_node.cterm.cell('NEWORIGIN_CELL')
-            active_cell = final_node.cterm.cell('ACTIVE_CELL')
-            depth_cell = final_node.cterm.cell('DEPTH_CELL')
-            singlecall_cell = final_node.cterm.cell('SINGLECALL_CELL')
-            gas_cell = final_node.cterm.cell('GAS_CELL')
-            callgas_cell = final_node.cterm.cell('CALLGAS_CELL')
-            new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
-            new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
-            test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
-
-            new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
-                set_cell(
-                    test_contract_account.config,
-                    'CODE_CELL',
-                    KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}')),
-                ),
-                [],
-            )
-
-            new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()])
-
-            new_init_cterm = CTerm(set_cell(init_cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NUMBER_CELL', number_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'TIMESTAMP_CELL', timestamp_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'BASEFEE_CELL', basefee_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CHAINID_CELL', chainid_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'COINBASE_CELL', coinbase_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVCALLER_CELL', prevcaller_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVORIGIN_CELL', prevorigin_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWCALLER_CELL', newcaller_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWORIGIN_CELL', neworigin_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACTIVE_CELL', active_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'DEPTH_CELL', depth_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'SINGLECALL_CELL', singlecall_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
-            new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
+            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, contract.name_with_path)
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
@@ -463,6 +419,56 @@ def _method_to_cfg(
     target_node = cfg.create_node(final_cterm)
 
     return cfg, new_node_ids, init_node_id, target_node.id
+
+
+def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -> CTerm:
+    new_accounts_cell = node.cterm.cell('ACCOUNTS_CELL')
+    number_cell = node.cterm.cell('NUMBER_CELL')
+    timestamp_cell = node.cterm.cell('TIMESTAMP_CELL')
+    basefee_cell = node.cterm.cell('BASEFEE_CELL')
+    chainid_cell = node.cterm.cell('CHAINID_CELL')
+    coinbase_cell = node.cterm.cell('COINBASE_CELL')
+    prevcaller_cell = node.cterm.cell('PREVCALLER_CELL')
+    prevorigin_cell = node.cterm.cell('PREVORIGIN_CELL')
+    newcaller_cell = node.cterm.cell('NEWCALLER_CELL')
+    neworigin_cell = node.cterm.cell('NEWORIGIN_CELL')
+    active_cell = node.cterm.cell('ACTIVE_CELL')
+    depth_cell = node.cterm.cell('DEPTH_CELL')
+    singlecall_cell = node.cterm.cell('SINGLECALL_CELL')
+    gas_cell = node.cterm.cell('GAS_CELL')
+    callgas_cell = node.cterm.cell('CALLGAS_CELL')
+    new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
+    new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
+    test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
+
+    new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
+        set_cell(
+            test_contract_account.config,
+            'CODE_CELL',
+            KEVM.bin_runtime(KApply(f'contract_{contract_name}')),
+        ),
+        [],
+    )
+
+    new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()])
+
+    new_init_cterm = CTerm(set_cell(cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NUMBER_CELL', number_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'TIMESTAMP_CELL', timestamp_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'BASEFEE_CELL', basefee_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CHAINID_CELL', chainid_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'COINBASE_CELL', coinbase_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVCALLER_CELL', prevcaller_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVORIGIN_CELL', prevorigin_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWCALLER_CELL', newcaller_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWORIGIN_CELL', neworigin_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACTIVE_CELL', active_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'DEPTH_CELL', depth_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'SINGLECALL_CELL', singlecall_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
+    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
+
+    return new_init_cterm
 
 
 def summary_to_account_cells(summary_entries: Iterable[SummaryEntry]) -> list[KApply]:
