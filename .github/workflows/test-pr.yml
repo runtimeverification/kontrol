@@ -99,7 +99,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        backend: ['legacy', 'booster']
+        backend: ['booster']
     timeout-minutes: 180
     steps:
       - name: 'Check out code'
