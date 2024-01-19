@@ -16,7 +16,11 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModScriptBase-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModTestBase-VERIFICATION
     imports public S2KtestZModBlockParamsTest-VERIFICATION
+    imports public S2KtestZModChainIdTest-VERIFICATION
+    imports public S2KtestZModCoinBaseTest-VERIFICATION
+    imports public S2KtestZModFeeTest-VERIFICATION
     imports public S2KtestZModRollTest-VERIFICATION
+    imports public S2KtestZModWarpTest-VERIFICATION
     imports public S2KtestZModBroadcastTest-VERIFICATION
     imports public S2KsrcZModConstants-VERIFICATION
     imports public S2KsrcZModContract-VERIFICATION
@@ -62,6 +66,10 @@ module FOUNDRY-MAIN
     imports public S2KtestZModPlainPrankTest-VERIFICATION
     imports public S2KsrcZModPrank-VERIFICATION
     imports public S2KtestZModPrankTest-VERIFICATION
+    imports public S2KtestZModPrankTestMsgSender-VERIFICATION
+    imports public S2KtestZModPrankTestOrigin-VERIFICATION
+    imports public S2KtestZModStartPrankTestMsgSender-VERIFICATION
+    imports public S2KtestZModStartPrankTestOrigin-VERIFICATION
     imports public S2KtestZModPreconditionsTest-VERIFICATION
     imports public S2KtestZModRecordLogsTest-VERIFICATION
     imports public S2KsrcZModSafe-VERIFICATION
@@ -205,8 +213,36 @@ module S2KtestZModBlockParamsTest-VERIFICATION
 
 endmodule
 
+module S2KtestZModChainIdTest-VERIFICATION
+    imports public S2KtestZModChainIdTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModCoinBaseTest-VERIFICATION
+    imports public S2KtestZModCoinBaseTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModFeeTest-VERIFICATION
+    imports public S2KtestZModFeeTest-CONTRACT
+    
+    
+
+endmodule
+
 module S2KtestZModRollTest-VERIFICATION
     imports public S2KtestZModRollTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModWarpTest-VERIFICATION
+    imports public S2KtestZModWarpTest-CONTRACT
     
     
 
@@ -523,6 +559,34 @@ endmodule
 
 module S2KtestZModPrankTest-VERIFICATION
     imports public S2KtestZModPrankTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModPrankTestMsgSender-VERIFICATION
+    imports public S2KtestZModPrankTestMsgSender-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModPrankTestOrigin-VERIFICATION
+    imports public S2KtestZModPrankTestOrigin-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModStartPrankTestMsgSender-VERIFICATION
+    imports public S2KtestZModStartPrankTestMsgSender-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModStartPrankTestOrigin-VERIFICATION
+    imports public S2KtestZModStartPrankTestOrigin-CONTRACT
     
     
 
