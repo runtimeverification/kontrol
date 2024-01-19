@@ -8,12 +8,12 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
-from kevm_pyk import kdist
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.kast import KAtt
 from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
+from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import intToken
 from pyk.prelude.string import stringToken
@@ -63,6 +63,89 @@ def solc_to_k(
 
     _kprint = KEVM(definition_dir, extra_unparsing_modules=modules)
     return _kprint.pretty_print(bin_runtime_definition, unalias=False) + '\n'
+
+
+@dataclass(frozen=True)
+class Input:
+    name: str
+    type: str
+    components: tuple[Input, ...] = ()
+    idx: int = 0
+
+    @staticmethod
+    def from_dict(input: dict, idx: int = 0) -> Input:
+        name = input['name']
+        type = input['type']
+        if input.get('components') is not None and input['type'] != 'tuple[]':
+            return Input(name, type, tuple(Input._unwrap_components(input['components'], idx)), idx)
+        else:
+            return Input(name, type, idx=idx)
+
+    @staticmethod
+    def arg_name(input: Input) -> str:
+        return f'V{input.idx}_{input.name.replace("-", "_")}'
+
+    @staticmethod
+    def _make_single_type(input: Input) -> KApply:
+        input_name = Input.arg_name(input)
+        input_type = input.type
+        return KEVM.abi_type(input_type, KVariable(input_name))
+
+    @staticmethod
+    def _make_complex_type(components: Iterable[Input]) -> KApply:
+        """
+        recursively unwrap components in arguments of complex types and convert them to KEVM types
+        """
+        abi_types: list[KInner] = []
+        for comp in components:
+            # nested tuple, unwrap its components
+            if comp.type == 'tuple':
+                tuple = Input._make_complex_type(comp.components)
+                abi_type = tuple
+            else:
+                abi_type = Input._make_single_type(comp)
+            abi_types.append(abi_type)
+        return KEVM.abi_tuple(abi_types)
+
+    @staticmethod
+    def _unwrap_components(components: dict, i: int = 0) -> list[Input]:
+        """
+        recursively unwrap components in arguments of complex types
+        """
+        comps = []
+        for comp in components:
+            _name = comp['name']
+            _type = comp['type']
+            if comp.get('components') is not None and type != 'tuple[]':
+                new_comps = Input._unwrap_components(comp['components'], i)
+            else:
+                new_comps = []
+            comps.append(Input(_name, _type, tuple(new_comps), i))
+            i += 1
+        return comps
+
+    def to_abi(self) -> KApply:
+        if self.type == 'tuple':
+            return Input._make_complex_type(self.components)
+        else:
+            return Input._make_single_type(self)
+
+    def flattened(self) -> list[Input]:
+        if len(self.components) > 0:
+            nest = [comp.flattened() for comp in self.components]
+            return [fcomp for fncomp in nest for fcomp in fncomp]
+        else:
+            return [self]
+
+
+def inputs_from_abi(abi_inputs: Iterable[dict]) -> list[Input]:
+    inputs = []
+    i = 0
+    for input in abi_inputs:
+        cur_input = Input.from_dict(input, i)
+        inputs.append(cur_input)
+        i += len(cur_input.flattened())
+    return inputs
 
 
 @dataclass
@@ -136,8 +219,7 @@ class Contract:
         name: str
         id: int
         sort: KSort
-        arg_names: tuple[str, ...]
-        arg_types: tuple[str, ...]
+        inputs: tuple[Input, ...]
         contract_name: str
         contract_digest: str
         contract_storage_digest: str
@@ -159,8 +241,7 @@ class Contract:
             self.signature = msig
             self.name = abi['name']
             self.id = id
-            self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
-            self.arg_types = tuple([input['type'] for input in abi['inputs']])
+            self.inputs = tuple(inputs_from_abi(abi['inputs']))
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
@@ -194,6 +275,18 @@ class Contract:
         @cached_property
         def is_setup(self) -> bool:
             return self.name == 'setUp'
+
+        @cached_property
+        def flat_inputs(self) -> tuple[Input, ...]:
+            return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
+
+        @cached_property
+        def arg_names(self) -> Iterable[str]:
+            return tuple(Input.arg_name(input) for input in self.flat_inputs)
+
+        @cached_property
+        def arg_types(self) -> Iterable[str]:
+            return tuple(input.type for input in self.flat_inputs)
 
         def up_to_date(self, digest_file: Path) -> bool:
             if not digest_file.exists():
@@ -253,20 +346,21 @@ class Contract:
             )
 
         def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
-            arg_vars = [KVariable(aname) for aname in self.arg_names]
             prod_klabel = self.unique_klabel
-            assert prod_klabel is not None
+            arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
-            for input_name, input_type in zip(self.arg_names, self.arg_types, strict=True):
-                args.append(KEVM.abi_type(input_type, KVariable(input_name)))
-                rp = _range_predicate(KVariable(input_name), input_type)
-                if rp is None:
-                    _LOGGER.info(
-                        f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input_type}'
-                    )
-                    return None
-                conjuncts.append(rp)
+            for input in self.inputs:
+                abi_type = input.to_abi()
+                args.append(abi_type)
+                rps = _range_predicates(abi_type)
+                for rp in rps:
+                    if rp is None:
+                        _LOGGER.info(
+                            f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
+                        )
+                        return None
+                    conjuncts.append(rp)
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
             ensures = andBool(conjuncts)
@@ -293,7 +387,7 @@ class Contract:
             ]
             return klabel(args)
 
-    name: str
+    _name: str
     contract_json: dict
     contract_id: int
     contract_path: str
@@ -306,7 +400,7 @@ class Contract:
     PREFIX_CODE: Final = 'Z'
 
     def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
-        self.name = contract_name
+        self._name = contract_name
         self.contract_json = contract_json
 
         self.contract_id = self.contract_json['id']
@@ -325,7 +419,7 @@ class Contract:
         contract_ast_nodes = [
             node
             for node in self.contract_json['ast']['nodes']
-            if node['nodeType'] == 'ContractDefinition' and node['name'] == self.name
+            if node['nodeType'] == 'ContractDefinition' and node['name'] == self._name
         ]
         contract_ast = single(contract_ast_nodes) if len(contract_ast_nodes) > 0 else {'nodes': []}
         function_asts = {
@@ -342,11 +436,11 @@ class Contract:
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 _m = Contract.Method(
-                    msig, mid, method, method_ast, self.name, self.digest, self.storage_digest, self.sort_method
+                    msig, mid, method, method_ast, self._name, self.digest, self.storage_digest, self.sort_method
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
-                _c = Contract.Constructor(method, self.name, self.digest, self.storage_digest, self.sort_method)
+                _c = Contract.Constructor(method, self._name, self.digest, self.storage_digest, self.sort_method)
                 self.constructor = _c
 
         self.methods = tuple(sorted(_methods, key=(lambda method: method.signature)))
@@ -357,19 +451,24 @@ class Contract:
             _fields = {}
             for _l, _s in _fields_list:
                 if _l in _fields:
-                    _LOGGER.info(f'Found duplicate field access key on contract {self.name}: {_l}')
+                    _LOGGER.info(f'Found duplicate field access key on contract {self._name}: {_l}')
                     continue
                 _fields[_l] = _s
             self.fields = FrozenDict(_fields)
 
     @cached_property
+    def name_with_path(self) -> str:
+        contract_path_without_filename = '%'.join(self.contract_path.split('/')[0:-1])
+        return self._name if contract_path_without_filename == '' else contract_path_without_filename + '%' + self._name
+
+    @cached_property
     def digest(self) -> str:
-        return hash_str(f'{self.name} - {json.dumps(self.contract_json, sort_keys=True)}')
+        return hash_str(f'{self.name_with_path} - {json.dumps(self.contract_json, sort_keys=True)}')
 
     @cached_property
     def storage_digest(self) -> str:
         storage_layout = self.contract_json.get('storageLayout') or {}
-        return hash_str(f'{self.name} - {json.dumps(storage_layout, sort_keys=True)}')
+        return hash_str(f'{self.name_with_path} - {json.dumps(storage_layout, sort_keys=True)}')
 
     @cached_property
     def srcmap(self) -> dict[int, tuple[int, int, int, str, int]]:
@@ -410,23 +509,19 @@ class Contract:
 
     @staticmethod
     def contract_to_module_name(c: str) -> str:
-        return c + '-CONTRACT'
+        return Contract.escaped(c, 'S2K') + '-CONTRACT'
 
     @staticmethod
     def contract_to_verification_module_name(c: str) -> str:
-        return c + '-VERIFICATION'
+        return Contract.escaped(c, 'S2K') + '-VERIFICATION'
 
     @staticmethod
     def test_to_claim_name(t: str) -> str:
         return t.replace('_', '-')
 
-    @property
-    def name_upper(self) -> str:
-        return self.name[0:1].upper() + self.name[1:]
-
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$']
+        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -437,6 +532,12 @@ class Contract:
                 as_ecaped = 'Und'
             case '$':
                 as_ecaped = 'Dlr'
+            case '.':
+                as_ecaped = 'Dot'
+            case '-':
+                as_ecaped = 'Sub'
+            case '%':
+                as_ecaped = 'Mod'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -449,6 +550,12 @@ class Contract:
             return '_', 3
         elif seq.startswith('Dlr'):
             return '$', 3
+        elif seq.startswith('Dot'):
+            return '.', 3
+        elif seq.startswith('Sub'):
+            return '-', 3
+        elif seq.startswith('Mod'):
+            return '%', 3
         else:
             return chr(int(seq, base=16)), 4
 
@@ -487,27 +594,27 @@ class Contract:
 
     @property
     def sort(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name, "S2K")}Contract')
+        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Contract')
 
     @property
     def sort_field(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name, "S2K")}Field')
+        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Field')
 
     @property
     def sort_method(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name, "S2K")}Method')
+        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Method')
 
     @property
     def klabel(self) -> KLabel:
-        return KLabel(f'contract_{self.name}')
+        return KLabel(f'contract_{self.name_with_path}')
 
     @property
     def klabel_method(self) -> KLabel:
-        return KLabel(f'method_{self.name}')
+        return KLabel(f'method_{self.name_with_path}')
 
     @property
     def klabel_field(self) -> KLabel:
-        return KLabel(f'field_{self.name}')
+        return KLabel(f'field_{self.name_with_path}')
 
     @property
     def subsort(self) -> KProduction:
@@ -520,14 +627,17 @@ class Contract:
     @property
     def production(self) -> KProduction:
         return KProduction(
-            self.sort, [KTerminal(Contract.escaped(self.name, 'S2K'))], klabel=self.klabel, att=KAtt({'symbol': ''})
+            self.sort,
+            [KTerminal(Contract.escaped(self.name_with_path, 'S2K'))],
+            klabel=self.klabel,
+            att=KAtt({'symbol': ''}),
         )
 
     @property
     def macro_bin_runtime(self) -> KRule:
         if self.has_unlinked():
             raise ValueError(
-                f'Some library placeholders have been found in contract {self.name}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
+                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
             )
         return KRule(
             KRewrite(
@@ -539,7 +649,7 @@ class Contract:
     def macro_init_bytecode(self) -> KRule:
         if self.has_unlinked():
             raise ValueError(
-                f'Some library placeholders have been found in contract {self.name}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
+                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
             )
         return KRule(
             KRewrite(KEVM.init_bytecode(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.bytecode)))
@@ -558,7 +668,9 @@ class Contract:
         )
         res: list[KSentence] = [method_application_production]
         res.extend(method.production for method in self.methods)
-        method_rules = (method.rule(KApply(self.klabel), self.klabel_method, self.name) for method in self.methods)
+        method_rules = (
+            method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path) for method in self.methods
+        )
         res.extend(rule for rule in method_rules if rule)
         res.extend(method.selector_alias_rule for method in self.methods)
         return res if len(res) > 1 else []
@@ -649,13 +761,13 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
 
 
 def contract_to_main_module(contract: Contract, empty_config: KInner, imports: Iterable[str] = ()) -> KFlatModule:
-    module_name = Contract.contract_to_module_name(contract.name)
+    module_name = Contract.contract_to_module_name(contract.name_with_path)
     return KFlatModule(module_name, contract.sentences, [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, empty_config: KInner, imports: Iterable[str]) -> KFlatModule:
-    main_module_name = Contract.contract_to_module_name(contract.name)
-    verification_module_name = Contract.contract_to_verification_module_name(contract.name)
+    main_module_name = Contract.contract_to_module_name(contract.name_with_path)
+    verification_module_name = Contract.contract_to_verification_module_name(contract.name_with_path)
     return KFlatModule(verification_module_name, [], [KImport(main_module_name)] + [KImport(i) for i in list(imports)])
 
 
@@ -710,6 +822,31 @@ def _evm_base_sort_int(type_label: str) -> bool:
     return success
 
 
+def _range_predicates(abi: KApply) -> list[KInner | None]:
+    rp: list[KInner | None] = []
+    if abi.label.name == 'abi_type_tuple':
+        if type(abi.args[0]) is KApply:
+            rp += _range_collection_predicates(abi.args[0])
+    else:
+        type_label = abi.label.name.removeprefix('abi_type_')
+        rp.append(_range_predicate(single(abi.args), type_label))
+    return rp
+
+
+def _range_collection_predicates(abi: KApply) -> list[KInner | None]:
+    rp: list[KInner | None] = []
+    if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
+        if type(abi.args[0]) is KApply:
+            rp += _range_predicates(abi.args[0])
+        if type(abi.args[1]) is KApply:
+            rp += _range_collection_predicates(abi.args[1])
+    elif abi.label.name == '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs':
+        return rp
+    else:
+        raise AssertionError('No list of typed args found')
+    return rp
+
+
 def _range_predicate(term: KInner, type_label: str) -> KInner | None:
     match type_label:
         case 'address':
@@ -736,7 +873,7 @@ def _range_predicate(term: KInner, type_label: str) -> KInner | None:
     return None
 
 
-def _range_predicate_uint(term: KInner, type_label: str) -> tuple[bool, KInner | None]:
+def _range_predicate_uint(term: KInner, type_label: str) -> tuple[bool, KApply | None]:
     if type_label.startswith('uint') and not type_label.endswith(']'):
         if type_label == 'uint':
             width = 256
@@ -749,7 +886,7 @@ def _range_predicate_uint(term: KInner, type_label: str) -> tuple[bool, KInner |
         return (False, None)
 
 
-def _range_predicate_int(term: KInner, type_label: str) -> tuple[bool, KInner | None]:
+def _range_predicate_int(term: KInner, type_label: str) -> tuple[bool, KApply | None]:
     if type_label.startswith('int') and not type_label.endswith(']'):
         if type_label == 'int':
             width = 256
@@ -762,7 +899,7 @@ def _range_predicate_int(term: KInner, type_label: str) -> tuple[bool, KInner | 
         return (False, None)
 
 
-def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KInner | None]:
+def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KApply | None]:
     if type_label.startswith('bytes') and not type_label.endswith(']'):
         str_width = type_label[5:]
         if str_width != '':
@@ -808,3 +945,10 @@ def method_sig_from_abi(method_json: dict) -> str:
             method_args += ','
         method_args += unparse_input(_input)
     return f'{method_name}({method_args})'
+
+
+def hex_string_to_int(hex: str) -> int:
+    if hex.startswith('0x'):
+        return int(hex, 16)
+    else:
+        raise ValueError('Invalid hex format')

@@ -4,12 +4,18 @@ pragma solidity =0.8.13;
 import "forge-std/Test.sol";
 
 contract Reverter {
+    error NotAuthorised(address caller, string message);
+
     function revertWithoutReason() public pure {
         revert();
     }
 
     function revertWithReason(string calldata _a) public pure {
         revert(_a);
+    }
+
+    function revertWithError(address controller, string calldata message) public pure {
+        revert NotAuthorised(controller, message);
     }
 
     function noRevert() public pure returns (bool) {
@@ -58,6 +64,20 @@ contract ExpectRevertTest is Test {
 
     function doRevert() internal pure {
         require(false, "");
+    }
+
+    function revertDepth2() public {
+        revert ("This should be at depth 2");
+    }
+    function revertDepth1() public  {
+        try this.revertDepth2()
+        {} catch {}
+        revert ("This should be at depth 1");
+    }
+
+    function test_expectRevert_inDepth() public {
+        vm.expectRevert("This should be at depth 1");
+        this.revertDepth1();
     }
 
     function test_expectRevert_internalCall() public {
@@ -121,6 +141,7 @@ contract ExpectRevertTest is Test {
     }
 
     function test_expectRevert_encodedSymbolic(address controller) public {
+        Reverter reverter = new Reverter();
         vm.startPrank(controller);
         vm.expectRevert(
             abi.encodeWithSelector(
@@ -129,7 +150,7 @@ contract ExpectRevertTest is Test {
                 "TRANSFEROWNERSHIP"
             )
         );
-        revert NotAuthorised(controller, "TRANSFEROWNERSHIP");
+        reverter.revertWithError(controller, "TRANSFEROWNERSHIP");
     }
 
     function test_expectRevert_returnValue() public {
