@@ -54,3 +54,55 @@ contract PrankTest is Test {
         vm.stopPrank();
     }
 }
+
+contract PrankTestMsgSender is Test {
+    Prank public prankcontract;
+
+    function setUp() public {
+        prankcontract = new Prank();
+        vm.prank(address(0));
+    }
+
+    function test_msgsender_setup() external {
+        assert(prankcontract.msgSender() == address(0)); 
+    }
+}
+
+contract PrankTestOrigin is Test {
+    Prank public prankcontract;
+
+    function setUp() public {
+        prankcontract = new Prank();
+        vm.prank(address(0), address(0));
+    }
+
+    function test_origin_setup() external {
+        assert(prankcontract.txOrigin() == address(0));
+    }
+}
+
+contract StartPrankTestMsgSender is Test {
+    Prank public prankcontract;
+
+    function setUp() public {
+        prankcontract = new Prank();
+        vm.startPrank(address(0));
+    }
+
+    function test_startprank_msgsender_setup() external {
+        assert(prankcontract.msgSender() == address(0)); 
+    }
+}
+
+contract StartPrankTestOrigin is Test {
+    Prank public prankcontract;
+
+    function setUp() public {
+        prankcontract = new Prank();
+        vm.startPrank(address(0), address(0));
+    }
+
+    function test_startprank_origin_setup() external {
+        assert(prankcontract.txOrigin() == address(0));
+    }
+}
