@@ -142,7 +142,8 @@ def test_foundry_prove(
     ):
         pytest.skip()
 
-    prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=test_id in GAS_TESTS)
+    prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=test_id in
+            GAS_TESTS, break_on_calls=True)
 
     # When
     prove_res = foundry_prove(
@@ -197,6 +198,7 @@ def test_foundry_fail(
         prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -243,6 +245,7 @@ def test_foundry_bmc(test_id: str, foundry: Foundry, bug_report: BugReport | Non
         prove_options=ProveOptions(
             bmc_depth=3,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -262,6 +265,7 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
         prove_options=ProveOptions(
             max_iterations=2,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -299,6 +303,7 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -330,6 +335,7 @@ def test_foundry_auto_abstraction(
             auto_abstract_gas=True,
             bug_report=bug_report,
             use_gas=True,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -365,6 +371,7 @@ def test_foundry_remove_node(
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -387,6 +394,7 @@ def test_foundry_remove_node(
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -448,6 +456,7 @@ def test_foundry_resume_proof(
             max_iterations=4,
             reinit=True,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -466,6 +475,7 @@ def test_foundry_resume_proof(
             max_iterations=10,
             reinit=False,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -487,6 +497,7 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
         prove_options=ProveOptions(
             run_constructor=True,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             smt_timeout=300,
