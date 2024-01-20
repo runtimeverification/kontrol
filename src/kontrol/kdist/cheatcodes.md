@@ -900,31 +900,6 @@ The `ECDSASign` function returns the signed data in [r,s,v] form, which we conve
       [preserves-definedness]
 ```
 
-#### `symbolicCallData` — Changes the current calldata after a function selector to a symbolic variable.
-
-```
-function symbolicCallData() external;
-```
-
-```{.k .symbolic}
-    rule [foundry.call.symbolicCallData]:
-         <k> #call_foundry SELECTOR _ARGS => . ... </k>
-         <callData> CD:Bytes => #range( CD, 0, 4) +Bytes ?CALLDATA </callData>
-      requires SELECTOR ==Int selector ( "symbolicCallData()" )
-```
-
-#### `assumeBytesLength` — Adds assumptions about the length of a symbolic `bytes` array.
-
-```
-function assumeBytesLength(bytes, uint256) external;
-```
-
-```k
-    rule [foundry.call.assumeBytesArray]:
-         <k> #call_foundry SELECTOR ARGS => #assume (lengthBytes(#range(ARGS, 0, 32)) ==Int #asWord(#range(ARGS, 32, 32))) ... </k>
-      requires SELECTOR ==Int selector ( "assumeBytesLength(bytes,uint256)" )
-```
-
 Otherwise, throw an error for any other call to the Foundry contract.
 
 ```k
@@ -1384,8 +1359,6 @@ If the production is matched when no prank is active, it will be ignored.
     rule ( selector ( "allowChangesToStorage(address,uint256)" )   => 4207417100 )
     rule ( selector ( "infiniteGas()" )                            => 3986649939 )
     rule ( selector ( "setGas(uint256)" )                          => 3713137314 )
-    rule ( selector ( "symbolicCallData()" )                       => 2368578420 )
-    rule ( selector ( "assumeBytesLength(bytes,uint256)" )         => 1696199529 )
 ```
 
 - selectors for unimplemented cheat code functions.
