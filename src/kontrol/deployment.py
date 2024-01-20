@@ -96,10 +96,8 @@ class DeploymentSummary:
         lines.append(f'contract {self.name} is {self.name}Code ' + '{')
         # Appending the cheatcode address to be able to avoid extending `Test`
         lines.append('\t// Cheat code address, 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D')
-        lines.append(
-            '\taddress internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));'
-        )
-        lines.append('\tVm internal constant vm = Vm(VM_ADDRESS);\n')
+        lines.append('\taddress private constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));')
+        lines.append('\tVm private constant vm = Vm(VM_ADDRESS);\n')
 
         for acc_key in list(self.accounts):
             lines.append('\taddress internal constant ' + self.accounts[acc_key] + 'Address = ' + acc_key + ';')
