@@ -602,12 +602,12 @@ def _init_cterm(
         init_subst['CALLDATA_CELL'] = calldata
         constraints = []
 
-        if is_calldata_symbolic:
+        # if is_calldata_symbolic:
             # TODO(palina): EXPERIMENTAL: if calldata is symbolic,
             # add assumptions that correspond to the test w/`BYTES_DATA` having symbolic length, and `bytes[]` containing
             # 10 elements, each 600 bytes long
-            structured_calldata_symbolic_data_constraints = structured_calldata_symbolic_data_assumptions()
-            constraints.extend(structured_calldata_symbolic_data_constraints)
+            # structured_calldata_symbolic_data_constraints = structured_calldata_symbolic_data_assumptions()
+            # constraints.extend(structured_calldata_symbolic_data_constraints)
 
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue

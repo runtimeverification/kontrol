@@ -14,7 +14,7 @@ from pyk.kast.kast import KAtt
 from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
-from pyk.prelude.kbool import TRUE, andBool
+from pyk.prelude.kbool import TRUE, andBool, boolToken
 from pyk.prelude.kint import intToken
 from pyk.prelude.string import stringToken
 from pyk.utils import FrozenDict, hash_str, run_process, single
@@ -87,24 +87,39 @@ class Input:
 
     @staticmethod
     def _make_single_type(input: Input) -> (KApply, bool):
-        if input.type == 'bytes':
-            # getting the type
-            element_type = KEVM.abi_type(input.type, KVariable(input.arg_name))
-            return (KEVM.abi_dynamic_bytes_array(element_type), True)
-        elif input.type.endswith('[]'):
+        # if input.type == 'bytes':
+        #     # getting the type
+        #     element_type = KEVM.abi_type(input.type, KVariable(input.arg_name))
+        #     return (KEVM.abi_dynamic_bytes_array(element_type), True)
+        if input.type.endswith('[]'):
             element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.arg_name))
-            if element_type == 'bytes':
-                return (KEVM.abi_dynamic_bytes_array(element_type), True)
+            if element_type.label.name == 'abi_type_bytes':
+                # TODO(palina): make these values (array length, elements' length) parametric
+                # and figure out why idx is always 0:
+                array_length = 10
+                array_element_length = 600
+                array_elements = [Input(f'{input.arg_name}_{n}', 'bytes', idx=input.idx) for n in range(array_length)]
+                return (
+                    KEVM.abi_bytes_array(
+                        intToken(array_length),
+                        intToken(array_element_length),
+                        Input._make_array_elements(array_elements),
+                    ),
+                    True,
+                )
             else:
+                _LOGGER.info(f'Unsupported array type: {input.type}')
+                if input.type == 'tuple[]':
+                    element_type = KEVM.abi_tuple([KVariable(input.arg_name)], boolToken(False))
                 return (KEVM.abi_dynamic_array(element_type), True)
         else:
             input_name = input.arg_name
             input_type = input.type
-            return (KEVM.abi_type(input_type, KVariable(input_name)), False)
+            is_dynamic = True if input_type == 'bytes' else False
+            return (KEVM.abi_type(input_type, KVariable(input_name)), is_dynamic)
 
     @staticmethod
     def _make_complex_type(components: Iterable[Input]) -> (KApply, bool):
-        # TODO(palina): add support for static arrays
         """
         recursively unwrap components in arguments of complex types and convert them to KEVM types
         """
@@ -118,7 +133,19 @@ class Input:
             else:
                 abi_type, has_dynamic_type = Input._make_single_type(comp)
             abi_types.append(abi_type)
-        return (KEVM.abi_tuple(abi_types), has_dynamic_type)
+        return (KEVM.abi_tuple(abi_types, boolToken(has_dynamic_type)), has_dynamic_type)
+
+    @staticmethod
+    def _make_array_elements(elements: Iterable[Input]) -> list[KInner]:
+        """
+        recursively unwrap components in arguments of complex types and convert them to KEVM types
+        """
+        abi_types: list[KInner] = []
+        for el in elements:
+            # TODO(palina): support nested arrays
+            abi_type, _ = Input._make_single_type(el)
+            abi_types.append(abi_type)
+        return abi_types
 
     @staticmethod
     def _unwrap_components(components: dict, i: int = 0) -> list[Input]:
@@ -295,11 +322,31 @@ class Contract:
 
         @cached_property
         def arg_names(self) -> Iterable[str]:
-            return tuple(input.arg_name for input in self.flat_inputs)
+            # return tuple(input.arg_name for input in self.flat_inputs)
+            arg_names = []
+            for input in self.flat_inputs:
+                # TODO(palina): extend to other types, e.g., `uint256`
+                if input.type == 'bytes[]':
+                    # TODO: make parametric
+                    array_length = 10
+                    arg_names.extend([f'V{input.idx}_{input.arg_name}_{n}' for n in range(array_length)])
+                else:
+                    arg_names.append(input.arg_name)
+            return tuple(arg_names)
 
         @cached_property
         def arg_types(self) -> Iterable[str]:
-            return tuple(input.type for input in self.flat_inputs)
+            # return tuple(input.type for input in self.flat_inputs)
+            arg_types = []
+            for input in self.flat_inputs:
+                # TODO(palina): extend to other types, e.g., `uint256`
+                if input.type == 'bytes[]':
+                    # TODO: make parametric
+                    array_length = 10
+                    arg_types.extend(['bytes'] * array_length)
+                else:
+                    arg_types.append(input.type)
+            return tuple(arg_types)
 
         def up_to_date(self, digest_file: Path) -> bool:
             if not digest_file.exists():
@@ -360,6 +407,16 @@ class Contract:
 
         def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
             prod_klabel = self.unique_klabel
+            arg_vars = []
+            # for input in self.flat_inputs:
+            #     # TODO(palina): extend to other types, e.g., `uint256`
+            #     if input.type == 'bytes[]':
+            #         # TODO: make parametric
+            #         array_length = 10
+            #         arg_vars.extend([f'{input.arg_name}_{n}' for n in range(array_length)])
+            #     else:
+            #         arg_vars.extend(input.arg_name)
+            # else:
             arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
@@ -372,7 +429,8 @@ class Contract:
                         _LOGGER.info(
                             f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
                         )
-                        return None
+                        # TODO(palina): return after handling arrays etc
+                        # return None
                     conjuncts.append(rp)
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
@@ -397,10 +455,10 @@ class Contract:
                 has_dynamic_types = has_dynamic_types or input_has_dynamic_types
                 args.append(abi_type)
 
-            if has_dynamic_types:
-                return (KEVM.abi_symbolic_calldata(self.name, args), True)
-            else:
-                return (KApply(contract.klabel_method, [KApply(contract.klabel), self.application]), False)
+            # if has_dynamic_types:
+            #     return (KEVM.abi_symbolic_calldata(self.name, args), True)
+            # else:
+            return (KApply(contract.klabel_method, [KApply(contract.klabel), self.application]), has_dynamic_types)
 
         @cached_property
         def application(self) -> KInner:
@@ -852,10 +910,12 @@ def _range_predicates(abi: KApply) -> list[KInner | None]:
     if abi.label.name == 'abi_type_tuple':
         if type(abi.args[0]) is KApply:
             rp += _range_collection_predicates(abi.args[0])
-    elif abi.label.name == 'abi_dynamic_array':
-        # TODO(palina): support other arrays
-        type_label = "bytes"
-        rp.append(_range_predicate(single(abi.args), type_label))
+    elif abi.label.name == 'abi_type_bytes_array':
+        type_label = 'bytes'
+        # array elements:
+        if type(abi.args[2]) is KApply:
+            rp += _range_collection_predicates(abi.args[2])
+    # TODO(palina): support other arrays, e.g., uint[]
     else:
         type_label = abi.label.name.removeprefix('abi_type_')
         rp.append(_range_predicate(single(abi.args), type_label))
