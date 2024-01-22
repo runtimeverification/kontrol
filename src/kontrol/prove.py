@@ -598,7 +598,6 @@ def _init_cterm(
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
-        constraints = []
 
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue

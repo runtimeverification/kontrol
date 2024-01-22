@@ -361,7 +361,6 @@ class Contract:
             for input in self.flat_inputs:
                 # TODO(palina): extend to other types, e.g., `uint256`
                 if input.type == 'bytes[]':
-                    # TODO: make parametric
                     array_length = input.length if input.length is not None else 10
                     arg_types.extend(['bytes'] * array_length)
                 else:
@@ -440,8 +439,7 @@ class Contract:
                         _LOGGER.info(
                             f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
                         )
-                        # TODO(palina): return after handling arrays etc
-                        # return None
+                        return None
                     conjuncts.append(rp)
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
