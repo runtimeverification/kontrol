@@ -605,7 +605,6 @@ def _init_cterm(
         'STORAGESLOTSET_CELL': KApply('.Set'),
     }
 
-
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
 
