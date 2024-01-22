@@ -89,10 +89,6 @@ class Input:
 
     @staticmethod
     def _make_single_type(input: Input) -> (KApply, bool):
-        # if input.type == 'bytes':
-        #     # getting the type
-        #     element_type = KEVM.abi_type(input.type, KVariable(input.arg_name))
-        #     return (KEVM.abi_dynamic_bytes_array(element_type), True)
         if input.type.endswith('[]'):
             element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.arg_name))
             if element_type.label.name == 'abi_type_bytes':
@@ -352,8 +348,7 @@ class Contract:
             for input in self.flat_inputs:
                 # TODO(palina): extend to other types, e.g., `uint256`
                 if input.type == 'bytes[]':
-                    # TODO: make parametric
-                    array_length = 10
+                    array_length = input.length if input.length is not None else 10
                     arg_names.extend([f'V{input.idx}_{input.arg_name}_{n}' for n in range(array_length)])
                 else:
                     arg_names.append(input.arg_name)
@@ -367,7 +362,7 @@ class Contract:
                 # TODO(palina): extend to other types, e.g., `uint256`
                 if input.type == 'bytes[]':
                     # TODO: make parametric
-                    array_length = 10
+                    array_length = input.length if input.length is not None else 10
                     arg_types.extend(['bytes'] * array_length)
                 else:
                     arg_types.append(input.type)
@@ -963,7 +958,8 @@ def _range_predicate(term: KInner, type_label: str) -> KInner | None:
         case 'bool':
             return KEVM.range_bool(term)
         case 'bytes':
-            return KEVM.range_uint(128, KEVM.size_bytes(term))
+            #  the compiler-inserted check asserts that lengthBytes(B) <= maxUint64
+            return KEVM.range_uint(64, KEVM.size_bytes(term))
         case 'string':
             return TRUE
 
