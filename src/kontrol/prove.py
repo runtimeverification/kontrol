@@ -8,7 +8,7 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KSequence, KVariable, Subst
+from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
@@ -553,8 +553,8 @@ def _init_cterm(
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': program,
         'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
-        'ORIGIN_CELL': KVariable('ORIGIN_ID'),
-        'CALLER_CELL': KVariable('CALLER_ID'),
+        'ORIGIN_CELL': KVariable('ORIGIN_ID', sort=KSort('Int')),
+        'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),
         'LOCALMEM_CELL': bytesToken(b''),
         'PREVCALLER_CELL': KApply('.Account_EVM-TYPES_Account'),
         'PREVORIGIN_CELL': KApply('.Account_EVM-TYPES_Account'),
