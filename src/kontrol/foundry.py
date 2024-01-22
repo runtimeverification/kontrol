@@ -243,6 +243,8 @@ class Foundry:
                 return self.solidity_src(contract_name, int(pc_cell.token))
         elif type(element) is KCFG.Edge:
             return list(element.rules)
+        elif type(element) is KCFG.NDBranch:
+            return list(element.rules)
         return ['NO DATA']
 
     def build(self) -> None:
