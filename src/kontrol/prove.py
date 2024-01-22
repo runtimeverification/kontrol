@@ -253,7 +253,7 @@ def method_to_apr_proof(
     run_constructor: bool = False,
     use_gas: bool = False,
     summary_entries: Iterable[SummaryEntry] | None = None,
-) -> APRProof | APRBMCProof:
+) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
         apr_proof.write_proof_data()
