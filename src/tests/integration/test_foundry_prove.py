@@ -142,8 +142,9 @@ def test_foundry_prove(
     ):
         pytest.skip()
 
-    prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=test_id in
-            GAS_TESTS, break_on_calls=True)
+    prove_options = ProveOptions(
+        counterexample_info=True, bug_report=bug_report, use_gas=test_id in GAS_TESTS, break_on_calls=True
+    )
 
     # When
     prove_res = foundry_prove(
