@@ -186,6 +186,10 @@ def _run_cfg_group(
     rpc_options: RPCOptions,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | None:
+        if Proof.proof_data_exists(test.id, foundry.proofs_dir):
+            apr_proof = foundry.get_apr_proof(test.id)
+            if apr_proof.passed:
+                return None
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
