@@ -461,20 +461,14 @@ class Contract:
                 else abstract_term_safely(KVariable('_###CALLVALUE###_'), base_name='CALLVALUE')
             )
 
-        def calldata_cell(self, contract: Contract) -> (KInner, bool):
-            has_dynamic_types = False
+        def calldata_cell(self, contract: Contract) -> KInner:
             args: list[KInner] = []
 
             for input in self.inputs:
-                abi_type, input_has_dynamic_types = input.to_abi()
-                # if any of the inputs contain dynamic types, make it symbolic
-                has_dynamic_types = has_dynamic_types or input_has_dynamic_types
+                abi_type, _ = input.to_abi()
                 args.append(abi_type)
 
-            # if has_dynamic_types:
-            #     return (KEVM.abi_symbolic_calldata(self.name, args), True)
-            # else:
-            return (KApply(contract.klabel_method, [KApply(contract.klabel), self.application]), has_dynamic_types)
+            return KApply(contract.klabel_method, [KApply(contract.klabel), self.application])
 
         @cached_property
         def application(self) -> KInner:
