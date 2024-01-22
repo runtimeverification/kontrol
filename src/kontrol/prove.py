@@ -601,7 +601,6 @@ def _init_cterm(
         'STORAGESLOTSET_CELL': KApply('.Set'),
     }
 
-    constraints = None
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
@@ -617,12 +616,7 @@ def _init_cterm(
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
     init_cterm = KEVM.add_invariant(init_cterm)
-    if constraints is None:
-        return init_cterm
-    else:
-        for constraint in constraints:
-            init_cterm = init_cterm.add_constraint(constraint)
-        return init_cterm
+    return init_cterm
 
 
 def _final_cterm(
