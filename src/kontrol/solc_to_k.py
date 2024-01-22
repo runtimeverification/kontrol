@@ -71,19 +71,21 @@ class Input:
     type: str
     components: tuple[Input, ...] = ()
     idx: int = 0
+    length: int | None = None
+    element_length: int | None = None
 
     @cached_property
     def arg_name(self) -> str:
         return f'V{self.idx}_{self.name.replace("-", "_")}'
 
     @staticmethod
-    def from_dict(input: dict, idx: int = 0) -> Input:
+    def from_dict(input: dict, idx: int = 0, length: int | None = None, element_length: int | None = None) -> Input:
         name = input['name']
         type = input['type']
         if input.get('components') is not None and input['type'] != 'tuple[]':
-            return Input(name, type, tuple(Input._unwrap_components(input['components'], idx)), idx)
+            return Input(name, type, tuple(Input._unwrap_components(input['components'], idx)), idx, length, element_length)
         else:
-            return Input(name, type, idx=idx)
+            return Input(name, type, idx=idx, length=length, element_length=element_length)
 
     @staticmethod
     def _make_single_type(input: Input) -> (KApply, bool):
@@ -94,10 +96,9 @@ class Input:
         if input.type.endswith('[]'):
             element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.arg_name))
             if element_type.label.name == 'abi_type_bytes':
-                # TODO(palina): make these values (array length, elements' length) parametric
-                # and figure out why idx is always 0:
-                array_length = 10
-                array_element_length = 600
+                # Use NatSpec-provided lengths (array length, elements' length)
+                array_length = input.length if input.length is not None else 10
+                array_element_length = input.element_length if input.element_length is not None else 600
                 array_elements = [Input(f'{input.arg_name}_{n}', 'bytes', idx=input.idx) for n in range(array_length)]
                 return (
                     KEVM.abi_bytes_array(
@@ -110,6 +111,7 @@ class Input:
             else:
                 _LOGGER.info(f'Unsupported array type: {input.type}')
                 if input.type == 'tuple[]':
+                    # TODO: placeholder to avoid compilation errors on Foundry functions using `struct[]`
                     element_type = KEVM.abi_tuple([KVariable(input.arg_name)], boolToken(False))
                 return (KEVM.abi_dynamic_array(element_type), True)
         else:
@@ -178,14 +180,35 @@ class Input:
             return [self]
 
 
-def inputs_from_abi(abi_inputs: Iterable[dict]) -> list[Input]:
+def inputs_from_abi(abi_inputs: Iterable[dict], devdoc: dict | None) -> list[Input]:
+    element_lengths = {}
+    lengths = {}
+    if devdoc is not None:
+        element_lengths = lengths_from_natspec('custom:element-length', devdoc)
+        lengths = lengths_from_natspec('custom:length', devdoc)
+
     inputs = []
     i = 0
     for input in abi_inputs:
-        cur_input = Input.from_dict(input, i)
+        input_length = lengths[input['name']] if lengths is not None and input['name'] in lengths else None
+        input_element_length = element_lengths[input['name']] if element_lengths is not None and input['name'] in element_lengths else None
+
+        cur_input = Input.from_dict(input, i, input_length, input_element_length)
         inputs.append(cur_input)
         i += len(cur_input.flattened())
     return inputs
+
+
+def lengths_from_natspec(tag: str, devdoc: dict) -> dict:
+    # devdoc example:
+    # {'custom:element-length': '_withdrawalProof 600,', 'custom:length': '_withdrawalProof 10,_l2OutputIndex 4,'}
+    parsed_lengths = {}
+    lengths: str = devdoc[tag] if devdoc.get(tag) is not None else None
+    if lengths:
+        for l in [x for x in lengths.split(',') if x]:
+            var, length = l.split(': ')
+            parsed_lengths[var] = int(length)
+    return parsed_lengths
 
 
 @dataclass
@@ -266,6 +289,7 @@ class Contract:
         payable: bool
         signature: str
         ast: dict | None
+        devdoc: dict | None
 
         def __init__(
             self,
@@ -277,11 +301,11 @@ class Contract:
             contract_digest: str,
             contract_storage_digest: str,
             sort: KSort,
+            devdoc: dict | None
         ) -> None:
             self.signature = msig
             self.name = abi['name']
             self.id = id
-            self.inputs = tuple(inputs_from_abi(abi['inputs']))
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
@@ -289,6 +313,7 @@ class Contract:
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
             self.ast = ast
+            self.inputs = tuple(inputs_from_abi(abi['inputs'], devdoc))
 
         @property
         def klabel(self) -> KLabel:
@@ -408,15 +433,6 @@ class Contract:
         def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
             prod_klabel = self.unique_klabel
             arg_vars = []
-            # for input in self.flat_inputs:
-            #     # TODO(palina): extend to other types, e.g., `uint256`
-            #     if input.type == 'bytes[]':
-            #         # TODO: make parametric
-            #         array_length = 10
-            #         arg_vars.extend([f'{input.arg_name}_{n}' for n in range(array_length)])
-            #     else:
-            #         arg_vars.extend(input.arg_name)
-            # else:
             arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
@@ -512,14 +528,24 @@ class Contract:
         }
 
         _methods = []
+
+        # getting NatSpec comments
+        if 'metadata' in self.contract_json:
+            metadata = self.contract_json['metadata']
+            devdoc = metadata['output']['devdoc']['methods']
+                              
         for method in contract_json['abi']:
             if method['type'] == 'function':
                 msig = method_sig_from_abi(method)
                 method_selector: str = str(evm['methodIdentifiers'][msig])
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
+
+                # using relevant NatSpec comments in Method initialization
+                method_devdoc = devdoc[msig] if msig in devdoc else None
+
                 _m = Contract.Method(
-                    msig, mid, method, method_ast, self._name, self.digest, self.storage_digest, self.sort_method
+                    msig, mid, method, method_ast, self._name, self.digest, self.storage_digest, self.sort_method, method_devdoc
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':

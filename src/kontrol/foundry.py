@@ -245,7 +245,7 @@ class Foundry:
 
     def build(self) -> None:
         try:
-            run_process(['forge', 'build', '--root', str(self._root)], logger=_LOGGER)
+            run_process(['forge', 'build', '--root', str(self._root), '--extra-output', 'devdoc'], logger=_LOGGER)
         except FileNotFoundError:
             print("Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH.")
             sys.exit(1)
