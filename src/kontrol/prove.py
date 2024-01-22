@@ -42,7 +42,7 @@ def foundry_prove(
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
     tests: Iterable[tuple[str, int | None]] = (),
-) -> list[Proof]:
+) -> list[APRProof]:
     if prove_options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {prove_options.workers}')
     if prove_options.max_iterations is not None and prove_options.max_iterations < 0:
@@ -85,7 +85,7 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    def run_prover(test_suite: list[FoundryTest]) -> list[Proof]:
+    def run_prover(test_suite: list[FoundryTest]) -> list[APRProof]:
         return _run_cfg_group(
             tests=test_suite,
             foundry=foundry,
@@ -183,8 +183,8 @@ def _run_cfg_group(
     foundry: Foundry,
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
-) -> list[Proof]:
-    def init_and_run_proof(test: FoundryTest) -> Proof:
+) -> list[APRProof]:
+    def init_and_run_proof(test: FoundryTest) -> APRProof:
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
@@ -233,7 +233,7 @@ def _run_cfg_group(
             )
             return proof
 
-    apr_proofs: list[Proof]
+    apr_proofs: list[APRProof]
     if prove_options.workers > 1:
         with ProcessPool(ncpus=prove_options.workers) as process_pool:
             apr_proofs = process_pool.map(init_and_run_proof, tests)
