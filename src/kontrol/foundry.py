@@ -372,15 +372,15 @@ class Foundry:
         regex = single(self._escape_brackets([test]))
         all_proof_ids: list[tuple[str, str, int]] = []
         for pid in listdir(self.proofs_dir):
-            proof_type = pid.split('%')[0]
+            proof_dir = '%'.join(pid.split('%')[0:-1])
             proof_name = pid.split('%')[1].split(':')[0]
             proof_version = int(pid.split(':')[1])
-            all_proof_ids.append((proof_type, proof_name, proof_version))
+            all_proof_ids.append((proof_dir, proof_name, proof_version))
         proof_ids = [
-            (pt, pn, pv) for pt, pn, pv in all_proof_ids if re.search(regex, pn) and (version is None or version == pv)
+            (pd, pn, pv) for pd, pn, pv in all_proof_ids if re.search(regex, pn) and (version is None or version == pv)
         ]
         _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {regex}:{version}: {proof_ids}')
-        return [f'{pt}%{pn}:{pv}' for pt, pn, pv in proof_ids]
+        return [f'{pd}%{pn}:{pv}' for pd, pn, pv in proof_ids]
 
     def get_apr_proof(self, test_id: str) -> APRProof:
         proof = Proof.read_proof_data(self.proofs_dir, test_id)
