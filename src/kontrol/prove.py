@@ -424,12 +424,11 @@ def _method_to_cfg(
         new_node_ids = [init_node.id]
         init_node_id = init_node.id
 
+    proof_prefixes = ['test', 'prove', 'check']
+    is_test = any(method.signature.startswith(prefix) for prefix in proof_prefixes)
+    failing = any(method.signature.startswith(prefix + 'Fail') for prefix in proof_prefixes)
     final_cterm = _final_cterm(
-        empty_config,
-        contract.name_with_path,
-        failing=method.is_testfail,
-        use_init_code=use_init_code,
-        is_test=method.is_test,
+        empty_config, contract.name_with_path, failing=failing, is_test=is_test, use_init_code=use_init_code
     )
     target_node = cfg.create_node(final_cterm)
 
