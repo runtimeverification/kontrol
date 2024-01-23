@@ -30,6 +30,7 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
+    from pyk.proof.reachability import APRFailureInfo
 
     from .deployment import SummaryEntry
     from .options import ProveOptions, RPCOptions
@@ -42,7 +43,7 @@ def foundry_prove(
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
     tests: Iterable[tuple[str, int | None]] = (),
-) -> list[Proof]:
+) -> list[APRProof]:
     if prove_options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {prove_options.workers}')
     if prove_options.max_iterations is not None and prove_options.max_iterations < 0:
@@ -85,7 +86,7 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    def run_prover(test_suite: list[FoundryTest]) -> list[Proof]:
+    def run_prover(test_suite: list[FoundryTest]) -> list[APRProof]:
         return _run_cfg_group(
             tests=test_suite,
             foundry=foundry,
@@ -183,8 +184,8 @@ def _run_cfg_group(
     foundry: Foundry,
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
-) -> list[Proof]:
-    def init_and_run_proof(test: FoundryTest) -> Proof:
+) -> list[APRProof]:
+    def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | None:
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
@@ -231,18 +232,27 @@ def _run_cfg_group(
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
                 counterexample_info=prove_options.counterexample_info,
             )
-            return proof
 
-    apr_proofs: list[Proof]
+            # Only return the failure info to avoid pickling the whole proof
+            return proof.failure_info
+
+    failure_infos: list[APRFailureInfo | None]
     if prove_options.workers > 1:
         with ProcessPool(ncpus=prove_options.workers) as process_pool:
-            apr_proofs = process_pool.map(init_and_run_proof, tests)
+            failure_infos = process_pool.map(init_and_run_proof, tests)
     else:
-        apr_proofs = []
+        failure_infos = []
         for test in tests:
-            apr_proofs.append(init_and_run_proof(test))
+            failure_infos.append(init_and_run_proof(test))
 
-    return apr_proofs
+    proofs = [foundry.get_apr_proof(test.id) for test in tests]
+
+    # Reconstruct the proof from the subprocess
+    for proof, failure_info in zip(proofs, failure_infos, strict=True):
+        assert proof.failure_info is None  # Refactor once this fails
+        proof.failure_info = failure_info
+
+    return proofs
 
 
 def method_to_apr_proof(
@@ -253,7 +263,7 @@ def method_to_apr_proof(
     run_constructor: bool = False,
     use_gas: bool = False,
     summary_entries: Iterable[SummaryEntry] | None = None,
-) -> APRProof | APRBMCProof:
+) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
         apr_proof.write_proof_data()
