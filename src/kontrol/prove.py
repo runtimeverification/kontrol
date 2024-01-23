@@ -600,10 +600,18 @@ def _init_cterm(
                 'ID_CELL': Foundry.address_TEST_SYMBOLIC(),
             }
         )
-        del init_subst['CALLSTACK_CELL']
-        del init_subst['CALLDEPTH_CELL']
-        del init_subst['LOG_CELL']
-        del init_subst['INTERIMSTATES_CELL']
+
+        keys_to_delete = [
+            'CALLSTACK_CELL',
+            'CALLDEPTH_CELL',
+            'LOG_CELL',
+            'INTERIMSTATES_CELL',
+            'TOUCHEDACCOUNTS_CELL',
+            'ACCESSEDACCOUNTS_CELL',
+            'ACCESSEDSTORAGE_CELL  ',
+        ]
+        for key in keys_to_delete:
+            del init_subst[key]
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
@@ -625,7 +633,7 @@ def _create_initial_account_list(
             KVariable('CONTRACT_BAL'),
             program,
             KVariable('CONTRACT_STORAGE'),
-            KVariable('CONTRACT_STORAGE'),
+            KVariable('CONTRACT_ORIG_STORAGE'),
             KVariable('CONTRACT_NONCE'),
         )
         if symbolic_exploration
@@ -677,7 +685,7 @@ def _final_term(empty_config: KInner, contract_name: str, is_test: bool, use_ini
         else KEVM.bin_runtime(KApply(f'contract_{contract_name}'))
     )
     post_account_cell = KEVM.account_cell(
-        Foundry.address_TEST_CONTRACT(),
+        Foundry.address_TEST_CONTRACT() if is_test else Foundry.address_TEST_SYMBOLIC(),
         KVariable('ACCT_BALANCE_FINAL'),
         program,
         KVariable('ACCT_STORAGE_FINAL'),
@@ -705,26 +713,12 @@ def _final_term(empty_config: KInner, contract_name: str, is_test: bool, use_ini
         'STORAGESLOTSET_CELL': KVariable('STORAGESLOTSET_FINAL'),
     }
     if not is_test:
-        contract = KEVM.account_cell(
-            Foundry.address_TEST_SYMBOLIC(),
-            KVariable('CONTRACT_BAL_FINAL'),
-            program,
-            KVariable('CONTRACT_STORAGE_FINAL'),
-            KVariable('CONTRACT_ORIG_STORAGE_FINAL'),
-            KVariable('CONTRACT_NONCE_FINAL'),
-        )
         final_subst.update(
             {
                 'ID_CELL': Foundry.address_TEST_SYMBOLIC(),
-                'ACCOUNTS_CELL': KEVM.accounts(
-                    [
-                        contract,  # test contract address
-                        Foundry.account_CHEATCODE_ADDRESS(KApply('.Map')),
-                        KVariable('ACCOUNTS_FINAL'),
-                    ]
-                ),
             }
         )
+
     return abstract_cell_vars(
         Subst(final_subst)(empty_config),
         [
