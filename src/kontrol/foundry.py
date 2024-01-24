@@ -303,22 +303,15 @@ class Foundry:
         test_sigs = self.matching_tests([test])
         return test_sigs
 
-    def get_test_id(self, test: str, id: int | None) -> str:
-        matching_proofs = self.proofs_with_test(test)
-        if not matching_proofs:
-            raise ValueError(f'Found no matching proofs for {test}.')
-        if id is None:
-            if len(matching_proofs) > 1:
-                raise ValueError(
-                    f'Found {len(matching_proofs)} matching proofs for {test}. Use the --version flag to choose one.'
-                )
-            test_id = single(matching_proofs).id
-            return test_id
-        else:
-            for proof in matching_proofs:
-                if proof.id.endswith(str(id)):
-                    return proof.id
-            raise ValueError('No proof matching this predicate.')
+    def get_test_id(self, test: str, version: int | None) -> str:
+        matching_proof_ids = self.proof_ids_with_test(test, version)
+        if len(matching_proof_ids) == 0:
+            raise ValueError(f'Found no matching proofs for {test}:{version}.')
+        if len(matching_proof_ids) > 1:
+            raise ValueError(
+                f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
+            )
+        return single(matching_proof_ids)
 
     @staticmethod
     def success(s: KInner, dst: KInner, r: KInner, c: KInner, e1: KInner, e2: KInner) -> KApply:
@@ -383,13 +376,19 @@ class Foundry:
         )
         return res_lines
 
-    def proofs_with_test(self, test: str) -> list[Proof]:
-        proofs = [
-            self.get_optional_proof(pid)
-            for pid in listdir(self.proofs_dir)
-            if re.search(single(self._escape_brackets([test])), pid.split(':')[0])
+    def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
+        regex = single(self._escape_brackets([test]))
+        all_proof_ids: list[tuple[str, str, int]] = []
+        for pid in listdir(self.proofs_dir):
+            proof_dir = '%'.join(pid.split('%')[0:-1])
+            proof_name = pid.split('%')[1].split(':')[0]
+            proof_version = int(pid.split(':')[1])
+            all_proof_ids.append((proof_dir, proof_name, proof_version))
+        proof_ids = [
+            (pd, pn, pv) for pd, pn, pv in all_proof_ids if re.search(regex, pn) and (version is None or version == pv)
         ]
-        return [proof for proof in proofs if proof is not None]
+        _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {regex}:{version}: {proof_ids}')
+        return [f'{pd}%{pn}:{pv}' for pd, pn, pv in proof_ids]
 
     def get_apr_proof(self, test_id: str) -> APRProof:
         proof = Proof.read_proof_data(self.proofs_dir, test_id)
