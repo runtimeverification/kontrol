@@ -151,7 +151,7 @@ Node 18:
             .List
           </interimStates>
           <touchedAccounts>
-            TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( 728815563385977040452943777879061427756277306518 )
+            SetItem ( 728815563385977040452943777879061427756277306518 )
           </touchedAccounts>
           <callState>
             <id>
@@ -246,18 +246,6 @@ Node 18:
     </kevm>
     <cheatcodes>
       <prank>
-        <prevCaller>
-          .Account
-        </prevCaller>
-        <prevOrigin>
-          .Account
-        </prevOrigin>
-        <newCaller>
-          .Account
-        </newCaller>
-        <newOrigin>
-          .Account
-        </newOrigin>
         <active>
           false
         </active>
@@ -281,18 +269,7 @@ Node 18:
         <isOpcodeExpected>
           false
         </isOpcodeExpected>
-        <expectedAddress>
-          .Account
-        </expectedAddress>
-        <expectedValue>
-          0
-        </expectedValue>
-        <expectedData>
-          b""
-        </expectedData>
-        <opcodeType>
-          .OpcodeType
-        </opcodeType>
+        ...
       </expectedOpcode>
       <expectEmit>
         <recordEvent>
@@ -354,6 +331,9 @@ Node 18:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -462,18 +442,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -492,18 +460,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -570,6 +527,9 @@ Node 18:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -678,18 +638,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -708,18 +656,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -786,6 +723,9 @@ Node 18:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -894,18 +834,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -924,18 +852,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1000,6 +917,9 @@ Node 18:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1108,18 +1028,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1138,18 +1046,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1210,6 +1107,9 @@ Node 18:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1307,18 +1207,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1337,18 +1225,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1405,6 +1282,9 @@ Node 18:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1502,18 +1382,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1532,18 +1400,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1606,6 +1463,9 @@ Node 18:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1703,18 +1563,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1738,18 +1586,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1811,6 +1648,9 @@ Node 18:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1908,18 +1748,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1943,18 +1771,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -2107,7 +1924,7 @@ Node 18:
                    </substate> } ) )
                  </interimStates>
                  <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   ( .Set => SetItem ( 728815563385977040452943777879061427756277306518 ) )
                  </touchedAccounts>
                  <callState>
                    ...
@@ -2210,18 +2027,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -2245,18 +2050,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -2408,7 +2202,7 @@ Node 18:
                    </substate> } )
                  </interimStates>
                  <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
+                   SetItem ( 728815563385977040452943777879061427756277306518 )
                  </touchedAccounts>
                  <callState>
                    ...
@@ -2511,18 +2305,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -2546,18 +2328,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -2709,7 +2480,7 @@ Node 18:
                    </substate> } )
                  </interimStates>
                  <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
+                   SetItem ( 728815563385977040452943777879061427756277306518 )
                  </touchedAccounts>
                  <callState>
                    ...
@@ -2812,18 +2583,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -2847,18 +2606,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -3013,7 +2761,7 @@ Node 18:
                    </substate> } )
                  </interimStates>
                  <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
+                   SetItem ( 728815563385977040452943777879061427756277306518 )
                  </touchedAccounts>
                  <callState>
                    ...
@@ -3116,18 +2864,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -3151,18 +2887,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -3319,7 +3044,7 @@ Node 18:
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
+                   SetItem ( 728815563385977040452943777879061427756277306518 )
                  </touchedAccounts>
                  <callState>
                    ...
@@ -3422,18 +3147,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -3457,18 +3170,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -3529,7 +3231,7 @@ Node 18:
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
+                   SetItem ( 728815563385977040452943777879061427756277306518 )
                  </touchedAccounts>
                  <callState>
                    ...
@@ -3628,18 +3330,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -3663,18 +3353,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -3735,7 +3414,7 @@ Node 18:
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( 728815563385977040452943777879061427756277306518 )
+                   SetItem ( 728815563385977040452943777879061427756277306518 )
                  </touchedAccounts>
                  <callState>
                    ...
@@ -3834,18 +3513,6 @@ Node 18:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -3869,18 +3536,7 @@ Node 18:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
