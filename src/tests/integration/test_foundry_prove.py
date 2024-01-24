@@ -53,6 +53,9 @@ def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
         command=kore_rpc_command,
         smt_timeout=300,
         smt_retry_limit=10,
+        fallback_on=None,
+        interim_simplification=None,
+        no_post_exec_simplify=None,
     )
 
 
