@@ -86,9 +86,9 @@ def foundry_prove(
     for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
-    def run_prover(test_suite: list[FoundryTest]) -> list[APRProof]:
+    def _run_prover(_test_suite: list[FoundryTest]) -> list[APRProof]:
         return _run_cfg_group(
-            tests=test_suite,
+            tests=_test_suite,
             foundry=foundry,
             prove_options=prove_options,
             rpc_options=rpc_options,
@@ -96,20 +96,20 @@ def foundry_prove(
 
     if prove_options.run_constructor:
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
-        results = run_prover(constructor_tests)
+        results = _run_prover(constructor_tests)
         failed = [proof for proof in results if not proof.passed]
         if failed:
             raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
-    results = run_prover(setup_method_tests)
+    results = _run_prover(setup_method_tests)
 
     failed = [proof for proof in results if not proof.passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
-    results = run_prover(test_suite)
+    results = _run_prover(test_suite)
     return results
 
 
@@ -186,6 +186,10 @@ def _run_cfg_group(
     rpc_options: RPCOptions,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | None:
+        if Proof.proof_data_exists(test.id, foundry.proofs_dir):
+            apr_proof = foundry.get_apr_proof(test.id)
+            if apr_proof.passed:
+                return None
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
@@ -600,8 +604,6 @@ def _init_cterm(
         'STORAGESLOTSET_CELL': KApply('.Set'),
     }
 
-    constraints = None
-
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
 
@@ -616,12 +618,7 @@ def _init_cterm(
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
     init_cterm = KEVM.add_invariant(init_cterm)
-    if constraints is None:
-        return init_cterm
-    else:
-        for constraint in constraints:
-            init_cterm = init_cterm.add_constraint(constraint)
-        return init_cterm
+    return init_cterm
 
 
 def _final_cterm(
