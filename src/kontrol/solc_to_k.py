@@ -108,7 +108,7 @@ class Input:
                 _LOGGER.info(f'Unsupported array type: {input.type}')
                 if input.type == 'tuple[]':
                     # TODO: placeholder to avoid compilation errors on Foundry functions using `struct[]`
-                    element_type = KEVM.abi_tuple([KVariable(input.arg_name)], boolToken(False))
+                    element_type = KEVM.abi_tuple([KVariable(input.arg_name)])
                 return (KEVM.abi_dynamic_array(element_type), True)
         else:
             input_name = input.arg_name
@@ -131,7 +131,7 @@ class Input:
             else:
                 abi_type, has_dynamic_type = Input._make_single_type(comp)
             abi_types.append(abi_type)
-        return (KEVM.abi_tuple(abi_types, boolToken(has_dynamic_type)), has_dynamic_type)
+        return (KEVM.abi_tuple(abi_types), has_dynamic_type)
 
     @staticmethod
     def _make_array_elements(elements: Iterable[Input]) -> list[KInner]:
