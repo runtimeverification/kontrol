@@ -77,6 +77,12 @@ module FOUNDRY-CHEAT-CODES
           <addressSet> .Set </addressSet>
           <storageSlotSet> .Set </storageSlotSet>
         </whitelist>
+        <mockCalls>
+            <mockCall multiplicity="*" type="Map">
+               <mockAddress>   0   </mockAddress>
+               <mockValues> .Map </mockValues>
+            </mockCall>
+         </mockCalls>
       </cheatcodes>
 ```
 
@@ -907,6 +913,22 @@ Otherwise, throw an error for any other call to the Foundry contract.
       [owise]
 ```
 
+```k
+    rule [foundry.call.mockCall]:
+         <k> #call_foundry SELECTOR ARGS
+          => #loadAccount #asWord(#range(ARGS, 0, 32)) 
+          ~> #setMockCall #asWord(#range(ARGS, 0, 32)) #range(ARGS, #asWord(#range(ARGS, 32, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32))) #range(ARGS, #asWord(#range(ARGS, 64, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 64, 32)), 32)))
+         ...
+         </k> 
+      requires SELECTOR ==Int selector ( "mockCall(address,bytes,bytes)" )
+
+    //rule [foundry.call.mockCallWithMsgValue]:
+    //     <k> #call_foundry SELECTOR ARGS
+    //        => #loadAccount #asWord(#range(ARGS, 0, 32))
+    //        ~> #setMockCall #asWord(#range(ARGS, 0, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) false ... </k>
+    //  requires SELECTOR ==Int selector ( "mockCall(address,uint256,bytes,bytes)" )
+```
+
 Utils
 -----
 
@@ -1316,6 +1338,30 @@ If the production is matched when no prank is active, it will be ignored.
         </whitelist>
 ```
 
+- `#setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN` will update the `<mockcalls>` mapping for the given account.
+
+```k
+    syntax KItem ::= "#setMockCall" Account Bytes Bytes [klabel(foundry_setMockCall)]
+ // ------------------------------------------------------------------------
+    rule <k> #setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN => . ... </k>
+         <mockCall>
+            <mockAddress> MOCKADDRESS </mockAddress>
+            <mockValues>  MOCKVALUES => MOCKVALUES [ MOCKCALLDATA <- MOCKRETURN ] </mockValues>
+         </mockCall>
+
+   rule <k> #setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN => . ... </k>
+         <mockCalls>
+           ( .Bag
+            => <mockCall>
+                  <mockAddress> MOCKADDRESS </mockAddress>
+                  <mockValues> .Map [ MOCKCALLDATA <- MOCKRETURN ] </mockValues>
+               ...
+               </mockCall>
+           )
+           ...
+         </mockCalls>       
+```
+
 - selectors for cheat code functions.
 
 ```k
@@ -1381,7 +1427,7 @@ If the production is matched when no prank is active, it will be ignored.
     rule selector ( "expectRevert(bytes4)" )                    => 3273568480
     rule selector ( "record()" )                                => 644673801
     rule selector ( "accesses(address)" )                       => 1706857601
-    rule selector ( "mockCall(address,bytes calldata,bytes)" )  => 378193464
+    rule selector ( "mockCall(address,bytes,bytes)" )           => 378193464
     rule selector ( "mockCall(address,uint256,bytes,bytes)" )   => 2168494993
     rule selector ( "clearMockedCalls()" )                      => 1071599125
     rule selector ( "expectCall(address,bytes)" )               => 3177903156
