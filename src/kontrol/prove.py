@@ -608,7 +608,7 @@ def _init_cterm(
             'INTERIMSTATES_CELL',
             'TOUCHEDACCOUNTS_CELL',
             'ACCESSEDACCOUNTS_CELL',
-            'ACCESSEDSTORAGE_CELL  ',
+            'ACCESSEDSTORAGE_CELL',
         ]
         for key in keys_to_delete:
             del init_subst[key]
