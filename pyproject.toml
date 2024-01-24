@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "kontrol"
-version = "0.1.129"
+version = "0.1.130"
 description = "Foundry integration for KEVM"
 authors = [
     "Runtime Verification, Inc. <contact@runtimeverification.com>",
@@ -48,6 +48,7 @@ remove-all-unused-imports = true
 ignore-init-module-imports = true
 remove-duplicate-keys = true
 remove-unused-variables = true
+exclude = "src/tests/integration/test-data"
 
 [tool.black]
 line-length = 120
@@ -55,3 +56,4 @@ skip-string-normalization = true
 
 [tool.mypy]
 disallow_untyped_defs = true
+exclude = "src/tests/integration/test-data"
