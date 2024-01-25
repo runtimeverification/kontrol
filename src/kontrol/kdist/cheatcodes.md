@@ -79,8 +79,8 @@ module FOUNDRY-CHEAT-CODES
         </whitelist>
         <mockCalls>
             <mockCall multiplicity="*" type="Map">
-               <mockAddress>   0   </mockAddress>
-               <mockValues> .Map </mockValues>
+               <mockAddress> .Account </mockAddress>
+               <mockValues>  .Map </mockValues>
             </mockCall>
          </mockCalls>
       </cheatcodes>
@@ -931,14 +931,14 @@ Otherwise, throw an error for any other call to the Foundry contract.
 
 ```k
     rule [foundry.set.mockCall]:
-         <k> #next [ _OP:CallOp ] => #setLocalMem RETSTART RETWIDTH RETURNDATA ... </k>
+         <k> #next [ _OP:CallOp ] ~> (. =>  #setLocalMem RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
          <localMem> LM </localMem>
-         <wordStack> _ : ACCTTO : _ : ARGSTART : ARGWIDTH : RETSTART : RETWIDTH : WS => WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : ARGSTART : ARGWIDTH : RETSTART : RETWIDTH : _WS </wordStack>
          <mockCall>
            <mockAddress> ACCTTO </mockAddress>
-           <mockValues>  CALLDATA |-> RETURNDATA </mockValues>
+           <mockValues>...  CALLDATA |-> RETURNDATA ...</mockValues>
          </mockCall>
-         requires #range(LM, ARGSTART, ARGWIDTH) ==K #range(CALLDATA, 0, ARGWIDTH)
+         requires #range(LM, ARGSTART, ARGWIDTH) ==K CALLDATA
       [priority(30)]
 ```
 
