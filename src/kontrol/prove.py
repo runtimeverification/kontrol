@@ -121,7 +121,7 @@ def foundry_prove(
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
-    results = _run_prover(test_suite, include_summaries=False)
+    results = _run_prover(test_suite, include_summaries=True)
     return results
 
 
