@@ -929,6 +929,20 @@ Otherwise, throw an error for any other call to the Foundry contract.
     //  requires SELECTOR ==Int selector ( "mockCall(address,uint256,bytes,bytes)" )
 ```
 
+```k
+    rule [foundry.set.mockCall]:
+         <k> #next [ _OP:CallOp ] ~> . ... </k>
+         <localMem> LM </localMem>
+         <wordStack> _ : ACCTTO : _ : ARGSTART : ARGWIDTH : _RETSTART : _RETWIDTH : WS => WS </wordStack>
+         <output> _ => RETURNDATA </output>
+         <mockCall>
+           <mockAddress> ACCTTO </mockAddress>
+           <mockValues>  CALLDATA |-> RETURNDATA </mockValues>
+         </mockCall>
+         requires #range(LM, ARGSTART, ARGWIDTH) ==K #range(DATA, 0, ARGWIDTH)
+      [priority(30)]
+```
+
 Utils
 -----
 
@@ -1355,7 +1369,6 @@ If the production is matched when no prank is active, it will be ignored.
             => <mockCall>
                   <mockAddress> MOCKADDRESS </mockAddress>
                   <mockValues> .Map [ MOCKCALLDATA <- MOCKRETURN ] </mockValues>
-               ...
                </mockCall>
            )
            ...
