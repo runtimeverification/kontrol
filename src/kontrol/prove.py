@@ -571,7 +571,7 @@ def _init_cterm(
         'ISOPCODEEXPECTED_CELL': FALSE,
         'EXPECTEDADDRESS_CELL': KApply('.Account_EVM-TYPES_Account'),
         'EXPECTEDVALUE_CELL': intToken(0),
-        'EXPECTEDDATA_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
+        'EXPECTEDDATA_CELL': bytesToken(b''),
         'OPCODETYPE_CELL': KApply('.OpcodeType_FOUNDRY-CHEAT-CODES_OpcodeType'),
         'RECORDEVENT_CELL': FALSE,
         'ISEVENTEXPECTED_CELL': FALSE,
