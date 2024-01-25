@@ -395,7 +395,7 @@ def _method_to_cfg(
         summary_entries=summary_entries,
         is_test=method.is_test,
         is_setup=method.is_setup,
-        use_init_code=use_init_code,
+        use_init_code=isinstance(method, Contract.Constructor),
     )
     new_node_ids = []
 
