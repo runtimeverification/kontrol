@@ -424,13 +424,7 @@ def _method_to_cfg(
         new_node_ids = [init_node.id]
         init_node_id = init_node.id
 
-    final_cterm = _final_cterm(
-        empty_config,
-        contract.name_with_path,
-        failing=method.is_testfail,
-        is_test=method.is_test,
-        use_init_code=use_init_code,
-    )
+    final_cterm = _final_cterm(empty_config, program, failing=method.is_testfail, is_test=method.is_test)
     target_node = cfg.create_node(final_cterm)
 
     return cfg, new_node_ids, init_node_id, target_node.id
@@ -655,10 +649,8 @@ def _create_initial_account_list(
     return init_account_list
 
 
-def _final_cterm(
-    empty_config: KInner, contract_name: str, *, failing: bool, is_test: bool = True, use_init_code: bool = False
-) -> CTerm:
-    final_term = _final_term(empty_config, contract_name, is_test, use_init_code=use_init_code)
+def _final_cterm(empty_config: KInner, program: KInner, *, failing: bool, is_test: bool = True) -> CTerm:
+    final_term = _final_term(empty_config, program, is_test)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     foundry_success = Foundry.success(
         KVariable('STATUSCODE_FINAL'),
@@ -677,12 +669,7 @@ def _final_cterm(
     return final_cterm
 
 
-def _final_term(empty_config: KInner, contract_name: str, is_test: bool, use_init_code: bool = False) -> KInner:
-    program = (
-        KEVM.init_bytecode(KApply(f'contract_{contract_name}'))
-        if use_init_code
-        else KEVM.bin_runtime(KApply(f'contract_{contract_name}'))
-    )
+def _final_term(empty_config: KInner, program: KInner, is_test: bool) -> KInner:
     post_account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT() if is_test else Foundry.address_TEST_SYMBOLIC(),
         KVariable('ACCT_BALANCE_FINAL'),
