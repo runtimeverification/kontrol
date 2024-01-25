@@ -11,7 +11,7 @@ from kevm_pyk.kevm import KEVMSemantics
 from kevm_pyk.utils import legacy_explore
 from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof, ProofStatus
-from pyk.proof.reachability import ParallelAPRProver
+from pyk.proof.reachability import APRProofProcessData, ParallelAPRProver
 from pyk.utils import run_process, single
 
 from kontrol.foundry import Foundry, foundry_merge_nodes, foundry_remove_node, foundry_show, foundry_step_node
@@ -513,14 +513,16 @@ def test_foundry_init_code(test: str, foundry_root: Path, bug_report: BugReport 
     assert_pass(test, single(prove_res))
 
 
-def test_foundry_prove_parallel(foundry_root: Path, server: KoreServer) -> None:
+def test_foundry_prove_parallel(foundry_root: Path, server: KoreServer, use_booster: bool) -> None:
     foundry = Foundry(foundry_root=foundry_root)
     foundry.mk_proofs_dir()
-    contract, method = foundry.get_contract_and_method('AssumeTest.test_assume_true(uint256,uint256)')
+    #      contract, method = foundry.get_contract_and_method(
+    #          'MerkleProofTest.testValidateMerkleProof(bytes32,uint256,bytes32,bytes32,bytes32,bytes32)'
+    #      )
+    contract, method = foundry.get_contract_and_method('AssumeTest.test_long_branches(uint256)')
 
     test = FoundryTest(contract, method, 0)
 
-    use_booster = False
     smt_timeout = 300
     smt_retry_limit = 10
 
@@ -542,13 +544,14 @@ def test_foundry_prove_parallel(foundry_root: Path, server: KoreServer) -> None:
             kcfg_explore=kcfg_explore,
         )
 
+    semantics = KEVMSemantics()
     prover = ParallelAPRProver(
         proof=proof,
         module_name=foundry.kevm.main_module,
         definition_dir=foundry.kevm.definition_dir,
         execute_depth=1000,
         kprint=foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=semantics,
         id=test.id,
         cut_point_rules=KEVMSemantics.cut_point_rules(break_on_calls=True, break_on_jumpi=False),
         terminal_rules=KEVMSemantics.terminal_rules(False),
@@ -562,7 +565,15 @@ def test_foundry_prove_parallel(foundry_root: Path, server: KoreServer) -> None:
     results = parallel.prove_parallel(
         proofs={'proof': proof},
         provers={'proof': prover},
-        max_workers=2,
+        max_workers=1,
+        process_data=APRProofProcessData(
+            kprint=foundry.kevm,
+            kcfg_semantics=semantics,
+            module_name=foundry.kevm.main_module,
+            definition_dir=foundry.kevm.definition_dir,
+            llvm_definition_dir=foundry.llvm_library if use_booster else None,
+        ),
     )
 
     assert single(results).status == ProofStatus.PASSED
+    assert 1 == 2

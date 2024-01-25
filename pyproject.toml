@@ -12,7 +12,7 @@ authors = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", branch = "noah/apr-parallel-import", subdirectory = "kevm-pyk" }
+kevm-pyk = { path = "/home/noah/dev/evm-semantics", develop = true, subdirectory = "kevm-pyk" }
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"

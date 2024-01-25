@@ -16,7 +16,7 @@ from pyk.prelude.kbool import FALSE, notBool
 from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRBMCProof, APRProof, ParallelAPRBMCProver, ParallelAPRProver
+from pyk.proof.reachability import APRBMCProof, APRProof, APRProofProcessData, ParallelAPRBMCProver, ParallelAPRProver
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
@@ -187,12 +187,14 @@ def _run_cfg_group(
     proofs = {}
     provers = {}
 
+    semantics = KEVMSemantics(auto_abstract_gas=prove_options.auto_abstract_gas)
+
     for test in tests:
         proof: APRProof
 
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=KEVMSemantics(),
+            kcfg_semantics=semantics,
             id=test.id,
             llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
             smt_timeout=rpc_options.smt_timeout,
@@ -218,7 +220,7 @@ def _run_cfg_group(
                 definition_dir=foundry.kevm.definition_dir,
                 execute_depth=prove_options.max_depth,
                 kprint=foundry.kevm,
-                kcfg_semantics=KEVMSemantics(auto_abstract_gas=prove_options.auto_abstract_gas),
+                kcfg_semantics=semantics,
                 id=test.id,
                 cut_point_rules=KEVMSemantics.cut_point_rules(
                     break_on_calls=prove_options.break_on_calls, break_on_jumpi=prove_options.break_on_jumpi
@@ -237,7 +239,7 @@ def _run_cfg_group(
                 definition_dir=foundry.kevm.definition_dir,
                 execute_depth=prove_options.max_depth,
                 kprint=foundry.kevm,
-                kcfg_semantics=KEVMSemantics(auto_abstract_gas=prove_options.auto_abstract_gas),
+                kcfg_semantics=semantics,
                 id=test.id,
                 cut_point_rules=KEVMSemantics.cut_point_rules(
                     break_on_calls=prove_options.break_on_calls, break_on_jumpi=prove_options.break_on_jumpi
@@ -257,11 +259,28 @@ def _run_cfg_group(
         proofs=proofs,
         provers=provers,
         max_workers=prove_options.workers,
+        process_data=APRProofProcessData(
+            kprint=foundry.kevm,
+            kcfg_semantics=semantics,
+            definition_dir=foundry.kevm.definition_dir,
+            module_name=foundry.kevm.main_module,
+            llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
+        ),
     )
     results: list[Proof] = []
     for result in parallel_results:
         assert isinstance(result, Proof)
         results.append(result)
+
+    for prover in provers.values():
+        print(f'cterm_implies: {prover.total_cterm_implies_time / 1000000000}')
+        print(f'extend_cterm: {prover.total_cterm_extend_time / 1000000000}')
+    #          print(f'a: {prover.a_time / 1000000000}')
+    #          print(f'b: {prover.b_time / 1000000000}')
+    #          print(f'c: {prover.c_time / 1000000000}')
+    #          print(f'd: {prover.d_time / 1000000000}')
+    #          print(f'e: {prover.e_time / 1000000000}')
+
     return results
 
 
