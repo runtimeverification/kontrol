@@ -582,9 +582,7 @@ def _init_cterm(
     }
 
     if is_test or is_setup or use_init_code:
-        init_account_list = _create_initial_account_list(
-            program, not (is_test or is_setup or use_init_code), summary_entries
-        )
+        init_account_list = _create_initial_account_list(program, summary_entries)
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
             'CALLSTACK_CELL': list_empty(),
@@ -619,27 +617,14 @@ def _init_cterm(
     return init_cterm
 
 
-def _create_initial_account_list(
-    program: KInner, symbolic_exploration: bool, summary: Iterable[SummaryEntry] | None
-) -> list[KInner]:
-    _contract = (
-        KEVM.account_cell(
-            Foundry.address_TEST_SYMBOLIC(),
-            KVariable('CONTRACT_BAL'),
-            program,
-            KVariable('CONTRACT_STORAGE'),
-            KVariable('CONTRACT_ORIG_STORAGE'),
-            KVariable('CONTRACT_NONCE'),
-        )
-        if symbolic_exploration
-        else KEVM.account_cell(
-            Foundry.address_TEST_CONTRACT(),
-            intToken(0),
-            program,
-            map_empty(),
-            map_empty(),
-            intToken(1),
-        )
+def _create_initial_account_list(program: KInner, summary: Iterable[SummaryEntry] | None) -> list[KInner]:
+    _contract = KEVM.account_cell(
+        Foundry.address_TEST_SYMBOLIC(),
+        KVariable('CONTRACT_BAL'),
+        program,
+        KVariable('CONTRACT_STORAGE'),
+        KVariable('CONTRACT_ORIG_STORAGE'),
+        KVariable('CONTRACT_NONCE'),
     )
     init_account_list: list[KInner] = [
         _contract,
