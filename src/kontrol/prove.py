@@ -389,12 +389,12 @@ def _method_to_cfg(
     init_cterm = _init_cterm(
         empty_config,
         program=program,
-        calldata=calldata,
-        callvalue=callvalue,
         use_gas=use_gas,
         summary_entries=summary_entries,
         is_test=method.is_test,
         is_setup=method.is_setup,
+        calldata=calldata,
+        callvalue=callvalue,
         use_init_code=isinstance(method, Contract.Constructor),
     )
     new_node_ids = []
@@ -538,13 +538,13 @@ def _init_cterm(
     empty_config: KInner,
     program: KInner,
     use_gas: bool,
+    is_test: bool,
+    is_setup: bool,
+    use_init_code: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
     summary_entries: Iterable[SummaryEntry] | None = None,
-    is_test: bool = True,
-    is_setup: bool = False,
-    use_init_code: bool = False,
 ) -> CTerm:
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
