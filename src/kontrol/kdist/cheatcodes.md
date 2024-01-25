@@ -931,15 +931,14 @@ Otherwise, throw an error for any other call to the Foundry contract.
 
 ```k
     rule [foundry.set.mockCall]:
-         <k> #next [ _OP:CallOp ] ~> . ... </k>
+         <k> #next [ _OP:CallOp ] => #setLocalMem RETSTART RETWIDTH RETURNDATA ... </k>
          <localMem> LM </localMem>
-         <wordStack> _ : ACCTTO : _ : ARGSTART : ARGWIDTH : _RETSTART : _RETWIDTH : WS => WS </wordStack>
-         <output> _ => RETURNDATA </output>
+         <wordStack> _ : ACCTTO : _ : ARGSTART : ARGWIDTH : RETSTART : RETWIDTH : WS => WS </wordStack>
          <mockCall>
            <mockAddress> ACCTTO </mockAddress>
            <mockValues>  CALLDATA |-> RETURNDATA </mockValues>
          </mockCall>
-         requires #range(LM, ARGSTART, ARGWIDTH) ==K #range(DATA, 0, ARGWIDTH)
+         requires #range(LM, ARGSTART, ARGWIDTH) ==K #range(CALLDATA, 0, ARGWIDTH)
       [priority(30)]
 ```
 
@@ -1440,7 +1439,7 @@ If the production is matched when no prank is active, it will be ignored.
     rule selector ( "expectRevert(bytes4)" )                    => 3273568480
     rule selector ( "record()" )                                => 644673801
     rule selector ( "accesses(address)" )                       => 1706857601
-    rule selector ( "mockCall(address,bytes,bytes)" )           => 378193464
+    rule selector ( "mockCall(address,bytes,bytes)" )           => 3110212580
     rule selector ( "mockCall(address,uint256,bytes,bytes)" )   => 2168494993
     rule selector ( "clearMockedCalls()" )                      => 1071599125
     rule selector ( "expectCall(address,bytes)" )               => 3177903156
