@@ -619,12 +619,12 @@ def _init_cterm(
 
 def _create_initial_account_list(program: KInner, summary: Iterable[SummaryEntry] | None) -> list[KInner]:
     _contract = KEVM.account_cell(
-        Foundry.address_TEST_SYMBOLIC(),
-        KVariable('CONTRACT_BAL'),
+        Foundry.address_TEST_CONTRACT(),
+        intToken(0),
         program,
-        KVariable('CONTRACT_STORAGE'),
-        KVariable('CONTRACT_ORIG_STORAGE'),
-        KVariable('CONTRACT_NONCE'),
+        map_empty(),
+        map_empty(),
+        intToken(1),
     )
     init_account_list: list[KInner] = [
         _contract,
