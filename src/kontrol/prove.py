@@ -395,7 +395,7 @@ def _method_to_cfg(
         is_setup=method.is_setup,
         calldata=calldata,
         callvalue=callvalue,
-        use_init_code=isinstance(method, Contract.Constructor),
+        is_constructor=isinstance(method, Contract.Constructor),
     )
     new_node_ids = []
 
@@ -540,7 +540,7 @@ def _init_cterm(
     use_gas: bool,
     is_test: bool,
     is_setup: bool,
-    use_init_code: bool,
+    is_constructor: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -581,7 +581,7 @@ def _init_cterm(
         'STORAGESLOTSET_CELL': set_empty(),
     }
 
-    if is_test or is_setup or use_init_code:
+    if is_test or is_setup or is_constructor:
         init_account_list = _create_initial_account_list(program, summary_entries)
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
