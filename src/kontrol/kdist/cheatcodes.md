@@ -1187,8 +1187,8 @@ Will also return true if REASON is `.Bytes`.
          <id> CL </id>
          <origin> OG </origin>
          <prank>
-           <prevCaller> .Account => CL </prevCaller>
-           <prevOrigin> .Account => OG </prevOrigin>
+           <prevCaller> _ => CL </prevCaller>
+           <prevOrigin> _ => OG </prevOrigin>
            <newCaller> _ => NEWCALLER </newCaller>
            <newOrigin> _ => NEWORIGIN </newOrigin>
            <active> false => true </active>
@@ -1266,7 +1266,7 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax Bytes ::= #sign ( Bytes , Bytes ) [function,klabel(foundry_sign)]
  // ------------------------------------------------------------------------
-    rule #sign(BA1, BA2) => #parseByteStack(ECDSASignbytes(BA1, BA2)) [concrete]
+    rule #sign(BA1, BA2) => #parseByteStack(ECDSASign(BA1, BA2)) [concrete]
 ```
 
 - `#setExpectEmit` will initialize the `<expectEmit/>` subconfiguration, based on the arguments provided with the `expectEmit` cheat code.

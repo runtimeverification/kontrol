@@ -47,6 +47,43 @@ jobs:
             DRV=$(nix-store --query --deriver ${KONTROL})
             nix-store --query --requisites --include-outputs ${DRV} | cachix push k-framework
 
+  nix-binary-cache:
+    name: 'Populate Nix Binary Cache'
+    strategy:
+      matrix:
+        runner: [normal, macos-13, ARM64]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v3
+
+      - name: 'Install Nix'
+        if: ${{ matrix.runner == 'macos-13' }}
+        uses: cachix/install-nix-action@v19
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.13.3/install
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Install Cachix'
+        if: ${{ matrix.runner == 'macos-13' }}
+        uses: cachix/cachix-action@v12
+        with:
+          name: k-framework-binary
+
+      - name: 'Publish Kontrol to k-framework-binary cache'
+        uses: workflow/nix-shell-action@v3
+        env:
+          CACHIX_AUTH_TOKEN: '${{ secrets.CACHIX_PRIVATE_KFB_TOKEN }}'
+          GC_DONT_GC: '1'
+        with:
+          packages: jq
+          script: |
+            export PATH="$(nix build github:runtimeverification/kup --no-link --json | jq -r '.[].outputs | to_entries[].value')/bin:$PATH"
+            kup publish k-framework-binary .#kontrol --keep-days 180
+            kup publish k-framework-binary .#kontrol.solc_0_8_13 --keep-days 180
+            kup publish k-framework-binary .#kontrol.solc_0_8_15 --keep-days 180
+
 
   dockerhub:
     name: 'Build and Publish Docker Image'
