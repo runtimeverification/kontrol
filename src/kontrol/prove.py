@@ -598,6 +598,7 @@ def _init_cterm(
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
         'ADDRESSSET_CELL': KApply('.Set'),
         'STORAGESLOTSET_CELL': KApply('.Set'),
+        'MOCKCALL_CELL': KApply('.MockCallCellMap'),
     }
 
     constraints = None
