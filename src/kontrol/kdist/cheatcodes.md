@@ -444,7 +444,9 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
          <k> #call_foundry SELECTOR ARGS => . ... </k>
          <output> _ => 
             #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES 
+//            +Bytes #buf ((32 -Int (#asWord(ARGS) modInt 32)) modInt 32, 0)
             +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 ) 
+//              +Bytes #buf ( #asWord(ARGS) modInt 32, 0 )
          </output>
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)

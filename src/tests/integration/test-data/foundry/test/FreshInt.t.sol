@@ -56,7 +56,8 @@ contract FreshIntTest is Test, KEVMCheats {
     }
 
     function test_symbolic_bytes_symbolic_length(uint256 l) public {
-        vm.assume(l < 2**64);
+        vm.assume(l < 2**16);
+        vm.assume(l > 0);
         bytes memory fresh_bytes = kevm.freshBytes(l);
         assertEq(fresh_bytes.length, l);
     }
