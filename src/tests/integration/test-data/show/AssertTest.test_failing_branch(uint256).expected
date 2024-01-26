@@ -5,24 +5,24 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (272 steps)
+│  (179 steps)
 ├─ 3
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 306
+│   pc: 328
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1 step)
 ├─ 4
 │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 306
+│   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
 │
 │  (2 steps)
 ├─ 5 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 306
+│   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
 │
@@ -33,10 +33,10 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (543 steps)
+│  (360 steps)
 ├─ 8 (split)
-│   k: JUMPI 1027 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...
-│   pc: 1019
+│   k: JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...
+│   pc: 1116
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 ┃
@@ -44,29 +44,29 @@
 ┣━━┓ constraint: { true #Equals 100 <=Int VV0_x_114b9705:Int }
 ┃  │
 ┃  ├─ 9
-┃  │   k: JUMPI 1027 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...
-┃  │   pc: 1019
+┃  │   k: JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...
+┃  │   pc: 1116
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (64 steps)
+┃  │  (39 steps)
 ┃  ├─ 11
 ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 306
+┃  │   pc: 328
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (1 step)
 ┃  ├─ 13
 ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 306
+┃  │   pc: 328
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
 ┃  │  (2 steps)
 ┃  ├─ 15 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 306
+┃  │   pc: 328
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
@@ -81,29 +81,29 @@
 ┗━━┓ constraint: { true #Equals ( notBool 100 <=Int VV0_x_114b9705:Int ) }
    │
    ├─ 10
-   │   k: JUMPI 1027 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...
-   │   pc: 1019
+   │   k: JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...
+   │   pc: 1116
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (102 steps)
+   │  (63 steps)
    ├─ 12
    │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-   │   pc: 2902
+   │   pc: 2995
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
    │  (1 step)
    ├─ 14
    │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-   │   pc: 2902
+   │   pc: 2995
    │   callDepth: 0
    │   statusCode: EVMC_REVERT
    │
    │  (2 steps)
    └─ 16 (leaf, terminal)
        k: #halt ~> CONTINUATION:K
-       pc: 2902
+       pc: 2995
        callDepth: 0
        statusCode: EVMC_REVERT
 
@@ -124,6 +124,9 @@ Node 16:
       <schedule>
         SHANGHAI
       </schedule>
+      <useGas>
+        false
+      </useGas>
       <ethereum>
         <evm>
           <output>
@@ -138,6 +141,9 @@ Node 16:
           <interimStates>
             .List
           </interimStates>
+          <touchedAccounts>
+            .Set
+          </touchedAccounts>
           <callState>
             <id>
               728815563385977040452943777879061427756277306518
@@ -149,14 +155,17 @@ Node 16:
               0
             </callValue>
             <wordStack>
-              ( 1027 : ( VV0_x_114b9705:Int : ( 305 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) )
+              ( 1124 : ( VV0_x_114b9705:Int : ( 327 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) )
             </wordStack>
             <localMem>
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
             </localMem>
             <memoryUsed>
-              3
+              0
             </memoryUsed>
+            <callGas>
+              0
+            </callGas>
             <static>
               false
             </static>
@@ -169,6 +178,9 @@ Node 16:
             <log>
               .List
             </log>
+            <refund>
+              0
+            </refund>
             <accessedAccounts>
               .Set
             </accessedAccounts>
@@ -225,18 +237,6 @@ Node 16:
     </kevm>
     <cheatcodes>
       <prank>
-        <prevCaller>
-          .Account
-        </prevCaller>
-        <prevOrigin>
-          .Account
-        </prevOrigin>
-        <newCaller>
-          .Account
-        </newCaller>
-        <newOrigin>
-          .Account
-        </newOrigin>
         <active>
           false
         </active>
@@ -255,18 +255,7 @@ Node 16:
         <isOpcodeExpected>
           false
         </isOpcodeExpected>
-        <expectedAddress>
-          .Account
-        </expectedAddress>
-        <expectedValue>
-          0
-        </expectedValue>
-        <expectedData>
-          b""
-        </expectedData>
-        <opcodeType>
-          .OpcodeType
-        </opcodeType>
+        ...
       </expectedOpcode>
       <expectEmit>
         <recordEvent>
@@ -317,6 +306,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -328,6 +320,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -352,20 +347,25 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -431,18 +431,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -461,18 +449,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -522,6 +499,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -536,6 +516,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -560,20 +543,25 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -639,18 +627,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -669,18 +645,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -730,6 +695,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -744,6 +712,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -768,20 +739,25 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -847,18 +823,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -877,18 +841,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -936,6 +889,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -950,6 +906,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -974,20 +933,25 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     ( 3 => 0 )
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1053,18 +1017,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1083,18 +1035,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1136,7 +1077,7 @@ Node 16:
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 1027 bool2Word ( 100 <=Int VV0_x_114b9705:Int )
+               ( .K => JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION
@@ -1147,6 +1088,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <callStack>
@@ -1155,6 +1099,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1168,7 +1115,7 @@ Node 16:
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( VV0_x_114b9705:Int : ( 305 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) )
+                     ( .WordStack => ( VV0_x_114b9705:Int : ( 327 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -1176,8 +1123,11 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 3 )
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1190,6 +1140,9 @@ Node 16:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1246,18 +1199,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1276,18 +1217,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1322,7 +1252,7 @@ Node 16:
     rule [BASIC-BLOCK-9-TO-11]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 1027 bool2Word ( 100 <=Int VV0_x_114b9705:Int )
+               ( JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int )
                ~> #pc [ JUMPI ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
@@ -1334,6 +1264,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1345,6 +1278,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1358,7 +1294,7 @@ Node 16:
                      0
                    </callValue>
                    <wordStack>
-                     ( ( VV0_x_114b9705:Int => selector ( "test_failing_branch(uint256)" ) ) : ( ( 305 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) => .WordStack ) )
+                     ( ( VV0_x_114b9705:Int => selector ( "test_failing_branch(uint256)" ) ) : ( ( 327 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1366,8 +1302,11 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1380,6 +1319,9 @@ Node 16:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1436,18 +1378,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1466,18 +1396,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1513,7 +1432,7 @@ Node 16:
     rule [BASIC-BLOCK-10-TO-12]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 1027 bool2Word ( 100 <=Int VV0_x_114b9705:Int )
+               ( JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int )
                ~> #pc [ JUMPI ] => #end EVMC_REVERT
                ~> #pc [ REVERT ] )
                ~> #execute
@@ -1525,6 +1444,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1536,6 +1458,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1549,7 +1474,7 @@ Node 16:
                      0
                    </callValue>
                    <wordStack>
-                     ( ( VV0_x_114b9705:Int => 1027 ) : ( ( 305 => VV0_x_114b9705:Int ) : ( ( selector ( "test_failing_branch(uint256)" ) => 305 ) : ( .WordStack => ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) ) )
+                     ( ( VV0_x_114b9705:Int => 1124 ) : ( ( 327 => VV0_x_114b9705:Int ) : ( ( selector ( "test_failing_branch(uint256)" ) => 327 ) : ( .WordStack => ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -1557,8 +1482,11 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1571,6 +1499,9 @@ Node 16:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1627,18 +1558,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1657,18 +1576,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1716,6 +1624,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1730,6 +1641,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1751,8 +1665,11 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1765,6 +1682,9 @@ Node 16:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -1821,18 +1741,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1851,18 +1759,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1909,6 +1806,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1923,6 +1823,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1936,7 +1839,7 @@ Node 16:
                      0
                    </callValue>
                    <wordStack>
-                     ( 1027 : ( VV0_x_114b9705:Int : ( 305 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) )
+                     ( 1124 : ( VV0_x_114b9705:Int : ( 327 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1944,8 +1847,11 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -1958,6 +1864,9 @@ Node 16:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -2014,18 +1923,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -2044,18 +1941,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -2102,6 +1988,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -2116,6 +2005,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -2137,8 +2029,11 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -2151,6 +2046,9 @@ Node 16:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -2207,18 +2105,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -2237,18 +2123,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -2295,6 +2170,9 @@ Node 16:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -2309,6 +2187,9 @@ Node 16:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -2322,7 +2203,7 @@ Node 16:
                      0
                    </callValue>
                    <wordStack>
-                     ( 1027 : ( VV0_x_114b9705:Int : ( 305 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) )
+                     ( 1124 : ( VV0_x_114b9705:Int : ( 327 : ( selector ( "test_failing_branch(uint256)" ) : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -2330,8 +2211,11 @@ Node 16:
                    ...
                    ...
                    <memoryUsed>
-                     3
+                     0
                    </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
                    <static>
                      false
                    </static>
@@ -2344,6 +2228,9 @@ Node 16:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      .Set
                    </accessedAccounts>
@@ -2400,18 +2287,6 @@ Node 16:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -2430,18 +2305,7 @@ Node 16:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>

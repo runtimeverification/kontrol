@@ -5,21 +5,21 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (875 steps)
+│  (561 steps)
 ├─ 3
-│   k: STATICCALL ( VGAS:Int +Int -3048 ) 645326474426547203313410069153905908525362434 ...
+│   k: STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 ~> #p ...
 │   pc: 563
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1 step)
 ├─ 4
-│   k: #checkCall 728815563385977040452943777879061427756277306518 0 ~> #call 728815563 ...
+│   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
 │   pc: 563
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (299 steps)
+│  (190 steps)
 ├─ 5
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 281
@@ -63,6 +63,9 @@ Node 7:
       <schedule>
         SHANGHAI
       </schedule>
+      <useGas>
+        false
+      </useGas>
       <ethereum>
         <evm>
           <output>
@@ -77,6 +80,9 @@ Node 7:
           <interimStates>
             .List
           </interimStates>
+          <touchedAccounts>
+            .Set
+          </touchedAccounts>
           <callState>
             <id>
               728815563385977040452943777879061427756277306518
@@ -97,10 +103,10 @@ Node 7:
               b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
             </localMem>
             <memoryUsed>
-              6
+              0
             </memoryUsed>
             <callGas>
-              #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
+              0
             </callGas>
             <static>
               false
@@ -114,6 +120,9 @@ Node 7:
             <log>
               .List
             </log>
+            <refund>
+              0
+            </refund>
             <accessedAccounts>
               SetItem ( 645326474426547203313410069153905908525362434349 )
             </accessedAccounts>
@@ -179,18 +188,6 @@ Node 7:
     </kevm>
     <cheatcodes>
       <prank>
-        <prevCaller>
-          .Account
-        </prevCaller>
-        <prevOrigin>
-          .Account
-        </prevOrigin>
-        <newCaller>
-          .Account
-        </newCaller>
-        <newOrigin>
-          .Account
-        </newOrigin>
         <active>
           false
         </active>
@@ -209,18 +206,7 @@ Node 7:
         <isOpcodeExpected>
           false
         </isOpcodeExpected>
-        <expectedAddress>
-          .Account
-        </expectedAddress>
-        <expectedValue>
-          0
-        </expectedValue>
-        <expectedData>
-          b""
-        </expectedData>
-        <opcodeType>
-          .OpcodeType
-        </opcodeType>
+        ...
       </expectedOpcode>
       <expectEmit>
         <recordEvent>
@@ -266,7 +252,7 @@ Node 7:
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => STATICCALL ( VGAS:Int +Int -3048 ) 645326474426547203313410069153905908525362434349 128 36 128 0
+               ( .K => STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0
                ~> #pc [ STATICCALL ] )
                ~> #execute
                ~> _CONTINUATION
@@ -277,6 +263,9 @@ Node 7:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <callStack>
@@ -285,6 +274,9 @@ Node 7:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -309,10 +301,10 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     ( 0 => 6 )
+                     0
                    </memoryUsed>
                    <callGas>
-                     ( _CALLGAS_CELL => #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) ) )
+                     0
                    </callGas>
                    <static>
                      false
@@ -325,6 +317,9 @@ Node 7:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
@@ -390,18 +385,6 @@ Node 7:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -420,18 +403,7 @@ Node 7:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -474,7 +446,8 @@ Node 7:
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL ( VGAS:Int +Int -3048 ) 645326474426547203313410069153905908525362434349 128 36 128 0 => #checkCall 728815563385977040452943777879061427756277306518 0
+               ( STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) true
                ~> #return 128 0 )
                ~> #pc [ STATICCALL ]
@@ -487,6 +460,9 @@ Node 7:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <callStack>
@@ -495,6 +471,9 @@ Node 7:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -519,10 +498,10 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
+                     0
                    </callGas>
                    <static>
                      false
@@ -535,6 +514,9 @@ Node 7:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -600,18 +582,6 @@ Node 7:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -630,18 +600,7 @@ Node 7:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -684,7 +643,8 @@ Node 7:
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
            <kevm>
              <k>
-               ( #checkCall 728815563385977040452943777879061427756277306518 0
+               ( #accessAccounts 645326474426547203313410069153905908525362434349
+               ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) true
                ~> #return 128 0
                ~> #pc [ STATICCALL ] => #end EVMC_SUCCESS
@@ -698,6 +658,9 @@ Node 7:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -709,6 +672,9 @@ Node 7:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -733,10 +699,10 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
+                     0
                    </callGas>
                    <static>
                      false
@@ -749,6 +715,9 @@ Node 7:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -814,18 +783,6 @@ Node 7:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -844,18 +801,7 @@ Node 7:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -910,6 +856,9 @@ Node 7:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -924,6 +873,9 @@ Node 7:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -948,10 +900,10 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
+                     0
                    </callGas>
                    <static>
                      false
@@ -964,6 +916,9 @@ Node 7:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -1029,18 +984,6 @@ Node 7:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1059,18 +1002,7 @@ Node 7:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1123,6 +1055,9 @@ Node 7:
              <schedule>
                SHANGHAI
              </schedule>
+             <useGas>
+               false
+             </useGas>
              <ethereum>
                <evm>
                  <output>
@@ -1137,6 +1072,9 @@ Node 7:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    ...
                    ...
@@ -1161,10 +1099,10 @@ Node 7:
                    ...
                    ...
                    <memoryUsed>
-                     6
+                     0
                    </memoryUsed>
                    <callGas>
-                     #gas ( Cgascap ( SHANGHAI , ( VGAS:Int +Int -3048 ) , ( VGAS:Int +Int -3048 ) , 100 ) )
+                     0
                    </callGas>
                    <static>
                      false
@@ -1177,6 +1115,9 @@ Node 7:
                    <log>
                      .List
                    </log>
+                   <refund>
+                     0
+                   </refund>
                    <accessedAccounts>
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
@@ -1242,18 +1183,6 @@ Node 7:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -1272,18 +1201,7 @@ Node 7:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>

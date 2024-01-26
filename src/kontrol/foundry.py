@@ -14,10 +14,13 @@ from typing import TYPE_CHECKING
 import tomlkit
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
-from pyk.kast.inner import KApply, KSort, KToken
-from pyk.kast.manip import minimize_term
+from pyk.cterm import CTerm
+from pyk.kast.inner import KApply, KSort, KToken, KVariable
+from pyk.kast.manip import collect, extract_lhs, minimize_term
+from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
+from pyk.prelude.collections import map_empty
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.proof.proof import Proof
@@ -25,13 +28,13 @@ from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.proof.show import APRBMCProofNodePrinter, APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
+from .deployment import DeploymentSummary, SummaryEntry
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Any, Final
 
-    from pyk.cterm import CTerm
     from pyk.kast.inner import KInner
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.tui import KCFGElem
@@ -62,6 +65,22 @@ class Foundry:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
 
+    def lookup_full_contract_name(self, contract_name: str) -> str:
+        contracts = [
+            full_contract_name
+            for full_contract_name in self.contracts
+            if contract_name == full_contract_name.split('%')[-1]
+        ]
+        if len(contracts) == 0:
+            raise ValueError(
+                f"Tried to look up contract name {contract_name}, found none out of {[contract_name_with_path.split('/')[-1] for contract_name_with_path in self.contracts.keys()]}"
+            )
+        if len(contracts) > 1:
+            raise ValueError(
+                f'Tried to look up contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
+            )
+        return single(contracts)
+
     @property
     def profile(self) -> dict[str, Any]:
         profile_name = os.getenv('FOUNDRY_PROFILE', default='default')
@@ -91,6 +110,10 @@ class Foundry:
     def main_file(self) -> Path:
         return self.kompiled / 'foundry.k'
 
+    @property
+    def contracts_file(self) -> Path:
+        return self.kompiled / 'contracts.k'
+
     @cached_property
     def kevm(self) -> KEVM:
         use_directory = self.out / 'tmp'
@@ -104,7 +127,7 @@ class Foundry:
 
     @cached_property
     def contracts(self) -> dict[str, Contract]:
-        pattern = '*.sol/*.json'
+        pattern = '**/*.sol/*.json'
         paths = self.out.glob(pattern)
         json_paths = [str(path) for path in paths]
         json_paths = [json_path for json_path in json_paths if not json_path.endswith('.metadata.json')]
@@ -116,12 +139,10 @@ class Foundry:
             contract_name = json_path.split('/')[-1]
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
-            if _contracts.get(contract_name) is not None:
-                raise RuntimeError(
-                    f'Project contains duplicated contract names that may clash in K definitions: {contract_name}'
-                )
+            contract = Contract(contract_name, contract_json, foundry=True)
 
-            _contracts[contract_name] = Contract(contract_name, contract_json, foundry=True)
+            _contracts[contract.name_with_path] = contract
+
         return _contracts
 
     def mk_proofs_dir(self) -> None:
@@ -172,7 +193,7 @@ class Foundry:
     def contract_ids(self) -> dict[int, str]:
         _contract_ids = {}
         for c in self.contracts.values():
-            _contract_ids[c.contract_id] = c.name
+            _contract_ids[c.contract_id] = c.name_with_path
         return _contract_ids
 
     def srcmap_data(self, contract_name: str, pc: int) -> tuple[Path, int, int] | None:
@@ -220,20 +241,27 @@ class Foundry:
             pc_cell = element.cterm.try_cell('PC_CELL')
             if type(pc_cell) is KToken and pc_cell.sort == INT:
                 return self.solidity_src(contract_name, int(pc_cell.token))
+        elif type(element) is KCFG.Edge:
+            return list(element.rules)
+        elif type(element) is KCFG.NDBranch:
+            return list(element.rules)
         return ['NO DATA']
 
     def build(self) -> None:
         try:
             run_process(['forge', 'build', '--root', str(self._root)], logger=_LOGGER)
+        except FileNotFoundError:
+            print("Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH.")
+            sys.exit(1)
         except CalledProcessError as err:
             raise RuntimeError("Couldn't forge build!") from err
 
     @cached_property
     def all_tests(self) -> list[str]:
         return [
-            f'{contract.name}.{method.signature}'
+            f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
-            if contract.name.endswith('Test')
+            if contract.name_with_path.endswith('Test')
             for method in contract.methods
             if method.name.startswith('test')
         ]
@@ -241,11 +269,11 @@ class Foundry:
     @cached_property
     def all_non_tests(self) -> list[str]:
         return [
-            f'{contract.name}.{method.signature}'
+            f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
             for method in contract.methods
-            if f'{contract.name}.{method.signature}' not in self.all_tests
-        ] + [f'{contract.name}.init' for contract in self.contracts.values() if contract.constructor]
+            if f'{contract.name_with_path}.{method.signature}' not in self.all_tests
+        ] + [f'{contract.name_with_path}.init' for contract in self.contracts.values() if contract.constructor]
 
     @staticmethod
     def _escape_brackets(regs: list[str]) -> list[str]:
@@ -275,22 +303,15 @@ class Foundry:
         test_sigs = self.matching_tests([test])
         return test_sigs
 
-    def get_test_id(self, test: str, id: int | None) -> str:
-        matching_proofs = self.proofs_with_test(test)
-        if not matching_proofs:
-            raise ValueError(f'Found no matching proofs for {test}.')
-        if id is None:
-            if len(matching_proofs) > 1:
-                raise ValueError(
-                    f'Found {len(matching_proofs)} matching proofs for {test}. Use the --version flag to choose one.'
-                )
-            test_id = single(matching_proofs).id
-            return test_id
-        else:
-            for proof in matching_proofs:
-                if proof.id.endswith(str(id)):
-                    return proof.id
-            raise ValueError('No proof matching this predicate.')
+    def get_test_id(self, test: str, version: int | None) -> str:
+        matching_proof_ids = self.proof_ids_with_test(test, version)
+        if len(matching_proof_ids) == 0:
+            raise ValueError(f'Found no matching proofs for {test}:{version}.')
+        if len(matching_proof_ids) > 1:
+            raise ValueError(
+                f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
+            )
+        return single(matching_proof_ids)
 
     @staticmethod
     def success(s: KInner, dst: KInner, r: KInner, c: KInner, e1: KInner, e2: KInner) -> KApply:
@@ -319,6 +340,10 @@ class Foundry:
         return intToken(0x7FA9385BE102AC3EAC297483DD6233D62B3E1496)
 
     @staticmethod
+    def address_TEST_SYMBOLIC() -> KVariable:  # noqa: N802
+        return KVariable('CONTRACT_ID', sort=INT)
+
+    @staticmethod
     def address_CHEATCODE() -> KToken:  # noqa: N802
         return intToken(0x7109709ECFA91A80626FF3989D68F67F5B1DD12D)
 
@@ -331,7 +356,7 @@ class Foundry:
             intToken(0),
             bytesToken(b'\x00'),
             store_var,
-            KApply('.Map'),
+            map_empty(),
             intToken(0),
         )
 
@@ -343,7 +368,7 @@ class Foundry:
             res_lines.append('')
             res_lines.append('See `foundry_success` predicate for more information:')
             res_lines.append(
-                'https://github.com/runtimeverification/evm-semantics/blob/master/include/kframework/foundry.md#foundry-success-predicate'
+                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
             )
         res_lines.append('')
         res_lines.append(
@@ -351,13 +376,19 @@ class Foundry:
         )
         return res_lines
 
-    def proofs_with_test(self, test: str) -> list[Proof]:
-        proofs = [
-            self.get_optional_proof(pid)
-            for pid in listdir(self.proofs_dir)
-            if re.search(single(self._escape_brackets([test])), pid.split(':')[0])
+    def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
+        regex = single(self._escape_brackets([test]))
+        all_proof_ids: list[tuple[str, str, int]] = []
+        for pid in listdir(self.proofs_dir):
+            proof_dir = '%'.join(pid.split('%')[0:-1])
+            proof_name = pid.split('%')[1].split(':')[0]
+            proof_version = int(pid.split(':')[1])
+            all_proof_ids.append((proof_dir, proof_name, proof_version))
+        proof_ids = [
+            (pd, pn, pv) for pd, pn, pv in all_proof_ids if re.search(regex, pn) and (version is None or version == pv)
         ]
-        return [proof for proof in proofs if proof is not None]
+        _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {regex}:{version}: {proof_ids}')
+        return [f'{pd}%{pn}:{pv}' for pd, pn, pv in proof_ids]
 
     def get_apr_proof(self, test_id: str) -> APRProof:
         proof = Proof.read_proof_data(self.proofs_dir, test_id)
@@ -381,6 +412,7 @@ class Foundry:
 
     def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method | Contract.Constructor]:
         contract_name, method_name = test.split('.')
+        #          print(self.contracts.keys(), file=sys.stderr)
         contract = self.contracts[contract_name]
 
         if method_name == 'init':
@@ -392,9 +424,8 @@ class Foundry:
         method = contract.method_by_sig[method_name]
         return contract, method
 
-    def get_method(self, test: str) -> Contract.Method | Contract.Constructor:
-        _, method = self.get_contract_and_method(test)
-        return method
+    def list_proof_dir(self) -> list[str]:
+        return listdir(self.proofs_dir)
 
     def resolve_proof_version(
         self,
@@ -402,7 +433,7 @@ class Foundry:
         reinit: bool,
         user_specified_version: int | None,
     ) -> int:
-        method = self.get_method(test)
+        _, method = self.get_contract_and_method(test)
 
         if reinit and user_specified_version is not None:
             raise ValueError('--reinit is not compatible with specifying proof versions.')
@@ -464,12 +495,14 @@ class Foundry:
 
 
 def foundry_show(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     version: int | None = None,
     nodes: Iterable[NodeIdLike] = (),
     node_deltas: Iterable[tuple[NodeIdLike, NodeIdLike]] = (),
     to_module: bool = False,
+    to_kevm_claims: bool = False,
+    kevm_claim_dir: Path | None = None,
     minimize: bool = True,
     sort_collections: bool = False,
     omit_unstable_output: bool = False,
@@ -482,8 +515,7 @@ def foundry_show(
     port: int | None = None,
     maude_port: int | None = None,
 ) -> str:
-    contract_name, _ = test.split('.')
-    foundry = Foundry(foundry_root)
+    contract_name, _ = single(foundry.matching_tests([test])).split('.')
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
@@ -530,14 +562,72 @@ def foundry_show(
             res_lines += print_failure_info(proof, kcfg_explore, counterexample_info)
             res_lines += Foundry.help_info()
 
-    return '\n'.join(res_lines)
+    if to_kevm_claims:
+        _foundry_labels = [
+            prod.klabel
+            for prod in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].productions
+            if prod.klabel is not None
+        ]
+
+        def _remove_foundry_config(_cterm: CTerm) -> CTerm:
+            kevm_config_pattern = KApply(
+                '<generatedTop>',
+                [
+                    KApply('<foundry>', [KVariable('KEVM_CELL'), KVariable('CHEATCODES_CELL')]),
+                    KVariable('GENERATEDCOUNTER_CELL'),
+                ],
+            )
+            kevm_config_match = kevm_config_pattern.match(_cterm.config)
+            if kevm_config_match is None:
+                _LOGGER.warning('Unable to match on <kevm> cell.')
+                return _cterm
+            return CTerm(kevm_config_match['KEVM_CELL'], _cterm.constraints)
+
+        def _contains_foundry_klabel(_kast: KInner) -> bool:
+            _contains = False
+
+            def _collect_klabel(_k: KInner) -> None:
+                nonlocal _contains
+                if type(_k) is KApply and _k.label.name in _foundry_labels:
+                    _contains = True
+
+            collect(_collect_klabel, _kast)
+            return _contains
+
+        for node in proof.kcfg.nodes:
+            proof.kcfg.replace_node(node.id, _remove_foundry_config(node.cterm))
+
+        # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
+        proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
+
+        claims = [edge.to_rule('BASIC-BLOCK', claim=True) for edge in proof.kcfg.edges()]
+        claims = [claim for claim in claims if not _contains_foundry_klabel(claim.body)]
+        claims = [
+            claim for claim in claims if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(claim.body)))
+        ]
+        if len(claims) == 0:
+            _LOGGER.warning(f'No claims retained for proof {proof.id}')
+
+        else:
+            module_name = re.sub(r'[%().:,]+', '-', proof.id.upper()) + '-SPEC'
+            module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
+            defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
+
+            defn_lines = foundry.kevm.pretty_print(defn, in_module='EVM').split('\n')
+
+            res_lines += defn_lines
+
+            if kevm_claim_dir is not None:
+                kevm_claims_file = kevm_claim_dir / (module_name.lower() + '.k')
+                kevm_claims_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
+
+    return '\n'.join([line.rstrip() for line in res_lines])
 
 
-def foundry_to_dot(foundry_root: Path, test: str, version: int | None = None) -> None:
-    foundry = Foundry(foundry_root)
+def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> None:
     dump_dir = foundry.proofs_dir / 'dump'
     test_id = foundry.get_test_id(test, version)
-    contract_name, _ = test.split('.')
+    contract_name, _ = single(foundry.matching_tests([test])).split('.')
     proof = foundry.get_apr_proof(test_id)
 
     node_printer = foundry_node_printer(foundry, contract_name, proof)
@@ -546,11 +636,11 @@ def foundry_to_dot(foundry_root: Path, test: str, version: int | None = None) ->
     proof_show.dump(proof, dump_dir, dot=True)
 
 
-def foundry_list(foundry_root: Path) -> list[str]:
-    foundry = Foundry(foundry_root)
-
+def foundry_list(foundry: Foundry) -> list[str]:
     all_methods = [
-        f'{contract.name}.{method.signature}' for contract in foundry.contracts.values() for method in contract.methods
+        f'{contract.name_with_path}.{method.signature}'
+        for contract in foundry.contracts.values()
+        for method in contract.methods
     ]
 
     lines: list[str] = []
@@ -568,8 +658,7 @@ def foundry_list(foundry_root: Path) -> list[str]:
     return lines
 
 
-def foundry_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None = None) -> None:
-    foundry = Foundry(foundry_root)
+def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     node_ids = apr_proof.prune(node)
@@ -578,7 +667,7 @@ def foundry_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version
 
 
 def foundry_simplify_node(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     node: NodeIdLike,
     rpc_options: RPCOptions,
@@ -588,7 +677,6 @@ def foundry_simplify_node(
     sort_collections: bool = False,
     bug_report: BugReport | None = None,
 ) -> str:
-    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     cterm = apr_proof.kcfg.node(node).cterm
@@ -618,7 +706,7 @@ def foundry_simplify_node(
 
 
 def foundry_merge_nodes(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     node_ids: Iterable[NodeIdLike],
     version: int | None = None,
@@ -637,7 +725,6 @@ def foundry_merge_nodes(
                 return False
         return True
 
-    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
 
@@ -664,7 +751,7 @@ def foundry_merge_nodes(
 
 
 def foundry_step_node(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     node: NodeIdLike,
     rpc_options: RPCOptions,
@@ -678,7 +765,6 @@ def foundry_step_node(
     if depth < 1:
         raise ValueError(f'Expected positive value for --depth, got: {depth}')
 
-    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     start_server = rpc_options.port is None
@@ -703,8 +789,43 @@ def foundry_step_node(
             apr_proof.write_proof_data()
 
 
+def foundry_summary(
+    name: str,
+    accesses_file: Path,
+    contract_names: Path | None,
+    output_dir_name: str | None,
+    foundry: Foundry,
+    license: str,
+    comment_generated_file: str,
+    condense_summary: bool = False,
+) -> None:
+    access_entries = read_summary(accesses_file)
+    accounts = read_contract_names(contract_names) if contract_names else {}
+    summary_contract = DeploymentSummary(name=name, accounts=accounts)
+    for access in access_entries:
+        summary_contract.extend(access)
+
+    if output_dir_name is None:
+        output_dir_name = foundry.profile.get('test', '')
+
+    output_dir = foundry._root / output_dir_name
+    ensure_dir_path(output_dir)
+
+    main_file = output_dir / Path(name + '.sol')
+
+    if not license.strip():
+        raise ValueError('License cannot be empty or blank')
+
+    if condense_summary:
+        main_file.write_text('\n'.join(summary_contract.generate_condensed_file(comment_generated_file, license)))
+    else:
+        code_file = output_dir / Path(name + 'Code.sol')
+        main_file.write_text('\n'.join(summary_contract.generate_main_contract_file(comment_generated_file, license)))
+        code_file.write_text('\n'.join(summary_contract.generate_code_contract_file(comment_generated_file, license)))
+
+
 def foundry_section_edge(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     edge: tuple[str, str],
     rpc_options: RPCOptions,
@@ -713,7 +834,6 @@ def foundry_section_edge(
     replace: bool = False,
     bug_report: BugReport | None = None,
 ) -> None:
-    foundry = Foundry(foundry_root, bug_report=bug_report)
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
     source_id, target_id = edge
@@ -741,7 +861,7 @@ def foundry_section_edge(
 
 
 def foundry_get_model(
-    foundry_root: Path,
+    foundry: Foundry,
     test: str,
     rpc_options: RPCOptions,
     version: int | None = None,
@@ -750,7 +870,6 @@ def foundry_get_model(
     failing: bool = False,
     bug_report: BugReport | None = None,
 ) -> str:
-    foundry = Foundry(foundry_root)
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
@@ -792,9 +911,17 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def _write_cfg(cfg: KCFG, path: Path) -> None:
-    path.write_text(cfg.to_json())
-    _LOGGER.info(f'Updated CFG file: {path}')
+def read_summary(accesses_file: Path) -> list[SummaryEntry]:
+    if not accesses_file.exists():
+        raise FileNotFoundError(f'Account accesses dictionary file not found: {accesses_file}')
+    accesses = json.loads(accesses_file.read_text())['accountAccesses']
+    return [SummaryEntry(_a) for _a in accesses]
+
+
+def read_contract_names(contract_names: Path) -> dict[str, str]:
+    if not contract_names.exists():
+        raise FileNotFoundError(f'Contract names dictionary file not found: {contract_names}')
+    return json.loads(contract_names.read_text())
 
 
 class FoundryNodePrinter(KEVMNodePrinter):
