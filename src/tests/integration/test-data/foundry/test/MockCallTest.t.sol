@@ -8,7 +8,7 @@ import "src/MyIERC20.sol";
 
 contract MockCallTest is Test {
 
-    function testMockCall() public {
+    function testSelectorMockCall() public {
         vm.mockCall(
             address(0),
             abi.encodeWithSelector(MyToken.balanceOf.selector, address(1)),

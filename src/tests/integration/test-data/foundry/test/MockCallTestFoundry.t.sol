@@ -4,7 +4,7 @@ pragma solidity 0.8.13;
 import "forge-std/Test.sol";
 import "src/Mock.sol";
 
-contract MockCallTest is Test {
+contract MockCallTestFoundry is Test {
 
     function testMockGetters() public {
         Mock target = new Mock();
