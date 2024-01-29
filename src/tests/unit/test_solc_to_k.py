@@ -6,7 +6,7 @@ import pytest
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KToken, KVariable
 
-from kontrol.solc_to_k import Contract, Input, _range_predicates
+from kontrol.solc_to_k import Contract, Input, _range_predicates, get_input_length
 
 from .utils import TEST_DATA_DIR
 
@@ -172,6 +172,17 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
     ),
 ]
 
+DEVDOCS_DATA: list[tuple[str, dict, dict, list[int] | None, int | None]] = [
+    (
+        'test_1',
+        {'_withdrawalProof': 10, '_withdrawalProof[]': 600, 'data': 600},
+        {'name': '_withdrawalProof', 'type': 'bytes[]'},
+        [10],
+        600,
+    ),
+    ('test_2', {}, {'name': '_a', 'type': 'bytes'}, None, None),
+]
+
 
 @pytest.mark.parametrize('test_id,input,expected', INPUT_DATA, ids=[test_id for test_id, *_ in INPUT_DATA])
 def test_input_to_abi(test_id: str, input: Input, expected: KApply) -> None:
@@ -180,3 +191,21 @@ def test_input_to_abi(test_id: str, input: Input, expected: KApply) -> None:
 
     # Then
     assert abi == expected
+
+
+@pytest.mark.parametrize(
+    'test_id,devdocs,input_dict,expected_array_length, expected_dynamic_type_length',
+    DEVDOCS_DATA,
+    ids=[test_id for test_id, *_ in DEVDOCS_DATA],
+)
+def test_get_input_length(
+    test_id: str,
+    devdocs: dict,
+    input_dict: dict,
+    expected_array_length: list[int] | None,
+    expected_dynamic_type_length: int | None,
+) -> None:
+    # When
+    array_lengths, dyn_len = get_input_length(input_dict, devdocs)
+    assert array_lengths == expected_array_length
+    assert dyn_len == expected_dynamic_type_length
