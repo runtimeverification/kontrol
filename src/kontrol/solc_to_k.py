@@ -15,7 +15,7 @@ from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
-from pyk.prelude.kint import intToken
+from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.string import stringToken
 from pyk.utils import FrozenDict, hash_str, run_process, single
 
@@ -314,12 +314,37 @@ class Contract:
             return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
 
         @cached_property
-        def arg_names(self) -> Iterable[str]:
-            return tuple(Input.arg_name(input) for input in self.flat_inputs)
+        def arg_names(self) -> tuple[str, ...]:
+            arg_names: list[str] = []
+            for input in self.inputs:
+                if input.type.endswith('[]'):
+                    if input.array_lengths is None:
+                        raise ValueError(f'Array length bounds missing for {input.name}')
+                    length = input.array_lengths[0]
+                    arg_names.extend(
+                        f'{sub_input.arg_name}_{i}' for i in range(length) for sub_input in input.flattened()
+                    )
+                else:
+                    arg_names.extend([sub_input.arg_name for sub_input in input.flattened()])
+            return tuple(arg_names)
 
         @cached_property
-        def arg_types(self) -> Iterable[str]:
-            return tuple(input.type for input in self.flat_inputs)
+        def arg_types(self) -> tuple[str, ...]:
+            arg_types: list[str] = []
+            for input in self.inputs:
+                if input.type.endswith('[]'):
+                    if input.array_lengths is None:
+                        raise ValueError(f'Array length bounds missing for {input.name}')
+                    length = input.array_lengths[0]
+                    base_type = input.type.split('[')[0]
+                    if base_type == 'tuple':
+                        arg_types.extend(f'{sub_input.type}' for _i in range(length) for sub_input in input.flattened())
+                    else:
+                        arg_types.extend([base_type] * length)
+
+                else:
+                    arg_types.extend([sub_input.type for sub_input in input.flattened()])
+            return tuple(arg_types)
 
         def up_to_date(self, digest_file: Path) -> bool:
             if not digest_file.exists():
@@ -386,7 +411,13 @@ class Contract:
             for input in self.inputs:
                 abi_type = input.to_abi()
                 args.append(abi_type)
-                rps = _range_predicates(abi_type)
+                rps = []
+                if input.type == 'tuple':
+                    for sub_input in input.components:
+                        _abi_type = sub_input.to_abi()
+                        rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
+                else:
+                    rps = _range_predicates(abi_type, input.dynamic_type_length)
                 for rp in rps:
                     if rp is None:
                         _LOGGER.info(
@@ -855,24 +886,28 @@ def _evm_base_sort_int(type_label: str) -> bool:
     return success
 
 
-def _range_predicates(abi: KApply) -> list[KInner | None]:
+def _range_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
     rp: list[KInner | None] = []
     if abi.label.name == 'abi_type_tuple':
         if type(abi.args[0]) is KApply:
-            rp += _range_collection_predicates(abi.args[0])
+            rp += _range_collection_predicates(abi.args[0], dynamic_type_length)
+    elif abi.label.name == 'abi_type_array':
+        # array elements:
+        if type(abi.args[2]) is KApply:
+            rp += _range_collection_predicates(abi.args[2], dynamic_type_length)
     else:
         type_label = abi.label.name.removeprefix('abi_type_')
-        rp.append(_range_predicate(single(abi.args), type_label))
+        rp.append(_range_predicate(single(abi.args), type_label, dynamic_type_length))
     return rp
 
 
-def _range_collection_predicates(abi: KApply) -> list[KInner | None]:
+def _range_collection_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
     rp: list[KInner | None] = []
     if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
         if type(abi.args[0]) is KApply:
-            rp += _range_predicates(abi.args[0])
+            rp += _range_predicates(abi.args[0], dynamic_type_length)
         if type(abi.args[1]) is KApply:
-            rp += _range_collection_predicates(abi.args[1])
+            rp += _range_collection_predicates(abi.args[1], dynamic_type_length)
     elif abi.label.name == '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs':
         return rp
     else:
@@ -880,16 +915,21 @@ def _range_collection_predicates(abi: KApply) -> list[KInner | None]:
     return rp
 
 
-def _range_predicate(term: KInner, type_label: str) -> KInner | None:
+def _range_predicate(term: KInner, type_label: str, dynamic_type_length: int | None = None) -> KInner | None:
     match type_label:
         case 'address':
             return KEVM.range_address(term)
         case 'bool':
             return KEVM.range_bool(term)
         case 'bytes':
-            return KEVM.range_uint(128, KEVM.size_bytes(term))
+            #  the compiler-inserted check asserts that lengthBytes(B) <= maxUint64
+            return (
+                eqInt(KEVM.size_bytes(term), intToken(dynamic_type_length))
+                if dynamic_type_length
+                else KEVM.range_uint(64, KEVM.size_bytes(term))
+            )
         case 'string':
-            return TRUE
+            return eqInt(KEVM.size_bytes(term), intToken(dynamic_type_length)) if dynamic_type_length else TRUE
 
     predicate_functions = [
         _range_predicate_uint,
