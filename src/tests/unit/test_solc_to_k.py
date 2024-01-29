@@ -180,3 +180,69 @@ def test_input_to_abi(test_id: str, input: Input, expected: KApply) -> None:
 
     # Then
     assert abi == expected
+
+
+ABI_DATA: list[tuple[str, dict, dict, Input]] = [
+    (
+        'test_tuple',
+        {
+            'components': [
+                {'internalType': 'uint256', 'name': 'nonce', 'type': 'uint256'},
+                {'internalType': 'address', 'name': 'sender', 'type': 'address'},
+                {'internalType': 'address', 'name': 'target', 'type': 'address'},
+                {'internalType': 'uint256', 'name': 'value', 'type': 'uint256'},
+                {'internalType': 'uint256', 'name': 'gasLimit', 'type': 'uint256'},
+                {'internalType': 'bytes', 'name': 'data', 'type': 'bytes'},
+            ],
+            'internalType': 'struct CallDataTest.WithdrawalTransaction',
+            'name': '_tx',
+            'type': 'tuple',
+        },
+        {'_withdrawalProof': 10, '_withdrawalProof[]': 600, 'data': 600},
+        Input(
+            name='_tx',
+            type='tuple',
+            components=(
+                Input(name='nonce', type='uint256', components=(), idx=0, array_lengths=None, dynamic_type_length=None),
+                Input(
+                    name='sender',
+                    type='address',
+                    components=(),
+                    idx=1,
+                    array_lengths=None,
+                    dynamic_type_length=None,
+                ),
+                Input(
+                    name='target',
+                    type='address',
+                    components=(),
+                    idx=2,
+                    array_lengths=None,
+                    dynamic_type_length=None,
+                ),
+                Input(name='value', type='uint256', components=(), idx=3, array_lengths=None, dynamic_type_length=None),
+                Input(
+                    name='gasLimit',
+                    type='uint256',
+                    components=(),
+                    idx=4,
+                    array_lengths=None,
+                    dynamic_type_length=None,
+                ),
+                Input(name='data', type='bytes', components=(), idx=5, array_lengths=None, dynamic_type_length=600),
+            ),
+            idx=0,
+            array_lengths=None,
+            dynamic_type_length=None,
+        ),
+    )
+]
+
+
+@pytest.mark.parametrize('test_id,input_dict,devdocs,expected', ABI_DATA, ids=[test_id for test_id, *_ in ABI_DATA])
+def test_input_from_dict(test_id: str, input_dict: dict, devdocs: dict, expected: Input) -> None:
+    # When
+    _input = Input.from_dict(input_dict, natspec_lengths=devdocs)
+
+    # Then
+    assert _input == expected

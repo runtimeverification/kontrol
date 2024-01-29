@@ -72,6 +72,10 @@ class Input:
     components: tuple[Input, ...] = ()
     idx: int = 0
 
+    @cached_property
+    def arg_name(self) -> str:
+        return f'V{self.idx}_{self.name.replace("-", "_")}'
+
     @staticmethod
     def from_dict(input: dict, idx: int = 0) -> Input:
         name = input['name']
@@ -82,28 +86,28 @@ class Input:
             return Input(name, type, idx=idx)
 
     @staticmethod
-    def arg_name(input: Input) -> str:
-        return f'V{input.idx}_{input.name.replace("-", "_")}'
-
-    @staticmethod
-    def _make_single_type(input: Input) -> KApply:
-        input_name = Input.arg_name(input)
-        input_type = input.type
-        return KEVM.abi_type(input_type, KVariable(input_name))
-
-    @staticmethod
-    def _make_complex_type(components: Iterable[Input]) -> KApply:
+    def _make_tuple_type(components: Iterable[Input], array_index: int | None = None) -> KApply:
         """
-        recursively unwrap components in arguments of complex types and convert them to KEVM types
+        Recursively unwraps components of a tuple and converts them to KEVM types.
+        The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
         """
         abi_types: list[KInner] = []
-        for comp in components:
+        for _c in components:
+            component = _c
+            if array_index is not None:
+                component = Input(
+                    f'{_c.name}_{array_index}',
+                    _c.type,
+                    _c.components,
+                    _c.idx,
+                    _c.array_lengths,
+                    _c.dynamic_type_length,
+                )
             # nested tuple, unwrap its components
-            if comp.type == 'tuple':
-                tuple = Input._make_complex_type(comp.components)
-                abi_type = tuple
+            if component.type == 'tuple':
+                abi_type = Input._make_tuple_type(component.components, array_index)
             else:
-                abi_type = Input._make_single_type(comp)
+                abi_type = component.make_single_type()
             abi_types.append(abi_type)
         return KEVM.abi_tuple(abi_types)
 
@@ -124,11 +128,40 @@ class Input:
             i += 1
         return comps
 
+    def make_single_type(self) -> KApply:
+        """
+        Generates a KApply representation of a single type input, handling arrays, nested arrays,
+        and base types. For 'tuple[]', it calls '_make_tuple_type' for each element in the array.
+        For arrays, it generates a list of Input objects numbered from 0 to `array_length`.
+        TODO: Add support for nested arrays and use the entire 'input.array_lengths' array
+        instead of only the first value.
+        """
+        if self.type.endswith('[]'):
+            base_type = self.type.rstrip('[]')
+            if self.array_lengths is None:
+                raise ValueError(f'Array length bounds missing for {self.name}')
+            array_length = self.array_lengths[0]
+            array_elements: list[KInner] = []
+            if base_type == 'tuple':
+                array_elements = [Input._make_tuple_type(self.components, index) for index in range(array_length)]
+            else:
+                array_elements = [
+                    Input(f'{self.name}_{n}', base_type, idx=self.idx).make_single_type() for n in range(array_length)
+                ]
+            return KEVM.abi_array(
+                array_elements[0],
+                intToken(array_length),
+                array_elements,
+            )
+
+        else:
+            return KEVM.abi_type(self.type, KVariable(self.arg_name))
+
     def to_abi(self) -> KApply:
         if self.type == 'tuple':
-            return Input._make_complex_type(self.components)
+            return Input._make_tuple_type(self.components)
         else:
-            return Input._make_single_type(self)
+            return self.make_single_type()
 
     def flattened(self) -> list[Input]:
         if len(self.components) > 0:
