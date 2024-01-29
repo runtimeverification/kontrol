@@ -14,8 +14,8 @@ from pyk.kast.kast import KAtt
 from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
-from pyk.prelude.kbool import TRUE, andBool, boolToken
-from pyk.prelude.kint import intToken
+from pyk.prelude.kbool import TRUE, andBool
+from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.string import stringToken
 from pyk.utils import FrozenDict, hash_str, run_process, single
 
@@ -71,67 +71,84 @@ class Input:
     type: str
     components: tuple[Input, ...] = ()
     idx: int = 0
-    length: int | None = None
-    element_length: int | None = None
+    array_lengths: list[int] | None = None
+    dynamic_type_length: int | None = None
 
     @cached_property
     def arg_name(self) -> str:
         return f'V{self.idx}_{self.name.replace("-", "_")}'
 
     @staticmethod
-    def from_dict(input: dict, idx: int = 0, length: int | None = None, element_length: int | None = None) -> Input:
+    def from_dict(input: dict, idx: int = 0, natspec_lengths: dict | None = None) -> Input:
         name = input['name']
         type = input['type']
-        if input.get('components') is not None and input['type'] != 'tuple[]':
-            return Input(name, type, tuple(Input._unwrap_components(input['components'], idx)), idx, length, element_length)
+        array_lengths, dynamic_type_length = (
+            get_input_length(input, natspec_lengths) if natspec_lengths is not None else (None, None)
+        )
+        if input.get('components') is not None:
+            _v = Input(
+                name,
+                type,
+                tuple(Input._unwrap_components(input['components'], idx, natspec_lengths)),
+                idx,
+                array_lengths,
+                dynamic_type_length,
+            )
         else:
-            return Input(name, type, idx=idx, length=length, element_length=element_length)
+            _v = Input(name, type, idx=idx, array_lengths=array_lengths, dynamic_type_length=dynamic_type_length)
+        return _v
 
     @staticmethod
-    def _make_single_type(input: Input) -> (KApply, bool):
+    def _make_single_type(input: Input) -> KApply:
         if input.type.endswith('[]'):
-            element_type = KEVM.abi_type(input.type[0 : input.type.index('[')], KVariable(input.arg_name))
-            if element_type.label.name == 'abi_type_bytes':
-                # Use NatSpec-provided lengths (array length, elements' length)
-                array_length = input.length if input.length is not None else 10
-                array_element_length = input.element_length if input.element_length is not None else 600
-                array_elements = [Input(f'{input.arg_name}_{n}', 'bytes', idx=input.idx) for n in range(array_length)]
-                return (
-                    KEVM.abi_bytes_array(
-                        intToken(array_length),
-                        intToken(array_element_length),
-                        Input._make_array_elements(array_elements),
-                    ),
-                    True,
-                )
+            base_type = input.type.split('[')[0]
+            # TODO: support nested array processing
+            if input.array_lengths is None:
+                raise ValueError(f'Array length bounds missing for {input.name}')
+            array_length = input.array_lengths[0]
+            args: list[KInner] = []
+            if base_type == 'tuple':
+                args = [Input._make_tuple_type(input.components, _index) for _index in range(0, array_length)]
             else:
-                _LOGGER.info(f'Unsupported array type: {input.type}')
-                if input.type == 'tuple[]':
-                    # TODO: placeholder to avoid compilation errors on Foundry functions using `struct[]`
-                    element_type = KEVM.abi_tuple([KVariable(input.arg_name)])
-                return (KEVM.abi_dynamic_array(element_type), True)
+                array_elements = [Input(f'{input.name}_{n}', base_type, idx=input.idx) for n in range(array_length)]
+                args = Input._make_array_elements(array_elements)
+
+            return KEVM.abi_array(
+                args[0],
+                intToken(array_length),
+                args,
+            )
+
         else:
             input_name = input.arg_name
             input_type = input.type
-            is_dynamic = True if input_type == 'bytes' else False
-            return (KEVM.abi_type(input_type, KVariable(input_name)), is_dynamic)
+            return KEVM.abi_type(input_type, KVariable(input_name))
 
     @staticmethod
-    def _make_complex_type(components: Iterable[Input]) -> (KApply, bool):
+    def _make_tuple_type(components: Iterable[Input], inner_index: int | None = None) -> KApply:
         """
-        recursively unwrap components in arguments of complex types and convert them to KEVM types
+        recursively unwrap components of a tuple and convert them to KEVM types
+        inner_index is used for array of tuples
         """
-        has_dynamic_type = False
         abi_types: list[KInner] = []
         for comp in components:
+            if inner_index is not None:
+                comp = Input(
+                    f'{comp.name}_{inner_index}',
+                    comp.type,
+                    comp.components,
+                    idx=comp.idx,
+                    array_lengths=comp.array_lengths,
+                    dynamic_type_length=comp.dynamic_type_length,
+                )
             # nested tuple, unwrap its components
             if comp.type == 'tuple':
-                tuple, has_dynamic_type = Input._make_complex_type(comp.components)
+                tuple = Input._make_tuple_type(comp.components, inner_index)
                 abi_type = tuple
             else:
-                abi_type, has_dynamic_type = Input._make_single_type(comp)
+                abi_type = Input._make_single_type(comp)
             abi_types.append(abi_type)
-        return (KEVM.abi_tuple(abi_types), has_dynamic_type)
+        return KEVM.abi_tuple(abi_types)
 
     @staticmethod
     def _make_array_elements(elements: Iterable[Input]) -> list[KInner]:
@@ -141,12 +158,12 @@ class Input:
         abi_types: list[KInner] = []
         for el in elements:
             # TODO(palina): support nested arrays
-            abi_type, _ = Input._make_single_type(el)
+            abi_type = Input._make_single_type(el)
             abi_types.append(abi_type)
         return abi_types
 
     @staticmethod
-    def _unwrap_components(components: dict, i: int = 0) -> list[Input]:
+    def _unwrap_components(components: dict, i: int = 0, natspec_lengths: dict | None = None) -> list[Input]:
         """
         recursively unwrap components in arguments of complex types
         """
@@ -154,17 +171,20 @@ class Input:
         for comp in components:
             _name = comp['name']
             _type = comp['type']
-            if comp.get('components') is not None and type != 'tuple[]':
-                new_comps = Input._unwrap_components(comp['components'], i)
+            arrays_length, dynamic_type_length = (
+                get_input_length(comp, natspec_lengths) if natspec_lengths is not None else (None, None)
+            )
+            if comp.get('components') is not None:  # and type != 'tuple[]':
+                new_comps = Input._unwrap_components(comp['components'], i, natspec_lengths)
             else:
                 new_comps = []
-            comps.append(Input(_name, _type, tuple(new_comps), i))
+            comps.append(Input(_name, _type, tuple(new_comps), i, arrays_length, dynamic_type_length))
             i += 1
         return comps
 
-    def to_abi(self) -> (KApply, bool):
+    def to_abi(self) -> KApply:
         if self.type == 'tuple':
-            return Input._make_complex_type(self.components)
+            return Input._make_tuple_type(self.components)
         else:
             return Input._make_single_type(self)
 
@@ -176,35 +196,75 @@ class Input:
             return [self]
 
 
-def inputs_from_abi(abi_inputs: Iterable[dict], devdoc: dict | None) -> list[Input]:
-    element_lengths = {}
-    lengths = {}
-    if devdoc is not None:
-        element_lengths = lengths_from_natspec('custom:element-length', devdoc)
-        lengths = lengths_from_natspec('custom:length', devdoc)
-
+def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) -> list[Input]:
     inputs = []
-    i = 0
+    index = 0
     for input in abi_inputs:
-        input_length = lengths[input['name']] if lengths is not None and input['name'] in lengths else None
-        input_element_length = element_lengths[input['name']] if element_lengths is not None and input['name'] in element_lengths else None
-
-        cur_input = Input.from_dict(input, i, input_length, input_element_length)
+        cur_input = Input.from_dict(input, index, natspec_lengths)
         inputs.append(cur_input)
-        i += len(cur_input.flattened())
+        index += len(cur_input.flattened())
     return inputs
 
 
-def lengths_from_natspec(tag: str, devdoc: dict) -> dict:
-    # devdoc example:
-    # {'custom:element-length': '_withdrawalProof 600,', 'custom:length': '_withdrawalProof 10,_l2OutputIndex 4,'}
-    parsed_lengths = {}
-    lengths: str = devdoc[tag] if devdoc.get(tag) is not None else None
-    if lengths:
-        for l in [x for x in lengths.split(',') if x]:
-            var, length = l.split(': ')
-            parsed_lengths[var] = int(length)
-    return parsed_lengths
+def get_input_length(input_dict: dict, lengths: dict) -> tuple[list[int] | None, int | None]:
+    """
+    Reads from NatSpec comments the maximum length bound of an array, dynamic type, array of dynamic type, or nested arrays.
+    In case of arrays and nested arrays, the bound values are stored in a list.
+    In case of dynamic types such as `string` and `bytes` the length bound is stored in its own variable.
+    As a convention, the length of a nested array or of a dynamic type array is accessed by appending `[]` to the name of the variable.
+    i.e. for `bytes[][] _b`, the lengths are registered as:
+        _b: length of the upper most array
+        _b[]: length of the inner array
+        _b[][]: length of the `bytes` elements in the inner array.
+    If an array length is missing, the default value will be `2` to avoid generating symbolic variables.
+    The dynamic type length is optional, it's lack off will cause branchings in symbolic execution.
+    """
+    _name: str = input_dict['name']
+    _type: str = input_dict['type']
+    dynamic_type_length: int | None
+    input_array_lengths: list[int] | None
+    array_lengths: list[int] = []
+    while _type.endswith('[]'):
+        array_lengths.append(lengths.get(_name, 2))
+        _type = _type[:-2]
+        _name += '[]'
+    input_array_lengths = array_lengths if array_lengths else None
+    dynamic_type_length = lengths.get(_name) if _type in ['bytes', 'string'] else None
+    return (input_array_lengths, dynamic_type_length)
+
+
+def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
+    """
+    Parses developer documentation (devdoc) to extract specific information based on a given tag.
+    Example:
+        If devdoc contains { 'custom:length': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
+        and the function is called with tag='custom:length', it would return:
+        { '_withdrawalProof': 10, '_withdrawalProof[]': 600, '_l2OutputIndex': 4 }
+    """
+
+    if devdoc is None or tag not in devdoc:
+        return {}
+
+    natspecs = {}
+    natspec_values = devdoc[tag]
+
+    # Split the string by comma and iterate over each part
+    for part in natspec_values.split(','):
+        # Trim whitespace and skip if empty
+        part = part.strip()
+        if not part:
+            continue
+
+        # Split each part into variable and length
+        try:
+            key, value_str = part.split(':')
+            # Trim whitespace from variable and length, and convert length to int
+            key = key.strip()
+            natspecs[key] = int(value_str.strip())
+        except ValueError:
+            # Handle cases where the split does not give exactly 2 items
+            _LOGGER.warning(f'Skipping invalid fomat {part} in {tag}')
+    return natspecs
 
 
 @dataclass
@@ -285,7 +345,7 @@ class Contract:
         payable: bool
         signature: str
         ast: dict | None
-        devdoc: dict | None
+        natspec_values: dict | None
 
         def __init__(
             self,
@@ -297,7 +357,7 @@ class Contract:
             contract_digest: str,
             contract_storage_digest: str,
             sort: KSort,
-            devdoc: dict | None
+            devdoc: dict | None,
         ) -> None:
             self.signature = msig
             self.name = abi['name']
@@ -309,7 +369,8 @@ class Contract:
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
             self.ast = ast
-            self.inputs = tuple(inputs_from_abi(abi['inputs'], devdoc))
+            self.natspec_values = parse_devdoc('custom:length', devdoc)
+            self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
 
         @property
         def klabel(self) -> KLabel:
@@ -343,28 +404,37 @@ class Contract:
 
         @cached_property
         def arg_names(self) -> Iterable[str]:
-            # return tuple(input.arg_name for input in self.flat_inputs)
-            arg_names = []
-            for input in self.flat_inputs:
-                # TODO(palina): extend to other types, e.g., `uint256`
-                if input.type == 'bytes[]':
-                    array_length = input.length if input.length is not None else 10
-                    arg_names.extend([f'V{input.idx}_{input.arg_name}_{n}' for n in range(array_length)])
+            arg_names: list[str] = []
+            for input in self.inputs:
+                if input.type.endswith('[]'):
+                    if input.array_lengths is None:
+                        raise ValueError(f'Array length bounds missing for {input.name}')
+                    _length = input.array_lengths[0]
+                    arg_names.extend(
+                        f'{sub_input.arg_name}_{i}' for i in range(_length) for sub_input in input.flattened()
+                    )
                 else:
-                    arg_names.append(input.arg_name)
+                    arg_names.extend([f'{sub_input.arg_name}' for sub_input in input.flattened()])
             return tuple(arg_names)
 
         @cached_property
         def arg_types(self) -> Iterable[str]:
-            # return tuple(input.type for input in self.flat_inputs)
-            arg_types = []
-            for input in self.flat_inputs:
-                # TODO(palina): extend to other types, e.g., `uint256`
-                if input.type == 'bytes[]':
-                    array_length = input.length if input.length is not None else 10
-                    arg_types.extend(['bytes'] * array_length)
+            arg_types: list[str] = []
+            for input in self.inputs:
+                if input.type.endswith('[]'):
+                    if input.array_lengths is None:
+                        raise ValueError(f'Array length bounds missing for {input.name}')
+                    _length = input.array_lengths[0]
+                    base_type = input.type.split('[')[0]
+                    if base_type == 'tuple':
+                        arg_types.extend(
+                            f'{sub_input.type}' for _i in range(_length) for sub_input in input.flattened()
+                        )
+                    else:
+                        arg_types.extend([base_type] * _length)
+
                 else:
-                    arg_types.append(input.type)
+                    arg_types.extend([f'{sub_input.type}' for sub_input in input.flattened()])
             return tuple(arg_types)
 
         def up_to_date(self, digest_file: Path) -> bool:
@@ -431,9 +501,15 @@ class Contract:
             args: list[KInner] = []
             conjuncts: list[KInner] = []
             for input in self.inputs:
-                abi_type, _ = input.to_abi()
+                abi_type = input.to_abi()
                 args.append(abi_type)
-                rps = _range_predicates(abi_type)
+                rps = []
+                if input.type == 'tuple':
+                    for sub_input in input.components:
+                        _abi_type = sub_input.to_abi()
+                        rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
+                else:
+                    rps = _range_predicates(abi_type, input.dynamic_type_length)
                 for rp in rps:
                     if rp is None:
                         _LOGGER.info(
@@ -458,7 +534,7 @@ class Contract:
             args: list[KInner] = []
 
             for input in self.inputs:
-                abi_type, _ = input.to_abi()
+                abi_type = input.to_abi()
                 args.append(abi_type)
 
             return KApply(contract.klabel_method, [KApply(contract.klabel), self.application])
@@ -520,7 +596,7 @@ class Contract:
         if 'metadata' in self.contract_json:
             metadata = self.contract_json['metadata']
             devdoc = metadata['output']['devdoc']['methods']
-                              
+
         for method in contract_json['abi']:
             if method['type'] == 'function':
                 msig = method_sig_from_abi(method)
@@ -532,7 +608,15 @@ class Contract:
                 method_devdoc = devdoc[msig] if msig in devdoc else None
 
                 _m = Contract.Method(
-                    msig, mid, method, method_ast, self._name, self.digest, self.storage_digest, self.sort_method, method_devdoc
+                    msig,
+                    mid,
+                    method,
+                    method_ast,
+                    self._name,
+                    self.digest,
+                    self.storage_digest,
+                    self.sort_method,
+                    method_devdoc,
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
@@ -918,30 +1002,30 @@ def _evm_base_sort_int(type_label: str) -> bool:
     return success
 
 
-def _range_predicates(abi: KApply) -> list[KInner | None]:
+def _range_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
     rp: list[KInner | None] = []
     if abi.label.name == 'abi_type_tuple':
         if type(abi.args[0]) is KApply:
-            rp += _range_collection_predicates(abi.args[0])
-    elif abi.label.name == 'abi_type_bytes_array':
-        type_label = 'bytes'
+            rp += _range_collection_predicates(abi.args[0], dynamic_type_length)
+    elif abi.label.name == 'abi_type_array':
         # array elements:
         if type(abi.args[2]) is KApply:
-            rp += _range_collection_predicates(abi.args[2])
-    # TODO(palina): support other arrays, e.g., uint[]
+            rp += _range_collection_predicates(abi.args[2], dynamic_type_length)
     else:
         type_label = abi.label.name.removeprefix('abi_type_')
+        if type_label in ['bytes', 'string'] and dynamic_type_length is not None:
+            rp.append(eqInt(KEVM.size_bytes(single(abi.args)), intToken(dynamic_type_length)))
         rp.append(_range_predicate(single(abi.args), type_label))
     return rp
 
 
-def _range_collection_predicates(abi: KApply) -> list[KInner | None]:
+def _range_collection_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
     rp: list[KInner | None] = []
     if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
         if type(abi.args[0]) is KApply:
-            rp += _range_predicates(abi.args[0])
+            rp += _range_predicates(abi.args[0], dynamic_type_length)
         if type(abi.args[1]) is KApply:
-            rp += _range_collection_predicates(abi.args[1])
+            rp += _range_collection_predicates(abi.args[1], dynamic_type_length)
     elif abi.label.name == '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs':
         return rp
     else:

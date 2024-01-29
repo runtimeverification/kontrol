@@ -14,7 +14,7 @@ from pyk.kcfg import KCFG
 from pyk.prelude.collections import map_empty, map_of
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
-from pyk.prelude.kint import eqInt, intToken, leInt
+from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof

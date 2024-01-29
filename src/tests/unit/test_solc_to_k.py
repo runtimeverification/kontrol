@@ -6,7 +6,7 @@ import pytest
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KToken, KVariable
 
-from kontrol.solc_to_k import Contract, Input, _range_predicates
+from kontrol.solc_to_k import Contract, Input, _range_predicates, get_input_length
 
 from .utils import TEST_DATA_DIR
 
@@ -176,7 +176,51 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
 @pytest.mark.parametrize('test_id,input,expected', INPUT_DATA, ids=[test_id for test_id, *_ in INPUT_DATA])
 def test_input_to_abi(test_id: str, input: Input, expected: KApply) -> None:
     # When
-    abi, _ = input.to_abi()
+    abi = input.to_abi()
 
     # Then
     assert abi == expected
+
+
+def test_get_input_length() -> None:
+    devdocs = {'_withdrawalProof': 10, '_withdrawalProof[]': 600, 'data': 600}
+    input_dict = {'name': '_withdrawalProof', 'type': 'bytes[]'}
+
+    array_lengths, dyn_len = get_input_length(input_dict, devdocs)
+    assert array_lengths == [10]
+    assert dyn_len == 600
+
+
+def test_inputs_from_abi() -> None:
+    input_dict = {
+        'components': [
+            {'internalType': 'uint256', 'name': 'nonce', 'type': 'uint256'},
+            {'internalType': 'address', 'name': 'sender', 'type': 'address'},
+            {'internalType': 'address', 'name': 'target', 'type': 'address'},
+            {'internalType': 'uint256', 'name': 'value', 'type': 'uint256'},
+            {'internalType': 'uint256', 'name': 'gasLimit', 'type': 'uint256'},
+            {'internalType': 'bytes', 'name': 'data', 'type': 'bytes'},
+        ],
+        'internalType': 'struct CallDataTest.WithdrawalTransaction',
+        'name': '_tx',
+        'type': 'tuple',
+    }
+
+    devdocs = {'_withdrawalProof': 10, '_withdrawalProof[]': 600, 'data': 600}
+    expected = Input(
+        name='_tx',
+        type='tuple',
+        components=(
+            Input(name='nonce', type='uint256', components=(), idx=0, array_lengths=None, dynamic_type_length=None),
+            Input(name='sender', type='address', components=(), idx=1, array_lengths=None, dynamic_type_length=None),
+            Input(name='target', type='address', components=(), idx=2, array_lengths=None, dynamic_type_length=None),
+            Input(name='value', type='uint256', components=(), idx=3, array_lengths=None, dynamic_type_length=None),
+            Input(name='gasLimit', type='uint256', components=(), idx=4, array_lengths=None, dynamic_type_length=None),
+            Input(name='data', type='bytes', components=(), idx=5, array_lengths=None, dynamic_type_length=600),
+        ),
+        idx=0,
+        array_lengths=None,
+        dynamic_type_length=None,
+    )
+    _input = Input.from_dict(input_dict, 0, devdocs)
+    assert _input == expected
