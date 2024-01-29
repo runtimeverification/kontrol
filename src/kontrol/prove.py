@@ -483,6 +483,10 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
 
+    # adding constraints from the initial cterm
+    for constraint in cterm.constraints:
+        new_init_cterm = new_init_cterm.add_constraint(constraint)
+
     return new_init_cterm
 
 
