@@ -933,7 +933,7 @@ Otherwise, throw an error for any other call to the Foundry contract.
     rule [foundry.set.mockCall]:
          <k> #next [ _OP:CallOp ] ~> (. =>  #setLocalMem RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
          <localMem> LM </localMem>
-         <wordStack> _ : ACCTTO : _ : ARGSTART : ARGWIDTH : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : ARGSTART : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <mockCall>
            <mockAddress> ACCTTO </mockAddress>
            <mockValues>...  CALLDATA |-> RETURNDATA ...</mockValues>
@@ -944,7 +944,7 @@ Otherwise, throw an error for any other call to the Foundry contract.
       rule [foundry.set.mockCall2]:
          <k> #next [ _OP:CallSixOp ] ~> (. =>  #setLocalMem RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
          <localMem> LM </localMem>
-         <wordStack> _ : ACCTTO : ARGSTART : ARGWIDTH : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : ARGSTART : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <mockCall>
            <mockAddress> ACCTTO </mockAddress>
            <mockValues>...  CALLDATA |-> RETURNDATA ...</mockValues>
@@ -1366,7 +1366,7 @@ If the production is matched when no prank is active, it will be ignored.
 
 ```k
     syntax KItem ::= "#setMockCall" Account Bytes Bytes [klabel(foundry_setMockCall)]
- // ------------------------------------------------------------------------
+ // ---------------------------------------------------------------------------------
     rule <k> #setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN => . ... </k>
          <mockCall>
             <mockAddress> MOCKADDRESS </mockAddress>
