@@ -48,17 +48,9 @@
     TXORDER_CELL <- TXORDER_CELL:List
     TXPENDING_CELL <- TXPENDING_CELL:List
     MESSAGES_CELL <- MESSAGES_CELL:MessageCellMap
-    PREVCALLER_CELL <- PREVCALLER_CELL:Account
-    PREVORIGIN_CELL <- PREVORIGIN_CELL:Account
-    NEWCALLER_CELL <- NEWCALLER_CELL:Account
-    NEWORIGIN_CELL <- NEWORIGIN_CELL:Account
     DEPTH_CELL <- DEPTH_CELL:Int
     EXPECTEDREASON_CELL <- EXPECTEDREASON_CELL:Bytes
     EXPECTEDDEPTH_CELL <- EXPECTEDDEPTH_CELL:Int
-    EXPECTEDADDRESS_CELL <- EXPECTEDADDRESS_CELL:Account
-    EXPECTEDVALUE_CELL <- EXPECTEDVALUE_CELL:Int
-    EXPECTEDDATA_CELL <- EXPECTEDDATA_CELL:Bytes
-    OPCODETYPE_CELL <- OPCODETYPE_CELL:OpcodeType
     CHECKEDTOPICS_CELL <- CHECKEDTOPICS_CELL:List
     CHECKEDDATA_CELL <- CHECKEDDATA_CELL:Bool
     EXPECTEDEVENTADDRESS_CELL <- EXPECTEDEVENTADDRESS_CELL:Account
@@ -306,16 +298,16 @@ Node 6:
     <cheatcodes>
       <prank>
         <prevCaller>
-          PREVCALLER_CELL:Account
+          .Account
         </prevCaller>
         <prevOrigin>
-          PREVORIGIN_CELL:Account
+          .Account
         </prevOrigin>
         <newCaller>
-          NEWCALLER_CELL:Account
+          .Account
         </newCaller>
         <newOrigin>
-          NEWORIGIN_CELL:Account
+          .Account
         </newOrigin>
         <active>
           false
@@ -343,16 +335,16 @@ Node 6:
           false
         </isOpcodeExpected>
         <expectedAddress>
-          EXPECTEDADDRESS_CELL:Account
+          .Account
         </expectedAddress>
         <expectedValue>
-          EXPECTEDVALUE_CELL:Int
+          0
         </expectedValue>
         <expectedData>
-          EXPECTEDDATA_CELL:Bytes
+          b""
         </expectedData>
         <opcodeType>
-          OPCODETYPE_CELL:OpcodeType
+          .OpcodeType
         </opcodeType>
       </expectedOpcode>
       <expectEmit>
@@ -424,7 +416,7 @@ Node 6:
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
+                   ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                  </output>
                  <callStack>
                    .List
@@ -538,6 +530,18 @@ Node 6:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -556,7 +560,18 @@ Node 6:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -730,6 +745,18 @@ Node 6:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -748,7 +775,18 @@ Node 6:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -922,6 +960,18 @@ Node 6:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -940,7 +990,18 @@ Node 6:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>

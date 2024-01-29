@@ -64,7 +64,7 @@
 
 Node 10:
 
-<generatedTop>
+( <generatedTop>
   <foundry>
     <kevm>
       <k>
@@ -101,6 +101,9 @@ Node 10:
             <id>
               728815563385977040452943777879061427756277306518
             </id>
+            <caller>
+              CALLER_ID:Int
+            </caller>
             <callData>
               b"\x18g]B"
             </callData>
@@ -142,6 +145,15 @@ Node 10:
             </accessedStorage>
             ...
           </substate>
+          <origin>
+            ORIGIN_ID:Int
+          </origin>
+          <block>
+            <number>
+              NUMBER_CELL:Int
+            </number>
+            ...
+          </block>
           ...
         </evm>
         <network>
@@ -190,6 +202,18 @@ Node 10:
     </kevm>
     <cheatcodes>
       <prank>
+        <prevCaller>
+          .Account
+        </prevCaller>
+        <prevOrigin>
+          .Account
+        </prevOrigin>
+        <newCaller>
+          .Account
+        </newCaller>
+        <newOrigin>
+          .Account
+        </newOrigin>
         <active>
           false
         </active>
@@ -208,7 +232,18 @@ Node 10:
         <isOpcodeExpected>
           false
         </isOpcodeExpected>
-        ...
+        <expectedAddress>
+          .Account
+        </expectedAddress>
+        <expectedValue>
+          0
+        </expectedValue>
+        <expectedData>
+          b""
+        </expectedData>
+        <opcodeType>
+          .OpcodeType
+        </opcodeType>
       </expectedOpcode>
       <expectEmit>
         <recordEvent>
@@ -237,6 +272,12 @@ Node 10:
   </foundry>
   ...
 </generatedTop>
+#And ( { true #Equals 0 <=Int CALLER_ID:Int }
+#And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
+#And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
+#And ( { true #Equals CALLER_ID:Int <Int pow160 }
+#And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
+#And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 } ) ) ) ) ) )
 
 
 
@@ -262,7 +303,7 @@ Node 10:
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   b""
                  </output>
                  <callStack>
                    .List
@@ -381,6 +422,18 @@ Node 10:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -399,7 +452,18 @@ Node 10:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -577,6 +641,18 @@ Node 10:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -595,7 +671,18 @@ Node 10:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -773,6 +860,18 @@ Node 10:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -791,7 +890,18 @@ Node 10:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -845,7 +955,7 @@ Node 10:
              <ethereum>
                <evm>
                  <output>
-                   ( b"" => ?_OUTPUT_CELL )
+                   b""
                  </output>
                  <statusCode>
                    ( EVMC_SUCCESS => ?_STATUSCODE )
@@ -967,6 +1077,18 @@ Node 10:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -985,7 +1107,18 @@ Node 10:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1041,7 +1174,7 @@ Node 10:
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   b""
                  </output>
                  <callStack>
                    .List
@@ -1058,6 +1191,9 @@ Node 10:
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
                    <callData>
                      b"\x18g]B"
                    </callData>
@@ -1084,7 +1220,6 @@ Node 10:
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1101,6 +1236,15 @@ Node 10:
                    </accessedStorage>
                    ...
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -1149,6 +1293,18 @@ Node 10:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -1167,7 +1323,18 @@ Node 10:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1194,6 +1361,13 @@ Node 10:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1236,6 +1410,9 @@ Node 10:
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
                    <callData>
                      b"\x18g]B"
                    </callData>
@@ -1262,7 +1439,6 @@ Node 10:
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1279,6 +1455,15 @@ Node 10:
                    </accessedStorage>
                    ...
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -1327,6 +1512,18 @@ Node 10:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -1345,7 +1542,18 @@ Node 10:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1372,6 +1580,13 @@ Node 10:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
@@ -1414,6 +1629,9 @@ Node 10:
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
                    <callData>
                      b"\x18g]B"
                    </callData>
@@ -1440,7 +1658,6 @@ Node 10:
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1457,6 +1674,15 @@ Node 10:
                    </accessedStorage>
                    ...
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -1505,6 +1731,18 @@ Node 10:
            </kevm>
            <cheatcodes>
              <prank>
+               <prevCaller>
+                 .Account
+               </prevCaller>
+               <prevOrigin>
+                 .Account
+               </prevOrigin>
+               <newCaller>
+                 .Account
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
                <active>
                  false
                </active>
@@ -1523,7 +1761,18 @@ Node 10:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               ...
+               <expectedAddress>
+                 .Account
+               </expectedAddress>
+               <expectedValue>
+                 0
+               </expectedValue>
+               <expectedData>
+                 b""
+               </expectedData>
+               <opcodeType>
+                 .OpcodeType
+               </opcodeType>
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1550,6 +1799,13 @@ Node 10:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-9-TO-10)]
 
 endmodule
@@ -1560,10 +1816,18 @@ Failing nodes:
   Node id: 10
   Failure reason:
     Implication check failed, the following is the remaining implication:
-    { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    ( ( { true #Equals 0 <=Int CALLER_ID:Int }
+    #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
+    #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
+    #And ( { true #Equals CALLER_ID:Int <Int pow160 }
+    #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
+    #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 } ) ) ) ) ) #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
   Path condition:
     #Top
-  Failed to generate a model.
+  Model:
+    CALLER_ID = 0
+    NUMBER_CELL = 0
+    ORIGIN_ID = 0
 
 Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
 
