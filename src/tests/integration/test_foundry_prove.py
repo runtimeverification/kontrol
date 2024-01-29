@@ -53,6 +53,9 @@ def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
         command=kore_rpc_command,
         smt_timeout=300,
         smt_retry_limit=10,
+        fallback_on=None,
+        interim_simplification=None,
+        no_post_exec_simplify=None,
     )
 
 
@@ -308,7 +311,7 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
 
 
 def check_pending(foundry: Foundry, test: str, pending: list[int]) -> None:
-    proofs = foundry.proofs_with_test(test)
+    proofs = [foundry.get_optional_proof(pid) for pid in foundry.proof_ids_with_test(test)]
     apr_proofs: list[APRProof] = [proof for proof in proofs if type(proof) is APRProof]
     proof = single(apr_proofs)
     assert [node.id for node in proof.pending] == pending
@@ -378,7 +381,7 @@ def test_foundry_remove_node(
         node=4,
     )
 
-    proof = single(foundry.proofs_with_test(test))
+    proof = foundry.get_optional_proof(single(foundry.proof_ids_with_test(test)))
     assert type(proof) is APRProof
     assert proof.pending
 
