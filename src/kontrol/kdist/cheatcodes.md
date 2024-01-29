@@ -938,8 +938,26 @@ Otherwise, throw an error for any other call to the Foundry contract.
            <mockAddress> ACCTTO </mockAddress>
            <mockValues>...  CALLDATA |-> RETURNDATA ...</mockValues>
          </mockCall>
-         requires #range(LM, ARGSTART, ARGWIDTH) ==K CALLDATA
+         requires #range(LM, ARGSTART, ARGWIDTH) ==K #range(CALLDATA,0,ARGWIDTH)
       [priority(30)]
+
+      rule [foundry.set.mockCall2]:
+         <k> #next [ _OP:CallSixOp ] ~> (. =>  #setLocalMem RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
+         <localMem> LM </localMem>
+         <wordStack> _ : ACCTTO : ARGSTART : ARGWIDTH : RETSTART : RETWIDTH : _WS </wordStack>
+         <mockCall>
+           <mockAddress> ACCTTO </mockAddress>
+           <mockValues>...  CALLDATA |-> RETURNDATA ...</mockValues>
+         </mockCall>
+         requires #range(LM, ARGSTART, ARGWIDTH) ==K #range(CALLDATA,0,ARGWIDTH)
+      [priority(30)]
+```
+
+```k
+    syntax KItem ::= "#updateOutput" Bytes [klabel("foundry_updateRevertOutput")]
+ // -------------------------------------------------------------------------------------
+    rule <k> #updateOutput OUT => . ... </k>
+         <output> _ => OUT </output>
 ```
 
 Utils
