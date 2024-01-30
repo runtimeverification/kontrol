@@ -546,10 +546,12 @@ def _init_cterm(
     callvalue: KInner | None = None,
     summary_entries: Iterable[SummaryEntry] | None = None,
 ) -> CTerm:
+    schedule = KApply('SHANGHAI_EVM')
+
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'USEGAS_CELL': TRUE if use_gas else FALSE,
-        'SCHEDULE_CELL': KApply('SHANGHAI_EVM'),
+        'SCHEDULE_CELL': schedule,
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': program,
         'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
