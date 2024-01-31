@@ -159,6 +159,7 @@ contract MockCallTestFoundry is Test {
     }
 
     function testRevertMock() public {
+        Mock mock = new Mock();
         vm.mockCall(address(mock), abi.encodeWithSelector(mock.getRevert.selector), abi.encode(0));
 
         assertEq(mock.getRevert(), 0);

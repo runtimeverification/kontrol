@@ -26,8 +26,8 @@ contract Mock {
     }
 
     function getRevert() public view returns (uint256) {
-        require(varTest != 0, "Var test is 0");
-        return varTest;
+        require(state != 0, "State is 0");
+        return state;
     }
 }
 
