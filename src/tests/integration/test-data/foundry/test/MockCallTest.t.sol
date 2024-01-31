@@ -157,6 +157,13 @@ contract MockCallTestFoundry is Test {
         assertEq(mock.add(1, 2), 10);
         mock.noReturnValue();
     }
+
+    function testRevertMock() public {
+        vm.mockCall(address(mock), abi.encodeWithSelector(mock.getRevert.selector), abi.encode(0));
+
+        assertEq(mock.getRevert(), 0);
+    }
+
 }
 
 contract MockCallRevertTest is Test {

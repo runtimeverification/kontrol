@@ -24,6 +24,11 @@ contract Mock {
         // generate an `extcodesize` check.
         state += 1;
     }
+
+    function getRevert() public view returns (uint256) {
+        require(varTest != 0, "Var test is 0");
+        return varTest;
+    }
 }
 
 contract NestedMock {

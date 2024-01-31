@@ -931,7 +931,7 @@ Otherwise, throw an error for any other call to the Foundry contract.
 
 ```k
     rule [foundry.set.mockCall]:
-         <k> #next [ _OP:CallOp ] ~> (. =>  #setLocalMem RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
+         <k> #next [ _OP:CallOp ] ~> (. => #clearMockCall RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
          <localMem> LM </localMem>
          <wordStack> _ : ACCTTO : _ : ARGSTART : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <mockCall>
@@ -942,7 +942,7 @@ Otherwise, throw an error for any other call to the Foundry contract.
       [priority(30)]
 
       rule [foundry.set.mockCall2]:
-         <k> #next [ _OP:CallSixOp ] ~> (. =>  #setLocalMem RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
+         <k> #next [ _OP:CallSixOp ] ~> (. => #clearMockCall RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
          <localMem> LM </localMem>
          <wordStack> _ : ACCTTO : ARGSTART : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <mockCall>
@@ -1384,6 +1384,15 @@ If the production is matched when no prank is active, it will be ignored.
            ...
          </mockCalls>       
 ```
+
+```k
+    syntax KItem ::= "#clearMockCall" Int Int Bytes [klabel(foundry_clearMockCall)]
+ // -------------------------------------------------------------------------
+    rule <k> #clearMockCall RETSTART RETWIDTH RETURNDATA => #setLocalMem RETSTART RETWIDTH RETURNDATA ... </k>
+         <statusCode> _ => EVMC_SUCCESS </statusCode>
+         <wordStack> _ : WS => 1 : WS </wordStack>
+```
+
 
 - selectors for cheat code functions.
 
