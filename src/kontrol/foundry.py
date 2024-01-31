@@ -381,7 +381,7 @@ class Foundry:
         all_proof_ids: list[tuple[str, str, int]] = []
         for pid in listdir(self.proofs_dir):
             proof_dir = '%'.join(pid.split('%')[0:-1])
-            proof_name = pid.split('%')[1].split(':')[0]
+            proof_name = pid.split('%')[-1].split(':')[0]
             proof_version = int(pid.split(':')[1])
             all_proof_ids.append((proof_dir, proof_name, proof_version))
         proof_ids = [
