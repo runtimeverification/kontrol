@@ -913,10 +913,12 @@ Otherwise, throw an error for any other call to the Foundry contract.
       [owise]
 ```
 
+
 ```k
     rule [foundry.call.mockCall]:
          <k> #call_foundry SELECTOR ARGS
-          => #loadAccount #asWord(#range(ARGS, 0, 32)) 
+          => #loadAccount #asWord(#range(ARGS, 0, 32))
+          ~> #etchAccountIfEmpty #asWord(#range(ARGS, 0, 32))
           ~> #setMockCall #asWord(#range(ARGS, 0, 32)) #range(ARGS, #asWord(#range(ARGS, 32, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32))) #range(ARGS, #asWord(#range(ARGS, 64, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 64, 32)), 32)))
          ...
          </k> 
@@ -1362,6 +1364,24 @@ If the production is matched when no prank is active, it will be ignored.
         </whitelist>
 ```
 
+- `#etchAccountIfEmpty Account` - sets an Account code to a single byte '0u8' if the account is empty to circumvent the `extcodesize` check that Solidity might perform [source](https://github.com/foundry-rs/foundry/blob/b78289a0bc9df6e35624c632396e16f27d4ccb3f/crates/cheatcodes/src/evm/mock.rs#L54).
+
+```k
+    syntax KItem ::= "#etchAccountIfEmpty" Account [klabel(foundry_etchAccountIfEmpty)]
+ // -----------------------------------------------------------------------------------
+    rule <k> #etchAccountIfEmpty ACCT => . ... </k>
+         <accounts>
+           <account>
+             <acctID> ACCT </acctID>
+             <code> CODE => #bufStrict(1,0) </code>
+             ...
+           </account>
+           ...
+         </accounts>
+      requires lengthBytes(CODE) ==Int 0
+    rule <k> #etchAccountIfEmpty _ => . ... </k> [owise]
+```
+
 - `#setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN` will update the `<mockcalls>` mapping for the given account.
 
 ```k
@@ -1382,7 +1402,7 @@ If the production is matched when no prank is active, it will be ignored.
                </mockCall>
            )
            ...
-         </mockCalls>       
+         </mockCalls>
 ```
 
 ```k
