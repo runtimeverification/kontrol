@@ -86,7 +86,7 @@ class Input:
         if name is None or type is None:
             raise ValueError("ABI dictionary must contain 'name' and 'type' keys.", input)
         array_lengths, dynamic_type_length = (
-            get_input_length(input, natspec_lengths) if natspec_lengths is not None else (None, None)
+            process_length_equals(input, natspec_lengths) if natspec_lengths is not None else (None, None)
         )
         if input.get('components') is not None:
             return Input(
@@ -144,7 +144,7 @@ class Input:
                 component['type'],
                 tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
                 idx,
-                *get_input_length(component, natspec_lengths) if natspec_lengths else (None, None),
+                *process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None),
             )
             for idx, component in enumerate(components, start=idx)
         ]
@@ -173,7 +173,7 @@ def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) ->
     return inputs
 
 
-def get_input_length(input_dict: dict, lengths: dict) -> tuple[list[int] | None, int | None]:
+def process_length_equals(input_dict: dict, lengths: dict) -> tuple[list[int] | None, int | None]:
     """
     Reads from NatSpec comments the maximum length bound of an array, dynamic type, array of dynamic type, or nested arrays.
     In case of arrays and nested arrays, the bound values are stored in a list.
@@ -184,7 +184,7 @@ def get_input_length(input_dict: dict, lengths: dict) -> tuple[list[int] | None,
         _b[]: length of the inner array
         _b[][]: length of the `bytes` elements in the inner array.
     If an array length is missing, the default value will be `2` to avoid generating symbolic variables.
-    The dynamic type length is optional, it's lack off will cause branchings in symbolic execution.
+    The dynamic type length is optional, ommiting it may cause branchings in symbolic execution.
     """
     _name: str = input_dict['name']
     _type: str = input_dict['type']
@@ -204,8 +204,8 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     """
     Parses developer documentation (devdoc) to extract specific information based on a given tag.
     Example:
-        If devdoc contains { 'custom:length': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
-        and the function is called with tag='custom:length', it would return:
+        If devdoc contains { 'custom:kontrol-length-equals': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
+        and the function is called with tag='custom:kontrol-length-equals', it would return:
         { '_withdrawalProof': 10, '_withdrawalProof[]': 600, '_l2OutputIndex': 4 }
     """
 
@@ -333,7 +333,7 @@ class Contract:
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
             self.ast = ast
-            self.natspec_values = parse_devdoc('custom:length', devdoc)
+            self.natspec_values = parse_devdoc('custom:kontrol-length-equals', devdoc)
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
 
         @property

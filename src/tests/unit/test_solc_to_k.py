@@ -6,7 +6,7 @@ import pytest
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KToken, KVariable
 
-from kontrol.solc_to_k import Contract, Input, _range_predicates, get_input_length
+from kontrol.solc_to_k import Contract, Input, _range_predicates, process_length_equals
 
 from .utils import TEST_DATA_DIR
 
@@ -198,7 +198,7 @@ def test_input_to_abi(test_id: str, input: Input, expected: KApply) -> None:
     DEVDOCS_DATA,
     ids=[test_id for test_id, *_ in DEVDOCS_DATA],
 )
-def test_get_input_length(
+def test_process_length_equals(
     test_id: str,
     devdocs: dict,
     input_dict: dict,
@@ -206,6 +206,6 @@ def test_get_input_length(
     expected_dynamic_type_length: int | None,
 ) -> None:
     # When
-    array_lengths, dyn_len = get_input_length(input_dict, devdocs)
+    array_lengths, dyn_len = process_length_equals(input_dict, devdocs)
     assert array_lengths == expected_array_length
     assert dyn_len == expected_dynamic_type_length
