@@ -590,8 +590,7 @@ def _init_cterm(
             'STATIC_CELL': FALSE,
             'ACCOUNTS_CELL': KEVM.accounts(init_account_list),
         }
-        for k, v in init_subst_test.items():
-            init_subst[k] = v
+        init_subst.update(init_subst_test)
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
@@ -690,8 +689,7 @@ def _final_term(empty_config: KInner, program: KInner, is_test: bool, is_setup: 
                 ]
             ),
         }
-        for k, v in final_subst_test.items():
-            final_subst[k] = v
+        final_subst.update(final_subst_test)
 
     return abstract_cell_vars(
         Subst(final_subst)(empty_config),
