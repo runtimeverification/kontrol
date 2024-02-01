@@ -9,7 +9,17 @@ module S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
     
       
     
-    rule  ( #initBytecode ( S2KsrcZModduplicatesZMod1ZModDuplicateName ) => #parseByteStack ( "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212206da0d60edea336af3823d2a862b513414597e5f713902a9bf28b51cf02d0bddd64736f6c634300080d0033" ) )
+    rule  ( #initBytecode ( S2KsrcZModduplicatesZMod1ZModDuplicateName ) => #parseByteStack ( "0x6080604052348015600f57600080fd5b50606580601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063a16d8ccd14602d575b600080fd5b00fea2646970667358221220985a3a82b02941f0da2e4be085d0c1d4467398538f9c9898423a8b3709050b3464736f6c634300080d0033" ) )
+      
+    
+    syntax Bytes ::= S2KsrcZModduplicatesZMod1ZModDuplicateNameContract "." S2KsrcZModduplicatesZMod1ZModDuplicateNameMethod [function(), symbol(), klabel(method_src%duplicates%1%DuplicateName)]
+    
+    syntax S2KsrcZModduplicatesZMod1ZModDuplicateNameMethod ::= "S2KduplicateNamedFunction" "(" ")" [symbol(), klabel(method_src%duplicates%1%DuplicateName_S2KduplicateNamedFunction_)]
+    
+    rule  ( S2KsrcZModduplicatesZMod1ZModDuplicateName . S2KduplicateNamedFunction ( ) => #abiCallData ( "duplicateNamedFunction" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "duplicateNamedFunction()" ) => 2708311245 )
       
 
 endmodule
@@ -23,7 +33,17 @@ module S2KsrcZModduplicatesZMod2ZModDuplicateName-CONTRACT
     
       
     
-    rule  ( #initBytecode ( S2KsrcZModduplicatesZMod2ZModDuplicateName ) => #parseByteStack ( "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220a114430ee56f170dc5152c65a4e19e034b77f7b9e9b5a70cec4346f145bfc35864736f6c634300080d0033" ) )
+    rule  ( #initBytecode ( S2KsrcZModduplicatesZMod2ZModDuplicateName ) => #parseByteStack ( "0x6080604052348015600f57600080fd5b50606580601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063a16d8ccd14602d575b600080fd5b00fea2646970667358221220803923ddd7316f5dc93c16701c2aaffb8970849eee42927a5cc11e4eb382eb9564736f6c634300080d0033" ) )
+      
+    
+    syntax Bytes ::= S2KsrcZModduplicatesZMod2ZModDuplicateNameContract "." S2KsrcZModduplicatesZMod2ZModDuplicateNameMethod [function(), symbol(), klabel(method_src%duplicates%2%DuplicateName)]
+    
+    syntax S2KsrcZModduplicatesZMod2ZModDuplicateNameMethod ::= "S2KduplicateNamedFunction" "(" ")" [symbol(), klabel(method_src%duplicates%2%DuplicateName_S2KduplicateNamedFunction_)]
+    
+    rule  ( S2KsrcZModduplicatesZMod2ZModDuplicateName . S2KduplicateNamedFunction ( ) => #abiCallData ( "duplicateNamedFunction" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "duplicateNamedFunction()" ) => 2708311245 )
       
 
 endmodule
