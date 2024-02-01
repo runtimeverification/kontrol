@@ -8,9 +8,10 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KSequence, KVariable, Subst
+from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
+from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
@@ -379,26 +380,22 @@ def _method_to_cfg(
 
     if isinstance(method, Contract.Constructor):
         program = KEVM.init_bytecode(KApply(f'contract_{contract.name_with_path}'))
-        use_init_code = True
 
     elif isinstance(method, Contract.Method):
         calldata = method.calldata_cell(contract)
         callvalue = method.callvalue_cell
         program = KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
-        use_init_code = False
-
-    proof_prefixes = ['test', 'prove', 'check']
-    is_test = any(method.signature.startswith(prefix) for prefix in proof_prefixes)
-    failing = any(method.signature.startswith(prefix + 'Fail') for prefix in proof_prefixes)
 
     init_cterm = _init_cterm(
         empty_config,
         program=program,
-        calldata=calldata,
-        callvalue=callvalue,
         use_gas=use_gas,
         summary_entries=summary_entries,
-        symbolic_exploration=not (is_test or method.is_setup or use_init_code),
+        is_test=method.is_test,
+        is_setup=method.is_setup,
+        calldata=calldata,
+        callvalue=callvalue,
+        is_constructor=isinstance(method, Contract.Constructor),
     )
     new_node_ids = []
 
@@ -429,7 +426,7 @@ def _method_to_cfg(
         init_node_id = init_node.id
 
     final_cterm = _final_cterm(
-        empty_config, contract.name_with_path, failing=failing, is_test=is_test, use_init_code=use_init_code
+        empty_config, program, failing=method.is_testfail, is_test=method.is_test, is_setup=method.is_setup
     )
     target_node = cfg.create_node(final_cterm)
 
@@ -482,6 +479,8 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'SINGLECALL_CELL', singlecall_cell), [])
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
+
+    new_init_cterm = KEVM.add_invariant(new_init_cterm)
 
     return new_init_cterm
 
@@ -539,13 +538,14 @@ def _init_cterm(
     empty_config: KInner,
     program: KInner,
     use_gas: bool,
-    symbolic_exploration: bool,
+    is_test: bool,
+    is_setup: bool,
+    is_constructor: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
     summary_entries: Iterable[SummaryEntry] | None = None,
 ) -> CTerm:
-    init_account_list = _create_initial_account_list(program, symbolic_exploration, summary_entries)
     schedule = KApply('SHANGHAI_EVM')
 
     init_subst = {
@@ -553,27 +553,17 @@ def _init_cterm(
         'USEGAS_CELL': TRUE if use_gas else FALSE,
         'SCHEDULE_CELL': schedule,
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
-        'CALLSTACK_CELL': list_empty(),
-        'CALLDEPTH_CELL': intToken(0),
         'PROGRAM_CELL': program,
         'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
-        'ORIGIN_CELL': KVariable('ORIGIN_ID'),
-        'LOG_CELL': list_empty(),
-        'ID_CELL': Foundry.address_TEST_CONTRACT(),
-        'CALLER_CELL': KVariable('CALLER_ID'),
-        'TOUCHEDACCOUNTS_CELL': set_empty(),
-        'ACCESSEDACCOUNTS_CELL': set_empty(),
-        'ACCESSEDSTORAGE_CELL': map_empty(),
-        'INTERIMSTATES_CELL': list_empty(),
-        'LOCALMEM_CELL': KApply('.Bytes_BYTES-HOOKED_Bytes'),
+        'ORIGIN_CELL': KVariable('ORIGIN_ID', sort=KSort('Int')),
+        'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),
+        'LOCALMEM_CELL': bytesToken(b''),
         'ACTIVE_CELL': FALSE,
-        'STATIC_CELL': FALSE,
         'MEMORYUSED_CELL': intToken(0),
         'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
         'PC_CELL': intToken(0),
         'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
         'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),
-        'ACCOUNTS_CELL': KEVM.accounts(init_account_list),
         'SINGLECALL_CELL': FALSE,
         'ISREVERTEXPECTED_CELL': FALSE,
         'ISOPCODEEXPECTED_CELL': FALSE,
@@ -584,6 +574,23 @@ def _init_cterm(
         'ADDRESSSET_CELL': set_empty(),
         'STORAGESLOTSET_CELL': set_empty(),
     }
+
+    if is_test or is_setup or is_constructor:
+        init_account_list = _create_initial_account_list(program, summary_entries)
+        init_subst_test = {
+            'OUTPUT_CELL': bytesToken(b''),
+            'CALLSTACK_CELL': list_empty(),
+            'CALLDEPTH_CELL': intToken(0),
+            'ID_CELL': Foundry.address_TEST_CONTRACT(),
+            'LOG_CELL': list_empty(),
+            'ACCESSEDACCOUNTS_CELL': set_empty(),
+            'ACCESSEDSTORAGE_CELL': map_empty(),
+            'INTERIMSTATES_CELL': list_empty(),
+            'TOUCHEDACCOUNTS_CELL': set_empty(),
+            'STATIC_CELL': FALSE,
+            'ACCOUNTS_CELL': KEVM.accounts(init_account_list),
+        }
+        init_subst.update(init_subst_test)
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
@@ -596,52 +603,21 @@ def _init_cterm(
         init_subst['CALLGAS_CELL'] = intToken(0)
         init_subst['REFUND_CELL'] = intToken(0)
 
-    if symbolic_exploration:
-        init_subst.update(
-            {
-                'ID_CELL': Foundry.address_TEST_SYMBOLIC(),
-            }
-        )
-
-        keys_to_delete = [
-            'CALLSTACK_CELL',
-            'CALLDEPTH_CELL',
-            'LOG_CELL',
-            'INTERIMSTATES_CELL',
-            'TOUCHEDACCOUNTS_CELL',
-            'ACCESSEDACCOUNTS_CELL',
-            'ACCESSEDSTORAGE_CELL',
-        ]
-        for key in keys_to_delete:
-            del init_subst[key]
-
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
     init_cterm = KEVM.add_invariant(init_cterm)
+
     return init_cterm
 
 
-def _create_initial_account_list(
-    program: KInner, symbolic_exploration: bool, summary: Iterable[SummaryEntry] | None
-) -> list[KInner]:
-    _contract = (
-        KEVM.account_cell(
-            Foundry.address_TEST_SYMBOLIC(),
-            KVariable('CONTRACT_BAL'),
-            program,
-            KVariable('CONTRACT_STORAGE'),
-            KVariable('CONTRACT_ORIG_STORAGE'),
-            KVariable('CONTRACT_NONCE'),
-        )
-        if symbolic_exploration
-        else KEVM.account_cell(
-            Foundry.address_TEST_CONTRACT(),
-            intToken(0),
-            program,
-            map_empty(),
-            map_empty(),
-            intToken(1),
-        )
+def _create_initial_account_list(program: KInner, summary: Iterable[SummaryEntry] | None) -> list[KInner]:
+    _contract = KEVM.account_cell(
+        Foundry.address_TEST_CONTRACT(),
+        intToken(0),
+        program,
+        map_empty(),
+        map_empty(),
+        intToken(1),
     )
     init_account_list: list[KInner] = [
         _contract,
@@ -654,9 +630,14 @@ def _create_initial_account_list(
 
 
 def _final_cterm(
-    empty_config: KInner, contract_name: str, *, failing: bool, is_test: bool = True, use_init_code: bool = False
+    empty_config: KInner,
+    program: KInner,
+    *,
+    failing: bool,
+    is_test: bool = True,
+    is_setup: bool = False,
 ) -> CTerm:
-    final_term = _final_term(empty_config, contract_name, is_test, use_init_code=use_init_code)
+    final_term = _final_term(empty_config, program, is_test=is_test, is_setup=is_setup)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     foundry_success = Foundry.success(
         KVariable('STATUSCODE_FINAL'),
@@ -675,14 +656,9 @@ def _final_cterm(
     return final_cterm
 
 
-def _final_term(empty_config: KInner, contract_name: str, is_test: bool, use_init_code: bool = False) -> KInner:
-    program = (
-        KEVM.init_bytecode(KApply(f'contract_{contract_name}'))
-        if use_init_code
-        else KEVM.bin_runtime(KApply(f'contract_{contract_name}'))
-    )
+def _final_term(empty_config: KInner, program: KInner, is_test: bool, is_setup: bool) -> KInner:
     post_account_cell = KEVM.account_cell(
-        Foundry.address_TEST_CONTRACT() if is_test else Foundry.address_TEST_SYMBOLIC(),
+        Foundry.address_TEST_CONTRACT(),
         KVariable('ACCT_BALANCE_FINAL'),
         program,
         KVariable('ACCT_STORAGE_FINAL'),
@@ -692,14 +668,6 @@ def _final_term(empty_config: KInner, contract_name: str, is_test: bool, use_ini
     final_subst = {
         'K_CELL': KSequence([KEVM.halt(), KVariable('CONTINUATION')]),
         'STATUSCODE_CELL': KVariable('STATUSCODE_FINAL'),
-        'ID_CELL': Foundry.address_TEST_CONTRACT(),
-        'ACCOUNTS_CELL': KEVM.accounts(
-            [
-                post_account_cell,  # test contract address
-                Foundry.account_CHEATCODE_ADDRESS(KVariable('CHEATCODE_STORAGE_FINAL')),
-                KVariable('ACCOUNTS_FINAL'),
-            ]
-        ),
         'ISREVERTEXPECTED_CELL': KVariable('ISREVERTEXPECTED_FINAL'),
         'ISOPCODEEXPECTED_CELL': KVariable('ISOPCODEEXPECTED_FINAL'),
         'RECORDEVENT_CELL': KVariable('RECORDEVENT_FINAL'),
@@ -709,12 +677,19 @@ def _final_term(empty_config: KInner, contract_name: str, is_test: bool, use_ini
         'ADDRESSSET_CELL': KVariable('ADDRESSSET_FINAL'),
         'STORAGESLOTSET_CELL': KVariable('STORAGESLOTSET_FINAL'),
     }
-    if not is_test:
-        final_subst.update(
-            {
-                'ID_CELL': Foundry.address_TEST_SYMBOLIC(),
-            }
-        )
+
+    if is_test or is_setup:
+        final_subst_test = {
+            'ID_CELL': Foundry.address_TEST_CONTRACT(),
+            'ACCOUNTS_CELL': KEVM.accounts(
+                [
+                    post_account_cell,  # test contract address
+                    Foundry.account_CHEATCODE_ADDRESS(KVariable('CHEATCODE_STORAGE_FINAL')),
+                    KVariable('ACCOUNTS_FINAL'),
+                ]
+            ),
+        }
+        final_subst.update(final_subst_test)
 
     return abstract_cell_vars(
         Subst(final_subst)(empty_config),
