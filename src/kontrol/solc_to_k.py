@@ -71,15 +71,16 @@ class Input:
     type: str
     components: tuple[Input, ...] = ()
     idx: int = 0
-    array_lengths: list[int] | None = None
+    array_lengths: tuple[int, ...] | None = None
     dynamic_type_length: int | None = None
 
     @staticmethod
     def from_dict(input: dict, idx: int = 0, natspec_lengths: dict | None = None) -> Input:
         """
-        Creates an Input instance from a dictionary, optionally using the devdocs for
-        calculating array and dynamic type lengths. For tuples, it handles nested 'components'
-        recursively.
+        Creates an Input instance from a dictionary.
+
+        If the optional devdocs is provided, it is used for calculating array and dynamic type lengths.
+        For tuples, the function handles nested 'components' recursively.
         """
         name = input.get('name')
         type = input.get('type')
@@ -129,14 +130,12 @@ class Input:
     @staticmethod
     def _unwrap_components(components: list[dict], idx: int = 0, natspec_lengths: dict | None = None) -> list[Input]:
         """
-        Recursively unwraps components of a complex type to create a list of Input instances.
-        Parameters:
-        - components (list[dict]): A list of dictionaries representing component structures.
-        - idx (int): Starting index for components, defaults to 0.
-        - natspec_lengths (dict | None): Optional dictionary for calculating array and dynamic type lengths.
+        Recursively unwrap components of a complex type to create a list of Input instances.
 
-        Returns:
-        list[Input]: A list of Input instances for each component, including nested components.
+        :param components:: A list of dictionaries representing component structures
+        :param idx: Starting index for components, defaults to 0
+        :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
+        :return: A list of Input instances for each component, including nested components
         """
         return [
             Input(
@@ -173,10 +172,11 @@ def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) ->
     return inputs
 
 
-def process_length_equals(input_dict: dict, lengths: dict) -> tuple[list[int] | None, int | None]:
+def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, ...] | None, int | None]:
     """
-    Reads from NatSpec comments the maximum length bound of an array, dynamic type, array of dynamic type, or nested arrays.
-    In case of arrays and nested arrays, the bound values are stored in a list.
+    Read from NatSpec comments the maximum length bound of an array, dynamic type, array of dynamic type, or nested arrays.
+
+    In case of arrays and nested arrays, the bound values are stored in an immutable list.
     In case of dynamic types such as `string` and `bytes` the length bound is stored in its own variable.
     As a convention, the length of a nested array or of a dynamic type array is accessed by appending `[]` to the name of the variable.
     i.e. for `bytes[][] _b`, the lengths are registered as:
@@ -189,20 +189,21 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[list[int] | 
     _name: str = input_dict['name']
     _type: str = input_dict['type']
     dynamic_type_length: int | None
-    input_array_lengths: list[int] | None
+    input_array_lengths: tuple[int, ...] | None
     array_lengths: list[int] = []
     while _type.endswith('[]'):
         array_lengths.append(lengths.get(_name, 2))
         _type = _type[:-2]
         _name += '[]'
-    input_array_lengths = array_lengths if array_lengths else None
+    input_array_lengths = tuple(array_lengths) if array_lengths else None
     dynamic_type_length = lengths.get(_name) if _type in ['bytes', 'string'] else None
     return (input_array_lengths, dynamic_type_length)
 
 
 def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     """
-    Parses developer documentation (devdoc) to extract specific information based on a given tag.
+    Parse developer documentation (devdoc) to extract specific information based on a given tag.
+
     Example:
         If devdoc contains { 'custom:kontrol-length-equals': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
         and the function is called with tag='custom:kontrol-length-equals', it would return:
