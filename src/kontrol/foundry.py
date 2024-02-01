@@ -373,13 +373,14 @@ class Foundry:
         return res_lines
 
     @staticmethod
-    def filter_proof_ids(proof_ids: list[str], regex: str, version: int | None = None) -> list[str]:
+    def filter_proof_ids(proof_ids: list[str], test: str, version: int | None = None) -> list[str]:
         """
         Searches for proof IDs that match a specified test name and an optional version number.
 
         Each proof ID is expected to follow the format 'proof_dir_1%proof_dir_2%proof_name:version'.
         Only proof IDs that match the given criteria are included in the returned list.
         """
+        regex = single(Foundry._escape_brackets([test]))
         matches = []
         for pid in proof_ids:
             try:
@@ -393,9 +394,8 @@ class Foundry:
         return matches
 
     def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
-        regex = single(self._escape_brackets([test]))
-        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), regex, version)
-        _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {regex}:{version}: {proof_ids}')
+        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), test, version)
+        _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {test}:{version}: {proof_ids}')
         return proof_ids
 
     def get_apr_proof(self, test_id: str) -> APRProof:
