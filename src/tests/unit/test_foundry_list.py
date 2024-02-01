@@ -4,9 +4,10 @@ from functools import cached_property
 from os import listdir
 from typing import TYPE_CHECKING, cast
 
+import pytest
 from pyk.proof.proof import Proof
 
-from kontrol.foundry import foundry_list
+from kontrol.foundry import Foundry, foundry_list
 from kontrol.solc_to_k import Contract
 
 from .utils import TEST_DATA_DIR
@@ -14,8 +15,6 @@ from .utils import TEST_DATA_DIR
 if TYPE_CHECKING:
     from pathlib import Path
     from typing import Final
-
-    from kontrol.foundry import Foundry
 
 
 LIST_DATA_DIR: Final = TEST_DATA_DIR / 'foundry-list'
@@ -60,4 +59,41 @@ def test_foundry_list(update_expected_output: bool) -> None:
         LIST_EXPECTED.write_text(actual)
         return
 
+    assert actual == expected
+
+
+PROOF_ID_DATA: list[tuple[str, str, list[str], list[str]]] = [
+    (
+        'common_case',
+        'AssertTest.setUp',
+        [
+            'test%AssertTest.setUp():0',
+            'test_1%test_2%ContractName.functionName(uint256):1',
+            'test_1%ContractName:functionName():0',
+        ],
+        ['test%AssertTest.setUp():0'],
+    ),
+    (
+        'nested_case',
+        'functionName',
+        [
+            'test%AssertTest.setUp():0',
+            'test_1%test_2%ContractName.functionName(uint256):1',
+            'test_1%ContractName:functionName():0',
+            'OtherContract.functionName(string):0',
+        ],
+        ['test_1%test_2%ContractName.functionName(uint256):1'],
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    'test_id,test_name,proof_ids,expected', PROOF_ID_DATA, ids=[test_id for test_id, *_ in PROOF_ID_DATA]
+)
+def test_proof_identification(test_id: str, test_name: str, proof_ids: list[str], expected: list[str]) -> None:
+
+    # When
+    actual = Foundry.filter_proof_ids(proof_ids, test_name)
+
+    # Then
     assert actual == expected
