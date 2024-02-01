@@ -376,19 +376,30 @@ class Foundry:
         )
         return res_lines
 
+    @staticmethod
+    def filter_proof_ids(proof_ids: list[str], regex: str, version: int | None = None) -> list[str]:
+        """
+        Searches for proof IDs that match a specified test name and, optionally,a specific version.
+        Each proof ID is expected to follow the format 'proof_dir_1%proof_dir_2%proof_name:version'.
+        Only proof IDs that match the given criteria are included in the returned list.
+        """
+        matches = []
+        for pid in proof_ids:
+            try:
+                proof_dir, proof_name_version = pid.rsplit('%', 1)
+                proof_name, proof_version_str = proof_name_version.split(':', 1)
+                proof_version = int(proof_version_str)
+            except ValueError:
+                continue
+            if re.search(regex, proof_name) and (version is None or version == proof_version):
+                matches.append(f'{proof_dir}%{proof_name}:{proof_version}')
+        return matches
+
     def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
         regex = single(self._escape_brackets([test]))
-        all_proof_ids: list[tuple[str, str, int]] = []
-        for pid in listdir(self.proofs_dir):
-            proof_dir = '%'.join(pid.split('%')[0:-1])
-            proof_name = pid.split('%')[-1].split(':')[0]
-            proof_version = int(pid.split(':')[1])
-            all_proof_ids.append((proof_dir, proof_name, proof_version))
-        proof_ids = [
-            (pd, pn, pv) for pd, pn, pv in all_proof_ids if re.search(regex, pn) and (version is None or version == pv)
-        ]
+        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), regex, version)
         _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {regex}:{version}: {proof_ids}')
-        return [f'{pd}%{pn}:{pv}' for pd, pn, pv in proof_ids]
+        return proof_ids
 
     def get_apr_proof(self, test_id: str) -> APRProof:
         proof = Proof.read_proof_data(self.proofs_dir, test_id)
