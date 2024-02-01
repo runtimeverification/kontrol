@@ -134,7 +134,7 @@
 
 Node 20:
 
-<generatedTop>
+( <generatedTop>
   <foundry>
     <kevm>
       <k>
@@ -171,6 +171,9 @@ Node 20:
             <id>
               728815563385977040452943777879061427756277306518
             </id>
+            <caller>
+              CALLER_ID:Int
+            </caller>
             <callData>
               b"*M\xe1\xa1"
             </callData>
@@ -212,6 +215,15 @@ Node 20:
             </accessedStorage>
             ...
           </substate>
+          <origin>
+            ORIGIN_ID:Int
+          </origin>
+          <block>
+            <number>
+              NUMBER_CELL:Int
+            </number>
+            ...
+          </block>
           ...
         </evm>
         <network>
@@ -312,6 +324,12 @@ Node 20:
   </foundry>
   ...
 </generatedTop>
+#And ( { true #Equals 0 <=Int CALLER_ID:Int }
+#And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
+#And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
+#And ( { true #Equals CALLER_ID:Int <Int pow160 }
+#And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
+#And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 } ) ) ) ) ) )
 
 
 
@@ -337,7 +355,7 @@ Node 20:
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   b""
                  </output>
                  <callStack>
                    .List
@@ -920,7 +938,7 @@ Node 20:
              <ethereum>
                <evm>
                  <output>
-                   ( b"" => ?_OUTPUT_CELL )
+                   b""
                  </output>
                  <statusCode>
                    ( EVMC_SUCCESS => ?_STATUSCODE )
@@ -1115,6 +1133,9 @@ Node 20:
              </useGas>
              <ethereum>
                <evm>
+                 <output>
+                   b""
+                 </output>
                  <callStack>
                    .List
                  </callStack>
@@ -1130,6 +1151,9 @@ Node 20:
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
                    <callData>
                      b"*M\xe1\xa1"
                    </callData>
@@ -1156,7 +1180,6 @@ Node 20:
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1173,6 +1196,15 @@ Node 20:
                    </accessedStorage>
                    ...
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -1266,6 +1298,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1290,6 +1329,9 @@ Node 20:
              </useGas>
              <ethereum>
                <evm>
+                 <output>
+                   b""
+                 </output>
                  <callStack>
                    .List
                  </callStack>
@@ -1305,6 +1347,9 @@ Node 20:
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
                    <callData>
                      b"*M\xe1\xa1"
                    </callData>
@@ -1331,7 +1376,6 @@ Node 20:
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1348,6 +1392,15 @@ Node 20:
                    </accessedStorage>
                    ...
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -1441,6 +1494,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
@@ -1469,7 +1529,7 @@ Node 20:
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   b""
                  </output>
                  <callStack>
                    .List
@@ -1486,6 +1546,9 @@ Node 20:
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
                    <callData>
                      b"*M\xe1\xa1"
                    </callData>
@@ -1512,7 +1575,6 @@ Node 20:
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1529,6 +1591,15 @@ Node 20:
                    </accessedStorage>
                    ...
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -1627,6 +1698,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-9-TO-10)]
     
     rule [BASIC-BLOCK-10-TO-11]: <foundry>
@@ -1671,6 +1749,9 @@ Node 20:
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
                    <callData>
                      b"*M\xe1\xa1"
                    </callData>
@@ -1697,7 +1778,6 @@ Node 20:
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1714,6 +1794,15 @@ Node 20:
                    </accessedStorage>
                    ...
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -1812,6 +1901,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-10-TO-11)]
     
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
@@ -1850,7 +1946,7 @@ Node 20:
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Account
+                       CALLER_ID:Int
                      </caller>
                      <callData>
                        b"*M\xe1\xa1"
@@ -1946,7 +2042,7 @@ Node 20:
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     ( CALLER_ID:Account => 728815563385977040452943777879061427756277306518 )
+                     ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
                      ( b"*M\xe1\xa1" => b"\xf3\xad0#" )
@@ -1992,6 +2088,15 @@ Node 20:
                      .Map
                    </accessedStorage>
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -2090,6 +2195,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
@@ -2125,6 +2237,9 @@ Node 20:
                      <id>
                        728815563385977040452943777879061427756277306518
                      </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
                      <callData>
                        b"*M\xe1\xa1"
                      </callData>
@@ -2151,7 +2266,6 @@ Node 20:
                      <callDepth>
                        0
                      </callDepth>
-                     ...
                    </callState> )
                  </callStack>
                  <interimStates>
@@ -2266,6 +2380,15 @@ Node 20:
                      .Map
                    </accessedStorage>
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -2364,6 +2487,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -2400,6 +2530,9 @@ Node 20:
                      <id>
                        728815563385977040452943777879061427756277306518
                      </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
                      <callData>
                        b"*M\xe1\xa1"
                      </callData>
@@ -2426,7 +2559,6 @@ Node 20:
                      <callDepth>
                        0
                      </callDepth>
-                     ...
                    </callState> )
                  </callStack>
                  <interimStates>
@@ -2541,6 +2673,15 @@ Node 20:
                      .Map
                    </accessedStorage>
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -2639,6 +2780,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-13-TO-14)]
     
     rule [BASIC-BLOCK-14-TO-15]: <foundry>
@@ -2678,6 +2826,9 @@ Node 20:
                      <id>
                        728815563385977040452943777879061427756277306518
                      </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
                      <callData>
                        b"*M\xe1\xa1"
                      </callData>
@@ -2704,7 +2855,6 @@ Node 20:
                      <callDepth>
                        0
                      </callDepth>
-                     ...
                    </callState> )
                  </callStack>
                  <interimStates>
@@ -2819,6 +2969,15 @@ Node 20:
                      .Map
                    </accessedStorage>
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -2917,6 +3076,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-14-TO-15)]
     
     rule [BASIC-BLOCK-15-TO-16]: <foundry>
@@ -2956,6 +3122,9 @@ Node 20:
                      <id>
                        728815563385977040452943777879061427756277306518
                      </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
                      <callData>
                        b"*M\xe1\xa1"
                      </callData>
@@ -2982,7 +3151,6 @@ Node 20:
                      <callDepth>
                        0
                      </callDepth>
-                     ...
                    </callState> )
                  </callStack>
                  <interimStates>
@@ -3097,6 +3265,15 @@ Node 20:
                      .Map
                    </accessedStorage>
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -3195,6 +3372,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3237,6 +3421,9 @@ Node 20:
                      <id>
                        728815563385977040452943777879061427756277306518
                      </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
                      <callData>
                        b"*M\xe1\xa1"
                      </callData>
@@ -3263,7 +3450,6 @@ Node 20:
                      <callDepth>
                        0
                      </callDepth>
-                     ...
                    </callState> )
                  </callStack>
                  <interimStates>
@@ -3378,6 +3564,15 @@ Node 20:
                      .Map
                    </accessedStorage>
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -3476,6 +3671,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-16-TO-17)]
     
     rule [BASIC-BLOCK-17-TO-18]: <foundry>
@@ -3519,7 +3721,7 @@ Node 20:
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Account
+                       CALLER_ID:Int
                      </caller>
                      <callData>
                        b"*M\xe1\xa1"
@@ -3615,7 +3817,7 @@ Node 20:
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Account )
+                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
                    </caller>
                    <callData>
                      ( b"\xf3\xad0#" => b"*M\xe1\xa1" )
@@ -3661,6 +3863,15 @@ Node 20:
                      .Map
                    </accessedStorage>
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -3759,6 +3970,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-17-TO-18)]
     
     rule [BASIC-BLOCK-18-TO-19]: <foundry>
@@ -3801,6 +4019,9 @@ Node 20:
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
                    <callData>
                      b"*M\xe1\xa1"
                    </callData>
@@ -3827,7 +4048,6 @@ Node 20:
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
@@ -3844,6 +4064,15 @@ Node 20:
                    </accessedStorage>
                    ...
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -3942,6 +4171,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-18-TO-19)]
     
     rule [BASIC-BLOCK-19-TO-20]: <foundry>
@@ -3984,6 +4220,9 @@ Node 20:
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
                    <callData>
                      b"*M\xe1\xa1"
                    </callData>
@@ -4010,7 +4249,6 @@ Node 20:
                    <callDepth>
                      0
                    </callDepth>
-                   ...
                  </callState>
                  <substate>
                    <log>
@@ -4027,6 +4265,15 @@ Node 20:
                    </accessedStorage>
                    ...
                  </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   ...
+                 </block>
                  ...
                </evm>
                <network>
@@ -4125,6 +4372,13 @@ Node 20:
              </whitelist>
            </cheatcodes>
          </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+               ))))))
       [label(BASIC-BLOCK-19-TO-20)]
 
 endmodule
@@ -4135,10 +4389,18 @@ Failing nodes:
   Node id: 20
   Failure reason:
     Implication check failed, the following is the remaining implication:
-    { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    ( ( { true #Equals 0 <=Int CALLER_ID:Int }
+    #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
+    #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
+    #And ( { true #Equals CALLER_ID:Int <Int pow160 }
+    #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
+    #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 } ) ) ) ) ) #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
   Path condition:
     #Top
-  Failed to generate a model.
+  Model:
+    CALLER_ID = 0
+    NUMBER_CELL = 0
+    ORIGIN_ID = 0
 
 Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
 

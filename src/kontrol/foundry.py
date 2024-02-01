@@ -249,7 +249,7 @@ class Foundry:
 
     def build(self) -> None:
         try:
-            run_process(['forge', 'build', '--root', str(self._root), '--extra-output', 'devdoc'], logger=_LOGGER)
+            run_process(['forge', 'build', '--root', str(self._root)], logger=_LOGGER)
         except FileNotFoundError:
             print("Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH.")
             sys.exit(1)
@@ -338,10 +338,6 @@ class Foundry:
     @staticmethod
     def address_TEST_CONTRACT() -> KToken:  # noqa: N802
         return intToken(0x7FA9385BE102AC3EAC297483DD6233D62B3E1496)
-
-    @staticmethod
-    def address_TEST_SYMBOLIC() -> KVariable:  # noqa: N802
-        return KVariable('CONTRACT_ID', sort=INT)
 
     @staticmethod
     def address_CHEATCODE() -> KToken:  # noqa: N802

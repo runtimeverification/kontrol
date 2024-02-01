@@ -71,7 +71,7 @@ class Input:
     type: str
     components: tuple[Input, ...] = ()
     idx: int = 0
-    array_lengths: list[int] | None = None
+    array_lengths: tuple[int, ...] | None = None
     dynamic_type_length: int | None = None
 
     @cached_property
@@ -81,16 +81,17 @@ class Input:
     @staticmethod
     def from_dict(input: dict, idx: int = 0, natspec_lengths: dict | None = None) -> Input:
         """
-        Creates an Input instance from a dictionary, optionally using the devdocs for
-        calculating array and dynamic type lengths. For tuples, it handles nested 'components'
-        recursively.
+        Creates an Input instance from a dictionary.
+
+        If the optional devdocs is provided, it is used for calculating array and dynamic type lengths.
+        For tuples, the function handles nested 'components' recursively.
         """
         name = input.get('name')
         type = input.get('type')
         if name is None or type is None:
             raise ValueError("ABI dictionary must contain 'name' and 'type' keys.", input)
         array_lengths, dynamic_type_length = (
-            get_input_length(input, natspec_lengths) if natspec_lengths is not None else (None, None)
+            process_length_equals(input, natspec_lengths) if natspec_lengths is not None else (None, None)
         )
         if input.get('components') is not None:
             return Input(
@@ -133,14 +134,12 @@ class Input:
     @staticmethod
     def _unwrap_components(components: list[dict], idx: int = 0, natspec_lengths: dict | None = None) -> list[Input]:
         """
-        Recursively unwraps components of a complex type to create a list of Input instances.
-        Parameters:
-        - components (list[dict]): A list of dictionaries representing component structures.
-        - idx (int): Starting index for components, defaults to 0.
-        - natspec_lengths (dict | None): Optional dictionary for calculating array and dynamic type lengths.
+        Recursively unwrap components of a complex type to create a list of Input instances.
 
-        Returns:
-        list[Input]: A list of Input instances for each component, including nested components.
+        :param components:: A list of dictionaries representing component structures
+        :param idx: Starting index for components, defaults to 0
+        :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
+        :return: A list of Input instances for each component, including nested components
         """
         return [
             Input(
@@ -148,7 +147,7 @@ class Input:
                 component['type'],
                 tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
                 idx,
-                *get_input_length(component, natspec_lengths) if natspec_lengths else (None, None),
+                *process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None),
             )
             for idx, component in enumerate(components, start=idx)
         ]
@@ -206,10 +205,11 @@ def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) ->
     return inputs
 
 
-def get_input_length(input_dict: dict, lengths: dict) -> tuple[list[int] | None, int | None]:
+def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, ...] | None, int | None]:
     """
-    Reads from NatSpec comments the maximum length bound of an array, dynamic type, array of dynamic type, or nested arrays.
-    In case of arrays and nested arrays, the bound values are stored in a list.
+    Read from NatSpec comments the maximum length bound of an array, dynamic type, array of dynamic type, or nested arrays.
+
+    In case of arrays and nested arrays, the bound values are stored in an immutable list.
     In case of dynamic types such as `string` and `bytes` the length bound is stored in its own variable.
     As a convention, the length of a nested array or of a dynamic type array is accessed by appending `[]` to the name of the variable.
     i.e. for `bytes[][] _b`, the lengths are registered as:
@@ -217,28 +217,29 @@ def get_input_length(input_dict: dict, lengths: dict) -> tuple[list[int] | None,
         _b[]: length of the inner array
         _b[][]: length of the `bytes` elements in the inner array.
     If an array length is missing, the default value will be `2` to avoid generating symbolic variables.
-    The dynamic type length is optional, it's lack off will cause branchings in symbolic execution.
+    The dynamic type length is optional, ommiting it may cause branchings in symbolic execution.
     """
     _name: str = input_dict['name']
     _type: str = input_dict['type']
     dynamic_type_length: int | None
-    input_array_lengths: list[int] | None
+    input_array_lengths: tuple[int, ...] | None
     array_lengths: list[int] = []
     while _type.endswith('[]'):
         array_lengths.append(lengths.get(_name, 2))
         _type = _type[:-2]
         _name += '[]'
-    input_array_lengths = array_lengths if array_lengths else None
+    input_array_lengths = tuple(array_lengths) if array_lengths else None
     dynamic_type_length = lengths.get(_name) if _type in ['bytes', 'string'] else None
     return (input_array_lengths, dynamic_type_length)
 
 
 def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     """
-    Parses developer documentation (devdoc) to extract specific information based on a given tag.
+    Parse developer documentation (devdoc) to extract specific information based on a given tag.
+
     Example:
-        If devdoc contains { 'custom:length': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
-        and the function is called with tag='custom:length', it would return:
+        If devdoc contains { 'custom:kontrol-length-equals': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
+        and the function is called with tag='custom:kontrol-length-equals', it would return:
         { '_withdrawalProof': 10, '_withdrawalProof[]': 600, '_l2OutputIndex': 4 }
     """
 
@@ -297,6 +298,14 @@ class Contract:
 
         @cached_property
         def is_setup(self) -> bool:
+            return False
+
+        @cached_property
+        def is_test(self) -> bool:
+            return False
+
+        @cached_property
+        def is_testfail(self) -> bool:
             return False
 
         @cached_property
@@ -366,7 +375,7 @@ class Contract:
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
             self.ast = ast
-            self.natspec_values = parse_devdoc('custom:length', devdoc)
+            self.natspec_values = parse_devdoc('custom:kontrol-length-equals', devdoc)
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
 
         @property
@@ -394,6 +403,16 @@ class Contract:
         @cached_property
         def is_setup(self) -> bool:
             return self.name == 'setUp'
+
+        @cached_property
+        def is_test(self) -> bool:
+            proof_prefixes = ['test', 'check', 'prove']
+            return any(self.name.startswith(prefix) for prefix in proof_prefixes)
+
+        @cached_property
+        def is_testfail(self) -> bool:
+            proof_prefixes = ['testFail', 'checkFail', 'proveFail']
+            return any(self.name.startswith(prefix) for prefix in proof_prefixes)
 
         @cached_property
         def flat_inputs(self) -> tuple[Input, ...]:
