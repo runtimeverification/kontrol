@@ -184,6 +184,14 @@ class Contract:
             return False
 
         @cached_property
+        def is_test(self) -> bool:
+            return False
+
+        @cached_property
+        def is_testfail(self) -> bool:
+            return False
+
+        @cached_property
         def qualified_name(self) -> str:
             return f'{self.contract_name}.init'
 
@@ -275,6 +283,16 @@ class Contract:
         @cached_property
         def is_setup(self) -> bool:
             return self.name == 'setUp'
+
+        @cached_property
+        def is_test(self) -> bool:
+            proof_prefixes = ['test', 'check', 'prove']
+            return any(self.name.startswith(prefix) for prefix in proof_prefixes)
+
+        @cached_property
+        def is_testfail(self) -> bool:
+            proof_prefixes = ['testFail', 'checkFail', 'proveFail']
+            return any(self.name.startswith(prefix) for prefix in proof_prefixes)
 
         @cached_property
         def flat_inputs(self) -> tuple[Input, ...]:
