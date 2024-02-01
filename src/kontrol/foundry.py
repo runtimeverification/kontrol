@@ -375,7 +375,8 @@ class Foundry:
     @staticmethod
     def filter_proof_ids(proof_ids: list[str], regex: str, version: int | None = None) -> list[str]:
         """
-        Searches for proof IDs that match a specified test name and, optionally,a specific version.
+        Searches for proof IDs that match a specified test name and an optional version number.
+        
         Each proof ID is expected to follow the format 'proof_dir_1%proof_dir_2%proof_name:version'.
         Only proof IDs that match the given criteria are included in the returned list.
         """
