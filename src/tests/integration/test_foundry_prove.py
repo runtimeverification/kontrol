@@ -326,8 +326,6 @@ def test_foundry_auto_abstraction(
 ) -> None:
     test_id = 'GasTest.testInfiniteGas()'
 
-    print(listdir(foundry.proofs_dir))
-
     foundry_prove(
         foundry,
         tests=[(test_id, None)],
@@ -340,8 +338,6 @@ def test_foundry_auto_abstraction(
             port=server.port,
         ),
     )
-
-    print(listdir(foundry.proofs_dir))
 
     if not no_use_booster:
         return
