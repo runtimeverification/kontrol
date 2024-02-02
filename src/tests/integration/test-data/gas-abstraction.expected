@@ -386,6 +386,9 @@ Node 6:
           .Set
         </storageSlotSet>
       </whitelist>
+      <mockCalls>
+        .MockCallCellMap
+      </mockCalls>
     </cheatcodes>
   </foundry>
   <generatedCounter>
@@ -581,6 +584,9 @@ Node 6:
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -773,6 +779,9 @@ Node 6:
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -965,6 +974,9 @@ Node 6:
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
