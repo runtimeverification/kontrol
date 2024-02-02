@@ -202,7 +202,7 @@
                        _GASUSED_CELL
                      </gasUsed>
                      <timestamp>
-                       _TIMESTAMP_CELL
+                       TIMESTAMP_CELL:Int
                      </timestamp>
                      <extraData>
                        _EXTRADATA_CELL
@@ -370,10 +370,12 @@
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <generatedTop>
@@ -511,7 +513,7 @@
                        _GASUSED_CELL
                      </gasUsed>
                      <timestamp>
-                       _TIMESTAMP_CELL
+                       TIMESTAMP_CELL:Int
                      </timestamp>
                      <extraData>
                        _EXTRADATA_CELL
@@ -679,10 +681,12 @@
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <generatedTop>
@@ -820,7 +824,7 @@
                        _GASUSED_CELL
                      </gasUsed>
                      <timestamp>
-                       _TIMESTAMP_CELL
+                       TIMESTAMP_CELL:Int
                      </timestamp>
                      <extraData>
                        _EXTRADATA_CELL
@@ -988,10 +992,12 @@
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <generatedTop>
@@ -1127,7 +1133,7 @@
                        _GASUSED_CELL
                      </gasUsed>
                      <timestamp>
-                       _TIMESTAMP_CELL
+                       TIMESTAMP_CELL:Int
                      </timestamp>
                      <extraData>
                        _EXTRADATA_CELL
@@ -1295,10 +1301,12 @@
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-8]: <generatedTop>
@@ -1436,7 +1444,7 @@
                        _GASUSED_CELL
                      </gasUsed>
                      <timestamp>
-                       _TIMESTAMP_CELL
+                       TIMESTAMP_CELL:Int
                      </timestamp>
                      <extraData>
                        _EXTRADATA_CELL
@@ -1604,10 +1612,12 @@
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <generatedTop>
@@ -1745,7 +1755,7 @@
                        _GASUSED_CELL
                      </gasUsed>
                      <timestamp>
-                       _TIMESTAMP_CELL
+                       TIMESTAMP_CELL:Int
                      </timestamp>
                      <extraData>
                        _EXTRADATA_CELL
@@ -1913,10 +1923,12 @@
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <generatedTop>
@@ -2054,7 +2066,7 @@
                        _GASUSED_CELL
                      </gasUsed>
                      <timestamp>
-                       _TIMESTAMP_CELL
+                       TIMESTAMP_CELL:Int
                      </timestamp>
                      <extraData>
                        _EXTRADATA_CELL
@@ -2222,10 +2234,12 @@
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-10)]
 
 endmodule
