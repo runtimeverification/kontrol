@@ -81,7 +81,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                 foundry=Foundry(foundry_root),
                 includes=(),
                 requires=[str(TEST_DATA_DIR / 'lemmas.k')],
-                imports=['LoopsTest:SUM-TO-N-INVARIANT'],
+                imports=['LoopsTest:SUM-TO-N-INVARIANT', 'FreshIntTest:SYMBOLIC-BYTES-LEMMAS'],
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
@@ -326,6 +326,8 @@ def test_foundry_auto_abstraction(
 ) -> None:
     test_id = 'GasTest.testInfiniteGas()'
 
+    print(listdir(foundry.proofs_dir))
+
     foundry_prove(
         foundry,
         tests=[(test_id, None)],
@@ -338,6 +340,8 @@ def test_foundry_auto_abstraction(
             port=server.port,
         ),
     )
+
+    print(listdir(foundry.proofs_dir))
 
     if not no_use_booster:
         return

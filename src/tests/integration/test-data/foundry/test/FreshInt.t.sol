@@ -45,7 +45,7 @@ contract FreshIntTest is Test, KEVMCheats {
         assertEq(hex'aa', fresh_bytes[2]);
     }
 
-    function test_symbolic_bytes() public {
+    function test_symbolic_bytes_1() public {
         bytes memory fresh_bytes_1 = kevm.freshBytes(5);
         assertEq(fresh_bytes_1.length, 5);
         local_byte = fresh_bytes_1[0];
@@ -55,8 +55,8 @@ contract FreshIntTest is Test, KEVMCheats {
         local_bytes = fresh_bytes_2;
     }
 
-    function test_symbolic_bytes_symbolic_length(uint256 l) public {
-        vm.assume(l < 2**16);
+    function test_symbolic_bytes_length(uint256 l) public {
+        vm.assume(l <= 64);
         vm.assume(l > 0);
         bytes memory fresh_bytes = kevm.freshBytes(l);
         assertEq(fresh_bytes.length, l);

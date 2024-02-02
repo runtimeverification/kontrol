@@ -19,9 +19,9 @@ module TEST-LEMMAS
     rule notMaxUInt248 &Int #asWord ( BA ) => #asWord ( #range(BA, 0, 1)  +Bytes #buf ( 31, 0 ) ) requires lengthBytes(BA) ==Int 32 [simplification]
 
 
-rule ( notMaxUInt5 &Int ( ( notMaxUInt5 &Int X ) +Int Y ) ) => ( notMaxUInt5 &Int X ) +Int ( notMaxUInt5 &Int Y )
-  requires #rangeUInt(256, X) andBool #rangeUInt(256, Y)
-  [simplification, concrete(Y)]
+    rule ( notMaxUInt5 &Int ( ( notMaxUInt5 &Int X ) +Int Y ) ) => ( notMaxUInt5 &Int X ) +Int ( notMaxUInt5 &Int Y )
+      requires #rangeUInt(256, X) andBool #rangeUInt(256, Y)
+      [simplification, concrete(Y)]
 
 
 endmodule
