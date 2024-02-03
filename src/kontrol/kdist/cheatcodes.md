@@ -437,16 +437,14 @@ function freshBytes(uint256) external returns (bytes memory);
 ```
 
 `foundry.call.freshBytes` will match when the `freshBytes` cheat code function is called.
-This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
+This rule returns a fully symbolic byte array value of the given length.
 
 ```{.k .symbolic}
     rule [foundry.call.freshBytes]:
          <k> #call_foundry SELECTOR ARGS => . ... </k>
          <output> _ => 
             #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES 
-//            +Bytes #buf ((32 -Int (#asWord(ARGS) modInt 32)) modInt 32, 0)
             +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 ) 
-//              +Bytes #buf ( #asWord(ARGS) modInt 32, 0 )
          </output>
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
