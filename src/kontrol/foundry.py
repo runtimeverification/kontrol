@@ -616,7 +616,7 @@ def foundry_show(
             _LOGGER.warning(f'No claims retained for proof {proof.id}')
 
         else:
-            module_name = re.sub(r'[%().:,]+', '-', proof.id.upper()) + '-SPEC'
+            module_name = re.sub(r'[_%().:,]+', '-', proof.id.upper()) + '-SPEC'
             module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
             defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
 
