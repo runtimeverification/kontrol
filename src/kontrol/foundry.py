@@ -540,7 +540,7 @@ def foundry_show(
         '<code>',
     ]
 
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
+    node_printer = foundry_node_printer(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
 
     res_lines = proof_show.show(
@@ -934,38 +934,42 @@ def read_contract_names(contract_names: Path) -> dict[str, str]:
 class FoundryNodePrinter(KEVMNodePrinter):
     foundry: Foundry
     contract_name: str
+    omit_unstable_output: bool
 
-    def __init__(self, foundry: Foundry, contract_name: str):
+    def __init__(self, foundry: Foundry, contract_name: str, omit_unstable_output: bool = False):
         KEVMNodePrinter.__init__(self, foundry.kevm)
         self.foundry = foundry
         self.contract_name = contract_name
+        self.omit_unstable_output = omit_unstable_output
 
     def print_node(self, kcfg: KCFG, node: KCFG.Node) -> list[str]:
         ret_strs = super().print_node(kcfg, node)
         _pc = node.cterm.try_cell('PC_CELL')
         if type(_pc) is KToken and _pc.sort == INT:
             srcmap_data = self.foundry.srcmap_data(self.contract_name, int(_pc.token))
-            if srcmap_data is not None:
+            if not omit_unstable_output and srcmap_data is not None:
                 path, start, end = srcmap_data
                 ret_strs.append(f'src: {str(path)}:{start}:{end}')
         return ret_strs
 
 
 class FoundryAPRNodePrinter(FoundryNodePrinter, APRProofNodePrinter):
-    def __init__(self, foundry: Foundry, contract_name: str, proof: APRProof):
-        FoundryNodePrinter.__init__(self, foundry, contract_name)
+    def __init__(self, foundry: Foundry, contract_name: str, proof: APRProof, omit_unstable_output: bool = False):
+        FoundryNodePrinter.__init__(self, foundry, contract_name, omit_unstable_output=omit_unstable_output)
         APRProofNodePrinter.__init__(self, proof, foundry.kevm)
 
 
 class FoundryAPRBMCNodePrinter(FoundryNodePrinter, APRBMCProofNodePrinter):
-    def __init__(self, foundry: Foundry, contract_name: str, proof: APRBMCProof):
-        FoundryNodePrinter.__init__(self, foundry, contract_name)
+    def __init__(self, foundry: Foundry, contract_name: str, proof: APRBMCProof, omit_unstable_output: bool = False):
+        FoundryNodePrinter.__init__(self, foundry, contract_name, omit_unstable_output=omit_unstable_output)
         APRBMCProofNodePrinter.__init__(self, proof, foundry.kevm)
 
 
-def foundry_node_printer(foundry: Foundry, contract_name: str, proof: APRProof) -> NodePrinter:
+def foundry_node_printer(
+    foundry: Foundry, contract_name: str, proof: APRProof, omit_unstable_output: bool = False
+) -> NodePrinter:
     if type(proof) is APRBMCProof:
-        return FoundryAPRBMCNodePrinter(foundry, contract_name, proof)
+        return FoundryAPRBMCNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     if type(proof) is APRProof:
-        return FoundryAPRNodePrinter(foundry, contract_name, proof)
+        return FoundryAPRNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
