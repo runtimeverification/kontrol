@@ -64,10 +64,6 @@ jobs:
     needs: code-quality-checks
     name: 'Profiling'
     runs-on: [self-hosted, linux, normal]
-    strategy:
-      fail-fast: false
-      matrix:
-        backend: ['legacy', 'booster']
     timeout-minutes: 30
     steps:
       - name: 'Check out code'
@@ -85,7 +81,6 @@ jobs:
       - name: 'Run profiling'
         run: |
           PROF_ARGS=--numprocesses=8
-          [ ${{ matrix.backend }} == 'legacy' ] && PROF_ARGS+=' --no-use-booster'
           docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} make profile PROF_ARGS="${PROF_ARGS}"
       - name: 'Tear down Docker'
         if: always()
@@ -96,10 +91,6 @@ jobs:
     needs: code-quality-checks
     name: 'Integration Tests'
     runs-on: [self-hosted, linux, normal, fast]
-    strategy:
-      fail-fast: false
-      matrix:
-        backend: ['legacy', 'booster']
     timeout-minutes: 180
     steps:
       - name: 'Check out code'
@@ -117,7 +108,6 @@ jobs:
       - name: 'Run integration tests'
         run: |
           TEST_ARGS=--numprocesses=8
-          [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()

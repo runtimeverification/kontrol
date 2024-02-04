@@ -123,7 +123,6 @@ def assert_or_update_k_output(k_file: Path, expected_file: Path, *, update: bool
 
 ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-prove-all').read_text().splitlines())
 SKIPPED_PROVE_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip').read_text().splitlines())
-SKIPPED_LEGACY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip-legacy').read_text().splitlines())
 GAS_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-with-gas').read_text().splitlines())
 
 SHOW_TESTS = set((TEST_DATA_DIR / 'foundry-show').read_text().splitlines())
@@ -134,15 +133,11 @@ def test_foundry_prove(
     test_id: str,
     foundry: Foundry,
     update_expected_output: bool,
-    no_use_booster: bool,
+    _no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
-    if (
-        test_id in SKIPPED_PROVE_TESTS
-        or (no_use_booster and test_id in SKIPPED_LEGACY_TESTS)
-        or (update_expected_output and not test_id in SHOW_TESTS)
-    ):
+    if test_id in SKIPPED_PROVE_TESTS or (update_expected_output and not test_id in SHOW_TESTS):
         pytest.skip()
 
     prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=test_id in GAS_TESTS)
@@ -160,7 +155,7 @@ def test_foundry_prove(
     # Then
     assert_pass(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or not no_use_booster:
+    if test_id not in SHOW_TESTS:
         return
 
     # And when
