@@ -133,7 +133,7 @@ def test_foundry_prove(
     test_id: str,
     foundry: Foundry,
     update_expected_output: bool,
-    _no_use_booster: bool,
+    no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
