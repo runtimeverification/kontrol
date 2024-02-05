@@ -913,6 +913,20 @@ Otherwise, throw an error for any other call to the Foundry contract.
       [owise]
 ```
 
+Mock calls
+----------
+
+#### `mockCall` - Mocks all calls to an address where if the call data either strictly or loosely
+matches data and returns retdata.
+
+```
+function mockCall(address where, bytes calldata data, bytes calldata retdata) external;
+```
+
+`foundry.call.mockCall` will match when the `mockCall` cheat code function is called.
+This rule then takes the `address` value from the function call data and etches a single byte into the account code, in case it is empty.
+The rule also takes the bytes `CALLDATA` and the bytes `RETURNDATA` from the function call data and forwards them, together with the address to be mocked, and forwards them to the `setMockCall` production.
+The `setMockCall` production will update the configuration in order to store the information of the mock call.
 
 ```k
     rule [foundry.call.mockCall]:
@@ -923,13 +937,11 @@ Otherwise, throw an error for any other call to the Foundry contract.
          ...
          </k> 
       requires SELECTOR ==Int selector ( "mockCall(address,bytes,bytes)" )
-
-    //rule [foundry.call.mockCallWithMsgValue]:
-    //     <k> #call_foundry SELECTOR ARGS
-    //        => #loadAccount #asWord(#range(ARGS, 0, 32))
-    //        ~> #setMockCall #asWord(#range(ARGS, 0, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) false ... </k>
-    //  requires SELECTOR ==Int selector ( "mockCall(address,uint256,bytes,bytes)" )
 ```
+
+We use the `#next[OP]` to identify OpCodes that represent function calls. If there is `<mockCall>` which `<mockAddress>`
+matches the `ACCTTO` and the `<mockValues>` has a key `CALLDATA` that matches some prefix of the fucntion call data then
+the `#clearMockCall` is inserted at the end of the function call to update the output.
 
 ```k
     rule [foundry.set.mockCall]:
