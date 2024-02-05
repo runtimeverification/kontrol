@@ -340,10 +340,6 @@ class Foundry:
         return intToken(0x7FA9385BE102AC3EAC297483DD6233D62B3E1496)
 
     @staticmethod
-    def address_TEST_SYMBOLIC() -> KVariable:  # noqa: N802
-        return KVariable('CONTRACT_ID', sort=INT)
-
-    @staticmethod
     def address_CHEATCODE() -> KToken:  # noqa: N802
         return intToken(0x7109709ECFA91A80626FF3989D68F67F5B1DD12D)
 
@@ -376,19 +372,31 @@ class Foundry:
         )
         return res_lines
 
+    @staticmethod
+    def filter_proof_ids(proof_ids: list[str], test: str, version: int | None = None) -> list[str]:
+        """
+        Searches for proof IDs that match a specified test name and an optional version number.
+
+        Each proof ID is expected to follow the format 'proof_dir_1%proof_dir_2%proof_name:version'.
+        Only proof IDs that match the given criteria are included in the returned list.
+        """
+        regex = single(Foundry._escape_brackets([test]))
+        matches = []
+        for pid in proof_ids:
+            try:
+                proof_dir, proof_name_version = pid.rsplit('%', 1)
+                proof_name, proof_version_str = proof_name_version.split(':', 1)
+                proof_version = int(proof_version_str)
+            except ValueError:
+                continue
+            if re.search(regex, proof_name) and (version is None or version == proof_version):
+                matches.append(f'{proof_dir}%{proof_name}:{proof_version}')
+        return matches
+
     def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
-        regex = single(self._escape_brackets([test]))
-        all_proof_ids: list[tuple[str, str, int]] = []
-        for pid in listdir(self.proofs_dir):
-            proof_dir = '%'.join(pid.split('%')[0:-1])
-            proof_name = pid.split('%')[1].split(':')[0]
-            proof_version = int(pid.split(':')[1])
-            all_proof_ids.append((proof_dir, proof_name, proof_version))
-        proof_ids = [
-            (pd, pn, pv) for pd, pn, pv in all_proof_ids if re.search(regex, pn) and (version is None or version == pv)
-        ]
-        _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {regex}:{version}: {proof_ids}')
-        return [f'{pd}%{pn}:{pv}' for pd, pn, pv in proof_ids]
+        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), test, version)
+        _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {test}:{version}: {proof_ids}')
+        return proof_ids
 
     def get_apr_proof(self, test_id: str) -> APRProof:
         proof = Proof.read_proof_data(self.proofs_dir, test_id)
@@ -532,7 +540,7 @@ def foundry_show(
         '<code>',
     ]
 
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
+    node_printer = foundry_node_printer(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
 
     res_lines = proof_show.show(
@@ -608,7 +616,7 @@ def foundry_show(
             _LOGGER.warning(f'No claims retained for proof {proof.id}')
 
         else:
-            module_name = re.sub(r'[%().:,]+', '-', proof.id.upper()) + '-SPEC'
+            module_name = Contract.escaped(proof.id.upper() + '-SPEC', '')
             module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
             defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
 
@@ -926,38 +934,42 @@ def read_contract_names(contract_names: Path) -> dict[str, str]:
 class FoundryNodePrinter(KEVMNodePrinter):
     foundry: Foundry
     contract_name: str
+    omit_unstable_output: bool
 
-    def __init__(self, foundry: Foundry, contract_name: str):
+    def __init__(self, foundry: Foundry, contract_name: str, omit_unstable_output: bool = False):
         KEVMNodePrinter.__init__(self, foundry.kevm)
         self.foundry = foundry
         self.contract_name = contract_name
+        self.omit_unstable_output = omit_unstable_output
 
     def print_node(self, kcfg: KCFG, node: KCFG.Node) -> list[str]:
         ret_strs = super().print_node(kcfg, node)
         _pc = node.cterm.try_cell('PC_CELL')
         if type(_pc) is KToken and _pc.sort == INT:
             srcmap_data = self.foundry.srcmap_data(self.contract_name, int(_pc.token))
-            if srcmap_data is not None:
+            if not self.omit_unstable_output and srcmap_data is not None:
                 path, start, end = srcmap_data
                 ret_strs.append(f'src: {str(path)}:{start}:{end}')
         return ret_strs
 
 
 class FoundryAPRNodePrinter(FoundryNodePrinter, APRProofNodePrinter):
-    def __init__(self, foundry: Foundry, contract_name: str, proof: APRProof):
-        FoundryNodePrinter.__init__(self, foundry, contract_name)
+    def __init__(self, foundry: Foundry, contract_name: str, proof: APRProof, omit_unstable_output: bool = False):
+        FoundryNodePrinter.__init__(self, foundry, contract_name, omit_unstable_output=omit_unstable_output)
         APRProofNodePrinter.__init__(self, proof, foundry.kevm)
 
 
 class FoundryAPRBMCNodePrinter(FoundryNodePrinter, APRBMCProofNodePrinter):
-    def __init__(self, foundry: Foundry, contract_name: str, proof: APRBMCProof):
-        FoundryNodePrinter.__init__(self, foundry, contract_name)
+    def __init__(self, foundry: Foundry, contract_name: str, proof: APRBMCProof, omit_unstable_output: bool = False):
+        FoundryNodePrinter.__init__(self, foundry, contract_name, omit_unstable_output=omit_unstable_output)
         APRBMCProofNodePrinter.__init__(self, proof, foundry.kevm)
 
 
-def foundry_node_printer(foundry: Foundry, contract_name: str, proof: APRProof) -> NodePrinter:
+def foundry_node_printer(
+    foundry: Foundry, contract_name: str, proof: APRProof, omit_unstable_output: bool = False
+) -> NodePrinter:
     if type(proof) is APRBMCProof:
-        return FoundryAPRBMCNodePrinter(foundry, contract_name, proof)
+        return FoundryAPRBMCNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     if type(proof) is APRProof:
-        return FoundryAPRNodePrinter(foundry, contract_name, proof)
+        return FoundryAPRNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')

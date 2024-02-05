@@ -3934,7 +3934,7 @@ module S2KsrcZModDeploymentSummary-CONTRACT
     
       
     
-    rule  ( #initBytecode ( S2KsrcZModDeploymentSummary ) => #parseByteStack ( "0x608060405234801561001057600080fd5b50610323806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c8063b5b8c44814610030575b600080fd5b61003861003a565b005b6000807f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d60001c6001600160a01b031663b4d6c782735615deb798bb3e4dfa0139dfa1b3d433cc23b72f60405180610140016040528061010681526020016101e861010691396040518363ffffffff1660e01b81526004016100bd929190610182565b600060405180830381600087803b1580156100d757600080fd5b505af11580156100eb573d6000803e3d6000fd5b50506040516370ca10bb60e01b8152735615deb798bb3e4dfa0139dfa1b3d433cc23b72f60048201526000602482018190526003604483018190529095509350737109709ecfa91a80626ff3989d68f67f5b1dd12d92506370ca10bb9150606401600060405180830381600087803b15801561016657600080fd5b505af115801561017a573d6000803e3d6000fd5b505050505050565b60018060a01b038316815260006020604081840152835180604085015260005b818110156101be578581018301518582016060015282016101a2565b818111156101d0576000606083870101525b50601f01601f19169290920160600194935050505056fe6080604052348015600f57600080fd5b5060043610603c5760003560e01c80633fb5c1cb1460415780638381f58a146053578063d09de08a14606d575b600080fd5b6051604c3660046083565b600055565b005b605b60005481565b60405190815260200160405180910390f35b6051600080549080607c83609b565b9190505550565b600060208284031215609457600080fd5b5035919050565b60007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff820360f2577f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b506001019056fea164736f6c634300080f000aa2646970667358221220508bddfc697c432603d0056d19ecbcd641ecaf8801b4cb67bb1074b5390f6c8664736f6c634300080d0033" ) )
+    rule  ( #initBytecode ( S2KsrcZModDeploymentSummary ) => #parseByteStack ( "0x608060405234801561001057600080fd5b50610323806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c8063b5b8c44814610030575b600080fd5b61003861003a565b005b6000807f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d60001c6001600160a01b031663b4d6c782735615deb798bb3e4dfa0139dfa1b3d433cc23b72f60405180610140016040528061010681526020016101e861010691396040518363ffffffff1660e01b81526004016100bd929190610182565b600060405180830381600087803b1580156100d757600080fd5b505af11580156100eb573d6000803e3d6000fd5b50506040516370ca10bb60e01b8152735615deb798bb3e4dfa0139dfa1b3d433cc23b72f60048201526000602482018190526003604483018190529095509350737109709ecfa91a80626ff3989d68f67f5b1dd12d92506370ca10bb9150606401600060405180830381600087803b15801561016657600080fd5b505af115801561017a573d6000803e3d6000fd5b505050505050565b60018060a01b038316815260006020604081840152835180604085015260005b818110156101be578581018301518582016060015282016101a2565b818111156101d0576000606083870101525b50601f01601f19169290920160600194935050505056fe6080604052348015600f57600080fd5b5060043610603c5760003560e01c80633fb5c1cb1460415780638381f58a146053578063d09de08a14606d575b600080fd5b6051604c3660046083565b600055565b005b605b60005481565b60405190815260200160405180910390f35b6051600080549080607c83609b565b9190505550565b600060208284031215609457600080fd5b5035919050565b60007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff820360f2577f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b506001019056fea164736f6c634300080f000aa2646970667358221220efcb09f495855909f8ce15bc41fbdcd050490e51bed7258fbf38298926651cc564736f6c634300080d0033" ) )
       
     
     syntax Bytes ::= S2KsrcZModDeploymentSummaryContract "." S2KsrcZModDeploymentSummaryMethod [function(), symbol(), klabel(method_src%DeploymentSummary)]
@@ -3958,7 +3958,7 @@ module S2KsrcZModDeploymentSummaryCode-CONTRACT
     
       
     
-    rule  ( #initBytecode ( S2KsrcZModDeploymentSummaryCode ) => #parseByteStack ( "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212200b7867accb23ecb775c2ab8bb72766ea046d5a6121003d74cfee2c1276ed0e4d64736f6c634300080d0033" ) )
+    rule  ( #initBytecode ( S2KsrcZModDeploymentSummaryCode ) => #parseByteStack ( "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220167ab23daaeaaed28c7de33a731e5c823462d539b58628ad7ca1fd04cbfb342364736f6c634300080d0033" ) )
       
 
 endmodule
@@ -6673,13 +6673,13 @@ module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     
     syntax Bytes ::= S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Contract "." S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method [function(), symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate" "(" K ":" "tuple[]" ")" [symbol(), klabel(method_IMulticall3_S2Kaggregate_tuple[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate" "(" Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_IMulticall3_S2Kaggregate_address_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3" "(" K ":" "tuple[]" ")" [symbol(), klabel(method_IMulticall3_S2Kaggregate3_tuple[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3" "(" Int ":" "address" "," Int ":" "bool" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_IMulticall3_S2Kaggregate3_address_bool_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3Value" "(" K ":" "tuple[]" ")" [symbol(), klabel(method_IMulticall3_S2Kaggregate3Value_tuple[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3Value" "(" Int ":" "address" "," Int ":" "bool" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_IMulticall3_S2Kaggregate3Value_address_bool_uint256_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KblockAndAggregate" "(" K ":" "tuple[]" ")" [symbol(), klabel(method_IMulticall3_S2KblockAndAggregate_tuple[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KblockAndAggregate" "(" Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_IMulticall3_S2KblockAndAggregate_address_bytes)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KgetBasefee" "(" ")" [symbol(), klabel(method_IMulticall3_S2KgetBasefee_)]
     
@@ -6701,9 +6701,9 @@ module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KgetLastBlockHash" "(" ")" [symbol(), klabel(method_IMulticall3_S2KgetLastBlockHash_)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryAggregate" "(" Int ":" "bool" "," K ":" "tuple[]" ")" [symbol(), klabel(method_IMulticall3_S2KtryAggregate_bool_tuple[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_IMulticall3_S2KtryAggregate_bool_address_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryBlockAndAggregate" "(" Int ":" "bool" "," K ":" "tuple[]" ")" [symbol(), klabel(method_IMulticall3_S2KtryBlockAndAggregate_bool_tuple[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryBlockAndAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_IMulticall3_S2KtryBlockAndAggregate_bool_address_bytes)]
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KgetBasefee ( ) => #abiCallData ( "getBasefee" , .TypedArgs ) )
       
