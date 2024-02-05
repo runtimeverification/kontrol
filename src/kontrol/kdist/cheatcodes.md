@@ -928,6 +928,10 @@ This rule then takes the `address` value from the function call data and etches 
 The rule also takes the bytes `CALLDATA` and the bytes `RETURNDATA` from the function call data and forwards them, together with the address to be mocked, and forwards them to the `setMockCall` production.
 The `setMockCall` production will update the configuration in order to store the information of the mock call.
 
+The current implementation of the `mockCall` cheatcode has some limitations:
+- It does not work for mock calls to the address(0) - see test `MockCallTest.testSelectorMockCall()`
+- It does not work if there are multiple mock calls with common prefixes for the same address - see test `MockCallTestFoundry.testMockGetters`
+
 ```k
     rule [foundry.call.mockCall]:
          <k> #call_foundry SELECTOR ARGS
@@ -1417,14 +1421,16 @@ If the production is matched when no prank is active, it will be ignored.
          </mockCalls>
 ```
 
+- `#clearMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem` and in case the function
+did not end with `EVMC_SUCCESS` it will update the status code to `EVMC_SUCCESS`. 
+
 ```k
     syntax KItem ::= "#clearMockCall" Int Int Bytes [klabel(foundry_clearMockCall)]
- // -------------------------------------------------------------------------
+ // -------------------------------------------------------------------------------
     rule <k> #clearMockCall RETSTART RETWIDTH RETURNDATA => #setLocalMem RETSTART RETWIDTH RETURNDATA ... </k>
          <statusCode> _ => EVMC_SUCCESS </statusCode>
          <wordStack> _ : WS => 1 : WS </wordStack>
 ```
-
 
 - selectors for cheat code functions.
 
@@ -1465,6 +1471,7 @@ If the production is matched when no prank is active, it will be ignored.
     rule ( selector ( "allowChangesToStorage(address,uint256)" )   => 4207417100 )
     rule ( selector ( "infiniteGas()" )                            => 3986649939 )
     rule ( selector ( "setGas(uint256)" )                          => 3713137314 )
+    rule ( selector ( "mockCall(address,bytes,bytes)" )            => 3110212580 )
 ```
 
 - selectors for unimplemented cheat code functions.
@@ -1491,7 +1498,6 @@ If the production is matched when no prank is active, it will be ignored.
     rule selector ( "expectRevert(bytes4)" )                    => 3273568480
     rule selector ( "record()" )                                => 644673801
     rule selector ( "accesses(address)" )                       => 1706857601
-    rule selector ( "mockCall(address,bytes,bytes)" )           => 3110212580
     rule selector ( "mockCall(address,uint256,bytes,bytes)" )   => 2168494993
     rule selector ( "clearMockedCalls()" )                      => 1071599125
     rule selector ( "expectCall(address,bytes)" )               => 3177903156
