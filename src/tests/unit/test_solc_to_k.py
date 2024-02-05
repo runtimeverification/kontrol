@@ -4,7 +4,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 from kevm_pyk.kevm import KEVM
-from pyk.kast.inner import KApply, KToken, KVariable
+from pyk.kast.inner import KApply, KVariable
+from pyk.prelude.kint import eqInt, intToken
 
 from kontrol.solc_to_k import Contract, Input, _range_predicates, process_length_equals
 
@@ -16,11 +17,12 @@ if TYPE_CHECKING:
 
 EXAMPLES_DIR: Final = TEST_DATA_DIR / 'examples'
 
-PREDICATE_DATA: list[tuple[str, KApply, list[KApply]]] = [
-    ('bytes4', KApply('bytes4', KVariable('V0_x')), [KEVM.range_bytes(KToken('4', 'Int'), KVariable('V0_x'))]),
-    ('int128', KApply('int128', KVariable('V0_x')), [KEVM.range_sint(128, KVariable('V0_x'))]),
-    ('int24', KApply('int24', KVariable('V0_x')), [KEVM.range_sint(24, KVariable('V0_x'))]),
-    ('uint24', KApply('uint24', KVariable('V0_x')), [KEVM.range_uint(24, KVariable('V0_x'))]),
+PREDICATE_DATA: list[tuple[str, KApply, int | None, list[KApply]]] = [
+    ('bytes4', KApply('bytes4', KVariable('V0_x')), None, [KEVM.range_bytes(intToken(4), KVariable('V0_x'))]),
+    ('bytes', KApply('bytes', KVariable('V0_x')), 10000, [eqInt(KEVM.size_bytes(KVariable('V0_x')), intToken(10000))]),
+    ('int128', KApply('int128', KVariable('V0_x')), None, [KEVM.range_sint(128, KVariable('V0_x'))]),
+    ('int24', KApply('int24', KVariable('V0_x')), None, [KEVM.range_sint(24, KVariable('V0_x'))]),
+    ('uint24', KApply('uint24', KVariable('V0_x')), None, [KEVM.range_uint(24, KVariable('V0_x'))]),
     (
         'tuple',
         KApply(
@@ -43,6 +45,7 @@ PREDICATE_DATA: list[tuple[str, KApply, list[KApply]]] = [
                 )
             ],
         ),
+        None,
         [KEVM.range_uint(256, KVariable('V0_x')), KEVM.range_uint(256, KVariable('V1_y'))],
     ),
     (
@@ -70,19 +73,20 @@ PREDICATE_DATA: list[tuple[str, KApply, list[KApply]]] = [
                 ),
             ),
         ),
+        None,
         [KEVM.range_uint(256, KVariable('V0_x')), KEVM.range_uint(256, KVariable('V1_y'))],
     ),
 ]
 
 
 @pytest.mark.parametrize(
-    'test_id,term,expected',
+    'test_id,term,dynamic_type_length,expected',
     PREDICATE_DATA,
     ids=[test_id for test_id, *_ in PREDICATE_DATA],
 )
-def test_range_predicate(test_id: str, term: KApply, expected: list[KApply]) -> None:
+def test_range_predicate(test_id: str, term: KApply, dynamic_type_length: int | None, expected: list[KApply]) -> None:
     # When
-    ret = _range_predicates(term)
+    ret = _range_predicates(term, dynamic_type_length)
 
     # Then
     assert ret == expected
