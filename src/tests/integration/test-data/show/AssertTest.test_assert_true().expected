@@ -100,8 +100,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -120,8 +118,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -134,6 +130,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -157,6 +154,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -170,7 +170,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -180,6 +179,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -188,7 +188,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -198,6 +197,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -255,11 +255,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
-      [label(BASIC-BLOCK-1-TO-3)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
@@ -296,8 +298,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -316,8 +316,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -330,6 +328,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -353,6 +352,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -366,7 +368,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -376,6 +377,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -384,7 +386,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -394,6 +395,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -451,11 +453,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
-      [label(BASIC-BLOCK-3-TO-4)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
            <kevm>
@@ -492,8 +496,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -512,8 +514,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -526,6 +526,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -549,6 +550,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -562,7 +566,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -572,6 +575,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -580,7 +584,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -590,6 +593,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -647,11 +651,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
-      [label(BASIC-BLOCK-4-TO-5)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
            <kevm>
@@ -686,8 +692,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -706,8 +710,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"" )
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -720,6 +722,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -743,6 +746,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -756,7 +762,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -766,6 +771,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -774,7 +780,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -784,6 +789,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -841,11 +847,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
-      [label(BASIC-BLOCK-5-TO-6)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
            <kevm>
@@ -879,8 +887,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -899,8 +905,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -913,6 +917,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -936,6 +941,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -949,7 +957,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -959,6 +966,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -967,7 +975,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -977,6 +984,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -1034,11 +1042,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
-      [label(BASIC-BLOCK-6-TO-8)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
            <kevm>
@@ -1075,8 +1085,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -1095,8 +1103,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -1109,6 +1115,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1132,6 +1139,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -1145,7 +1155,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -1155,6 +1164,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -1163,7 +1173,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -1173,6 +1182,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -1230,11 +1240,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
-      [label(BASIC-BLOCK-8-TO-9)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
            <kevm>
@@ -1271,8 +1283,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -1291,8 +1301,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -1305,6 +1313,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1328,6 +1337,9 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -1341,7 +1353,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -1351,6 +1362,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -1359,7 +1371,6 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -1369,6 +1380,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -1426,11 +1438,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
-      [label(BASIC-BLOCK-9-TO-10)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-9-TO-10)]
 
 endmodule
 0 Failure nodes. (0 pending and 0 failing)
