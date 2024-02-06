@@ -929,8 +929,7 @@ The rule also takes the bytes `CALLDATA` and the bytes `RETURNDATA` from the fun
 The `setMockCall` production will update the configuration in order to store the information of the mock call.
 
 The current implementation of the `mockCall` cheatcode has some limitations:
-- It does not work for mock calls to the address(0) - see test `MockCallTest.testSelectorMockCall()`
-- It does not work if there are multiple mock calls with common prefixes for the same address - see test `MockCallTestFoundry.testMockGetters`
+- It does not work if there are multiple mock calls with common prefixes for the same address - see test `MockCallTestFoundry.testMockCallMultiplePartialMatch`
 
 ```k
     rule [foundry.call.mockCall]:
@@ -944,14 +943,14 @@ The current implementation of the `mockCall` cheatcode has some limitations:
 ```
 
 We use the `#next[OP]` to identify OpCodes that represent function calls. If there is `<mockCall>` which `<mockAddress>`
-matches the `ACCTTO` and the `<mockValues>` has a key `CALLDATA` that matches some prefix of the fucntion call data then
-the `#clearMockCall` is inserted at the end of the function call to update the output.
+matches the `ACCTTO` and the `<mockValues>` has a key `CALLDATA` that matches some prefix of the function call data then
+the `#execMockCall` will replace the function execution and update the output with the `RETURNDATA`.
 
 ```k
     rule [foundry.set.mockCall]:
-         <k> #next [ _OP:CallOp ] ~> (. => #clearMockCall RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
+         <k> #next [ OP:CallOp ] => #execMockCall RETSTART RETWIDTH RETURNDATA ~> #pc [ OP ] ... </k>
          <localMem> LM </localMem>
-         <wordStack> _ : ACCTTO : _ : ARGSTART : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : ARGSTART : _ : RETSTART : RETWIDTH : WS => WS </wordStack>
          <mockCall>
            <mockAddress> ACCTTO </mockAddress>
            <mockValues>...  CALLDATA |-> RETURNDATA ...</mockValues>
@@ -959,10 +958,10 @@ the `#clearMockCall` is inserted at the end of the function call to update the o
          requires #range(LM, ARGSTART, lengthBytes(CALLDATA)) ==K CALLDATA
       [priority(30)]
 
-      rule [foundry.set.mockCall2]:
-         <k> #next [ _OP:CallSixOp ] ~> (. => #clearMockCall RETSTART RETWIDTH RETURNDATA) ~> #execute ... </k>
+    rule [foundry.set.mockCall2]:
+         <k> #next [ OP:CallSixOp ] => #execMockCall RETSTART RETWIDTH RETURNDATA ~> #pc [ OP ] ... </k>
          <localMem> LM </localMem>
-         <wordStack> _ : ACCTTO : ARGSTART : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : ARGSTART : _ : RETSTART : RETWIDTH : WS => WS </wordStack>
          <mockCall>
            <mockAddress> ACCTTO </mockAddress>
            <mockValues>...  CALLDATA |-> RETURNDATA ...</mockValues>
@@ -1421,14 +1420,14 @@ If the production is matched when no prank is active, it will be ignored.
          </mockCalls>
 ```
 
-- `#clearMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem` and in case the function
+- `#execMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem` and in case the function
 did not end with `EVMC_SUCCESS` it will update the status code to `EVMC_SUCCESS`. 
 
 ```k
-    syntax KItem ::= "#clearMockCall" Int Int Bytes [klabel(foundry_clearMockCall)]
+    syntax KItem ::= "#execMockCall" Int Int Bytes [klabel(foundry_execMockCall)]
  // -------------------------------------------------------------------------------
-    rule <k> #clearMockCall RETSTART RETWIDTH RETURNDATA => #setLocalMem RETSTART RETWIDTH RETURNDATA ... </k>
-         <statusCode> _ => EVMC_SUCCESS </statusCode>
+    rule <k> #execMockCall RETSTART RETWIDTH RETURNDATA => 1 ~> #push ~> #setLocalMem RETSTART RETWIDTH RETURNDATA ... </k>
+         <output> _ => RETURNDATA </output>
          <wordStack> _ : WS => 1 : WS </wordStack>
 ```
 
