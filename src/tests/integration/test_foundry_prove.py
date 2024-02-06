@@ -107,17 +107,17 @@ def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_
 
 def assert_or_update_k_output(k_file: Path, expected_file: Path, *, update: bool) -> None:
     assert k_file.is_file()
-    assert expected_file.is_file()
 
     k_text = k_file.read_text()
     filtered_lines = (line for line in k_text.splitlines() if not line.startswith('    rule  ( #binRuntime ('))
 
     actual_text = '\n'.join(filtered_lines) + '\n'
-    expected_text = expected_file.read_text()
 
     if update:
         expected_file.write_text(actual_text)
     else:
+        assert expected_file.is_file()
+        expected_text = expected_file.read_text()
         assert actual_text == expected_text
 
 
