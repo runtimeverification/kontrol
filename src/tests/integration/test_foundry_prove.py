@@ -461,12 +461,11 @@ def assert_fail(test: str, proof: Proof) -> None:
 
 
 def assert_or_update_show_output(actual_text: str, expected_file: Path, *, update: bool) -> None:
-    assert expected_file.is_file()
-    expected_text = expected_file.read_text()
-
     if update:
         expected_file.write_text(actual_text)
     else:
+        assert expected_file.is_file()
+        expected_text = expected_file.read_text()
         assert actual_text == expected_text
 
 
