@@ -90,9 +90,9 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
 
 
 def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_booster: bool) -> None:
-    if not no_use_booster:
+    if no_use_booster:
         return
-    # Then
+
     assert_or_update_k_output(
         foundry.main_file,
         TEST_DATA_DIR / 'foundry.k.expected',
@@ -160,7 +160,7 @@ def test_foundry_prove(
     # Then
     assert_pass(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or not no_use_booster:
+    if test_id not in SHOW_TESTS or no_use_booster:
         return
 
     # And when
@@ -209,7 +209,7 @@ def test_foundry_fail(
     # Then
     assert_fail(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or not no_use_booster:
+    if test_id not in SHOW_TESTS or no_use_booster:
         return
 
     # And when
@@ -386,7 +386,7 @@ def test_foundry_auto_abstraction(
         ),
     )
 
-    if not no_use_booster:
+    if no_use_booster:
         return
 
     show_res = foundry_show(
