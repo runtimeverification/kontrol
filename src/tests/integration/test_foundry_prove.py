@@ -310,6 +310,53 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
     assert_pass(test, single(prove_res))
 
 
+def test_foundry_dependency(
+    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, update_expected_output: bool
+) -> None:
+    dependency = 'ArithmeticContract.add(uint256,uint256)'
+    test = 'ArithmeticCallTest.test_double_add(uint256,uint256)'
+
+    foundry_prove(
+        foundry,
+        tests=[(dependency, None)],
+        prove_options=ProveOptions(
+            max_iterations=10,
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            max_iterations=50,
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+        include_summaries=[(dependency, None)],
+    )
+
+    show_res = foundry_show(
+        foundry,
+        test=test,
+        to_module=False,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=False,
+        failing=False,
+        failure_info=False,
+        counterexample_info=False,
+        port=server.port,
+    )
+
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test}.expected', update=update_expected_output)
+
+
 def check_pending(foundry: Foundry, test: str, pending: list[int]) -> None:
     proofs = [foundry.get_optional_proof(pid) for pid in foundry.proof_ids_with_test(test)]
     apr_proofs: list[APRProof] = [proof for proof in proofs if type(proof) is APRProof]
