@@ -413,23 +413,8 @@ def assert_fail(test: str, proof: Proof) -> None:
         assert proof.failure_info
 
 
-def assert_or_update_show_output(show_res: str, expected_file: Path, *, update: bool) -> None:
+def assert_or_update_show_output(actual_text: str, expected_file: Path, *, update: bool) -> None:
     assert expected_file.is_file()
-
-    filtered_lines = (
-        line
-        for line in show_res.splitlines()
-        if not line.startswith(
-            (
-                '    src: ',
-                '│   src: ',
-                '┃  │   src: ',
-                '   │   src: ',
-                'module',
-            )
-        )
-    )
-    actual_text = '\n'.join(filtered_lines) + '\n'
     expected_text = expected_file.read_text()
 
     if update:

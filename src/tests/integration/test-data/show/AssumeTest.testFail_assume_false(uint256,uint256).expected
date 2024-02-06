@@ -138,6 +138,9 @@ Node 7:
             <number>
               NUMBER_CELL:Int
             </number>
+            <timestamp>
+              TIMESTAMP_CELL:Int
+            </timestamp>
             ...
           </block>
           ...
@@ -239,14 +242,17 @@ Node 7:
 #And ( { true #Equals 0 <=Int CALLER_ID:Int }
 #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
 #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
+#And ( { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
 #And ( { true #Equals 0 <=Int VV1_b_114b9705:Int }
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
-#And { true #Equals VV1_b_114b9705:Int <Int pow256 } ) ) ) ) ) ) ) ) )
+#And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
+#And { true #Equals VV1_b_114b9705:Int <Int pow256 } ) ) ) ) ) ) ) ) ) ) )
 
 
 
+module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
     
     
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
@@ -281,8 +287,6 @@ Node 7:
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -301,8 +305,6 @@ Node 7:
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) )
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -315,6 +317,7 @@ Node 7:
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -338,6 +341,9 @@ Node 7:
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -351,7 +357,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -361,6 +366,7 @@ Node 7:
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -369,7 +375,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -379,6 +384,7 @@ Node 7:
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -436,15 +442,17 @@ Node 7:
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))
-      [label(BASIC-BLOCK-1-TO-3)]
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
@@ -481,8 +489,6 @@ Node 7:
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -501,8 +507,6 @@ Node 7:
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) )
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -515,6 +519,7 @@ Node 7:
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -538,6 +543,9 @@ Node 7:
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -551,7 +559,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -561,6 +568,7 @@ Node 7:
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -569,7 +577,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -579,6 +586,7 @@ Node 7:
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -636,15 +644,17 @@ Node 7:
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))
-      [label(BASIC-BLOCK-3-TO-4)]
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
            <kevm>
@@ -682,8 +692,6 @@ Node 7:
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -702,8 +710,6 @@ Node 7:
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -716,6 +722,7 @@ Node 7:
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -739,6 +746,9 @@ Node 7:
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -752,7 +762,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -762,6 +771,7 @@ Node 7:
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -770,7 +780,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -780,6 +789,7 @@ Node 7:
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -837,16 +847,18 @@ Node 7:
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))
+               ))))))))))))
        ensures VV0_a_114b9705:Int ==K VV1_b_114b9705:Int
-      [label(BASIC-BLOCK-4-TO-5)]
+      [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
            <kevm>
@@ -883,8 +895,6 @@ Node 7:
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -903,8 +913,6 @@ Node 7:
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -917,6 +925,7 @@ Node 7:
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -940,6 +949,9 @@ Node 7:
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -953,7 +965,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -963,6 +974,7 @@ Node 7:
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -971,7 +983,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -981,6 +992,7 @@ Node 7:
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -1039,13 +1051,15 @@ Node 7:
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))
-      [label(BASIC-BLOCK-5-TO-6)]
+               )))))))))))
+      [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
            <kevm>
@@ -1082,8 +1096,6 @@ Node 7:
                    .Set
                  </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -1102,8 +1114,6 @@ Node 7:
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      0
                    </memoryUsed>
@@ -1116,6 +1126,7 @@ Node 7:
                    <callDepth>
                      0
                    </callDepth>
+                   ...
                  </callState>
                  <substate>
                    <log>
@@ -1139,6 +1150,9 @@ Node 7:
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -1152,7 +1166,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -1162,6 +1175,7 @@ Node 7:
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -1170,7 +1184,6 @@ Node 7:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -1180,6 +1193,7 @@ Node 7:
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -1238,13 +1252,15 @@ Node 7:
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))
-      [label(BASIC-BLOCK-6-TO-7)]
+               )))))))))))
+      [priority(20), label(BASIC-BLOCK-6-TO-7)]
 
 endmodule
 1 Failure nodes. (0 pending and 1 failing)
@@ -1258,17 +1274,20 @@ Failing nodes:
     #And ( { true #Equals 0 <=Int CALLER_ID:Int }
     #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
     #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
+    #And ( { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
     #And ( { true #Equals 0 <=Int VV1_b_114b9705:Int }
     #And ( { true #Equals CALLER_ID:Int <Int pow160 }
     #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
     #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
-    #And { true #Equals VV1_b_114b9705:Int <Int pow256 } ) ) ) ) ) ) ) ) #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
+    #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
+    #And { true #Equals VV1_b_114b9705:Int <Int pow256 } ) ) ) ) ) ) ) ) ) ) #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
   Path condition:
     #Top
   Model:
     CALLER_ID = 0
     NUMBER_CELL = 0
     ORIGIN_ID = 0
+    TIMESTAMP_CELL = 0
     VV0_a_114b9705 = 0
     VV1_b_114b9705 = 0
 

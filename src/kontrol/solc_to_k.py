@@ -71,15 +71,35 @@ class Input:
     type: str
     components: tuple[Input, ...] = ()
     idx: int = 0
+    array_lengths: tuple[int, ...] | None = None
+    dynamic_type_length: int | None = None
 
     @staticmethod
-    def from_dict(input: dict, idx: int = 0) -> Input:
-        name = input['name']
-        type = input['type']
-        if input.get('components') is not None and input['type'] != 'tuple[]':
-            return Input(name, type, tuple(Input._unwrap_components(input['components'], idx)), idx)
+    def from_dict(input: dict, idx: int = 0, natspec_lengths: dict | None = None) -> Input:
+        """
+        Creates an Input instance from a dictionary.
+
+        If the optional devdocs is provided, it is used for calculating array and dynamic type lengths.
+        For tuples, the function handles nested 'components' recursively.
+        """
+        name = input.get('name')
+        type = input.get('type')
+        if name is None or type is None:
+            raise ValueError("ABI dictionary must contain 'name' and 'type' keys.", input)
+        array_lengths, dynamic_type_length = (
+            process_length_equals(input, natspec_lengths) if natspec_lengths is not None else (None, None)
+        )
+        if input.get('components') is not None:
+            return Input(
+                name,
+                type,
+                tuple(Input._unwrap_components(input['components'], idx, natspec_lengths)),
+                idx,
+                array_lengths,
+                dynamic_type_length,
+            )
         else:
-            return Input(name, type, idx=idx)
+            return Input(name, type, idx=idx, array_lengths=array_lengths, dynamic_type_length=dynamic_type_length)
 
     @staticmethod
     def arg_name(input: Input) -> str:
@@ -108,21 +128,25 @@ class Input:
         return KEVM.abi_tuple(abi_types)
 
     @staticmethod
-    def _unwrap_components(components: dict, i: int = 0) -> list[Input]:
+    def _unwrap_components(components: list[dict], idx: int = 0, natspec_lengths: dict | None = None) -> list[Input]:
         """
-        recursively unwrap components in arguments of complex types
+        Recursively unwrap components of a complex type to create a list of Input instances.
+
+        :param components:: A list of dictionaries representing component structures
+        :param idx: Starting index for components, defaults to 0
+        :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
+        :return: A list of Input instances for each component, including nested components
         """
-        comps = []
-        for comp in components:
-            _name = comp['name']
-            _type = comp['type']
-            if comp.get('components') is not None and type != 'tuple[]':
-                new_comps = Input._unwrap_components(comp['components'], i)
-            else:
-                new_comps = []
-            comps.append(Input(_name, _type, tuple(new_comps), i))
-            i += 1
-        return comps
+        return [
+            Input(
+                component['name'],
+                component['type'],
+                tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
+                idx,
+                *process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None),
+            )
+            for idx, component in enumerate(components, start=idx)
+        ]
 
     def to_abi(self) -> KApply:
         if self.type == 'tuple':
@@ -138,14 +162,74 @@ class Input:
             return [self]
 
 
-def inputs_from_abi(abi_inputs: Iterable[dict]) -> list[Input]:
+def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) -> list[Input]:
     inputs = []
-    i = 0
+    index = 0
     for input in abi_inputs:
-        cur_input = Input.from_dict(input, i)
+        cur_input = Input.from_dict(input, index, natspec_lengths)
         inputs.append(cur_input)
-        i += len(cur_input.flattened())
+        index += len(cur_input.flattened())
     return inputs
+
+
+def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, ...] | None, int | None]:
+    """
+    Read from NatSpec comments the maximum length bound of an array, dynamic type, array of dynamic type, or nested arrays.
+
+    In case of arrays and nested arrays, the bound values are stored in an immutable list.
+    In case of dynamic types such as `string` and `bytes` the length bound is stored in its own variable.
+    As a convention, the length of a nested array or of a dynamic type array is accessed by appending `[]` to the name of the variable.
+    i.e. for `bytes[][] _b`, the lengths are registered as:
+        _b: length of the upper most array
+        _b[]: length of the inner array
+        _b[][]: length of the `bytes` elements in the inner array.
+    If an array length is missing, the default value will be `2` to avoid generating symbolic variables.
+    The dynamic type length is optional, ommiting it may cause branchings in symbolic execution.
+    """
+    _name: str = input_dict['name']
+    _type: str = input_dict['type']
+    dynamic_type_length: int | None
+    input_array_lengths: tuple[int, ...] | None
+    array_lengths: list[int] = []
+    while _type.endswith('[]'):
+        array_lengths.append(lengths.get(_name, 2))
+        _type = _type[:-2]
+        _name += '[]'
+    input_array_lengths = tuple(array_lengths) if array_lengths else None
+    dynamic_type_length = lengths.get(_name) if _type in ['bytes', 'string'] else None
+    return (input_array_lengths, dynamic_type_length)
+
+
+def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
+    """
+    Parse developer documentation (devdoc) to extract specific information based on a given tag.
+
+    Example:
+        If devdoc contains { 'custom:kontrol-length-equals': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
+        and the function is called with tag='custom:kontrol-length-equals', it would return:
+        { '_withdrawalProof': 10, '_withdrawalProof[]': 600, '_l2OutputIndex': 4 }
+    """
+
+    if devdoc is None or tag not in devdoc:
+        return {}
+
+    natspecs = {}
+    natspec_values = devdoc[tag]
+
+    for part in natspec_values.split(','):
+        # Trim whitespace and skip if empty
+        part = part.strip()
+        if not part:
+            continue
+
+        # Split each part into variable and length
+        try:
+            key, value_str = part.split(':')
+            key = key.strip()
+            natspecs[key] = int(value_str.strip())
+        except ValueError:
+            _LOGGER.warning(f'Skipping invalid fomat {part} in {tag}')
+    return natspecs
 
 
 @dataclass
@@ -235,6 +319,7 @@ class Contract:
         payable: bool
         signature: str
         ast: dict | None
+        natspec_values: dict | None
 
         def __init__(
             self,
@@ -246,11 +331,11 @@ class Contract:
             contract_digest: str,
             contract_storage_digest: str,
             sort: KSort,
+            devdoc: dict | None,
         ) -> None:
             self.signature = msig
             self.name = abi['name']
             self.id = id
-            self.inputs = tuple(inputs_from_abi(abi['inputs']))
             self.contract_name_with_path = contract_name_with_path
             self.contract_name = contract_name_with_path.split('%')[-1]
             self.contract_digest = contract_digest
@@ -259,6 +344,8 @@ class Contract:
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
             self.ast = ast
+            self.natspec_values = parse_devdoc('custom:kontrol-length-equals', devdoc)
+            self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
 
         @property
         def klabel(self) -> KLabel:
@@ -449,21 +536,26 @@ class Contract:
         }
 
         _methods = []
+        metadata = self.contract_json.get('metadata', {})
+        devdoc = metadata.get('output', {}).get('devdoc', {}).get('methods', {})
+
         for method in contract_json['abi']:
             if method['type'] == 'function':
                 msig = method_sig_from_abi(method)
                 method_selector: str = str(evm['methodIdentifiers'][msig])
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
+                method_devdoc = devdoc.get(msig)
                 _m = Contract.Method(
-                    msig,
-                    mid,
-                    method,
-                    method_ast,
-                    self.name_with_path,
-                    self.digest,
-                    self.storage_digest,
+                    msig, 
+                    mid, 
+                    method, 
+                    method_ast, 
+                    self.name_with_path, 
+                    self.digest, 
+                    self.storage_digest, 
                     self.sort_method,
+                    method_devdoc,
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
