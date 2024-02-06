@@ -95,12 +95,12 @@ def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_
 
     assert_or_update_k_output(
         foundry.main_file,
-        TEST_DATA_DIR / 'foundry.k.expected',
+        TEST_DATA_DIR / 'show/foundry.k.expected',
         update=update_expected_output,
     )
     assert_or_update_k_output(
         foundry.contracts_file,
-        TEST_DATA_DIR / 'contracts.k.expected',
+        TEST_DATA_DIR / 'show/contracts.k.expected',
         update=update_expected_output,
     )
 
