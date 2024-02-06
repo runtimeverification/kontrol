@@ -547,13 +547,13 @@ class Contract:
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 method_devdoc = devdoc.get(msig)
                 _m = Contract.Method(
-                    msig, 
-                    mid, 
-                    method, 
-                    method_ast, 
-                    self.name_with_path, 
-                    self.digest, 
-                    self.storage_digest, 
+                    msig,
+                    mid,
+                    method,
+                    method_ast,
+                    self.name_with_path,
+                    self.digest,
+                    self.storage_digest,
                     self.sort_method,
                     method_devdoc,
                 )
