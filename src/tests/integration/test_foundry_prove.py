@@ -90,9 +90,9 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
 
 
 def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_booster: bool) -> None:
-    if not no_use_booster:
+    if no_use_booster:
         return
-    # Then
+
     assert_or_update_k_output(
         foundry.main_file,
         TEST_DATA_DIR / 'foundry.k.expected',
@@ -193,7 +193,9 @@ def test_foundry_fail(
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
-    # When
+    if no_use_booster:
+        pytest.skip()
+
     prove_res = foundry_prove(
         foundry,
         tests=[(test_id, None)],
@@ -209,7 +211,7 @@ def test_foundry_fail(
     # Then
     assert_fail(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or not no_use_booster:
+    if test_id not in SHOW_TESTS:
         return
 
     # And when
@@ -235,7 +237,12 @@ SKIPPED_BMC_TESTS: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().
 
 
 @pytest.mark.parametrize('test_id', ALL_BMC_TESTS)
-def test_foundry_bmc(test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer) -> None:
+def test_foundry_bmc(
+    test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     if test_id in SKIPPED_BMC_TESTS:
         pytest.skip()
 
@@ -256,7 +263,12 @@ def test_foundry_bmc(test_id: str, foundry: Foundry, bug_report: BugReport | Non
     assert_pass(test_id, single(prove_res))
 
 
-def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, server: KoreServer) -> None:
+def test_foundry_merge_nodes(
+    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     test = 'MergeTest.test_branch_merge(uint256)'
 
     foundry_prove(
@@ -413,8 +425,15 @@ def test_foundry_auto_abstraction(
 
 
 def test_foundry_remove_node(
-    foundry: Foundry, update_expected_output: bool, bug_report: BugReport | None, server: KoreServer
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
 ) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     test = 'AssertTest.test_assert_true()'
 
     prove_res = foundry_prove(
@@ -522,7 +541,9 @@ ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail
 
 @pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
 def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
-    # When
+    if no_use_booster:
+        pytest.skip()
+
     prove_res = foundry_prove(
         foundry,
         tests=[(test, None)],
