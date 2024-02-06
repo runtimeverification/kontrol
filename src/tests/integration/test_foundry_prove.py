@@ -402,7 +402,9 @@ def test_foundry_auto_abstraction(
         port=server.port,
     )
 
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / 'gas-abstraction.expected', update=update_expected_output)
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / 'show/gas-abstraction.expected', update=update_expected_output
+    )
 
 
 def test_foundry_remove_node(
