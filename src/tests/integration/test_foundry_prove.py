@@ -91,7 +91,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
 
 def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_booster: bool) -> None:
     if no_use_booster:
-        return
+        pytest.skip()
 
     assert_or_update_k_output(
         foundry.main_file,
@@ -390,6 +390,9 @@ def test_foundry_auto_abstraction(
     server: KoreServer,
     no_use_booster: bool,
 ) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     test_id = 'GasTest.testInfiniteGas()'
 
     foundry_prove(
@@ -404,9 +407,6 @@ def test_foundry_auto_abstraction(
             port=server.port,
         ),
     )
-
-    if no_use_booster:
-        return
 
     show_res = foundry_show(
         foundry,
