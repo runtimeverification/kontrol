@@ -916,8 +916,7 @@ Otherwise, throw an error for any other call to the Foundry contract.
 Mock calls
 ----------
 
-#### `mockCall` - Mocks all calls to an address where if the call data either strictly or loosely
-matches data and returns retdata.
+#### `mockCall` - Mocks all calls to an address where if the call data either strictly or loosely matches data and returns retdata.
 
 ```
 function mockCall(address where, bytes calldata data, bytes calldata retdata) external;
