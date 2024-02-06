@@ -30,6 +30,22 @@ contract AssumeTest is Test {
         assert(a);
     }
 
+    function test_long_branches(uint256 a) public {
+        uint b = 0;
+        if(a > 10) {
+            for(uint256 i = 0; i < 100; i++) {
+                b = b + 1;
+                assert(b < 1200);
+            }
+        }
+        else {
+            for(uint256 i = 0; i < 100; i++) {
+                b = b + 1;
+                assert(b < 1300);
+            }
+        }
+    }
+
     function test_multi_assume(address alice, address bob) public {
         vm.assume(alice != address(120209876281281145568259943));
         vm.assume(alice != address(137122462167341575662000267002353578582749290296));
