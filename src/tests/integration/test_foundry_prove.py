@@ -311,8 +311,15 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
 
 
 def test_foundry_dependency(
-    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, update_expected_output: bool
+    foundry: Foundry,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    update_expected_output: bool,
+    no_use_booster: bool,
 ) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     dependency = 'ArithmeticContract.add(uint256,uint256)'
     test = 'ArithmeticCallTest.test_double_add(uint256,uint256)'
 
