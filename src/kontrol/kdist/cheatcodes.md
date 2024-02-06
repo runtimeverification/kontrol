@@ -923,8 +923,8 @@ function mockCall(address where, bytes calldata data, bytes calldata retdata) ex
 ```
 
 `foundry.call.mockCall` will match when the `mockCall` cheat code function is called.
-This rule then takes the `address` value from the function call data and etches a single byte into the account code, in case it is empty.
-The rule also takes the bytes `CALLDATA` and the bytes `RETURNDATA` from the function call data and forwards them, together with the address to be mocked, and forwards them to the `setMockCall` production.
+This rule then takes the `address` value from the function calldata and etches a single byte into the account code, in case it is empty.
+The rule also takes the bytes `CALLDATA` and the bytes `RETURNDATA` from the function calldata and forwards them, together with the address to be mocked, to the `setMockCall` production.
 The `setMockCall` production will update the configuration in order to store the information of the mock call.
 
 The current implementation of the `mockCall` cheatcode has some limitations:
@@ -941,9 +941,7 @@ The current implementation of the `mockCall` cheatcode has some limitations:
       requires SELECTOR ==Int selector ( "mockCall(address,bytes,bytes)" )
 ```
 
-We use the `#next[OP]` to identify OpCodes that represent function calls. If there is `<mockCall>` which `<mockAddress>`
-matches the `ACCTTO` and the `<mockValues>` has a key `CALLDATA` that matches some prefix of the function call data then
-the `#execMockCall` will replace the function execution and update the output with the `RETURNDATA`.
+We use `#next[OP]` to identify OpCodes that represent function calls. If there is `<mockCall>`, for which `<mockAddress>` matches the `ACCTTO` and `<mockValues>` has a key `CALLDATA` that matches some prefix of the function calldata, then the `#execMockCall` will replace the function execution and update the output with the `RETURNDATA`.
 
 ```k
     rule [foundry.set.mockCall]:
@@ -1419,8 +1417,7 @@ If the production is matched when no prank is active, it will be ignored.
          </mockCalls>
 ```
 
-- `#execMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem` and in case the function
-did not end with `EVMC_SUCCESS` it will update the status code to `EVMC_SUCCESS`. 
+- `#execMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem`. In case the function did not end with `EVMC_SUCCESS` it will update the status code to `EVMC_SUCCESS`. 
 
 ```k
     syntax KItem ::= "#execMockCall" Int Int Bytes [klabel(foundry_execMockCall)]
