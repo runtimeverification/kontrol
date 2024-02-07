@@ -9283,7 +9283,7 @@ module S2KtestZModAdditionalToken-CONTRACT
     
     syntax S2KtestZModAdditionalTokenMethod ::= "S2Kowner" "(" ")" [symbol(), klabel(method_test%AdditionalToken_S2Kowner_)]
     
-    syntax S2KtestZModAdditionalTokenMethod ::= "S2KrevertOn15" "(" ")" [symbol(), klabel(method_AdditionalToken_S2KrevertOn15_)]
+    syntax S2KtestZModAdditionalTokenMethod ::= "S2KrevertOn15" "(" ")" [symbol(), klabel(method_test%AdditionalToken_S2KrevertOn15_)]
     
     rule  ( S2KtestZModAdditionalToken . S2Kcount ( ) => #abiCallData ( "count" , .TypedArgs ) )
       
