@@ -90,34 +90,34 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
 
 
 def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_booster: bool) -> None:
-    if not no_use_booster:
-        return
-    # Then
+    if no_use_booster:
+        pytest.skip()
+
     assert_or_update_k_output(
         foundry.main_file,
-        TEST_DATA_DIR / 'foundry.k.expected',
+        TEST_DATA_DIR / 'show/foundry.k.expected',
         update=update_expected_output,
     )
     assert_or_update_k_output(
         foundry.contracts_file,
-        TEST_DATA_DIR / 'contracts.k.expected',
+        TEST_DATA_DIR / 'show/contracts.k.expected',
         update=update_expected_output,
     )
 
 
 def assert_or_update_k_output(k_file: Path, expected_file: Path, *, update: bool) -> None:
     assert k_file.is_file()
-    assert expected_file.is_file()
 
     k_text = k_file.read_text()
     filtered_lines = (line for line in k_text.splitlines() if not line.startswith('    rule  ( #binRuntime ('))
 
     actual_text = '\n'.join(filtered_lines) + '\n'
-    expected_text = expected_file.read_text()
 
     if update:
         expected_file.write_text(actual_text)
     else:
+        assert expected_file.is_file()
+        expected_text = expected_file.read_text()
         assert actual_text == expected_text
 
 
@@ -160,7 +160,7 @@ def test_foundry_prove(
     # Then
     assert_pass(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or not no_use_booster:
+    if test_id not in SHOW_TESTS or no_use_booster:
         return
 
     # And when
@@ -193,7 +193,9 @@ def test_foundry_fail(
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
-    # When
+    if no_use_booster:
+        pytest.skip()
+
     prove_res = foundry_prove(
         foundry,
         tests=[(test_id, None)],
@@ -209,7 +211,7 @@ def test_foundry_fail(
     # Then
     assert_fail(test_id, single(prove_res))
 
-    if test_id not in SHOW_TESTS or not no_use_booster:
+    if test_id not in SHOW_TESTS:
         return
 
     # And when
@@ -235,7 +237,12 @@ SKIPPED_BMC_TESTS: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().
 
 
 @pytest.mark.parametrize('test_id', ALL_BMC_TESTS)
-def test_foundry_bmc(test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer) -> None:
+def test_foundry_bmc(
+    test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     if test_id in SKIPPED_BMC_TESTS:
         pytest.skip()
 
@@ -256,7 +263,12 @@ def test_foundry_bmc(test_id: str, foundry: Foundry, bug_report: BugReport | Non
     assert_pass(test_id, single(prove_res))
 
 
-def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, server: KoreServer) -> None:
+def test_foundry_merge_nodes(
+    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     test = 'MergeTest.test_branch_merge(uint256)'
 
     foundry_prove(
@@ -311,8 +323,15 @@ def test_foundry_merge_nodes(foundry: Foundry, bug_report: BugReport | None, ser
 
 
 def test_foundry_dependency(
-    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, update_expected_output: bool
+    foundry: Foundry,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    update_expected_output: bool,
+    no_use_booster: bool,
 ) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     dependency = 'ArithmeticContract.add(uint256,uint256)'
     test = 'ArithmeticCallTest.test_double_add(uint256,uint256)'
 
@@ -371,6 +390,9 @@ def test_foundry_auto_abstraction(
     server: KoreServer,
     no_use_booster: bool,
 ) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     test_id = 'GasTest.testInfiniteGas()'
 
     foundry_prove(
@@ -386,9 +408,6 @@ def test_foundry_auto_abstraction(
         ),
     )
 
-    if not no_use_booster:
-        return
-
     show_res = foundry_show(
         foundry,
         test=test_id,
@@ -402,12 +421,21 @@ def test_foundry_auto_abstraction(
         port=server.port,
     )
 
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / 'gas-abstraction.expected', update=update_expected_output)
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / 'show/gas-abstraction.expected', update=update_expected_output
+    )
 
 
 def test_foundry_remove_node(
-    foundry: Foundry, update_expected_output: bool, bug_report: BugReport | None, server: KoreServer
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
 ) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     test = 'AssertTest.test_assert_true()'
 
     prove_res = foundry_prove(
@@ -461,18 +489,24 @@ def assert_fail(test: str, proof: Proof) -> None:
 
 
 def assert_or_update_show_output(actual_text: str, expected_file: Path, *, update: bool) -> None:
-    assert expected_file.is_file()
-    expected_text = expected_file.read_text()
-
     if update:
         expected_file.write_text(actual_text)
     else:
+        assert expected_file.is_file()
+        expected_text = expected_file.read_text()
         assert actual_text == expected_text
 
 
 def test_foundry_resume_proof(
-    foundry: Foundry, update_expected_output: bool, bug_report: BugReport | None, server: KoreServer
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
 ) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
 
     prove_res = foundry_prove(
@@ -515,7 +549,9 @@ ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail
 
 @pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
 def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
-    # When
+    if no_use_booster:
+        pytest.skip()
+
     prove_res = foundry_prove(
         foundry,
         tests=[(test, None)],
