@@ -261,11 +261,11 @@ Node 10:
 </generatedTop>
 #And ( { true #Equals 0 <=Int CALLER_ID:Int }
 #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
-#And ( #Not ( { VV0_a_114b9705:Int #Equals VV1_b_114b9705:Int } )
 #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
 #And ( { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
 #And ( { true #Equals 0 <=Int VV0_a_114b9705:Int }
 #And ( { true #Equals 0 <=Int VV1_b_114b9705:Int }
+#And ( { true #Equals VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int }
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
@@ -881,7 +881,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
                ))))))))))))
-       ensures VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
+       ensures VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -1072,11 +1072,11 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -1275,11 +1275,11 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -1479,11 +1479,11 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -1682,11 +1682,11 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -1885,11 +1885,11 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( VV0_a_114b9705:Int =/=K VV1_b_114b9705:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -1927,8 +1927,8 @@ Failing nodes:
     NUMBER_CELL = 0
     ORIGIN_ID = 0
     TIMESTAMP_CELL = 0
-    VV0_a_114b9705 = 1
-    VV1_b_114b9705 = 0
+    VV0_a_114b9705 = 0
+    VV1_b_114b9705 = 1
 
 Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
 
