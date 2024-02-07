@@ -625,14 +625,18 @@ Pranks
 #### Injecting addresses in a call
 
 To inject the pranked `msg.sender` and `tx.origin` we use the `#next[OP:Opcode]` to identify when the next opcode `OP` is either `CALL`, `CALLCODE`, `STATICCALL`, `CREATE` or `CREATE2`.
-The `foundry.prank` rule will match only if the `<active>` cell has the `true` value, signaling that a prank is active, and if the current depth of the call is at the same level with the depth at which the prank was invoked.
-This is needed in order to prevent overwriting the caller for subcalls.
+The `foundry.prank` rule will match only if:
+   - `<active>` cell has the `true` value, signaling that a prank is active,
+   - the call that's being made is not a cheat code invocation,
+   - the current depth of the call is at the same level with the depth at which the prank was invoked.
+The last point is required in order to prevent overwriting the caller for subcalls.
 `#injectPrank` and `#endPrank` are the productions that will update the address values for `msg.sender` and `tx.origin`.
 
 ```k
     rule [foundry.prank]:
          <k> #next [ OP:OpCode ] => #injectPrank ~> #next [ OP:OpCode ] ~> #endPrank ... </k>
          <callDepth> CD </callDepth>
+         <wordStack> _ : ACCTTO : _WS </wordStack>
          <id> ACCT </id>
          <prank>
            <active> true </active>
@@ -641,6 +645,7 @@ This is needed in order to prevent overwriting the caller for subcalls.
            ...
          </prank>
       requires ACCT =/=K NCL
+       andBool ACCTTO =/=K #address(FoundryCheat)
        andBool (OP ==K CALL orBool OP ==K CALLCODE orBool OP ==K STATICCALL orBool OP ==K CREATE orBool OP ==K CREATE2)
       [priority(40)]
 ```
