@@ -185,6 +185,10 @@ def _run_cfg_group(
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
 ) -> list[Proof]:
+
+    if len(tests) == 0:
+        return []
+
     proofs = {}
     provers = {}
 
@@ -201,23 +205,24 @@ def _run_cfg_group(
             rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
         )
 
+    server = kore_server(
+        definition_dir=foundry.kevm.definition_dir,
+        llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
+        module_name=foundry.kevm.main_module,
+        port=rpc_options.port,
+        smt_timeout=rpc_options.smt_timeout,
+        smt_retry_limit=rpc_options.smt_retry_limit,
+        smt_tactic=rpc_options.smt_tactic,
+        haskell_log_format=KoreExecLogFormat.ONELINE,
+        bug_report=prove_options.bug_report,
+        haskell_log_entries=(),
+        fallback_on=None,
+        interim_simplification=None,
+        no_post_exec_simplify=None,
+    )
+
     for test in tests:
         proof: APRProof
-
-        server = kore_server(
-            definition_dir=foundry.kevm.definition_dir,
-            llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-            module_name=foundry.kevm.main_module,
-            port=rpc_options.port,
-            smt_timeout=rpc_options.smt_timeout,
-            smt_retry_limit=rpc_options.smt_retry_limit,
-            smt_tactic=rpc_options.smt_tactic,
-            haskell_log_format=KoreExecLogFormat.ONELINE,
-            haskell_log_entries=(),
-            fallback_on=None,
-            interim_simplification=None,
-            no_post_exec_simplify=None,
-        )
 
         with legacy_explore(
             foundry.kevm,

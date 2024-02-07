@@ -530,9 +530,6 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
 
 def test_foundry_prove_parallel(foundry: Foundry, server: KoreServer, no_use_booster: bool) -> None:
     foundry.mk_proofs_dir()
-    #      contract, method = foundry.get_contract_and_method(
-    #          'MerkleProofTest.testValidateMerkleProof(bytes32,uint256,bytes32,bytes32,bytes32,bytes32)'
-    #      )
     contract, method = foundry.get_contract_and_method('test%AssumeTest.test_long_branches(uint256)')
 
     test = FoundryTest(contract, method, 0)
