@@ -1376,7 +1376,7 @@ If the production is matched when no prank is active, it will be ignored.
         </whitelist>
 ```
 
-- `#etchAccountIfEmpty Account` - sets an Account code to a single byte '0u8' if the account is empty to circumvent the `extcodesize` check that Solidity might perform [source](https://github.com/foundry-rs/foundry/blob/b78289a0bc9df6e35624c632396e16f27d4ccb3f/crates/cheatcodes/src/evm/mock.rs#L54).
+- `#etchAccountIfEmpty Account` - sets an Account code to a single byte '0u8' if the account is empty to circumvent the `extcodesize` check that Solidity might perform ([source](https://github.com/foundry-rs/foundry/blob/b78289a0bc9df6e35624c632396e16f27d4ccb3f/crates/cheatcodes/src/evm/mock.rs#L54)).
 
 ```k
     syntax KItem ::= "#etchAccountIfEmpty" Account [klabel(foundry_etchAccountIfEmpty)]
@@ -1421,7 +1421,7 @@ If the production is matched when no prank is active, it will be ignored.
 
 ```k
     syntax KItem ::= "#execMockCall" Int Int Bytes [klabel(foundry_execMockCall)]
- // -------------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------
     rule <k> #execMockCall RETSTART RETWIDTH RETURNDATA => 1 ~> #push ~> #setLocalMem RETSTART RETWIDTH RETURNDATA ... </k>
          <output> _ => RETURNDATA </output>
          <wordStack> _ : WS => 1 : WS </wordStack>
