@@ -31,7 +31,10 @@ The configuration of the Foundry Cheat Codes is defined as follwing:
     - `<isStorageWhitelistActive>` flags if the whitelist mode is enabled for storage changes.
     - `<addressSet>` - stores the address whitelist.
     - `<storageSlotSet>` - stores the storage whitelist containing pairs of addresses and storage indexes.
-
+6. The `<mockCalls>` subconfiguration stores information about mock calls that are active.
+    - `<mockCall>`- collection that stores which mock calls are active for each address.
+      - `<mockAddress>` - address which has one or more active mock calls.
+      - `<mockValues>` - map from a mock call calldata (key) and its respective returndata.
 ```k
 requires "abi.md"
 
