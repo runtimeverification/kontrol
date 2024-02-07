@@ -590,6 +590,7 @@ def _init_cterm(
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
         'ADDRESSSET_CELL': set_empty(),
         'STORAGESLOTSET_CELL': set_empty(),
+        'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
     }
 
     if is_test or is_setup or is_constructor:
