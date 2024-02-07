@@ -35,7 +35,7 @@ from .foundry import (
 )
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
-from .prove import foundry_prove
+from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
 
 if TYPE_CHECKING:
@@ -241,6 +241,7 @@ def exec_prove(
     maude_port: int | None = None,
     use_gas: bool = False,
     summary_path: Path | None = None,
+    cse: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -277,6 +278,7 @@ def exec_prove(
         fail_fast=fail_fast,
         use_gas=use_gas,
         summary_entries=summary_entries,
+        cse=cse,
     )
 
     rpc_options = RPCOptions(
@@ -628,13 +630,6 @@ def _create_argument_parser() -> ArgumentParser:
     solc_to_k_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
     solc_to_k_args.add_argument('contract_name', type=str, help='Name of contract to generate K helpers for.')
 
-    def _parse_test_version_tuple(value: str) -> tuple[str, int | None]:
-        if ':' in value:
-            test, version = value.split(':')
-            return (test, int(version))
-        else:
-            return (value, None)
-
     build = command_parser.add_parser(
         'build',
         help='Kompile K definition corresponding to given output directory.',
@@ -731,7 +726,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--match-test',
-        type=_parse_test_version_tuple,
+        type=parse_test_version_tuple,
         dest='tests',
         default=[],
         action='append',
@@ -780,12 +775,7 @@ def _create_argument_parser() -> ArgumentParser:
         help='Path to JSON file containing the summary of the deployment process used for the project.',
     )
     prove_args.add_argument(
-        '--include-summary',
-        type=_parse_test_version_tuple,
-        dest='include_summaries',
-        default=[],
-        action='append',
-        help='Specify a summary to include as a lemma.',
+        '--cse', dest='cse', default=False, action='store_true', help='use Compositional Symbolic Execution'
     )
 
     show_args = command_parser.add_parser(

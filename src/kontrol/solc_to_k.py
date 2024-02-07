@@ -319,6 +319,7 @@ class Contract:
         signature: str
         ast: dict | None
         natspec_values: dict | None
+        function_calls: tuple[str, ...] | None
 
         def __init__(
             self,
@@ -331,6 +332,7 @@ class Contract:
             contract_storage_digest: str,
             sort: KSort,
             devdoc: dict | None,
+            function_calls: Iterable[str] | None,
         ) -> None:
             self.signature = msig
             self.name = abi['name']
@@ -344,6 +346,7 @@ class Contract:
             self.ast = ast
             self.natspec_values = parse_devdoc('custom:kontrol-length-equals', devdoc)
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
+            self.function_calls = tuple(function_calls) if function_calls is not None else None
 
         @property
         def klabel(self) -> KLabel:
@@ -544,6 +547,7 @@ class Contract:
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 method_devdoc = devdoc.get(msig)
+                method_calls = find_function_calls(method_ast)
                 _m = Contract.Method(
                     msig,
                     mid,
@@ -554,6 +558,7 @@ class Contract:
                     self.storage_digest,
                     self.sort_method,
                     method_devdoc,
+                    method_calls,
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
@@ -1069,3 +1074,38 @@ def hex_string_to_int(hex: str) -> int:
         return int(hex, 16)
     else:
         raise ValueError('Invalid hex format')
+
+
+def find_function_calls(node: dict) -> list[str]:
+    function_calls: list[str] = []
+
+    def _find_function_calls(node: dict) -> None:
+        if not node:
+            return
+
+        if node.get('nodeType') == 'FunctionCall':
+            expression = node.get('expression', {})
+            if expression.get('nodeType') == 'MemberAccess':
+                type_string = expression['expression']['typeDescriptions'].get('typeString', '')
+                contract_type = type_string.split(' ')[-1] if 'contract' in type_string else 'UnknownContractType'
+
+                function_name = expression.get('memberName')
+
+                arguments = node.get('arguments', [])
+                arg_types = [arg['typeDescriptions']['typeString'] for arg in arguments if arg.get('typeDescriptions')]
+
+                if contract_type not in ['KEVMCheatsBase', 'Vm', 'UnknownContractType']:
+                    value = f"{contract_type}.{function_name}({','.join(arg_types)})"
+                    if value not in function_calls:  # Check if value is not already in the list
+                        function_calls.append(value)
+
+        for _key, value in node.items():
+            if isinstance(value, dict):
+                _find_function_calls(value)
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, dict):
+                        _find_function_calls(item)
+
+    _find_function_calls(node)
+    return function_calls

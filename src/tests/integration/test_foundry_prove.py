@@ -332,20 +332,7 @@ def test_foundry_dependency(
     if no_use_booster:
         pytest.skip()
 
-    dependency = 'ArithmeticContract.add(uint256,uint256)'
     test = 'ArithmeticCallTest.test_double_add(uint256,uint256)'
-
-    foundry_prove(
-        foundry,
-        tests=[(dependency, None)],
-        prove_options=ProveOptions(
-            max_iterations=10,
-            bug_report=bug_report,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-    )
 
     foundry_prove(
         foundry,
@@ -353,11 +340,12 @@ def test_foundry_dependency(
         prove_options=ProveOptions(
             max_iterations=50,
             bug_report=bug_report,
+            cse=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
         ),
-        include_summaries=[(dependency, None)],
+        include_summaries=[],
     )
 
     show_res = foundry_show(

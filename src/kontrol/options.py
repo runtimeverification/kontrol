@@ -31,6 +31,7 @@ class ProveOptions:
     reinit: bool
     use_gas: bool
     summary_entries: Iterable[SummaryEntry] | None
+    cse: bool
 
     def __init__(
         self,
@@ -53,6 +54,7 @@ class ProveOptions:
         reinit: bool = False,
         use_gas: bool = False,
         summary_entries: list[SummaryEntry] | None = None,
+        cse: bool = False,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
@@ -72,6 +74,7 @@ class ProveOptions:
         object.__setattr__(self, 'reinit', reinit)
         object.__setattr__(self, 'use_gas', use_gas)
         object.__setattr__(self, 'summary_entries', summary_entries)
+        object.__setattr__(self, 'cse', cse)
 
 
 @dataclass(frozen=True)
