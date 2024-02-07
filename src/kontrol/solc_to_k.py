@@ -313,6 +313,7 @@ class Contract:
         sort: KSort
         inputs: tuple[Input, ...]
         contract_name: str
+        contract_name_with_path: str
         contract_digest: str
         contract_storage_digest: str
         payable: bool
@@ -326,7 +327,7 @@ class Contract:
             id: int,
             abi: dict,
             ast: dict | None,
-            contract_name: str,
+            contract_name_with_path: str,
             contract_digest: str,
             contract_storage_digest: str,
             sort: KSort,
@@ -335,7 +336,8 @@ class Contract:
             self.signature = msig
             self.name = abi['name']
             self.id = id
-            self.contract_name = contract_name
+            self.contract_name_with_path = contract_name_with_path
+            self.contract_name = contract_name_with_path.split('%')[-1]
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
             self.sort = sort
@@ -348,12 +350,12 @@ class Contract:
         @property
         def klabel(self) -> KLabel:
             args_list = '_'.join(self.arg_types)
-            return KLabel(f'method_{self.contract_name}_{self.unique_name}_{args_list}')
+            return KLabel(f'method_{self.contract_name_with_path}_{self.unique_name}_{args_list}')
 
         @property
         def unique_klabel(self) -> KLabel:
             args_list = '_'.join(self.arg_types)
-            return KLabel(f'method_{self.contract_name}_{self.unique_name}_{args_list}')
+            return KLabel(f'method_{self.contract_name_with_path}_{self.unique_name}_{args_list}')
 
         @property
         def unique_name(self) -> str:
@@ -361,7 +363,7 @@ class Contract:
 
         @cached_property
         def qualified_name(self) -> str:
-            return f'{self.contract_name}.{self.signature}'
+            return f'{self.contract_name_with_path}.{self.signature}'
 
         @property
         def selector_alias_rule(self) -> KRule:
@@ -549,7 +551,7 @@ class Contract:
                     mid,
                     method,
                     method_ast,
-                    self._name,
+                    self.name_with_path,
                     self.digest,
                     self.storage_digest,
                     self.sort_method,
