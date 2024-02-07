@@ -336,8 +336,7 @@ Node 17:
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
 #And ( { true #Equals VV0_x_114b9705:Int <Int pow256 }
-#And ( { true #Equals VV1_y_114b9705:Int <Int pow256 }
-#And #Not ( { b"\n\x92T\xe4" #Equals b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+#And { true #Equals VV1_y_114b9705:Int <Int pow256 } ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -1534,8 +1533,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( b"\n\x92T\xe4" =/=K b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-               ))))))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-13)]
     
     rule [BASIC-BLOCK-12-TO-14]: <foundry>
@@ -1736,8 +1734,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( b"\n\x92T\xe4" =/=K b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-               ))))))))))))))
+               )))))))))))))
        ensures VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
       [priority(20), label(BASIC-BLOCK-12-TO-14)]
     
@@ -1941,8 +1938,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( b"\n\x92T\xe4" =/=K b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-               ))))))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-15)]
     
     rule [BASIC-BLOCK-14-TO-16]: <foundry>
@@ -2145,8 +2141,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( b"\n\x92T\xe4" =/=K b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-               ))))))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-14-TO-16)]
     
     rule [BASIC-BLOCK-15-TO-17]: <foundry>
@@ -2349,8 +2344,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( b"\n\x92T\xe4" =/=K b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-               ))))))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-17)]
     
     rule [BASIC-BLOCK-16-TO-18]: <foundry>
@@ -2553,8 +2547,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( b"\n\x92T\xe4" =/=K b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-               ))))))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-18)]
 
 endmodule
@@ -2577,8 +2570,7 @@ Failing nodes:
     #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
     #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
     #And ( { true #Equals VV0_x_114b9705:Int <Int pow256 }
-    #And ( { true #Equals VV1_y_114b9705:Int <Int pow256 }
-    #And #Not ( { b"\n\x92T\xe4" #Equals b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
+    #And { true #Equals VV1_y_114b9705:Int <Int pow256 } ) ) ) ) ) ) ) ) ) ) ) ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
   Path condition:
     { true #Equals VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int }
   Model:
