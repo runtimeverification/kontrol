@@ -16,9 +16,10 @@ contract AdditionalToken {
         if(msg.sender != owner)
             count = count + 1;
     }
-    
-    function notZero() public {
-        require(msg.sender != address(0), "AdditionalToken: call from zero address");
+
+    function revertOn15() public {
+        require(msg.sender == address(15), "AdditionalToken: address not 15");
+        revert("AdditionalToken: revert as expected");
     }
 }
 
@@ -106,8 +107,8 @@ contract PlainPrankTest is Test {
 
     function test_prank_expectRevert() public {
         AdditionalToken token = new AdditionalToken();
-        vm.startPrank(address(0));
-        vm.expectRevert("AdditionalToken: call from zero address");
-        token.notZero();
+        vm.prank(address(15));
+        vm.expectRevert("AdditionalToken: revert as expected");
+        token.revertOn15();
     }
 }
