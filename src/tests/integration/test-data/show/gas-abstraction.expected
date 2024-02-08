@@ -386,6 +386,9 @@ Node 6:
           .Set
         </storageSlotSet>
       </whitelist>
+      <mockCalls>
+        .MockCallCellMap
+      </mockCalls>
     </cheatcodes>
   </foundry>
   <generatedCounter>
@@ -582,6 +585,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -774,6 +780,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -966,6 +975,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
