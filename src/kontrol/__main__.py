@@ -357,6 +357,15 @@ def exec_show(
     print(output)
 
 
+def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
+    foundry = _load_foundry(foundry_root)
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    refuted_proof = proof.refute_node(proof.kcfg.node(node))
+    print(refuted_proof)
+
+
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
     foundry_to_dot(foundry=_load_foundry(foundry_root), test=test, version=version)
 
@@ -845,6 +854,13 @@ def _create_argument_parser() -> ArgumentParser:
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
     remove_node.add_argument('node', type=node_id_like, help='Node to remove CFG subgraph from.')
+
+    refute_node = command_parser.add_parser(
+        'refute-node',
+        help='Refute a node and add its refutation as a subproof.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    refute_node.add_argument('node', type=node_id_like, help='Node to refute.')
 
     simplify_node = command_parser.add_parser(
         'simplify-node',
