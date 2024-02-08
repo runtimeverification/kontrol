@@ -211,312 +211,138 @@ def test_process_length_equals(
     assert dyn_len == expected_dynamic_type_length
 
 
-_ast: Final[dict] = {
-    'id': 44657,
-    'nodeType': 'FunctionDefinition',
-    'src': '475:162:22',
-    'nodes': [],
-    'body': {
-        'id': 44656,
-        'nodeType': 'Block',
-        'src': '529:108:22',
-        'nodes': [],
-        'statements': [
-            {
-                'expression': {
-                    'arguments': [],
-                    'expression': {
-                        'argumentTypes': [],
+AST_DATA: list[tuple[str, dict, list[str]]] = [
+    (
+        'skip_first',
+        {
+            'nodeType': 'FunctionDefinition',
+            'body': {
+                'statements': [
+                    {
                         'expression': {
-                            'id': 44637,
-                            'name': 'kevm',
-                            'nodeType': 'Identifier',
-                            'overloadedDeclarations': [],
-                            'referencedDeclaration': 44573,
-                            'src': '538:4:22',
-                            'typeDescriptions': {
-                                'typeIdentifier': 't_contract$_KEVMCheatsBase_$43504',
-                                'typeString': 'contract KEVMCheatsBase',
-                            },
-                        },
-                        'id': 44639,
-                        'isConstant': False,
-                        'isLValue': False,
-                        'isPure': False,
-                        'lValueRequested': False,
-                        'memberLocation': '543:11:22',
-                        'memberName': 'infiniteGas',
-                        'nodeType': 'MemberAccess',
-                        'referencedDeclaration': 43491,
-                        'src': '538:16:22',
-                        'typeDescriptions': {
-                            'typeIdentifier': 't_function_external_nonpayable$__$returns$__$',
-                            'typeString': 'function () external',
-                        },
-                    },
-                    'id': 44640,
-                    'isConstant': False,
-                    'isLValue': False,
-                    'isPure': False,
-                    'kind': 'functionCall',
-                    'lValueRequested': False,
-                    'nameLocations': [],
-                    'names': [],
-                    'nodeType': 'FunctionCall',
-                    'src': '538:18:22',
-                    'tryCall': False,
-                    'typeDescriptions': {'typeIdentifier': 't_tuple$__$', 'typeString': 'tuple()'},
-                },
-                'id': 44641,
-                'nodeType': 'ExpressionStatement',
-                'src': '538:18:22',
-            },
-            {
-                'expression': {
-                    'arguments': [
-                        {
-                            'id': 44645,
-                            'name': 'x',
-                            'nodeType': 'Identifier',
-                            'overloadedDeclarations': [],
-                            'referencedDeclaration': 44632,
-                            'src': '583:1:22',
-                            'typeDescriptions': {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
-                        },
-                        {
-                            'id': 44646,
-                            'name': 'inLuck',
-                            'nodeType': 'Identifier',
-                            'overloadedDeclarations': [],
-                            'referencedDeclaration': 44634,
-                            'src': '586:6:22',
-                            'typeDescriptions': {'typeIdentifier': 't_bool', 'typeString': 'bool'},
-                        },
-                    ],
-                    'expression': {
-                        'argumentTypes': [
-                            {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
-                            {'typeIdentifier': 't_bool', 'typeString': 'bool'},
-                        ],
-                        'expression': {
-                            'id': 44642,
-                            'name': 'counter',
-                            'nodeType': 'Identifier',
-                            'overloadedDeclarations': [],
-                            'referencedDeclaration': 44591,
-                            'src': '565:7:22',
-                            'typeDescriptions': {
-                                'typeIdentifier': 't_contract$_Counter_$43417',
-                                'typeString': 'contract Counter',
-                            },
-                        },
-                        'id': 44644,
-                        'isConstant': False,
-                        'isLValue': False,
-                        'isPure': False,
-                        'lValueRequested': False,
-                        'memberLocation': '573:9:22',
-                        'memberName': 'setNumber',
-                        'nodeType': 'MemberAccess',
-                        'referencedDeclaration': 43409,
-                        'src': '565:17:22',
-                        'typeDescriptions': {
-                            'typeIdentifier': 't_function_external_nonpayable$_t_uint256_$_t_bool_$returns$__$',
-                            'typeString': 'function (uint256,bool) external',
-                        },
-                    },
-                    'id': 44647,
-                    'isConstant': False,
-                    'isLValue': False,
-                    'isPure': False,
-                    'kind': 'functionCall',
-                    'lValueRequested': False,
-                    'nameLocations': [],
-                    'names': [],
-                    'nodeType': 'FunctionCall',
-                    'src': '565:28:22',
-                    'tryCall': False,
-                    'typeDescriptions': {'typeIdentifier': 't_tuple$__$', 'typeString': 'tuple()'},
-                },
-                'id': 44648,
-                'nodeType': 'ExpressionStatement',
-                'src': '565:28:22',
-            },
-            {
-                'expression': {
-                    'arguments': [
-                        {
                             'arguments': [],
                             'expression': {
-                                'argumentTypes': [],
                                 'expression': {
-                                    'id': 44650,
-                                    'name': 'counter',
-                                    'nodeType': 'Identifier',
-                                    'overloadedDeclarations': [],
-                                    'referencedDeclaration': 44591,
-                                    'src': '611:7:22',
                                     'typeDescriptions': {
-                                        'typeIdentifier': 't_contract$_Counter_$43417',
+                                        'typeString': 'contract KEVMCheatsBase',
+                                    },
+                                },
+                                'memberName': 'infiniteGas',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeString': 'function () external',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    },
+                    {
+                        'expression': {
+                            'arguments': [
+                                {'typeDescriptions': {'typeString': 'uint256'}},
+                                {'typeDescriptions': {'typeString': 'bool'}},
+                            ],
+                            'expression': {
+                                'expression': {
+                                    'typeDescriptions': {
                                         'typeString': 'contract Counter',
                                     },
                                 },
-                                'id': 44651,
-                                'isConstant': False,
-                                'isLValue': False,
-                                'isPure': False,
-                                'lValueRequested': False,
-                                'memberLocation': '619:6:22',
+                                'memberName': 'setNumber',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeString': 'function (uint256,bool) external',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    },
+                    {
+                        'expression': {
+                            'arguments': [],
+                            'expression': {
+                                'expression': {
+                                    'typeDescriptions': {
+                                        'typeString': 'contract Counter',
+                                    },
+                                },
                                 'memberName': 'number',
                                 'nodeType': 'MemberAccess',
-                                'referencedDeclaration': 43385,
-                                'src': '611:14:22',
                                 'typeDescriptions': {
-                                    'typeIdentifier': 't_function_external_view$__$returns$_t_uint256_$',
                                     'typeString': 'function () view external returns (uint256)',
                                 },
                             },
-                            'id': 44652,
-                            'isConstant': False,
-                            'isLValue': False,
-                            'isPure': False,
-                            'kind': 'functionCall',
-                            'lValueRequested': False,
-                            'nameLocations': [],
-                            'names': [],
                             'nodeType': 'FunctionCall',
-                            'src': '611:16:22',
-                            'tryCall': False,
-                            'typeDescriptions': {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
-                        },
-                        {
-                            'id': 44653,
-                            'name': 'x',
-                            'nodeType': 'Identifier',
-                            'overloadedDeclarations': [],
-                            'referencedDeclaration': 44632,
-                            'src': '629:1:22',
-                            'typeDescriptions': {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
-                        },
-                    ],
-                    'expression': {
-                        'argumentTypes': [
-                            {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
-                            {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
-                        ],
-                        'id': 44649,
-                        'name': 'assertEq',
-                        'nodeType': 'Identifier',
-                        'overloadedDeclarations': [
-                            2524,
-                            2549,
-                            2562,
-                            2578,
-                            2620,
-                            2662,
-                            2704,
-                            2741,
-                            2778,
-                            2815,
-                            320,
-                            345,
-                            375,
-                            400,
-                            459,
-                            484,
-                            514,
-                            539,
-                            2012,
-                            2047,
-                        ],
-                        'referencedDeclaration': 514,
-                        'src': '602:8:22',
-                        'typeDescriptions': {
-                            'typeIdentifier': 't_function_internal_nonpayable$_t_uint256_$_t_uint256_$returns$__$',
-                            'typeString': 'function (uint256,uint256)',
                         },
                     },
-                    'id': 44654,
-                    'isConstant': False,
-                    'isLValue': False,
-                    'isPure': False,
-                    'kind': 'functionCall',
-                    'lValueRequested': False,
-                    'nameLocations': [],
-                    'names': [],
-                    'nodeType': 'FunctionCall',
-                    'src': '602:29:22',
-                    'tryCall': False,
-                    'typeDescriptions': {'typeIdentifier': 't_tuple$__$', 'typeString': 'tuple()'},
-                },
-                'id': 44655,
-                'nodeType': 'ExpressionStatement',
-                'src': '602:29:22',
+                ],
             },
-        ],
-    },
-    'functionSelector': '36f15a92',
-    'implemented': True,
-    'kind': 'function',
-    'modifiers': [],
-    'name': 'testSetNumber',
-    'nameLocation': '484:13:22',
-    'parameters': {
-        'id': 44635,
-        'nodeType': 'ParameterList',
-        'parameters': [
-            {
-                'constant': False,
-                'id': 44632,
-                'mutability': 'mutable',
-                'name': 'x',
-                'nameLocation': '506:1:22',
-                'nodeType': 'VariableDeclaration',
-                'scope': 44657,
-                'src': '498:9:22',
-                'stateVariable': False,
-                'storageLocation': 'default',
-                'typeDescriptions': {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
-                'typeName': {
-                    'id': 44631,
-                    'name': 'uint256',
-                    'nodeType': 'ElementaryTypeName',
-                    'src': '498:7:22',
-                    'typeDescriptions': {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
-                },
-                'visibility': 'internal',
+        },
+        ['Counter.setNumber(uint256,bool)', 'Counter.number()'],
+    ),
+    (
+        'duplicated_with_const',
+        {
+            'nodeType': 'FunctionDefinition',
+            'body': {
+                'statements': [
+                    {
+                        'expression': {
+                            'arguments': [
+                                {'typeDescriptions': {'typeString': 'uint256'}},
+                                {'typeDescriptions': {'typeString': 'uint256'}},
+                            ],
+                            'expression': {
+                                'expression': {
+                                    'typeDescriptions': {
+                                        'typeString': 'contract ArithmeticContract',
+                                    },
+                                },
+                                'memberName': 'add',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeString': 'function (uint256,uint256) pure external returns (uint256)',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    },
+                    {
+                        'expression': {
+                            'arguments': [
+                                {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
+                                {'typeIdentifier': 't_rational_1_by_1', 'typeString': 'int_const 1'},
+                            ],
+                            'expression': {
+                                'expression': {
+                                    'typeDescriptions': {
+                                        'typeString': 'contract ArithmeticContract',
+                                    },
+                                },
+                                'memberName': 'add',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeString': 'function (uint256,uint256) pure external returns (uint256)',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    },
+                ],
             },
-            {
-                'constant': False,
-                'id': 44634,
-                'mutability': 'mutable',
-                'name': 'inLuck',
-                'nameLocation': '514:6:22',
-                'nodeType': 'VariableDeclaration',
-                'scope': 44657,
-                'src': '509:11:22',
-                'stateVariable': False,
-                'storageLocation': 'default',
-                'typeDescriptions': {'typeIdentifier': 't_bool', 'typeString': 'bool'},
-                'typeName': {
-                    'id': 44633,
-                    'name': 'bool',
-                    'nodeType': 'ElementaryTypeName',
-                    'src': '509:4:22',
-                    'typeDescriptions': {'typeIdentifier': 't_bool', 'typeString': 'bool'},
-                },
-                'visibility': 'internal',
-            },
-        ],
-        'src': '497:24:22',
-    },
-    'returnParameters': {'id': 44636, 'nodeType': 'ParameterList', 'parameters': [], 'src': '529:0:22'},
-    'scope': 44658,
-    'stateMutability': 'nonpayable',
-    'virtual': False,
-    'visibility': 'public',
-}
+        },
+        ['ArithmeticContract.add(uint256,uint256)'],
+    ),
+]
 
 
-def test_find_in_dict() -> None:
-    assert find_function_calls(_ast) == ['Counter.setNumber(uint256,bool)', 'Counter.number()']
+@pytest.mark.parametrize(
+    'test_id,ast,expected',
+    AST_DATA,
+    ids=[test_id for test_id, *_ in AST_DATA],
+)
+def test_find_function_calls(test_id: str, ast: dict, expected: list[str]) -> None:
+    # When
+    output = find_function_calls(ast)
+    # Then
+    assert output == expected

@@ -1077,6 +1077,16 @@ def hex_string_to_int(hex: str) -> int:
 
 
 def find_function_calls(node: dict) -> list[str]:
+    """Recursive function that takes a method AST and returns all the functions that are called in the given method.
+
+    :param node: AST of a Solidity Method
+    :type node: dict
+    :return: A list of unique function signatures that are called inside the provided method AST.
+    :rtype: list[str]
+
+    Functions that belong to contracts such as `Vm` and `KEVMCheatsBase` are ignored.
+    Functions like `abi.encodePacked` that do not belong to a Contract are assigned to a `UnknownContractType` and are ignored.
+    """
     function_calls: list[str] = []
 
     def _find_function_calls(node: dict) -> None:
@@ -1086,17 +1096,19 @@ def find_function_calls(node: dict) -> list[str]:
         if node.get('nodeType') == 'FunctionCall':
             expression = node.get('expression', {})
             if expression.get('nodeType') == 'MemberAccess':
-                type_string = expression['expression']['typeDescriptions'].get('typeString', '')
-                contract_type = type_string.split(' ')[-1] if 'contract' in type_string else 'UnknownContractType'
+                contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
+                contract_type = (
+                    contract_type_string.split(' ')[-1] if 'contract' in contract_type_string else 'UnknownContractType'
+                )
 
                 function_name = expression.get('memberName')
-
-                arguments = node.get('arguments', [])
-                arg_types = [arg['typeDescriptions']['typeString'] for arg in arguments if arg.get('typeDescriptions')]
+                arg_types = expression['typeDescriptions'].get('typeString')
+                args = arg_types.split(' ')[1] if arg_types is not None else '()'
 
                 if contract_type not in ['KEVMCheatsBase', 'Vm', 'UnknownContractType']:
-                    value = f"{contract_type}.{function_name}({','.join(arg_types)})"
-                    if value not in function_calls:  # Check if value is not already in the list
+                    value = f'{contract_type}.{function_name}{args}'
+                    # Check if value is not already in the list
+                    if value not in function_calls:
                         function_calls.append(value)
 
         for _key, value in node.items():
