@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 from kevm_pyk.cli import KEVMCLIArgs
 from kevm_pyk.kompile import KompileTarget
-from pyk.cli.utils import dir_path
+from pyk.cli.utils import dir_path, file_path
 
 if TYPE_CHECKING:
     from typing import TypeVar
@@ -25,6 +25,18 @@ class KontrolCLIArgs(KEVMCLIArgs):
             type=dir_path,
             default=Path('.'),
             help='Path to Foundry project root directory.',
+        )
+        return args
+
+    @cached_property
+    def config_args(self) -> ArgumentParser:
+        args = ArgumentParser(add_help=False)
+        args.add_argument(
+            '--config',
+            dest='config_file',
+            type=file_path,
+            default=Path('./kontrol.toml'),
+            help='Path to kontrol config file.',
         )
         return args
 
