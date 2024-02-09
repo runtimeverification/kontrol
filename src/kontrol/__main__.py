@@ -79,7 +79,7 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
-    toml_args = toml.load(str(args.config_file)) if hasattr(args, "config_file") else {}
+    toml_args = toml.load(str(args.config_file)) if hasattr(args, 'config_file') else {}
     update_with_toml_args(parser, args, toml_args)
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
 
@@ -976,26 +976,26 @@ def _create_argument_parser() -> ArgumentParser:
 
 def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: dict[str, Any]) -> None:
     def canonicalize_option(long_opt: str) -> str:
-        if long_opt in ["ccopt", "I", "O0", "O1", "O2", "O3"]:
-            return "-" + long_opt
-        elif long_opt == "includes":
-            return "-I"
-        elif long_opt == "optimization-level":
+        if long_opt in ['ccopt', 'I', 'O0', 'O1', 'O2', 'O3']:
+            return '-' + long_opt
+        elif long_opt == 'includes':
+            return '-I'
+        elif long_opt == 'optimization-level':
             level = toml_command_args[long_opt] if toml_command_args[long_opt] >= 0 else 0
             level = level if toml_command_args[long_opt] <= 3 else 3
-            toml_command_args[long_opt] = ""
-            return "-O" + str(level)
-        elif long_opt == "counterexample-information":
-            return "--counterexample-information --failure-information"
+            toml_command_args[long_opt] = ''
+            return '-O' + str(level)
+        elif long_opt == 'counterexample-information':
+            return '--counterexample-information --failure-information'
         else:
-            return "--" + long_opt
+            return '--' + long_opt
 
     def canonicalize_negative_logic_option(long_opt: str) -> str:
-        switching_options = ["emit-json", "minimize", "use-booster"]
+        switching_options = ['emit-json', 'minimize', 'use-booster']
         if long_opt in switching_options:
-            return "--no-" + long_opt
-        elif long_opt[:4] is "no-" and long_opt[3:] in switching_options:
-            return "--" + long_opt[3:]
+            return '--no-' + long_opt
+        elif long_opt[:4] == 'no-' and long_opt[3:] in switching_options:
+            return '--' + long_opt[3:]
 
     if args.command not in toml_args.keys():
         return
@@ -1004,7 +1004,7 @@ def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: di
     toml_command_args = toml_args[args.command]
 
     for a_key in toml_command_args:
-        if a_key in ["config"]:
+        if a_key in ['config']:
             continue
         elif type(toml_command_args[a_key]) is not bool:
             toml_commands.append(canonicalize_option(a_key))
