@@ -10,6 +10,8 @@ module FOUNDRY-MAIN
     imports public S2KtestZModValueStore-VERIFICATION
     imports public S2KtestZModAmbiguousTest-VERIFICATION
     imports public S2KtestZModArithmeticTest-VERIFICATION
+    imports public S2KtestZModArithmeticCallTest-VERIFICATION
+    imports public S2KsrcZModArithmeticContract-VERIFICATION
     imports public S2KtestZModAssumeTest-VERIFICATION
     imports public S2KtestZModBMCLoopsTest-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModCommonBase-VERIFICATION
@@ -55,7 +57,11 @@ module FOUNDRY-MAIN
     imports public S2KtestZModLoopsTest-VERIFICATION
     imports public S2KtestZModMergeTest-VERIFICATION
     imports public S2KtestZModMethodDisambiguateTest-VERIFICATION
+    imports public S2KsrcZModMock-VERIFICATION
+    imports public S2KsrcZModNestedMock-VERIFICATION
+    imports public S2KtestZModMockCallRevertTest-VERIFICATION
     imports public S2KtestZModMockCallTest-VERIFICATION
+    imports public S2KtestZModMockCallTestFoundry-VERIFICATION
     imports public S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyToken-VERIFICATION
     imports public S2KtestZModNoImport-VERIFICATION
@@ -166,6 +172,20 @@ endmodule
 
 module S2KtestZModArithmeticTest-VERIFICATION
     imports public S2KtestZModArithmeticTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModArithmeticCallTest-VERIFICATION
+    imports public S2KtestZModArithmeticCallTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModArithmeticContract-VERIFICATION
+    imports public S2KsrcZModArithmeticContract-CONTRACT
     
     
 
@@ -487,8 +507,36 @@ module S2KtestZModMethodDisambiguateTest-VERIFICATION
 
 endmodule
 
+module S2KsrcZModMock-VERIFICATION
+    imports public S2KsrcZModMock-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModNestedMock-VERIFICATION
+    imports public S2KsrcZModNestedMock-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModMockCallRevertTest-VERIFICATION
+    imports public S2KtestZModMockCallRevertTest-CONTRACT
+    
+    
+
+endmodule
+
 module S2KtestZModMockCallTest-VERIFICATION
     imports public S2KtestZModMockCallTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModMockCallTestFoundry-VERIFICATION
+    imports public S2KtestZModMockCallTestFoundry-CONTRACT
     
     
 
