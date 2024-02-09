@@ -145,6 +145,9 @@ def test_foundry_prove(
     ):
         pytest.skip()
 
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
     prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=test_id in GAS_TESTS)
 
     # When
@@ -196,6 +199,9 @@ def test_foundry_fail(
     if no_use_booster:
         pytest.skip()
 
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
     prove_res = foundry_prove(
         foundry,
         tests=[(test_id, None)],
@@ -246,6 +252,9 @@ def test_foundry_bmc(
     if test_id in SKIPPED_BMC_TESTS:
         pytest.skip()
 
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
     # When
     prove_res = foundry_prove(
         foundry,
@@ -270,6 +279,9 @@ def test_foundry_merge_nodes(
         pytest.skip()
 
     test = 'MergeTest.test_branch_merge(uint256)'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
 
     foundry_prove(
         foundry,
@@ -335,6 +347,9 @@ def test_foundry_dependency(
     dependency = 'ArithmeticContract.add(uint256,uint256)'
     test = 'ArithmeticCallTest.test_double_add(uint256,uint256)'
 
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
     foundry_prove(
         foundry,
         tests=[(dependency, None)],
@@ -395,6 +410,9 @@ def test_foundry_auto_abstraction(
 
     test_id = 'GasTest.testInfiniteGas()'
 
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
     foundry_prove(
         foundry,
         tests=[(test_id, None)],
@@ -437,6 +455,9 @@ def test_foundry_remove_node(
         pytest.skip()
 
     test = 'AssertTest.test_assert_true()'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
 
     prove_res = foundry_prove(
         foundry,
@@ -508,6 +529,9 @@ def test_foundry_resume_proof(
         pytest.skip()
 
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
 
     prove_res = foundry_prove(
         foundry,
