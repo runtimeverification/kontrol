@@ -264,6 +264,8 @@ def _run_cfg_group(
                 smt_retry_limit=rpc_options.smt_retry_limit,
                 trace_rewrites=rpc_options.trace_rewrites,
                 bug_report_id=test.id,
+                max_iterations=prove_options.max_iterations,
+                fail_fast=prove_options.fail_fast,
             )
         elif type(proof) is APRBMCProof:
             parallel_prover = ParallelAPRBMCProver(
@@ -282,12 +284,14 @@ def _run_cfg_group(
                 smt_retry_limit=rpc_options.smt_retry_limit,
                 trace_rewrites=rpc_options.trace_rewrites,
                 bug_report_id=test.id,
+                max_iterations=prove_options.max_iterations,
+                fail_fast=prove_options.fail_fast,
             )
 
         proofs[proof.id] = proof
         provers[proof.id] = parallel_prover
 
-    parallel_results = parallel.prove_parallel(
+    parallel_results, _ = parallel.prove_parallel(
         proofs=proofs,
         provers=provers,
         max_workers=prove_options.workers,
