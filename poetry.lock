@@ -433,7 +433,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.449"
+version = "1.0.450"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -442,14 +442,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.618"}
+pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.619"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.449"
-resolved_reference = "9e88278f72aebf74d94b928654b6364086bf165a"
+reference = "v1.0.450"
+resolved_reference = "0612f68fc7bf6b55c8db74fee1b7031b2b6b962a"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -808,7 +808,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.618"
+version = "0.1.619"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -829,8 +829,8 @@ xdg-base-dirs = "^6.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.618"
-resolved_reference = "e1519523721e84eec783019f7c061121bc50241e"
+reference = "v0.1.619"
+resolved_reference = "e68db42142d1e03d23cabd4cfff9082a08798f12"
 
 [[package]]
 name = "pyperclip"
@@ -1042,13 +1042,13 @@ files = [
 
 [[package]]
 name = "uc-micro-py"
-version = "1.0.2"
+version = "1.0.3"
 description = "Micro subset of unicode data files for linkify-it-py projects."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "uc-micro-py-1.0.2.tar.gz", hash = "sha256:30ae2ac9c49f39ac6dce743bd187fcd2b574b16ca095fa74cd9396795c954c54"},
-    {file = "uc_micro_py-1.0.2-py3-none-any.whl", hash = "sha256:8c9110c309db9d9e87302e2f4ad2c3152770930d88ab385cd544e7a7e75f3de0"},
+    {file = "uc-micro-py-1.0.3.tar.gz", hash = "sha256:d321b92cff673ec58027c04015fcaa8bb1e005478643ff4a500882eaab88c48a"},
+    {file = "uc_micro_py-1.0.3-py3-none-any.whl", hash = "sha256:db1dffff340817673d7b466ec86114a9dc0e9d4d9b5ba229d9d60e5c12600cd5"},
 ]
 
 [package.extras]
@@ -1094,4 +1094,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "64618fd9626db3d1ee193290ba784031fb0bbc5f5d687e3bd37c873f2b517091"
+content-hash = "7667552d131cd580bbb16ecdc193b896547cc9c270136024bf4c7ffbca1d9bc7"
