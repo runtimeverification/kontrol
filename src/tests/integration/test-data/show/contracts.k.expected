@@ -897,7 +897,7 @@ module S2KtestZModAmbiguousTest-CONTRACT
     
     syntax S2KtestZModAmbiguousTestMethod ::= "S2KtestZUndarrayZUndtype" "(" Int ":" "uint256" ")" [symbol(), klabel(method_test%AmbiguousTest_S2KtestZUndarrayZUndtype_uint256)]
     
-    syntax S2KtestZModAmbiguousTestMethod ::= "S2KtestZUndarrayZUndtype" "(" K ":" "uint256[]" ")" [symbol(), klabel(method_test%AmbiguousTest_S2KtestZUndarrayZUndtype_uint256[])]
+    syntax S2KtestZModAmbiguousTestMethod ::= "S2KtestZUndarrayZUndtype" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%AmbiguousTest_S2KtestZUndarrayZUndtype_uint256_uint256)]
     
     syntax S2KtestZModAmbiguousTestMethod ::= "S2KtestZUndassertZUndtrue" "(" ")" [symbol(), klabel(method_test%AmbiguousTest_S2KtestZUndassertZUndtrue_)]
     
@@ -4256,160 +4256,197 @@ module S2KsrcZModDeploymentSummaryCode-CONTRACT
 
 endmodule
 
-module S2KtestZModDynamicTypes-CONTRACT
+module S2KtestZModDynamicTypesTest-CONTRACT
     imports public FOUNDRY
     
-    syntax Contract ::= S2KtestZModDynamicTypesContract
+    syntax Contract ::= S2KtestZModDynamicTypesTestContract
     
-    syntax S2KtestZModDynamicTypesContract ::= "S2KtestZModDynamicTypes" [symbol(), klabel(contract_test%DynamicTypes)]
+    syntax S2KtestZModDynamicTypesTestContract ::= "S2KtestZModDynamicTypesTest" [symbol(), klabel(contract_test%DynamicTypesTest)]
     
       
     
-    rule  ( #initBytecode ( S2KtestZModDynamicTypes ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b50610d268061003d6000396000f3fe608060405234801561001057600080fd5b50600436106100a95760003560e01c8063916a17c611610071578063916a17c614610106578063b5508aa91461010e578063ba414fa614610116578063e20c9f711461012e578063ee9c6a0d14610136578063fa7626d41461014b57600080fd5b80631ed7831c146100ae5780633e5e3c23146100cc5780633f7286f4146100d457806366d9a9a0146100dc57806385226c81146100f1575b600080fd5b6100b6610158565b6040516100c391906109b5565b60405180910390f35b6100b66101ba565b6100b661021a565b6100e461027a565b6040516100c39190610a02565b6100f9610369565b6040516100c39190610ae5565b6100e4610439565b6100f961051f565b61011e6105ef565b60405190151581526020016100c3565b6100b661071c565b610149610144366004610b75565b61077c565b005b60075461011e9060ff1681565b606060148054806020026020016040519081016040528092919081815260200182805480156101b057602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610192575b5050505050905090565b606060168054806020026020016040519081016040528092919081815260200182805480156101b0576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610192575050505050905090565b606060158054806020026020016040519081016040528092919081815260200182805480156101b0576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610192575050505050905090565b60606019805480602002602001604051908101604052809291908181526020016000905b828210156103605760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561034857602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b0319168152602001906004019060208260030104928301926001038202915080841161030a5790505b5050505050815250508152602001906001019061029e565b50505050905090565b60606018805480602002602001604051908101604052809291908181526020016000905b828210156103605783829060005260206000200180546103ac90610c2a565b80601f01602080910402602001604051908101604052809291908181526020018280546103d890610c2a565b80156104255780601f106103fa57610100808354040283529160200191610425565b820191906000526020600020905b81548152906001019060200180831161040857829003601f168201915b50505050508152602001906001019061038d565b6060601a805480602002602001604051908101604052809291908181526020016000905b828210156103605760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561050757602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116104c95790505b5050505050815250508152602001906001019061045d565b60606017805480602002602001604051908101604052809291908181526020016000905b8282101561036057838290600052602060002001805461056290610c2a565b80601f016020809104026020016040519081016040528092919081815260200182805461058e90610c2a565b80156105db5780601f106105b0576101008083540402835291602001916105db565b820191906000526020600020905b8154815290600101906020018083116105be57829003601f168201915b505050505081526020019060010190610543565b600754600090610100900460ff16156106115750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b156107175760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b8284015282518083038401815260608301909352600092909161069f917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001610c64565b60408051601f19818403018152908290526106b991610c95565b6000604051808303816000865af19150503d80600081146106f6576040519150601f19603f3d011682016040523d82523d6000602084013e6106fb565b606091505b50915050808060200190518101906107139190610cb1565b9150505b919050565b606060138054806020026020016040519081016040528092919081815260200182805480156101b0576020028201919060005260206000209081546001600160a01b03168152600190910190602001808311610192575050505050905090565b600082828151811061079057610790610cda565b0160200151604051632631f2b160e11b8152600360f89290921c9182106004820152909150737109709ecfa91a80626ff3989d68f67f5b1dd12d90634c63e5629060240160006040518083038186803b1580156107ec57600080fd5b505afa158015610800573d6000803e3d6000fd5b5050505061082d8160ff166002148061081c57508160ff166001145b80610828575060ff8216155b610832565b505050565b806108a6577f41304facd9323d75b11bcdd609cb38effffdb05710f7caf0e9b16c6d9d709f506040516108969060208082526017908201527f4572726f723a20417373657274696f6e204661696c6564000000000000000000604082015260600190565b60405180910390a16108a66108a9565b50565b737109709ecfa91a80626ff3989d68f67f5b1dd12d3b156109a45760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b9282019290925260016060820152600091907f70ca10bbd0dbfd9020a9f4b13402c16cb120705e0d1c0aeab10fa353ae586fc49060800160408051601f19818403018152908290526109439291602001610c64565b60408051601f198184030181529082905261095d91610c95565b6000604051808303816000865af19150503d806000811461099a576040519150601f19603f3d011682016040523d82523d6000602084013e61099f565b606091505b505050505b6007805461ff001916610100179055565b6020808252825182820181905260009190848201906040850190845b818110156109f65783516001600160a01b0316835292840192918401916001016109d1565b50909695505050505050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b84811015610aa657898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b80831015610a915783516001600160e01b0319168252928b019260019290920191908b0190610a67565b50978a01979550505091870191600101610a2a565b50919998505050505050505050565b60005b83811015610ad0578181015183820152602001610ab8565b83811115610adf576000848401525b50505050565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b82811015610b5257878503603f1901845281518051808752610b33818989018a8501610ab5565b601f01601f191695909501860194509285019290850190600101610b0c565b5092979650505050505050565b634e487b7160e01b600052604160045260246000fd5b60008060408385031215610b8857600080fd5b823567ffffffffffffffff80821115610ba057600080fd5b818501915085601f830112610bb457600080fd5b813581811115610bc657610bc6610b5f565b604051601f8201601f19908116603f01168101908382118183101715610bee57610bee610b5f565b81604052828152886020848701011115610c0757600080fd5b826020860160208301376000602093820184015298969091013596505050505050565b600181811c90821680610c3e57607f821691505b602082108103610c5e57634e487b7160e01b600052602260045260246000fd5b50919050565b6001600160e01b0319831681528151600090610c87816004850160208701610ab5565b919091016004019392505050565b60008251610ca7818460208701610ab5565b9190910192915050565b600060208284031215610cc357600080fd5b81518015158114610cd357600080fd5b9392505050565b634e487b7160e01b600052603260045260246000fdfea264697066735822122017385678ed725f54cfe42d4b641e150467465fb1d01eb34561378443776bb95364736f6c634300080d0033" ) )
+    rule  ( #initBytecode ( S2KtestZModDynamicTypesTest ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b5061102a8061003d6000396000f3fe608060405234801561001057600080fd5b50600436106100b45760003560e01c8063933f577211610071578063933f577214610119578063b5508aa91461012e578063ba414fa614610136578063e20c9f711461014e578063ee9c6a0d14610156578063fa7626d41461016957600080fd5b80631ed7831c146100b95780633e5e3c23146100d75780633f7286f4146100df57806366d9a9a0146100e757806385226c81146100fc578063916a17c614610111575b600080fd5b6100c1610176565b6040516100ce9190610b86565b60405180910390f35b6100c16101d8565b6100c1610238565b6100ef610298565b6040516100ce9190610bd3565b610104610387565b6040516100ce9190610cb6565b6100ef610457565b61012c610127366004610d7c565b61053d565b005b6101046106f0565b61013e6107c0565b60405190151581526020016100ce565b6100c16108ed565b61012c610164366004610e06565b61094d565b60075461013e9060ff1681565b606060148054806020026020016040519081016040528092919081815260200182805480156101ce57602002820191906000526020600020905b81546001600160a01b031681526001909101906020018083116101b0575b5050505050905090565b606060168054806020026020016040519081016040528092919081815260200182805480156101ce576020028201919060005260206000209081546001600160a01b031681526001909101906020018083116101b0575050505050905090565b606060158054806020026020016040519081016040528092919081815260200182805480156101ce576020028201919060005260206000209081546001600160a01b031681526001909101906020018083116101b0575050505050905090565b60606019805480602002602001604051908101604052809291908181526020016000905b8282101561037e5760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561036657602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116103285790505b505050505081525050815260200190600101906102bc565b50505050905090565b60606018805480602002602001604051908101604052809291908181526020016000905b8282101561037e5783829060005260206000200180546103ca90610ebb565b80601f01602080910402602001604051908101604052809291908181526020018280546103f690610ebb565b80156104435780601f1061041857610100808354040283529160200191610443565b820191906000526020600020905b81548152906001019060200180831161042657829003601f168201915b5050505050815260200190600101906103ab565b6060601a805480602002602001604051908101604052809291908181526020016000905b8282101561037e5760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561052557602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116104e75790505b5050505050815250508152602001906001019061047b565b600a84146105a95760405162461bcd60e51b815260206004820152602e60248201527f44796e616d696354797065733a20696e76616c6964206c656e67746820666f7260448201526d20436f6d706c6578547970655b5d60901b60648201526084015b60405180910390fd5b6005821461060a5760405162461bcd60e51b815260206004820152602860248201527f44796e616d696354797065733a20696e76616c6964206c656e67746820666f726044820152672062797465735b5d60c01b60648201526084016105a0565b604051632631f2b160e11b8152600a82106004820152737109709ecfa91a80626ff3989d68f67f5b1dd12d90634c63e5629060240160006040518083038186803b15801561065757600080fd5b505afa15801561066b573d6000803e3d6000fd5b5050505084848281811061068157610681610ef5565b90506020028101906106939190610f0b565b6106a1906020810190610f2b565b9050612710146106b3576106b3610f72565b8282828181106106c5576106c5610ef5565b90506020028101906106d79190610f2b565b9050610258146106e9576106e9610f72565b5050505050565b60606017805480602002602001604051908101604052809291908181526020016000905b8282101561037e57838290600052602060002001805461073390610ebb565b80601f016020809104026020016040519081016040528092919081815260200182805461075f90610ebb565b80156107ac5780601f10610781576101008083540402835291602001916107ac565b820191906000526020600020905b81548152906001019060200180831161078f57829003601f168201915b505050505081526020019060010190610714565b600754600090610100900460ff16156107e25750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b156108e85760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b82840152825180830384018152606083019093526000929091610870917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001610f88565b60408051601f198184030181529082905261088a91610fb9565b6000604051808303816000865af19150503d80600081146108c7576040519150601f19603f3d011682016040523d82523d6000602084013e6108cc565b606091505b50915050808060200190518101906108e49190610fcb565b9150505b919050565b606060138054806020026020016040519081016040528092919081815260200182805480156101ce576020028201919060005260206000209081546001600160a01b031681526001909101906020018083116101b0575050505050905090565b600082828151811061096157610961610ef5565b0160200151604051632631f2b160e11b8152600360f89290921c9182106004820152909150737109709ecfa91a80626ff3989d68f67f5b1dd12d90634c63e5629060240160006040518083038186803b1580156109bd57600080fd5b505afa1580156109d1573d6000803e3d6000fd5b505050506109fe8160ff16600214806109ed57508160ff166001145b806109f9575060ff8216155b610a03565b505050565b80610a77577f41304facd9323d75b11bcdd609cb38effffdb05710f7caf0e9b16c6d9d709f50604051610a679060208082526017908201527f4572726f723a20417373657274696f6e204661696c6564000000000000000000604082015260600190565b60405180910390a1610a77610a7a565b50565b737109709ecfa91a80626ff3989d68f67f5b1dd12d3b15610b755760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b9282019290925260016060820152600091907f70ca10bbd0dbfd9020a9f4b13402c16cb120705e0d1c0aeab10fa353ae586fc49060800160408051601f1981840301815290829052610b149291602001610f88565b60408051601f1981840301815290829052610b2e91610fb9565b6000604051808303816000865af19150503d8060008114610b6b576040519150601f19603f3d011682016040523d82523d6000602084013e610b70565b606091505b505050505b6007805461ff001916610100179055565b6020808252825182820181905260009190848201906040850190845b81811015610bc75783516001600160a01b031683529284019291840191600101610ba2565b50909695505050505050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b84811015610c7757898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b80831015610c625783516001600160e01b0319168252928b019260019290920191908b0190610c38565b50978a01979550505091870191600101610bfb565b50919998505050505050505050565b60005b83811015610ca1578181015183820152602001610c89565b83811115610cb0576000848401525b50505050565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b82811015610d2357878503603f1901845281518051808752610d04818989018a8501610c86565b601f01601f191695909501860194509285019290850190600101610cdd565b5092979650505050505050565b60008083601f840112610d4257600080fd5b50813567ffffffffffffffff811115610d5a57600080fd5b6020830191508360208260051b8501011115610d7557600080fd5b9250929050565b600080600080600060608688031215610d9457600080fd5b853567ffffffffffffffff80821115610dac57600080fd5b610db889838a01610d30565b90975095506020880135915080821115610dd157600080fd5b50610dde88828901610d30565b96999598509660400135949350505050565b634e487b7160e01b600052604160045260246000fd5b60008060408385031215610e1957600080fd5b823567ffffffffffffffff80821115610e3157600080fd5b818501915085601f830112610e4557600080fd5b813581811115610e5757610e57610df0565b604051601f8201601f19908116603f01168101908382118183101715610e7f57610e7f610df0565b81604052828152886020848701011115610e9857600080fd5b826020860160208301376000602093820184015298969091013596505050505050565b600181811c90821680610ecf57607f821691505b602082108103610eef57634e487b7160e01b600052602260045260246000fd5b50919050565b634e487b7160e01b600052603260045260246000fd5b60008235603e19833603018112610f2157600080fd5b9190910192915050565b6000808335601e19843603018112610f4257600080fd5b83018035915067ffffffffffffffff821115610f5d57600080fd5b602001915036819003821315610d7557600080fd5b634e487b7160e01b600052600160045260246000fd5b6001600160e01b0319831681528151600090610fab816004850160208701610c86565b919091016004019392505050565b60008251610f21818460208701610c86565b600060208284031215610fdd57600080fd5b81518015158114610fed57600080fd5b939250505056fea26469706673582212201367b159de249cfcdfc6b4ee87444f961060887d5802fe2bae396aa830662ae564736f6c634300080d0033" ) )
       
     
-    syntax Field ::= S2KtestZModDynamicTypesField
+    syntax Field ::= S2KtestZModDynamicTypesTestField
     
-    syntax S2KtestZModDynamicTypesField ::= "stdstore" [symbol(), klabel(field_test%DynamicTypes_stdstore)]
+    syntax S2KtestZModDynamicTypesTestField ::= "stdstore" [symbol(), klabel(field_test%DynamicTypesTest_stdstore)]
     
-    syntax S2KtestZModDynamicTypesField ::= "IS_TEST" [symbol(), klabel(field_test%DynamicTypes_IS_TEST)]
+    syntax S2KtestZModDynamicTypesTestField ::= "IS_TEST" [symbol(), klabel(field_test%DynamicTypesTest_IS_TEST)]
     
-    syntax S2KtestZModDynamicTypesField ::= "_failed" [symbol(), klabel(field_test%DynamicTypes__failed)]
+    syntax S2KtestZModDynamicTypesTestField ::= "_failed" [symbol(), klabel(field_test%DynamicTypesTest__failed)]
     
-    syntax S2KtestZModDynamicTypesField ::= "stdChainsInitialized" [symbol(), klabel(field_test%DynamicTypes_stdChainsInitialized)]
+    syntax S2KtestZModDynamicTypesTestField ::= "stdChainsInitialized" [symbol(), klabel(field_test%DynamicTypesTest_stdChainsInitialized)]
     
-    syntax S2KtestZModDynamicTypesField ::= "chains" [symbol(), klabel(field_test%DynamicTypes_chains)]
+    syntax S2KtestZModDynamicTypesTestField ::= "chains" [symbol(), klabel(field_test%DynamicTypesTest_chains)]
     
-    syntax S2KtestZModDynamicTypesField ::= "defaultRpcUrls" [symbol(), klabel(field_test%DynamicTypes_defaultRpcUrls)]
+    syntax S2KtestZModDynamicTypesTestField ::= "defaultRpcUrls" [symbol(), klabel(field_test%DynamicTypesTest_defaultRpcUrls)]
     
-    syntax S2KtestZModDynamicTypesField ::= "idToAlias" [symbol(), klabel(field_test%DynamicTypes_idToAlias)]
+    syntax S2KtestZModDynamicTypesTestField ::= "idToAlias" [symbol(), klabel(field_test%DynamicTypesTest_idToAlias)]
     
-    syntax S2KtestZModDynamicTypesField ::= "fallbackToDefaultRpcUrls" [symbol(), klabel(field_test%DynamicTypes_fallbackToDefaultRpcUrls)]
+    syntax S2KtestZModDynamicTypesTestField ::= "fallbackToDefaultRpcUrls" [symbol(), klabel(field_test%DynamicTypesTest_fallbackToDefaultRpcUrls)]
     
-    syntax S2KtestZModDynamicTypesField ::= "gasMeteringOff" [symbol(), klabel(field_test%DynamicTypes_gasMeteringOff)]
+    syntax S2KtestZModDynamicTypesTestField ::= "gasMeteringOff" [symbol(), klabel(field_test%DynamicTypesTest_gasMeteringOff)]
     
-    syntax S2KtestZModDynamicTypesField ::= "_excludedContracts" [symbol(), klabel(field_test%DynamicTypes__excludedContracts)]
+    syntax S2KtestZModDynamicTypesTestField ::= "_excludedContracts" [symbol(), klabel(field_test%DynamicTypesTest__excludedContracts)]
     
-    syntax S2KtestZModDynamicTypesField ::= "_excludedSenders" [symbol(), klabel(field_test%DynamicTypes__excludedSenders)]
+    syntax S2KtestZModDynamicTypesTestField ::= "_excludedSenders" [symbol(), klabel(field_test%DynamicTypesTest__excludedSenders)]
     
-    syntax S2KtestZModDynamicTypesField ::= "_targetedContracts" [symbol(), klabel(field_test%DynamicTypes__targetedContracts)]
+    syntax S2KtestZModDynamicTypesTestField ::= "_targetedContracts" [symbol(), klabel(field_test%DynamicTypesTest__targetedContracts)]
     
-    syntax S2KtestZModDynamicTypesField ::= "_targetedSenders" [symbol(), klabel(field_test%DynamicTypes__targetedSenders)]
+    syntax S2KtestZModDynamicTypesTestField ::= "_targetedSenders" [symbol(), klabel(field_test%DynamicTypesTest__targetedSenders)]
     
-    syntax S2KtestZModDynamicTypesField ::= "_excludedArtifacts" [symbol(), klabel(field_test%DynamicTypes__excludedArtifacts)]
+    syntax S2KtestZModDynamicTypesTestField ::= "_excludedArtifacts" [symbol(), klabel(field_test%DynamicTypesTest__excludedArtifacts)]
     
-    syntax S2KtestZModDynamicTypesField ::= "_targetedArtifacts" [symbol(), klabel(field_test%DynamicTypes__targetedArtifacts)]
+    syntax S2KtestZModDynamicTypesTestField ::= "_targetedArtifacts" [symbol(), klabel(field_test%DynamicTypesTest__targetedArtifacts)]
     
-    syntax S2KtestZModDynamicTypesField ::= "_targetedArtifactSelectors" [symbol(), klabel(field_test%DynamicTypes__targetedArtifactSelectors)]
+    syntax S2KtestZModDynamicTypesTestField ::= "_targetedArtifactSelectors" [symbol(), klabel(field_test%DynamicTypesTest__targetedArtifactSelectors)]
     
-    syntax S2KtestZModDynamicTypesField ::= "_targetedSelectors" [symbol(), klabel(field_test%DynamicTypes__targetedSelectors)]
+    syntax S2KtestZModDynamicTypesTestField ::= "_targetedSelectors" [symbol(), klabel(field_test%DynamicTypesTest__targetedSelectors)]
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . stdstore ) => 0 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . stdstore ) => 0 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . IS_TEST ) => 7 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . IS_TEST ) => 7 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . _failed ) => 7 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . _failed ) => 7 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . stdChainsInitialized ) => 7 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . stdChainsInitialized ) => 7 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . chains ) => 8 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . chains ) => 8 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . defaultRpcUrls ) => 9 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . defaultRpcUrls ) => 9 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . idToAlias ) => 10 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . idToAlias ) => 10 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . fallbackToDefaultRpcUrls ) => 11 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . fallbackToDefaultRpcUrls ) => 11 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . gasMeteringOff ) => 11 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . gasMeteringOff ) => 11 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . _excludedContracts ) => 19 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . _excludedContracts ) => 19 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . _excludedSenders ) => 20 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . _excludedSenders ) => 20 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . _targetedContracts ) => 21 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . _targetedContracts ) => 21 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . _targetedSenders ) => 22 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . _targetedSenders ) => 22 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . _excludedArtifacts ) => 23 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . _excludedArtifacts ) => 23 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . _targetedArtifacts ) => 24 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . _targetedArtifacts ) => 24 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . _targetedArtifactSelectors ) => 25 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . _targetedArtifactSelectors ) => 25 )
       
     
-    rule  ( #loc ( S2KtestZModDynamicTypes . _targetedSelectors ) => 26 )
+    rule  ( #loc ( S2KtestZModDynamicTypesTest . _targetedSelectors ) => 26 )
       
     
-    syntax Bytes ::= S2KtestZModDynamicTypesContract "." S2KtestZModDynamicTypesMethod [function(), symbol(), klabel(method_test%DynamicTypes)]
+    syntax Bytes ::= S2KtestZModDynamicTypesTestContract "." S2KtestZModDynamicTypesTestMethod [function(), symbol(), klabel(method_test%DynamicTypesTest)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KISZUndTEST" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2KISZUndTEST_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KISZUndTEST_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2KexcludeArtifacts_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KexcludeArtifacts_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KexcludeContracts" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2KexcludeContracts_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KexcludeContracts_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KexcludeSenders" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2KexcludeSenders_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KexcludeSenders_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2Kfailed" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2Kfailed_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2Kfailed" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2Kfailed_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2KtargetArtifactSelectors_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KtargetArtifactSelectors_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2KtargetArtifacts_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KtargetArtifacts_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KtargetContracts" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2KtargetContracts_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtargetContracts" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KtargetContracts_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KtargetSelectors" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2KtargetSelectors_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KtargetSelectors_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KtargetSenders" "(" ")" [symbol(), klabel(method_test%DynamicTypes_S2KtargetSenders_)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtargetSenders" "(" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KtargetSenders_)]
     
-    syntax S2KtestZModDynamicTypesMethod ::= "S2KtestZUnddynamicZUndbyteZUndread" "(" Bytes ":" "bytes" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%DynamicTypes_S2KtestZUnddynamicZUndbyteZUndread_bytes_uint256)]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUndcomplexZUndtype" "(" Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KtestZUndcomplexZUndtype_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_bytes_bytes_bytes_bytes_bytes_bytes_bytes_bytes_bytes_bytes_uint256)]
     
-    rule  ( S2KtestZModDynamicTypes . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUnddynamicZUndbyteZUndread" "(" Bytes ":" "bytes" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%DynamicTypesTest_S2KtestZUnddynamicZUndbyteZUndread_bytes_uint256)]
+    
+    rule  ( S2KtestZModDynamicTypesTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModDynamicTypes . S2KtestZUnddynamicZUndbyteZUndread ( V0_data : bytes , V1_offset : uint256 ) => #abiCallData ( "test_dynamic_byte_read" , #bytes ( V0_data ) , #uint256 ( V1_offset ) , .TypedArgs ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUndcomplexZUndtype ( V0_id_0 : uint256 , V1_content_0 : bytes , V0_id_1 : uint256 , V1_content_1 : bytes , V0_id_2 : uint256 , V1_content_2 : bytes , V0_id_3 : uint256 , V1_content_3 : bytes , V0_id_4 : uint256 , V1_content_4 : bytes , V0_id_5 : uint256 , V1_content_5 : bytes , V0_id_6 : uint256 , V1_content_6 : bytes , V0_id_7 : uint256 , V1_content_7 : bytes , V0_id_8 : uint256 , V1_content_8 : bytes , V0_id_9 : uint256 , V1_content_9 : bytes , V2_ba_0 : bytes , V2_ba_1 : bytes , V2_ba_2 : bytes , V2_ba_3 : bytes , V2_ba_4 : bytes , V2_ba_5 : bytes , V2_ba_6 : bytes , V2_ba_7 : bytes , V2_ba_8 : bytes , V2_ba_9 : bytes , V3_offset : uint256 ) => #abiCallData ( "test_complex_type" , #array ( #tuple ( #uint256 ( V0_id_0 ) , #bytes ( V1_content_0 ) , .TypedArgs ) , 10 , #tuple ( #uint256 ( V0_id_0 ) , #bytes ( V1_content_0 ) , .TypedArgs ) , #tuple ( #uint256 ( V0_id_1 ) , #bytes ( V1_content_1 ) , .TypedArgs ) , #tuple ( #uint256 ( V0_id_2 ) , #bytes ( V1_content_2 ) , .TypedArgs ) , #tuple ( #uint256 ( V0_id_3 ) , #bytes ( V1_content_3 ) , .TypedArgs ) , #tuple ( #uint256 ( V0_id_4 ) , #bytes ( V1_content_4 ) , .TypedArgs ) , #tuple ( #uint256 ( V0_id_5 ) , #bytes ( V1_content_5 ) , .TypedArgs ) , #tuple ( #uint256 ( V0_id_6 ) , #bytes ( V1_content_6 ) , .TypedArgs ) , #tuple ( #uint256 ( V0_id_7 ) , #bytes ( V1_content_7 ) , .TypedArgs ) , #tuple ( #uint256 ( V0_id_8 ) , #bytes ( V1_content_8 ) , .TypedArgs ) , #tuple ( #uint256 ( V0_id_9 ) , #bytes ( V1_content_9 ) , .TypedArgs ) , .TypedArgs ) , #array ( #bytes ( V2_ba_0 ) , 10 , #bytes ( V2_ba_0 ) , #bytes ( V2_ba_1 ) , #bytes ( V2_ba_2 ) , #bytes ( V2_ba_3 ) , #bytes ( V2_ba_4 ) , #bytes ( V2_ba_5 ) , #bytes ( V2_ba_6 ) , #bytes ( V2_ba_7 ) , #bytes ( V2_ba_8 ) , #bytes ( V2_ba_9 ) , .TypedArgs ) , #uint256 ( V3_offset ) , .TypedArgs ) )
+       ensures ( #rangeUInt ( 256 , V0_id_0 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_0 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_1 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_1 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_2 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_2 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_3 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_3 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_4 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_4 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_5 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_5 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_6 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_6 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_7 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_7 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_8 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_8 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_9 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_9 ) )
+       andBool ( lengthBytes ( V2_ba_0 ) ==Int 600
+       andBool ( lengthBytes ( V2_ba_1 ) ==Int 600
+       andBool ( lengthBytes ( V2_ba_2 ) ==Int 600
+       andBool ( lengthBytes ( V2_ba_3 ) ==Int 600
+       andBool ( lengthBytes ( V2_ba_4 ) ==Int 600
+       andBool ( lengthBytes ( V2_ba_5 ) ==Int 600
+       andBool ( lengthBytes ( V2_ba_6 ) ==Int 600
+       andBool ( lengthBytes ( V2_ba_7 ) ==Int 600
+       andBool ( lengthBytes ( V2_ba_8 ) ==Int 600
+       andBool ( lengthBytes ( V2_ba_9 ) ==Int 600
+       andBool ( #rangeUInt ( 256 , V3_offset )
+               )))))))))))))))))))))))))))))))
+      
+    
+    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUnddynamicZUndbyteZUndread ( V0_data : bytes , V1_offset : uint256 ) => #abiCallData ( "test_dynamic_byte_read" , #bytes ( V0_data ) , #uint256 ( V1_offset ) , .TypedArgs ) )
        ensures ( #rangeUInt ( 64 , lengthBytes ( V0_data ) )
        andBool ( #rangeUInt ( 256 , V1_offset )
                ))
@@ -4443,6 +4480,9 @@ module S2KtestZModDynamicTypes-CONTRACT
       
     
     rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_complex_type((uint256,bytes)[],bytes[],uint256)" ) => 2470401906 )
       
     
     rule  ( selector ( "test_dynamic_byte_read(bytes,uint256)" ) => 4003228173 )
@@ -6966,13 +7006,13 @@ module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     
     syntax Bytes ::= S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Contract "." S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method [function(), symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate" "(" Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate_address_bytes)]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate" "(" Int ":" "address" "," Bytes ":" "bytes" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate_address_bytes_address_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3" "(" Int ":" "address" "," Int ":" "bool" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate3_address_bool_bytes)]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3" "(" Int ":" "address" "," Int ":" "bool" "," Bytes ":" "bytes" "," Int ":" "address" "," Int ":" "bool" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate3_address_bool_bytes_address_bool_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3Value" "(" Int ":" "address" "," Int ":" "bool" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate3Value_address_bool_uint256_bytes)]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3Value" "(" Int ":" "address" "," Int ":" "bool" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "address" "," Int ":" "bool" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate3Value_address_bool_uint256_bytes_address_bool_uint256_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KblockAndAggregate" "(" Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2KblockAndAggregate_address_bytes)]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KblockAndAggregate" "(" Int ":" "address" "," Bytes ":" "bytes" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2KblockAndAggregate_address_bytes_address_bytes)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KgetBasefee" "(" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2KgetBasefee_)]
     
@@ -6994,9 +7034,47 @@ module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KgetLastBlockHash" "(" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2KgetLastBlockHash_)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2KtryAggregate_bool_address_bytes)]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2KtryAggregate_bool_address_bytes_address_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryBlockAndAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2KtryBlockAndAggregate_bool_address_bytes)]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryBlockAndAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%interfaces%IMulticall3_S2KtryBlockAndAggregate_bool_address_bytes_address_bytes)]
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2Kaggregate ( V0_target_0 : address , V1_callData_0 : bytes , V0_target_1 : address , V1_callData_1 : bytes ) => #abiCallData ( "aggregate" , #array ( #tuple ( #address ( V0_target_0 ) , #bytes ( V1_callData_0 ) , .TypedArgs ) , 2 , #tuple ( #address ( V0_target_0 ) , #bytes ( V1_callData_0 ) , .TypedArgs ) , #tuple ( #address ( V0_target_1 ) , #bytes ( V1_callData_1 ) , .TypedArgs ) , .TypedArgs ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_target_0 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_callData_0 ) )
+       andBool ( #rangeAddress ( V0_target_1 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_callData_1 ) )
+               ))))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2Kaggregate3 ( V0_target_0 : address , V1_allowFailure_0 : bool , V2_callData_0 : bytes , V0_target_1 : address , V1_allowFailure_1 : bool , V2_callData_1 : bytes ) => #abiCallData ( "aggregate3" , #array ( #tuple ( #address ( V0_target_0 ) , #bool ( V1_allowFailure_0 ) , #bytes ( V2_callData_0 ) , .TypedArgs ) , 2 , #tuple ( #address ( V0_target_0 ) , #bool ( V1_allowFailure_0 ) , #bytes ( V2_callData_0 ) , .TypedArgs ) , #tuple ( #address ( V0_target_1 ) , #bool ( V1_allowFailure_1 ) , #bytes ( V2_callData_1 ) , .TypedArgs ) , .TypedArgs ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_target_0 )
+       andBool ( #rangeBool ( V1_allowFailure_0 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V2_callData_0 ) )
+       andBool ( #rangeAddress ( V0_target_1 )
+       andBool ( #rangeBool ( V1_allowFailure_1 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V2_callData_1 ) )
+               ))))))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2Kaggregate3Value ( V0_target_0 : address , V1_allowFailure_0 : bool , V2_value_0 : uint256 , V3_callData_0 : bytes , V0_target_1 : address , V1_allowFailure_1 : bool , V2_value_1 : uint256 , V3_callData_1 : bytes ) => #abiCallData ( "aggregate3Value" , #array ( #tuple ( #address ( V0_target_0 ) , #bool ( V1_allowFailure_0 ) , #uint256 ( V2_value_0 ) , #bytes ( V3_callData_0 ) , .TypedArgs ) , 2 , #tuple ( #address ( V0_target_0 ) , #bool ( V1_allowFailure_0 ) , #uint256 ( V2_value_0 ) , #bytes ( V3_callData_0 ) , .TypedArgs ) , #tuple ( #address ( V0_target_1 ) , #bool ( V1_allowFailure_1 ) , #uint256 ( V2_value_1 ) , #bytes ( V3_callData_1 ) , .TypedArgs ) , .TypedArgs ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_target_0 )
+       andBool ( #rangeBool ( V1_allowFailure_0 )
+       andBool ( #rangeUInt ( 256 , V2_value_0 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V3_callData_0 ) )
+       andBool ( #rangeAddress ( V0_target_1 )
+       andBool ( #rangeBool ( V1_allowFailure_1 )
+       andBool ( #rangeUInt ( 256 , V2_value_1 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V3_callData_1 ) )
+               ))))))))
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KblockAndAggregate ( V0_target_0 : address , V1_callData_0 : bytes , V0_target_1 : address , V1_callData_1 : bytes ) => #abiCallData ( "blockAndAggregate" , #array ( #tuple ( #address ( V0_target_0 ) , #bytes ( V1_callData_0 ) , .TypedArgs ) , 2 , #tuple ( #address ( V0_target_0 ) , #bytes ( V1_callData_0 ) , .TypedArgs ) , #tuple ( #address ( V0_target_1 ) , #bytes ( V1_callData_1 ) , .TypedArgs ) , .TypedArgs ) , .TypedArgs ) )
+       ensures ( #rangeAddress ( V0_target_0 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_callData_0 ) )
+       andBool ( #rangeAddress ( V0_target_1 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_callData_1 ) )
+               ))))
+      
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KgetBasefee ( ) => #abiCallData ( "getBasefee" , .TypedArgs ) )
       
@@ -8033,15 +8111,15 @@ module S2KtestZModLoopsTest-CONTRACT
     
     syntax S2KtestZModLoopsTestMethod ::= "S2KtestIsPrimeOpt" "(" Int ":" "uint256" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestIsPrimeOpt_uint256)]
     
-    syntax S2KtestZModLoopsTestMethod ::= "S2KtestMax" "(" K ":" "uint256[]" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestMax_uint256[])]
+    syntax S2KtestZModLoopsTestMethod ::= "S2KtestMax" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestMax_uint256_uint256)]
     
-    syntax S2KtestZModLoopsTestMethod ::= "S2KtestMaxBroken" "(" K ":" "uint256[]" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestMaxBroken_uint256[])]
+    syntax S2KtestZModLoopsTestMethod ::= "S2KtestMaxBroken" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestMaxBroken_uint256_uint256)]
     
     syntax S2KtestZModLoopsTestMethod ::= "S2KtestNthPrime" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestNthPrime_uint256_uint256)]
     
-    syntax S2KtestZModLoopsTestMethod ::= "S2KtestSort" "(" K ":" "uint256[]" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestSort_uint256[])]
+    syntax S2KtestZModLoopsTestMethod ::= "S2KtestSort" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestSort_uint256_uint256)]
     
-    syntax S2KtestZModLoopsTestMethod ::= "S2KtestSortBroken" "(" K ":" "uint256[]" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestSortBroken_uint256[])]
+    syntax S2KtestZModLoopsTestMethod ::= "S2KtestSortBroken" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestSortBroken_uint256_uint256)]
     
     syntax S2KtestZModLoopsTestMethod ::= "S2KtestSqrt" "(" Int ":" "uint256" ")" [symbol(), klabel(method_test%LoopsTest_S2KtestSqrt_uint256)]
     
@@ -16123,19 +16201,19 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "address[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_address[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" "," Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_address_address)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "bool[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_bool[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" "," Int ":" "bool" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_bool_bool)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "bytes32[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_bytes32[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_bytes32_bytes32)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "bytes[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_bytes[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_bytes_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "int256[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_int256[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" "," Int ":" "int256" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_int256_int256)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "string[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_string[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_string_string)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "uint256[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_uint256[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_string_uint256_uint256)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KenvOr_string_uint256)]
     
@@ -16185,7 +16263,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2Kfee" "(" Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2Kfee_uint256)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2Kffi" "(" K ":" "string[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2Kffi_string[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2Kffi" "(" String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2Kffi_string_string)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KfsMetadata" "(" String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KfsMetadata_string)]
     
@@ -16211,7 +16289,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KmakePersistent" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KmakePersistent_address_address_address)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KmakePersistent" "(" K ":" "address[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KmakePersistent_address[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KmakePersistent" "(" Int ":" "address" "," Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KmakePersistent_address_address)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KmockCall" "(" Int ":" "address" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KmockCall_address_bytes_bytes)]
     
@@ -16309,7 +16387,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KrevokePersistent" "(" Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KrevokePersistent_address)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KrevokePersistent" "(" K ":" "address[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KrevokePersistent_address[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KrevokePersistent" "(" Int ":" "address" "," Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KrevokePersistent_address_address)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2Kroll" "(" Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2Kroll_uint256)]
     
@@ -16331,31 +16409,31 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeAddress_string_string_address)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," K ":" "address[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeAddress_string_string_address[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" "," Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeAddress_string_string_address_address)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeBool_string_string_bool)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," K ":" "bool[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeBool_string_string_bool[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" "," Int ":" "bool" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeBool_string_string_bool_bool)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeBytes_string_string_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," K ":" "bytes[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeBytes_string_string_bytes[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeBytes_string_string_bytes_bytes)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeBytes32_string_string_bytes32)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," K ":" "bytes32[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeBytes32_string_string_bytes32[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeBytes32_string_string_bytes32_bytes32)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeInt_string_string_int256)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," K ":" "int256[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeInt_string_string_int256[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" "," Int ":" "int256" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeInt_string_string_int256_int256)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeString_string_string_string)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," K ":" "string[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeString_string_string_string[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeString_string_string_string_string)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeUint_string_string_uint256)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," K ":" "uint256[]" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeUint_string_string_uint256[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KserializeUint_string_string_uint256_uint256)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KsetEnv" "(" String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%Vm_S2KsetEnv_string_string)]
     
@@ -17835,19 +17913,19 @@ module S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "address[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_address[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" "," Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_address_address)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "bool[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bool[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" "," Int ":" "bool" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bool_bool)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "bytes32[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bytes32[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bytes32_bytes32)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "bytes[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bytes[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bytes_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "int256[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_int256[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" "," Int ":" "int256" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_int256_int256)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "string[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_string[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_string_string)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," K ":" "uint256[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_uint256[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_uint256_uint256)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvOr_string_uint256)]
     
@@ -17859,7 +17937,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvUint" "(" String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KenvUint_string_string)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2Kffi" "(" K ":" "string[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2Kffi_string[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2Kffi" "(" String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2Kffi_string_string)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KfsMetadata" "(" String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KfsMetadata_string)]
     
@@ -17959,31 +18037,31 @@ module S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeAddress_string_string_address)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," K ":" "address[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeAddress_string_string_address[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" "," Int ":" "address" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeAddress_string_string_address_address)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeBool_string_string_bool)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," K ":" "bool[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeBool_string_string_bool[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" "," Int ":" "bool" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeBool_string_string_bool_bool)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeBytes_string_string_bytes)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," K ":" "bytes[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeBytes_string_string_bytes[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeBytes_string_string_bytes_bytes)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeBytes32_string_string_bytes32)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," K ":" "bytes32[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeBytes32_string_string_bytes32[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeBytes32_string_string_bytes32_bytes32)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeInt_string_string_int256)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," K ":" "int256[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeInt_string_string_int256[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" "," Int ":" "int256" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeInt_string_string_int256_int256)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeString_string_string_string)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," K ":" "string[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeString_string_string_string[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeString_string_string_string_string)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeUint_string_string_uint256)]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," K ":" "uint256[]" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeUint_string_string_uint256[])]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KserializeUint_string_string_uint256_uint256)]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KsetEnv" "(" String ":" "string" "," String ":" "string" ")" [symbol(), klabel(method_lib%forge-std%src%VmSafe_S2KsetEnv_string_string)]
     
