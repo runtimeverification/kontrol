@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
 import pyk
-import toml
+import toml  # type: ignore
 from kevm_pyk.cli import node_id_like
 from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
@@ -987,8 +987,7 @@ def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: di
             return '-O' + str(level)
         elif long_opt == 'counterexample-information':
             return '--counterexample-information --failure-information'
-        else:
-            return '--' + long_opt
+        return '--' + long_opt
 
     def canonicalize_negative_logic_option(long_opt: str) -> str:
         switching_options = ['emit-json', 'minimize', 'use-booster']
@@ -996,6 +995,7 @@ def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: di
             return '--no-' + long_opt
         elif long_opt[:4] == 'no-' and long_opt[3:] in switching_options:
             return '--' + long_opt[3:]
+        return '--' + long_opt
 
     if args.command not in toml_args.keys():
         return
@@ -1015,7 +1015,8 @@ def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: di
         else:
             toml_commands.append(canonicalize_negative_logic_option(a_key))
 
-    args = parser.parse_args(toml_commands.append(sys.argv[1:]))
+    toml_commands.append(sys.argv[1:])
+    args = parser.parse_args(toml_commands)
 
 
 def _loglevel(args: Namespace) -> int:
