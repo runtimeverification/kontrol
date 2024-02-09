@@ -3,11 +3,11 @@ from __future__ import annotations
 import json
 import logging
 import sys
-import toml
 from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
 import pyk
+import toml
 from kevm_pyk.cli import node_id_like
 from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
@@ -78,7 +78,7 @@ def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Fo
 def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
-    args = parser.parse_args()    
+    args = parser.parse_args()
     toml_args = toml.load(str(args.config_file)) if hasattr(args, "config_file") else {}
     update_with_toml_args(parser, args, toml_args)
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
@@ -828,25 +828,46 @@ def _create_argument_parser() -> ArgumentParser:
     command_parser.add_parser(
         'to-dot',
         help='Dump the given CFG for the test as DOT for visualization.',
-        parents=[kontrol_cli_args.config_args, kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+        parents=[
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
 
     command_parser.add_parser(
         'list',
         help='List information about CFGs on disk',
-        parents=[kontrol_cli_args.config_args, kontrol_cli_args.logging_args, kontrol_cli_args.k_args, kontrol_cli_args.foundry_args],
+        parents=[
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.k_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
 
     command_parser.add_parser(
         'view-kcfg',
         help='Explore a given proof in the KCFG visualizer.',
-        parents=[kontrol_cli_args.config_args, kontrol_cli_args.config_args,kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+        parents=[
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
 
     remove_node = command_parser.add_parser(
         'remove-node',
         help='Remove a node and its successors.',
-        parents=[kontrol_cli_args.config_args, kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+        parents=[
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
     remove_node.add_argument('node', type=node_id_like, help='Node to remove CFG subgraph from.')
 
@@ -955,37 +976,47 @@ def _create_argument_parser() -> ArgumentParser:
 
 def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: dict[str, Any]) -> None:
     def canonicalize_option(long_opt: str) -> str:
-        if long_opt in ["ccopt", "I", "O0", "O1", "O2", "O3" ]: return "-"+long_opt
-        elif long_opt == "includes": return "-I"
-        elif long_opt == "optimization-level": 
-            level = toml_command_args[long_opt] if toml_command_args[long_opt] >= 0 else 0 
-            level = level if toml_command_args[long_opt] <= 3 else 3 
+        if long_opt in ["ccopt", "I", "O0", "O1", "O2", "O3"]:
+            return "-" + long_opt
+        elif long_opt == "includes":
+            return "-I"
+        elif long_opt == "optimization-level":
+            level = toml_command_args[long_opt] if toml_command_args[long_opt] >= 0 else 0
+            level = level if toml_command_args[long_opt] <= 3 else 3
             toml_command_args[long_opt] = ""
-            return "-O"+str(level)
-        elif long_opt == "counterexample-information": return "--counterexample-information --failure-information"
-        else: return "--"+long_opt
+            return "-O" + str(level)
+        elif long_opt == "counterexample-information":
+            return "--counterexample-information --failure-information"
+        else:
+            return "--" + long_opt
 
     def canonicalize_negative_logic_option(long_opt: str) -> str:
         switching_options = ["emit-json", "minimize", "use-booster"]
-        if long_opt in switching_options: return "--no-" + long_opt
-        elif long_opt[:4] is "no-" and long_opt[3:] in switching_options: return "--" + long_opt[3:]
-    
-    if args.command not in toml_args.keys(): return
+        if long_opt in switching_options:
+            return "--no-" + long_opt
+        elif long_opt[:4] is "no-" and long_opt[3:] in switching_options:
+            return "--" + long_opt[3:]
+
+    if args.command not in toml_args.keys():
+        return
 
     toml_commands = [args.command]
     toml_command_args = toml_args[args.command]
 
     for a_key in toml_command_args:
-        if a_key in ["config"]: continue
+        if a_key in ["config"]:
+            continue
         elif type(toml_command_args[a_key]) is not bool:
             toml_commands.append(canonicalize_option(a_key))
-            if len(str(toml_command_args[a_key])) > 0 : toml_commands.append(str(toml_command_args[a_key]))
+            if len(str(toml_command_args[a_key])) > 0:
+                toml_commands.append(str(toml_command_args[a_key]))
         elif toml_command_args[a_key]:
             toml_commands.append(canonicalize_option(a_key))
         else:
             toml_commands.append(canonicalize_negative_logic_option(a_key))
 
     args = parser.parse_args(toml_commands.append(sys.argv[1:]))
+
 
 def _loglevel(args: Namespace) -> int:
     if hasattr(args, 'debug') and args.debug:
