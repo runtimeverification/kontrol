@@ -852,7 +852,6 @@ def _create_argument_parser() -> ArgumentParser:
         help='Explore a given proof in the KCFG visualizer.',
         parents=[
             kontrol_cli_args.config_args,
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.foundry_args,
