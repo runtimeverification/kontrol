@@ -974,27 +974,29 @@ def _create_argument_parser() -> ArgumentParser:
 
 
 def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: dict[str, Any]) -> None:
-    def canonicalize_option(long_opt: str) -> str:
+    def canonicalize_option(long_opt: str) -> None:
         if long_opt in ['ccopt', 'I', 'O0', 'O1', 'O2', 'O3']:
-            return '-' + long_opt
+            toml_commands.append('-' + long_opt)
         elif long_opt == 'includes':
-            return '-I'
+            toml_commands.append('-I')
         elif long_opt == 'optimization-level':
             level = toml_command_args[long_opt] if toml_command_args[long_opt] >= 0 else 0
             level = level if toml_command_args[long_opt] <= 3 else 3
             toml_command_args[long_opt] = ''
-            return '-O' + str(level)
+            toml_commands.append('-O' + str(level))
         elif long_opt == 'counterexample-information':
-            return '--counterexample-information --failure-information'
-        return '--' + long_opt
+            toml_commands.append('--counterexample-information')
+            toml_commands.append('--failure-information')
+        else:
+            toml_commands.append('--' + long_opt)
 
-    def canonicalize_negative_logic_option(long_opt: str) -> str:
+    def canonicalize_negative_logic_option(long_opt: str) -> None:
         switching_options = ['emit-json', 'minimize', 'use-booster']
         if long_opt in switching_options:
-            return '--no-' + long_opt
+            toml_commands.append('--no-' + long_opt)
         elif long_opt[:4] == 'no-' and long_opt[3:] in switching_options:
-            return '--' + long_opt[3:]
-        return '--' + long_opt
+            toml_commands.append('--' + long_opt[3:])
+        toml_commands.append('--' + long_opt)
 
     if args.command not in toml_args.keys():
         return
@@ -1006,16 +1008,15 @@ def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: di
         if a_key in ['config']:
             continue
         elif type(toml_command_args[a_key]) is not bool:
-            toml_commands.append(canonicalize_option(a_key))
+            canonicalize_option(a_key)
             if len(str(toml_command_args[a_key])) > 0:
                 toml_commands.append(str(toml_command_args[a_key]))
         elif toml_command_args[a_key]:
-            toml_commands.append(canonicalize_option(a_key))
+            canonicalize_option(a_key)
         else:
-            toml_commands.append(canonicalize_negative_logic_option(a_key))
+            canonicalize_negative_logic_option(a_key)
 
-    toml_commands.append(sys.argv[1:])
-    args = parser.parse_args(toml_commands)
+    args = parser.parse_args(toml_commands + sys.argv[2:])
 
 
 def _loglevel(args: Namespace) -> int:
