@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import datetime
 import json
 import logging
 import os
 import re
 import sys
+import xml.etree.ElementTree as Et
 from functools import cached_property
 from os import listdir
 from pathlib import Path
@@ -663,6 +665,27 @@ def foundry_list(foundry: Foundry) -> list[str]:
         lines = lines[0:-1]
 
     return lines
+
+
+def foundry_to_junit_xml(foundry: Foundry) -> None:
+    testsuites = Et.Element('testsuites')
+
+    for test_id in listdir(foundry.proofs_dir):
+        test, *_ = test_id.split(':')
+        contract, test_name = test.split('.')
+        _, contract_name = contract.split('%')
+        testsuite = testsuites.find(f'testsuite[@name={contract_name!r}]')
+
+        if testsuite is None:
+            testsuite = Et.SubElement(
+                testsuites, 'testsuite', name=contract_name, timestamp=str(datetime.datetime.now())
+            )
+
+        Et.SubElement(testsuite, 'testcase', name=test_name, classname=contract_name, time='1.051')
+
+    tree = Et.ElementTree(testsuites)
+    Et.indent(tree, space='\t', level=0)
+    tree.write('filename.xml')
 
 
 def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:

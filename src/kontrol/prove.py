@@ -22,7 +22,7 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.utils import run_process, unique
 
-from .foundry import Foundry
+from .foundry import Foundry, foundry_to_junit_xml
 from .solc_to_k import Contract, hex_string_to_int
 
 if TYPE_CHECKING:
@@ -122,6 +122,7 @@ def foundry_prove(
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
     results = _run_prover(test_suite, include_summaries=True)
+    foundry_to_junit_xml(foundry=foundry)
     return results
 
 
