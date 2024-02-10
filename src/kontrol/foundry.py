@@ -24,8 +24,8 @@ from pyk.prelude.collections import map_empty
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRBMCProof, APRProof
-from pyk.proof.show import APRBMCProofNodePrinter, APRProofNodePrinter, APRProofShow
+from pyk.proof.reachability import APRProof
+from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
 from .deployment import DeploymentSummary, SummaryEntry
@@ -959,17 +959,9 @@ class FoundryAPRNodePrinter(FoundryNodePrinter, APRProofNodePrinter):
         APRProofNodePrinter.__init__(self, proof, foundry.kevm)
 
 
-class FoundryAPRBMCNodePrinter(FoundryNodePrinter, APRBMCProofNodePrinter):
-    def __init__(self, foundry: Foundry, contract_name: str, proof: APRBMCProof, omit_unstable_output: bool = False):
-        FoundryNodePrinter.__init__(self, foundry, contract_name, omit_unstable_output=omit_unstable_output)
-        APRBMCProofNodePrinter.__init__(self, proof, foundry.kevm)
-
-
 def foundry_node_printer(
     foundry: Foundry, contract_name: str, proof: APRProof, omit_unstable_output: bool = False
 ) -> NodePrinter:
-    if type(proof) is APRBMCProof:
-        return FoundryAPRBMCNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     if type(proof) is APRProof:
         return FoundryAPRNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
