@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 from filelock import FileLock
+from kevm_pyk.kompile import KompileTarget
 from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.utils import run_process, single
@@ -59,6 +60,17 @@ def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
     )
 
 
+@pytest.fixture(scope='module')
+def maude_server(foundry: Foundry) -> Iterator[KoreServer]:
+    kore_rpc_command = ('maude-server',)
+
+    yield kore_server(
+        definition_dir=foundry.kevm.definition_dir / 'kompiled-maude',
+        module_name=foundry.kevm.main_module,
+        command=kore_rpc_command,
+    )
+
+
 @pytest.fixture(scope='session')
 def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, worker_id: str) -> Foundry:
     if foundry_root_dir:
@@ -82,6 +94,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                 includes=(),
                 requires=[str(TEST_DATA_DIR / 'lemmas.k')],
                 imports=['LoopsTest:SUM-TO-N-INVARIANT'],
+                target=KompileTarget.MAUDE,
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
@@ -137,6 +150,7 @@ def test_foundry_prove(
     no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
+    maude_server: KoreServer,
 ) -> None:
     if (
         test_id in SKIPPED_PROVE_TESTS
@@ -157,6 +171,7 @@ def test_foundry_prove(
         prove_options=prove_options,
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -178,6 +193,7 @@ def test_foundry_prove(
         failure_info=True,
         counterexample_info=True,
         port=server.port,
+        maude_port=maude_server.port,
     )
 
     # Then
@@ -195,6 +211,7 @@ def test_foundry_fail(
     no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
+    maude_server: KoreServer,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -232,6 +249,7 @@ def test_foundry_fail(
         failure_info=True,
         counterexample_info=True,
         port=server.port,
+        maude_port=maude_server.port,
     )
 
     # Then
@@ -244,7 +262,7 @@ SKIPPED_BMC_TESTS: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().
 
 @pytest.mark.parametrize('test_id', ALL_BMC_TESTS)
 def test_foundry_bmc(
-    test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
+    test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool, maude_server: KoreServer
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -265,6 +283,7 @@ def test_foundry_bmc(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -273,7 +292,7 @@ def test_foundry_bmc(
 
 
 def test_foundry_merge_nodes(
-    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
+    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool, maude_server: KoreServer
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -292,6 +311,7 @@ def test_foundry_merge_nodes(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -304,6 +324,7 @@ def test_foundry_merge_nodes(
         depth=49,
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     foundry_step_node(
@@ -313,6 +334,7 @@ def test_foundry_merge_nodes(
         depth=50,
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     check_pending(foundry, test, [6, 7])
@@ -329,6 +351,7 @@ def test_foundry_merge_nodes(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -404,6 +427,7 @@ def test_foundry_auto_abstraction(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    maude_server: KoreServer,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -423,6 +447,7 @@ def test_foundry_auto_abstraction(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -437,6 +462,7 @@ def test_foundry_auto_abstraction(
         failing=True,
         failure_info=True,
         port=server.port,
+        maude_port=maude_server.port,
     )
 
     assert_or_update_show_output(
@@ -450,6 +476,7 @@ def test_foundry_remove_node(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    maude_server: KoreServer,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -467,6 +494,7 @@ def test_foundry_remove_node(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -489,6 +517,7 @@ def test_foundry_remove_node(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
     assert_pass(test, single(prove_res))
@@ -524,6 +553,7 @@ def test_foundry_resume_proof(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    maude_server: KoreServer,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -544,6 +574,7 @@ def test_foundry_resume_proof(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
@@ -562,6 +593,7 @@ def test_foundry_resume_proof(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            maude_port=maude_server.port,
         ),
     )
 
