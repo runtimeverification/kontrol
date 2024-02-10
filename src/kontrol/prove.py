@@ -241,7 +241,6 @@ def _run_cfg_group(
                 )
 
             run_prover(
-                foundry.kevm,
                 proof,
                 kcfg_explore,
                 max_depth=prove_options.max_depth,
