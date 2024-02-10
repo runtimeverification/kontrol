@@ -19,7 +19,7 @@ from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRBMCProof, APRProof
+from pyk.proof.reachability import APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
@@ -306,22 +306,17 @@ def method_to_apr_proof(
         summary_entries=summary_entries,
     )
 
-    if bmc_depth is not None:
-        apr_proof = APRBMCProof(
-            test.id,
-            kcfg,
-            [],
-            init_node_id,
-            target_node_id,
-            {},
-            bmc_depth,
-            proof_dir=foundry.proofs_dir,
-            subproof_ids=summary_ids,
-        )
-    else:
-        apr_proof = APRProof(
-            test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=foundry.proofs_dir, subproof_ids=summary_ids
-        )
+    apr_proof = APRProof(
+        test.id,
+        kcfg,
+        [],
+        init_node_id,
+        target_node_id,
+        {},
+        bmc_depth=bmc_depth,
+        proof_dir=foundry.proofs_dir,
+        subproof_ids=summary_ids,
+    )
 
     apr_proof.write_proof_data()
     return apr_proof
