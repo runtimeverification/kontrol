@@ -154,8 +154,10 @@ class Input:
 
     def make_single_type(self) -> KApply:
         """
-        Generates a KApply representation of a single type input, handling arrays, nested arrays,
-        and base types. For 'tuple[]', it calls '_make_tuple_type' for each element in the array.
+        Generates a KApply representation for a single type input.
+
+        It handles arrays, nested arrays, and base types.
+        For 'tuple[]', it calls '_make_tuple_type' for each element in the array.
         For arrays, it generates a list of Input objects numbered from 0 to `array_length`.
         TODO: Add support for nested arrays and use the entire 'input.array_lengths' array
         instead of only the first value.

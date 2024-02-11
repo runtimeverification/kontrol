@@ -13,7 +13,7 @@ contract DynamicTypesTest is Test {
     /// @custom:kontrol-length-equals content: 10000,
     /// @custom:kontrol-length-equals ba: 10,
     /// @custom:kontrol-length-equals ba[]:600,
-    function test_complex_type(ComplexType calldata ctValues, bytes[] calldata ba, uint256 offset) public {
+    function test_complex_type(ComplexType calldata ctValues, bytes[] calldata ba) public {
         require (ba.length == 10, "DynamicTypes: invalid length for bytes[]");
         assert(ctValues.content.length == 10000);
         assert(ba[8].length == 600);
