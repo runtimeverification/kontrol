@@ -32,7 +32,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModCounterTest-VERIFICATION
     imports public S2KsrcZModDeploymentSummary-VERIFICATION
     imports public S2KsrcZModDeploymentSummaryCode-VERIFICATION
-    imports public S2KtestZModDynamicTypes-VERIFICATION
+    imports public S2KtestZModDynamicTypesTest-VERIFICATION
     imports public S2KsrcZModExpectEmit-VERIFICATION
     imports public S2KtestZModEmitContractTest-VERIFICATION
     imports public S2KtestZModEnvTest-VERIFICATION
@@ -331,8 +331,8 @@ module S2KsrcZModDeploymentSummaryCode-VERIFICATION
 
 endmodule
 
-module S2KtestZModDynamicTypes-VERIFICATION
-    imports public S2KtestZModDynamicTypes-CONTRACT
+module S2KtestZModDynamicTypesTest-VERIFICATION
+    imports public S2KtestZModDynamicTypesTest-CONTRACT
     
     
 
