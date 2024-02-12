@@ -420,6 +420,7 @@ class Foundry:
 
     def get_contract_and_method(self, test: str) -> tuple[Contract, Contract.Method | Contract.Constructor]:
         contract_name, method_name = test.split('.')
+        #          print(self.contracts.keys(), file=sys.stderr)
         contract = self.contracts[contract_name]
 
         if method_name == 'init':

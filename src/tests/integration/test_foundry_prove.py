@@ -4,10 +4,14 @@ import sys
 from distutils.dir_util import copy_tree
 from typing import TYPE_CHECKING
 
+import pyk.proof.parallel as parallel
 import pytest
 from filelock import FileLock
+from kevm_pyk.kevm import KEVMSemantics
+from kevm_pyk.utils import legacy_explore
 from pyk.kore.rpc import kore_server
-from pyk.proof import APRProof
+from pyk.proof import APRProof, ProofStatus
+from pyk.proof.reachability import APRProofProcessData, ParallelAPRProver
 from pyk.utils import run_process, single
 
 from kontrol.foundry import (
@@ -20,7 +24,7 @@ from kontrol.foundry import (
 )
 from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
-from kontrol.prove import foundry_prove
+from kontrol.prove import FoundryTest, foundry_prove, method_to_apr_proof
 
 from .utils import TEST_DATA_DIR
 
@@ -157,6 +161,7 @@ def test_foundry_prove(
         prove_options=prove_options,
         rpc_options=RPCOptions(
             port=server.port,
+            use_booster=(not no_use_booster),
         ),
     )
 
@@ -211,6 +216,7 @@ def test_foundry_fail(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            use_booster=(not no_use_booster),
         ),
     )
 
@@ -265,6 +271,7 @@ def test_foundry_bmc(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            use_booster=(not no_use_booster),
         ),
     )
 
@@ -423,6 +430,7 @@ def test_foundry_auto_abstraction(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            use_booster=(not no_use_booster),
         ),
     )
 
@@ -467,6 +475,7 @@ def test_foundry_remove_node(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            use_booster=(not no_use_booster),
         ),
     )
     assert_pass(test, single(prove_res))
@@ -489,6 +498,7 @@ def test_foundry_remove_node(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            use_booster=(not no_use_booster),
         ),
     )
     assert_pass(test, single(prove_res))
@@ -544,6 +554,7 @@ def test_foundry_resume_proof(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            use_booster=(not no_use_booster),
         ),
     )
 
@@ -562,6 +573,7 @@ def test_foundry_resume_proof(
         ),
         rpc_options=RPCOptions(
             port=server.port,
+            use_booster=(not no_use_booster),
         ),
     )
 
@@ -592,6 +604,70 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
 
     # Then
     assert_pass(test, single(prove_res))
+
+
+def test_foundry_prove_parallel(foundry: Foundry, server: KoreServer, no_use_booster: bool) -> None:
+    foundry.mk_proofs_dir()
+    contract, method = foundry.get_contract_and_method('test%AssumeTest.test_long_branches(uint256)')
+
+    test = FoundryTest(contract, method, 0)
+
+    smt_timeout = 300
+    smt_retry_limit = 10
+
+    proof: APRProof
+
+    with legacy_explore(
+        foundry.kevm,
+        kcfg_semantics=KEVMSemantics(),
+        id=test.id,
+        llvm_definition_dir=foundry.llvm_library if (not no_use_booster) else None,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        start_server=False,
+        port=server.port,
+    ) as kcfg_explore:
+        proof = method_to_apr_proof(
+            test=test,
+            foundry=foundry,
+            kcfg_explore=kcfg_explore,
+        )
+
+    semantics = KEVMSemantics()
+    prover = ParallelAPRProver(
+        proof=proof,
+        module_name=foundry.kevm.main_module,
+        definition_dir=foundry.kevm.definition_dir,
+        execute_depth=1000,
+        kprint=foundry.kevm,
+        kcfg_semantics=semantics,
+        port=server.port,
+        id=test.id,
+        cut_point_rules=KEVMSemantics.cut_point_rules(
+            break_on_calls=True, break_on_jumpi=False, break_on_storage=False, break_on_basic_blocks=False
+        ),
+        terminal_rules=KEVMSemantics.terminal_rules(False),
+        llvm_definition_dir=foundry.llvm_library if (not no_use_booster) else None,
+        smt_timeout=smt_timeout,
+        smt_retry_limit=smt_retry_limit,
+        trace_rewrites=False,
+        bug_report_id=test.id,
+    )
+
+    results, _ = parallel.prove_parallel(
+        proofs={'proof': proof},
+        provers={'proof': prover},
+        max_workers=1,
+        process_data=APRProofProcessData(
+            kprint=foundry.kevm,
+            kcfg_semantics=semantics,
+            module_name=foundry.kevm.main_module,
+            definition_dir=foundry.kevm.definition_dir,
+            llvm_definition_dir=foundry.llvm_library if (not no_use_booster) else None,
+        ),
+    )
+
+    assert single(results).status == ProofStatus.PASSED
 
 
 def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
