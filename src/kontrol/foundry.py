@@ -687,7 +687,6 @@ def foundry_to_junit_xml(proofs: list[APRProof]) -> None:
                 'testsuite',
                 name=contract_name,
                 time=str(execution_time),
-                timestamp=str(datetime.datetime.now()),
             )
         else:
             testsuite_execution_time = float(testsuite.get('time', 0)) + execution_time
@@ -700,7 +699,8 @@ def foundry_to_junit_xml(proofs: list[APRProof]) -> None:
             failure = Et.SubElement(testcase, 'failure')
             if proof.failure_info is not None:
                 text = proof.failure_info.print()
-                failure.text = '\n'.join(text)
+                failure.set('message', text[0])
+                failure.text = '\n'.join((text[1:-1]))
 
     testsuites.set('tests', str(tests))
     testsuites.set('failures', str(failures))
