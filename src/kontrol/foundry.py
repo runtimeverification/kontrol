@@ -667,41 +667,44 @@ def foundry_list(foundry: Foundry) -> list[str]:
     return lines
 
 
-def foundry_to_junit_xml(foundry: Foundry) -> None:
-    testsuites = Et.Element('testsuites')
+def foundry_to_junit_xml(proofs: list[APRProof]) -> None:
+    testsuites = Et.Element('testsuites', tests='0', failures='0', time='0', timestamp=str(datetime.datetime.now()))
+    tests = 0
+    failures = 0
+    total_execution_time = 0.0
 
-    for test_id in listdir(foundry.proofs_dir):
-        proof = foundry.get_optional_apr_proof(test_id)
-        if proof is not None:
-            test, *_ = test_id.split(':')
-            contract, test_name = test.split('.')
-            _, contract_name = contract.split('%')
-            execution_time = proof.execution_time
-            testsuite = testsuites.find(f'testsuite[@name={contract_name!r}]')
-
-            if testsuite is None:
-                testsuite = Et.SubElement(
-                    testsuites,
-                    'testsuite',
-                    name=contract_name,
-                    time=str(execution_time),
-                    timestamp=str(datetime.datetime.now()),
-                )
-            else:
-                total_execution_time = float(testsuite.get('time', 0)) + execution_time
-                testsuite.set('time', str(total_execution_time))
-
-            testcase = Et.SubElement(
-                testsuite, 'testcase', name=test_name, classname=contract_name, time=str(execution_time)
+    for proof in proofs:
+        tests += 1
+        test, *_ = proof.id.split(':')
+        contract, test_name = test.split('.')
+        _, contract_name = contract.split('%')
+        execution_time = proof.execution_time
+        total_execution_time += execution_time
+        testsuite = testsuites.find(f'testsuite[@name={contract_name!r}]')
+        if testsuite is None:
+            testsuite = Et.SubElement(
+                testsuites,
+                'testsuite',
+                name=contract_name,
+                time=str(execution_time),
+                timestamp=str(datetime.datetime.now()),
             )
+        else:
+            testsuite_execution_time = float(testsuite.get('time', 0)) + execution_time
+            testsuite.set('time', str(testsuite_execution_time))
+        testcase = Et.SubElement(
+            testsuite, 'testcase', name=test_name, classname=contract_name, time=str(execution_time)
+        )
+        if not proof.passed:
+            failures += 1
+            failure = Et.SubElement(testcase, 'failure')
+            if proof.failure_info is not None:
+                text = proof.failure_info.print()
+                failure.text = '\n'.join(text)
 
-            if not proof.passed:
-                text = Foundry.help_info()
-                if proof.failure_info is not None:
-                    text = proof.failure_info.print()
-                Et.SubElement(testcase, 'failure')
-                testcase.text = '\n'.join(text)
-
+    testsuites.set('tests', str(tests))
+    testsuites.set('failures', str(failures))
+    testsuites.set('time', str(total_execution_time))
     tree = Et.ElementTree(testsuites)
     Et.indent(tree, space='\t', level=0)
     tree.write('filename.xml')

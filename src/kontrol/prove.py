@@ -122,7 +122,7 @@ def foundry_prove(
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
     results = _run_prover(test_suite, include_summaries=True)
-    foundry_to_junit_xml(foundry=foundry)
+    foundry_to_junit_xml(results)
     return results
 
 
