@@ -2,7 +2,7 @@
 src = 'src'
 out = 'out'
 test = 'test'
-extra_output = ['storageLayout', 'abi', 'evm.methodIdentifiers', 'evm.deployedBytecode.object']
+extra_output = ['storageLayout', 'abi', 'evm.methodIdentifiers', 'evm.deployedBytecode.object', 'devdoc']
 rpc_endpoints = { optimism = "https://optimism.alchemyapi.io/v2/...", mainnet = "${RPC_MAINNET}" }
 
 # use ipfs method to generate the metadata hash, solc's default.
