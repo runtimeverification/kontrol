@@ -38,6 +38,12 @@ class KontrolCLIArgs(KEVMCLIArgs):
             default=Path('./kontrol.toml'),
             help='Path to kontrol config file.',
         )
+        args.add_argument(
+            '--config-profile',
+            dest='config_profile',
+            default='default',
+            help='Config profile to be used.',
+        )
         return args
 
     @cached_property

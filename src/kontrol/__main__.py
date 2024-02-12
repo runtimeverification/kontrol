@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 from typing import TYPE_CHECKING
 
 import pyk
-import toml  # type: ignore
+import tomli
 from kevm_pyk.cli import node_id_like
 from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
@@ -79,8 +79,7 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
-    toml_args = toml.load(str(args.config_file)) if hasattr(args, 'config_file') else {}
-    update_with_toml_args(parser, args, toml_args)
+    read_toml_args(parser, args)
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
 
     _check_k_version()
@@ -623,6 +622,7 @@ def _create_argument_parser() -> ArgumentParser:
         'solc-to-k',
         help='Output helper K definition for given JSON output from solc compiler.',
         parents=[
+            kontrol_cli_args.config_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.k_args,
             kontrol_cli_args.k_gen_args,
@@ -642,6 +642,7 @@ def _create_argument_parser() -> ArgumentParser:
         'build',
         help='Kompile K definition corresponding to given output directory.',
         parents=[
+            kontrol_cli_args.config_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.k_args,
             kontrol_cli_args.k_gen_args,
@@ -676,6 +677,7 @@ def _create_argument_parser() -> ArgumentParser:
         'summary',
         help='Generate a solidity function summary from an account access dict',
         parents=[
+            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_args,
         ],
     )
@@ -721,6 +723,7 @@ def _create_argument_parser() -> ArgumentParser:
         'prove',
         help='Run Foundry Proof.',
         parents=[
+            kontrol_cli_args.config_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.parallel_args,
             kontrol_cli_args.k_args,
@@ -973,16 +976,16 @@ def _create_argument_parser() -> ArgumentParser:
     return parser
 
 
-def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: dict[str, Any]) -> None:
+def read_toml_args(parser: ArgumentParser, args: Namespace) -> None:
     def canonicalize_option(long_opt: str) -> None:
         if long_opt in ['ccopt', 'I', 'O0', 'O1', 'O2', 'O3']:
             toml_commands.append('-' + long_opt)
         elif long_opt == 'includes':
             toml_commands.append('-I')
         elif long_opt == 'optimization-level':
-            level = toml_command_args[long_opt] if toml_command_args[long_opt] >= 0 else 0
-            level = level if toml_command_args[long_opt] <= 3 else 3
-            toml_command_args[long_opt] = ''
+            level = toml_profile_args[long_opt] if toml_profile_args[long_opt] >= 0 else 0
+            level = level if toml_profile_args[long_opt] <= 3 else 3
+            toml_profile_args[long_opt] = ''
             toml_commands.append('-O' + str(level))
         elif long_opt == 'counterexample-information':
             toml_commands.append('--counterexample-information')
@@ -998,20 +1001,34 @@ def update_with_toml_args(parser: ArgumentParser, args: Namespace, toml_args: di
             toml_commands.append('--' + long_opt[3:])
         toml_commands.append('--' + long_opt)
 
-    if args.command not in toml_args.keys():
-        return
+    def get_profile(toml_profile: dict[str, Any], profile_list: list[str]) -> dict[str, Any]:
+        if len(profile_list) == 0 or profile_list[0] not in toml_profile.keys():
+            return toml_profile
+        elif len(profile_list) == 1:
+            return toml_profile[profile_list[0]]
+        return get_profile(toml_profile[profile_list[0]], profile_list[1:])
+
+    toml_args = {}
+    if args.config_file.is_file():
+        with open(args.config_file, 'rb') as config_file:
+            try:
+                toml_args = tomli.load(config_file)
+            except tomli.TOMLDecodeError:
+                _LOGGER.error('Input config file is not in TOML format')
 
     toml_commands = [args.command]
-    toml_command_args = toml_args[args.command]
+    toml_profile_args = (
+        get_profile(toml_args[args.command], args.config_profile.split('.')) if args.command in toml_args.keys() else {}
+    )
 
-    for a_key in toml_command_args:
-        if a_key in ['config']:
+    for a_key in toml_profile_args:
+        if a_key in ['config', 'profile'] or isinstance(toml_profile_args[a_key], dict):
             continue
-        elif type(toml_command_args[a_key]) is not bool:
+        elif type(toml_profile_args[a_key]) is not bool:
             canonicalize_option(a_key)
-            if len(str(toml_command_args[a_key])) > 0:
-                toml_commands.append(str(toml_command_args[a_key]))
-        elif toml_command_args[a_key]:
+            if len(str(toml_profile_args[a_key])) > 0:
+                toml_commands.append(str(toml_profile_args[a_key]))
+        elif toml_profile_args[a_key]:
             canonicalize_option(a_key)
         else:
             canonicalize_negative_logic_option(a_key)
