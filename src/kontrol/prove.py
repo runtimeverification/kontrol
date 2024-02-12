@@ -16,7 +16,7 @@ from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
-from pyk.prelude.ml import mlEqualsTrue
+from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRBMCProof, APRProof
@@ -572,6 +572,8 @@ def _init_cterm(
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': program,
         'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
+        # TODO: Is this the correct approach for the `<id>` cell?
+        'ID_CELL': KVariable('CONTRACT_ID', sort=KSort('Int')),
         'ORIGIN_CELL': KVariable('ORIGIN_ID', sort=KSort('Int')),
         'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),
         'LOCALMEM_CELL': bytesToken(b''),
@@ -609,6 +611,23 @@ def _init_cterm(
             'ACCOUNTS_CELL': KEVM.accounts(init_account_list),
         }
         init_subst.update(init_subst_test)
+    else:
+        # TODO: Understand how to incorporate all of the appropriate contracts,
+        # together with the structure of their respective storages. For now,
+        # this is just the account of the contract being executed.
+        accounts: list[KInner] = [
+            KEVM.account_cell(
+                KVariable('CONTRACT_ID', sort=KSort('Int')),
+                KVariable('CONTRACT_BAL', sort=KSort('Int')),
+                program,
+                KVariable('CONTRACT_STORAGE', sort=KSort('Map')),
+                KVariable('CONTRACT_ORIGSTORAGE', sort=KSort('Map')),
+                KVariable('CONTRACT_NONCE', sort=KSort('Int')),
+            ),
+            KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')),
+        ]
+        init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
+        init_subst.update(init_subst_accounts)
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
@@ -623,6 +642,10 @@ def _init_cterm(
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
+    # The address of the executing contract is always guaranteed not to be the address of the cheatcode contract
+    init_cterm = init_cterm.add_constraint(
+        mlEqualsFalse(KApply('_==Int_', [KVariable('CONTRACT_ID', sort=KSort('Int')), Foundry.address_CHEATCODE()]))
+    )
     init_cterm = KEVM.add_invariant(init_cterm)
 
     return init_cterm

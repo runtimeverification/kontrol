@@ -5,3 +5,8 @@ test = 'test'
 extra_output = ['storageLayout', 'abi', 'evm.methodIdentifiers', 'evm.deployedBytecode.object']
 rpc_endpoints = { optimism = "https://optimism.alchemyapi.io/v2/...", mainnet = "${RPC_MAINNET}" }
 
+# use ipfs method to generate the metadata hash, solc's default.
+# To not include the metadata hash, to allow for deterministic code: https://docs.soliditylang.org/en/latest/metadata.html, use "none"
+bytecode_hash = "none"
+# Whether to append the metadata hash to the bytecode
+cbor_metadata = false
