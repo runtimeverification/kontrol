@@ -29,6 +29,12 @@ def pytest_addoption(parser: Parser) -> None:
         default=False,
         help='Use the kore-rpc binary instead of kore-rpc-booster',
     )
+    parser.addoption(
+        '--use-maude',
+        action='store_true',
+        default=False,
+        help='Use maude-backend',
+    )
 
 
 @pytest.fixture(scope='session')
@@ -44,3 +50,7 @@ def update_expected_output(request: FixtureRequest) -> bool:
 @pytest.fixture(scope='session')
 def no_use_booster(request: FixtureRequest) -> bool:
     return request.config.getoption('--no-use-booster')
+
+@pytest.fixture(scope='session')
+def use_maude(request: FixtureRequest) -> bool:
+    return request.config.getoption('--use-maude')
