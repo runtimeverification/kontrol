@@ -796,7 +796,7 @@ def foundry_step_node(
             apr_proof.write_proof_data()
 
 
-def foundry_summary(
+def foundry_state_diff(
     name: str,
     accesses_file: Path,
     contract_names: Path | None,
@@ -804,7 +804,7 @@ def foundry_summary(
     foundry: Foundry,
     license: str,
     comment_generated_file: str,
-    condense_summary: bool = False,
+    condense_state_diff: bool = False,
 ) -> None:
     access_entries = read_summary(accesses_file)
     accounts = read_contract_names(contract_names) if contract_names else {}
@@ -823,7 +823,7 @@ def foundry_summary(
     if not license.strip():
         raise ValueError('License cannot be empty or blank')
 
-    if condense_summary:
+    if condense_state_diff:
         main_file.write_text('\n'.join(summary_contract.generate_condensed_file(comment_generated_file, license)))
     else:
         code_file = output_dir / Path(name + 'Code.sol')
