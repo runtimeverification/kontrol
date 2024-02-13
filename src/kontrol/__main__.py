@@ -79,7 +79,7 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
-    read_toml_args(parser, args)
+    args = read_toml_args(parser, args) if hasattr(args, 'config_file') else args
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
 
     _check_k_version()
@@ -976,7 +976,7 @@ def _create_argument_parser() -> ArgumentParser:
     return parser
 
 
-def read_toml_args(parser: ArgumentParser, args: Namespace) -> None:
+def read_toml_args(parser: ArgumentParser, args: Namespace) -> Namespace:
     def canonicalize_option(long_opt: str) -> None:
         if long_opt in ['ccopt', 'I', 'O0', 'O1', 'O2', 'O3']:
             toml_commands.append('-' + long_opt)
@@ -1033,7 +1033,7 @@ def read_toml_args(parser: ArgumentParser, args: Namespace) -> None:
         else:
             canonicalize_negative_logic_option(a_key)
 
-    args = parser.parse_args(toml_commands + sys.argv[2:])
+    return parser.parse_args(toml_commands + sys.argv[2:])
 
 
 def _loglevel(args: Namespace) -> int:
