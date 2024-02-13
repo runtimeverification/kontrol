@@ -278,6 +278,7 @@ def _run_cfg_group(
                 cut_point_rules=cut_point_rules,
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
                 counterexample_info=prove_options.counterexample_info,
+                fail_fast=prove_options.fail_fast,
             )
 
             # Only return the failure info to avoid pickling the whole proof

@@ -356,6 +356,7 @@ def test_foundry_dependency(
             max_iterations=50,
             bug_report=bug_report,
             cse=True,
+            fail_fast=False,
         ),
         rpc_options=RPCOptions(
             port=server.port,
