@@ -220,7 +220,7 @@ def test_foundry_fail(
     server: KoreServer,
     maude_server: KoreServer | None,
 ) -> None:
-    if no_use_booster:
+    if no_use_booster and maude_server == None:
         pytest.skip()
 
     if bug_report is not None:
@@ -272,7 +272,7 @@ SKIPPED_BMC_TESTS: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().
 def test_foundry_bmc(
     test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool, maude_server: KoreServer | None
 ) -> None:
-    if no_use_booster:
+    if no_use_booster and maude_server == None:
         pytest.skip()
 
     if test_id in SKIPPED_BMC_TESTS:
@@ -302,7 +302,7 @@ def test_foundry_bmc(
 def test_foundry_merge_nodes(
     foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool, maude_server: KoreServer | None
 ) -> None:
-    if no_use_booster:
+    if no_use_booster and maude_server == None:
         pytest.skip()
 
     test = 'MergeTest.test_branch_merge(uint256)'
@@ -373,7 +373,7 @@ def test_foundry_dependency(
     no_use_booster: bool,
     maude_server: KoreServer | None,
 ) -> None:
-    if no_use_booster:
+    if no_use_booster and maude_server == None:
         pytest.skip()
 
     dependency = 'ArithmeticContract.add(uint256,uint256)'
@@ -441,7 +441,7 @@ def test_foundry_auto_abstraction(
     no_use_booster: bool,
     maude_server: KoreServer | None,
 ) -> None:
-    if no_use_booster:
+    if no_use_booster and maude_server == None:
         pytest.skip()
 
     test_id = 'GasTest.testInfiniteGas()'
@@ -490,7 +490,7 @@ def test_foundry_remove_node(
     no_use_booster: bool,
     maude_server: KoreServer | None,
 ) -> None:
-    if no_use_booster:
+    if no_use_booster and maude_server == None:
         pytest.skip()
 
     test = 'AssertTest.test_assert_true()'
@@ -567,7 +567,7 @@ def test_foundry_resume_proof(
     no_use_booster: bool,
     maude_server: KoreServer | None,
 ) -> None:
-    if no_use_booster:
+    if no_use_booster and maude_server == None:
         pytest.skip()
 
     test = 'AssumeTest.test_assume_false(uint256,uint256)'
