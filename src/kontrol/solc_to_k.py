@@ -15,7 +15,7 @@ from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
-from pyk.prelude.kint import intToken
+from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.string import stringToken
 from pyk.utils import FrozenDict, hash_str, run_process, single
 
@@ -74,6 +74,10 @@ class Input:
     array_lengths: tuple[int, ...] | None = None
     dynamic_type_length: int | None = None
 
+    @cached_property
+    def arg_name(self) -> str:
+        return f'V{self.idx}_{self.name.replace("-", "_")}'
+
     @staticmethod
     def from_dict(input: dict, idx: int = 0, natspec_lengths: dict | None = None) -> Input:
         """
@@ -102,28 +106,28 @@ class Input:
             return Input(name, type, idx=idx, array_lengths=array_lengths, dynamic_type_length=dynamic_type_length)
 
     @staticmethod
-    def arg_name(input: Input) -> str:
-        return f'V{input.idx}_{input.name.replace("-", "_")}'
-
-    @staticmethod
-    def _make_single_type(input: Input) -> KApply:
-        input_name = Input.arg_name(input)
-        input_type = input.type
-        return KEVM.abi_type(input_type, KVariable(input_name))
-
-    @staticmethod
-    def _make_complex_type(components: Iterable[Input]) -> KApply:
+    def _make_tuple_type(components: Iterable[Input], array_index: int | None = None) -> KApply:
         """
-        recursively unwrap components in arguments of complex types and convert them to KEVM types
+        Recursively unwraps components of a tuple and converts them to KEVM types.
+        The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
         """
         abi_types: list[KInner] = []
-        for comp in components:
+        for _c in components:
+            component = _c
+            if array_index is not None:
+                component = Input(
+                    f'{_c.name}_{array_index}',
+                    _c.type,
+                    _c.components,
+                    _c.idx,
+                    _c.array_lengths,
+                    _c.dynamic_type_length,
+                )
             # nested tuple, unwrap its components
-            if comp.type == 'tuple':
-                tuple = Input._make_complex_type(comp.components)
-                abi_type = tuple
+            if component.type == 'tuple':
+                abi_type = Input._make_tuple_type(component.components, array_index)
             else:
-                abi_type = Input._make_single_type(comp)
+                abi_type = component.make_single_type()
             abi_types.append(abi_type)
         return KEVM.abi_tuple(abi_types)
 
@@ -148,11 +152,42 @@ class Input:
             for idx, component in enumerate(components, start=idx)
         ]
 
+    def make_single_type(self) -> KApply:
+        """
+        Generates a KApply representation for a single type input.
+
+        It handles arrays, nested arrays, and base types.
+        For 'tuple[]', it calls '_make_tuple_type' for each element in the array.
+        For arrays, it generates a list of Input objects numbered from 0 to `array_length`.
+        TODO: Add support for nested arrays and use the entire 'input.array_lengths' array
+        instead of only the first value.
+        """
+        if self.type.endswith('[]'):
+            base_type = self.type.rstrip('[]')
+            if self.array_lengths is None:
+                raise ValueError(f'Array length bounds missing for {self.name}')
+            array_length = self.array_lengths[0]
+            array_elements: list[KInner] = []
+            if base_type == 'tuple':
+                array_elements = [Input._make_tuple_type(self.components, index) for index in range(array_length)]
+            else:
+                array_elements = [
+                    Input(f'{self.name}_{n}', base_type, idx=self.idx).make_single_type() for n in range(array_length)
+                ]
+            return KEVM.abi_array(
+                array_elements[0],
+                intToken(array_length),
+                array_elements,
+            )
+
+        else:
+            return KEVM.abi_type(self.type, KVariable(self.arg_name))
+
     def to_abi(self) -> KApply:
         if self.type == 'tuple':
-            return Input._make_complex_type(self.components)
+            return Input._make_tuple_type(self.components)
         else:
-            return Input._make_single_type(self)
+            return self.make_single_type()
 
     def flattened(self) -> list[Input]:
         if len(self.components) > 0:
@@ -313,6 +348,7 @@ class Contract:
         sort: KSort
         inputs: tuple[Input, ...]
         contract_name: str
+        contract_name_with_path: str
         contract_digest: str
         contract_storage_digest: str
         payable: bool
@@ -327,7 +363,7 @@ class Contract:
             id: int,
             abi: dict,
             ast: dict | None,
-            contract_name: str,
+            contract_name_with_path: str,
             contract_digest: str,
             contract_storage_digest: str,
             sort: KSort,
@@ -337,7 +373,8 @@ class Contract:
             self.signature = msig
             self.name = abi['name']
             self.id = id
-            self.contract_name = contract_name
+            self.contract_name_with_path = contract_name_with_path
+            self.contract_name = contract_name_with_path.split('%')[-1]
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
             self.sort = sort
@@ -351,12 +388,12 @@ class Contract:
         @property
         def klabel(self) -> KLabel:
             args_list = '_'.join(self.arg_types)
-            return KLabel(f'method_{self.contract_name}_{self.unique_name}_{args_list}')
+            return KLabel(f'method_{self.contract_name_with_path}_{self.unique_name}_{args_list}')
 
         @property
         def unique_klabel(self) -> KLabel:
             args_list = '_'.join(self.arg_types)
-            return KLabel(f'method_{self.contract_name}_{self.unique_name}_{args_list}')
+            return KLabel(f'method_{self.contract_name_with_path}_{self.unique_name}_{args_list}')
 
         @property
         def unique_name(self) -> str:
@@ -364,7 +401,7 @@ class Contract:
 
         @cached_property
         def qualified_name(self) -> str:
-            return f'{self.contract_name}.{self.signature}'
+            return f'{self.contract_name_with_path}.{self.signature}'
 
         @property
         def selector_alias_rule(self) -> KRule:
@@ -389,12 +426,37 @@ class Contract:
             return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
 
         @cached_property
-        def arg_names(self) -> Iterable[str]:
-            return tuple(Input.arg_name(input) for input in self.flat_inputs)
+        def arg_names(self) -> tuple[str, ...]:
+            arg_names: list[str] = []
+            for input in self.inputs:
+                if input.type.endswith('[]'):
+                    if input.array_lengths is None:
+                        raise ValueError(f'Array length bounds missing for {input.name}')
+                    length = input.array_lengths[0]
+                    arg_names.extend(
+                        f'{sub_input.arg_name}_{i}' for i in range(length) for sub_input in input.flattened()
+                    )
+                else:
+                    arg_names.extend([sub_input.arg_name for sub_input in input.flattened()])
+            return tuple(arg_names)
 
         @cached_property
-        def arg_types(self) -> Iterable[str]:
-            return tuple(input.type for input in self.flat_inputs)
+        def arg_types(self) -> tuple[str, ...]:
+            arg_types: list[str] = []
+            for input in self.inputs:
+                if input.type.endswith('[]'):
+                    if input.array_lengths is None:
+                        raise ValueError(f'Array length bounds missing for {input.name}')
+                    length = input.array_lengths[0]
+                    base_type = input.type.split('[')[0]
+                    if base_type == 'tuple':
+                        arg_types.extend(f'{sub_input.type}' for _i in range(length) for sub_input in input.flattened())
+                    else:
+                        arg_types.extend([base_type] * length)
+
+                else:
+                    arg_types.extend([sub_input.type for sub_input in input.flattened()])
+            return tuple(arg_types)
 
         def up_to_date(self, digest_file: Path) -> bool:
             if not digest_file.exists():
@@ -461,7 +523,13 @@ class Contract:
             for input in self.inputs:
                 abi_type = input.to_abi()
                 args.append(abi_type)
-                rps = _range_predicates(abi_type)
+                rps = []
+                if input.type == 'tuple':
+                    for sub_input in input.components:
+                        _abi_type = sub_input.to_abi()
+                        rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
+                else:
+                    rps = _range_predicates(abi_type, input.dynamic_type_length)
                 for rp in rps:
                     if rp is None:
                         _LOGGER.info(
@@ -553,7 +621,7 @@ class Contract:
                     mid,
                     method,
                     method_ast,
-                    self._name,
+                    self.name_with_path,
                     self.digest,
                     self.storage_digest,
                     self.sort_method,
@@ -944,24 +1012,28 @@ def _evm_base_sort_int(type_label: str) -> bool:
     return success
 
 
-def _range_predicates(abi: KApply) -> list[KInner | None]:
+def _range_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
     rp: list[KInner | None] = []
     if abi.label.name == 'abi_type_tuple':
         if type(abi.args[0]) is KApply:
-            rp += _range_collection_predicates(abi.args[0])
+            rp += _range_collection_predicates(abi.args[0], dynamic_type_length)
+    elif abi.label.name == 'abi_type_array':
+        # array elements:
+        if type(abi.args[2]) is KApply:
+            rp += _range_collection_predicates(abi.args[2], dynamic_type_length)
     else:
         type_label = abi.label.name.removeprefix('abi_type_')
-        rp.append(_range_predicate(single(abi.args), type_label))
+        rp.append(_range_predicate(single(abi.args), type_label, dynamic_type_length))
     return rp
 
 
-def _range_collection_predicates(abi: KApply) -> list[KInner | None]:
+def _range_collection_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
     rp: list[KInner | None] = []
     if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
         if type(abi.args[0]) is KApply:
-            rp += _range_predicates(abi.args[0])
+            rp += _range_predicates(abi.args[0], dynamic_type_length)
         if type(abi.args[1]) is KApply:
-            rp += _range_collection_predicates(abi.args[1])
+            rp += _range_collection_predicates(abi.args[1], dynamic_type_length)
     elif abi.label.name == '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs':
         return rp
     else:
@@ -969,16 +1041,21 @@ def _range_collection_predicates(abi: KApply) -> list[KInner | None]:
     return rp
 
 
-def _range_predicate(term: KInner, type_label: str) -> KInner | None:
+def _range_predicate(term: KInner, type_label: str, dynamic_type_length: int | None = None) -> KInner | None:
     match type_label:
         case 'address':
             return KEVM.range_address(term)
         case 'bool':
             return KEVM.range_bool(term)
         case 'bytes':
-            return KEVM.range_uint(128, KEVM.size_bytes(term))
+            #  the compiler-inserted check asserts that lengthBytes(B) <= maxUint64
+            return (
+                eqInt(KEVM.size_bytes(term), intToken(dynamic_type_length))
+                if dynamic_type_length
+                else KEVM.range_uint(64, KEVM.size_bytes(term))
+            )
         case 'string':
-            return TRUE
+            return eqInt(KEVM.size_bytes(term), intToken(dynamic_type_length)) if dynamic_type_length else TRUE
 
     predicate_functions = [
         _range_predicate_uint,
