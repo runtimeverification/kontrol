@@ -12,12 +12,8 @@ authors = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-<<<<<<< HEAD
 kevm-pyk = { path = "/home/noah/dev/evm-semantics", develop=true, subdirectory = "kevm-pyk" }
 # kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.449", subdirectory = "kevm-pyk" }
-=======
-kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.451", subdirectory = "kevm-pyk" }
->>>>>>> origin/master
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
