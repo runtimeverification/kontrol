@@ -362,10 +362,7 @@ def test_foundry_dependency(
     foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(
-            max_iterations=50,
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(max_iterations=50, bug_report=bug_report, fail_fast=False),
         rpc_options=RPCOptions(
             port=server.port,
         ),
