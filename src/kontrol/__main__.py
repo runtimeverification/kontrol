@@ -214,31 +214,31 @@ def exec_prove(
     foundry_root: Path,
     max_depth: int = 1000,
     max_iterations: int | None = None,
-    reinit: bool = False,
+    reinit: bool | None = None,
     tests: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
-    break_every_step: bool = False,
-    break_on_jumpi: bool = False,
-    break_on_calls: bool = False,
-    break_on_storage: bool = False,
-    break_on_basic_blocks: bool = False,
-    break_on_cheatcodes: bool = False,
+    break_every_step: bool | None = None,
+    break_on_jumpi: bool | None = None,
+    break_on_calls: bool | None = None,
+    break_on_storage: bool | None = None ,
+    break_on_basic_blocks: bool | None = None,
+    break_on_cheatcodes: bool | None = None,
     bmc_depth: int | None = None,
     bug_report: BugReport | None = None,
     kore_rpc_command: str | Iterable[str] | None = None,
-    use_booster: bool = True,
+    use_booster: bool | None = None,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     smt_tactic: str | None = None,
-    failure_info: bool = True,
-    counterexample_info: bool = True,
-    trace_rewrites: bool = False,
-    auto_abstract_gas: bool = False,
-    run_constructor: bool = False,
-    fail_fast: bool = True,
+    failure_info: bool | None = None,
+    counterexample_info: bool | None = None,
+    trace_rewrites: bool | None = None,
+    auto_abstract_gas: bool | None = None,
+    run_constructor: bool | None = None,
+    fail_fast: bool | None = None,
     port: int | None = None,
     maude_port: int | None = None,
-    use_gas: bool = False,
+    use_gas: bool | None = None,
     summary_path: Path | None = None,
     **kwargs: Any,
 ) -> None:
@@ -277,6 +277,8 @@ def exec_prove(
         use_gas=use_gas,
         summary_entries=summary_entries,
     )
+    print(prove_options.break_every_step)
+    exit(1)
 
     rpc_options = RPCOptions(
         use_booster=use_booster,
@@ -742,7 +744,7 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--reinit',
         dest='reinit',
-        default=False,
+        default=None,
         action='store_true',
         help='Reinitialize CFGs even if they already exist.',
     )
@@ -756,17 +758,17 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--run-constructor',
         dest='run_constructor',
-        default=False,
+        default=None,
         action='store_true',
         help='Include the contract constructor in the test execution.',
     )
     prove_args.add_argument(
-        '--use-gas', dest='use_gas', default=False, action='store_true', help='Enables gas computation in KEVM.'
+        '--use-gas', dest='use_gas', default=None, action='store_true', help='Enables gas computation in KEVM.'
     )
     prove_args.add_argument(
         '--break-on-cheatcodes',
         dest='break_on_cheatcodes',
-        default=False,
+        default=None,
         action='store_true',
         help='Break on all Foundry rules.',
     )
