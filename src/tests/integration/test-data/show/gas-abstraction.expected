@@ -17,7 +17,6 @@
     CONTINUATION <- CONTINUATION:K
     EXITCODE_CELL <- EXITCODE_CELL:Int
     STATUSCODE <- STATUSCODE:StatusCode
-    TOUCHEDACCOUNTS_CELL <- TOUCHEDACCOUNTS_CELL:Set
     CALLER_ID <- CALLER_ID:Int
     VGAS <- VGAS:Int
     VGAS_4b7cee1f <- ( VGAS:Int +Int -373 )
@@ -49,9 +48,17 @@
     TXORDER_CELL <- TXORDER_CELL:List
     TXPENDING_CELL <- TXPENDING_CELL:List
     MESSAGES_CELL <- MESSAGES_CELL:MessageCellMap
+    PREVCALLER_CELL <- PREVCALLER_CELL:Account
+    PREVORIGIN_CELL <- PREVORIGIN_CELL:Account
+    NEWCALLER_CELL <- NEWCALLER_CELL:Account
+    NEWORIGIN_CELL <- NEWORIGIN_CELL:Account
     DEPTH_CELL <- DEPTH_CELL:Int
     EXPECTEDREASON_CELL <- EXPECTEDREASON_CELL:Bytes
     EXPECTEDDEPTH_CELL <- EXPECTEDDEPTH_CELL:Int
+    EXPECTEDADDRESS_CELL <- EXPECTEDADDRESS_CELL:Account
+    EXPECTEDVALUE_CELL <- EXPECTEDVALUE_CELL:Int
+    EXPECTEDDATA_CELL <- EXPECTEDDATA_CELL:Bytes
+    OPCODETYPE_CELL <- OPCODETYPE_CELL:OpcodeType
     CHECKEDTOPICS_CELL <- CHECKEDTOPICS_CELL:List
     CHECKEDDATA_CELL <- CHECKEDDATA_CELL:Bool
     EXPECTEDEVENTADDRESS_CELL <- EXPECTEDEVENTADDRESS_CELL:Account
@@ -121,7 +128,7 @@ Node 6:
             .List
           </interimStates>
           <touchedAccounts>
-            TOUCHEDACCOUNTS_CELL:Set
+            .Set
           </touchedAccounts>
           <callState>
             ...
@@ -299,16 +306,16 @@ Node 6:
     <cheatcodes>
       <prank>
         <prevCaller>
-          .Account
+          PREVCALLER_CELL:Account
         </prevCaller>
         <prevOrigin>
-          .Account
+          PREVORIGIN_CELL:Account
         </prevOrigin>
         <newCaller>
-          .Account
+          NEWCALLER_CELL:Account
         </newCaller>
         <newOrigin>
-          .Account
+          NEWORIGIN_CELL:Account
         </newOrigin>
         <active>
           false
@@ -336,16 +343,16 @@ Node 6:
           false
         </isOpcodeExpected>
         <expectedAddress>
-          .Account
+          EXPECTEDADDRESS_CELL:Account
         </expectedAddress>
         <expectedValue>
-          0
+          EXPECTEDVALUE_CELL:Int
         </expectedValue>
         <expectedData>
-          b""
+          EXPECTEDDATA_CELL:Bytes
         </expectedData>
         <opcodeType>
-          .OpcodeType
+          OPCODETYPE_CELL:OpcodeType
         </opcodeType>
       </expectedOpcode>
       <expectEmit>
@@ -379,6 +386,9 @@ Node 6:
           .Set
         </storageSlotSet>
       </whitelist>
+      <mockCalls>
+        .MockCallCellMap
+      </mockCalls>
     </cheatcodes>
   </foundry>
   <generatedCounter>
@@ -388,13 +398,15 @@ Node 6:
 #And ( { true #Equals 0 <=Int CALLER_ID:Int }
 #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
 #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
+#And ( { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
-#And { true #Equals ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 ) } ) ) ) ) ) ) )
+#And { true #Equals TIMESTAMP_CELL:Int <Int pow256 } ) ) ) ) ) ) ) )
 
 
 
+module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
     
     
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
@@ -417,7 +429,7 @@ Node 6:
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
+                   ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                  </output>
                  <callStack>
                    .List
@@ -425,9 +437,10 @@ Node 6:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -446,8 +459,6 @@ Node 6:
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      ( 0 => 3 )
                    </memoryUsed>
@@ -478,6 +489,9 @@ Node 6:
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -491,7 +505,6 @@ Node 6:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -501,6 +514,7 @@ Node 6:
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -509,7 +523,6 @@ Node 6:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -519,6 +532,7 @@ Node 6:
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -528,18 +542,6 @@ Node 6:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -558,18 +560,7 @@ Node 6:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -594,17 +585,21 @@ Node 6:
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-               ))))))
-       ensures ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 )
-      [label(BASIC-BLOCK-1-TO-3)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
            <kevm>
@@ -637,9 +632,10 @@ Node 6:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -658,8 +654,6 @@ Node 6:
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      3
                    </memoryUsed>
@@ -690,6 +684,9 @@ Node 6:
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -703,7 +700,6 @@ Node 6:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -713,6 +709,7 @@ Node 6:
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -721,7 +718,6 @@ Node 6:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -731,6 +727,7 @@ Node 6:
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -740,18 +737,6 @@ Node 6:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -770,18 +755,7 @@ Node 6:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -806,17 +780,21 @@ Node 6:
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 )
-               )))))))
-      [label(BASIC-BLOCK-4-TO-5)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
            <kevm>
@@ -849,9 +827,10 @@ Node 6:
                  <interimStates>
                    .List
                  </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
-                   ...
-                   ...
                    <id>
                      728815563385977040452943777879061427756277306518
                    </id>
@@ -870,8 +849,6 @@ Node 6:
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
                    </localMem>
-                   ...
-                   ...
                    <memoryUsed>
                      3
                    </memoryUsed>
@@ -902,6 +879,9 @@ Node 6:
                    <number>
                      NUMBER_CELL:Int
                    </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
                    ...
                  </block>
                  ...
@@ -915,7 +895,6 @@ Node 6:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -925,6 +904,7 @@ Node 6:
                      <nonce>
                        0
                      </nonce>
+                     ...
                    </account>
                    <account>
                      <acctID>
@@ -933,7 +913,6 @@ Node 6:
                      <balance>
                        0
                      </balance>
-                     ...
                      <storage>
                        .Map
                      </storage>
@@ -943,6 +922,7 @@ Node 6:
                      <nonce>
                        1
                      </nonce>
+                     ...
                    </account> )
                  </accounts>
                  ...
@@ -952,18 +932,6 @@ Node 6:
            </kevm>
            <cheatcodes>
              <prank>
-               <prevCaller>
-                 .Account
-               </prevCaller>
-               <prevOrigin>
-                 .Account
-               </prevOrigin>
-               <newCaller>
-                 .Account
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
                <active>
                  false
                </active>
@@ -982,18 +950,7 @@ Node 6:
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
-               <expectedAddress>
-                 .Account
-               </expectedAddress>
-               <expectedValue>
-                 0
-               </expectedValue>
-               <expectedData>
-                 b""
-               </expectedData>
-               <opcodeType>
-                 .OpcodeType
-               </opcodeType>
+               ...
              </expectedOpcode>
              <expectEmit>
                <recordEvent>
@@ -1018,17 +975,21 @@ Node 6:
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 )
-               )))))))
-      [label(BASIC-BLOCK-5-TO-6)]
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-5-TO-6)]
 
 endmodule
 1 Failure nodes. (0 pending and 1 failing)
@@ -1041,10 +1002,11 @@ Failing nodes:
     ( ( { true #Equals 0 <=Int CALLER_ID:Int }
     #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
     #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
+    #And ( { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
     #And ( { true #Equals CALLER_ID:Int <Int pow160 }
     #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
     #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
-    #And { true #Equals ( VGAS:Int +Int -298 ) <Int ( VGAS:Int +Int -207 ) } ) ) ) ) ) ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
+    #And { true #Equals TIMESTAMP_CELL:Int <Int pow256 } ) ) ) ) ) ) ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
   Path condition:
     #Top
 

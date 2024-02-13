@@ -216,11 +216,12 @@ def exec_prove(
     max_iterations: int | None = None,
     reinit: bool | None = None,
     tests: Iterable[tuple[str, int | None]] = (),
+    include_summaries: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
     break_every_step: bool | None = None,
     break_on_jumpi: bool | None = None,
     break_on_calls: bool | None = None,
-    break_on_storage: bool | None = None ,
+    break_on_storage: bool | None = None,
     break_on_basic_blocks: bool | None = None,
     break_on_cheatcodes: bool | None = None,
     bmc_depth: int | None = None,
@@ -296,6 +297,7 @@ def exec_prove(
         prove_options=prove_options,
         rpc_options=rpc_options,
         tests=tests,
+        include_summaries=include_summaries,
     )
     failed = 0
     for proof in results:
@@ -778,6 +780,14 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         type=file_path,
         help='Path to JSON file containing the summary of the deployment process used for the project.',
+    )
+    prove_args.add_argument(
+        '--include-summary',
+        type=_parse_test_version_tuple,
+        dest='include_summaries',
+        default=[],
+        action='append',
+        help='Specify a summary to include as a lemma.',
     )
 
     show_args = command_parser.add_parser(

@@ -32,6 +32,7 @@ class ProveOptions:
     use_gas: bool
     failure_info: bool
     summary_entries: Iterable[SummaryEntry] | None
+    fast_check_subsumption: bool | None
 
     def __init__(
         self,
@@ -55,6 +56,7 @@ class ProveOptions:
         use_gas: bool | None = None,
         failure_info: bool | None = None,
         summary_entries: list[SummaryEntry] | None = None,
+        fast_check_subsumption: bool | None = None,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', bool(auto_abstract_gas))
         object.__setattr__(self, 'bug_report', bug_report)
@@ -75,6 +77,9 @@ class ProveOptions:
         object.__setattr__(self, 'use_gas', bool(use_gas))
         object.__setattr__(self, 'failure_info', True if failure_info is None else failure_info)
         object.__setattr__(self, 'summary_entries', summary_entries)
+        object.__setattr__(
+            self, 'fast_check_subsumption', True if fast_check_subsumption is None else fast_check_subsumption
+        )
 
 
 @dataclass(frozen=True)
@@ -101,7 +106,9 @@ class RPCOptions:
         maude_port: int | None = None,
     ) -> None:
         if kore_rpc_command is None:
-            kore_rpc_command = ('kore-rpc-booster',) if (True if use_booster is None else use_booster) else ('kore-rpc',)
+            kore_rpc_command = (
+                ('kore-rpc-booster',) if (True if use_booster is None else use_booster) else ('kore-rpc',)
+            )
         elif isinstance(kore_rpc_command, str):
             kore_rpc_command = (kore_rpc_command,)
         else:
