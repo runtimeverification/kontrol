@@ -775,7 +775,15 @@ def _create_argument_parser() -> ArgumentParser:
         help='Path to JSON file containing the summary of the deployment process used for the project.',
     )
     prove_args.add_argument(
-        '--cse', dest='cse', default=False, action='store_true', help='use Compositional Symbolic Execution'
+        '--include-summary',
+        type=parse_test_version_tuple,
+        dest='include_summaries',
+        default=[],
+        action='append',
+        help='Specify a summary to include as a lemma.',
+    )
+    prove_args.add_argument(
+        '--cse', dest='cse', default=False, action='store_true', help='Use Compositional Symbolic Execution'
     )
 
     show_args = command_parser.add_parser(

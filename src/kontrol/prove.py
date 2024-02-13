@@ -63,14 +63,27 @@ def foundry_prove(
 
     foundry.mk_proofs_dir()
 
-    summary_ids: list[str] = []
+    if include_summaries != () and prove_options.cse:
+        raise AttributeError('Error! Cannot use both --cse and --include-summary.')
+
+    summary_ids: list[str] = (
+        [
+            foundry.get_apr_proof(include_summary.id).id
+            for include_summary in collect_tests(foundry, include_summaries, reinit=False)
+        ]
+        if include_summaries
+        else []
+    )
+
     if prove_options.cse:
         test_suite = collect_tests(foundry, tests, reinit=prove_options.reinit, return_empty=True)
         for test in test_suite:
             if not isinstance(test.method, Contract.Method) or test.method.function_calls is None:
                 continue
 
-            test_version_tuples = [parse_test_version_tuple(t) for t in test.method.function_calls]
+            test_version_tuples = [
+                parse_test_version_tuple(t) for t in test.method.function_calls if t not in summary_ids
+            ]
 
             if len(test_version_tuples) > 0:
                 print(f'For test {test.name}, found external calls: {test_version_tuples}')
