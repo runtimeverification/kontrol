@@ -435,7 +435,7 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
          <k> #call_foundry SELECTOR _ => . ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
-       ensures #rangeBool(?WORD2)
+       ensures #rangeBool(?WORD)
        [preserves-definedness]
 ```
 
@@ -457,7 +457,7 @@ This rule returns a fully symbolic byte array value of the given length.
          </output>
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
-       [preserves-definedness]
+      [preserves-definedness]
 ```
 
 Expecting the next call to revert
