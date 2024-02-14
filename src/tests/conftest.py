@@ -33,7 +33,7 @@ def pytest_addoption(parser: Parser) -> None:
         '--use-maude',
         action='store_true',
         default=False,
-        help='Use maude-backend',
+        help='Use maude-backend; implies --no-use-booster',
     )
 
 
@@ -49,7 +49,7 @@ def update_expected_output(request: FixtureRequest) -> bool:
 
 @pytest.fixture(scope='session')
 def no_use_booster(request: FixtureRequest) -> bool:
-    return request.config.getoption('--no-use-booster')
+    return request.config.getoption('--no-use-booster') or request.config.getoption('--use-maude')
 
 @pytest.fixture(scope='session')
 def use_maude(request: FixtureRequest) -> bool:
