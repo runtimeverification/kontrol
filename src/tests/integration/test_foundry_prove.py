@@ -43,9 +43,9 @@ sys.setrecursionlimit(10**7)
 
 
 @pytest.fixture(scope='module')
-def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
-    llvm_definition_dir = foundry.out / 'kompiled' / 'llvm-library' if not no_use_booster else None
-    kore_rpc_command = ('kore-rpc-booster',) if not no_use_booster else ('kore-rpc',)
+def server(foundry: Foundry, no_use_booster: bool, use_maude: bool) -> Iterator[KoreServer]:
+    llvm_definition_dir = foundry.out / 'kompiled' / 'llvm-library' if no_use_booster and not use_maude else None
+    kore_rpc_command = ('kore-rpc-booster',) if not no_use_booster and not use_maude else ('kore-rpc',)
 
     yield kore_server(
         definition_dir=foundry.kevm.definition_dir,
@@ -144,6 +144,7 @@ def assert_or_update_k_output(k_file: Path, expected_file: Path, *, update: bool
 ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-prove-all').read_text().splitlines())
 SKIPPED_PROVE_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip').read_text().splitlines())
 SKIPPED_LEGACY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-skip-legacy').read_text().splitlines())
+SKIPPED_MAUDE_TESTS: Final = set(filter(lambda x: x != '', (TEST_DATA_DIR / 'foundry-prove-skip-maude').read_text().splitlines()))
 GAS_TESTS: Final = set((TEST_DATA_DIR / 'foundry-prove-with-gas').read_text().splitlines())
 
 SHOW_TESTS = set((TEST_DATA_DIR / 'foundry-show').read_text().splitlines())
@@ -161,7 +162,8 @@ def test_foundry_prove(
 ) -> None:
     if (
         test_id in SKIPPED_PROVE_TESTS
-        or (no_use_booster and test_id in SKIPPED_LEGACY_TESTS)
+        or (no_use_booster and maude_server == None and test_id in SKIPPED_LEGACY_TESTS)
+        or (maude_server != None and test_id in SKIPPED_MAUDE_TESTS)
         or (update_expected_output and not test_id in SHOW_TESTS)
     ):
         pytest.skip()
