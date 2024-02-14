@@ -707,7 +707,8 @@ def foundry_to_junit_xml(proofs: list[APRProof]) -> None:
     testsuites.set('time', str(total_execution_time))
     tree = Et.ElementTree(testsuites)
     Et.indent(tree, space='\t', level=0)
-    tree.write('filename.xml')
+
+    tree.write('kontrol_prove_report.xml')
 
 
 def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:

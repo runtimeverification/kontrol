@@ -45,6 +45,7 @@ def foundry_prove(
     rpc_options: RPCOptions,
     tests: Iterable[tuple[str, int | None]] = (),
     include_summaries: Iterable[tuple[str, int | None]] = (),
+    xml_test_report: bool = False,
 ) -> list[APRProof]:
     if prove_options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {prove_options.workers}')
@@ -122,7 +123,10 @@ def foundry_prove(
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
     results = _run_prover(test_suite, include_summaries=True)
-    foundry_to_junit_xml(results)
+
+    if xml_test_report:
+        foundry_to_junit_xml(results)
+
     return results
 
 

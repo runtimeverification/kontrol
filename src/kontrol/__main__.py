@@ -241,6 +241,7 @@ def exec_prove(
     maude_port: int | None = None,
     use_gas: bool = False,
     summary_path: Path | None = None,
+    xml_test_report: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -296,6 +297,7 @@ def exec_prove(
         rpc_options=rpc_options,
         tests=tests,
         include_summaries=include_summaries,
+        xml_test_report=xml_test_report,
     )
     failed = 0
     for proof in results:
@@ -786,6 +788,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=[],
         action='append',
         help='Specify a summary to include as a lemma.',
+    )
+    prove_args.add_argument(
+        '--xml-test-report',
+        dest='xml_test_report',
+        default=False,
+        action='store_true',
+        help='Generate a JUnit xml report',
     )
 
     show_args = command_parser.add_parser(
