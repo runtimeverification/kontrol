@@ -344,7 +344,7 @@ def test_foundry_dependency(
     if no_use_booster:
         pytest.skip()
 
-    test = 'ArithmeticCallTest.test_double_add(uint256,uint256)'
+    test = 'ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)'
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)

@@ -1399,7 +1399,7 @@ module S2KtestZModArithmeticCallTest-CONTRACT
     
     syntax S2KtestZModArithmeticCallTestMethod ::= "S2KtestZUnddoubleZUndadd" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%ArithmeticCallTest_S2KtestZUnddoubleZUndadd_uint256_uint256)]
     
-    syntax S2KtestZModArithmeticCallTestMethod ::= "S2KtestZUnddoubleZUndaddZUnddoubleZUndsub" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_ArithmeticCallTest_S2KtestZUnddoubleZUndaddZUnddoubleZUndsub_uint256_uint256)]
+    syntax S2KtestZModArithmeticCallTestMethod ::= "S2KtestZUnddoubleZUndaddZUnddoubleZUndsub" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%ArithmeticCallTest_S2KtestZUnddoubleZUndaddZUnddoubleZUndsub_uint256_uint256)]
     
     rule  ( S2KtestZModArithmeticCallTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
