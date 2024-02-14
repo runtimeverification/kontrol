@@ -208,6 +208,7 @@ def test_foundry_fail(
         prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -262,6 +263,7 @@ def test_foundry_bmc(
         prove_options=ProveOptions(
             bmc_depth=3,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -289,6 +291,7 @@ def test_foundry_merge_nodes(
         prove_options=ProveOptions(
             max_iterations=2,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -326,6 +329,7 @@ def test_foundry_merge_nodes(
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -414,6 +418,7 @@ def test_foundry_auto_abstraction(
             auto_abstract_gas=True,
             bug_report=bug_report,
             use_gas=True,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -458,6 +463,7 @@ def test_foundry_remove_node(
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -480,6 +486,7 @@ def test_foundry_remove_node(
         tests=[(test, None)],
         prove_options=ProveOptions(
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -535,6 +542,7 @@ def test_foundry_resume_proof(
             max_iterations=4,
             reinit=True,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -553,6 +561,7 @@ def test_foundry_resume_proof(
             max_iterations=10,
             reinit=False,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -576,6 +585,7 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
         prove_options=ProveOptions(
             run_constructor=True,
             bug_report=bug_report,
+            break_on_calls=True,
         ),
         rpc_options=RPCOptions(
             smt_timeout=300,

@@ -214,33 +214,38 @@ def exec_prove(
     foundry_root: Path,
     max_depth: int = 1000,
     max_iterations: int | None = None,
-    reinit: bool = False,
+    reinit: bool | None = None,
     tests: Iterable[tuple[str, int | None]] = (),
     include_summaries: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
-    break_every_step: bool = False,
-    break_on_jumpi: bool = False,
-    break_on_calls: bool = True,
-    break_on_storage: bool = False,
-    break_on_basic_blocks: bool = False,
-    break_on_cheatcodes: bool = False,
+    break_every_step: bool | None = None,
+    break_on_jumpi: bool | None = None,
+    break_on_calls: bool | None = None,
+    break_on_storage: bool | None = None,
+    break_on_basic_blocks: bool | None = None,
+    break_on_cheatcodes: bool | None = None,
     bmc_depth: int | None = None,
     bug_report: BugReport | None = None,
     kore_rpc_command: str | Iterable[str] | None = None,
-    use_booster: bool = True,
+    use_booster: bool | None = None,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     smt_tactic: str | None = None,
-    failure_info: bool = True,
-    counterexample_info: bool = False,
-    trace_rewrites: bool = False,
-    auto_abstract_gas: bool = False,
-    run_constructor: bool = False,
-    fail_fast: bool = False,
+    failure_info: bool | None = None,
+    counterexample_info: bool | None = None,
+    trace_rewrites: bool | None = None,
+    auto_abstract_gas: bool | None = None,
+    run_constructor: bool | None = None,
+    fail_fast: bool | None = None,
     port: int | None = None,
     maude_port: int | None = None,
-    use_gas: bool = False,
+    use_gas: bool | None = None,
     summary_path: Path | None = None,
+    fast_check_subsumption: bool | None = None,
+    always_check_subsumption: bool | None = None,
+    post_exec_simplify: bool | None = None,
+    fallback_on: Iterable[FallbackReason] | None = None,
+    interim_simplification: int | None = None,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -277,6 +282,12 @@ def exec_prove(
         fail_fast=fail_fast,
         use_gas=use_gas,
         summary_entries=summary_entries,
+        failure_info=failure_info,
+        always_check_subsumption=always_check_subsumption,
+        fallback_on=fallback_on,
+        fast_check_subsumption=fast_check_subsumption,
+        interim_simplification=interim_simplification,
+        post_exec_simplify=post_exec_simplify,
     )
 
     rpc_options = RPCOptions(
@@ -744,7 +755,7 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--reinit',
         dest='reinit',
-        default=False,
+        default=None,
         action='store_true',
         help='Reinitialize CFGs even if they already exist.',
     )
@@ -758,17 +769,17 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--run-constructor',
         dest='run_constructor',
-        default=False,
+        default=None,
         action='store_true',
         help='Include the contract constructor in the test execution.',
     )
     prove_args.add_argument(
-        '--use-gas', dest='use_gas', default=False, action='store_true', help='Enables gas computation in KEVM.'
+        '--use-gas', dest='use_gas', default=None, action='store_true', help='Enables gas computation in KEVM.'
     )
     prove_args.add_argument(
         '--break-on-cheatcodes',
         dest='break_on_cheatcodes',
-        default=False,
+        default=None,
         action='store_true',
         help='Break on all Foundry rules.',
     )
