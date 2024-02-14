@@ -1,5 +1,6 @@
 requires "contracts.k"
-requires "requires/lemmas.k"
+requires "requires/sum-to-n-lemmas.k"
+requires "requires/pausability-lemmas.k"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
@@ -70,6 +71,9 @@ module FOUNDRY-MAIN
     imports public S2KtestZModAdditionalToken-VERIFICATION
     imports public S2KtestZModMyErc20-VERIFICATION
     imports public S2KtestZModPlainPrankTest-VERIFICATION
+    imports public S2KsrcZModPortal-VERIFICATION
+    imports public S2KsrcZModTypes-VERIFICATION
+    imports public S2KtestZModPortalTest-VERIFICATION
     imports public S2KsrcZModPrank-VERIFICATION
     imports public S2KtestZModPrankTest-VERIFICATION
     imports public S2KtestZModPrankTestMsgSender-VERIFICATION
@@ -593,6 +597,28 @@ endmodule
 
 module S2KtestZModPlainPrankTest-VERIFICATION
     imports public S2KtestZModPlainPrankTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModPortal-VERIFICATION
+    imports public S2KsrcZModPortal-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModTypes-VERIFICATION
+    imports public S2KsrcZModTypes-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModPortalTest-VERIFICATION
+    imports public S2KtestZModPortalTest-CONTRACT
+    imports public PAUSABILITY-LEMMAS
     
     
 

@@ -10393,6 +10393,299 @@ module S2KtestZModPlainPrankTest-CONTRACT
 
 endmodule
 
+module S2KsrcZModPortal-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KsrcZModPortalContract
+    
+    syntax S2KsrcZModPortalContract ::= "S2KsrcZModPortal" [symbol(), klabel(contract_src%Portal)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KsrcZModPortal ) => #parseByteStack ( "0x608060405234801561001057600080fd5b5061036d806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c80634870496f1461003b5780638456cb5914610050575b600080fd5b61004e6100493660046101f1565b610062565b005b61004e6000805460ff19166001179055565b60005460ff16156100b25760405162461bcd60e51b815260206004820152601660248201527513dc1d1a5b5a5cdb541bdc9d185b0e881c185d5cd95960521b604482015260640160405180910390fd5b84604001516001600160a01b031685602001516001600160a01b03167fa998e9f42be9c7bd87798d599093d87d0393e08ff742a512c623afe9c6a9c61f60405160405180910390a35050505050565b634e487b7160e01b600052604160045260246000fd5b60405160c0810167ffffffffffffffff8111828210171561013a5761013a610101565b60405290565b604051601f8201601f1916810167ffffffffffffffff8111828210171561016957610169610101565b604052919050565b80356001600160a01b038116811461018857600080fd5b919050565b60006080828403121561019f57600080fd5b50919050565b60008083601f8401126101b757600080fd5b50813567ffffffffffffffff8111156101cf57600080fd5b6020830191508360208260051b85010111156101ea57600080fd5b9250929050565b600080600080600060e0868803121561020957600080fd5b853567ffffffffffffffff8082111561022157600080fd5b9087019060c0828a03121561023557600080fd5b61023d610117565b82358152602061024e818501610171565b8183015261025e60408501610171565b6040830152606084013560608301526080840135608083015260a08401358381111561028957600080fd5b8085019450508a601f85011261029e57600080fd5b8335838111156102b0576102b0610101565b6102c2601f8201601f19168301610140565b8181528c838388010111156102d657600080fd5b8183870184830137600091810183019190915260a083015290975088013595506103038960408a0161018d565b945060c088013591508082111561031957600080fd5b50610326888289016101a5565b96999598509396509294939250505056fea2646970667358221220a5957bdb0722beb5aae24e7f89b211a669b152f8a4d8b565c4092114902c304564736f6c634300080d0033" ) )
+      
+    
+    syntax Field ::= S2KsrcZModPortalField
+    
+    syntax S2KsrcZModPortalField ::= "paused" [symbol(), klabel(field_src%Portal_paused)]
+    
+    rule  ( #loc ( S2KsrcZModPortal . paused ) => 0 )
+      
+    
+    syntax Bytes ::= S2KsrcZModPortalContract "." S2KsrcZModPortalMethod [function(), symbol(), klabel(method_src%Portal)]
+    
+    syntax S2KsrcZModPortalMethod ::= "S2Kpause" "(" ")" [symbol(), klabel(method_src%Portal_S2Kpause_)]
+    
+    syntax S2KsrcZModPortalMethod ::= "S2KproveWithdrawalTransaction" "(" Int ":" "uint256" "," Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_src%Portal_S2KproveWithdrawalTransaction_uint256_address_address_uint256_uint256_bytes_uint256_bytes32_bytes32_bytes32_bytes32_bytes_bytes)]
+    
+    rule  ( S2KsrcZModPortal . S2Kpause ( ) => #abiCallData ( "pause" , .TypedArgs ) )
+      
+    
+    rule  ( S2KsrcZModPortal . S2KproveWithdrawalTransaction ( V0_nonce : uint256 , V1_sender : address , V2_target : address , V3_value : uint256 , V4_gasLimit : uint256 , V5_data : bytes , V6__l2OutputIndex : uint256 , V7_version : bytes32 , V8_stateRoot : bytes32 , V9_messagePasserStorageRoot : bytes32 , V10_latestBlockhash : bytes32 , V11__withdrawalProof_0 : bytes , V11__withdrawalProof_1 : bytes ) => #abiCallData ( "proveWithdrawalTransaction" , #tuple ( #uint256 ( V0_nonce ) , #address ( V1_sender ) , #address ( V2_target ) , #uint256 ( V3_value ) , #uint256 ( V4_gasLimit ) , #bytes ( V5_data ) , .TypedArgs ) , #uint256 ( V6__l2OutputIndex ) , #tuple ( #bytes32 ( V7_version ) , #bytes32 ( V8_stateRoot ) , #bytes32 ( V9_messagePasserStorageRoot ) , #bytes32 ( V10_latestBlockhash ) , .TypedArgs ) , #array ( #bytes ( V11__withdrawalProof_0 ) , 2 , #bytes ( V11__withdrawalProof_0 ) , #bytes ( V11__withdrawalProof_1 ) , .TypedArgs ) , .TypedArgs ) )
+       ensures ( #rangeUInt ( 256 , V0_nonce )
+       andBool ( #rangeAddress ( V1_sender )
+       andBool ( #rangeAddress ( V2_target )
+       andBool ( #rangeUInt ( 256 , V3_value )
+       andBool ( #rangeUInt ( 256 , V4_gasLimit )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V5_data ) )
+       andBool ( #rangeUInt ( 256 , V6__l2OutputIndex )
+       andBool ( #rangeBytes ( 32 , V7_version )
+       andBool ( #rangeBytes ( 32 , V8_stateRoot )
+       andBool ( #rangeBytes ( 32 , V9_messagePasserStorageRoot )
+       andBool ( #rangeBytes ( 32 , V10_latestBlockhash )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V11__withdrawalProof_0 ) )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V11__withdrawalProof_1 ) )
+               )))))))))))))
+      
+    
+    rule  ( selector ( "pause()" ) => 2220280665 )
+      
+    
+    rule  ( selector ( "proveWithdrawalTransaction((uint256,address,address,uint256,uint256,bytes),uint256,(bytes32,bytes32,bytes32,bytes32),bytes[])" ) => 1215318383 )
+      
+
+endmodule
+
+module S2KsrcZModTypes-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KsrcZModTypesContract
+    
+    syntax S2KsrcZModTypesContract ::= "S2KsrcZModTypes" [symbol(), klabel(contract_src%Types)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KsrcZModTypes ) => #parseByteStack ( "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122023265d3d5b9197828eca40eebb820e4578a3034faa662c6d0e0b5f0810b595a564736f6c634300080d0033" ) )
+      
+
+endmodule
+
+module S2KtestZModPortalTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModPortalTestContract
+    
+    syntax S2KtestZModPortalTestContract ::= "S2KtestZModPortalTest" [symbol(), klabel(contract_test%PortalTest)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KtestZModPortalTest ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b506113028061003d6000396000f3fe608060405234801561001057600080fd5b50600436106100b45760003560e01c8063916a17c611610071578063916a17c61461011b578063b5508aa914610123578063ba414fa61461012b578063c1cd1d7c14610143578063e20c9f7114610156578063fa7626d41461015e57600080fd5b80630a9254e4146100b95780631ed7831c146100c35780633e5e3c23146100e15780633f7286f4146100e957806366d9a9a0146100f157806385226c8114610106575b600080fd5b6100c161016b565b005b6100cb6101b6565b6040516100d89190610936565b60405180910390f35b6100cb610218565b6100cb610278565b6100f96102d8565b6040516100d89190610983565b61010e6103c7565b6040516100d89190610a92565b6100f9610497565b61010e61057d565b61013361064d565b60405190151581526020016100d8565b6100c1610151366004610bdf565b61077a565b6100cb6108c9565b6007546101339060ff1681565b60405161017790610929565b604051809103906000f080158015610193573d6000803e3d6000fd5b50601b80546001600160a01b0319166001600160a01b0392909216919091179055565b6060601480548060200260200160405190810160405280929190818152602001828054801561020e57602002820191906000526020600020905b81546001600160a01b031681526001909101906020018083116101f0575b5050505050905090565b6060601680548060200260200160405190810160405280929190818152602001828054801561020e576020028201919060005260206000209081546001600160a01b031681526001909101906020018083116101f0575050505050905090565b6060601580548060200260200160405190810160405280929190818152602001828054801561020e576020028201919060005260206000209081546001600160a01b031681526001909101906020018083116101f0575050505050905090565b60606019805480602002602001604051908101604052809291908181526020016000905b828210156103be5760008481526020908190206040805180820182526002860290920180546001600160a01b031683526001810180548351818702810187019094528084529394919385830193928301828280156103a657602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116103685790505b505050505081525050815260200190600101906102fc565b50505050905090565b60606018805480602002602001604051908101604052809291908181526020016000905b828210156103be57838290600052602060002001805461040a90610d25565b80601f016020809104026020016040519081016040528092919081815260200182805461043690610d25565b80156104835780601f1061045857610100808354040283529160200191610483565b820191906000526020600020905b81548152906001019060200180831161046657829003601f168201915b5050505050815260200190600101906103eb565b6060601a805480602002602001604051908101604052809291908181526020016000905b828210156103be5760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561056557602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116105275790505b505050505081525050815260200190600101906104bb565b60606017805480602002602001604051908101604052809291908181526020016000905b828210156103be5783829060005260206000200180546105c090610d25565b80601f01602080910402602001604051908101604052809291908181526020018280546105ec90610d25565b80156106395780601f1061060e57610100808354040283529160200191610639565b820191906000526020600020905b81548152906001019060200180831161061c57829003601f168201915b5050505050815260200190600101906105a1565b600754600090610100900460ff161561066f5750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b156107755760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b828401528251808303840181526060830190935260009290916106fd917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001610d59565b60408051601f198184030181529082905261071791610d8a565b6000604051808303816000865af19150503d8060008114610754576040519150601f19603f3d011682016040523d82523d6000602084013e610759565b606091505b50915050808060200190518101906107719190610da6565b9150505b919050565b601b60009054906101000a90046001600160a01b03166001600160a01b0316638456cb596040518163ffffffff1660e01b8152600401600060405180830381600087803b1580156107ca57600080fd5b505af11580156107de573d6000803e3d6000fd5b505050507f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d60001c6001600160a01b031663f48448146040518163ffffffff1660e01b8152600401600060405180830381600087803b15801561084057600080fd5b505af1158015610854573d6000803e3d6000fd5b5050601b54604051634870496f60e01b81526001600160a01b039091169250634870496f91506108909088908890889088908890600401610e89565b600060405180830381600087803b1580156108aa57600080fd5b505af11580156108be573d6000803e3d6000fd5b505050505050505050565b6060601380548060200260200160405190810160405280929190818152602001828054801561020e576020028201919060005260206000209081546001600160a01b031681526001909101906020018083116101f0575050505050905090565b61038d80610f4083390190565b6020808252825182820181905260009190848201906040850190845b818110156109775783516001600160a01b031683529284019291840191600101610952565b50909695505050505050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b84811015610a2757898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b80831015610a125783516001600160e01b0319168252928b019260019290920191908b01906109e8565b50978a019795505050918701916001016109ab565b50919998505050505050505050565b60005b83811015610a51578181015183820152602001610a39565b83811115610a60576000848401525b50505050565b60008151808452610a7e816020860160208601610a36565b601f01601f19169290920160200192915050565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b82811015610ae757603f19888603018452610ad5858351610a66565b94509285019290850190600101610ab9565b5092979650505050505050565b634e487b7160e01b600052604160045260246000fd5b60405160c0810167ffffffffffffffff81118282101715610b2d57610b2d610af4565b60405290565b604051601f8201601f1916810167ffffffffffffffff81118282101715610b5c57610b5c610af4565b604052919050565b80356001600160a01b038116811461077557600080fd5b600060808284031215610b8d57600080fd5b50919050565b60008083601f840112610ba557600080fd5b50813567ffffffffffffffff811115610bbd57600080fd5b6020830191508360208260051b8501011115610bd857600080fd5b9250929050565b600080600080600060e08688031215610bf757600080fd5b853567ffffffffffffffff80821115610c0f57600080fd5b9087019060c0828a031215610c2357600080fd5b610c2b610b0a565b823581526020610c3c818501610b64565b81830152610c4c60408501610b64565b6040830152606084013560608301526080840135608083015260a084013583811115610c7757600080fd5b8085019450508a601f850112610c8c57600080fd5b833583811115610c9e57610c9e610af4565b610cb0601f8201601f19168301610b33565b8181528c83838801011115610cc457600080fd5b8183870184830137600091810183019190915260a08301529097508801359550610cf18960408a01610b7b565b945060c0880135915080821115610d0757600080fd5b50610d1488828901610b93565b969995985093965092949392505050565b600181811c90821680610d3957607f821691505b602082108103610b8d57634e487b7160e01b600052602260045260246000fd5b6001600160e01b0319831681528151600090610d7c816004850160208701610a36565b919091016004019392505050565b60008251610d9c818460208701610a36565b9190910192915050565b600060208284031215610db857600080fd5b81518015158114610dc857600080fd5b9392505050565b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b81835260006020808501808196508560051b810191508460005b87811015610e7c5782840389528135601e19883603018112610e3357600080fd5b8701803567ffffffffffffffff811115610e4c57600080fd5b803603891315610e5b57600080fd5b610e688682898501610dcf565b9a87019a9550505090840190600101610e12565b5091979650505050505050565b60e080825286519082015260208601516001600160a01b039081166101008301526040870151166101208201526060860151610140820152608086015161016082015260a086015160c0610180830152600090610eea6101a0840182610a66565b9050866020840152610f206040840187803582526020810135602083015260408101356040830152606081013560608301525050565b82810360c0840152610f33818587610df8565b9897505050505050505056fe608060405234801561001057600080fd5b5061036d806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c80634870496f1461003b5780638456cb5914610050575b600080fd5b61004e6100493660046101f1565b610062565b005b61004e6000805460ff19166001179055565b60005460ff16156100b25760405162461bcd60e51b815260206004820152601660248201527513dc1d1a5b5a5cdb541bdc9d185b0e881c185d5cd95960521b604482015260640160405180910390fd5b84604001516001600160a01b031685602001516001600160a01b03167fa998e9f42be9c7bd87798d599093d87d0393e08ff742a512c623afe9c6a9c61f60405160405180910390a35050505050565b634e487b7160e01b600052604160045260246000fd5b60405160c0810167ffffffffffffffff8111828210171561013a5761013a610101565b60405290565b604051601f8201601f1916810167ffffffffffffffff8111828210171561016957610169610101565b604052919050565b80356001600160a01b038116811461018857600080fd5b919050565b60006080828403121561019f57600080fd5b50919050565b60008083601f8401126101b757600080fd5b50813567ffffffffffffffff8111156101cf57600080fd5b6020830191508360208260051b85010111156101ea57600080fd5b9250929050565b600080600080600060e0868803121561020957600080fd5b853567ffffffffffffffff8082111561022157600080fd5b9087019060c0828a03121561023557600080fd5b61023d610117565b82358152602061024e818501610171565b8183015261025e60408501610171565b6040830152606084013560608301526080840135608083015260a08401358381111561028957600080fd5b8085019450508a601f85011261029e57600080fd5b8335838111156102b0576102b0610101565b6102c2601f8201601f19168301610140565b8181528c838388010111156102d657600080fd5b8183870184830137600091810183019190915260a083015290975088013595506103038960408a0161018d565b945060c088013591508082111561031957600080fd5b50610326888289016101a5565b96999598509396509294939250505056fea2646970667358221220a5957bdb0722beb5aae24e7f89b211a669b152f8a4d8b565c4092114902c304564736f6c634300080d0033a2646970667358221220add3d9eea4e4b570aebaf9629b781414e72fba5586aff3f741f59508610424b664736f6c634300080d0033" ) )
+      
+    
+    syntax Field ::= S2KtestZModPortalTestField
+    
+    syntax S2KtestZModPortalTestField ::= "stdstore" [symbol(), klabel(field_test%PortalTest_stdstore)]
+    
+    syntax S2KtestZModPortalTestField ::= "IS_TEST" [symbol(), klabel(field_test%PortalTest_IS_TEST)]
+    
+    syntax S2KtestZModPortalTestField ::= "_failed" [symbol(), klabel(field_test%PortalTest__failed)]
+    
+    syntax S2KtestZModPortalTestField ::= "stdChainsInitialized" [symbol(), klabel(field_test%PortalTest_stdChainsInitialized)]
+    
+    syntax S2KtestZModPortalTestField ::= "chains" [symbol(), klabel(field_test%PortalTest_chains)]
+    
+    syntax S2KtestZModPortalTestField ::= "defaultRpcUrls" [symbol(), klabel(field_test%PortalTest_defaultRpcUrls)]
+    
+    syntax S2KtestZModPortalTestField ::= "idToAlias" [symbol(), klabel(field_test%PortalTest_idToAlias)]
+    
+    syntax S2KtestZModPortalTestField ::= "fallbackToDefaultRpcUrls" [symbol(), klabel(field_test%PortalTest_fallbackToDefaultRpcUrls)]
+    
+    syntax S2KtestZModPortalTestField ::= "gasMeteringOff" [symbol(), klabel(field_test%PortalTest_gasMeteringOff)]
+    
+    syntax S2KtestZModPortalTestField ::= "_excludedContracts" [symbol(), klabel(field_test%PortalTest__excludedContracts)]
+    
+    syntax S2KtestZModPortalTestField ::= "_excludedSenders" [symbol(), klabel(field_test%PortalTest__excludedSenders)]
+    
+    syntax S2KtestZModPortalTestField ::= "_targetedContracts" [symbol(), klabel(field_test%PortalTest__targetedContracts)]
+    
+    syntax S2KtestZModPortalTestField ::= "_targetedSenders" [symbol(), klabel(field_test%PortalTest__targetedSenders)]
+    
+    syntax S2KtestZModPortalTestField ::= "_excludedArtifacts" [symbol(), klabel(field_test%PortalTest__excludedArtifacts)]
+    
+    syntax S2KtestZModPortalTestField ::= "_targetedArtifacts" [symbol(), klabel(field_test%PortalTest__targetedArtifacts)]
+    
+    syntax S2KtestZModPortalTestField ::= "_targetedArtifactSelectors" [symbol(), klabel(field_test%PortalTest__targetedArtifactSelectors)]
+    
+    syntax S2KtestZModPortalTestField ::= "_targetedSelectors" [symbol(), klabel(field_test%PortalTest__targetedSelectors)]
+    
+    syntax S2KtestZModPortalTestField ::= "portalContract" [symbol(), klabel(field_test%PortalTest_portalContract)]
+    
+    rule  ( #loc ( S2KtestZModPortalTest . stdstore ) => 0 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . IS_TEST ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . _failed ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . stdChainsInitialized ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . chains ) => 8 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . defaultRpcUrls ) => 9 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . idToAlias ) => 10 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . fallbackToDefaultRpcUrls ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . gasMeteringOff ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . _excludedContracts ) => 19 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . _excludedSenders ) => 20 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . _targetedContracts ) => 21 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . _targetedSenders ) => 22 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . _excludedArtifacts ) => 23 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . _targetedArtifacts ) => 24 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . _targetedArtifactSelectors ) => 25 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . _targetedSelectors ) => 26 )
+      
+    
+    rule  ( #loc ( S2KtestZModPortalTest . portalContract ) => 27 )
+      
+    
+    syntax Bytes ::= S2KtestZModPortalTestContract "." S2KtestZModPortalTestMethod [function(), symbol(), klabel(method_test%PortalTest)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2Kfailed" "(" ")" [symbol(), klabel(method_test%PortalTest_S2Kfailed_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KsetUp" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KsetUp_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KtargetContracts" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KtargetContracts_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KtargetSenders" "(" ")" [symbol(), klabel(method_test%PortalTest_S2KtargetSenders_)]
+    
+    syntax S2KtestZModPortalTestMethod ::= "S2KtestZUndwithdrawalZUndpaused" "(" Int ":" "uint256" "," Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol(), klabel(method_test%PortalTest_S2KtestZUndwithdrawalZUndpaused_uint256_address_address_uint256_uint256_bytes_uint256_bytes32_bytes32_bytes32_bytes32_bytes_bytes_bytes_bytes_bytes_bytes_bytes_bytes_bytes_bytes)]
+    
+    rule  ( S2KtestZModPortalTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPortalTest . S2KtestZUndwithdrawalZUndpaused ( V0_nonce : uint256 , V1_sender : address , V2_target : address , V3_value : uint256 , V4_gasLimit : uint256 , V5_data : bytes , V6__l2OutputIndex : uint256 , V7_version : bytes32 , V8_stateRoot : bytes32 , V9_messagePasserStorageRoot : bytes32 , V10_latestBlockhash : bytes32 , V11__withdrawalProof_0 : bytes , V11__withdrawalProof_1 : bytes , V11__withdrawalProof_2 : bytes , V11__withdrawalProof_3 : bytes , V11__withdrawalProof_4 : bytes , V11__withdrawalProof_5 : bytes , V11__withdrawalProof_6 : bytes , V11__withdrawalProof_7 : bytes , V11__withdrawalProof_8 : bytes , V11__withdrawalProof_9 : bytes ) => #abiCallData ( "test_withdrawal_paused" , #tuple ( #uint256 ( V0_nonce ) , #address ( V1_sender ) , #address ( V2_target ) , #uint256 ( V3_value ) , #uint256 ( V4_gasLimit ) , #bytes ( V5_data ) , .TypedArgs ) , #uint256 ( V6__l2OutputIndex ) , #tuple ( #bytes32 ( V7_version ) , #bytes32 ( V8_stateRoot ) , #bytes32 ( V9_messagePasserStorageRoot ) , #bytes32 ( V10_latestBlockhash ) , .TypedArgs ) , #array ( #bytes ( V11__withdrawalProof_0 ) , 10 , #bytes ( V11__withdrawalProof_0 ) , #bytes ( V11__withdrawalProof_1 ) , #bytes ( V11__withdrawalProof_2 ) , #bytes ( V11__withdrawalProof_3 ) , #bytes ( V11__withdrawalProof_4 ) , #bytes ( V11__withdrawalProof_5 ) , #bytes ( V11__withdrawalProof_6 ) , #bytes ( V11__withdrawalProof_7 ) , #bytes ( V11__withdrawalProof_8 ) , #bytes ( V11__withdrawalProof_9 ) , .TypedArgs ) , .TypedArgs ) )
+       ensures ( #rangeUInt ( 256 , V0_nonce )
+       andBool ( #rangeAddress ( V1_sender )
+       andBool ( #rangeAddress ( V2_target )
+       andBool ( #rangeUInt ( 256 , V3_value )
+       andBool ( #rangeUInt ( 256 , V4_gasLimit )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V5_data ) )
+       andBool ( #rangeUInt ( 256 , V6__l2OutputIndex )
+       andBool ( #rangeBytes ( 32 , V7_version )
+       andBool ( #rangeBytes ( 32 , V8_stateRoot )
+       andBool ( #rangeBytes ( 32 , V9_messagePasserStorageRoot )
+       andBool ( #rangeBytes ( 32 , V10_latestBlockhash )
+       andBool ( lengthBytes ( V11__withdrawalProof_0 ) ==Int 600
+       andBool ( lengthBytes ( V11__withdrawalProof_1 ) ==Int 600
+       andBool ( lengthBytes ( V11__withdrawalProof_2 ) ==Int 600
+       andBool ( lengthBytes ( V11__withdrawalProof_3 ) ==Int 600
+       andBool ( lengthBytes ( V11__withdrawalProof_4 ) ==Int 600
+       andBool ( lengthBytes ( V11__withdrawalProof_5 ) ==Int 600
+       andBool ( lengthBytes ( V11__withdrawalProof_6 ) ==Int 600
+       andBool ( lengthBytes ( V11__withdrawalProof_7 ) ==Int 600
+       andBool ( lengthBytes ( V11__withdrawalProof_8 ) ==Int 600
+       andBool ( lengthBytes ( V11__withdrawalProof_9 ) ==Int 600
+               )))))))))))))))))))))
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_withdrawal_paused((uint256,address,address,uint256,uint256,bytes),uint256,(bytes32,bytes32,bytes32,bytes32),bytes[])" ) => 3251445116 )
+      
+
+endmodule
+
 module S2KsrcZModPrank-CONTRACT
     imports public FOUNDRY
     
