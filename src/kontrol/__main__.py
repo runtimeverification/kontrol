@@ -241,6 +241,11 @@ def exec_prove(
     maude_port: int | None = None,
     use_gas: bool | None = None,
     summary_path: Path | None = None,
+    fast_check_subsumption: bool | None = None,
+    always_check_subsumption: bool | None = None,
+    post_exec_simplify: bool | None = None,
+    fallback_on: Iterable[FallbackReason] | None = None,
+    interim_simplification: int | None = None,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -277,9 +282,13 @@ def exec_prove(
         fail_fast=fail_fast,
         use_gas=use_gas,
         summary_entries=summary_entries,
+        failure_info=failure_info,
+        always_check_subsumption=always_check_subsumption,
+        fallback_on=fallback_on,
+        fast_check_subsumption=fast_check_subsumption,
+        interim_simplification=interim_simplification,
+        post_exec_simplify=post_exec_simplify,
     )
-    print(prove_options.break_every_step)
-    exit(1)
 
     rpc_options = RPCOptions(
         use_booster=use_booster,
