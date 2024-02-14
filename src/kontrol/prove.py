@@ -63,7 +63,7 @@ def foundry_prove(
 
     foundry.mk_proofs_dir()
 
-    if include_summaries != () and prove_options.cse:
+    if include_summaries and prove_options.cse:
         raise AttributeError('Error! Cannot use both --cse and --include-summary.')
 
     summary_ids: list[str] = (
