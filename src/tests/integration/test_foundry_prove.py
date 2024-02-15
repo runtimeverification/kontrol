@@ -617,7 +617,7 @@ def test_deployment_summary(
     foundry = Foundry(foundry_root=foundry_root_dir)
 
     foundry_state_diff(
-        'DeploymentSummary',
+        'DeploymentState',
         TEST_DATA_DIR / 'accesses.json',
         contract_names=None,
         output_dir_name='src',
@@ -626,16 +626,16 @@ def test_deployment_summary(
         foundry=foundry,
     )
 
-    generated_main_file = foundry_root_dir / 'src' / 'DeploymentSummary.sol'
-    generated_code_file = foundry_root_dir / 'src' / 'DeploymentSummaryCode.sol'
+    generated_main_file = foundry_root_dir / 'src' / 'DeploymentState.sol'
+    generated_code_file = foundry_root_dir / 'src' / 'DeploymentStateCode.sol'
 
     assert_or_update_show_output(
         generated_main_file.read_text(),
-        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummary.sol',
+        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentState.sol',
         update=update_expected_output,
     )
     assert_or_update_show_output(
         generated_code_file.read_text(),
-        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentSummaryCode.sol',
+        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentStateCode.sol',
         update=update_expected_output,
     )

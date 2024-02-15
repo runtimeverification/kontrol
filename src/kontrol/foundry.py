@@ -28,7 +28,7 @@ from pyk.proof.reachability import APRBMCProof, APRProof
 from pyk.proof.show import APRBMCProofNodePrinter, APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
-from .deployment import DeploymentSummary, SummaryEntry
+from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
@@ -806,11 +806,11 @@ def foundry_state_diff(
     comment_generated_file: str,
     condense_state_diff: bool = False,
 ) -> None:
-    access_entries = read_summary(accesses_file)
+    access_entries = read_deployment_state(accesses_file)
     accounts = read_contract_names(contract_names) if contract_names else {}
-    summary_contract = DeploymentSummary(name=name, accounts=accounts)
+    deployment_state_contract = DeploymentState(name=name, accounts=accounts)
     for access in access_entries:
-        summary_contract.extend(access)
+        deployment_state_contract.extend(access)
 
     if output_dir_name is None:
         output_dir_name = foundry.profile.get('test', '')
@@ -824,11 +824,17 @@ def foundry_state_diff(
         raise ValueError('License cannot be empty or blank')
 
     if condense_state_diff:
-        main_file.write_text('\n'.join(summary_contract.generate_condensed_file(comment_generated_file, license)))
+        main_file.write_text(
+            '\n'.join(deployment_state_contract.generate_condensed_file(comment_generated_file, license))
+        )
     else:
         code_file = output_dir / Path(name + 'Code.sol')
-        main_file.write_text('\n'.join(summary_contract.generate_main_contract_file(comment_generated_file, license)))
-        code_file.write_text('\n'.join(summary_contract.generate_code_contract_file(comment_generated_file, license)))
+        main_file.write_text(
+            '\n'.join(deployment_state_contract.generate_main_contract_file(comment_generated_file, license))
+        )
+        code_file.write_text(
+            '\n'.join(deployment_state_contract.generate_code_contract_file(comment_generated_file, license))
+        )
 
 
 def foundry_section_edge(
@@ -918,11 +924,11 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def read_summary(accesses_file: Path) -> list[SummaryEntry]:
+def read_deployment_state(accesses_file: Path) -> list[DeploymentStateEntry]:
     if not accesses_file.exists():
         raise FileNotFoundError(f'Account accesses dictionary file not found: {accesses_file}')
     accesses = json.loads(accesses_file.read_text())['accountAccesses']
-    return [SummaryEntry(_a) for _a in accesses]
+    return [DeploymentStateEntry(_a) for _a in accesses]
 
 
 def read_contract_names(contract_names: Path) -> dict[str, str]:
