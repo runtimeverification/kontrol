@@ -1,0 +1,21 @@
+[build]
+verbose                 = false
+debug                   = false
+
+[build.a_profile]
+verbose                 = false
+debug                   = false
+optimization-level      = 3
+target                  = 'maude'
+
+[prove.b_profile]
+verbose                 = true
+debug                   = true
+workers                 = 5
+smt-timeout             = 1000
+
+[show.default]
+version                 = 3
+verbose                 = true
+debug                   = true
+node-delta              = '10,#target'
