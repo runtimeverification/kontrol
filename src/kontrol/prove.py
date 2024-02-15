@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import time
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
@@ -208,6 +209,7 @@ def _run_cfg_group(
             apr_proof = foundry.get_apr_proof(test.id)
             if apr_proof.passed:
                 return None
+        start_time = time.time()
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
@@ -255,7 +257,8 @@ def _run_cfg_group(
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
                 counterexample_info=prove_options.counterexample_info,
             )
-
+            end_time = time.time()
+            proof.add_exec_time(end_time - start_time)
             # Only return the failure info to avoid pickling the whole proof
             return proof.failure_info
 
