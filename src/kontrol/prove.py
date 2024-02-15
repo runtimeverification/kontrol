@@ -20,7 +20,7 @@ from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRBMCProof, APRProof
+from pyk.proof.reachability import APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry, foundry_to_junit_xml
@@ -248,7 +248,6 @@ def _run_cfg_group(
                 )
 
             run_prover(
-                foundry.kevm,
                 proof,
                 kcfg_explore,
                 max_depth=prove_options.max_depth,
@@ -256,6 +255,7 @@ def _run_cfg_group(
                 cut_point_rules=cut_point_rules,
                 terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
                 counterexample_info=prove_options.counterexample_info,
+                fail_fast=prove_options.fail_fast,
             )
             end_time = time.time()
             proof.add_exec_time(end_time - start_time)
@@ -315,22 +315,17 @@ def method_to_apr_proof(
         summary_entries=summary_entries,
     )
 
-    if bmc_depth is not None:
-        apr_proof = APRBMCProof(
-            test.id,
-            kcfg,
-            [],
-            init_node_id,
-            target_node_id,
-            {},
-            bmc_depth,
-            proof_dir=foundry.proofs_dir,
-            subproof_ids=summary_ids,
-        )
-    else:
-        apr_proof = APRProof(
-            test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=foundry.proofs_dir, subproof_ids=summary_ids
-        )
+    apr_proof = APRProof(
+        test.id,
+        kcfg,
+        [],
+        init_node_id,
+        target_node_id,
+        {},
+        bmc_depth=bmc_depth,
+        proof_dir=foundry.proofs_dir,
+        subproof_ids=summary_ids,
+    )
 
     apr_proof.write_proof_data()
     return apr_proof
@@ -505,6 +500,9 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
 
+    # adding constraints from the initial cterm
+    for constraint in cterm.constraints:
+        new_init_cterm = new_init_cterm.add_constraint(constraint)
     new_init_cterm = KEVM.add_invariant(new_init_cterm)
 
     return new_init_cterm
