@@ -259,6 +259,7 @@ def _run_cfg_group(
             )
             end_time = time.time()
             proof.add_exec_time(end_time - start_time)
+            proof.write_proof_data()
             # Only return the failure info to avoid pickling the whole proof
             return proof.failure_info
 
@@ -293,7 +294,6 @@ def method_to_apr_proof(
 ) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
-        apr_proof.write_proof_data()
         return apr_proof
 
     setup_proof = None
@@ -327,7 +327,6 @@ def method_to_apr_proof(
         subproof_ids=summary_ids,
     )
 
-    apr_proof.write_proof_data()
     return apr_proof
 
 
