@@ -11,10 +11,11 @@ contract PortalTest is Test {
         portalContract = new Portal();
     }
 
-    /// @custom:kontrol-length-equals _withdrawalProof: 10,
-    /// @custom:kontrol-length-equals _withdrawalProof[]: 600,
+    /// @custom:kontrol-length-equals _withdrawalProof: 3,
+    /// @custom:kontrol-length-equals data: 32,
+    /// @custom:kontrol-length-equals _withdrawalProof[]: 32,
     function test_withdrawal_paused(
-        Types.WithdrawalTransaction memory _tx,
+        Types.WithdrawalTransaction calldata _tx,
         uint256 _l2OutputIndex,
         Types.OutputRootProof calldata _outputRootProof,
         bytes[] calldata _withdrawalProof
