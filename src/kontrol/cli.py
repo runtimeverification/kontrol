@@ -536,7 +536,6 @@ def read_toml_args(parser: ArgumentParser, args: Namespace, cmd_args: list[str])
             toml_commands.append('--no-' + long_opt)
         elif long_opt[:4] == 'no-' and long_opt[3:] in switching_options:
             toml_commands.append('--' + long_opt[3:])
-        toml_commands.append('--' + long_opt)
 
     def get_profile(toml_profile: dict[str, Any], profile_list: list[str]) -> dict[str, Any]:
         if len(profile_list) == 0 or profile_list[0] not in toml_profile.keys():
