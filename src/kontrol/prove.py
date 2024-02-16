@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import datetime
 import logging
 import time
+import traceback
+import xml.etree.ElementTree as Et
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
@@ -23,7 +26,7 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRProof
 from pyk.utils import run_process, unique
 
-from .foundry import Foundry, foundry_to_junit_xml
+from .foundry import Foundry
 from .solc_to_k import Contract, hex_string_to_int
 
 if TYPE_CHECKING:
@@ -106,6 +109,7 @@ def foundry_prove(
             prove_options=prove_options,
             rpc_options=rpc_options,
             summary_ids=(summary_ids if include_summaries else []),
+            xml_test_report=xml_test_report,
         )
 
     if prove_options.run_constructor:
@@ -124,9 +128,6 @@ def foundry_prove(
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
     results = _run_prover(test_suite, include_summaries=True)
-
-    if xml_test_report:
-        foundry_to_junit_xml(results)
 
     return results
 
@@ -203,6 +204,7 @@ def _run_cfg_group(
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
     summary_ids: Iterable[str],
+    xml_test_report: bool,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | None:
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
@@ -247,21 +249,76 @@ def _run_cfg_group(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
                 )
 
-            run_prover(
-                proof,
-                kcfg_explore,
-                max_depth=prove_options.max_depth,
-                max_iterations=prove_options.max_iterations,
-                cut_point_rules=cut_point_rules,
-                terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
-                counterexample_info=prove_options.counterexample_info,
-                fail_fast=prove_options.fail_fast,
-            )
-            end_time = time.time()
-            proof.add_exec_time(end_time - start_time)
-            proof.write_proof_data()
+            try:
+                run_prover(
+                    proof,
+                    kcfg_explore,
+                    max_depth=prove_options.max_depth,
+                    max_iterations=prove_options.max_iterations,
+                    cut_point_rules=cut_point_rules,
+                    terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
+                    counterexample_info=prove_options.counterexample_info,
+                    fail_fast=prove_options.fail_fast,
+                )
+                end_time = time.time()
+                exec_time = end_time - start_time
+                # proof.add_exec_time(end_time - start_time)
+                proof.write_proof_data()
+                if xml_test_report:
+                    xml_write_node(test, exec_time, proof.failure_info, None)
+
+            except Exception as exc:
+                end_time = time.time()
+                exec_time = end_time - start_time
+                if xml_test_report:
+                    xml_write_node(test, exec_time, None, exc)
+                else:
+                    print(traceback.format_exc())
             # Only return the failure info to avoid pickling the whole proof
             return proof.failure_info
+
+    def xml_write_node(
+        foundrytest: FoundryTest, exec_time: float, failure_info: APRFailureInfo | None, exc: Exception | None
+    ) -> None:
+        test, *_ = foundrytest.id.split(':')
+        contract, test_name = test.split('.')
+        _, contract_name = contract.split('%')
+        testsuite = testsuites.find(f'testsuite[@name={contract_name!r}]')
+        if testsuite is None:
+            testsuite = Et.SubElement(
+                testsuites,
+                'testsuite',
+                name=contract_name,
+                tests='1',
+                failures='0',
+                errors='0',
+                time=str(exec_time),
+                timestamp=str(datetime.datetime.now()),
+            )
+        else:
+            testsuite_execution_time = float(testsuite.get('time', 0)) + exec_time
+            testsuite.set('time', str(testsuite_execution_time))
+            testsuite.set('tests', str(int(testsuite.get('tests', 0)) + 1))
+
+        testcase = Et.SubElement(testsuite, 'testcase', name=test_name, classname=contract_name, time=str(exec_time))
+        if failure_info is not None:
+            text = failure_info.print()
+            failure = Et.SubElement(testcase, 'failure', message=text[0])
+            failure.text = '\n'.join((text[1:-1]))
+            testsuite.set('failures', str(int(testsuite.get('failures', 0)) + 1))
+            testsuites.set('failures', str(int(testsuites.get('failures', 0)) + 1))
+        if exc is not None:
+            trace = traceback.format_exc()
+            error = Et.SubElement(testcase, 'error', type=str(type(exc).__name__))
+            error.text = trace
+            testsuite.set('errors', str(int(testsuite.get('errors', 0)) + 1))
+            testsuites.set('errors', str(int(testsuites.get('errors', 0)) + 1))
+
+        testsuites.set('tests', str(int(testsuites.get('tests', 0)) + 1))
+        testsuites.set('time', str(float(testsuites.get('time', 0.0)) + exec_time))
+
+    if xml_test_report:
+        testsuites = Et.Element('testsuites', tests='0', failures='0', errors='0', time='0', timestamp=str(datetime.datetime.now()))
 
     failure_infos: list[APRFailureInfo | None]
     if prove_options.workers > 1:
@@ -278,6 +335,11 @@ def _run_cfg_group(
     for proof, failure_info in zip(proofs, failure_infos, strict=True):
         assert proof.failure_info is None  # Refactor once this fails
         proof.failure_info = failure_info
+
+    if xml_test_report:
+        tree = Et.ElementTree(testsuites)
+        Et.indent(tree, space='\t', level=0)
+        tree.write('kontrol_prove_report.xml', encoding='utf-8', xml_declaration=True)
 
     return proofs
 

@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-import datetime
 import json
 import logging
 import os
 import re
 import sys
-import xml.etree.ElementTree as Et
 from functools import cached_property
 from os import listdir
 from pathlib import Path
@@ -665,55 +663,6 @@ def foundry_list(foundry: Foundry) -> list[str]:
         lines = lines[0:-1]
 
     return lines
-
-
-def foundry_to_junit_xml(proofs: list[APRProof]) -> None:
-    testsuites = Et.Element('testsuites', tests='0', failures='0', time='0', timestamp=str(datetime.datetime.now()))
-    tests = 0
-    failures = 0
-    total_execution_time = 0.0
-
-    for proof in proofs:
-        tests += 1
-        test, *_ = proof.id.split(':')
-        contract, test_name = test.split('.')
-        _, contract_name = contract.split('%')
-        execution_time = proof.exec_time()
-        total_execution_time += execution_time
-        testsuite = testsuites.find(f'testsuite[@name={contract_name!r}]')
-        if testsuite is None:
-            testsuite = Et.SubElement(
-                testsuites,
-                'testsuite',
-                name=contract_name,
-                tests='1',
-                failures='0',
-                time=str(execution_time),
-                timestamp=str(datetime.datetime.now()),
-            )
-        else:
-            testsuite_execution_time = float(testsuite.get('time', 0)) + execution_time
-            testsuite.set('time', str(testsuite_execution_time))
-            testsuite.set('tests', str(int(testsuite.get('tests', 0)) + 1))
-        testcase = Et.SubElement(
-            testsuite, 'testcase', name=test_name, classname=contract_name, time=str(execution_time)
-        )
-        if not proof.passed:
-            failures += 1
-            failure = Et.SubElement(testcase, 'failure')
-            if proof.failure_info is not None:
-                text = proof.failure_info.print()
-                failure.set('message', text[0])
-                failure.text = '\n'.join((text[1:-1]))
-            testsuite.set('failures', str(int(testsuite.get('failures', 0)) + 1))
-
-    testsuites.set('tests', str(tests))
-    testsuites.set('failures', str(failures))
-    testsuites.set('time', str(total_execution_time))
-    tree = Et.ElementTree(testsuites)
-    Et.indent(tree, space='\t', level=0)
-
-    tree.write('kontrol_prove_report.xml', encoding='utf-8', xml_declaration=True)
 
 
 def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
