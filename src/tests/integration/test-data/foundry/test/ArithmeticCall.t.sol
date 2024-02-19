@@ -22,6 +22,12 @@ contract ArithmeticCallTest is Test {
         a = arith.add(a, y);
         uint b = arith.sub(x, y);
         b = arith.sub(b, y);
-        assert (a!=b);
+        assert (a != b);
+    }
+
+    function test_double_add_sub_external(uint x, uint y, uint z) external {
+        uint a = arith.add_sub_external(x, y, z);
+        a = arith.add_sub_external(a, y, z);
+        assert(a > x);
     }
 }
