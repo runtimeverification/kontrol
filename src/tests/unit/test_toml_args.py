@@ -20,7 +20,7 @@ def test_optionless_command() -> None:
     assert args.command == 'version'
 
 
-def test_continue_when_toml_absent() -> None:
+def test_continue_when_default_toml_absent() -> None:
     parser = _create_argument_parser()
     cmd_args = ['build', '--foundry-project-root', '.']
     args = parser.parse_args(cmd_args)

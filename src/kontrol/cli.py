@@ -44,7 +44,7 @@ class KontrolCLIArgs(KEVMCLIArgs):
             dest='config_file',
             type=file_path,
             default=Path('./kontrol.toml'),
-            help='Path to kontrol config file.',
+            help='Path to Kontrol config file.',
         )
         args.add_argument(
             '--config-profile',
@@ -531,7 +531,22 @@ def read_toml_args(parser: ArgumentParser, args: Namespace, cmd_args: list[str])
             toml_commands.append('--' + long_opt)
 
     def canonicalize_negative_logic_option(long_opt: str) -> None:
-        switching_options = ['emit-json', 'minimize', 'use-booster']
+        switching_options = [
+            'emit-json',
+            'minimize',
+            'use-booster',
+            'failure-information',
+            'break-on-calls',
+            'always-check-subsumption',
+            'expand-macros',
+            'always-check-subsumption',
+            'fast-check-subsumption',
+            'gas',
+            'post-exec-simplify',
+            'counterexample-informaiton',
+            'fail-fast',
+            'llvm-kompile',
+        ]
         if long_opt in switching_options:
             toml_commands.append('--no-' + long_opt)
         elif long_opt[:4] == 'no-' and long_opt[3:] in switching_options:
@@ -550,7 +565,9 @@ def read_toml_args(parser: ArgumentParser, args: Namespace, cmd_args: list[str])
             try:
                 toml_args = tomli.load(config_file)
             except tomli.TOMLDecodeError:
-                _LOGGER.error('Input config file is not in TOML format')
+                _LOGGER.error(
+                    'Input config file is not in TOML format, ignoring the file and carrying on with the provided command line agruments'
+                )
 
     toml_commands = [args.command]
     toml_profile_args = (
