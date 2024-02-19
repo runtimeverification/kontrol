@@ -366,6 +366,14 @@ def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: i
     print(refuted_proof)
 
 
+def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
+    foundry = _load_foundry(foundry_root)
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    proof.unrefute_node(proof.kcfg.node(node))
+
+
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
     foundry_to_dot(foundry=_load_foundry(foundry_root), test=test, version=version)
 
@@ -861,6 +869,13 @@ def _create_argument_parser() -> ArgumentParser:
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
     refute_node.add_argument('node', type=node_id_like, help='Node to refute.')
+
+    unrefute_node = command_parser.add_parser(
+        'unrefute-node',
+        help='Disable refutation of a node and remove corresponding refutation subproof.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    unrefute_node.add_argument('node', type=node_id_like, help='Node to unrefute.')
 
     simplify_node = command_parser.add_parser(
         'simplify-node',
