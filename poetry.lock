@@ -21,13 +21,13 @@ tests-no-zope = ["attrs[tests-mypy]", "cloudpickle", "hypothesis", "pympler", "p
 
 [[package]]
 name = "autoflake"
-version = "2.2.1"
+version = "2.3.0"
 description = "Removes unused imports and unused variables"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "autoflake-2.2.1-py3-none-any.whl", hash = "sha256:265cde0a43c1f44ecfb4f30d95b0437796759d07be7706a2f70e4719234c0f79"},
-    {file = "autoflake-2.2.1.tar.gz", hash = "sha256:62b7b6449a692c3c9b0c916919bbc21648da7281e8506bcf8d3f8280e431ebc1"},
+    {file = "autoflake-2.3.0-py3-none-any.whl", hash = "sha256:79a51eb8c0744759d2efe052455ab20aa6a314763510c3fd897499a402126327"},
+    {file = "autoflake-2.3.0.tar.gz", hash = "sha256:8c2011fa34701b9d7dcf05b9873bc4859d4fce4e62dfea90dffefd1576f5f01d"},
 ]
 
 [package.dependencies]
@@ -434,7 +434,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.456"
+version = "1.0.457"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -449,8 +449,8 @@ tomlkit = "^0.11.6"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.456"
-resolved_reference = "6d8b11d5f7ddbe155193cc5bc9aab97ab1f653cc"
+reference = "v1.0.457"
+resolved_reference = "88c673567ec736ccf0ef8df838968a8bf8583a65"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -947,13 +947,13 @@ testing = ["filelock"]
 
 [[package]]
 name = "pyupgrade"
-version = "3.15.0"
+version = "3.15.1"
 description = "A tool to automatically upgrade syntax for newer versions."
 optional = false
 python-versions = ">=3.8.1"
 files = [
-    {file = "pyupgrade-3.15.0-py2.py3-none-any.whl", hash = "sha256:8dc8ebfaed43566e2c65994162795017c7db11f531558a74bc8aa077907bc305"},
-    {file = "pyupgrade-3.15.0.tar.gz", hash = "sha256:a7fde381060d7c224f55aef7a30fae5ac93bbc428367d27e70a603bc2acd4f00"},
+    {file = "pyupgrade-3.15.1-py2.py3-none-any.whl", hash = "sha256:c5e005de2805edcd333d1deb04553200ec69da85e4bc9db37b16345ed9e27ed9"},
+    {file = "pyupgrade-3.15.1.tar.gz", hash = "sha256:7690857cae0f6253f39241dcd2e57118c333c438b78609fc3c17a5aa61227b7d"},
 ]
 
 [package.dependencies]
@@ -1111,4 +1111,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "891269a9a754bd5da750a8729ae6d5e9e08d039053bacfbe43f8aecca2c4018e"
+content-hash = "69cfc316345a4bea884f91a59e9097c55e42e178db6d9e41b12af411aebe141a"
