@@ -24,6 +24,7 @@ from .foundry import (
     foundry_list,
     foundry_merge_nodes,
     foundry_node_printer,
+    foundry_refute_node,
     foundry_remove_node,
     foundry_section_edge,
     foundry_show,
@@ -31,6 +32,7 @@ from .foundry import (
     foundry_state_diff,
     foundry_step_node,
     foundry_to_dot,
+    foundry_unrefute_node,
     read_deployment_state,
 )
 from .kompile import foundry_kompile
@@ -358,20 +360,11 @@ def exec_show(
 
 
 def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
-    foundry = _load_foundry(foundry_root)
-    test_id = foundry.get_test_id(test, version)
-    proof = foundry.get_apr_proof(test_id)
-
-    refuted_proof = proof.refute_node(proof.kcfg.node(node))
-    print(refuted_proof)
+    foundry_refute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
 
 
 def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
-    foundry = _load_foundry(foundry_root)
-    test_id = foundry.get_test_id(test, version)
-    proof = foundry.get_apr_proof(test_id)
-
-    proof.unrefute_node(proof.kcfg.node(node))
+    foundry_unrefute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:

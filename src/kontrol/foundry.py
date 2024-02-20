@@ -673,6 +673,20 @@ def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: 
     apr_proof.write_proof_data()
 
 
+def foundry_refute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    proof.refute_node(proof.kcfg.node(node))
+
+
+def foundry_unrefute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    proof.unrefute_node(proof.kcfg.node(node))
+
+
 def foundry_simplify_node(
     foundry: Foundry,
     test: str,
