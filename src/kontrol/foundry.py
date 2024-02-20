@@ -704,7 +704,9 @@ def foundry_to_xml(proofs: list[APRProof]) -> None:
 
         if not proof.passed:
             if proof.failure_info is None:
-                error = Et.SubElement(testcase, 'error',message='Some Exception happened during the execution of this test')
+                error = Et.SubElement(
+                    testcase, 'error', message='Some Exception happened during the execution of this test'
+                )
                 if proof.error_info is not None:
                     trace = traceback.format_exc()
                     error.set('type', str(type(proof.error_info).__name__))
