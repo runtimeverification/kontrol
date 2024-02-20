@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 
 from pyk.kast.inner import KApply, KLabel, KSort, KToken
 
-from kontrol.foundry import read_summary
-from kontrol.prove import summary_to_account_cells
+from kontrol.foundry import read_deployment_state
+from kontrol.prove import deployment_state_to_account_cells
 
 from .utils import TEST_DATA_DIR
 
@@ -52,12 +52,12 @@ ACCOUNTS_EXPECTED: Final = [
 ]
 
 
-def test_summary_to_account_cells() -> None:
+def test_deployment_state_to_account_cells() -> None:
     # Given
-    summary_entries = read_summary(accesses_file=ACCESSES_INPUT_FILE)
+    deployment_state_entries = read_deployment_state(accesses_file=ACCESSES_INPUT_FILE)
 
     # When
-    actual = summary_to_account_cells(summary_entries)
+    actual = deployment_state_to_account_cells(deployment_state_entries)
 
     # Then
     assert actual == ACCOUNTS_EXPECTED
