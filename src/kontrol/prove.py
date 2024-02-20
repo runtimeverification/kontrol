@@ -284,7 +284,7 @@ def _run_cfg_group(
             proof.failure_info = failure_info
 
     if xml_test_report:
-        foundry_to_xml(proofs)
+        foundry_to_xml(foundry, proofs)
 
     return proofs
 

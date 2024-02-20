@@ -668,7 +668,7 @@ def foundry_list(foundry: Foundry) -> list[str]:
     return lines
 
 
-def foundry_to_xml(proofs: list[APRProof]) -> None:
+def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
     testsuites = Et.Element(
         'testsuites', tests='0', failures='0', errors='0', time='0', timestamp=str(datetime.datetime.now())
     )
@@ -679,6 +679,7 @@ def foundry_to_xml(proofs: list[APRProof]) -> None:
         test, *_ = proof.id.split(':')
         contract, test_name = test.split('.')
         _, contract_name = contract.split('%')
+        contract_path = foundry.contracts[contract].contract_path
         proof_exec_time = proof.exec_time
         total_exec_time += proof_exec_time
         testsuite = testsuites.find(f'testsuite[@name={contract_name!r}]')
@@ -699,7 +700,12 @@ def foundry_to_xml(proofs: list[APRProof]) -> None:
             testsuite.set('tests', str(int(testsuite.get('tests', 0)) + 1))
 
         testcase = Et.SubElement(
-            testsuite, 'testcase', name=test_name, classname=contract_name, time=str(proof_exec_time)
+            testsuite,
+            'testcase',
+            name=test_name,
+            classname=contract_name,
+            time=str(proof_exec_time),
+            file=contract_path,
         )
 
         if not proof.passed:
