@@ -360,10 +360,7 @@ def test_foundry_dependency(
     foundry_prove(
         foundry,
         tests=[(dependency, None)],
-        prove_options=ProveOptions(
-            max_iterations=10,
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(max_iterations=10, bug_report=bug_report, fail_fast=False),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -372,10 +369,7 @@ def test_foundry_dependency(
     foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(
-            max_iterations=50,
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(max_iterations=50, bug_report=bug_report, fail_fast=False),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -658,13 +652,15 @@ def test_foundry_prove_parallel(foundry: Foundry, server: KoreServer, no_use_boo
         proofs={'proof': proof},
         provers={'proof': prover},
         max_workers=1,
-        process_data=APRProofProcessData(
-            kprint=foundry.kevm,
-            kcfg_semantics=semantics,
-            module_name=foundry.kevm.main_module,
-            definition_dir=foundry.kevm.definition_dir,
-            llvm_definition_dir=foundry.llvm_library if (not no_use_booster) else None,
-        ),
+        process_data={
+            'proof': APRProofProcessData(
+                kprint=foundry.kevm,
+                kcfg_semantics=semantics,
+                module_name=foundry.kevm.main_module,
+                definition_dir=foundry.kevm.definition_dir,
+                llvm_definition_dir=foundry.llvm_library if (not no_use_booster) else None,
+            )
+        },
     )
 
     assert single(results).status == ProofStatus.PASSED

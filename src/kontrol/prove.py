@@ -20,7 +20,7 @@ from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRBMCProof, APRProof, APRProofProcessData, ParallelAPRBMCProver, ParallelAPRProver
+from pyk.proof.reachability import APRProof, APRProofProcessData, ParallelAPRProver
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
@@ -204,6 +204,7 @@ def _run_cfg_group(
 
     proofs = {}
     provers = {}
+    process_data = {}
 
     semantics = KEVMSemantics(auto_abstract_gas=prove_options.auto_abstract_gas)
 
@@ -279,42 +280,25 @@ def _run_cfg_group(
                 bug_report_id=test.id,
                 max_iterations=prove_options.max_iterations,
                 fail_fast=prove_options.fail_fast,
+                counterexample_info=prove_options.counterexample_info,
             )
-        elif type(proof) is APRBMCProof:
-            parallel_prover = ParallelAPRBMCProver(
-                proof=proof,
-                module_name=foundry.kevm.main_module,
-                definition_dir=foundry.kevm.definition_dir,
-                execute_depth=prove_options.max_depth,
-                kprint=foundry.kevm,
-                kcfg_semantics=semantics,
-                port=server.port,
-                id=test.id,
-                cut_point_rules=cut_point_rules,
-                terminal_rules=KEVMSemantics.terminal_rules(break_every_step=prove_options.break_every_step),
-                llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-                smt_timeout=rpc_options.smt_timeout,
-                smt_retry_limit=rpc_options.smt_retry_limit,
-                trace_rewrites=rpc_options.trace_rewrites,
-                bug_report_id=test.id,
-                max_iterations=prove_options.max_iterations,
-                fail_fast=prove_options.fail_fast,
-            )
-
-        proofs[proof.id] = proof
-        provers[proof.id] = parallel_prover
-
-    parallel_results, _ = parallel.prove_parallel(
-        proofs=proofs,
-        provers=provers,
-        max_workers=prove_options.workers,
-        process_data=APRProofProcessData(
+        pd = APRProofProcessData(
             kprint=foundry.kevm,
             kcfg_semantics=semantics,
             definition_dir=foundry.kevm.definition_dir,
             module_name=foundry.kevm.main_module,
             llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-        ),
+        )
+
+        proofs[proof.id] = proof
+        provers[proof.id] = parallel_prover
+        process_data[proof.id] = pd
+
+    parallel_results, _ = parallel.prove_parallel(
+        proofs=proofs,
+        provers=provers,
+        max_workers=prove_options.workers,
+        process_data=process_data,
     )
     results: list[APRProof] = []
     for result in parallel_results:
@@ -433,22 +417,17 @@ def method_to_apr_proof(
         summary_entries=summary_entries,
     )
 
-    if bmc_depth is not None:
-        apr_proof = APRBMCProof(
-            test.id,
-            kcfg,
-            [],
-            init_node_id,
-            target_node_id,
-            {},
-            bmc_depth,
-            proof_dir=foundry.proofs_dir,
-            subproof_ids=summary_ids,
-        )
-    else:
-        apr_proof = APRProof(
-            test.id, kcfg, [], init_node_id, target_node_id, {}, proof_dir=foundry.proofs_dir, subproof_ids=summary_ids
-        )
+    apr_proof = APRProof(
+        test.id,
+        kcfg,
+        [],
+        init_node_id,
+        target_node_id,
+        {},
+        proof_dir=foundry.proofs_dir,
+        subproof_ids=summary_ids,
+        bmc_depth=bmc_depth,
+    )
 
     apr_proof.write_proof_data()
     return apr_proof
