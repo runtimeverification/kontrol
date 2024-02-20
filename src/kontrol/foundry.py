@@ -263,7 +263,7 @@ class Foundry:
             for contract in self.contracts.values()
             if contract.name_with_path.endswith('Test')
             for method in contract.methods
-            if method.name.startswith('test')
+            if method.is_test
         ]
 
     @cached_property
