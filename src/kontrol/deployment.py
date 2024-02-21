@@ -9,7 +9,7 @@ class StorageUpdate(NamedTuple):
 
 
 @dataclass
-class SummaryEntry:
+class DeploymentStateEntry:
     kind: str
     account: str
     old_balance: int
@@ -57,7 +57,7 @@ class SummaryEntry:
         return tuple(storage_updates)
 
 
-class DeploymentSummary:
+class DeploymentState:
     SOLIDITY_VERSION = '^0.8.13'
 
     name: str
@@ -142,7 +142,7 @@ class DeploymentSummary:
             acc_name = 'acc' + str(len(list(self.accounts)))
             self.accounts[addr] = acc_name
 
-    def extend(self, e: SummaryEntry) -> None:
+    def extend(self, e: DeploymentStateEntry) -> None:
         if e.has_ignored_kind or e.reverted:
             return
 
