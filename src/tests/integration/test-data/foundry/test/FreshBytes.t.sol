@@ -8,7 +8,7 @@ contract FreshBytesTest is Test, KEVMCheats {
     bytes1 local_byte;
     bytes local_bytes;
 
-    uint256 constant length_limit = 48;
+    uint256 constant length_limit = 72;
 
     function manip_symbolic_bytes(bytes memory b) public {
         uint middle = b.length / 2;
