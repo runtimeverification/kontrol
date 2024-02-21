@@ -278,9 +278,9 @@ def _run_cfg_group(
     for proof, failure_info in zip(proofs, failure_infos, strict=True):
         assert proof.failure_info is None  # Refactor once this fails
         assert proof.error_info is None
-        if type(failure_info) is Exception:
+        if isinstance(failure_info, Exception):
             proof.error_info = failure_info
-        elif type(failure_info) is APRFailureInfo:
+        elif isinstance(failure_info, APRFailureInfo):
             proof.failure_info = failure_info
 
     if xml_test_report:

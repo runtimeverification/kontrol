@@ -710,20 +710,18 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
 
         if not proof.passed:
             if proof.failure_info is None:
-                error = Et.SubElement(
-                    testcase, 'error', message='Some Exception happened during the execution of this test'
-                )
+                error = Et.SubElement(testcase, 'error', message='Exception')
                 if proof.error_info is not None:
-                    trace = traceback.format_exc()
+                    trace = traceback.format_exception(proof.error_info)
                     error.set('type', str(type(proof.error_info).__name__))
-                    error.text = trace
+                    error.text = '\n' + ' '.join(trace)
                 testsuite.set('errors', str(int(testsuite.get('errors', 0)) + 1))
                 testsuites.set('errors', str(int(testsuites.get('errors', 0)) + 1))
             else:
                 failure = Et.SubElement(testcase, 'failure', message='Proof failed')
                 text = proof.failure_info.print()
                 failure.set('message', text[0])
-                failure.text = '\n'.join((text[1:-1]))
+                failure.text = '\n'.join(text[1:-1])
                 testsuite.set('failures', str(int(testsuite.get('failures', 0)) + 1))
                 testsuites.set('failures', str(int(testsuites.get('failures', 0)) + 1))
 

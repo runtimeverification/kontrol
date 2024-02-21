@@ -793,6 +793,7 @@ def _create_argument_parser() -> ArgumentParser:
         '--xml-test-report',
         dest='xml_test_report',
         default=False,
+        action='store_true',
         help='Generate a JUnit xml report',
     )
 
