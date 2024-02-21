@@ -668,6 +668,16 @@ def foundry_list(foundry: Foundry) -> list[str]:
     return lines
 
 
+def setup_exec_time(foundry: Foundry, contract: Contract) -> float:
+    setup_exec_time = 0.0
+    if 'setUp' in contract.method_by_name:
+        latest_version = foundry.latest_proof_version(f'{contract.name_with_path}.setUp()')
+        setup_digest = f'{contract.name_with_path}.setUp():{latest_version}'
+        apr_proof = APRProof.read_proof_data(foundry.proofs_dir, setup_digest)
+        setup_exec_time = apr_proof.exec_time
+    return setup_exec_time
+
+
 def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
     testsuites = Et.Element(
         'testsuites', tests='0', failures='0', errors='0', time='0', timestamp=str(datetime.datetime.now())
@@ -679,8 +689,9 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
         test, *_ = proof.id.split(':')
         contract, test_name = test.split('.')
         _, contract_name = contract.split('%')
-        contract_path = foundry.contracts[contract].contract_path
-        proof_exec_time = proof.exec_time
+        foundry_contract = foundry.contracts[contract]
+        contract_path = foundry_contract.contract_path
+        proof_exec_time = proof.exec_time + setup_exec_time(foundry, foundry_contract)
         total_exec_time += proof_exec_time
         testsuite = testsuites.find(f'testsuite[@name={contract_name!r}]')
         if testsuite is None:

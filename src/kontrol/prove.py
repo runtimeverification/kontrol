@@ -105,7 +105,6 @@ def foundry_prove(
             prove_options=prove_options,
             rpc_options=rpc_options,
             summary_ids=(summary_ids if include_summaries else []),
-            xml_test_report=xml_test_report,
         )
 
     if prove_options.run_constructor:
@@ -124,6 +123,9 @@ def foundry_prove(
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
     results = _run_prover(test_suite, include_summaries=True)
+
+    if xml_test_report:
+        foundry_to_xml(foundry, results)
 
     return results
 
@@ -200,7 +202,6 @@ def _run_cfg_group(
     prove_options: ProveOptions,
     rpc_options: RPCOptions,
     summary_ids: Iterable[str],
-    xml_test_report: bool,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
@@ -282,9 +283,6 @@ def _run_cfg_group(
             proof.error_info = failure_info
         elif isinstance(failure_info, APRFailureInfo):
             proof.failure_info = failure_info
-
-    if xml_test_report:
-        foundry_to_xml(foundry, proofs)
 
     return proofs
 
