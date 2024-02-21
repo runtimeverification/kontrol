@@ -691,10 +691,10 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
         _, contract_name = contract.split('%')
         foundry_contract = foundry.contracts[contract]
         contract_path = foundry_contract.contract_path
-        proof_exec_time = proof.exec_time + setup_exec_time(foundry, foundry_contract)
-        total_exec_time += proof_exec_time
+        proof_exec_time = proof.exec_time
         testsuite = testsuites.find(f'testsuite[@name={contract_name!r}]')
         if testsuite is None:
+            proof_exec_time += setup_exec_time(foundry, foundry_contract)
             testsuite = Et.SubElement(
                 testsuites,
                 'testsuite',
@@ -710,6 +710,7 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
             testsuite.set('time', str(testsuite_exec_time))
             testsuite.set('tests', str(int(testsuite.get('tests', 0)) + 1))
 
+        total_exec_time += proof_exec_time
         testcase = Et.SubElement(
             testsuite,
             'testcase',
