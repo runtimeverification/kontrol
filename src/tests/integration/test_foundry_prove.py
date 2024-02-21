@@ -666,4 +666,6 @@ def test_foundry_xml_report(
     assert testsuite
     assert testsuite.get('name', 'None') == 'AssertTest'
     assert testsuite.findall('testcase[@name="test_assert_true()"]')
-    assert testsuite.findall('testcase[@name="testFail_assert_false()"]')
+    failure = testsuite.findall('testcase[@name="test_assert_false()"]')
+    assert failure
+    assert failure[0].findall('failure')
