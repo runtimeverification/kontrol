@@ -259,10 +259,11 @@ class Foundry:
     @cached_property
     def all_tests(self) -> list[str]:
         test_dir = self.profile.get('test', 'test')
+        test_dir += '/' if not test_dir.endswith('/') else ''
         return [
             f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
-            if test_dir in contract.contract_path.split('/')
+            if contract.contract_path.startswith(test_dir)
             for method in contract.methods
             if method.is_test
         ]
