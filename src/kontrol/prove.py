@@ -33,7 +33,7 @@ if TYPE_CHECKING:
     from pyk.kcfg import KCFGExplore
     from pyk.proof.reachability import APRFailureInfo
 
-    from .deployment import SummaryEntry
+    from .deployment import DeploymentStateEntry
     from .options import ProveOptions, RPCOptions
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -225,7 +225,7 @@ def _run_cfg_group(
                 bmc_depth=prove_options.bmc_depth,
                 run_constructor=prove_options.run_constructor,
                 use_gas=prove_options.use_gas,
-                summary_entries=prove_options.summary_entries,
+                deployment_state_entries=prove_options.deployment_state_entries,
                 summary_ids=summary_ids,
             )
 
@@ -280,7 +280,7 @@ def method_to_apr_proof(
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     use_gas: bool = False,
-    summary_entries: Iterable[SummaryEntry] | None = None,
+    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     summary_ids: Iterable[str] = (),
 ) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
@@ -304,7 +304,7 @@ def method_to_apr_proof(
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
         use_gas=use_gas,
-        summary_entries=summary_entries,
+        deployment_state_entries=deployment_state_entries,
     )
 
     apr_proof = APRProof(
@@ -344,7 +344,7 @@ def _method_to_initialized_cfg(
     *,
     setup_proof: APRProof | None = None,
     use_gas: bool = False,
-    summary_entries: Iterable[SummaryEntry] | None = None,
+    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -355,7 +355,7 @@ def _method_to_initialized_cfg(
         test.method,
         setup_proof,
         use_gas,
-        summary_entries,
+        deployment_state_entries,
     )
 
     for node_id in new_node_ids:
@@ -385,7 +385,7 @@ def _method_to_cfg(
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
     use_gas: bool,
-    summary_entries: Iterable[SummaryEntry] | None,
+    deployment_state_entries: Iterable[DeploymentStateEntry] | None,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -402,7 +402,7 @@ def _method_to_cfg(
         empty_config,
         program=program,
         use_gas=use_gas,
-        summary_entries=summary_entries,
+        deployment_state_entries=deployment_state_entries,
         is_test=method.is_test,
         is_setup=method.is_setup,
         calldata=calldata,
@@ -500,8 +500,8 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -
     return new_init_cterm
 
 
-def summary_to_account_cells(summary_entries: Iterable[SummaryEntry]) -> list[KApply]:
-    accounts = _process_summary(summary_entries)
+def deployment_state_to_account_cells(deployment_state_entries: Iterable[DeploymentStateEntry]) -> list[KApply]:
+    accounts = _process_deployment_state(deployment_state_entries)
     address_list = accounts.keys()
     k_accounts = []
     for addr in address_list:
@@ -518,14 +518,14 @@ def summary_to_account_cells(summary_entries: Iterable[SummaryEntry]) -> list[KA
     return k_accounts
 
 
-def _process_summary(summary: Iterable[SummaryEntry]) -> dict:
+def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) -> dict:
     accounts: dict[int, dict] = {}
 
     def _init_account(address: int) -> None:
         if address not in accounts.keys():
             accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
 
-    for entry in summary:
+    for entry in deployment_state:
         if entry.has_ignored_kind or entry.reverted:
             continue
 
@@ -559,7 +559,7 @@ def _init_cterm(
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
-    summary_entries: Iterable[SummaryEntry] | None = None,
+    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
 ) -> CTerm:
     schedule = KApply('SHANGHAI_EVM')
 
@@ -592,7 +592,7 @@ def _init_cterm(
     }
 
     if is_test or is_setup or is_constructor:
-        init_account_list = _create_initial_account_list(program, summary_entries)
+        init_account_list = _create_initial_account_list(program, deployment_state_entries)
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
             'CALLSTACK_CELL': list_empty(),
@@ -626,7 +626,9 @@ def _init_cterm(
     return init_cterm
 
 
-def _create_initial_account_list(program: KInner, summary: Iterable[SummaryEntry] | None) -> list[KInner]:
+def _create_initial_account_list(
+    program: KInner, deployment_state: Iterable[DeploymentStateEntry] | None
+) -> list[KInner]:
     _contract = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
         intToken(0),
@@ -639,8 +641,8 @@ def _create_initial_account_list(program: KInner, summary: Iterable[SummaryEntry
         _contract,
         Foundry.account_CHEATCODE_ADDRESS(map_empty()),
     ]
-    if summary is not None:
-        init_account_list.extend(summary_to_account_cells(summary))
+    if deployment_state is not None:
+        init_account_list.extend(deployment_state_to_account_cells(deployment_state))
 
     return init_account_list
 
