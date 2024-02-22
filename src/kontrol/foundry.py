@@ -31,6 +31,7 @@ from pyk.proof.reachability import APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
+from . import VERSION
 from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
 
@@ -705,6 +706,8 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
                 time=str(proof_exec_time),
                 timestamp=str(datetime.datetime.now()),
             )
+            properties = Et.SubElement(testsuite, 'properties')
+            Et.SubElement(properties, 'property', name='Kontrol version', value=str(VERSION))
         else:
             testsuite_exec_time = float(testsuite.get('time', 0)) + proof_exec_time
             testsuite.set('time', str(testsuite_exec_time))
