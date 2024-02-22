@@ -258,12 +258,13 @@ class Foundry:
 
     @cached_property
     def all_tests(self) -> list[str]:
+        test_dir = os.path.join(self.profile.get('test', 'test'), '')
         return [
             f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
-            if contract.name_with_path.endswith('Test')
+            if contract.contract_path.startswith(test_dir)
             for method in contract.methods
-            if method.name.startswith('test')
+            if method.is_test
         ]
 
     @cached_property
