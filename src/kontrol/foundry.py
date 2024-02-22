@@ -336,6 +336,14 @@ class Foundry:
         )
 
     @staticmethod
+    def symbolic_contract_prefix() -> str:
+        return 'CONTRACT'
+
+    @staticmethod
+    def symbolic_contract_id() -> str:
+        return Foundry.symbolic_contract_prefix() + '_ID'
+
+    @staticmethod
     def address_TEST_CONTRACT() -> KToken:  # noqa: N802
         return intToken(0x7FA9385BE102AC3EAC297483DD6233D62B3E1496)
 
@@ -354,6 +362,17 @@ class Foundry:
             store_var,
             map_empty(),
             intToken(0),
+        )
+
+    @staticmethod
+    def symbolic_account(prefix: str, program: KInner, storage: KInner | None = None) -> KApply:
+        return KEVM.account_cell(
+            KVariable(prefix + '_ID', sort=KSort('Int')),
+            KVariable(prefix + '_BAL', sort=KSort('Int')),
+            program,
+            storage if storage is not None else KVariable(prefix + '_STORAGE', sort=KSort('Map')),
+            KVariable(prefix + '_ORIGSTORAGE', sort=KSort('Map')),
+            KVariable(prefix + '_NONCE', sort=KSort('Int')),
         )
 
     @staticmethod
