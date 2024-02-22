@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import time
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
@@ -203,6 +204,7 @@ def _run_cfg_group(
             apr_proof = foundry.get_apr_proof(test.id)
             if apr_proof.passed:
                 return None
+        start_time = time.time()
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
@@ -251,6 +253,10 @@ def _run_cfg_group(
                 fail_fast=prove_options.fail_fast,
             )
 
+            end_time = time.time()
+            proof.add_exec_time(end_time - start_time)
+            proof.write_proof_data()
+
             # Only return the failure info to avoid pickling the whole proof
             return proof.failure_info
 
@@ -285,7 +291,6 @@ def method_to_apr_proof(
 ) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
-        apr_proof.write_proof_data()
         return apr_proof
 
     setup_proof = None
@@ -319,7 +324,6 @@ def method_to_apr_proof(
         subproof_ids=summary_ids,
     )
 
-    apr_proof.write_proof_data()
     return apr_proof
 
 
