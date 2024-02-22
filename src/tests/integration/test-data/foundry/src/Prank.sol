@@ -21,4 +21,12 @@ contract Prank {
         require(count >= value);
         count -= value;
     }
+
+    function msgSender() public view returns (address) {
+        return msg.sender;
+    }
+
+    function txOrigin() public view returns (address) {
+        return tx.origin;
+    }
 }

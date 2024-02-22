@@ -1,4 +1,8 @@
 # Kontrol
+Kontrol combines [KEVM](https://github.com/runtimeverification/evm-semantics) and [Foundry](https://book.getfoundry.sh/) to grant developers the ability to perform formal verification without learning a new language or tool. This is especially useful for those who are not verification engineers. Additionally, developers can leverage Foundry test suites they have already developed and use symbolic execution to increase the level of confidence.
+
+## Documentation
+Documentation for Kontrol can be found here: [https://docs.runtimeverification.com/kontrol](https://docs.runtimeverification.com/kontrol).
 
 ## Fast Installation
 
@@ -30,25 +34,25 @@ poetry install
 
 In order to build `kontrol`, you need to build these specific targets:
 ```sh
-poetry run kevm-dist --verbose build -j3 evm-semantics.plugin evm-semantics.haskell kontrol.foundry
+poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry
 ```
 
 To change the default compiler:
 ```sh
-CXX=clang++-14 poetry run kevm-dist --verbose build -j3 evm-semantics.plugin evm-semantics.haskell kontrol.foundry
+CXX=clang++-14 poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry
 ```
 
 On Apple Silicon:
 ```sh
-APPLE_SILICON=true poetry run kevm-dist --verbose build -j3 evm-semantics.plugin evm-semantics.haskell kontrol.foundry
+APPLE_SILICON=true poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry
 ```
 
 Targets can be cleaned with:
 ```sh
-poetry run kevm-dist clean
+poetry run kdist clean
 ```
 
-For more information, refer to `kevm-dist --help`.
+For more information, refer to `kdist --help`.
 
 
 ## For developers

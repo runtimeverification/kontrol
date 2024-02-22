@@ -16,6 +16,11 @@ contract AdditionalToken {
         if(msg.sender != owner)
             count = count + 1;
     }
+
+    function revertOn15() public {
+        require(msg.sender == address(15), "AdditionalToken: address not 15");
+        revert("AdditionalToken: revert as expected");
+    }
 }
 
 contract MyErc20 {
@@ -98,5 +103,12 @@ contract PlainPrankTest is Test {
         token.incrementCount();
         token.incrementCount();
         assert(token.count() == 1);
+    }
+
+    function test_prank_expectRevert() public {
+        AdditionalToken token = new AdditionalToken();
+        vm.prank(address(15));
+        vm.expectRevert("AdditionalToken: revert as expected");
+        token.revertOn15();
     }
 }

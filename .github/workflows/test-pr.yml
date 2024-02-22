@@ -81,11 +81,11 @@ jobs:
       - name: 'Build KEVM'
         run: |
             docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'poetry install'
-            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` evm-semantics.plugin kontrol.foundry'
+            docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` kontrol.foundry'
       - name: 'Run profiling'
         run: |
           PROF_ARGS=--numprocesses=8
-          [ ${{ matrix.backend }} == 'booster' ] && PROF_ARGS+=' --use-booster'
+          [ ${{ matrix.backend }} == 'legacy' ] && PROF_ARGS+=' --no-use-booster'
           docker exec -u github-user kontrol-ci-profile-${GITHUB_SHA} make profile PROF_ARGS="${PROF_ARGS}"
       - name: 'Tear down Docker'
         if: always()
@@ -100,7 +100,7 @@ jobs:
       fail-fast: false
       matrix:
         backend: ['legacy', 'booster']
-    timeout-minutes: 180
+    timeout-minutes: 120
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v3
@@ -113,11 +113,11 @@ jobs:
       - name: 'Build KEVM'
         run: |
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'poetry install'
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kevm-dist --verbose build -j`nproc` evm-semantics.plugin evm-semantics.haskell kontrol.foundry'
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS=--numprocesses=8
-          [ ${{ matrix.backend }} == 'booster' ] && TEST_ARGS+=' --use-booster'
+          TEST_ARGS='--numprocesses=8 -vv'
+          [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
@@ -173,7 +173,7 @@ jobs:
       - name: 'Run kontrol build'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol build
       - name: 'Run kontrol prove'
-        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --use-booster --match-test 'AssertTest.test_assert_true()'
+        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --match-test 'AssertTest.test_assert_true()'
       - name: 'Run kontrol show'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol show 'AssertTest.test_assert_true()'
       - name: 'Tear down Docker'
@@ -218,6 +218,7 @@ jobs:
           NIX_PATH: 'nixpkgs=http://nixos.org/channels/nixos-22.05/nixexprs.tar.xz'
           GC_DONT_GC: '1'
         run: |
+          set -euxo pipefail
           nix --version
           JQ=$(nix-build '<nixpkgs>' -A jq --no-link)/bin/jq
           KONTROL_BIN=$(nix build .#kontrol.solc_0_8_13 --print-build-logs --json | $JQ -r '.[].outputs | to_entries[].value')/bin

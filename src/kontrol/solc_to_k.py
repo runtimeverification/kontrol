@@ -8,14 +8,14 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
-from kevm_pyk import kdist
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.kast import KAtt
 from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
+from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
-from pyk.prelude.kint import intToken
+from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.string import stringToken
 from pyk.utils import FrozenDict, hash_str, run_process, single
 
@@ -65,6 +65,208 @@ def solc_to_k(
     return _kprint.pretty_print(bin_runtime_definition, unalias=False) + '\n'
 
 
+@dataclass(frozen=True)
+class Input:
+    name: str
+    type: str
+    components: tuple[Input, ...] = ()
+    idx: int = 0
+    array_lengths: tuple[int, ...] | None = None
+    dynamic_type_length: int | None = None
+
+    @cached_property
+    def arg_name(self) -> str:
+        return f'V{self.idx}_{self.name.replace("-", "_")}'
+
+    @staticmethod
+    def from_dict(input: dict, idx: int = 0, natspec_lengths: dict | None = None) -> Input:
+        """
+        Creates an Input instance from a dictionary.
+
+        If the optional devdocs is provided, it is used for calculating array and dynamic type lengths.
+        For tuples, the function handles nested 'components' recursively.
+        """
+        name = input.get('name')
+        type = input.get('type')
+        if name is None or type is None:
+            raise ValueError("ABI dictionary must contain 'name' and 'type' keys.", input)
+        array_lengths, dynamic_type_length = (
+            process_length_equals(input, natspec_lengths) if natspec_lengths is not None else (None, None)
+        )
+        if input.get('components') is not None:
+            return Input(
+                name,
+                type,
+                tuple(Input._unwrap_components(input['components'], idx, natspec_lengths)),
+                idx,
+                array_lengths,
+                dynamic_type_length,
+            )
+        else:
+            return Input(name, type, idx=idx, array_lengths=array_lengths, dynamic_type_length=dynamic_type_length)
+
+    @staticmethod
+    def _make_tuple_type(components: Iterable[Input], array_index: int | None = None) -> KApply:
+        """
+        Recursively unwraps components of a tuple and converts them to KEVM types.
+        The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
+        """
+        abi_types: list[KInner] = []
+        for _c in components:
+            component = _c
+            if array_index is not None:
+                component = Input(
+                    f'{_c.name}_{array_index}',
+                    _c.type,
+                    _c.components,
+                    _c.idx,
+                    _c.array_lengths,
+                    _c.dynamic_type_length,
+                )
+            # nested tuple, unwrap its components
+            if component.type == 'tuple':
+                abi_type = Input._make_tuple_type(component.components, array_index)
+            else:
+                abi_type = component.make_single_type()
+            abi_types.append(abi_type)
+        return KEVM.abi_tuple(abi_types)
+
+    @staticmethod
+    def _unwrap_components(components: list[dict], idx: int = 0, natspec_lengths: dict | None = None) -> list[Input]:
+        """
+        Recursively unwrap components of a complex type to create a list of Input instances.
+
+        :param components:: A list of dictionaries representing component structures
+        :param idx: Starting index for components, defaults to 0
+        :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
+        :return: A list of Input instances for each component, including nested components
+        """
+        return [
+            Input(
+                component['name'],
+                component['type'],
+                tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
+                idx,
+                *process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None),
+            )
+            for idx, component in enumerate(components, start=idx)
+        ]
+
+    def make_single_type(self) -> KApply:
+        """
+        Generates a KApply representation for a single type input.
+
+        It handles arrays, nested arrays, and base types.
+        For 'tuple[]', it calls '_make_tuple_type' for each element in the array.
+        For arrays, it generates a list of Input objects numbered from 0 to `array_length`.
+        TODO: Add support for nested arrays and use the entire 'input.array_lengths' array
+        instead of only the first value.
+        """
+        if self.type.endswith('[]'):
+            base_type = self.type.rstrip('[]')
+            if self.array_lengths is None:
+                raise ValueError(f'Array length bounds missing for {self.name}')
+            array_length = self.array_lengths[0]
+            array_elements: list[KInner] = []
+            if base_type == 'tuple':
+                array_elements = [Input._make_tuple_type(self.components, index) for index in range(array_length)]
+            else:
+                array_elements = [
+                    Input(f'{self.name}_{n}', base_type, idx=self.idx).make_single_type() for n in range(array_length)
+                ]
+            return KEVM.abi_array(
+                array_elements[0],
+                intToken(array_length),
+                array_elements,
+            )
+
+        else:
+            return KEVM.abi_type(self.type, KVariable(self.arg_name))
+
+    def to_abi(self) -> KApply:
+        if self.type == 'tuple':
+            return Input._make_tuple_type(self.components)
+        else:
+            return self.make_single_type()
+
+    def flattened(self) -> list[Input]:
+        if len(self.components) > 0:
+            nest = [comp.flattened() for comp in self.components]
+            return [fcomp for fncomp in nest for fcomp in fncomp]
+        else:
+            return [self]
+
+
+def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) -> list[Input]:
+    inputs = []
+    index = 0
+    for input in abi_inputs:
+        cur_input = Input.from_dict(input, index, natspec_lengths)
+        inputs.append(cur_input)
+        index += len(cur_input.flattened())
+    return inputs
+
+
+def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, ...] | None, int | None]:
+    """
+    Read from NatSpec comments the maximum length bound of an array, dynamic type, array of dynamic type, or nested arrays.
+
+    In case of arrays and nested arrays, the bound values are stored in an immutable list.
+    In case of dynamic types such as `string` and `bytes` the length bound is stored in its own variable.
+    As a convention, the length of a nested array or of a dynamic type array is accessed by appending `[]` to the name of the variable.
+    i.e. for `bytes[][] _b`, the lengths are registered as:
+        _b: length of the upper most array
+        _b[]: length of the inner array
+        _b[][]: length of the `bytes` elements in the inner array.
+    If an array length is missing, the default value will be `2` to avoid generating symbolic variables.
+    The dynamic type length is optional, ommiting it may cause branchings in symbolic execution.
+    """
+    _name: str = input_dict['name']
+    _type: str = input_dict['type']
+    dynamic_type_length: int | None
+    input_array_lengths: tuple[int, ...] | None
+    array_lengths: list[int] = []
+    while _type.endswith('[]'):
+        array_lengths.append(lengths.get(_name, 2))
+        _type = _type[:-2]
+        _name += '[]'
+    input_array_lengths = tuple(array_lengths) if array_lengths else None
+    dynamic_type_length = lengths.get(_name) if _type in ['bytes', 'string'] else None
+    return (input_array_lengths, dynamic_type_length)
+
+
+def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
+    """
+    Parse developer documentation (devdoc) to extract specific information based on a given tag.
+
+    Example:
+        If devdoc contains { 'custom:kontrol-length-equals': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
+        and the function is called with tag='custom:kontrol-length-equals', it would return:
+        { '_withdrawalProof': 10, '_withdrawalProof[]': 600, '_l2OutputIndex': 4 }
+    """
+
+    if devdoc is None or tag not in devdoc:
+        return {}
+
+    natspecs = {}
+    natspec_values = devdoc[tag]
+
+    for part in natspec_values.split(','):
+        # Trim whitespace and skip if empty
+        part = part.strip()
+        if not part:
+            continue
+
+        # Split each part into variable and length
+        try:
+            key, value_str = part.split(':')
+            key = key.strip()
+            natspecs[key] = int(value_str.strip())
+        except ValueError:
+            _LOGGER.warning(f'Skipping invalid fomat {part} in {tag}')
+    return natspecs
+
+
 @dataclass
 class Contract:
     @dataclass
@@ -98,6 +300,14 @@ class Contract:
 
         @cached_property
         def is_setup(self) -> bool:
+            return False
+
+        @cached_property
+        def is_test(self) -> bool:
+            return False
+
+        @cached_property
+        def is_testfail(self) -> bool:
             return False
 
         @cached_property
@@ -136,14 +346,15 @@ class Contract:
         name: str
         id: int
         sort: KSort
-        arg_names: tuple[str, ...]
-        arg_types: tuple[str, ...]
+        inputs: tuple[Input, ...]
         contract_name: str
+        contract_name_with_path: str
         contract_digest: str
         contract_storage_digest: str
         payable: bool
         signature: str
         ast: dict | None
+        natspec_values: dict | None
 
         def __init__(
             self,
@@ -151,33 +362,35 @@ class Contract:
             id: int,
             abi: dict,
             ast: dict | None,
-            contract_name: str,
+            contract_name_with_path: str,
             contract_digest: str,
             contract_storage_digest: str,
             sort: KSort,
+            devdoc: dict | None,
         ) -> None:
             self.signature = msig
             self.name = abi['name']
             self.id = id
-            self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
-            self.arg_types = tuple([input['type'] for input in abi['inputs']])
-            self.contract_name = contract_name
+            self.contract_name_with_path = contract_name_with_path
+            self.contract_name = contract_name_with_path.split('%')[-1]
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
             self.ast = ast
+            self.natspec_values = parse_devdoc('custom:kontrol-length-equals', devdoc)
+            self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
 
         @property
         def klabel(self) -> KLabel:
             args_list = '_'.join(self.arg_types)
-            return KLabel(f'method_{self.contract_name}_{self.unique_name}_{args_list}')
+            return KLabel(f'method_{self.contract_name_with_path}_{self.unique_name}_{args_list}')
 
         @property
         def unique_klabel(self) -> KLabel:
             args_list = '_'.join(self.arg_types)
-            return KLabel(f'method_{self.contract_name}_{self.unique_name}_{args_list}')
+            return KLabel(f'method_{self.contract_name_with_path}_{self.unique_name}_{args_list}')
 
         @property
         def unique_name(self) -> str:
@@ -185,7 +398,7 @@ class Contract:
 
         @cached_property
         def qualified_name(self) -> str:
-            return f'{self.contract_name}.{self.signature}'
+            return f'{self.contract_name_with_path}.{self.signature}'
 
         @property
         def selector_alias_rule(self) -> KRule:
@@ -194,6 +407,53 @@ class Contract:
         @cached_property
         def is_setup(self) -> bool:
             return self.name == 'setUp'
+
+        @cached_property
+        def is_test(self) -> bool:
+            proof_prefixes = ['test', 'check', 'prove']
+            return any(self.name.startswith(prefix) for prefix in proof_prefixes)
+
+        @cached_property
+        def is_testfail(self) -> bool:
+            proof_prefixes = ['testFail', 'checkFail', 'proveFail']
+            return any(self.name.startswith(prefix) for prefix in proof_prefixes)
+
+        @cached_property
+        def flat_inputs(self) -> tuple[Input, ...]:
+            return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
+
+        @cached_property
+        def arg_names(self) -> tuple[str, ...]:
+            arg_names: list[str] = []
+            for input in self.inputs:
+                if input.type.endswith('[]'):
+                    if input.array_lengths is None:
+                        raise ValueError(f'Array length bounds missing for {input.name}')
+                    length = input.array_lengths[0]
+                    arg_names.extend(
+                        f'{sub_input.arg_name}_{i}' for i in range(length) for sub_input in input.flattened()
+                    )
+                else:
+                    arg_names.extend([sub_input.arg_name for sub_input in input.flattened()])
+            return tuple(arg_names)
+
+        @cached_property
+        def arg_types(self) -> tuple[str, ...]:
+            arg_types: list[str] = []
+            for input in self.inputs:
+                if input.type.endswith('[]'):
+                    if input.array_lengths is None:
+                        raise ValueError(f'Array length bounds missing for {input.name}')
+                    length = input.array_lengths[0]
+                    base_type = input.type.split('[')[0]
+                    if base_type == 'tuple':
+                        arg_types.extend(f'{sub_input.type}' for _i in range(length) for sub_input in input.flattened())
+                    else:
+                        arg_types.extend([base_type] * length)
+
+                else:
+                    arg_types.extend([sub_input.type for sub_input in input.flattened()])
+            return tuple(arg_types)
 
         def up_to_date(self, digest_file: Path) -> bool:
             if not digest_file.exists():
@@ -253,20 +513,27 @@ class Contract:
             )
 
         def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
-            arg_vars = [KVariable(aname) for aname in self.arg_names]
             prod_klabel = self.unique_klabel
-            assert prod_klabel is not None
+            arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
-            for input_name, input_type in zip(self.arg_names, self.arg_types, strict=True):
-                args.append(KEVM.abi_type(input_type, KVariable(input_name)))
-                rp = _range_predicate(KVariable(input_name), input_type)
-                if rp is None:
-                    _LOGGER.info(
-                        f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input_type}'
-                    )
-                    return None
-                conjuncts.append(rp)
+            for input in self.inputs:
+                abi_type = input.to_abi()
+                args.append(abi_type)
+                rps = []
+                if input.type == 'tuple':
+                    for sub_input in input.components:
+                        _abi_type = sub_input.to_abi()
+                        rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
+                else:
+                    rps = _range_predicates(abi_type, input.dynamic_type_length)
+                for rp in rps:
+                    if rp is None:
+                        _LOGGER.info(
+                            f'Unsupported ABI type for method {contract_name}.{prod_klabel.name}, will not generate calldata sugar: {input.type}'
+                        )
+                        return None
+                    conjuncts.append(rp)
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
             ensures = andBool(conjuncts)
@@ -293,7 +560,7 @@ class Contract:
             ]
             return klabel(args)
 
-    name: str
+    _name: str
     contract_json: dict
     contract_id: int
     contract_path: str
@@ -306,7 +573,7 @@ class Contract:
     PREFIX_CODE: Final = 'Z'
 
     def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
-        self.name = contract_name
+        self._name = contract_name
         self.contract_json = contract_json
 
         self.contract_id = self.contract_json['id']
@@ -325,7 +592,7 @@ class Contract:
         contract_ast_nodes = [
             node
             for node in self.contract_json['ast']['nodes']
-            if node['nodeType'] == 'ContractDefinition' and node['name'] == self.name
+            if node['nodeType'] == 'ContractDefinition' and node['name'] == self._name
         ]
         contract_ast = single(contract_ast_nodes) if len(contract_ast_nodes) > 0 else {'nodes': []}
         function_asts = {
@@ -335,18 +602,30 @@ class Contract:
         }
 
         _methods = []
+        metadata = self.contract_json.get('metadata', {})
+        devdoc = metadata.get('output', {}).get('devdoc', {}).get('methods', {})
+
         for method in contract_json['abi']:
             if method['type'] == 'function':
                 msig = method_sig_from_abi(method)
                 method_selector: str = str(evm['methodIdentifiers'][msig])
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
+                method_devdoc = devdoc.get(msig)
                 _m = Contract.Method(
-                    msig, mid, method, method_ast, self.name, self.digest, self.storage_digest, self.sort_method
+                    msig,
+                    mid,
+                    method,
+                    method_ast,
+                    self.name_with_path,
+                    self.digest,
+                    self.storage_digest,
+                    self.sort_method,
+                    method_devdoc,
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
-                _c = Contract.Constructor(method, self.name, self.digest, self.storage_digest, self.sort_method)
+                _c = Contract.Constructor(method, self._name, self.digest, self.storage_digest, self.sort_method)
                 self.constructor = _c
 
         self.methods = tuple(sorted(_methods, key=(lambda method: method.signature)))
@@ -357,19 +636,24 @@ class Contract:
             _fields = {}
             for _l, _s in _fields_list:
                 if _l in _fields:
-                    _LOGGER.info(f'Found duplicate field access key on contract {self.name}: {_l}')
+                    _LOGGER.info(f'Found duplicate field access key on contract {self._name}: {_l}')
                     continue
                 _fields[_l] = _s
             self.fields = FrozenDict(_fields)
 
     @cached_property
+    def name_with_path(self) -> str:
+        contract_path_without_filename = '%'.join(self.contract_path.split('/')[0:-1])
+        return self._name if contract_path_without_filename == '' else contract_path_without_filename + '%' + self._name
+
+    @cached_property
     def digest(self) -> str:
-        return hash_str(f'{self.name} - {json.dumps(self.contract_json, sort_keys=True)}')
+        return hash_str(f'{self.name_with_path} - {json.dumps(self.contract_json, sort_keys=True)}')
 
     @cached_property
     def storage_digest(self) -> str:
         storage_layout = self.contract_json.get('storageLayout') or {}
-        return hash_str(f'{self.name} - {json.dumps(storage_layout, sort_keys=True)}')
+        return hash_str(f'{self.name_with_path} - {json.dumps(storage_layout, sort_keys=True)}')
 
     @cached_property
     def srcmap(self) -> dict[int, tuple[int, int, int, str, int]]:
@@ -420,13 +704,9 @@ class Contract:
     def test_to_claim_name(t: str) -> str:
         return t.replace('_', '-')
 
-    @property
-    def name_upper(self) -> str:
-        return self.name[0:1].upper() + self.name[1:]
-
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$', '.']
+        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -439,6 +719,10 @@ class Contract:
                 as_ecaped = 'Dlr'
             case '.':
                 as_ecaped = 'Dot'
+            case '-':
+                as_ecaped = 'Sub'
+            case '%':
+                as_ecaped = 'Mod'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -453,6 +737,10 @@ class Contract:
             return '$', 3
         elif seq.startswith('Dot'):
             return '.', 3
+        elif seq.startswith('Sub'):
+            return '-', 3
+        elif seq.startswith('Mod'):
+            return '%', 3
         else:
             return chr(int(seq, base=16)), 4
 
@@ -491,27 +779,27 @@ class Contract:
 
     @property
     def sort(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name, "S2K")}Contract')
+        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Contract')
 
     @property
     def sort_field(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name, "S2K")}Field')
+        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Field')
 
     @property
     def sort_method(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name, "S2K")}Method')
+        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Method')
 
     @property
     def klabel(self) -> KLabel:
-        return KLabel(f'contract_{self.name}')
+        return KLabel(f'contract_{self.name_with_path}')
 
     @property
     def klabel_method(self) -> KLabel:
-        return KLabel(f'method_{self.name}')
+        return KLabel(f'method_{self.name_with_path}')
 
     @property
     def klabel_field(self) -> KLabel:
-        return KLabel(f'field_{self.name}')
+        return KLabel(f'field_{self.name_with_path}')
 
     @property
     def subsort(self) -> KProduction:
@@ -524,14 +812,17 @@ class Contract:
     @property
     def production(self) -> KProduction:
         return KProduction(
-            self.sort, [KTerminal(Contract.escaped(self.name, 'S2K'))], klabel=self.klabel, att=KAtt({'symbol': ''})
+            self.sort,
+            [KTerminal(Contract.escaped(self.name_with_path, 'S2K'))],
+            klabel=self.klabel,
+            att=KAtt({'symbol': ''}),
         )
 
     @property
     def macro_bin_runtime(self) -> KRule:
         if self.has_unlinked():
             raise ValueError(
-                f'Some library placeholders have been found in contract {self.name}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
+                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
             )
         return KRule(
             KRewrite(
@@ -543,7 +834,7 @@ class Contract:
     def macro_init_bytecode(self) -> KRule:
         if self.has_unlinked():
             raise ValueError(
-                f'Some library placeholders have been found in contract {self.name}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
+                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
             )
         return KRule(
             KRewrite(KEVM.init_bytecode(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.bytecode)))
@@ -562,7 +853,9 @@ class Contract:
         )
         res: list[KSentence] = [method_application_production]
         res.extend(method.production for method in self.methods)
-        method_rules = (method.rule(KApply(self.klabel), self.klabel_method, self.name) for method in self.methods)
+        method_rules = (
+            method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path) for method in self.methods
+        )
         res.extend(rule for rule in method_rules if rule)
         res.extend(method.selector_alias_rule for method in self.methods)
         return res if len(res) > 1 else []
@@ -653,13 +946,13 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
 
 
 def contract_to_main_module(contract: Contract, empty_config: KInner, imports: Iterable[str] = ()) -> KFlatModule:
-    module_name = Contract.contract_to_module_name(contract.name)
+    module_name = Contract.contract_to_module_name(contract.name_with_path)
     return KFlatModule(module_name, contract.sentences, [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, empty_config: KInner, imports: Iterable[str]) -> KFlatModule:
-    main_module_name = Contract.contract_to_module_name(contract.name)
-    verification_module_name = Contract.contract_to_verification_module_name(contract.name)
+    main_module_name = Contract.contract_to_module_name(contract.name_with_path)
+    verification_module_name = Contract.contract_to_verification_module_name(contract.name_with_path)
     return KFlatModule(verification_module_name, [], [KImport(main_module_name)] + [KImport(i) for i in list(imports)])
 
 
@@ -714,16 +1007,50 @@ def _evm_base_sort_int(type_label: str) -> bool:
     return success
 
 
-def _range_predicate(term: KInner, type_label: str) -> KInner | None:
+def _range_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
+    rp: list[KInner | None] = []
+    if abi.label.name == 'abi_type_tuple':
+        if type(abi.args[0]) is KApply:
+            rp += _range_collection_predicates(abi.args[0], dynamic_type_length)
+    elif abi.label.name == 'abi_type_array':
+        # array elements:
+        if type(abi.args[2]) is KApply:
+            rp += _range_collection_predicates(abi.args[2], dynamic_type_length)
+    else:
+        type_label = abi.label.name.removeprefix('abi_type_')
+        rp.append(_range_predicate(single(abi.args), type_label, dynamic_type_length))
+    return rp
+
+
+def _range_collection_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
+    rp: list[KInner | None] = []
+    if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
+        if type(abi.args[0]) is KApply:
+            rp += _range_predicates(abi.args[0], dynamic_type_length)
+        if type(abi.args[1]) is KApply:
+            rp += _range_collection_predicates(abi.args[1], dynamic_type_length)
+    elif abi.label.name == '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs':
+        return rp
+    else:
+        raise AssertionError('No list of typed args found')
+    return rp
+
+
+def _range_predicate(term: KInner, type_label: str, dynamic_type_length: int | None = None) -> KInner | None:
     match type_label:
         case 'address':
             return KEVM.range_address(term)
         case 'bool':
             return KEVM.range_bool(term)
         case 'bytes':
-            return KEVM.range_uint(128, KEVM.size_bytes(term))
+            #  the compiler-inserted check asserts that lengthBytes(B) <= maxUint64
+            return (
+                eqInt(KEVM.size_bytes(term), intToken(dynamic_type_length))
+                if dynamic_type_length
+                else KEVM.range_uint(64, KEVM.size_bytes(term))
+            )
         case 'string':
-            return TRUE
+            return eqInt(KEVM.size_bytes(term), intToken(dynamic_type_length)) if dynamic_type_length else TRUE
 
     predicate_functions = [
         _range_predicate_uint,
@@ -740,7 +1067,7 @@ def _range_predicate(term: KInner, type_label: str) -> KInner | None:
     return None
 
 
-def _range_predicate_uint(term: KInner, type_label: str) -> tuple[bool, KInner | None]:
+def _range_predicate_uint(term: KInner, type_label: str) -> tuple[bool, KApply | None]:
     if type_label.startswith('uint') and not type_label.endswith(']'):
         if type_label == 'uint':
             width = 256
@@ -753,7 +1080,7 @@ def _range_predicate_uint(term: KInner, type_label: str) -> tuple[bool, KInner |
         return (False, None)
 
 
-def _range_predicate_int(term: KInner, type_label: str) -> tuple[bool, KInner | None]:
+def _range_predicate_int(term: KInner, type_label: str) -> tuple[bool, KApply | None]:
     if type_label.startswith('int') and not type_label.endswith(']'):
         if type_label == 'int':
             width = 256
@@ -766,7 +1093,7 @@ def _range_predicate_int(term: KInner, type_label: str) -> tuple[bool, KInner | 
         return (False, None)
 
 
-def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KInner | None]:
+def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KApply | None]:
     if type_label.startswith('bytes') and not type_label.endswith(']'):
         str_width = type_label[5:]
         if str_width != '':
@@ -812,3 +1139,10 @@ def method_sig_from_abi(method_json: dict) -> str:
             method_args += ','
         method_args += unparse_input(_input)
     return f'{method_name}({method_args})'
+
+
+def hex_string_to_int(hex: str) -> int:
+    if hex.startswith('0x'):
+        return int(hex, 16)
+    else:
+        raise ValueError('Invalid hex format')
