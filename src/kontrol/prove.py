@@ -654,10 +654,12 @@ def _final_cterm(
     failing: bool,
     is_test: bool = True,
     is_setup: bool = False,
+    hevm_success_predicate: bool = False,
 ) -> CTerm:
     final_term = _final_term(empty_config, program, is_test=is_test, is_setup=is_setup)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
-    foundry_success = Foundry.success(
+    if not hevm_success_predicate:
+        foundry_success = Foundry.success(
         KVariable('STATUSCODE_FINAL'),
         dst_failed_post,
         KVariable('ISREVERTEXPECTED_FINAL'),
