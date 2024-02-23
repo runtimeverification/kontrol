@@ -13,10 +13,12 @@ from pyk.utils import run_process, single
 from kontrol.foundry import (
     Foundry,
     foundry_merge_nodes,
+    foundry_refute_node,
     foundry_remove_node,
     foundry_show,
     foundry_state_diff,
     foundry_step_node,
+    foundry_unrefute_node,
 )
 from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
@@ -633,3 +635,101 @@ def test_deployment_summary(
         TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentStateCode.sol',
         update=update_expected_output,
     )
+
+
+def test_foundry_refute_node(
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    test = 'MergeTest.test_branch_merge'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    prove_res_1 = foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    # Test initially passes, no pending nodes
+    assert_pass(test, single(prove_res_1))
+    check_pending(foundry, test, [])
+
+    # Remove successors of nodes 4 and 5
+    foundry_remove_node(foundry, test, node=6)
+    foundry_remove_node(foundry, test, node=7)
+
+    # Now nodes 4 and 5 are pending
+    check_pending(foundry, test, [4, 5])
+
+    # Mark node 4 as refuted
+    foundry_refute_node(foundry, test, node=4)
+
+    # Refuted node is not longer pending
+    check_pending(foundry, test, [5])
+
+    # Proof will only advance from node 5, since 4 is refuted
+    prove_res_2 = foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    # Test no longer passing since there are refuted nodes
+    assert not single(prove_res_2).passed
+
+    show_res = foundry_show(
+        foundry,
+        test=test,
+        to_module=True,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        counterexample_info=True,
+        port=server.port,
+    )
+
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / 'show/node-refutation.expected', update=update_expected_output
+    )
+
+    check_pending(foundry, test, [])
+
+    # Remove refutation of node 4
+    foundry_unrefute_node(foundry, test, node=4)
+
+    check_pending(foundry, test, [4])
+
+    # Execution will continue from node 4
+    prove_res_3 = foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    # Proof passes again
+    assert_pass(test, single(prove_res_3))
