@@ -439,6 +439,27 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
        [preserves-definedness]
 ```
 
+#### `freshBytes` - Returns a single symbolic boolean.
+
+```
+function freshBytes(uint256) external returns (bytes memory);
+```
+
+`foundry.call.freshBytes` will match when the `freshBytes` cheat code function is called.
+This rule returns a fully symbolic byte array value of the given length.
+
+```{.k .symbolic}
+    rule [foundry.call.freshBytes]:
+         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <output> _ => 
+            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES 
+            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 ) 
+         </output>
+      requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
+      ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
+      [preserves-definedness]
+```
+
 Expecting the next call to revert
 ---------------------------------
 
@@ -1468,6 +1489,7 @@ If the production is matched when no prank is active, it will be ignored.
     rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
     rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
+    rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
     rule ( selector ( "prank(address)" )                           => 3395723175 )
     rule ( selector ( "prank(address,address)" )                   => 1206193358 )
     rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )

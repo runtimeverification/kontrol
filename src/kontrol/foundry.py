@@ -258,12 +258,13 @@ class Foundry:
 
     @cached_property
     def all_tests(self) -> list[str]:
+        test_dir = os.path.join(self.profile.get('test', 'test'), '')
         return [
             f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
-            if contract.name_with_path.endswith('Test')
+            if contract.contract_path.startswith(test_dir)
             for method in contract.methods
-            if method.name.startswith('test')
+            if method.is_test
         ]
 
     @cached_property
@@ -491,8 +492,8 @@ class Foundry:
         """
         find the highest used proof ID, to be used as a default. Returns None if no version of this proof exists.
         """
-        proof_ids = listdir(self.proofs_dir)
-        versions = {int(pid.split(':')[1]) for pid in proof_ids if pid.split(':')[0] == test}
+        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), test.split('%')[1])
+        versions = {int(pid.split(':')[1]) for pid in proof_ids}
         return max(versions, default=None)
 
     def free_proof_version(
@@ -676,6 +677,20 @@ def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: 
     node_ids = apr_proof.prune(node)
     _LOGGER.info(f'Pruned nodes: {node_ids}')
     apr_proof.write_proof_data()
+
+
+def foundry_refute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    proof.refute_node(proof.kcfg.node(node))
+
+
+def foundry_unrefute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    proof.unrefute_node(proof.kcfg.node(node))
 
 
 def foundry_simplify_node(
