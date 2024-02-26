@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import sys
-import xml.etree.ElementTree as Et
 from distutils.dir_util import copy_tree
 from typing import TYPE_CHECKING
 
@@ -49,6 +48,7 @@ def test_foundy_prove(profile: Profiler, no_use_booster: bool, bug_report: BugRe
                 use_booster=not no_use_booster,
             ),
         )
+
 
 def _forge_build(target_dir: Path) -> Foundry:
     copy_tree(str(TEST_DATA_DIR / 'foundry'), str(target_dir))
