@@ -227,6 +227,7 @@ def _run_cfg_group(
                 use_gas=prove_options.use_gas,
                 deployment_state_entries=prove_options.deployment_state_entries,
                 summary_ids=summary_ids,
+                hevm=prove_options.hevm,
             )
 
             cut_point_rules = KEVMSemantics.cut_point_rules(
@@ -282,6 +283,7 @@ def method_to_apr_proof(
     use_gas: bool = False,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     summary_ids: Iterable[str] = (),
+    hevm: bool = False,
 ) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -305,6 +307,7 @@ def method_to_apr_proof(
         setup_proof=setup_proof,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
+        hevm=hevm,
     )
 
     apr_proof = APRProof(
@@ -345,17 +348,13 @@ def _method_to_initialized_cfg(
     setup_proof: APRProof | None = None,
     use_gas: bool = False,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    hevm: bool = False,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
-        empty_config,
-        test.contract,
-        test.method,
-        setup_proof,
-        use_gas,
-        deployment_state_entries,
+        empty_config, test.contract, test.method, setup_proof, use_gas, deployment_state_entries, hevm
     )
 
     for node_id in new_node_ids:
@@ -386,6 +385,7 @@ def _method_to_cfg(
     setup_proof: APRProof | None,
     use_gas: bool,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None,
+    hevm: bool = False,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -438,7 +438,7 @@ def _method_to_cfg(
         init_node_id = init_node.id
 
     final_cterm = _final_cterm(
-        empty_config, program, failing=method.is_testfail, is_test=method.is_test, is_setup=method.is_setup
+        empty_config, program, failing=method.is_testfail, is_test=method.is_test, is_setup=method.is_setup, hevm=hevm
     )
     target_node = cfg.create_node(final_cterm)
 
@@ -654,25 +654,31 @@ def _final_cterm(
     failing: bool,
     is_test: bool = True,
     is_setup: bool = False,
-    hevm_success_predicate: bool = False,
+    hevm: bool = False,
 ) -> CTerm:
     final_term = _final_term(empty_config, program, is_test=is_test, is_setup=is_setup)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
-    if not hevm_success_predicate:
-        foundry_success = Foundry.success(
-        KVariable('STATUSCODE_FINAL'),
-        dst_failed_post,
-        KVariable('ISREVERTEXPECTED_FINAL'),
-        KVariable('ISOPCODEEXPECTED_FINAL'),
-        KVariable('RECORDEVENT_FINAL'),
-        KVariable('ISEVENTEXPECTED_FINAL'),
-    )
     final_cterm = CTerm.from_kast(final_term)
-    if is_test:
-        if not failing:
-            return final_cterm.add_constraint(mlEqualsTrue(foundry_success))
-        else:
-            return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
+    if not hevm:
+        _LOGGER.info(f'hevm success predicate:{hevm}')
+        foundry_success = Foundry.success(
+            KVariable('STATUSCODE_FINAL'),
+            dst_failed_post,
+            KVariable('ISREVERTEXPECTED_FINAL'),
+            KVariable('ISOPCODEEXPECTED_FINAL'),
+            KVariable('RECORDEVENT_FINAL'),
+            KVariable('ISEVENTEXPECTED_FINAL'),
+        )
+        if is_test:
+            if not failing:
+                return final_cterm.add_constraint(mlEqualsTrue(foundry_success))
+            else:
+                return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
+    else:
+        _LOGGER.info('Running hevm success predicate')
+        return final_cterm.add_constraint(
+            mlEqualsTrue(Foundry.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post))
+        )
     return final_cterm
 
 
