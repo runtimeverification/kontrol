@@ -243,7 +243,7 @@ def exec_prove(
     maude_port: int | None = None,
     use_gas: bool = False,
     deployment_state_path: Path | None = None,
-    hevm_success_predicate: bool = False,
+    hevm: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -280,7 +280,7 @@ def exec_prove(
         fail_fast=fail_fast,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
-        hevm_success_predicate=hevm_success_predicate,
+        hevm=hevm,
     )
 
     rpc_options = RPCOptions(
@@ -801,7 +801,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--hevm',
-        dest='hevm_success_predicate',
+        dest='hevm',
         default=False,
         action='store_true',
         help='Uses the hevm success predicate',
