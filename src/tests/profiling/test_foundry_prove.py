@@ -29,42 +29,26 @@ FORGE_STD_REF: Final = '75f1746'
 
 
 def test_foundy_prove(profile: Profiler, no_use_booster: bool, bug_report: BugReport | None, tmp_path: Path) -> None:
-    #foundry_root = tmp_path / 'foundry'
-    #foundry = _forge_build(foundry_root)
-#
-    #with profile('kompile.prof', sort_keys=('cumtime', 'tottime'), limit=15):
-    #    foundry_kompile(foundry=foundry, includes=())
-#
-    #with profile('prove.prof', sort_keys=('cumtime', 'tottime'), limit=100):
-    #    foundry_prove(
-    #        foundry,
-    #        tests=[
-    #            ('SimpleTest.test_assert_true', None),
-    #            ('SimpleTest.test_assert_false', None),
-    #            #('AssertTest.test_revert_branch', None),
-    #            #('MockCallTest.testClearMockCalls', None),
-    #        ],
-    #        prove_options=ProveOptions(
-    #            counterexample_info=True,
-    #            bug_report=bug_report,
-    #        ),
-    #        rpc_options=RPCOptions(
-    #            smt_timeout=300,
-    #            smt_retry_limit=10,
-    #            use_booster=not no_use_booster,
-    #        ),
-    #        xml_test_report=True,
-    #    )
+    foundry_root = tmp_path / 'foundry'
+    foundry = _forge_build(foundry_root)
 
-    tree = Et.parse('kontrol_prove_report.xml')
-    testsuites = tree.getroot()
-    testsuite = testsuites.find('testsuite')
-    assert testsuite
-    assert testsuite.get('name', 'None') == 'SimpleTest'
-    assert testsuite.findall('testcase[@name="test_assert_true()"]')
-    failure = testsuite.findall('testcase[@name="test_assert_false()"]')
-    assert failure
-    assert failure[0].findall('failure')
+    with profile('kompile.prof', sort_keys=('cumtime', 'tottime'), limit=15):
+        foundry_kompile(foundry=foundry, includes=())
+
+    with profile('prove.prof', sort_keys=('cumtime', 'tottime'), limit=100):
+        foundry_prove(
+            foundry,
+            tests=[('AssertTest.test_revert_branch', None)],
+            prove_options=ProveOptions(
+                counterexample_info=True,
+                bug_report=bug_report,
+            ),
+            rpc_options=RPCOptions(
+                smt_timeout=300,
+                smt_retry_limit=10,
+                use_booster=not no_use_booster,
+            ),
+        )
 
 def _forge_build(target_dir: Path) -> Foundry:
     copy_tree(str(TEST_DATA_DIR / 'foundry'), str(target_dir))
