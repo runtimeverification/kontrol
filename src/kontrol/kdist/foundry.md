@@ -84,5 +84,14 @@ module FOUNDRY-SUCCESS
     rule foundry_success(EVMC_SUCCESS, 0, false, false, false, false) => true
     rule foundry_success(_, _, _, _, _, _)                            => false [owise]
 
+  syntax Bool ::=
+      "hevm_success" "("
+        statusCode: StatusCode ","
+        failed: Int
+      ")" [function, klabel(hevm_success), symbol]
+ // -------------------------------------------------
+    rule hevm_success(EVMC_SUCCESS, 0) => true
+    rule hevm_success(_, _)               => false [owise]
+
 endmodule
 ```

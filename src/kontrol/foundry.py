@@ -322,6 +322,10 @@ class Foundry:
     def fail(s: KInner, dst: KInner, r: KInner, c: KInner, e1: KInner, e2: KInner) -> KApply:
         return notBool(Foundry.success(s, dst, r, c, e1, e2))
 
+    @staticmethod
+    def hevm_success(s: KInner, dst: KInner) -> KApply:
+        return KApply('hevm_success', [s, dst])
+
     # address(uint160(uint256(keccak256("foundry default caller"))))
 
     @staticmethod
