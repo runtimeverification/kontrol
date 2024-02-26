@@ -24,6 +24,7 @@ from .foundry import (
     foundry_list,
     foundry_merge_nodes,
     foundry_node_printer,
+    foundry_refute_node,
     foundry_remove_node,
     foundry_section_edge,
     foundry_show,
@@ -31,6 +32,7 @@ from .foundry import (
     foundry_state_diff,
     foundry_step_node,
     foundry_to_dot,
+    foundry_unrefute_node,
     read_deployment_state,
 )
 from .kompile import foundry_kompile
@@ -355,6 +357,14 @@ def exec_show(
         maude_port=maude_port,
     )
     print(output)
+
+
+def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
+    foundry_refute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
+
+
+def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
+    foundry_unrefute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
@@ -845,6 +855,20 @@ def _create_argument_parser() -> ArgumentParser:
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
     remove_node.add_argument('node', type=node_id_like, help='Node to remove CFG subgraph from.')
+
+    refute_node = command_parser.add_parser(
+        'refute-node',
+        help='Refute a node and add its refutation as a subproof.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    refute_node.add_argument('node', type=node_id_like, help='Node to refute.')
+
+    unrefute_node = command_parser.add_parser(
+        'unrefute-node',
+        help='Disable refutation of a node and remove corresponding refutation subproof.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    unrefute_node.add_argument('node', type=node_id_like, help='Node to unrefute.')
 
     simplify_node = command_parser.add_parser(
         'simplify-node',

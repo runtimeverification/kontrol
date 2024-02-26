@@ -46,6 +46,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModFfiTest-VERIFICATION
     imports public S2KtestZModFilesTest-VERIFICATION
     imports public S2KtestZModForkTest-VERIFICATION
+    imports public S2KtestZModFreshBytesTest-VERIFICATION
     imports public S2KtestZModFreshIntTest-VERIFICATION
     imports public S2KtestZModGasTest-VERIFICATION
     imports public S2KtestZModGetCodeTest-VERIFICATION
@@ -421,6 +422,13 @@ endmodule
 
 module S2KtestZModForkTest-VERIFICATION
     imports public S2KtestZModForkTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModFreshBytesTest-VERIFICATION
+    imports public S2KtestZModFreshBytesTest-CONTRACT
     
     
 
