@@ -316,7 +316,7 @@ class Foundry:
                 )
             else:
                 raise ValueError(
-                    f"Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide a full signature of the test, e.g., '{sig[5:]}' --version {version}."
+                    f"Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide a full signature of the test, e.g., {sig[5:]!r} --version {version}."
                 )
         return single(matching_proof_ids)
 
