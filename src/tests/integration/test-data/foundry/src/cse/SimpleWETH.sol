@@ -8,13 +8,19 @@ import { Add, Sub } from "./Binary.sol";
 // CSE challenge: contracts in storage
 // CSE challenge: cross-contract function calls
 // CSE challenge: mappings in storage
-contract SimpleWETH {
+
+contract WETH9 {
     string public name = "Wrapped Ether";
     string public symbol = "WETH";
     uint8 public decimals = 18;
 
     Add add;
     Sub sub;
+
+    event Approval(address indexed src, address indexed guy, uint256 wad);
+    event Transfer(address indexed src, address indexed dst, uint256 wad);
+    event Deposit(address indexed dst, uint256 wad);
+    event Withdrawal(address indexed src, uint256 wad);
 
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
@@ -25,12 +31,14 @@ contract SimpleWETH {
 
     function deposit() public payable {
         balanceOf[msg.sender] = add.applyOp(balanceOf[msg.sender], msg.value);
+        emit Deposit(msg.sender, msg.value);
     }
 
     function withdraw(uint256 wad) public {
         require(balanceOf[msg.sender] >= wad);
         balanceOf[msg.sender] = sub.applyOp(balanceOf[msg.sender], wad);
         payable(msg.sender).transfer(wad);
+        emit Withdrawal(msg.sender, wad);
     }
 
     function totalSupply() public view returns (uint256) {
@@ -39,6 +47,7 @@ contract SimpleWETH {
 
     function approve(address guy, uint256 wad) public returns (bool) {
         allowance[msg.sender][guy] = wad;
+        emit Approval(msg.sender, guy, wad);
         return true;
     }
 
@@ -56,6 +65,8 @@ contract SimpleWETH {
 
         balanceOf[src] = sub.applyOp(balanceOf[src], wad);
         balanceOf[dst] = add.applyOp(balanceOf[dst], wad);
+
+        emit Transfer(src, dst, wad);
 
         return true;
     }
