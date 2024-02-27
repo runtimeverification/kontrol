@@ -306,6 +306,7 @@ class Foundry:
 
     def get_test_id(self, test: str, version: int | None) -> str:
         matching_proof_ids = self.proof_ids_with_test(test, version)
+        sig = single(self.matching_sigs(test))
         if len(matching_proof_ids) == 0:
             raise ValueError(f'Found no matching proofs for {test}:{version}.')
         if len(matching_proof_ids) > 1:
@@ -315,7 +316,7 @@ class Foundry:
                 )
             else:
                 raise ValueError(
-                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide full signatures to the test.'
+                    f"Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide a full signature of the test, e.g., '{sig[5:]}' --version {version}."
                 )
         return single(matching_proof_ids)
 
