@@ -86,11 +86,15 @@ module FOUNDRY-SUCCESS
 
   syntax Bool ::=
       "hevm_success" "("
-        statusCode: StatusCode
+        statusCode: StatusCode ","
+        output: Bytes
       ")" [function, klabel(hevm_success), symbol]
  // -------------------------------------------------
-    rule hevm_success(EVMC_INVALID_INSTRUCTION) => false
-    rule hevm_success(_) => true [owise]
+    rule hevm_success(EVMC_INVALID_INSTRUCTION, _) => false
+    rule hevm_success(EVMC_REVERT, OUT) => false requires #range(OUT, 0, 4) ==K Int2Bytes(4, 1313373041, BE)
+    rule hevm_success(_, _) => true [owise]
+
+    // rule ( selector ( "Panic(uint256)" ) => 1313373041 )
 
 endmodule
 ```

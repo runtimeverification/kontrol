@@ -674,7 +674,9 @@ def _final_cterm(
             else:
                 return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
     else:
-        return final_cterm.add_constraint(mlEqualsTrue(Foundry.hevm_success(KVariable('STATUSCODE_FINAL'))))
+        return final_cterm.add_constraint(
+            mlEqualsTrue(Foundry.hevm_success(KVariable('STATUSCODE_FINAL'), KVariable('OUTPUT_FINAL')))
+        )
     return final_cterm
 
 
@@ -690,6 +692,7 @@ def _final_term(empty_config: KInner, program: KInner, is_test: bool, is_setup: 
     final_subst = {
         'K_CELL': KSequence([KEVM.halt(), KVariable('CONTINUATION')]),
         'STATUSCODE_CELL': KVariable('STATUSCODE_FINAL'),
+        'OUTPUT_CELL': KVariable('OUTPUT_FINAL'),
         'ISREVERTEXPECTED_CELL': KVariable('ISREVERTEXPECTED_FINAL'),
         'ISOPCODEEXPECTED_CELL': KVariable('ISOPCODEEXPECTED_FINAL'),
         'RECORDEVENT_CELL': KVariable('RECORDEVENT_FINAL'),
@@ -718,6 +721,7 @@ def _final_term(empty_config: KInner, program: KInner, is_test: bool, is_setup: 
         [
             KVariable('STATUSCODE_FINAL'),
             KVariable('ACCOUNTS_FINAL'),
+            KVariable('OUTPUT_FINAL'),
             KVariable('ISREVERTEXPECTED_FINAL'),
             KVariable('ISOPCODEEXPECTED_FINAL'),
             KVariable('RECORDEVENT_FINAL'),
