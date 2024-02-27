@@ -660,7 +660,6 @@ def _final_cterm(
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     final_cterm = CTerm.from_kast(final_term)
     if not hevm:
-        _LOGGER.info(f'hevm success predicate:{hevm}')
         foundry_success = Foundry.success(
             KVariable('STATUSCODE_FINAL'),
             dst_failed_post,
@@ -675,10 +674,7 @@ def _final_cterm(
             else:
                 return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
     else:
-        _LOGGER.info('Running hevm success predicate')
-        return final_cterm.add_constraint(
-            mlEqualsTrue(Foundry.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post))
-        )
+        return final_cterm.add_constraint(mlEqualsTrue(Foundry.hevm_success(dst_failed_post)))
     return final_cterm
 
 
