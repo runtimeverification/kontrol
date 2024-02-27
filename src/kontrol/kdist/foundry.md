@@ -86,11 +86,11 @@ module FOUNDRY-SUCCESS
 
   syntax Bool ::=
       "hevm_success" "("
-        failed: Int
+        statusCode: StatusCode
       ")" [function, klabel(hevm_success), symbol]
  // -------------------------------------------------
-    rule hevm_success(0) => true
-    rule hevm_success(_) => false [owise]
+    rule hevm_success(EVMC_INVALID_INSTRUCTION) => false
+    rule hevm_success(_) => true [owise]
 
 endmodule
 ```

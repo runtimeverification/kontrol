@@ -674,7 +674,7 @@ def _final_cterm(
             else:
                 return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
     else:
-        return final_cterm.add_constraint(mlEqualsTrue(Foundry.hevm_success(dst_failed_post)))
+        return final_cterm.add_constraint(mlEqualsTrue(Foundry.hevm_success(KVariable('STATUSCODE_FINAL'))))
     return final_cterm
 
 
