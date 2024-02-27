@@ -336,7 +336,14 @@ def test_foundry_merge_nodes(
     assert_pass(test, single(prove_res))
 
 
+DEPENDENCY_TESTS: Final = [
+    ['ArithmeticContract.add(uint256,uint256)', 'ArithmeticCallTest.test_double_add(uint256,uint256)']
+]
+
+
+@pytest.mark.parametrize('tests', DEPENDENCY_TESTS)
 def test_foundry_dependency(
+    test: list[str],
     foundry: Foundry,
     bug_report: BugReport | None,
     server: KoreServer,
@@ -346,34 +353,29 @@ def test_foundry_dependency(
     if no_use_booster:
         pytest.skip()
 
-    dependency = 'ArithmeticContract.add(uint256,uint256)'
-    test = 'ArithmeticCallTest.test_double_add(uint256,uint256)'
+    # Dependency tests require at least two inter-dependent functions
+    assert len(test) >= 2
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    foundry_prove(
-        foundry,
-        tests=[(dependency, None)],
-        prove_options=ProveOptions(max_iterations=10, bug_report=bug_report, fail_fast=False),
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-    )
+    for i in range(0, len(test) - 1):
 
-    foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(max_iterations=50, bug_report=bug_report, fail_fast=False),
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-        include_summaries=[(dependency, None)],
-    )
+        dependencies = test[0 : i - 1] if 1 <= i else []
+
+        foundry_prove(
+            foundry,
+            tests=[(test[i], None)],
+            prove_options=ProveOptions(max_iterations=100, bug_report=bug_report, fail_fast=False),
+            rpc_options=RPCOptions(
+                port=server.port,
+            ),
+            include_summaries=[(dependency, None) for dependency in dependencies],
+        )
 
     show_res = foundry_show(
         foundry,
-        test=test,
+        test=test[-1],
         to_module=False,
         sort_collections=True,
         omit_unstable_output=True,
@@ -384,7 +386,7 @@ def test_foundry_dependency(
         port=server.port,
     )
 
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test}.expected', update=update_expected_output)
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test[-1]}.expected', update=update_expected_output)
 
 
 def check_pending(foundry: Foundry, test: str, pending: list[int]) -> None:
