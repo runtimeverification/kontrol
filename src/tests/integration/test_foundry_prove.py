@@ -361,12 +361,18 @@ def test_foundry_dependency(
 
     for i in range(0, len(test) - 1):
 
-        dependencies = test[0 : i - 1] if 1 <= i else []
+        dependencies = test[0 : i - 1] if i > 0 else []
 
         foundry_prove(
             foundry,
             tests=[(test[i], None)],
-            prove_options=ProveOptions(max_iterations=100, bug_report=bug_report, fail_fast=False),
+            prove_options=ProveOptions(
+                max_depth=10000,
+                max_iterations=100,
+                break_on_calls=False,
+                fail_fast=False,
+                bug_report=bug_report,
+            ),
             rpc_options=RPCOptions(
                 port=server.port,
             ),
