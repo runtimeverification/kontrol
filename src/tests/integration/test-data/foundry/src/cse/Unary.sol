@@ -17,7 +17,6 @@ contract Identity is UIntUnaryOp {
 
 // CSE challenge: storage variable of a basic type
 contract AddConst is UIntUnaryOp {
-
     uint256 c;
 
     function setConst(uint256 x) external {
@@ -35,7 +34,6 @@ contract AddConst is UIntUnaryOp {
 //                interface with specific contracts that implement it
 // CSE challenge: cross-contract external function call
 contract Iterate is UIntUnaryOp {
-
     UIntUnaryOp f;
 
     function applyOp(uint256 x) external view returns (uint256) {
