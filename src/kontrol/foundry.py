@@ -309,7 +309,7 @@ class Foundry:
         if len(matching_proof_ids) == 0:
             raise ValueError(f'Found no matching proofs for {test}:{version}.')
         if len(matching_proof_ids) > 1:
-            if version == None:
+            if version is None:
                 raise ValueError(
                     f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
                 )
