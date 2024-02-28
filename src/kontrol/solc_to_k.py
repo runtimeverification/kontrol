@@ -577,7 +577,12 @@ class Contract:
         self.contract_json = contract_json
 
         self.contract_id = self.contract_json['id']
-        self.contract_path = self.contract_json['ast']['absolutePath']
+        try:
+            self.contract_path = self.contract_json['ast']['absolutePath']
+        except KeyError:
+            raise ValueError(
+                "Must have 'ast' field in solc output. Make sure `ast = true` is present in foundry.toml"
+            ) from None
 
         evm = self.contract_json['evm'] if not foundry else self.contract_json
 

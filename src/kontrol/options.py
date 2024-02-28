@@ -31,6 +31,7 @@ class ProveOptions:
     reinit: bool
     use_gas: bool
     deployment_state_entries: Iterable[DeploymentStateEntry] | None
+    active_symbolik: bool
     hevm: bool
 
     def __init__(
@@ -54,6 +55,7 @@ class ProveOptions:
         reinit: bool = False,
         use_gas: bool = False,
         deployment_state_entries: list[DeploymentStateEntry] | None = None,
+        active_symbolik: bool = False,
         hevm: bool = False,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
@@ -74,6 +76,7 @@ class ProveOptions:
         object.__setattr__(self, 'reinit', reinit)
         object.__setattr__(self, 'use_gas', use_gas)
         object.__setattr__(self, 'deployment_state_entries', deployment_state_entries)
+        object.__setattr__(self, 'active_symbolik', active_symbolik)
         object.__setattr__(self, 'hevm', hevm)
 
 

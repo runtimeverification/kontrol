@@ -243,6 +243,7 @@ def exec_prove(
     maude_port: int | None = None,
     use_gas: bool = False,
     deployment_state_path: Path | None = None,
+    with_non_general_state: bool = False,
     hevm: bool = False,
     **kwargs: Any,
 ) -> None:
@@ -280,6 +281,7 @@ def exec_prove(
         fail_fast=fail_fast,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
+        active_symbolik=with_non_general_state,
         hevm=hevm,
     )
 
@@ -798,6 +800,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=[],
         action='append',
         help='Specify a summary to include as a lemma.',
+    )
+    prove_args.add_argument(
+        '--with-non-general-state',
+        dest='with_non_general_state',
+        default=False,
+        action='store_true',
+        help='Flag used by Simbolik to initialise the state of a non test function as if it was a test function.',
     )
     prove_args.add_argument(
         '--hevm',
