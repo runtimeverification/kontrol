@@ -91,7 +91,9 @@ module FOUNDRY-SUCCESS
       ")" [function, klabel(hevm_success), symbol]
  // -------------------------------------------------
     rule hevm_success(EVMC_INVALID_INSTRUCTION, _) => false
-    rule hevm_success(EVMC_REVERT, OUT) => false requires #range(OUT, 0, 4) ==K Int2Bytes(4, 1313373041, BE)
+    rule hevm_success(EVMC_REVERT, OUT) => false
+      requires #range(OUT, 0, 4)  ==K Int2Bytes(4, 1313373041, BE) // b"\x4e\x48\x7b\x71"
+       andBool #range(OUT, 35, 1) ==K b"\x01"
     rule hevm_success(_, _) => true [owise]
 
     // rule ( selector ( "Panic(uint256)" ) => 1313373041 )
