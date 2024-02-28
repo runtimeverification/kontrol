@@ -4,30 +4,41 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
-│   src: src/cse/Unary.sol:18:29
+│   src: src/cse/Unary.sol:6:16
 │
-│  (324 steps)
+│  (367 steps)
 ├─ 3 (split)
-│   k: JUMPI 180 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTR ...
-│   pc: 158
+│   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
+│   pc: 148
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   src: src/cse/Unary.sol:12:15
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) }
+┣━━┓ constraint: { true #Equals CALLDEPTH_CELL:Int <Int 1024 }
 ┃  │
 ┃  ├─ 4
-┃  │   k: JUMPI 180 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTR ...
-┃  │   pc: 158
+┃  │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
+┃  │   pc: 148
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: src/cse/Unary.sol:12:15
 ┃  │
-┃  │  (122 steps)
-┃  ├─ 6 (terminal)
+┃  │  (347 steps)
+┃  ├─ 6
+┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   pc: 87
+┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
+┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: src/cse/Unary.sol:13:14
+┃  │
+┃  │  (328 steps)
+┃  ├─ 8 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: src/cse/Unary.sol:13:14
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
 ┃  ┊  subst: OMITTED SUBST
@@ -37,18 +48,19 @@
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: { true #Equals ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) ) }
+┗━━┓ constraint: { true #Equals 1024 <=Int CALLDEPTH_CELL:Int }
    │
    ├─ 5
-   │   k: JUMPI 180 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTR ...
-   │   pc: 158
+   │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
+   │   pc: 148
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
+   │   src: src/cse/Unary.sol:12:15
    │
-   │  (47 steps)
+   │  (76 steps)
    ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 179
+   │   pc: 163
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
    │

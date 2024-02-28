@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/CSE.t.sol:9:34
 │
-│  (384 steps)
+│  (383 steps)
 ├─ 3
 │   k: #halt ~> #codeDeposit 491460923342184218035706888008750043977755113263 ~> #pc [  ...
 │   pc: 30
@@ -14,7 +14,7 @@
 │   statusCode: EVMC_SUCCESS
 │   src: test/CSE.t.sol:9:34
 │
-│  (333 steps)
+│  (330 steps)
 ├─ 4
 │   k: #halt ~> #codeDeposit 263400868551549723330807389252719309078400616203 ~> #pc [  ...
 │   pc: 29
@@ -22,7 +22,7 @@
 │   statusCode: EVMC_SUCCESS
 │   src: test/CSE.t.sol:9:34
 │
-│  (333 steps)
+│  (330 steps)
 ├─ 5
 │   k: #halt ~> #codeDeposit 1405310203571408291950365054053061012934685786634 ~> #pc [ ...
 │   pc: 30
@@ -30,7 +30,7 @@
 │   statusCode: EVMC_SUCCESS
 │   src: test/CSE.t.sol:9:34
 │
-│  (165 steps)
+│  (163 steps)
 ├─ 6 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 248
@@ -77,69 +77,322 @@
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (1148 steps)
+   │  (800 steps)
    ├─ 13
-   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
-   │   pc: 87
-   │   callDepth: 2
-   │   statusCode: EVMC_SUCCESS
-   │   src: test/CSE.t.sol:9:34
-   │
-   │  (328 steps)
-   ├─ 14
-   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   │   pc: 87
+   │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   │   pc: 148
    │   callDepth: 1
-   │   statusCode: EVMC_SUCCESS
-   │   src: test/CSE.t.sol:9:34
-   │
-   │  (1103 steps)
-   ├─ 15
-   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 160 32 ~> # ...
-   │   pc: 87
-   │   callDepth: 2
-   │   statusCode: EVMC_SUCCESS
-   │   src: test/CSE.t.sol:9:34
-   │
-   │  (328 steps)
-   ├─ 16
-   │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   │   pc: 87
-   │   callDepth: 1
-   │   statusCode: EVMC_SUCCESS
-   │   src: test/CSE.t.sol:9:34
-   │
-   │  (1103 steps)
-   ├─ 17
-   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 192 32 ~> # ...
-   │   pc: 87
-   │   callDepth: 2
-   │   statusCode: EVMC_SUCCESS
-   │   src: test/CSE.t.sol:9:34
-   │
-   │  (328 steps)
-   ├─ 18
-   │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   │   pc: 87
-   │   callDepth: 1
-   │   statusCode: EVMC_SUCCESS
-   │   src: test/CSE.t.sol:9:34
-   │
-   │  (725 steps)
-   ├─ 19 (terminal)
-   │   k: #halt ~> CONTINUATION:K
-   │   pc: 248
-   │   callDepth: 0
-   │   statusCode: EVMC_SUCCESS
-   │   src: lib/forge-std/lib/ds-test/src/test.sol:37:38
-   │
-   ┊  constraint: true
-   ┊  subst: OMITTED SUBST
-   └─ 8 (leaf, target, terminal)
-       k: #halt ~> CONTINUATION:K
-       pc: PC_CELL_5d410f2a:Int
-       callDepth: CALLDEPTH_CELL_5d410f2a:Int
-       statusCode: STATUSCODE_FINAL:StatusCode
+   │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:79:82
+   ┃
+   ┃ (1 step)
+   ┣━━┓
+   ┃  │
+   ┃  ├─ 14
+   ┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   ┃  │   pc: 87
+   ┃  │   callDepth: 1
+   ┃  │   statusCode: EVMC_SUCCESS
+   ┃  │   src: test/CSE.t.sol:9:34
+   ┃  │
+   ┃  │  (755 steps)
+   ┃  ├─ 16
+   ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  │   pc: 148
+   ┃  │   callDepth: 1
+   ┃  │   statusCode: EVMC_SUCCESS
+   ┃  │   src: lib/forge-std/src/StdInvariant.sol:79:82
+   ┃  ┃
+   ┃  ┃ (1 step)
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 18
+   ┃  ┃  │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   ┃  ┃  │   pc: 87
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: EVMC_SUCCESS
+   ┃  ┃  │   src: test/CSE.t.sol:9:34
+   ┃  ┃  │
+   ┃  ┃  │  (755 steps)
+   ┃  ┃  ├─ 22
+   ┃  ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃  ┃  │   pc: 148
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: EVMC_SUCCESS
+   ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:79:82
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (1 step)
+   ┃  ┃  ┣━━┓
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  ├─ 26
+   ┃  ┃  ┃  │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   ┃  ┃  ┃  │   pc: 87
+   ┃  ┃  ┃  │   callDepth: 1
+   ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
+   ┃  ┃  ┃  │   src: test/CSE.t.sol:9:34
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  │  (725 steps)
+   ┃  ┃  ┃  ├─ 34 (terminal)
+   ┃  ┃  ┃  │   k: #halt ~> CONTINUATION:K
+   ┃  ┃  ┃  │   pc: 248
+   ┃  ┃  ┃  │   callDepth: 0
+   ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
+   ┃  ┃  ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:37:38
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  ┊  constraint: true
+   ┃  ┃  ┃  ┊  subst: OMITTED SUBST
+   ┃  ┃  ┃  └─ 8 (leaf, target, terminal)
+   ┃  ┃  ┃      k: #halt ~> CONTINUATION:K
+   ┃  ┃  ┃      pc: PC_CELL_5d410f2a:Int
+   ┃  ┃  ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+   ┃  ┃  ┃      statusCode: STATUSCODE_FINAL:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓
+   ┃  ┃     │
+   ┃  ┃     ├─ 27
+   ┃  ┃     │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   ┃  ┃     │   pc: 87
+   ┃  ┃     │   callDepth: 1
+   ┃  ┃     │   statusCode: EVMC_SUCCESS
+   ┃  ┃     │   src: test/CSE.t.sol:9:34
+   ┃  ┃     │
+   ┃  ┃     │  (725 steps)
+   ┃  ┃     ├─ 35 (terminal)
+   ┃  ┃     │   k: #halt ~> CONTINUATION:K
+   ┃  ┃     │   pc: 248
+   ┃  ┃     │   callDepth: 0
+   ┃  ┃     │   statusCode: EVMC_SUCCESS
+   ┃  ┃     │   src: lib/forge-std/lib/ds-test/src/test.sol:37:38
+   ┃  ┃     │
+   ┃  ┃     ┊  constraint: true
+   ┃  ┃     ┊  subst: OMITTED SUBST
+   ┃  ┃     └─ 8 (leaf, target, terminal)
+   ┃  ┃         k: #halt ~> CONTINUATION:K
+   ┃  ┃         pc: PC_CELL_5d410f2a:Int
+   ┃  ┃         callDepth: CALLDEPTH_CELL_5d410f2a:Int
+   ┃  ┃         statusCode: STATUSCODE_FINAL:StatusCode
+   ┃  ┃
+   ┃  ┗━━┓
+   ┃     │
+   ┃     ├─ 19
+   ┃     │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   ┃     │   pc: 87
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: EVMC_SUCCESS
+   ┃     │   src: test/CSE.t.sol:9:34
+   ┃     │
+   ┃     │  (755 steps)
+   ┃     ├─ 23
+   ┃     │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+   ┃     │   pc: 148
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: EVMC_SUCCESS
+   ┃     │   src: lib/forge-std/src/StdInvariant.sol:79:82
+   ┃     ┃
+   ┃     ┃ (1 step)
+   ┃     ┣━━┓
+   ┃     ┃  │
+   ┃     ┃  ├─ 28
+   ┃     ┃  │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   ┃     ┃  │   pc: 87
+   ┃     ┃  │   callDepth: 1
+   ┃     ┃  │   statusCode: EVMC_SUCCESS
+   ┃     ┃  │   src: test/CSE.t.sol:9:34
+   ┃     ┃  │
+   ┃     ┃  │  (725 steps)
+   ┃     ┃  ├─ 36 (terminal)
+   ┃     ┃  │   k: #halt ~> CONTINUATION:K
+   ┃     ┃  │   pc: 248
+   ┃     ┃  │   callDepth: 0
+   ┃     ┃  │   statusCode: EVMC_SUCCESS
+   ┃     ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:37:38
+   ┃     ┃  │
+   ┃     ┃  ┊  constraint: true
+   ┃     ┃  ┊  subst: OMITTED SUBST
+   ┃     ┃  └─ 8 (leaf, target, terminal)
+   ┃     ┃      k: #halt ~> CONTINUATION:K
+   ┃     ┃      pc: PC_CELL_5d410f2a:Int
+   ┃     ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+   ┃     ┃      statusCode: STATUSCODE_FINAL:StatusCode
+   ┃     ┃
+   ┃     ┗━━┓
+   ┃        │
+   ┃        ├─ 29
+   ┃        │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   ┃        │   pc: 87
+   ┃        │   callDepth: 1
+   ┃        │   statusCode: EVMC_SUCCESS
+   ┃        │   src: test/CSE.t.sol:9:34
+   ┃        │
+   ┃        │  (725 steps)
+   ┃        ├─ 37 (terminal)
+   ┃        │   k: #halt ~> CONTINUATION:K
+   ┃        │   pc: 248
+   ┃        │   callDepth: 0
+   ┃        │   statusCode: EVMC_SUCCESS
+   ┃        │   src: lib/forge-std/lib/ds-test/src/test.sol:37:38
+   ┃        │
+   ┃        ┊  constraint: true
+   ┃        ┊  subst: OMITTED SUBST
+   ┃        └─ 8 (leaf, target, terminal)
+   ┃            k: #halt ~> CONTINUATION:K
+   ┃            pc: PC_CELL_5d410f2a:Int
+   ┃            callDepth: CALLDEPTH_CELL_5d410f2a:Int
+   ┃            statusCode: STATUSCODE_FINAL:StatusCode
+   ┃
+   ┗━━┓
+      │
+      ├─ 15
+      │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+      │   pc: 87
+      │   callDepth: 1
+      │   statusCode: EVMC_SUCCESS
+      │   src: test/CSE.t.sol:9:34
+      │
+      │  (755 steps)
+      ├─ 17
+      │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      │   pc: 148
+      │   callDepth: 1
+      │   statusCode: EVMC_SUCCESS
+      │   src: lib/forge-std/src/StdInvariant.sol:79:82
+      ┃
+      ┃ (1 step)
+      ┣━━┓
+      ┃  │
+      ┃  ├─ 20
+      ┃  │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+      ┃  │   pc: 87
+      ┃  │   callDepth: 1
+      ┃  │   statusCode: EVMC_SUCCESS
+      ┃  │   src: test/CSE.t.sol:9:34
+      ┃  │
+      ┃  │  (755 steps)
+      ┃  ├─ 24
+      ┃  │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+      ┃  │   pc: 148
+      ┃  │   callDepth: 1
+      ┃  │   statusCode: EVMC_SUCCESS
+      ┃  │   src: lib/forge-std/src/StdInvariant.sol:79:82
+      ┃  ┃
+      ┃  ┃ (1 step)
+      ┃  ┣━━┓
+      ┃  ┃  │
+      ┃  ┃  ├─ 30
+      ┃  ┃  │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+      ┃  ┃  │   pc: 87
+      ┃  ┃  │   callDepth: 1
+      ┃  ┃  │   statusCode: EVMC_SUCCESS
+      ┃  ┃  │   src: test/CSE.t.sol:9:34
+      ┃  ┃  │
+      ┃  ┃  │  (725 steps)
+      ┃  ┃  ├─ 38 (terminal)
+      ┃  ┃  │   k: #halt ~> CONTINUATION:K
+      ┃  ┃  │   pc: 248
+      ┃  ┃  │   callDepth: 0
+      ┃  ┃  │   statusCode: EVMC_SUCCESS
+      ┃  ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:37:38
+      ┃  ┃  │
+      ┃  ┃  ┊  constraint: true
+      ┃  ┃  ┊  subst: OMITTED SUBST
+      ┃  ┃  └─ 8 (leaf, target, terminal)
+      ┃  ┃      k: #halt ~> CONTINUATION:K
+      ┃  ┃      pc: PC_CELL_5d410f2a:Int
+      ┃  ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+      ┃  ┃      statusCode: STATUSCODE_FINAL:StatusCode
+      ┃  ┃
+      ┃  ┗━━┓
+      ┃     │
+      ┃     ├─ 31
+      ┃     │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+      ┃     │   pc: 87
+      ┃     │   callDepth: 1
+      ┃     │   statusCode: EVMC_SUCCESS
+      ┃     │   src: test/CSE.t.sol:9:34
+      ┃     │
+      ┃     │  (725 steps)
+      ┃     ├─ 39 (terminal)
+      ┃     │   k: #halt ~> CONTINUATION:K
+      ┃     │   pc: 248
+      ┃     │   callDepth: 0
+      ┃     │   statusCode: EVMC_SUCCESS
+      ┃     │   src: lib/forge-std/lib/ds-test/src/test.sol:37:38
+      ┃     │
+      ┃     ┊  constraint: true
+      ┃     ┊  subst: OMITTED SUBST
+      ┃     └─ 8 (leaf, target, terminal)
+      ┃         k: #halt ~> CONTINUATION:K
+      ┃         pc: PC_CELL_5d410f2a:Int
+      ┃         callDepth: CALLDEPTH_CELL_5d410f2a:Int
+      ┃         statusCode: STATUSCODE_FINAL:StatusCode
+      ┃
+      ┗━━┓
+         │
+         ├─ 21
+         │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+         │   pc: 87
+         │   callDepth: 1
+         │   statusCode: EVMC_SUCCESS
+         │   src: test/CSE.t.sol:9:34
+         │
+         │  (755 steps)
+         ├─ 25
+         │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+         │   pc: 148
+         │   callDepth: 1
+         │   statusCode: EVMC_SUCCESS
+         │   src: lib/forge-std/src/StdInvariant.sol:79:82
+         ┃
+         ┃ (1 step)
+         ┣━━┓
+         ┃  │
+         ┃  ├─ 32
+         ┃  │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+         ┃  │   pc: 87
+         ┃  │   callDepth: 1
+         ┃  │   statusCode: EVMC_SUCCESS
+         ┃  │   src: test/CSE.t.sol:9:34
+         ┃  │
+         ┃  │  (725 steps)
+         ┃  ├─ 40 (terminal)
+         ┃  │   k: #halt ~> CONTINUATION:K
+         ┃  │   pc: 248
+         ┃  │   callDepth: 0
+         ┃  │   statusCode: EVMC_SUCCESS
+         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:37:38
+         ┃  │
+         ┃  ┊  constraint: true
+         ┃  ┊  subst: OMITTED SUBST
+         ┃  └─ 8 (leaf, target, terminal)
+         ┃      k: #halt ~> CONTINUATION:K
+         ┃      pc: PC_CELL_5d410f2a:Int
+         ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+         ┃      statusCode: STATUSCODE_FINAL:StatusCode
+         ┃
+         ┗━━┓
+            │
+            ├─ 33
+            │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+            │   pc: 87
+            │   callDepth: 1
+            │   statusCode: EVMC_SUCCESS
+            │   src: test/CSE.t.sol:9:34
+            │
+            │  (725 steps)
+            ├─ 41 (terminal)
+            │   k: #halt ~> CONTINUATION:K
+            │   pc: 248
+            │   callDepth: 0
+            │   statusCode: EVMC_SUCCESS
+            │   src: lib/forge-std/lib/ds-test/src/test.sol:37:38
+            │
+            ┊  constraint: true
+            ┊  subst: OMITTED SUBST
+            └─ 8 (leaf, target, terminal)
+                k: #halt ~> CONTINUATION:K
+                pc: PC_CELL_5d410f2a:Int
+                callDepth: CALLDEPTH_CELL_5d410f2a:Int
+                statusCode: STATUSCODE_FINAL:StatusCode
 
 
 

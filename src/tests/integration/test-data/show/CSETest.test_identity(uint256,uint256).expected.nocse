@@ -46,10 +46,10 @@
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/CSE.t.sol:9:34
 │
-│  (391 steps)
+│  (373 steps)
 ├─ 9 (split)
-│   k: JUMPI 726 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
-│   pc: 717
+│   k: JUMPI 2880 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+│   pc: 2871
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 ┃
@@ -57,37 +57,76 @@
 ┣━━┓ constraint: { true #Equals pow64 <=Int VV0_x_114b9705:Int }
 ┃  │
 ┃  ├─ 10
-┃  │   k: JUMPI 726 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
-┃  │   pc: 717
+┃  │   k: JUMPI 2880 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+┃  │   pc: 2871
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (193 steps)
 ┃  └─ 12 (vacuous, leaf)
 ┃      k: #assume ( VV0_x_114b9705:Int <Int pow64 ) ~> #return_foundry 128 0 ~> #pc [ STAT ...
-┃      pc: 785
+┃      pc: 2939
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
-┃      src: lib/forge-std/src/StdInvariant.sol:104:105
 ┃
 ┗━━┓ constraint: { true #Equals ( notBool pow64 <=Int VV0_x_114b9705:Int ) }
    │
    ├─ 11
-   │   k: JUMPI 726 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
-   │   pc: 717
+   │   k: JUMPI 2880 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+   │   pc: 2871
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (780 steps)
+   │  (1147 steps)
    ├─ 13
-   │   k: #halt ~> #return 128 0 ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
-   │   pc: 105
+   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+   │   pc: 87
+   │   callDepth: 2
+   │   statusCode: EVMC_SUCCESS
+   │   src: test/CSE.t.sol:9:34
+   │
+   │  (328 steps)
+   ├─ 14
+   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   │   pc: 87
    │   callDepth: 1
    │   statusCode: EVMC_SUCCESS
    │   src: test/CSE.t.sol:9:34
    │
-   │  (961 steps)
-   ├─ 14 (terminal)
+   │  (1102 steps)
+   ├─ 15
+   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 160 32 ~> # ...
+   │   pc: 87
+   │   callDepth: 2
+   │   statusCode: EVMC_SUCCESS
+   │   src: test/CSE.t.sol:9:34
+   │
+   │  (328 steps)
+   ├─ 16
+   │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   │   pc: 87
+   │   callDepth: 1
+   │   statusCode: EVMC_SUCCESS
+   │   src: test/CSE.t.sol:9:34
+   │
+   │  (1102 steps)
+   ├─ 17
+   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 192 32 ~> # ...
+   │   pc: 87
+   │   callDepth: 2
+   │   statusCode: EVMC_SUCCESS
+   │   src: test/CSE.t.sol:9:34
+   │
+   │  (328 steps)
+   ├─ 18
+   │   k: #halt ~> #return 192 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   │   pc: 87
+   │   callDepth: 1
+   │   statusCode: EVMC_SUCCESS
+   │   src: test/CSE.t.sol:9:34
+   │
+   │  (725 steps)
+   ├─ 19 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 248
    │   callDepth: 0

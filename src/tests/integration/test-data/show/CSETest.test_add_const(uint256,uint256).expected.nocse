@@ -86,8 +86,16 @@
    │   statusCode: EVMC_SUCCESS
    │   src: test/CSE.t.sol:9:34
    │
-   │  (961 steps)
-   ├─ 14 (terminal)
+   │  (666 steps)
+   ├─ 14
+   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   │   pc: 87
+   │   callDepth: 1
+   │   statusCode: EVMC_SUCCESS
+   │   src: test/CSE.t.sol:9:34
+   │
+   │  (416 steps)
+   ├─ 15 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 248
    │   callDepth: 0
