@@ -346,7 +346,7 @@ DEPENDENCY_TESTS: Final = [
 ]
 
 
-@pytest.mark.parametrize('tests', DEPENDENCY_TESTS)
+@pytest.mark.parametrize('test', DEPENDENCY_TESTS)
 def test_foundry_dependency(
     test: list[str],
     foundry: Foundry,
