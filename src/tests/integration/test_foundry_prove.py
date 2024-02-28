@@ -337,11 +337,13 @@ def test_foundry_merge_nodes(
 
 
 DEPENDENCY_TESTS: Final = [
+
     ['ArithmeticContract.add(uint256,uint256)', 'ArithmeticCallTest.test_double_add(uint256,uint256)'],
+    ['Identity.identity(uint256)'],
     ['Identity.identity(uint256)', 'Identity.applyOp(uint256)'],
     ['Identity.identity(uint256)', 'Identity.applyOp(uint256)', 'CSETest.test_identity(uint256,uint256)'],
-    # Does not terminate
-    # ['AddConst.applyOp(uint256)', 'CSETest.test_add_const(uint256, uint256)'],
+    ['AddConst.applyOp(uint256)'],
+    ['AddConst.applyOp(uint256)', 'CSETest.test_add_const(uint256, uint256)'],
 ]
 
 
@@ -357,8 +359,8 @@ def test_foundry_dependency(
     if no_use_booster:
         pytest.skip()
 
-    # Dependency tests require at least two inter-dependent functions
-    assert len(test) >= 2
+    # Tests require at least one ifunctions
+    assert len(test) > 0
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)

@@ -8,11 +8,11 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
+from pyk.kast.inner import KApply, KLabel, KSequence, KSort, KVariable, Subst, build_assoc
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
+from pyk.prelude.collections import list_empty, map_empty, map_item, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
@@ -611,11 +611,30 @@ def _init_cterm(
         }
         init_subst.update(init_subst_test)
     else:
+        # Symbolic accounts of all relevant contracts
+        # Status: Currently, only the executing contract
+        # TODO: Add all other accounts belonging to relevant contracts
         accounts: list[KInner] = [
             Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), program),
             KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')),
         ]
-        init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
+
+        # Symbolic accessed storage of all relevant contracts
+        # Status: Currently, only the executing contract
+        # TODO: Add all other accessed storage belonging to relevant contracts
+        accessed_storage: KInner = build_assoc(
+            map_empty(),
+            KLabel('_Map_'),
+            (
+                map_item(
+                    KVariable(Foundry.symbolic_contract_id(), sort=KSort('Int')),
+                    KVariable(Foundry.symbolic_contract_prefix() + '_AS', sort=KSort('Set')),
+                ),
+                KVariable('ACCESSED_STORAGE_REST', sort=KSort('Map')),
+            ),
+        )
+
+        init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts), 'ACCESSEDSTORAGE_CELL': accessed_storage}
         init_subst.update(init_subst_accounts)
 
     if calldata is not None:
