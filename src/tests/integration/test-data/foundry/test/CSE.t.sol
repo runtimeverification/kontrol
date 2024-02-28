@@ -25,7 +25,7 @@ contract CSETest is Test {
         assert(z == x + 2 * y);
     }
 
-    function test_add_const(uint256 x, uint256 y) external view {
+    function test_add_const(uint256 x, uint256 y) external {
         vm.assume(x < 2 ** 64 && y < 2 ** 64);
         c.setConst(x);
         uint256 z = c.applyOp(y);
