@@ -263,7 +263,7 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
             key = key.strip()
             natspecs[key] = int(value_str.strip())
         except ValueError:
-            _LOGGER.warning(f'Skipping invalid fomat {part} in {tag}')
+            _LOGGER.warning(f'Skipping invalid format {part} in {tag}')
     return natspecs
 
 
