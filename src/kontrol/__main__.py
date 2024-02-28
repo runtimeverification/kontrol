@@ -804,7 +804,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='with_non_general_state',
         default=False,
         action='store_true',
-        help='Flag used by Symbolik to initialise the state of a non test function as if it was a test function.',
+        help='Flag used by Simbolik to initialise the state of a non test function as if it was a test function.',
     )
 
     show_args = command_parser.add_parser(
