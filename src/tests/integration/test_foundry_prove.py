@@ -337,7 +337,6 @@ def test_foundry_merge_nodes(
 
 
 DEPENDENCY_TESTS: Final = [
-
     ['ArithmeticContract.add(uint256,uint256)', 'ArithmeticCallTest.test_double_add(uint256,uint256)'],
     ['Identity.identity(uint256)'],
     ['Identity.identity(uint256)', 'Identity.applyOp(uint256)'],
