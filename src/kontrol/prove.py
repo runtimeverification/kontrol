@@ -635,14 +635,12 @@ def _init_cterm(
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
-    # The address of the executing contract is always guaranteed not to be the address of the cheatcode contract
-    init_cterm = init_cterm.add_constraint(
-        mlEqualsFalse(
-            KApply(
-                '_==Int_', [KVariable(Foundry.symbolic_contract_id(), sort=KSort('Int')), Foundry.address_CHEATCODE()]
-            )
+    for contract_id in [Foundry.symbolic_contract_id(), 'CALLER_ID', 'ORIGIN_ID']:
+        # The address of the executing contract, the calling contract, and the origin contract
+        # is always guaranteed to not be the address of the cheatcode contract
+        init_cterm = init_cterm.add_constraint(
+            mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
         )
-    )
     init_cterm = KEVM.add_invariant(init_cterm)
 
     return init_cterm
