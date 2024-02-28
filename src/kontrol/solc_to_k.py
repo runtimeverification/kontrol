@@ -136,7 +136,7 @@ class Input:
         """
         Recursively unwrap components of a complex type to create a list of Input instances.
 
-        :param components:: A list of dictionaries representing component structures
+        :param components: A list of dictionaries representing component structures
         :param idx: Starting index for components, defaults to 0
         :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
         :return: A list of Input instances for each component, including nested components
@@ -213,11 +213,8 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, .
 
     In case of arrays and nested arrays, the bound values are stored in an immutable list.
     In case of dynamic types such as `string` and `bytes` the length bound is stored in its own variable.
-    As a convention, the length of a nested array or of a dynamic type array is accessed by appending `[]` to the name of the variable.
-    i.e. for `bytes[][] _b`, the lengths are registered as:
-        _b: length of the upper most array
-        _b[]: length of the inner array
-        _b[][]: length of the `bytes` elements in the inner array.
+    As a convention, the length of a one-dimensional array (`bytes[]`), the length is represented as a single integer.
+    For a nested array, the length is represented as a sequence of whitespace-separated integers, e.g., `10 10 10`.
     If an array length is missing, the default value will be `2` to avoid generating symbolic variables.
     The dynamic type length is optional, ommiting it may cause branchings in symbolic execution.
     """
@@ -226,12 +223,23 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, .
     dynamic_type_length: int | None
     input_array_lengths: tuple[int, ...] | None
     array_lengths: list[int] = []
-    while _type.endswith('[]'):
-        array_lengths.append(lengths.get(_name, 2))
-        _type = _type[:-2]
-        _name += '[]'
+
+    array_dimensions = _type.count('[]')
+    if array_dimensions:
+        natspec_array_lengths = lengths.get('kontrol-array-length-equals').get(_name)
+        if natspec_array_lengths is not None:
+            array_lengths = [natspec_array_lengths] if isinstance(natspec_array_lengths, int) else natspec_array_lengths
+        else:
+            array_lengths = [2] * array_dimensions
+
+        # If an insufficient number of lengths was provided, add default length `2` for every missing dimension
+        if len(array_lengths) < array_dimensions:
+            array_lengths.extend([2] * (array_dimensions - len(array_lengths)))
+
     input_array_lengths = tuple(array_lengths) if array_lengths else None
-    dynamic_type_length = lengths.get(_name) if _type in ['bytes', 'string'] else None
+    dynamic_type_length = (
+        lengths.get('kontrol-bytes-length-equals').get(_name) if _type in ['bytes', 'string'] else None
+    )
     return (input_array_lengths, dynamic_type_length)
 
 
@@ -240,9 +248,9 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     Parse developer documentation (devdoc) to extract specific information based on a given tag.
 
     Example:
-        If devdoc contains { 'custom:kontrol-length-equals': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
-        and the function is called with tag='custom:kontrol-length-equals', it would return:
-        { '_withdrawalProof': 10, '_withdrawalProof[]': 600, '_l2OutputIndex': 4 }
+        If devdoc contains { '@custom:kontrol-array-length-equals': 'content: 10,_withdrawalProof: 10 10,_l2OutputIndex 4,'},
+        and the function is called with tag='kontrol-array-length-equals', it would return:
+        { 'content': 10, '_withdrawalProof': [10, 10], '_l2OutputIndex': 4 }
     """
 
     if devdoc is None or tag not in devdoc:
@@ -261,7 +269,8 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
         try:
             key, value_str = part.split(':')
             key = key.strip()
-            natspecs[key] = int(value_str.strip())
+            values = value_str.split()
+            natspecs[key] = [int(value.strip()) for value in values] if len(values) > 1 else int(values[0].strip())
         except ValueError:
             _LOGGER.warning(f'Skipping invalid format {part} in {tag}')
     return natspecs
@@ -379,7 +388,8 @@ class Contract:
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
             self.ast = ast
-            self.natspec_values = parse_devdoc('custom:kontrol-length-equals', devdoc)
+            natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
+            self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
 
         @property
