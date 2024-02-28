@@ -226,9 +226,10 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, .
 
     array_dimensions = _type.count('[]')
     if array_dimensions:
-        natspec_array_lengths = lengths.get('kontrol-array-length-equals').get(_name)
-        if natspec_array_lengths is not None:
-            array_lengths = [natspec_array_lengths] if isinstance(natspec_array_lengths, int) else natspec_array_lengths
+        all_array_lengths = lengths.get('kontrol-array-length-equals')
+        this_array_lengths = all_array_lengths.get(_name) if all_array_lengths is not None else None
+        if this_array_lengths is not None:
+            array_lengths = [this_array_lengths] if isinstance(this_array_lengths, int) else this_array_lengths
         else:
             array_lengths = [2] * array_dimensions
 
@@ -237,8 +238,12 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, .
             array_lengths.extend([2] * (array_dimensions - len(array_lengths)))
 
     input_array_lengths = tuple(array_lengths) if array_lengths else None
+
+    all_dynamic_type_lengths = lengths.get('kontrol-bytes-length-equals')
     dynamic_type_length = (
-        lengths.get('kontrol-bytes-length-equals').get(_name) if _type.startswith(('bytes', 'string')) else None
+        all_dynamic_type_lengths.get(_name)
+        if _type.startswith(('bytes', 'string')) and all_dynamic_type_lengths is not None
+        else None
     )
     return (input_array_lengths, dynamic_type_length)
 
