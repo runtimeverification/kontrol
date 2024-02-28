@@ -306,12 +306,18 @@ class Foundry:
 
     def get_test_id(self, test: str, version: int | None) -> str:
         matching_proof_ids = self.proof_ids_with_test(test, version)
+        sig = single(self.matching_sigs(test))
         if len(matching_proof_ids) == 0:
             raise ValueError(f'Found no matching proofs for {test}:{version}.')
         if len(matching_proof_ids) > 1:
-            raise ValueError(
-                f'Found {len(matching_proof_ids)} matching proofs for {test}:{matching_proof_ids}. Use the --version flag to choose one.'
-            )
+            if version is None:
+                raise ValueError(
+                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
+                )
+            else:
+                raise ValueError(
+                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide a full signature of the test, e.g., {sig[5:]!r} --version {version}.'
+                )
         return single(matching_proof_ids)
 
     @staticmethod
