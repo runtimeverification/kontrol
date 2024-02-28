@@ -238,7 +238,7 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, .
 
     input_array_lengths = tuple(array_lengths) if array_lengths else None
     dynamic_type_length = (
-        lengths.get('kontrol-bytes-length-equals').get(_name) if _type in ['bytes', 'string'] else None
+        lengths.get('kontrol-bytes-length-equals').get(_name) if _type.startswith(('bytes', 'string')) else None
     )
     return (input_array_lengths, dynamic_type_length)
 
