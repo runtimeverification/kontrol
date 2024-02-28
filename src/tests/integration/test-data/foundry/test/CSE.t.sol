@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 
 import "src/cse/Unary.sol";
 import "src/cse/Binary.sol";
-import "src/cse/SimpleWETH.sol";
+import "src/cse/WETH9.sol";
 
 contract CSETest is Test {
     Identity i;
