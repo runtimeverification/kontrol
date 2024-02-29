@@ -813,7 +813,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='hevm',
         default=False,
         action='store_true',
-        help='Uses the hevm success predicate',
+        help='Runs the tests against the hevm success predicate instead of the default Foundry\'s success criteria',
     )
 
     show_args = command_parser.add_parser(
