@@ -179,12 +179,22 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
 DEVDOCS_DATA: list[tuple[str, dict, dict, tuple[int, ...] | None, int | None]] = [
     (
         'test_1',
-        {'_withdrawalProof': 10, '_withdrawalProof[]': 600, 'data': 600},
+        {
+            'kontrol-array-length-equals': {'_withdrawalProof': 10},
+            'kontrol-bytes-length-equals': {'_withdrawalProof': 600, 'data': 600},
+        },
         {'name': '_withdrawalProof', 'type': 'bytes[]'},
         (10,),
         600,
     ),
     ('test_2', {}, {'name': '_a', 'type': 'bytes'}, None, None),
+    (
+        'test_3',
+        {'kontrol-array-length-equals': {'nestedArray': [10, 10]}, 'kontrol-bytes-length-equals': {'nestedArray': 320}},
+        {'name': 'nestedArray', 'type': 'bytes[][][]'},
+        (10, 10, 2),
+        320,
+    ),
 ]
 
 
@@ -213,7 +223,7 @@ ABI_DATA: list[tuple[str, dict, dict, Input]] = [
             'name': '_tx',
             'type': 'tuple',
         },
-        {'_v': 10, '_v[]': 600, 'data': 600},
+        {'kontrol-array-length-equals': {'_v': 10}, 'kontrol-bytes-length-equals': {'_v': 600, 'data': 600}},
         Input(
             name='_tx',
             type='tuple',

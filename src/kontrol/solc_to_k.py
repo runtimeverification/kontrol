@@ -254,7 +254,7 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
 
     Example:
         If devdoc contains { '@custom:kontrol-array-length-equals': 'content: 10,_withdrawalProof: 10 10,_l2OutputIndex 4,'},
-        and the function is called with tag='kontrol-array-length-equals', it would return:
+        and the function is called with tag='@custom:kontrol-array-length-equals', it would return:
         { 'content': 10, '_withdrawalProof': [10, 10], '_l2OutputIndex': 4 }
     """
 
