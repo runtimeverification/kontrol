@@ -306,12 +306,18 @@ class Foundry:
 
     def get_test_id(self, test: str, version: int | None) -> str:
         matching_proof_ids = self.proof_ids_with_test(test, version)
+        sig = single(self.matching_sigs(test))
         if len(matching_proof_ids) == 0:
             raise ValueError(f'Found no matching proofs for {test}:{version}.')
         if len(matching_proof_ids) > 1:
-            raise ValueError(
-                f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
-            )
+            if version is None:
+                raise ValueError(
+                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
+                )
+            else:
+                raise ValueError(
+                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide a full signature of the test, e.g., {sig[5:]!r} --version {version}.'
+                )
         return single(matching_proof_ids)
 
     @staticmethod
@@ -487,8 +493,8 @@ class Foundry:
         """
         find the highest used proof ID, to be used as a default. Returns None if no version of this proof exists.
         """
-        proof_ids = listdir(self.proofs_dir)
-        versions = {int(pid.split(':')[1]) for pid in proof_ids if pid.split(':')[0] == test}
+        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), test.split('%')[1])
+        versions = {int(pid.split(':')[1]) for pid in proof_ids}
         return max(versions, default=None)
 
     def free_proof_version(
@@ -672,6 +678,20 @@ def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: 
     node_ids = apr_proof.prune(node)
     _LOGGER.info(f'Pruned nodes: {node_ids}')
     apr_proof.write_proof_data()
+
+
+def foundry_refute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    proof.refute_node(proof.kcfg.node(node))
+
+
+def foundry_unrefute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    proof.unrefute_node(proof.kcfg.node(node))
 
 
 def foundry_simplify_node(

@@ -229,6 +229,7 @@ def _run_cfg_group(
                 use_gas=prove_options.use_gas,
                 deployment_state_entries=prove_options.deployment_state_entries,
                 summary_ids=summary_ids,
+                active_symbolik=prove_options.active_symbolik,
             )
 
             cut_point_rules = KEVMSemantics.cut_point_rules(
@@ -288,6 +289,7 @@ def method_to_apr_proof(
     use_gas: bool = False,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     summary_ids: Iterable[str] = (),
+    active_symbolik: bool = False,
 ) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -310,6 +312,7 @@ def method_to_apr_proof(
         setup_proof=setup_proof,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
+        active_symbolik=active_symbolik,
     )
 
     apr_proof = APRProof(
@@ -349,17 +352,13 @@ def _method_to_initialized_cfg(
     setup_proof: APRProof | None = None,
     use_gas: bool = False,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    active_symbolik: bool = False,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
-        empty_config,
-        test.contract,
-        test.method,
-        setup_proof,
-        use_gas,
-        deployment_state_entries,
+        empty_config, test.contract, test.method, setup_proof, use_gas, deployment_state_entries, active_symbolik
     )
 
     for node_id in new_node_ids:
@@ -390,6 +389,7 @@ def _method_to_cfg(
     setup_proof: APRProof | None,
     use_gas: bool,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None,
+    active_symbolik: bool,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -412,6 +412,7 @@ def _method_to_cfg(
         calldata=calldata,
         callvalue=callvalue,
         is_constructor=isinstance(method, Contract.Constructor),
+        active_symbolik=active_symbolik,
     )
     new_node_ids = []
 
@@ -559,6 +560,7 @@ def _init_cterm(
     use_gas: bool,
     is_test: bool,
     is_setup: bool,
+    active_symbolik: bool,
     is_constructor: bool,
     *,
     calldata: KInner | None = None,
@@ -595,7 +597,7 @@ def _init_cterm(
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
     }
 
-    if is_test or is_setup or is_constructor:
+    if is_test or is_setup or is_constructor or active_symbolik:
         init_account_list = _create_initial_account_list(program, deployment_state_entries)
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
