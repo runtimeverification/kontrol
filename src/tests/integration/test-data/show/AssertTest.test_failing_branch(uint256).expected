@@ -2575,7 +2575,8 @@ Failing nodes:
 
   Node id: 18
   Failure reason:
-    Implication check failed, the following is the remaining implication:
+    Matching failed.
+    The remaining implication is:
     ( ( { true #Equals 0 <=Int CALLER_ID:Int }
     #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
     #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
