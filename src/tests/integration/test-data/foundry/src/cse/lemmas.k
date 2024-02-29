@@ -25,6 +25,14 @@ module CSE-LEMMAS
          ( { S2 #Equals S1 } #Or { S2 #Equals S1 -Set SetItem ( X ) } )
          [simplification]
 
+    // Non-equality of byte arrays
+    rule { B1:Bytes #Equals B2:Bytes } => #Bottom
+      requires lengthBytes(B1) =/=Int lengthBytes(B2)
+      [simplification]
+
+    // Boolean simplifications
+    rule false andBool _ => false [simplification]
+
 endmodule
 
 module CSE-LEMMAS-SPEC
