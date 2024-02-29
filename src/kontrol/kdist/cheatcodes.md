@@ -354,6 +354,7 @@ The `<output>` cell will be updated with the value of the address generated from
          <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <output> _ => #bufStrict(32, #addrFromPrivateKey(#unparseDataBytes(ARGS))) </output>
       requires SELECTOR ==Int selector ( "addr(uint256)" )
+      [preserves-definedness]
 ```
 
 #### `load` - Loads a storage slot from an address.
@@ -931,6 +932,7 @@ The `ECDSASign` function returns the signed data in [r,s,v] form, which we conve
          <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <output> _ => #sign(#range(ARGS, 32, 32),#range(ARGS,0,32)) </output>
       requires SELECTOR ==Int selector ( "sign(uint256,bytes32)" )
+      [preserves-definedness]
 ```
 
 Otherwise, throw an error for any other call to the Foundry contract.
