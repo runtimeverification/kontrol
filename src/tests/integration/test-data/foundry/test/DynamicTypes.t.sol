@@ -12,7 +12,7 @@ contract DynamicTypesTest is Test {
 
     /// @custom:kontrol-bytes-length-equals content: 10000,
     /// @custom:kontrol-array-length-equals ba: 10,
-    /// @custom:kontrol-bytes-equals ba[]: 600,
+    /// @custom:kontrol-bytes-length-equals ba: 600,
     function test_complex_type(ComplexType calldata ctValues, bytes[] calldata ba) public {
         require (ba.length == 10, "DynamicTypes: invalid length for bytes[]");
         assert(ctValues.content.length == 10000);
@@ -22,7 +22,7 @@ contract DynamicTypesTest is Test {
     /// @custom:kontrol-array-length-equals ctValues: 10,
     /// @custom:kontrol-bytes-length-equals content: 10000,
     /// @custom:kontrol-array-length-equals ba: 10,
-    /// @custom:kontrol-bytes-length-equals ba:600,
+    /// @custom:kontrol-bytes-length-equals ba: 600,
     function test_complex_type_array(ComplexType[] calldata ctValues, bytes[] calldata ba, uint256 offset) public {
         require (ctValues.length == 10, "DynamicTypes: invalid length for ComplexType[]");
         require (ba.length == 10, "DynamicTypes: invalid length for bytes[]");
