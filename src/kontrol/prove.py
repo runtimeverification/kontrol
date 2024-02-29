@@ -185,7 +185,7 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
 
         method = contract.constructor
         if not method:
-            continue
+            raise ValueError(f'Contract {contract.name_with_path} does not have a constructor.')
         version = foundry.resolve_proof_version(f'{contract.name_with_path}.init', reinit, None)
         res.append(FoundryTest(contract, method, version))
     return res
