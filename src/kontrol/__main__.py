@@ -35,6 +35,7 @@ from .foundry import (
     foundry_unrefute_node,
     read_deployment_state,
 )
+from .hevm import Hevm
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
 from .prove import foundry_prove
@@ -314,7 +315,7 @@ def exec_prove(
             if isinstance(proof, APRProof):
                 failure_log = proof.failure_info
             if failure_info and failure_log is not None:
-                log = failure_log.print() + Foundry.help_info()
+                log = failure_log.print() + (Foundry.help_info() if not hevm else Hevm.help_info())
                 for line in log:
                     print(line)
 
@@ -813,7 +814,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='hevm',
         default=False,
         action='store_true',
-        help='Runs the tests against the hevm success predicate instead of the default Foundry\'s success criteria',
+        help="Runs the tests against the hevm success predicate instead of the default Foundry's success criteria",
     )
 
     show_args = command_parser.add_parser(

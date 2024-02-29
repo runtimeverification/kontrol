@@ -23,6 +23,7 @@ from pyk.proof.reachability import APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
+from .hevm import Hevm
 from .solc_to_k import Contract, hex_string_to_int
 
 if TYPE_CHECKING:
@@ -682,9 +683,7 @@ def _final_cterm(
                 return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
     else:
         return final_cterm.add_constraint(
-            mlEqualsTrue(
-                Foundry.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL'))
-            )
+            mlEqualsTrue(Hevm.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL')))
         )
     return final_cterm
 
