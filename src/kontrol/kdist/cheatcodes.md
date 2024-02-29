@@ -96,11 +96,11 @@ First we have some helpers in K which can:
 ```k
     syntax KItem ::= #assume ( Bool ) [klabel(foundry_assume), symbol]
  // ------------------------------------------------------------------
-    rule <k> #assume(B) => . ... </k> ensures B
+    rule <k> #assume(B) => .K ... </k> ensures B
 
      syntax KItem ::= "#markAsFailed" [klabel(foundry_markAsFailed)]
   // ---------------------------------------------------------------
-     rule <k> #markAsFailed => . ... </k>
+     rule <k> #markAsFailed => .K ... </k>
           <account>
              <acctID> #address(FoundryCheat) </acctID>
              <storage> STORAGE => STORAGE [ #loc(FoundryCheat . Failed) <- 1 ] </storage>
@@ -224,7 +224,7 @@ This rule then takes the `uint256` value from the function call data which is re
 
 ```k
     rule [foundry.call.warp]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <timestamp> _ => #asWord(ARGS) </timestamp>
       requires SELECTOR ==Int selector( "warp(uint256)" )
 ```
@@ -240,7 +240,7 @@ This rule then takes the `uint256` value from the function call data which is re
 
 ```k
     rule [foundry.call.roll]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <number> _ => #asWord(ARGS) </number>
       requires SELECTOR ==Int selector ( "roll(uint256)" )
 ```
@@ -256,7 +256,7 @@ This rule then takes the `uint256` value from the function call data which is re
 
 ```k
     rule [foundry.call.fee]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <baseFee> _ => #asWord(ARGS) </baseFee>
       requires SELECTOR ==Int selector ( "fee(uint256)" )
 ```
@@ -272,7 +272,7 @@ This rule then takes the `uint256` value from the function call data which is re
 
 ```k
     rule [foundry.call.chainId]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <chainID> _ => #asWord(ARGS) </chainID>
       requires SELECTOR ==Int selector ( "chainId(uint256)" )
 ```
@@ -288,7 +288,7 @@ This rule then takes the `uint256` value from the function call data which is re
 
 ```k
     rule [foundry.call.coinbase]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <coinbase> _ => #asWord(ARGS) </coinbase>
       requires SELECTOR ==Int selector ( "coinbase(address)" )
 ```
@@ -305,7 +305,7 @@ However, there is no change on the state and therefore this rule just skips the 
 
 ```k
     rule [foundry.call.label]:
-         <k> #call_foundry SELECTOR _ARGS => . ... </k>
+         <k> #call_foundry SELECTOR _ARGS => .K ... </k>
       requires SELECTOR ==Int selector ( "label(address,string)" )
 ```
 
@@ -351,7 +351,7 @@ The `<output>` cell will be updated with the value of the address generated from
 
 ```k
     rule [foundry.call.addr]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <output> _ => #bufStrict(32, #addrFromPrivateKey(#unparseDataBytes(ARGS))) </output>
       requires SELECTOR ==Int selector ( "addr(uint256)" )
 ```
@@ -413,7 +413,7 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
 
 ```{.k .symbolic}
     rule [foundry.call.freshUInt]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <output> _ => #bufStrict(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
        andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
@@ -432,7 +432,7 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 
 ```{.k .symbolic}
     rule [foundry.call.freshBool]:
-         <k> #call_foundry SELECTOR _ => . ... </k>
+         <k> #call_foundry SELECTOR _ => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
        ensures #rangeBool(?WORD)
@@ -450,10 +450,10 @@ This rule returns a fully symbolic byte array value of the given length.
 
 ```{.k .symbolic}
     rule [foundry.call.freshBytes]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
-         <output> _ => 
-            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES 
-            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 ) 
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+         <output> _ =>
+            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES
+            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 )
          </output>
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
@@ -473,7 +473,7 @@ All cheat code calls which take place while `expectRevert` is active are ignored
 
 ```k
     rule [foundry.call.ignoreCalls]:
-         <k> #call_foundry _ _ => . ... </k>
+         <k> #call_foundry _ _ => .K ... </k>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            ...
@@ -487,7 +487,7 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
 
 ```k
     rule [foundry.set.expectrevert.1]:
-         <k> #next [ _OP:CallOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
+         <k> #next [ _OP:CallOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <wordStack> _ : _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
@@ -498,7 +498,7 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
       [priority(38)]
 
     rule [foundry.set.expectrevert.2]:
-         <k> #next [ _OP:CallSixOp ] ~> (. => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
+         <k> #next [ _OP:CallSixOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <wordStack> _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
@@ -509,7 +509,7 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
       [priority(38)]
 
     rule [foundry.set.expectrevert.3]:
-         <k> #next [ OP:OpCode ] ~> (. => #checkRevert) ~> #execute ... </k>
+         <k> #next [ OP:OpCode ] ~> (.K => #checkRevert) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
@@ -586,7 +586,7 @@ Next, everytime one of the `STATICCALL`, `DELEGATECALL`, `CALL`, `CREATE` or `CR
 `calldata` needs to match only the first byte.
 
 ```k
-    rule <k> (. => #clearExpectOpcode) ~> STATICCALL _GCAP ACCTTO ARGSTART ARGWIDTH _RETSTART _RETWIDTH ... </k>
+    rule <k> (.K => #clearExpectOpcode) ~> STATICCALL _GCAP ACCTTO ARGSTART ARGWIDTH _RETSTART _RETWIDTH ... </k>
          <localMem> LM </localMem>
          <expectedOpcode>
            <isOpcodeExpected> true </isOpcodeExpected>
@@ -598,7 +598,7 @@ Next, everytime one of the `STATICCALL`, `DELEGATECALL`, `CALL`, `CREATE` or `CR
       requires #range(LM, ARGSTART, ARGWIDTH) ==K #range(DATA, 0, ARGWIDTH)
       [priority(40)]
 
-    rule <k> (. => #clearExpectOpcode) ~> DELEGATECALL _GCAP ACCTTO ARGSTART ARGWIDTH _RETSTART _RETWIDTH ... </k>
+    rule <k> (.K => #clearExpectOpcode) ~> DELEGATECALL _GCAP ACCTTO ARGSTART ARGWIDTH _RETSTART _RETWIDTH ... </k>
          <localMem> LM </localMem>
          <expectedOpcode>
            <isOpcodeExpected> true </isOpcodeExpected>
@@ -610,7 +610,7 @@ Next, everytime one of the `STATICCALL`, `DELEGATECALL`, `CALL`, `CREATE` or `CR
       requires #range(LM, ARGSTART, ARGWIDTH) ==K #range(DATA, 0, ARGWIDTH)
       [priority(40)]
 
-    rule <k> (. => #clearExpectOpcode) ~> CALL _GCAP ACCTTO VALUE ARGSTART ARGWIDTH _RETSTART _RETWIDTH ... </k>
+    rule <k> (.K => #clearExpectOpcode) ~> CALL _GCAP ACCTTO VALUE ARGSTART ARGWIDTH _RETSTART _RETWIDTH ... </k>
          <localMem> LM </localMem>
          <expectedOpcode>
            <isOpcodeExpected> true </isOpcodeExpected>
@@ -622,7 +622,7 @@ Next, everytime one of the `STATICCALL`, `DELEGATECALL`, `CALL`, `CREATE` or `CR
       requires #range(LM, ARGSTART, ARGWIDTH) ==K #range(DATA, 0, ARGWIDTH)
       [priority(40)]
 
-    rule <k> (. => #clearExpectOpcode) ~> CREATE VALUE MEMSTART MEMWIDTH ... </k>
+    rule <k> (.K => #clearExpectOpcode) ~> CREATE VALUE MEMSTART MEMWIDTH ... </k>
          <localMem> LM </localMem>
          <id> ACCT </id>
          <expectedOpcode>
@@ -635,7 +635,7 @@ Next, everytime one of the `STATICCALL`, `DELEGATECALL`, `CALL`, `CREATE` or `CR
       requires #range(LM, MEMSTART, MEMWIDTH) ==K #range(DATA, 0, MEMWIDTH)
       [priority(40)]
 
-    rule <k> (. => #clearExpectOpcode) ~> CREATE2 VALUE MEMSTART MEMWIDTH _SALT ... </k>
+    rule <k> (.K => #clearExpectOpcode) ~> CREATE2 VALUE MEMSTART MEMWIDTH _SALT ... </k>
          <localMem> LM </localMem>
          <id> ACCT </id>
          <expectedOpcode>
@@ -745,7 +745,7 @@ function setGas(uint256 newGas) external;
 
 ```{.k .bytes}
     rule [foundry.call.setGas]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <gas> _ => #asWord(ARGS) </gas>
          <callGas> _ => 0 </callGas>
       requires SELECTOR ==Int selector ( "setGas(uint256)" )
@@ -762,7 +762,7 @@ It is applied by default.
 
 ```{.k .bytes .symbolic}
     rule [foundry.call.infiniteGas]:
-         <k> #call_foundry SELECTOR _ARGS => . ... </k>
+         <k> #call_foundry SELECTOR _ARGS => .K ... </k>
          <gas> _ => #gas(?_VGAS) </gas>
          <callGas> _ => #gas(?_VCALLGAS) </callGas>
       requires SELECTOR ==Int selector ( "infiniteGas()" )
@@ -809,7 +809,7 @@ With address: Asserts the topics match and that the emitting address matches.
       requires #sizeWordStack(WS) >=Int N
       [priority(40)]
 
-    rule <k> (. => #clearExpectEmit) ~> LOG(N) MEMSTART MEMWIDTH ... </k>
+    rule <k> (.K => #clearExpectEmit) ~> LOG(N) MEMSTART MEMWIDTH ... </k>
          <log> _ ListItem({ _ | TOPICS | DATA }:SubstateLogEntry) </log>
          <expectEmit>
           <recordEvent> false </recordEvent>
@@ -825,7 +825,7 @@ With address: Asserts the topics match and that the emitting address matches.
        andBool ((notBool CHECKDATA) orBool (#asWord(DATA) ==Int #asWord(#range(LM, MEMSTART, MEMWIDTH))))
       [priority(40)]
 
-    rule <k> (. => #clearExpectEmit) ~> LOG(N) MEMSTART MEMWIDTH ... </k>
+    rule <k> (.K => #clearExpectEmit) ~> LOG(N) MEMSTART MEMWIDTH ... </k>
          <log> _ ListItem({ _ | TOPICS | DATA }:SubstateLogEntry) </log>
          <id> ACCT </id>
          <expectEmit>
@@ -928,7 +928,7 @@ The `ECDSASign` function returns the signed data in [r,s,v] form, which we conve
 
 ```k
     rule [foundry.call.sign]:
-         <k> #call_foundry SELECTOR ARGS => . ... </k>
+         <k> #call_foundry SELECTOR ARGS => .K ... </k>
          <output> _ => #sign(#range(ARGS, 32, 32),#range(ARGS,0,32)) </output>
       requires SELECTOR ==Int selector ( "sign(uint256,bytes32)" )
 ```
@@ -1013,7 +1013,7 @@ Utils
 ```k
     syntax KItem ::= "#setBalance" Int Int [klabel(foundry_setBalance)]
  // -------------------------------------------------------------------
-    rule <k> #setBalance ACCTID NEWBAL => . ... </k>
+    rule <k> #setBalance ACCTID NEWBAL => .K ... </k>
          <account>
            <acctID> ACCTID </acctID>
            <balance> _ => NEWBAL </balance>
@@ -1026,7 +1026,7 @@ Utils
 ```k
     syntax KItem ::= "#setCode" Int Bytes [klabel(foundry_setCode)]
  // ---------------------------------------------------------------
-    rule <k> #setCode ACCTID CODE => . ... </k>
+    rule <k> #setCode ACCTID CODE => .K ... </k>
          <account>
            <acctID> ACCTID </acctID>
            <code> _ => #if #asWord(CODE) ==Int 0 #then .Bytes #else CODE #fi </code>
@@ -1039,7 +1039,7 @@ Utils
 ```k
     syntax KItem ::= "#returnNonce" Int [klabel(foundry_returnNonce)]
  // -----------------------------------------------------------------
-    rule <k> #returnNonce ACCTID => . ... </k>
+    rule <k> #returnNonce ACCTID => .K ... </k>
          <output> _ => #bufStrict(32, NONCE) </output>
          <account>
            <acctID> ACCTID </acctID>
@@ -1053,7 +1053,7 @@ Utils
 ```k
      syntax KItem ::= "#setNonce" Int Int [klabel(foundry_setNonce)]
  // ----------------------------------------------------------------
-    rule <k> #setNonce ACCTID NONCE => . ... </k>
+    rule <k> #setNonce ACCTID NONCE => .K ... </k>
          <account>
              <acctID> ACCTID </acctID>
              <nonce> _ => NONCE </nonce>
@@ -1066,7 +1066,7 @@ Utils
 ```k
     syntax KItem ::= "#returnStorage" Int Int [klabel(foundry_returnStorage)]
  // -------------------------------------------------------------------------
-    rule <k> #returnStorage ACCTID LOC => . ... </k>
+    rule <k> #returnStorage ACCTID LOC => .K ... </k>
          <output> _ => #bufStrict(32, #lookup(STORAGE, LOC)) </output>
          <account>
            <acctID> ACCTID </acctID>
@@ -1080,7 +1080,7 @@ Utils
 ```k
     syntax KItem ::= "#setStorage" Int Int Int [klabel(foundry_setStorage)]
  // -----------------------------------------------------------------------
-    rule <k> #setStorage ACCTID LOC VALUE => . ... </k>
+    rule <k> #setStorage ACCTID LOC VALUE => .K ... </k>
          <account>
            <acctID> ACCTID </acctID>
            <storage> STORAGE => STORAGE [ LOC <- VALUE ] </storage>
@@ -1095,7 +1095,7 @@ Utils
 ```
 
 ```{.k .symbolic}
-    rule <k> #setSymbolicStorage ACCTID => . ... </k>
+    rule <k> #setSymbolicStorage ACCTID => .K ... </k>
          <account>
            <acctID> ACCTID </acctID>
            <storage> _ => ?STORAGE </storage>
@@ -1109,7 +1109,7 @@ Utils
 ```k
     syntax KItem ::= "#setExpectRevert" Bytes [klabel(foundry_setExpectRevert)]
  // ---------------------------------------------------------------------------
-    rule <k> #setExpectRevert EXPECTED => . ... </k>
+    rule <k> #setExpectRevert EXPECTED => .K ... </k>
          <callDepth> CD </callDepth>
          <expectedRevert>
            <isRevertExpected> false => true </isRevertExpected>
@@ -1123,7 +1123,7 @@ Utils
 ```k
     syntax KItem ::= "#clearExpectRevert" [klabel(foundry_clearExpectRevert)]
  // -------------------------------------------------------------------------
-    rule <k> #clearExpectRevert => . ... </k>
+    rule <k> #clearExpectRevert => .K ... </k>
          <expectedRevert>
            <isRevertExpected> _ => false </isRevertExpected>
            <expectedDepth> _ => 0 </expectedDepth>
@@ -1183,7 +1183,7 @@ Otherwise, if the status code is `EVMC_SUCCESS`, or the output does not match th
            ...
          </expectedRevert>
 
-    rule <k> #checkRevert => . ... </k>
+    rule <k> #checkRevert => .K ... </k>
          <expectedRevert>
            <isRevertExpected> false </isRevertExpected>
            ...
@@ -1218,7 +1218,7 @@ Will also return true if REASON is `.Bytes`.
 ```k
     syntax KItem ::= "#setExpectOpcode" Account Bytes Int OpcodeType [klabel(foundry_setExpectOpcode)]
  // --------------------------------------------------------------------------------------------------
-    rule <k> #setExpectOpcode ACCT DATA VALUE OPTYPE => . ... </k>
+    rule <k> #setExpectOpcode ACCT DATA VALUE OPTYPE => .K ... </k>
          <expectedOpcode>
            <isOpcodeExpected> _ => true </isOpcodeExpected>
            <expectedAddress> _ => ACCT </expectedAddress>
@@ -1233,7 +1233,7 @@ Will also return true if REASON is `.Bytes`.
 ```k
     syntax KItem ::= "#clearExpectOpcode" [klabel(foundry_clearExpectOpcode)]
  // -------------------------------------------------------------------------
-    rule <k> #clearExpectOpcode => . ... </k>
+    rule <k> #clearExpectOpcode => .K ... </k>
          <expectedOpcode>
            <isOpcodeExpected> _ => false </isOpcodeExpected>
            <expectedAddress> _ => .Account </expectedAddress>
@@ -1248,7 +1248,7 @@ Will also return true if REASON is `.Bytes`.
 ```k
     syntax KItem ::= "#setPrank" Int Account Bool [klabel(foundry_setPrank)]
  // ------------------------------------------------------------------------
-    rule <k> #setPrank NEWCALLER NEWORIGIN SINGLEPRANK => . ... </k>
+    rule <k> #setPrank NEWCALLER NEWORIGIN SINGLEPRANK => .K ... </k>
          <callDepth> CD </callDepth>
          <id> CL </id>
          <origin> OG </origin>
@@ -1269,7 +1269,7 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#endPrank" [klabel(foundry_endPrank)]
  // -------------------------------------------------------
-    rule <k> #endPrank => #if SINGLECALL #then #clearPrank #else . #fi ... </k>
+    rule <k> #endPrank => #if SINGLECALL #then #clearPrank #else .K #fi ... </k>
         <id> _ => CL </id>
         <origin> _ => OG </origin>
         <prank>
@@ -1280,7 +1280,7 @@ If the production is matched when no prank is active, it will be ignored.
           ...
         </prank>
 
-    rule <k> #endPrank => . ... </k>
+    rule <k> #endPrank => .K ... </k>
         <prank>
           <active> false </active>
           ...
@@ -1292,7 +1292,7 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#clearPrank" [klabel(foundry_clearPrank)]
  // -----------------------------------------------------------
-    rule <k> #clearPrank => . ... </k>
+    rule <k> #clearPrank => .K ... </k>
         <prank>
           <prevCaller> _ => .Account </prevCaller>
           <prevOrigin> _ => .Account </prevOrigin>
@@ -1309,7 +1309,7 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#injectPrank" [klabel(foundry_inject)]
  // --------------------------------------------------------
-    rule <k> #injectPrank => . ...</k>
+    rule <k> #injectPrank => .K ... </k>
          <id> _ => NCL </id>
          <prank>
             <newCaller> NCL:Int </newCaller>
@@ -1318,7 +1318,7 @@ If the production is matched when no prank is active, it will be ignored.
             ...
          </prank>
 
-    rule <k> #injectPrank => . ...</k>
+    rule <k> #injectPrank => .K ... </k>
          <id> _ => NCL </id>
          <origin> _ => NOG </origin>
          <prank>
@@ -1340,7 +1340,7 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#setExpectEmit" Bool Bool Bool Bool Account [klabel(foundry_setExpectEmit)]
  // ---------------------------------------------------------------------------------------------
-    rule <k> #setExpectEmit T1 T2 T3 CHECKDATA ACCT => . ... </k>
+    rule <k> #setExpectEmit T1 T2 T3 CHECKDATA ACCT => .K ... </k>
          <expectEmit>
            <recordEvent> _ => true </recordEvent>
            <isEventExpected> _ => false </isEventExpected>
@@ -1355,7 +1355,7 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#clearExpectEmit" [klabel(foundry_clearExpectEmit)]
  // ---------------------------------------------------------------------
-    rule <k> #clearExpectEmit => . ...</k>
+    rule <k> #clearExpectEmit => .K ... </k>
          <expectEmit>
            <recordEvent> _ => false </recordEvent>
            <isEventExpected> _ => false </isEventExpected>
@@ -1384,7 +1384,7 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#addAddressToWhitelist" Int [klabel(foundry_addAddressToWhitelist)]
  // -------------------------------------------------------------------------------------
-    rule <k> #addAddressToWhitelist ACCT => . ... </k>
+    rule <k> #addAddressToWhitelist ACCT => .K ... </k>
         <whitelist>
           <isCallWhitelistActive> _ => true </isCallWhitelistActive>
           <addressSet>  WLIST => WLIST SetItem(ACCT) </addressSet>
@@ -1397,7 +1397,7 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#addStorageSlotToWhitelist" StorageSlot [klabel(foundry_addStorageSlotToWhitelist)]
  // -----------------------------------------------------------------------------------------------------
-    rule <k> #addStorageSlotToWhitelist SLOT => . ... </k>
+    rule <k> #addStorageSlotToWhitelist SLOT => .K ... </k>
         <whitelist>
           <isStorageWhitelistActive> _ => true </isStorageWhitelistActive>
           <storageSlotSet> WLIST => WLIST SetItem(SLOT) </storageSlotSet>
@@ -1410,7 +1410,7 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#etchAccountIfEmpty" Account [klabel(foundry_etchAccountIfEmpty)]
  // -----------------------------------------------------------------------------------
-    rule <k> #etchAccountIfEmpty ACCT => . ... </k>
+    rule <k> #etchAccountIfEmpty ACCT => .K ... </k>
          <accounts>
            <account>
              <acctID> ACCT </acctID>
@@ -1420,7 +1420,7 @@ If the production is matched when no prank is active, it will be ignored.
            ...
          </accounts>
       requires lengthBytes(CODE) ==Int 0
-    rule <k> #etchAccountIfEmpty _ => . ... </k> [owise]
+    rule <k> #etchAccountIfEmpty _ => .K ... </k> [owise]
 ```
 
 - `#setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN` will update the `<mockcalls>` mapping for the given account.
@@ -1428,13 +1428,13 @@ If the production is matched when no prank is active, it will be ignored.
 ```k
     syntax KItem ::= "#setMockCall" Account Bytes Bytes [klabel(foundry_setMockCall)]
  // ---------------------------------------------------------------------------------
-    rule <k> #setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN => . ... </k>
+    rule <k> #setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN => .K ... </k>
          <mockCall>
             <mockAddress> MOCKADDRESS </mockAddress>
             <mockValues>  MOCKVALUES => MOCKVALUES [ MOCKCALLDATA <- MOCKRETURN ] </mockValues>
          </mockCall>
 
-   rule <k> #setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN => . ... </k>
+   rule <k> #setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN => .K ... </k>
          <mockCalls>
            ( .Bag
             => <mockCall>
