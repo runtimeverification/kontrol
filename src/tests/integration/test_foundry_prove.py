@@ -25,7 +25,7 @@ from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
-from .utils import TEST_DATA_DIR
+from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -335,70 +335,6 @@ def test_foundry_merge_nodes(
     assert_pass(test, single(prove_res))
 
 
-DEPENDENCY_TESTS: Final = [
-    ['ArithmeticContract.add(uint256,uint256)', 'ArithmeticCallTest.test_double_add(uint256,uint256)'],
-    ['Identity.identity(uint256)'],
-    ['Identity.identity(uint256)', 'Identity.applyOp(uint256)'],
-    ['Identity.identity(uint256)', 'Identity.applyOp(uint256)', 'CSETest.test_identity(uint256,uint256)'],
-    ['AddConst.applyOp(uint256)'],
-    ['AddConst.applyOp(uint256)', 'CSETest.test_add_const(uint256, uint256)'],
-]
-
-
-@pytest.mark.parametrize('test', DEPENDENCY_TESTS)
-def test_foundry_dependency(
-    test: list[str],
-    foundry: Foundry,
-    bug_report: BugReport | None,
-    server: KoreServer,
-    update_expected_output: bool,
-    no_use_booster: bool,
-) -> None:
-    if no_use_booster:
-        pytest.skip()
-
-    # Tests require at least one ifunctions
-    assert len(test) > 0
-
-    if bug_report is not None:
-        server._populate_bug_report(bug_report)
-
-    for i in range(0, len(test) - 1):
-
-        dependencies = test[0 : i - 1] if i > 0 else []
-
-        foundry_prove(
-            foundry,
-            tests=[(test[i], None)],
-            prove_options=ProveOptions(
-                max_depth=10000,
-                max_iterations=100,
-                break_on_calls=False,
-                fail_fast=False,
-                bug_report=bug_report,
-            ),
-            rpc_options=RPCOptions(
-                port=server.port,
-            ),
-            include_summaries=[(dependency, None) for dependency in dependencies],
-        )
-
-    show_res = foundry_show(
-        foundry,
-        test=test[-1],
-        to_module=False,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=False,
-        failing=False,
-        failure_info=False,
-        counterexample_info=False,
-        port=server.port,
-    )
-
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test[-1]}.expected', update=update_expected_output)
-
-
 def check_pending(foundry: Foundry, test: str, pending: list[int]) -> None:
     proofs = [foundry.get_optional_proof(pid) for pid in foundry.proof_ids_with_test(test)]
     apr_proofs: list[APRProof] = [proof for proof in proofs if type(proof) is APRProof]
@@ -516,15 +452,6 @@ def assert_fail(test: str, proof: Proof) -> None:
     assert not proof.passed
     if isinstance(proof, APRProof):
         assert proof.failure_info
-
-
-def assert_or_update_show_output(actual_text: str, expected_file: Path, *, update: bool) -> None:
-    if update:
-        expected_file.write_text(actual_text)
-    else:
-        assert expected_file.is_file()
-        expected_text = expected_file.read_text()
-        assert actual_text == expected_text
 
 
 def test_foundry_resume_proof(
