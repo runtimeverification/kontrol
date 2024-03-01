@@ -337,7 +337,9 @@ Node 20:
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
-#And { true #Equals TIMESTAMP_CELL:Int <Int pow256 } ) ) ) ) ) ) ) )
+#And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
+#And ( { true #Equals ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) ) }
+#And { true #Equals ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) ) } ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -537,9 +539,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
@@ -738,9 +742,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -939,9 +945,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -1138,9 +1146,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
@@ -1336,9 +1346,14 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+               ))))))))))
+       ensures ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1539,7 +1554,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
@@ -1748,7 +1765,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-10)]
     
     rule [BASIC-BLOCK-10-TO-11]: <foundry>
@@ -1956,7 +1975,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-11)]
     
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
@@ -2252,7 +2273,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
@@ -2546,7 +2569,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -2841,7 +2866,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
     rule [BASIC-BLOCK-14-TO-15]: <foundry>
@@ -3139,7 +3166,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-14-TO-15)]
     
     rule [BASIC-BLOCK-15-TO-16]: <foundry>
@@ -3437,7 +3466,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3738,7 +3769,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
     
     rule [BASIC-BLOCK-17-TO-18]: <foundry>
@@ -4039,7 +4072,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-17-TO-18)]
     
     rule [BASIC-BLOCK-18-TO-19]: <foundry>
@@ -4245,7 +4280,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-18-TO-19)]
     
     rule [BASIC-BLOCK-19-TO-20]: <foundry>
@@ -4451,7 +4488,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-               ))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-19-TO-20)]
 
 endmodule
@@ -4461,21 +4500,24 @@ Failing nodes:
 
   Node id: 20
   Failure reason:
-    Implication check failed, the following is the remaining implication:
-    ( ( { true #Equals 0 <=Int CALLER_ID:Int }
-    #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
-    #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
-    #And ( { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
-    #And ( { true #Equals CALLER_ID:Int <Int pow160 }
-    #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
-    #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
-    #And { true #Equals TIMESTAMP_CELL:Int <Int pow256 } ) ) ) ) ) ) ) #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) } )
+    Matching failed.
+    The remaining implication is:
+    { true #Equals 0 <=Int CALLER_ID:Int }
+    #And { true #Equals 0 <=Int ORIGIN_ID:Int }
+    #And { true #Equals 0 <=Int NUMBER_CELL:Int }
+    #And { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
+    #And { true #Equals CALLER_ID:Int <Int pow160 }
+    #And { true #Equals ORIGIN_ID:Int <Int pow160 }
+    #And { false #Equals #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) }
+    #And { false #Equals #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) }
+    #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
+    #And { true #Equals TIMESTAMP_CELL:Int <Int pow256 } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
   Model:
-    CALLER_ID = 0
+    CALLER_ID = 7719
     NUMBER_CELL = 0
-    ORIGIN_ID = 0
+    ORIGIN_ID = 38
     TIMESTAMP_CELL = 0
 
 Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
