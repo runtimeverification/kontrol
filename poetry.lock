@@ -434,7 +434,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.475"
+version = "1.0.476"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -443,14 +443,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.674"}
+pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.675"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.475"
-resolved_reference = "30bd680b6cfe51920b3393351511020638404a8e"
+reference = "v1.0.476"
+resolved_reference = "518e536ad1bcdb6c8cce3ba11414880a56810bf9"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -809,7 +809,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.674"
+version = "0.1.675"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -830,8 +830,8 @@ xdg-base-dirs = "^6.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.674"
-resolved_reference = "e476681e3eaa8b147a0da87b5f2f0eb6844fa784"
+reference = "v0.1.675"
+resolved_reference = "223cd775151e96051fc560849a9c4e2e7fb01a2e"
 
 [[package]]
 name = "pyperclip"
@@ -1111,4 +1111,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "5db1b6b06698dc22303c26c60593c39bec7aa110faabf17ad78b15862b593c66"
+content-hash = "585af3fbbe9aa6d034ba7f8ca29d2eee0c0f9304fd3b1f01b2c192615b30102b"
