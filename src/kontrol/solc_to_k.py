@@ -9,8 +9,8 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 from kevm_pyk.kevm import KEVM
+from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
-from pyk.kast.kast import KAtt
 from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
@@ -524,7 +524,7 @@ class Contract:
                 self.sort,
                 items_before + items_args + items_after,
                 klabel=self.unique_klabel,
-                att=KAtt({'symbol': ''}),
+                att=KAtt(entries=[Atts.SYMBOL('')]),
             )
 
         def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
@@ -835,7 +835,7 @@ class Contract:
             self.sort,
             [KTerminal(Contract.escaped(self.name_with_path, 'S2K'))],
             klabel=self.klabel,
-            att=KAtt({'symbol': ''}),
+            att=KAtt([Atts.SYMBOL('')]),
         )
 
     @property
@@ -869,7 +869,7 @@ class Contract:
             KSort('Bytes'),
             [KNonTerminal(self.sort), KTerminal('.'), KNonTerminal(self.sort_method)],
             klabel=self.klabel_method,
-            att=KAtt({'function': '', 'symbol': ''}),
+            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL('')]),
         )
         res: list[KSentence] = [method_application_production]
         res.extend(method.production for method in self.methods)
@@ -886,7 +886,9 @@ class Contract:
         rules: list[KSentence] = []
         for field, slot in self.fields.items():
             klabel = KLabel(self.klabel_field.name + f'_{field}')
-            prods.append(KProduction(self.sort_field, [KTerminal(field)], klabel=klabel, att=KAtt({'symbol': ''})))
+            prods.append(
+                KProduction(self.sort_field, [KTerminal(field)], klabel=klabel, att=KAtt(entries=[Atts.SYMBOL('')]))
+            )
             rule_lhs = KEVM.loc(KApply(KLabel('contract_access_field'), [KApply(self.klabel), KApply(klabel)]))
             rule_rhs = intToken(slot)
             rules.append(KRule(KRewrite(rule_lhs, rule_rhs)))
