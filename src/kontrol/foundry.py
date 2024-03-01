@@ -28,7 +28,7 @@ from pyk.proof.reachability import APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
-from .deployment import DeploymentSummary, SummaryEntry
+from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
 
 if TYPE_CHECKING:
@@ -258,12 +258,13 @@ class Foundry:
 
     @cached_property
     def all_tests(self) -> list[str]:
+        test_dir = os.path.join(self.profile.get('test', 'test'), '')
         return [
             f'{contract.name_with_path}.{method.signature}'
             for contract in self.contracts.values()
-            if contract.name_with_path.endswith('Test')
+            if contract.contract_path.startswith(test_dir)
             for method in contract.methods
-            if method.name.startswith('test')
+            if method.is_test
         ]
 
     @cached_property
@@ -305,12 +306,18 @@ class Foundry:
 
     def get_test_id(self, test: str, version: int | None) -> str:
         matching_proof_ids = self.proof_ids_with_test(test, version)
+        sig = single(self.matching_sigs(test))
         if len(matching_proof_ids) == 0:
             raise ValueError(f'Found no matching proofs for {test}:{version}.')
         if len(matching_proof_ids) > 1:
-            raise ValueError(
-                f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
-            )
+            if version is None:
+                raise ValueError(
+                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
+                )
+            else:
+                raise ValueError(
+                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide a full signature of the test, e.g., {sig[5:]!r} --version {version}.'
+                )
         return single(matching_proof_ids)
 
     @staticmethod
@@ -486,8 +493,8 @@ class Foundry:
         """
         find the highest used proof ID, to be used as a default. Returns None if no version of this proof exists.
         """
-        proof_ids = listdir(self.proofs_dir)
-        versions = {int(pid.split(':')[1]) for pid in proof_ids if pid.split(':')[0] == test}
+        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), test.split('%')[1])
+        versions = {int(pid.split(':')[1]) for pid in proof_ids}
         return max(versions, default=None)
 
     def free_proof_version(
@@ -673,6 +680,20 @@ def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: 
     apr_proof.write_proof_data()
 
 
+def foundry_refute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    proof.refute_node(proof.kcfg.node(node))
+
+
+def foundry_unrefute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    proof.unrefute_node(proof.kcfg.node(node))
+
+
 def foundry_simplify_node(
     foundry: Foundry,
     test: str,
@@ -796,7 +817,7 @@ def foundry_step_node(
             apr_proof.write_proof_data()
 
 
-def foundry_summary(
+def foundry_state_diff(
     name: str,
     accesses_file: Path,
     contract_names: Path | None,
@@ -804,13 +825,13 @@ def foundry_summary(
     foundry: Foundry,
     license: str,
     comment_generated_file: str,
-    condense_summary: bool = False,
+    condense_state_diff: bool = False,
 ) -> None:
-    access_entries = read_summary(accesses_file)
+    access_entries = read_deployment_state(accesses_file)
     accounts = read_contract_names(contract_names) if contract_names else {}
-    summary_contract = DeploymentSummary(name=name, accounts=accounts)
+    deployment_state_contract = DeploymentState(name=name, accounts=accounts)
     for access in access_entries:
-        summary_contract.extend(access)
+        deployment_state_contract.extend(access)
 
     if output_dir_name is None:
         output_dir_name = foundry.profile.get('test', '')
@@ -823,12 +844,18 @@ def foundry_summary(
     if not license.strip():
         raise ValueError('License cannot be empty or blank')
 
-    if condense_summary:
-        main_file.write_text('\n'.join(summary_contract.generate_condensed_file(comment_generated_file, license)))
+    if condense_state_diff:
+        main_file.write_text(
+            '\n'.join(deployment_state_contract.generate_condensed_file(comment_generated_file, license))
+        )
     else:
         code_file = output_dir / Path(name + 'Code.sol')
-        main_file.write_text('\n'.join(summary_contract.generate_main_contract_file(comment_generated_file, license)))
-        code_file.write_text('\n'.join(summary_contract.generate_code_contract_file(comment_generated_file, license)))
+        main_file.write_text(
+            '\n'.join(deployment_state_contract.generate_main_contract_file(comment_generated_file, license))
+        )
+        code_file.write_text(
+            '\n'.join(deployment_state_contract.generate_code_contract_file(comment_generated_file, license))
+        )
 
 
 def foundry_section_edge(
@@ -918,11 +945,11 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def read_summary(accesses_file: Path) -> list[SummaryEntry]:
+def read_deployment_state(accesses_file: Path) -> list[DeploymentStateEntry]:
     if not accesses_file.exists():
         raise FileNotFoundError(f'Account accesses dictionary file not found: {accesses_file}')
     accesses = json.loads(accesses_file.read_text())['accountAccesses']
-    return [SummaryEntry(_a) for _a in accesses]
+    return [DeploymentStateEntry(_a) for _a in accesses]
 
 
 def read_contract_names(contract_names: Path) -> dict[str, str]:

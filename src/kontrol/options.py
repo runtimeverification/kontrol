@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
     from pyk.utils import BugReport
 
-    from .deployment import SummaryEntry
+    from .deployment import DeploymentStateEntry
 
 
 @dataclass(frozen=True)
@@ -30,7 +30,8 @@ class ProveOptions:
     fail_fast: bool
     reinit: bool
     use_gas: bool
-    summary_entries: Iterable[SummaryEntry] | None
+    deployment_state_entries: Iterable[DeploymentStateEntry] | None
+    active_symbolik: bool
 
     def __init__(
         self,
@@ -52,7 +53,8 @@ class ProveOptions:
         fail_fast: bool = True,
         reinit: bool = False,
         use_gas: bool = False,
-        summary_entries: list[SummaryEntry] | None = None,
+        deployment_state_entries: list[DeploymentStateEntry] | None = None,
+        active_symbolik: bool = False,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
@@ -71,7 +73,8 @@ class ProveOptions:
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
         object.__setattr__(self, 'use_gas', use_gas)
-        object.__setattr__(self, 'summary_entries', summary_entries)
+        object.__setattr__(self, 'deployment_state_entries', deployment_state_entries)
+        object.__setattr__(self, 'active_symbolik', active_symbolik)
 
 
 @dataclass(frozen=True)
