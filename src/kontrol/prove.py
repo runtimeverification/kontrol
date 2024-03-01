@@ -19,7 +19,7 @@ from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRProof
+from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
@@ -31,7 +31,6 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
-    from pyk.proof.reachability import APRFailureInfo
 
     from .deployment import DeploymentStateEntry
     from .options import ProveOptions, RPCOptions
