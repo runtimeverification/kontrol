@@ -138,7 +138,6 @@ class KontrolCLIArgs(KEVMCLIArgs):
         return args
 
 
-
 def _create_argument_parser() -> ArgumentParser:
     def list_of(elem_type: Callable[[str], T], delim: str = ';') -> Callable[[str], list[T]]:
         def parse(s: str) -> list[T]:
@@ -376,28 +375,44 @@ def _create_argument_parser() -> ArgumentParser:
         'to-dot',
         help='Dump the given CFG for the test as DOT for visualization.',
         parents=[
-            kontrol_cli_args.config_args, kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
 
     command_parser.add_parser(
         'list',
         help='List information about CFGs on disk',
         parents=[
-            kontrol_cli_args.config_args, kontrol_cli_args.logging_args, kontrol_cli_args.k_args, kontrol_cli_args.foundry_args],
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.k_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
 
     command_parser.add_parser(
         'view-kcfg',
         help='Explore a given proof in the KCFG visualizer.',
         parents=[
-            kontrol_cli_args.config_args, kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
 
     remove_node = command_parser.add_parser(
         'remove-node',
         help='Remove a node and its successors.',
         parents=[
-            kontrol_cli_args.config_args, kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
     remove_node.add_argument('node', type=node_id_like, help='Node to remove CFG subgraph from.')
 
@@ -405,7 +420,11 @@ def _create_argument_parser() -> ArgumentParser:
         'refute-node',
         help='Refute a node and add its refutation as a subproof.',
         parents=[
-            kontrol_cli_args.config_args, kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
     refute_node.add_argument('node', type=node_id_like, help='Node to refute.')
 
@@ -413,7 +432,11 @@ def _create_argument_parser() -> ArgumentParser:
         'unrefute-node',
         help='Disable refutation of a node and remove corresponding refutation subproof.',
         parents=[
-            kontrol_cli_args.config_args, kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+            kontrol_cli_args.config_args,
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
     unrefute_node.add_argument('node', type=node_id_like, help='Node to unrefute.')
 
@@ -519,12 +542,14 @@ def _create_argument_parser() -> ArgumentParser:
 
     return parser
 
+
 def read_toml_args(parser: ArgumentParser, args: Namespace, cmd_args: list[str]) -> Namespace:
     def canonicalize_option(long_opt: str) -> None:
         if long_opt in ['ccopt', 'I', 'O0', 'O1', 'O2', 'O3']:
             toml_commands.append('-' + long_opt)
         elif long_opt == 'includes':
-            toml_commands.append('-I')
+            toml_commands.extend(['-I' + a_path for a_path in toml_profile_args[long_opt]])
+            toml_profile_args[long_opt] = ''
         elif long_opt == 'optimization-level':
             level = toml_profile_args[long_opt] if toml_profile_args[long_opt] >= 0 else 0
             level = level if toml_profile_args[long_opt] <= 3 else 3

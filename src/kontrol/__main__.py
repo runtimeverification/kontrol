@@ -606,6 +606,7 @@ def exec_get_model(
 
 # Helpers
 
+
 def _loglevel(args: Namespace) -> int:
     if hasattr(args, 'debug') and args.debug:
         return logging.DEBUG
