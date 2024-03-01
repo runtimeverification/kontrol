@@ -252,7 +252,7 @@ def _run_cfg_group(
             )
 
             # Only return the failure info to avoid pickling the whole proof
-            if not isinstance(proof.failure_info, APRFailureInfo):
+            if proof.failure_info is not None and not isinstance(proof.failure_info, APRFailureInfo):
                 raise RuntimeError('Generated failure info for APRProof is not APRFailureInfo.')
             return proof.failure_info
 
