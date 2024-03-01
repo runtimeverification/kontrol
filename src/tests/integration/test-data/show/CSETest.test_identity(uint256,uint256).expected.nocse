@@ -62,12 +62,13 @@
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (193 steps)
+┃  │  (525 steps)
 ┃  └─ 12 (vacuous, leaf)
-┃      k: #assume ( VV0_x_114b9705:Int <Int pow64 ) ~> #return_foundry 128 0 ~> #pc [ STAT ...
-┃      pc: 2939
-┃      callDepth: 0
+┃      k: JUMPI 55 bool2Word ( selector ( "applyOp(uint256)" ) ==Int #asWord ( b"i\xab\xff ...
+┃      pc: 39
+┃      callDepth: 1
 ┃      statusCode: STATUSCODE:StatusCode
+┃      src: test/CSE.t.sol:9:34
 ┃
 ┗━━┓ constraint: { true #Equals ( notBool pow64 <=Int VV0_x_114b9705:Int ) }
    │
