@@ -2,7 +2,11 @@
   description = "Kontrol";
 
   inputs = {
+<<<<<<< HEAD
     kevm.url = "github:runtimeverification/evm-semantics/v1.0.466";
+=======
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.473";
+>>>>>>> origin/master
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
