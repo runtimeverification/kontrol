@@ -12,7 +12,7 @@ from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
-from pyk.proof.reachability import APRProof
+from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path
 
@@ -309,7 +309,7 @@ def exec_prove(
             failed += 1
             print(f'PROOF FAILED: {proof.id}')
             failure_log = None
-            if isinstance(proof, APRProof):
+            if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
             if failure_info and failure_log is not None:
                 log = failure_log.print() + Foundry.help_info()

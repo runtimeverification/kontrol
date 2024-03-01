@@ -8,6 +8,7 @@ import pytest
 from filelock import FileLock
 from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
+from pyk.proof.reachability import APRFailureInfo
 from pyk.utils import run_process, single
 
 from kontrol.foundry import (
@@ -494,6 +495,7 @@ def assert_pass(test: str, proof: Proof) -> None:
     if not proof.passed:
         if isinstance(proof, APRProof):
             assert proof.failure_info
+            assert isinstance(proof.failure_info, APRFailureInfo)
             pytest.fail('\n'.join(proof.failure_info.print()))
         else:
             pytest.fail()
