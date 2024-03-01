@@ -642,6 +642,18 @@ def _init_cterm(
         init_cterm = init_cterm.add_constraint(
             mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
         )
+
+    # The calling contract is assumed to be in the present accounts for non-tests
+    if not (is_test or is_setup or is_constructor or active_symbolik):
+        init_cterm.add_constraint(
+            mlEqualsFalse(
+                KApply(
+                    '_in_keys(_)_MAP_Bool_KItem_Map',
+                    [KVariable('CALLER_ID', sort=KSort('Int')), init_cterm.cell('ACCOUNTS_CELL')],
+                )
+            )
+        )
+
     init_cterm = KEVM.add_invariant(init_cterm)
 
     return init_cterm

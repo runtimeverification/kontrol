@@ -14,10 +14,10 @@ module CSE-LEMMAS
       requires #rangeUInt ( 256 , X )
       [simplification]
 
-    // for-loop chop
-    rule chop ( ( X:Int +Int Y:Int ) ) ==Int 0 => X ==Int pow256 -Int (Y modInt pow256)
-      requires #rangeUInt(256, X) andBool 0 <=Int Y
-      [simplification, concrete(Y)]
+    // // for-loop chop
+    // rule chop ( ( X:Int +Int Y:Int ) ) ==Int 0 => X ==Int pow256 -Int (Y modInt pow256)
+    //   requires #rangeUInt(256, X) andBool 0 <=Int Y
+    //   [simplification, concrete(Y)]
 
     // Set equality needed for discharging `#Not ( #Exists ( ... )` on `<accessedAccounts>` unification
     rule { S1:Set #Equals S2:Set |Set SetItem ( X ) } =>
@@ -29,9 +29,6 @@ module CSE-LEMMAS
     rule { B1:Bytes #Equals B2:Bytes } => #Bottom
       requires lengthBytes(B1) =/=Int lengthBytes(B2)
       [simplification]
-
-    // Boolean simplifications
-    rule false andBool _ => false [simplification]
 
 endmodule
 
