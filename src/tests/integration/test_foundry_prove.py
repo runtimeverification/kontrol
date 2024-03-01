@@ -160,6 +160,7 @@ def test_foundry_prove(
         prove_options=prove_options,
         rpc_options=RPCOptions(
             port=server.port,
+            smt_timeout=500
         ),
     )
 

@@ -26,7 +26,7 @@
 │   callDepth: 1
 │   statusCode: EVMC_SUCCESS
 │
-│  (162 steps)
+│  (160 steps)
 ├─ 6
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 194
@@ -54,7 +54,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (506 steps)
+│  (505 steps)
 ├─ 11
 │   k: STATICCALL 0 491460923342184218035706888008750043977755113263 128 68 128 32 ~> # ...
 │   pc: 1978
@@ -112,7 +112,7 @@
 ┃  │   callDepth: 1
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
-┃  │  (392 steps)
+┃  │  (391 steps)
 ┃  ├─ 22
 ┃  │   k: STATICCALL 0 491460923342184218035706888008750043977755113263 160 68 160 32 ~> # ...
 ┃  │   pc: 2095
@@ -201,7 +201,7 @@
 ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (2 steps)
-┃  ┃  ┃  ├─ 46 (terminal)
+┃  ┃  ┃  ├─ 46
 ┃  ┃  ┃  │   k: #halt ~> CONTINUATION:K
 ┃  ┃  ┃  │   pc: 194
 ┃  ┃  ┃  │   callDepth: 0
