@@ -158,10 +158,7 @@ def test_foundry_prove(
         foundry,
         tests=[(test_id, None)],
         prove_options=prove_options,
-        rpc_options=RPCOptions(
-            port=server.port,
-            smt_timeout=500
-        ),
+        rpc_options=RPCOptions(port=server.port, smt_timeout=500),
     )
 
     # Then
