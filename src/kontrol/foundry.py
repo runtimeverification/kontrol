@@ -725,7 +725,7 @@ def foundry_simplify_node(
         port=rpc_options.port,
         maude_port=rpc_options.maude_port,
     ) as kcfg_explore:
-        new_term, _ = kcfg_explore.cterm_simplify(cterm)
+        new_term, _ = kcfg_explore.cterm_symbolic.simplify(cterm)
     if replace:
         apr_proof.kcfg.replace_node(node, new_term)
         apr_proof.write_proof_data()

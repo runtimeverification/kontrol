@@ -40,7 +40,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (244 steps)
+│  (242 steps)
 ├─ 8
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 281
@@ -55,7 +55,7 @@
 │   statusCode: EVMC_SUCCESS
 │
 │  (2 steps)
-├─ 10 (terminal)
+├─ 10
 │   k: #halt ~> CONTINUATION:K
 │   pc: 281
 │   callDepth: 0
@@ -270,11 +270,16 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))))
+               ))))))))))))))
+       ensures ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
@@ -479,7 +484,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -686,7 +693,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               ))))))))))))))
        ensures VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
@@ -892,7 +901,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
@@ -1098,7 +1109,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-7)]
     
     rule [BASIC-BLOCK-7-TO-8]: <foundry>
@@ -1180,7 +1193,7 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
-                     ( .Map => ( 728815563385977040452943777879061427756277306518 |-> SetItem ( 7 ) ) )
+                     .Map
                    </accessedStorage>
                    ...
                  </substate>
@@ -1305,7 +1318,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-7-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1386,7 +1401,7 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
-                     ( 728815563385977040452943777879061427756277306518 |-> SetItem ( 7 ) )
+                     .Map
                    </accessedStorage>
                    ...
                  </substate>
@@ -1511,7 +1526,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
@@ -1592,7 +1609,7 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
-                     ( 728815563385977040452943777879061427756277306518 |-> SetItem ( 7 ) )
+                     .Map
                    </accessedStorage>
                    ...
                  </substate>
@@ -1717,7 +1734,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
+       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-10)]
 
 endmodule
