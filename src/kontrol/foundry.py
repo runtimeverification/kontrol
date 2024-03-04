@@ -306,18 +306,22 @@ class Foundry:
 
     def get_test_id(self, test: str, version: int | None) -> str:
         matching_proof_ids = self.proof_ids_with_test(test, version)
-        sig = single(self.matching_sigs(test))
-        if len(matching_proof_ids) == 0:
+        matching_sigs = self.matching_sigs(test)
+        sig = single(matching_sigs)
+        
+        if not matching_proof_ids:
             raise ValueError(f'Found no matching proofs for {test}:{version}.')
+        
         if len(matching_proof_ids) > 1:
             if version is None:
-                raise ValueError(
-                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
-                )
+                print(f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Running the latest one. Use the `--version` flag to choose one.')
+                version = self.resolve_proof_version(matching_sigs[0], False, version)
+                matching_proof_ids = self.proof_ids_with_test(test, version)
+                # Re-fetch sig since version could be resolved to a specific one now
+                sig = single(self.matching_sigs(test))
             else:
-                raise ValueError(
-                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide a full signature of the test, e.g., {sig[5:]!r} --version {version}.'
-                )
+                raise ValueError(f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide a full signature of the test, e.g., {sig[5:]!r} --version {version}.')
+
         return single(matching_proof_ids)
 
     @staticmethod
