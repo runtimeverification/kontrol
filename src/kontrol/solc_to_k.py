@@ -1046,7 +1046,7 @@ def _range_predicates(abi: KApply, dynamic_type_length: int | None = None) -> li
 
 def _range_collection_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
     rp: list[KInner | None] = []
-    if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
+    if abi.label.name == 'typedArgs':
         if type(abi.args[0]) is KApply:
             rp += _range_predicates(abi.args[0], dynamic_type_length)
         if type(abi.args[1]) is KApply:
