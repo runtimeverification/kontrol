@@ -27,7 +27,7 @@ from pyk.prelude.collections import map_empty
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRProof
+from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
@@ -731,21 +731,21 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
         )
 
         if not proof.passed:
-            if proof.failure_info is None:
+            if proof.error_info is not None:
                 error = Et.SubElement(testcase, 'error', message='Exception')
-                if proof.error_info is not None:
-                    trace = traceback.format_exception(proof.error_info)
-                    error.set('type', str(type(proof.error_info).__name__))
-                    error.text = '\n' + ' '.join(trace)
+                trace = traceback.format_exception(proof.error_info)
+                error.set('type', str(type(proof.error_info).__name__))
+                error.text = '\n' + ' '.join(trace)
                 testsuite.set('errors', str(int(testsuite.get('errors', 0)) + 1))
                 testsuites.set('errors', str(int(testsuites.get('errors', 0)) + 1))
             else:
-                failure = Et.SubElement(testcase, 'failure', message='Proof failed')
-                text = proof.failure_info.print()
-                failure.set('message', text[0])
-                failure.text = '\n'.join(text[1:-1])
-                testsuite.set('failures', str(int(testsuite.get('failures', 0)) + 1))
-                testsuites.set('failures', str(int(testsuites.get('failures', 0)) + 1))
+                if proof.failure_info is not None and isinstance(proof.failure_info, APRFailureInfo):
+                    failure = Et.SubElement(testcase, 'failure', message='Proof failed')
+                    text = proof.failure_info.print()
+                    failure.set('message', text[0])
+                    failure.text = '\n'.join(text[1:-1])
+                    testsuite.set('failures', str(int(testsuite.get('failures', 0)) + 1))
+                    testsuites.set('failures', str(int(testsuites.get('failures', 0)) + 1))
 
     testsuites.set('tests', str(tests))
     testsuites.set('time', str(total_exec_time))
