@@ -18,14 +18,23 @@ module HEVM-SUCCESS
         output: Bytes
       ")" [function, klabel(hevm_success), symbol]
  // ----------------------------------------------
-    rule hevm_success(EVMC_INVALID_INSTRUCTION, _, _) => false
-    rule hevm_success(EVMC_REVERT, _, OUT)            => false
+    rule hevm_success(EVMC_SUCCESS, 0, _)  => true
+    rule hevm_success(EVMC_REVERT, _, OUT) => false
       requires #range(OUT, 0, 4)  ==K Int2Bytes(4, selector ("Panic(uint256)"), BE)
        andBool #range(OUT, 35, 1) ==K b"\x01" //Error code for user defined assertions
-    rule hevm_success(_, DST , _)                     => false requires DST =/=Int 0
-    rule hevm_success(_, _, _)                        => true [owise]
+    rule hevm_success(EVMC_REVERT, _, _) => true
+    rule hevm_success(_, _, _)           => false [owise]
 
     rule ( selector ( "Panic(uint256)" ) => 1313373041 )
+
+    syntax Bool ::=
+      "hevm_fail" "("
+        statusCode: StatusCode ","
+        failed: Int
+      ")" [function, klabel(hevm_fail), symbol]
+ // -------------------------------------------
+    rule hevm_fail(EVMC_SUCCESS, 0) => false
+    rule hevm_fail(_, _)            => true [owise]
 
 endmodule
 ```

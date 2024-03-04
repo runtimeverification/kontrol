@@ -668,24 +668,32 @@ def _final_cterm(
     final_term = _final_term(empty_config, program, is_test=is_test, is_setup=is_setup)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     final_cterm = CTerm.from_kast(final_term)
-    if not hevm:
-        foundry_success = Foundry.success(
-            KVariable('STATUSCODE_FINAL'),
-            dst_failed_post,
-            KVariable('ISREVERTEXPECTED_FINAL'),
-            KVariable('ISOPCODEEXPECTED_FINAL'),
-            KVariable('RECORDEVENT_FINAL'),
-            KVariable('ISEVENTEXPECTED_FINAL'),
-        )
-        if is_test:
+    if is_test:
+        if not hevm:
+            foundry_success = Foundry.success(
+                KVariable('STATUSCODE_FINAL'),
+                dst_failed_post,
+                KVariable('ISREVERTEXPECTED_FINAL'),
+                KVariable('ISOPCODEEXPECTED_FINAL'),
+                KVariable('RECORDEVENT_FINAL'),
+                KVariable('ISEVENTEXPECTED_FINAL'),
+            )
             if not failing:
                 return final_cterm.add_constraint(mlEqualsTrue(foundry_success))
             else:
                 return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
-    else:
-        return final_cterm.add_constraint(
-            mlEqualsTrue(Hevm.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL')))
-        )
+        else:
+            if not failing:
+                return final_cterm.add_constraint(
+                    mlEqualsTrue(
+                        Hevm.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL'))
+                    )
+                )
+            else:
+                return final_cterm.add_constraint(
+                    mlEqualsTrue(Hevm.hevm_fail(KVariable('STATUSCODE_FINAL'), dst_failed_post))
+                )
+
     return final_cterm
 
 
