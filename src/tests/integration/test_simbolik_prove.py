@@ -2,27 +2,28 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pyk.kast.inner import KSort, KToken
+from pyk.kast.inner import KApply, KSort, KToken
 from pyk.utils import single
 
-from kontrol.foundry import Foundry
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
-from .test_foundry_prove import assert_pass, foundry, server  # noqa: F403
+from .test_foundry_prove import assert_pass, foundry, server  # noqa: F401
 
 if TYPE_CHECKING:
 
     from pyk.kore.rpc import KoreServer
     from pyk.utils import BugReport
 
+    from kontrol.foundry import Foundry
+
 
 def test_simbolik_prove(
-    foundry: Foundry,
+    foundry: Foundry,  # noqa: F811
     bug_report: BugReport | None,
-    server: KoreServer,
+    server: KoreServer,  # noqa: F811
 ) -> None:
-    test_id = "SimbolikCode.getNumber()"
+    test_id = 'SimbolikCode.getNumber()'
 
     prove_options = ProveOptions(
         bug_report=bug_report,
@@ -44,15 +45,15 @@ def test_simbolik_prove(
     # All accounts must have a concrete address and code cell
     init_node = proof.kcfg.node(proof.init)
 
-    accounts = init_node.cterm.cells.get("ACCOUNTS_CELL", None)
-    assert accounts is not None
+    accounts = init_node.cterm.cells.get('ACCOUNTS_CELL', None)
+    assert isinstance(accounts, KApply)
     assert 0 < len(accounts.args)
 
-    empty = foundry.kevm.definition.empty_config(KSort("AccountCell"))
+    empty = foundry.kevm.definition.empty_config(KSort('AccountCell'))
     for account in accounts.args:
         subst = empty.match(account)
         assert subst is not None
-        acct_id = subst.get("ACCTID_CELL", None)
+        acct_id = subst.get('ACCTID_CELL', None)
         assert isinstance(acct_id, KToken)
-        code = subst.get("CODE_CELL", None)
+        code = subst.get('CODE_CELL', None)
         assert isinstance(code, KToken)
