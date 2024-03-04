@@ -738,7 +738,8 @@ def test_foundry_refute_node(
 ALL_HEVM_TESTS: Final = (
     'HevmTests.prove_require_assert_true',
     'HevmTests.proveFail_require_assert',
-    'HevmTests.prove_overflow',
+    'HevmTests.prove_revert',
+    'HevmTests.prove_overflow'
 )
 
 
