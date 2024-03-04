@@ -1051,7 +1051,7 @@ def _range_collection_predicates(abi: KApply, dynamic_type_length: int | None = 
             rp += _range_predicates(abi.args[0], dynamic_type_length)
         if type(abi.args[1]) is KApply:
             rp += _range_collection_predicates(abi.args[1], dynamic_type_length)
-    elif abi.label.name == KEVM.empty_typedargs():
+    elif abi.label.name == '.List{"typedArgs"}':
         return rp
     else:
         raise AssertionError('No list of typed args found')
