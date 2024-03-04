@@ -84,7 +84,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                 foundry=Foundry(foundry_root),
                 includes=(),
                 requires=[str(TEST_DATA_DIR / 'sum-to-n-lemmas.k'), str(TEST_DATA_DIR / 'pausability-lemmas.k')],
-                imports=['LoopsTest:SUM-TO-N-INVARIANT', 'PortalTest:PAUSABILITY-LEMMAS'],
+                imports=['LoopsTest:SUM-TO-N-INVARIANT', 'OptimismPortalKontrol:PAUSABILITY-LEMMAS'],
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')

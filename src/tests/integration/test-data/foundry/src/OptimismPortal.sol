@@ -1,30 +1,18 @@
-pragma solidity ^0.8.13;
+pragma solidity 0.8.15;
 
-library Types {
-    struct OutputRootProof {
-        bytes32 version;
-        bytes32 stateRoot;
-        bytes32 messagePasserStorageRoot;
-        bytes32 latestBlockhash;
-    }
+import { Types } from "./libraries/Types.sol";
 
-    struct WithdrawalTransaction {
-        uint256 nonce;
-        address sender;
-        address target;
-        uint256 value;
-        uint256 gasLimit;
-        bytes data;
-    }
-}
+contract OptimismPortal  {
 
-contract Portal  {
     bool paused;
 
-    /// @notice Emitted when a withdrawal transaction is proven.
-    /// @param from           Address that triggered the withdrawal transaction.
-    /// @param to             Address that the withdrawal transaction is directed to.
-    event WithdrawalProven(address indexed from, address indexed to);
+    /// @notice Emitted when the pause is triggered.
+    /// @param account Address of the account triggering the pause.
+    event Paused(address account);
+
+    /// @notice Emitted when the pause is lifted.
+    /// @param account Address of the account triggering the unpause.
+    event Unpaused(address account);
 
     /// @notice Reverts when paused.
     modifier whenNotPaused() {
@@ -51,7 +39,5 @@ contract Portal  {
         external
         whenNotPaused
     {
-        // Emit a `WithdrawalProven` event.
-        emit WithdrawalProven(_tx.sender, _tx.target);
     }
 }
