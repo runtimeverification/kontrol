@@ -19,7 +19,7 @@ from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRProof
+from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry
@@ -32,7 +32,6 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
     from pyk.kcfg import KCFGExplore
-    from pyk.proof.reachability import APRFailureInfo
 
     from .deployment import DeploymentStateEntry
     from .options import ProveOptions, RPCOptions
@@ -255,6 +254,8 @@ def _run_cfg_group(
             )
 
             # Only return the failure info to avoid pickling the whole proof
+            if proof.failure_info is not None and not isinstance(proof.failure_info, APRFailureInfo):
+                raise RuntimeError('Generated failure info for APRProof is not APRFailureInfo.')
             return proof.failure_info
 
     failure_infos: list[APRFailureInfo | None]
@@ -368,7 +369,7 @@ def _method_to_initialized_cfg(
         init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
         init_cterm = CTerm.from_kast(init_term)
         _LOGGER.info(f'Computing definedness constraint for node {node_id} for test: {test.name}')
-        init_cterm = kcfg_explore.cterm_assume_defined(init_cterm)
+        init_cterm = kcfg_explore.cterm_symbolic.assume_defined(init_cterm)
         kcfg.replace_node(node_id, init_cterm)
 
     _LOGGER.info(f'Expanding macros in target state for test: {test.name}')
