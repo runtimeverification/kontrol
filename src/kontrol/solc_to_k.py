@@ -646,6 +646,12 @@ class Contract:
                 _fields[_l] = _s
             self.fields = FrozenDict(_fields)
 
+        if self.constructor is None:
+            for method in contract_json['abi']:
+                if method['type'] == 'function':
+                    _c = Contract.Constructor(method, self._name, self.digest, self.storage_digest, self.sort_method)
+                    self.constructor = _c
+
     @cached_property
     def name_with_path(self) -> str:
         contract_path_without_filename = '%'.join(self.contract_path.split('/')[0:-1])
