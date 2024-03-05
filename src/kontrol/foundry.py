@@ -426,7 +426,7 @@ class Foundry:
         return matches
 
     def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
-        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), test, version)
+        proof_ids = self.filter_proof_ids(self.list_proof_dir(), test, version)
         _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {test}:{version}: {proof_ids}')
         return proof_ids
 

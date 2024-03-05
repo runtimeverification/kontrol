@@ -1,65 +1,42 @@
 from __future__ import annotations
 
-from functools import cached_property
-from typing import cast
+from typing import TYPE_CHECKING
 
 import pytest
 
 from kontrol.foundry import Foundry
 
+if TYPE_CHECKING:
+    pass
 
-class FoundryMock:
-
-    @cached_property
-    def all_tests(self) -> list[str]:
-        return [
-            'test%AssertTest.checkFail_assert_false()',
-            'test%AssertTest.test_assert_false()',
-            'test%AssertTest.test_assert_true()',
-            'test%AssertTest.testFail_assert_true()',
-        ]
-
-    @cached_property
-    def all_non_tests(self) -> list[str]:
-        return ['test%AssertTest.setUp()']
-
-    # NOTE: Hardcoded list of proofs used to mock Foundry.proof_ids_with_test()
-    @cached_property
-    def proof_ids(self) -> list[str]:
-        return [
-            'test%AssertTest.checkFail_assert_false():0',
-            'test%AssertTest.test_assert_false():0',
-            'test%AssertTest.test_assert_true():0',
-            'test%AssertTest.testFail_assert_true():0',
-            'test%AssertTest.setUp():0',
-            'test%AssertTest.setUp():1',
-        ]
-
-    def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
-        return Foundry.filter_proof_ids(self.proof_ids, test, version)
-
-    # NOTE: Mocked to call directly Foundry.matching_tests() according to the implementation from foundry.py.
-    # NOTE: This way we don't mock both Foundry.matching_sigs() and Foundry.matching_tests().
-    def matching_sigs(self, test: str) -> list[str]:
-        foundry = cast('Foundry', self)
-        return Foundry.matching_tests(foundry, [test])
-
-    def get_test_id(self, test: str, version: int | None) -> str:
-        foundry = cast('Foundry', self)
-        return Foundry.get_test_id(foundry, test, version)
-
-    # NOTE: hardcoded method required to mock Foundry.get_test_id().
-    # NOTE: It finds 1 as the highest version of any proof.
-    def resolve_proof_version(
-        self,
-        test: str,
-        reinit: bool,
-        user_specified_version: int | None,
-    ) -> int:
-        return 1
+    from _pytest.monkeypatch import MonkeyPatch  # Importing the type for annotation
 
 
-TEST_ID_DATA = [
+def mock_listdir(_f: Foundry) -> list[str]:
+    return [
+        'test%AssertTest.checkFail_assert_false():0',
+        'test%AssertTest.test_assert_false():0',
+        'test%AssertTest.test_assert_true():0',
+        'test%AssertTest.testFail_assert_true():0',
+        'test%AssertTest.setUp():0',
+        'test%AssertTest.setUp():1',
+    ]
+
+
+def mock_all_tests() -> list[str]:
+    return [
+        'test%AssertTest.checkFail_assert_false()',
+        'test%AssertTest.test_assert_false()',
+        'test%AssertTest.test_assert_true()',
+        'test%AssertTest.testFail_assert_true()',
+    ]
+
+
+def mock_all_non_tests() -> list[str]:
+    return ['test%AssertTest.setUp()']
+
+
+TEST_ID_DATA: list[tuple[str, str, int | None, bool, str]] = [
     (
         'with_version',
         'AssertTest.setUp()',
@@ -102,11 +79,17 @@ TEST_ID_DATA = [
     'test_id,test,version,expect_error,expected_str', TEST_ID_DATA, ids=[test_id for test_id, *_ in TEST_ID_DATA]
 )
 def test_foundry_get_test_id(
-    test_id: str, test: str, version: int | None, expect_error: bool, expected_str: str
+    monkeypatch: MonkeyPatch, test_id: str, test: str, version: int | None, expect_error: bool, expected_str: str
 ) -> None:
 
     # Given
-    foundry = cast('Foundry', FoundryMock())
+    monkeypatch.setattr(Foundry, '__init__', lambda _: None)
+    monkeypatch.setattr(Foundry, 'list_proof_dir', mock_listdir)
+    monkeypatch.setattr(Foundry, 'all_tests', mock_all_tests())
+    monkeypatch.setattr(Foundry, 'all_non_tests', mock_all_non_tests())
+    monkeypatch.setattr(Foundry, 'resolve_proof_version', lambda _self, _test, _reinit, _version: 1)
+
+    foundry = Foundry()  # type: ignore
 
     if expect_error:
         # When/Then
