@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+import xml.etree.ElementTree as Et
 from distutils.dir_util import copy_tree
 from typing import TYPE_CHECKING
 
@@ -8,6 +9,7 @@ import pytest
 from filelock import FileLock
 from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
+from pyk.proof.reachability import APRFailureInfo
 from pyk.utils import run_process, single
 
 from kontrol.foundry import (
@@ -157,9 +159,7 @@ def test_foundry_prove(
         foundry,
         tests=[(test_id, None)],
         prove_options=prove_options,
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
+        rpc_options=RPCOptions(port=server.port, smt_timeout=500),
     )
 
     # Then
@@ -494,6 +494,7 @@ def assert_pass(test: str, proof: Proof) -> None:
     if not proof.passed:
         if isinstance(proof, APRProof):
             assert proof.failure_info
+            assert isinstance(proof.failure_info, APRFailureInfo)
             pytest.fail('\n'.join(proof.failure_info.print()))
         else:
             pytest.fail()
@@ -733,3 +734,42 @@ def test_foundry_refute_node(
 
     # Proof passes again
     assert_pass(test, single(prove_res_3))
+
+
+def test_foundry_xml_report(
+    foundry: Foundry,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    foundry_prove(
+        foundry,
+        tests=[
+            ('AssertTest.test_assert_true()', None),
+            ('AssertTest.test_assert_false()', None),
+        ],
+        prove_options=ProveOptions(
+            counterexample_info=True,
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+        xml_test_report=True,
+    )
+
+    tree = Et.parse('kontrol_prove_report.xml')
+    testsuites = tree.getroot()
+    testsuite = testsuites.find('testsuite')
+    assert testsuite
+    assert testsuite.get('name', 'None') == 'AssertTest'
+    assert testsuite.findall('testcase[@name="test_assert_true()"]')
+    failure = testsuite.findall('testcase[@name="test_assert_false()"]')
+    assert failure
+    assert failure[0].findall('failure')
