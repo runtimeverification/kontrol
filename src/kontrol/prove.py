@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import time
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
@@ -22,7 +23,7 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process, unique
 
-from .foundry import Foundry
+from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .solc_to_k import Contract, hex_string_to_int
 
@@ -45,6 +46,7 @@ def foundry_prove(
     rpc_options: RPCOptions,
     tests: Iterable[tuple[str, int | None]] = (),
     include_summaries: Iterable[tuple[str, int | None]] = (),
+    xml_test_report: bool = False,
 ) -> list[APRProof]:
     if prove_options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {prove_options.workers}')
@@ -122,6 +124,10 @@ def foundry_prove(
 
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
     results = _run_prover(test_suite, include_summaries=True)
+
+    if xml_test_report:
+        foundry_to_xml(foundry, results)
+
     return results
 
 
@@ -198,11 +204,12 @@ def _run_cfg_group(
     rpc_options: RPCOptions,
     summary_ids: Iterable[str],
 ) -> list[APRProof]:
-    def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | None:
+    def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
             apr_proof = foundry.get_apr_proof(test.id)
             if apr_proof.passed:
                 return None
+        start_time = time.time()
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
@@ -230,7 +237,6 @@ def _run_cfg_group(
                 active_symbolik=prove_options.active_symbolik,
                 hevm=prove_options.hevm,
             )
-
             cut_point_rules = KEVMSemantics.cut_point_rules(
                 prove_options.break_on_jumpi,
                 prove_options.break_on_calls,
@@ -241,7 +247,6 @@ def _run_cfg_group(
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
                 )
-
             run_prover(
                 proof,
                 kcfg_explore,
@@ -253,12 +258,18 @@ def _run_cfg_group(
                 fail_fast=prove_options.fail_fast,
             )
 
+            end_time = time.time()
+            proof.add_exec_time(end_time - start_time)
+            proof.write_proof_data()
             # Only return the failure info to avoid pickling the whole proof
             if proof.failure_info is not None and not isinstance(proof.failure_info, APRFailureInfo):
                 raise RuntimeError('Generated failure info for APRProof is not APRFailureInfo.')
-            return proof.failure_info
+            if proof.error_info is not None:
+                return proof.error_info
+            else:
+                return proof.failure_info
 
-    failure_infos: list[APRFailureInfo | None]
+    failure_infos: list[APRFailureInfo | Exception | None]
     if prove_options.workers > 1:
         with ProcessPool(ncpus=prove_options.workers) as process_pool:
             failure_infos = process_pool.map(init_and_run_proof, tests)
@@ -272,7 +283,11 @@ def _run_cfg_group(
     # Reconstruct the proof from the subprocess
     for proof, failure_info in zip(proofs, failure_infos, strict=True):
         assert proof.failure_info is None  # Refactor once this fails
-        proof.failure_info = failure_info
+        assert proof.error_info is None
+        if isinstance(failure_info, Exception):
+            proof.error_info = failure_info
+        elif isinstance(failure_info, APRFailureInfo):
+            proof.failure_info = failure_info
 
     return proofs
 
@@ -291,7 +306,6 @@ def method_to_apr_proof(
 ) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
-        apr_proof.write_proof_data()
         return apr_proof
 
     setup_proof = None
@@ -327,7 +341,6 @@ def method_to_apr_proof(
         subproof_ids=summary_ids,
     )
 
-    apr_proof.write_proof_data()
     return apr_proof
 
 
