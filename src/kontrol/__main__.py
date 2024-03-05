@@ -813,7 +813,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='xml_test_report',
         default=False,
         action='store_true',
-        help='Generate a JUnit xml report',
+        help='Generate a JUnit XML report',
     )
 
     show_args = command_parser.add_parser(

@@ -740,7 +740,11 @@ def test_foundry_xml_report(
     foundry: Foundry,
     bug_report: BugReport | None,
     server: KoreServer,
+    no_use_booster: bool,
 ) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
