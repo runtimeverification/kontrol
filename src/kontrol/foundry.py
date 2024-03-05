@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import datetime
 import json
 import logging
 import os
 import re
 import sys
+import traceback
+import xml.etree.ElementTree as Et
 from functools import cached_property
 from os import listdir
 from pathlib import Path
@@ -24,10 +27,11 @@ from pyk.prelude.collections import map_empty
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRProof
+from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
+from . import VERSION
 from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
 
@@ -689,6 +693,84 @@ def foundry_list(foundry: Foundry) -> list[str]:
         lines = lines[0:-1]
 
     return lines
+
+
+def setup_exec_time(foundry: Foundry, contract: Contract) -> float:
+    setup_exec_time = 0.0
+    if 'setUp' in contract.method_by_name:
+        latest_version = foundry.latest_proof_version(f'{contract.name_with_path}.setUp()')
+        setup_digest = f'{contract.name_with_path}.setUp():{latest_version}'
+        apr_proof = APRProof.read_proof_data(foundry.proofs_dir, setup_digest)
+        setup_exec_time = apr_proof.exec_time
+    return setup_exec_time
+
+
+def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
+    testsuites = Et.Element(
+        'testsuites', tests='0', failures='0', errors='0', time='0', timestamp=str(datetime.datetime.now())
+    )
+    tests = 0
+    total_exec_time = 0.0
+    for proof in proofs:
+        tests += 1
+        test, *_ = proof.id.split(':')
+        contract, test_name = test.split('.')
+        _, contract_name = contract.split('%')
+        foundry_contract = foundry.contracts[contract]
+        contract_path = foundry_contract.contract_path
+        proof_exec_time = proof.exec_time
+        testsuite = testsuites.find(f'testsuite[@name={contract_name!r}]')
+        if testsuite is None:
+            proof_exec_time += setup_exec_time(foundry, foundry_contract)
+            testsuite = Et.SubElement(
+                testsuites,
+                'testsuite',
+                name=contract_name,
+                tests='1',
+                failures='0',
+                errors='0',
+                time=str(proof_exec_time),
+                timestamp=str(datetime.datetime.now()),
+            )
+            properties = Et.SubElement(testsuite, 'properties')
+            Et.SubElement(properties, 'property', name='Kontrol version', value=str(VERSION))
+        else:
+            testsuite_exec_time = float(testsuite.get('time', 0)) + proof_exec_time
+            testsuite.set('time', str(testsuite_exec_time))
+            testsuite.set('tests', str(int(testsuite.get('tests', 0)) + 1))
+
+        total_exec_time += proof_exec_time
+        testcase = Et.SubElement(
+            testsuite,
+            'testcase',
+            name=test_name,
+            classname=contract_name,
+            time=str(proof_exec_time),
+            file=contract_path,
+        )
+
+        if not proof.passed:
+            if proof.error_info is not None:
+                error = Et.SubElement(testcase, 'error', message='Exception')
+                trace = traceback.format_exception(proof.error_info)
+                error.set('type', str(type(proof.error_info).__name__))
+                error.text = '\n' + ' '.join(trace)
+                testsuite.set('errors', str(int(testsuite.get('errors', 0)) + 1))
+                testsuites.set('errors', str(int(testsuites.get('errors', 0)) + 1))
+            else:
+                if proof.failure_info is not None and isinstance(proof.failure_info, APRFailureInfo):
+                    failure = Et.SubElement(testcase, 'failure', message='Proof failed')
+                    text = proof.failure_info.print()
+                    failure.set('message', text[0])
+                    failure.text = '\n'.join(text[1:-1])
+                    testsuite.set('failures', str(int(testsuite.get('failures', 0)) + 1))
+                    testsuites.set('failures', str(int(testsuites.get('failures', 0)) + 1))
+
+    testsuites.set('tests', str(tests))
+    testsuites.set('time', str(total_exec_time))
+    tree = Et.ElementTree(testsuites)
+    Et.indent(tree, space='\t', level=0)
+    tree.write('kontrol_prove_report.xml')
 
 
 def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
