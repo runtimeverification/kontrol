@@ -42,40 +42,8 @@ class FoundryMock:
             ret[full_method] = contract
         return ret
 
-    @cached_property
-    def all_tests(self) -> list[str]:
-        return [
-            'test%AssertTest.checkFail_assert_false():0',
-            'test%AssertTest.test_assert_false():0',
-            'test%AssertTest.test_assert_true():0',
-            'test%AssertTest.testFail_assert_true():0',
-        ]
-
-    @cached_property
-    def all_non_tests(self) -> list[str]:
-        return ['test%AssertTest.setUp():0']
-
     def get_optional_proof(self, test_id: str) -> Proof | None:
         return Proof.read_proof_data(LIST_APR_PROOF, test_id)
-
-    def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
-        return Foundry.filter_proof_ids(listdir(self.proofs_dir), test, version)
-
-    def matching_sigs(self, test: str) -> list[str]:
-        foundry = cast('Foundry', self)
-        return Foundry.matching_tests(foundry, [test])
-
-    def get_test_id(self, test: str, version: int | None) -> str:
-        foundry = cast('Foundry', self)
-        return Foundry.get_test_id(foundry, test, version)
-
-    def resolve_proof_version(
-        self,
-        test: str,
-        reinit: bool,
-        user_specified_version: int | None,
-    ) -> int:
-        return 1
 
 
 def test_foundry_list(update_expected_output: bool) -> None:
@@ -129,32 +97,3 @@ def test_proof_identification(test_id: str, test_name: str, proof_ids: list[str]
 
     # Then
     assert actual == expected
-
-
-TEST_ID_DATA = [
-    (
-        'with_version',
-        'AssertTest.setUp()',
-        0,
-        'test%AssertTest.setUp():0',
-    ),
-    (
-        'without_version',
-        'AssertTest.setUp()',
-        None,
-        'test%AssertTest.setUp():1',
-    ),
-]
-
-
-@pytest.mark.parametrize('test_id,test,version,expected', TEST_ID_DATA, ids=[test_id for test_id, *_ in TEST_ID_DATA])
-def test_foundry_get_test_id1(test_id: str, test: str, version: int | None, expected: str) -> None:
-
-    # Given
-    foundry = cast('Foundry', FoundryMock())
-
-    # When
-    id = foundry.get_test_id(test, version)
-
-    # Then
-    assert id == expected
