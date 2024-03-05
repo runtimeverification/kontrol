@@ -814,7 +814,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='hevm',
         default=False,
         action='store_true',
-        help="Use hevm success predicate instead of foundry to determine if a test is passing",
+        help='Use hevm success predicate instead of foundry to determine if a test is passing',
     )
 
     show_args = command_parser.add_parser(

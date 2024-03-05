@@ -1,6 +1,6 @@
-### Hevm Success Predicate
+### hevm Success Predicate
 
-The [Hevm](https://github.com/ethereum/hevm) success predicate option was implemented for [benchmarking](https://github.com/eth-sc-comp/benchmarks/tree/deb3faa7e42993a057ba52935368a89f08970f19) purposes.
+The [hevm](https://github.com/ethereum/hevm) success predicate option was implemented for [benchmarking](https://github.com/eth-sc-comp/benchmarks/tree/deb3faa7e42993a057ba52935368a89f08970f19) purposes.
 
 `hevm symbolic` searches for assertions violations, where an assertion violation is defined as either an execution of the invalid opcode (`0xfe`), or a revert with a message of the form `abi.encodeWithSelector('Panic(uint256)', errCode)` with `errCode` being one of the predefined Solidity assertion codes defined [here](https://docs.soliditylang.org/en/latest/control-structures.html#panic-via-assert-and-error-via-require) (by default, `hevm` ignores assertion violations that result from arithmetic overflow (`Panic(0x11)`).
 

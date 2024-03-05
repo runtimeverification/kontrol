@@ -374,9 +374,7 @@ class Foundry:
                 'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
             )
         res_lines.append('')
-        res_lines.append(
-            'Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol'
-        )
+        res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
         return res_lines
 
     @staticmethod
