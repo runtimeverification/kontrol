@@ -315,7 +315,7 @@ def exec_prove(
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
             if failure_info and failure_log is not None:
-                log = failure_log.print() + (Foundry.help_info() if not hevm else Hevm.help_info())
+                log = failure_log.print() + (Foundry.help_info() if not hevm else Hevm.help_info(proof.id))
                 for line in log:
                     print(line)
 

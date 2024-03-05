@@ -10,14 +10,20 @@ if TYPE_CHECKING:
 
 class Hevm:
     @staticmethod
-    def help_info() -> list[str]:
+    def help_info(proof_id: str) -> list[str]:
         res_lines: list[str] = []
-        print_hevm_success_info = any('hevm_success' in line for line in res_lines)
-        if print_hevm_success_info:
+        _, test = proof_id.split('.')
+        if not test.startswith('proveFail'):
             res_lines.append('')
             res_lines.append('See `hevm_success` predicate for more information:')
             res_lines.append(
                 'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-success-predicate'
+            )
+        else:
+            res_lines.append('')
+            res_lines.append('See `hevm_fail` predicate for more information:')
+            res_lines.append(
+                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-fail-predicate'
             )
         res_lines.append('')
         res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
