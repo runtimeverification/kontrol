@@ -736,32 +736,6 @@ def test_foundry_refute_node(
     assert_pass(test, single(prove_res_3))
 
 
-<<<<<<< HEAD
-ALL_HEVM_TESTS_PASSING: Final = (
-    'HevmTests.prove_require_assert_true',
-    'HevmTests.proveFail_require_assert',
-    'HevmTests.prove_revert',
-)
-
-
-@pytest.mark.parametrize('test', ALL_HEVM_TESTS_PASSING)
-def test_hevm_prove_passing(
-    test: str,
-    foundry: Foundry,
-    bug_report: BugReport | None,
-    server: KoreServer,
-) -> None:
-    if bug_report is not None:
-        server._populate_bug_report(bug_report)
-
-    prove_res = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(
-            counterexample_info=True,
-            bug_report=bug_report,
-            hevm=True,
-=======
 def test_foundry_xml_report(
     foundry: Foundry,
     bug_report: BugReport | None,
@@ -783,48 +757,10 @@ def test_foundry_xml_report(
         prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
->>>>>>> master
         ),
         rpc_options=RPCOptions(
             port=server.port,
         ),
-<<<<<<< HEAD
-    )
-
-    assert_pass(test, single(prove_res))
-
-
-ALL_HEVM_TESTS_FAILING: Final = (
-    'HevmTests.prove_require_assert_false',
-    'HevmTests.proveFail_all_branches',
-)
-
-
-@pytest.mark.parametrize('test', ALL_HEVM_TESTS_FAILING)
-def test_hevm_prove_failing(
-    test: str,
-    foundry: Foundry,
-    bug_report: BugReport | None,
-    server: KoreServer,
-) -> None:
-    if bug_report is not None:
-        server._populate_bug_report(bug_report)
-
-    prove_res = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(
-            counterexample_info=True,
-            bug_report=bug_report,
-            hevm=True,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-    )
-
-    assert_fail(test, single(prove_res))
-=======
         xml_test_report=True,
     )
 
@@ -837,4 +773,3 @@ def test_hevm_prove_failing(
     failure = testsuite.findall('testcase[@name="test_assert_false()"]')
     assert failure
     assert failure[0].findall('failure')
->>>>>>> master
