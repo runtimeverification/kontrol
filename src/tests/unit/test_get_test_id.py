@@ -38,6 +38,8 @@ class FoundryMock:
     def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
         return Foundry.filter_proof_ids(self.proof_ids, test, version)
 
+    # NOTE: Mocked to call directly Foundry.matching_tests() according to the implementation from foundry.py.
+    # NOTE: This way we don't mock both Foundry.matching_sigs() and Foundry.matching_tests().
     def matching_sigs(self, test: str) -> list[str]:
         foundry = cast('Foundry', self)
         return Foundry.matching_tests(foundry, [test])
@@ -70,6 +72,18 @@ TEST_ID_DATA = [
         None,
         'test%AssertTest.setUp():1',
     ),
+    (
+        'proof_not_found',
+        'AssertTest.setUp()',
+        3,
+        'Found\\ no\\ matching\\ proofs\\ for\\ AssertTest\\.setUp\\(\\):3\\.',
+    ),
+    (
+        'multiple_matches',
+        'AssertTest.test_assert',
+        0,
+        'Found\\ 2\\ matching\\ proofs\\ for\\ AssertTest\\.test_assert:0\\.',
+    ),
 ]
 
 
@@ -79,8 +93,13 @@ def test_foundry_get_test_id(test_id: str, test: str, version: int | None, expec
     # Given
     foundry = cast('Foundry', FoundryMock())
 
-    # When
-    id = foundry.get_test_id(test, version)
+    if test_id in ['proof_not_found', 'multiple_matches']:
+        # When/Then
+        with pytest.raises(ValueError, match=expected):
+            foundry.get_test_id(test, version)
+    else:
+        # When
+        id = foundry.get_test_id(test, version)
 
-    # Then
-    assert id == expected
+        # Then
+        assert id == expected
