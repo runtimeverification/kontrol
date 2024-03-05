@@ -1399,9 +1399,9 @@ module S2KtestZModArithmeticCallTest-CONTRACT
     
     syntax S2KtestZModArithmeticCallTestMethod ::= "S2KtestZUnddoubleZUndadd" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(""), klabel(method_test%ArithmeticCallTest_S2KtestZUnddoubleZUndadd_uint256_uint256)]
     
-    syntax S2KtestZModArithmeticCallTestMethod ::= "S2KtestZUnddoubleZUndaddZUnddoubleZUndsub" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%ArithmeticCallTest_S2KtestZUnddoubleZUndaddZUnddoubleZUndsub_uint256_uint256)]
+    syntax S2KtestZModArithmeticCallTestMethod ::= "S2KtestZUnddoubleZUndaddZUnddoubleZUndsub" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(""), klabel(method_test%ArithmeticCallTest_S2KtestZUnddoubleZUndaddZUnddoubleZUndsub_uint256_uint256)]
     
-    syntax S2KtestZModArithmeticCallTestMethod ::= "S2KtestZUnddoubleZUndaddZUndsubZUndexternal" "(" Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_test%ArithmeticCallTest_S2KtestZUnddoubleZUndaddZUndsubZUndexternal_uint256_uint256_uint256)]
+    syntax S2KtestZModArithmeticCallTestMethod ::= "S2KtestZUnddoubleZUndaddZUndsubZUndexternal" "(" Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(""), klabel(method_test%ArithmeticCallTest_S2KtestZUnddoubleZUndaddZUndsubZUndexternal_uint256_uint256_uint256)]
     
     rule  ( S2KtestZModArithmeticCallTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
@@ -1442,13 +1442,13 @@ module S2KtestZModArithmeticCallTest-CONTRACT
                ))
       
     
-    rule  ( S2KtestZModArithmeticCallTest . S2KtestZUnddoubleZUndaddZUnddoubleZUndsub ( V0_x : uint256 , V1_y : uint256 ) => #abiCallData ( "test_double_add_double_sub" , #uint256 ( V0_x ) , #uint256 ( V1_y ) , .TypedArgs ) )
+    rule  ( S2KtestZModArithmeticCallTest . S2KtestZUnddoubleZUndaddZUnddoubleZUndsub ( V0_x : uint256 , V1_y : uint256 ) => #abiCallData ( "test_double_add_double_sub" , ( #uint256 ( V0_x ) , ( #uint256 ( V1_y ) , .TypedArgs ) ) ) )
        ensures ( #rangeUInt ( 256 , V0_x )
        andBool ( #rangeUInt ( 256 , V1_y )
                ))
       
     
-    rule  ( S2KtestZModArithmeticCallTest . S2KtestZUnddoubleZUndaddZUndsubZUndexternal ( V0_x : uint256 , V1_y : uint256 , V2_z : uint256 ) => #abiCallData ( "test_double_add_sub_external" , #uint256 ( V0_x ) , #uint256 ( V1_y ) , #uint256 ( V2_z ) , .TypedArgs ) )
+    rule  ( S2KtestZModArithmeticCallTest . S2KtestZUnddoubleZUndaddZUndsubZUndexternal ( V0_x : uint256 , V1_y : uint256 , V2_z : uint256 ) => #abiCallData ( "test_double_add_sub_external" , ( #uint256 ( V0_x ) , ( #uint256 ( V1_y ) , ( #uint256 ( V2_z ) , .TypedArgs ) ) ) ) )
        ensures ( #rangeUInt ( 256 , V0_x )
        andBool ( #rangeUInt ( 256 , V1_y )
        andBool ( #rangeUInt ( 256 , V2_z )
@@ -1515,7 +1515,7 @@ module S2KsrcZModArithmeticContract-CONTRACT
     
     syntax S2KsrcZModArithmeticContractMethod ::= "S2Kadd" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(""), klabel(method_src%ArithmeticContract_S2Kadd_uint256_uint256)]
     
-    syntax S2KsrcZModArithmeticContractMethod ::= "S2KaddZUndsubZUndexternal" "(" Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(), klabel(method_src%ArithmeticContract_S2KaddZUndsubZUndexternal_uint256_uint256_uint256)]
+    syntax S2KsrcZModArithmeticContractMethod ::= "S2KaddZUndsubZUndexternal" "(" Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol(""), klabel(method_src%ArithmeticContract_S2KaddZUndsubZUndexternal_uint256_uint256_uint256)]
     
     syntax S2KsrcZModArithmeticContractMethod ::= "S2Kaddi" "(" Int ":" "uint256" "," Int ":" "int128" ")" [symbol(""), klabel(method_src%ArithmeticContract_S2Kaddi_uint256_int128)]
     
@@ -1529,14 +1529,14 @@ module S2KsrcZModArithmeticContract-CONTRACT
                ))
       
     
-    rule  ( S2KsrcZModArithmeticContract . S2KaddZUndsubZUndexternal ( V0_x : uint256 , V1_y : uint256 , V2_z : uint256 ) => #abiCallData ( "add_sub_external" , #uint256 ( V0_x ) , #uint256 ( V1_y ) , #uint256 ( V2_z ) , .TypedArgs ) )
+    rule  ( S2KsrcZModArithmeticContract . S2KaddZUndsubZUndexternal ( V0_x : uint256 , V1_y : uint256 , V2_z : uint256 ) => #abiCallData ( "add_sub_external" , ( #uint256 ( V0_x ) , ( #uint256 ( V1_y ) , ( #uint256 ( V2_z ) , .TypedArgs ) ) ) ) )
        ensures ( #rangeUInt ( 256 , V0_x )
        andBool ( #rangeUInt ( 256 , V1_y )
        andBool ( #rangeUInt ( 256 , V2_z )
                )))
       
     
-    rule  ( S2KsrcZModArithmeticContract . S2Kaddi ( V0_x : uint256 , V1_y : int128 ) => #abiCallData ( "addi" , #uint256 ( V0_x ) , #int128 ( V1_y ) , .TypedArgs ) )
+    rule  ( S2KsrcZModArithmeticContract . S2Kaddi ( V0_x : uint256 , V1_y : int128 ) => #abiCallData ( "addi" , ( #uint256 ( V0_x ) , ( #int128 ( V1_y ) , .TypedArgs ) ) ) )
        ensures ( #rangeUInt ( 256 , V0_x )
        andBool ( #rangeSInt ( 128 , V1_y )
                ))
