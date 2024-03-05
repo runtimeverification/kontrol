@@ -21,11 +21,10 @@ module HEVM-SUCCESS
       ")" [function, klabel(hevm_success), symbol]
  // ----------------------------------------------
     rule hevm_success(EVMC_SUCCESS, 0, _)  => true
-    rule hevm_success(EVMC_REVERT, _, OUT) => false
-      requires #range(OUT, 0, 4)  ==K Int2Bytes(4, selector ("Panic(uint256)"), BE)
-       andBool #range(OUT, 35, 1) ==K b"\x01" //Error code for user defined assertions
-    rule hevm_success(EVMC_REVERT, _, _) => true
-    rule hevm_success(_, _, _)           => false [owise]
+    rule hevm_success(EVMC_REVERT, _, OUT) => true
+      requires notBool( #range(OUT, 0, 4)  ==K Int2Bytes(4, selector ("Panic(uint256)"), BE)
+                andBool #range(OUT, 35, 1) ==K b"\x01" ) //Error code for user defined assertions
+    rule hevm_success(_, _, _)             => false [owise]
 
     rule ( selector ( "Panic(uint256)" ) => 1313373041 )
 ```
