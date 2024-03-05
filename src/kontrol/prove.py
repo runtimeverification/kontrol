@@ -690,6 +690,7 @@ def _final_cterm(
                     )
                 )
             else:
+                # To do: Print warning to the user
                 return final_cterm.add_constraint(
                     mlEqualsTrue(Hevm.hevm_fail(KVariable('STATUSCODE_FINAL'), dst_failed_post))
                 )
