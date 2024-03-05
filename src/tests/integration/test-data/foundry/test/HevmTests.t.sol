@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity =0.8.13;
 
 import {console, Test} from "forge-std/Test.sol";
 
@@ -98,6 +98,16 @@ contract HevmTests is Test{
       // Passes with `hevm test`
       // Passes with `kontrol prove --hevm --match-test proveFail_revert`
       revert("Just reverts");
+    }
+
+    function proveFail_all_branches(uint x) public pure {
+      // Fails with `hevm symbolic --code $BYTECODE --sig "proveFail_all_branches(uint)"`
+      // Fails with `hevm test`
+      // Fails with `kontrol prove --hevm --match-test proveFail_all_branches`
+      if (x<10)
+        assert(true);
+      else
+        assert(false);
     }
 
     function prove_require_assert_true(uint x) public pure {
