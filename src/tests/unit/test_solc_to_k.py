@@ -29,15 +29,15 @@ PREDICATE_DATA: list[tuple[str, KApply, int | None, list[KApply]]] = [
             'abi_type_tuple',
             [
                 KApply(
-                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    'typedArgs',
                     [
                         KApply('abi_type_uint256', [KVariable('V0_x')]),
                         KApply(
-                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            'typedArgs',
                             [
                                 KApply('abi_type_uint256', [KVariable('V1_y')]),
                                 KApply(
-                                    '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                    '.List{"typedArgs"}',
                                 ),
                             ],
                         ),
@@ -53,22 +53,22 @@ PREDICATE_DATA: list[tuple[str, KApply, int | None, list[KApply]]] = [
         KApply(
             'abi_type_tuple',
             KApply(
-                '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                'typedArgs',
                 KApply('abi_type_uint256', [KVariable('V0_x')]),
                 KApply(
-                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    'typedArgs',
                     KApply(
                         'abi_type_tuple',
                         KApply(
-                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            'typedArgs',
                             KApply('abi_type_uint256', [KVariable('V1_y')]),
                             KApply(
-                                '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                '.List{"typedArgs"}',
                             ),
                         ),
                     ),
                     KApply(
-                        '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                        '.List{"typedArgs"}',
                     ),
                 ),
             ),
@@ -123,7 +123,7 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
     (
         'empty_tuple',
         Input('EmptyStruct', 'tuple'),
-        KApply('abi_type_tuple', KApply('.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs')),
+        KApply('abi_type_tuple', KApply('.List{"typedArgs"}')),
     ),
     (
         'single_tuple',
@@ -131,13 +131,13 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
         KApply(
             'abi_type_tuple',
             KApply(
-                '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                'typedArgs',
                 KApply('abi_type_uint256', [KVariable('V0_RV1')]),
                 KApply(
-                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    'typedArgs',
                     KApply('abi_type_uint256', [KVariable('V1_RV2')]),
                     KApply(
-                        '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                        '.List{"typedArgs"}',
                     ),
                 ),
             ),
@@ -153,22 +153,22 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
         KApply(
             'abi_type_tuple',
             KApply(
-                '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                'typedArgs',
                 KApply('abi_type_uint256', [KVariable('V0_RV')]),
                 KApply(
-                    '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                    'typedArgs',
                     KApply(
                         'abi_type_tuple',
                         KApply(
-                            '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs',
+                            'typedArgs',
                             KApply('abi_type_uint256', [KVariable('V1_RV')]),
                             KApply(
-                                '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                                '.List{"typedArgs"}',
                             ),
                         ),
                     ),
                     KApply(
-                        '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs',
+                        '.List{"typedArgs"}',
                     ),
                 ),
             ),
@@ -179,12 +179,22 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
 DEVDOCS_DATA: list[tuple[str, dict, dict, tuple[int, ...] | None, int | None]] = [
     (
         'test_1',
-        {'_withdrawalProof': 10, '_withdrawalProof[]': 600, 'data': 600},
+        {
+            'kontrol-array-length-equals': {'_withdrawalProof': 10},
+            'kontrol-bytes-length-equals': {'_withdrawalProof': 600, 'data': 600},
+        },
         {'name': '_withdrawalProof', 'type': 'bytes[]'},
         (10,),
         600,
     ),
     ('test_2', {}, {'name': '_a', 'type': 'bytes'}, None, None),
+    (
+        'test_3',
+        {'kontrol-array-length-equals': {'nestedArray': [10, 10]}, 'kontrol-bytes-length-equals': {'nestedArray': 320}},
+        {'name': 'nestedArray', 'type': 'bytes[][][]'},
+        (10, 10, 2),
+        320,
+    ),
 ]
 
 
@@ -213,7 +223,7 @@ ABI_DATA: list[tuple[str, dict, dict, Input]] = [
             'name': '_tx',
             'type': 'tuple',
         },
-        {'_v': 10, '_v[]': 600, 'data': 600},
+        {'kontrol-array-length-equals': {'_v': 10}, 'kontrol-bytes-length-equals': {'_v': 600, 'data': 600}},
         Input(
             name='_tx',
             type='tuple',

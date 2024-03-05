@@ -5,7 +5,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (357 steps)
+│  (356 steps)
 ├─ 3
 │   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> #codeDeposit 4914609233421842 ...
 │   pc: 30
@@ -26,7 +26,7 @@
 │   callDepth: 1
 │   statusCode: EVMC_SUCCESS
 │
-│  (162 steps)
+│  (160 steps)
 ├─ 6
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 194
@@ -54,7 +54,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (506 steps)
+│  (505 steps)
 ├─ 11
 │   k: STATICCALL 0 491460923342184218035706888008750043977755113263 128 68 128 32 ~> # ...
 │   pc: 1978
@@ -68,7 +68,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (19 steps)
+│  (18 steps)
 ├─ 13
 │   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
 │   pc: 0
@@ -112,7 +112,7 @@
 ┃  │   callDepth: 1
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
-┃  │  (392 steps)
+┃  │  (391 steps)
 ┃  ├─ 22
 ┃  │   k: STATICCALL 0 491460923342184218035706888008750043977755113263 160 68 160 32 ~> # ...
 ┃  │   pc: 2095
@@ -126,7 +126,7 @@
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
-┃  │  (19 steps)
+┃  │  (18 steps)
 ┃  ├─ 26
 ┃  │   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
 ┃  │   pc: 0
@@ -201,7 +201,7 @@
 ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (2 steps)
-┃  ┃  ┃  ├─ 46 (terminal)
+┃  ┃  ┃  ├─ 46
 ┃  ┃  ┃  │   k: #halt ~> CONTINUATION:K
 ┃  ┃  ┃  │   pc: 194
 ┃  ┃  ┃  │   callDepth: 0
