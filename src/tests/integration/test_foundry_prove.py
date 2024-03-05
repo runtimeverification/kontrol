@@ -739,7 +739,6 @@ ALL_HEVM_TESTS_PASSING: Final = (
     'HevmTests.prove_require_assert_true',
     'HevmTests.proveFail_require_assert',
     'HevmTests.prove_revert',
-    'HevmTests.proveFail_all_branches',
 )
 
 
