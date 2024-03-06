@@ -650,6 +650,11 @@ class Contract:
 
         self.methods = tuple(sorted(_methods, key=(lambda method: method.signature)))
 
+        if self.constructor is None:
+            empty_constructor = {'inputs': [], 'stateMutability': 'nonpayable', 'type': 'constructor'}
+            _c = Contract.Constructor(empty_constructor, self._name, self.digest, self.storage_digest, self.sort_method)
+            self.constructor = _c
+
         self.fields = FrozenDict({})
         if 'storageLayout' in self.contract_json and 'storage' in self.contract_json['storageLayout']:
             _fields_list = [(_f['label'], int(_f['slot'])) for _f in self.contract_json['storageLayout']['storage']]
@@ -660,12 +665,6 @@ class Contract:
                     continue
                 _fields[_l] = _s
             self.fields = FrozenDict(_fields)
-
-        if self.constructor is None:
-            for method in contract_json['abi']:
-                if method['type'] == 'function':
-                    _c = Contract.Constructor(method, self._name, self.digest, self.storage_digest, self.sort_method)
-                    self.constructor = _c
 
     @cached_property
     def name_with_path(self) -> str:
