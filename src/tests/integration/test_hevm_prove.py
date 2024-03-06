@@ -74,8 +74,6 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
             foundry_kompile(
                 foundry=Foundry(foundry_root),
                 includes=(),
-                requires=[str(TEST_DATA_DIR / 'lemmas.k')],
-                imports=['LoopsTest:SUM-TO-N-INVARIANT'],
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
