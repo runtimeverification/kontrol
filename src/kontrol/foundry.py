@@ -290,7 +290,7 @@ class Foundry:
     def matching_tests(self, tests: list[str]) -> list[str]:
         all_tests = self.all_tests
         all_non_tests = self.all_non_tests
-        tests = self._escape_brackets(tests)
+        tests = Foundry._escape_brackets(tests)
         matched_tests = set()
         unfound_tests = set(tests)
         for test in tests:
@@ -309,20 +309,45 @@ class Foundry:
         return test_sigs
 
     def get_test_id(self, test: str, version: int | None) -> str:
+        """
+        Retrieves the unique identifier for a test based on its name and version.
+
+        If multiple proofs are found for a test without a specific version, the function attempts to resolve to the latest version.
+
+        :param test: The name of the test to find a matching proof for.
+        :param version: The version number of the test. If None, the function attempts to resolve to the latest version if multiple matches are found.
+        :raises ValueError: If no matching proofs are found for the given test and version, indicating the test does not exist.
+        :raises ValueError: If more than one matching proof is found for a given test and version, a full signature is required.
+        :return: The unique identifier of the matching proof for the specified test and version.
+        """
+
+        def _assert_single_id(l: list[str]) -> str:
+            try:
+                return single(l)
+            except ValueError as e:
+                error_msg = (
+                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. '
+                    f'Provide a full signature of the test, e.g., {matching_sigs[0][5:]!r} --version {version}. '
+                    f'Error: {e}'
+                )
+                raise ValueError(error_msg) from e
+
         matching_proof_ids = self.proof_ids_with_test(test, version)
-        sig = single(self.matching_sigs(test))
-        if len(matching_proof_ids) == 0:
+        matching_sigs = self.matching_sigs(test)
+
+        if not matching_proof_ids:
             raise ValueError(f'Found no matching proofs for {test}:{version}.')
-        if len(matching_proof_ids) > 1:
-            if version is None:
-                raise ValueError(
-                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Use the --version flag to choose one.'
-                )
-            else:
-                raise ValueError(
-                    f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Provide a full signature of the test, e.g., {sig[5:]!r} --version {version}.'
-                )
-        return single(matching_proof_ids)
+
+        _assert_single_id(matching_sigs)
+
+        if len(matching_proof_ids) > 1 and version is None:
+            print(
+                f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Running the latest one. Use the `--version` flag to choose one.'
+            )
+            latest_version = self.resolve_proof_version(matching_sigs[0], False, version)
+            matching_proof_ids = self.proof_ids_with_test(test, latest_version)
+
+        return _assert_single_id(matching_proof_ids)
 
     @staticmethod
     def success(s: KInner, dst: KInner, r: KInner, c: KInner, e1: KInner, e2: KInner) -> KApply:
@@ -403,7 +428,7 @@ class Foundry:
         return matches
 
     def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
-        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), test, version)
+        proof_ids = self.filter_proof_ids(self.list_proof_dir(), test, version)
         _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {test}:{version}: {proof_ids}')
         return proof_ids
 

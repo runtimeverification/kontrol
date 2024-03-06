@@ -757,6 +757,7 @@ def test_foundry_xml_report(
         prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
+            reinit=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,

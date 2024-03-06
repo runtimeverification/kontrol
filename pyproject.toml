@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "kontrol"
-version = "0.1.181"
+version = "0.1.183"
 description = "Foundry integration for KEVM"
 authors = [
     "Runtime Verification, Inc. <contact@runtimeverification.com>",
@@ -12,7 +12,7 @@ authors = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.477", subdirectory = "kevm-pyk" }
+kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.482", subdirectory = "kevm-pyk" }
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
@@ -25,7 +25,7 @@ flake8-type-checking = "*"
 isort = "*"
 mypy = "*"
 pep8-naming = "*"
-pytest = "^7"
+pytest = "*"
 pytest-cov = "*"
 pytest-mock = "*"
 pytest-xdist = "*"
