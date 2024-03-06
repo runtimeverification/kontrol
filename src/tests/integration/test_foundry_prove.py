@@ -186,6 +186,33 @@ def test_foundry_prove(
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
 
 
+ALL_CONSTRUCTOR_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-constructor-tests').read_text().splitlines())
+
+
+@pytest.mark.parametrize('test_id', ALL_CONSTRUCTOR_TESTS)
+def test_foundry_run_constructor(
+    test_id: str,
+    foundry: Foundry,
+    bug_report: BugReport | None,
+    server: KoreServer,
+) -> None:
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=False, run_constructor=True)
+
+    # When
+    prove_res = foundry_prove(
+        foundry,
+        tests=[(test_id, None)],
+        prove_options=prove_options,
+        rpc_options=RPCOptions(port=server.port, smt_timeout=500),
+    )
+
+    # Then
+    assert_pass(test_id, single(prove_res))
+
+
 FAIL_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-fail').read_text().splitlines())
 
 
