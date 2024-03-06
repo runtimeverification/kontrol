@@ -244,6 +244,7 @@ def exec_prove(
     use_gas: bool = False,
     deployment_state_path: Path | None = None,
     with_non_general_state: bool = False,
+    xml_test_report: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -300,14 +301,17 @@ def exec_prove(
         rpc_options=rpc_options,
         tests=tests,
         include_summaries=include_summaries,
+        xml_test_report=xml_test_report,
     )
     failed = 0
     for proof in results:
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
+            print(f'time: {proof.formatted_exec_time()}s')
         else:
             failed += 1
             print(f'PROOF FAILED: {proof.id}')
+            print(f'time: {proof.formatted_exec_time()}')
             failure_log = None
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
@@ -805,6 +809,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Flag used by Simbolik to initialise the state of a non test function as if it was a test function.',
+    )
+    prove_args.add_argument(
+        '--xml-test-report',
+        dest='xml_test_report',
+        default=False,
+        action='store_true',
+        help='Generate a JUnit XML report',
     )
 
     show_args = command_parser.add_parser(
