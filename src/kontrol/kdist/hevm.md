@@ -33,7 +33,7 @@ module HEVM-SUCCESS
 
 In order to support `proveFail` we also defined the hevm fail predicate. This predicate asserts that all branches are failing, i.e. there is not a branch ending with `EVMC_SUCCESS` and not violating a `DS-TEST` assertion.
 
-`proveFail` is not supported by `hevm symbolic`, however it is supported by `hevm test`. Therefore, we are difining this predicate to be compatible with `hevm test`, meaning we are also checking that all branches revert. 
+`proveFail` is not supported by `hevm symbolic`, however it is supported by `hevm test`. Therefore, this predicate is defined to be compatible with `hevm test`, meaning that it checks whether all branches revert. 
 
 ```k
     syntax Bool ::=
