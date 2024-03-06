@@ -87,7 +87,7 @@ def foundry_prove(
             ]
 
             if len(test_version_tuples) > 0:
-                print(f'For test {test.name}, found external calls: {test_version_tuples}')
+                _LOGGER.info(f'For test {test.name}, found external calls: {test_version_tuples}')
                 summary_ids.extend(
                     p.id for p in foundry_prove(foundry, prove_options, rpc_options, test_version_tuples)
                 )
