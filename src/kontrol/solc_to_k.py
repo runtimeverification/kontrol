@@ -1197,12 +1197,12 @@ def find_function_calls(node: dict) -> list[str]:
             if expression.get('nodeType') == 'MemberAccess':
                 contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
                 contract_type = (
-                    contract_type_string.split(' ')[-1] if 'contract' in contract_type_string else 'UnknownContractType'
+                    contract_type_string.split()[-1] if 'contract' in contract_type_string else 'UnknownContractType'
                 )
 
                 function_name = expression.get('memberName')
                 arg_types = expression['typeDescriptions'].get('typeString')
-                args = arg_types.split(' ')[1] if arg_types is not None else '()'
+                args = arg_types.split()[1] if arg_types is not None else '()'
 
                 if contract_type not in ['KEVMCheatsBase', 'Vm', 'UnknownContractType']:
                     value = f'{contract_type}.{function_name}{args}'
