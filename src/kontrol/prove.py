@@ -64,7 +64,10 @@ def foundry_prove(
 
     foundry.mk_proofs_dir()
 
-    summary_ids = (
+    if include_summaries and prove_options.cse:
+        raise AttributeError('Error! Cannot use both --cse and --include-summary.')
+
+    summary_ids: list[str] = (
         [
             foundry.get_apr_proof(include_summary.id).id
             for include_summary in collect_tests(foundry, include_summaries, reinit=False)
@@ -72,6 +75,22 @@ def foundry_prove(
         if include_summaries
         else []
     )
+
+    if prove_options.cse:
+        test_suite = collect_tests(foundry, tests, reinit=prove_options.reinit, return_empty=True)
+        for test in test_suite:
+            if not isinstance(test.method, Contract.Method) or test.method.function_calls is None:
+                continue
+
+            test_version_tuples = [
+                parse_test_version_tuple(t) for t in test.method.function_calls if t not in summary_ids
+            ]
+
+            if len(test_version_tuples) > 0:
+                _LOGGER.info(f'For test {test.name}, found external calls: {test_version_tuples}')
+                summary_ids.extend(
+                    p.id for p in foundry_prove(foundry, prove_options, rpc_options, test_version_tuples)
+                )
 
     test_suite = collect_tests(foundry, tests, reinit=prove_options.reinit)
     test_names = [test.name for test in test_suite]
@@ -130,6 +149,14 @@ def foundry_prove(
     return results
 
 
+def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
+    if ':' in value:
+        test, version = value.split(':')
+        return (test, int(version))
+    else:
+        return (value, None)
+
+
 class FoundryTest(NamedTuple):
     contract: Contract
     method: Contract.Method | Contract.Constructor
@@ -148,8 +175,10 @@ class FoundryTest(NamedTuple):
         return self.name, self.version
 
 
-def collect_tests(foundry: Foundry, tests: Iterable[tuple[str, int | None]] = (), *, reinit: bool) -> list[FoundryTest]:
-    if not tests:
+def collect_tests(
+    foundry: Foundry, tests: Iterable[tuple[str, int | None]] = (), *, reinit: bool, return_empty: bool = False
+) -> list[FoundryTest]:
+    if not tests and not return_empty:
         tests = [(test, None) for test in foundry.all_tests]
     matching_tests = []
     for test, version in tests:
