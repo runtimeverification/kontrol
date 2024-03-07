@@ -371,6 +371,7 @@ class ProveCommand(
     include_summaries: list[tuple[str, int | None]]
     with_non_general_state: bool
     xml_test_report: bool
+    cse: bool
 
     @staticmethod
     def name() -> str:
@@ -393,6 +394,7 @@ class ProveCommand(
             'include_summaries': [],
             'with_non_general_state': False,
             'xml_test_report': False,
+            'cse': False,
         }
 
     @staticmethod
@@ -458,6 +460,7 @@ class ProveCommand(
             action='store_true',
             help='Generate a JUnit XML report',
         )
+        parser.add_argument('--cse', dest='cse', action='store_true', help='Use Compositional Symbolic Execution')
 
     def exec(self) -> None:
         kore_rpc_command = (
@@ -488,6 +491,7 @@ class ProveCommand(
             use_gas=self.use_gas,
             deployment_state_entries=deployment_state_entries,
             active_symbolik=self.with_non_general_state,
+            cse=self.cse,
         )
 
         rpc_options = RPCOptions(
@@ -513,9 +517,11 @@ class ProveCommand(
         for proof in results:
             if proof.passed:
                 print(f'PROOF PASSED: {proof.id}')
+                print(f'time: {proof.formatted_exec_time()}s')
             else:
                 failed += 1
                 print(f'PROOF FAILED: {proof.id}')
+                print(f'time: {proof.formatted_exec_time()}')
                 failure_log = None
                 if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                     failure_log = proof.failure_info
@@ -523,7 +529,6 @@ class ProveCommand(
                     log = failure_log.print() + Foundry.help_info()
                     for line in log:
                         print(line)
-
         sys.exit(failed)
 
 
