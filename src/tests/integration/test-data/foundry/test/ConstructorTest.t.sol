@@ -14,11 +14,16 @@ contract ConstructorTest is Test {
         assert(!flag);
     }
 
-    function check_constructor() public {
-        assert(flag);
+    function get_flag() public returns (bool) {
+        return flag;
     }
 
-    function checkFail_constructor() public {
-        assert(!flag);
+    function test_run_constructor() public {
+        assert(get_flag());
     }
+
+    function testFail_run_constructor() public {
+        assert(!get_flag());
+    }
+
 }
