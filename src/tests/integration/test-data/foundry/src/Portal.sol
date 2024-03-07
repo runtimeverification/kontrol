@@ -26,7 +26,7 @@ contract Portal  {
 
     /// @notice Reverts when paused.
     modifier whenNotPaused() {
-        require(paused == false, "OptimismPortal: paused");
+        require(paused == false, "Portal: paused");
         _;
     }
 
