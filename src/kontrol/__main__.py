@@ -42,7 +42,7 @@ from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
 
 if TYPE_CHECKING:
-    from argparse import ArgumentParser, Namespace
+    from argparse import ArgumentParser
     from collections.abc import Callable, Iterable
     from pathlib import Path
     from typing import Any, Final, TypeVar
@@ -116,16 +116,12 @@ def main() -> None:
             GetModelCommand,
         }
     )
-    parser = kontrol_cli.create_argument_parser()
-    args = parser.parse_args()
-
-    command = kontrol_cli.generate_command({key: val for (key, val) in vars(args).items() if val is not None})
-
-    logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
 
     _check_k_version()
-
-    command.exec()
+    cmd = kontrol_cli.get_command()
+    assert isinstance(cmd, LoggingOptions)
+    logging.basicConfig(level=_loglevel(cmd), format=_LOG_FORMAT)
+    cmd.exec()
 
 
 def _check_k_version() -> None:
@@ -156,7 +152,7 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 # Command implementation
 
 
-class LoadStateDiffCommand(Command, FoundryOptions):
+class LoadStateDiffCommand(Command, FoundryOptions, LoggingOptions):
     contract_name: str
     accesses_file: Path
     contract_names: Path | None
@@ -231,7 +227,7 @@ class LoadStateDiffCommand(Command, FoundryOptions):
         )
 
 
-class VersionCommand(Command):
+class VersionCommand(Command, LoggingOptions):
     @staticmethod
     def name() -> str:
         return 'version'
@@ -244,7 +240,7 @@ class VersionCommand(Command):
         print(f'Kontrol version: {VERSION}')
 
 
-class CompileCommand(Command):
+class CompileCommand(Command, LoggingOptions):
     contract_file: Path
 
     @staticmethod
@@ -264,7 +260,7 @@ class CompileCommand(Command):
         print(json.dumps(res))
 
 
-class SolcToKCommand(Command, KOptions, KGenOptions):
+class SolcToKCommand(Command, KOptions, KGenOptions, LoggingOptions):
     contract_file: Path
     contract_name: str
 
@@ -292,7 +288,9 @@ class SolcToKCommand(Command, KOptions, KGenOptions):
         print(k_text)
 
 
-class BuildCommand(Command, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
+class BuildCommand(
+    Command, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions, LoggingOptions
+):
     regen: bool
     rekompile: bool
     no_forge_build: bool
@@ -529,7 +527,9 @@ class ProveCommand(
         sys.exit(failed)
 
 
-class ShowCommand(ShowKCFGCommand, FoundryTestOptions, KOptions, KEVMDisplayOptions, FoundryOptions, KEVMRPCOptions):
+class ShowCommand(
+    ShowKCFGCommand, FoundryTestOptions, KOptions, KEVMDisplayOptions, FoundryOptions, KEVMRPCOptions, LoggingOptions
+):
     omit_unstable_output: bool
     to_kevm_claims: bool
     kevm_claim_dir: Path | None
@@ -593,7 +593,7 @@ class ShowCommand(ShowKCFGCommand, FoundryTestOptions, KOptions, KEVMDisplayOpti
         print(output)
 
 
-class RefuteNodeCommand(Command, FoundryTestOptions, FoundryOptions):
+class RefuteNodeCommand(Command, FoundryTestOptions, FoundryOptions, LoggingOptions):
     node: NodeIdLike
 
     @staticmethod
@@ -622,7 +622,7 @@ class RefuteNodeCommand(Command, FoundryTestOptions, FoundryOptions):
         )
 
 
-class UnRefuteNodeCommand(Command, FoundryTestOptions, FoundryOptions):
+class UnRefuteNodeCommand(Command, FoundryTestOptions, FoundryOptions, LoggingOptions):
     node: NodeIdLike
 
     @staticmethod
@@ -651,7 +651,7 @@ class UnRefuteNodeCommand(Command, FoundryTestOptions, FoundryOptions):
         )
 
 
-class ToDotCommand(Command, FoundryTestOptions, FoundryOptions):
+class ToDotCommand(Command, FoundryTestOptions, FoundryOptions, LoggingOptions):
     @staticmethod
     def name() -> str:
         return 'to-dot'
@@ -664,7 +664,7 @@ class ToDotCommand(Command, FoundryTestOptions, FoundryOptions):
         foundry_to_dot(foundry=_load_foundry(self.foundry_root), test=self.test, version=self.version)
 
 
-class ListCommand(Command, KOptions, FoundryOptions):
+class ListCommand(Command, KOptions, FoundryOptions, LoggingOptions):
     @staticmethod
     def name() -> str:
         return 'list'
@@ -678,7 +678,7 @@ class ListCommand(Command, KOptions, FoundryOptions):
         print('\n'.join(stats))
 
 
-class ViewKCFGCommand(Command, FoundryTestOptions, FoundryOptions):
+class ViewKCFGCommand(Command, FoundryTestOptions, FoundryOptions, LoggingOptions):
     @staticmethod
     def name() -> str:
         return 'view-kcfg'
@@ -704,7 +704,7 @@ class ViewKCFGCommand(Command, FoundryTestOptions, FoundryOptions):
         viewer.run()
 
 
-class RemoveNodeCommand(Command, FoundryTestOptions, FoundryOptions):
+class RemoveNodeCommand(Command, FoundryTestOptions, FoundryOptions, LoggingOptions):
     node: NodeIdLike
 
     @staticmethod
@@ -726,7 +726,14 @@ class RemoveNodeCommand(Command, FoundryTestOptions, FoundryOptions):
 
 
 class SimplifyNodeCommand(
-    Command, FoundryTestOptions, SMTOptions, KEVMRPCOptions, BugReportOptions, KEVMDisplayOptions, FoundryOptions
+    Command,
+    FoundryTestOptions,
+    SMTOptions,
+    KEVMRPCOptions,
+    BugReportOptions,
+    KEVMDisplayOptions,
+    FoundryOptions,
+    LoggingOptions,
 ):
     node: NodeIdLike
     replace: bool
@@ -780,7 +787,9 @@ class SimplifyNodeCommand(
         print(f'Simplified:\n{pretty_term}')
 
 
-class StepNodeCommand(Command, FoundryTestOptions, KEVMRPCOptions, BugReportOptions, SMTOptions, FoundryOptions):
+class StepNodeCommand(
+    Command, FoundryTestOptions, KEVMRPCOptions, BugReportOptions, SMTOptions, FoundryOptions, LoggingOptions
+):
     node: NodeIdLike
     repeat: int
     depth: int
@@ -836,7 +845,7 @@ class StepNodeCommand(Command, FoundryTestOptions, KEVMRPCOptions, BugReportOpti
         )
 
 
-class MergeNodesCommand(Command, FoundryTestOptions, FoundryOptions):
+class MergeNodesCommand(Command, FoundryTestOptions, FoundryOptions, LoggingOptions):
     nodes: list[NodeIdLike]
 
     @staticmethod
@@ -869,7 +878,9 @@ class MergeNodesCommand(Command, FoundryTestOptions, FoundryOptions):
         )
 
 
-class SectionEdgeCommand(Command, FoundryTestOptions, KEVMRPCOptions, BugReportOptions, SMTOptions, FoundryOptions):
+class SectionEdgeCommand(
+    Command, FoundryTestOptions, KEVMRPCOptions, BugReportOptions, SMTOptions, FoundryOptions, LoggingOptions
+):
     edge: tuple[str, str]
     sections: int
 
@@ -919,7 +930,9 @@ class SectionEdgeCommand(Command, FoundryTestOptions, KEVMRPCOptions, BugReportO
         )
 
 
-class GetModelCommand(Command, FoundryTestOptions, KEVMRPCOptions, BugReportOptions, SMTOptions, FoundryOptions):
+class GetModelCommand(
+    Command, FoundryTestOptions, KEVMRPCOptions, BugReportOptions, SMTOptions, FoundryOptions, LoggingOptions
+):
     nodes: list[NodeIdLike]
     pending: bool
     failing: bool
@@ -987,7 +1000,7 @@ class GetModelCommand(Command, FoundryTestOptions, KEVMRPCOptions, BugReportOpti
 # Helpers
 
 
-def _loglevel(args: Namespace) -> int:
+def _loglevel(args: LoggingOptions) -> int:
     if hasattr(args, 'debug') and args.debug:
         return logging.DEBUG
 
