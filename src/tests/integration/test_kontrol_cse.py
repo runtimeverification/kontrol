@@ -91,7 +91,7 @@ DEPENDENCY_TESTS: Final = [
 
 
 @pytest.mark.parametrize('test', DEPENDENCY_TESTS)
-def test_foundry_dependency(
+def test_foundry_dependency_manual(
     test: list[str],
     foundry: Foundry,
     bug_report: BugReport | None,
@@ -142,3 +142,57 @@ def test_foundry_dependency(
     )
 
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test[-1]}.expected', update=update_expected_output)
+
+
+ALL_DEPENDENCY_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-dependency-all').read_text().splitlines())
+SKIPPED_DEPENDENCY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-dependency-skip').read_text().splitlines())
+
+
+@pytest.mark.parametrize('test_id', ALL_DEPENDENCY_TESTS)
+def test_foundry_dependency_automated(
+    test_id: str,
+    foundry: Foundry,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    update_expected_output: bool,
+    no_use_booster: bool,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    if test_id in SKIPPED_DEPENDENCY_TESTS:
+        pytest.skip()
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    foundry_prove(
+        foundry,
+        tests=[(test_id, None)],
+        prove_options=ProveOptions(
+            max_iterations=50,
+            bug_report=bug_report,
+            cse=True,
+            fail_fast=False,
+            workers=2,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+        include_summaries=[],
+    )
+
+    show_res = foundry_show(
+        foundry,
+        test=test_id,
+        to_module=False,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=False,
+        failing=False,
+        failure_info=False,
+        counterexample_info=False,
+        port=server.port,
+    )
+
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
