@@ -7,7 +7,7 @@ from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KVariable
 from pyk.prelude.kint import eqInt, intToken
 
-from kontrol.solc_to_k import Contract, Input, _range_predicates, process_length_equals
+from kontrol.solc_to_k import Contract, Input, _range_predicates, find_function_calls, process_length_equals
 
 from .utils import TEST_DATA_DIR
 
@@ -289,3 +289,140 @@ def test_process_length_equals(
     array_lengths, dyn_len = process_length_equals(input_dict, devdocs)
     assert array_lengths == expected_array_length
     assert dyn_len == expected_dynamic_type_length
+
+
+AST_DATA: list[tuple[str, dict, list[str]]] = [
+    (
+        'skip_first',
+        {
+            'nodeType': 'FunctionDefinition',
+            'body': {
+                'statements': [
+                    {
+                        'expression': {
+                            'arguments': [],
+                            'expression': {
+                                'expression': {
+                                    'typeDescriptions': {
+                                        'typeString': 'contract KEVMCheatsBase',
+                                    },
+                                },
+                                'memberName': 'infiniteGas',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeString': 'function () external',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    },
+                    {
+                        'expression': {
+                            'arguments': [
+                                {'typeDescriptions': {'typeString': 'uint256'}},
+                                {'typeDescriptions': {'typeString': 'bool'}},
+                            ],
+                            'expression': {
+                                'expression': {
+                                    'typeDescriptions': {
+                                        'typeString': 'contract Counter',
+                                    },
+                                },
+                                'memberName': 'setNumber',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeString': 'function (uint256,bool) external',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    },
+                    {
+                        'expression': {
+                            'arguments': [],
+                            'expression': {
+                                'expression': {
+                                    'typeDescriptions': {
+                                        'typeString': 'contract Counter',
+                                    },
+                                },
+                                'memberName': 'number',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeString': 'function () view external returns (uint256)',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    },
+                ],
+            },
+        },
+        ['Counter.setNumber(uint256,bool)', 'Counter.number()'],
+    ),
+    (
+        'duplicated_with_const',
+        {
+            'nodeType': 'FunctionDefinition',
+            'body': {
+                'statements': [
+                    {
+                        'expression': {
+                            'arguments': [
+                                {'typeDescriptions': {'typeString': 'uint256'}},
+                                {'typeDescriptions': {'typeString': 'uint256'}},
+                            ],
+                            'expression': {
+                                'expression': {
+                                    'typeDescriptions': {
+                                        'typeString': 'contract ArithmeticContract',
+                                    },
+                                },
+                                'memberName': 'add',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeString': 'function (uint256,uint256) pure external returns (uint256)',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    },
+                    {
+                        'expression': {
+                            'arguments': [
+                                {'typeIdentifier': 't_uint256', 'typeString': 'uint256'},
+                                {'typeIdentifier': 't_rational_1_by_1', 'typeString': 'int_const 1'},
+                            ],
+                            'expression': {
+                                'expression': {
+                                    'typeDescriptions': {
+                                        'typeString': 'contract ArithmeticContract',
+                                    },
+                                },
+                                'memberName': 'add',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeString': 'function (uint256,uint256) pure external returns (uint256)',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    },
+                ],
+            },
+        },
+        ['ArithmeticContract.add(uint256,uint256)'],
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    'test_id,ast,expected',
+    AST_DATA,
+    ids=[test_id for test_id, *_ in AST_DATA],
+)
+def test_find_function_calls(test_id: str, ast: dict, expected: list[str]) -> None:
+    # When
+    output = find_function_calls(ast)
+    # Then
+    assert output == expected
