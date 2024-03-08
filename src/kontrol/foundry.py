@@ -721,7 +721,7 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
         tests += 1
         test, *_ = proof.id.split(':')
         contract, test_name = test.split('.')
-        _, contract_name = contract.split('%')
+        _, contract_name = contract.rsplit('%', 1)
         foundry_contract = foundry.contracts[contract]
         contract_path = foundry_contract.contract_path
         proof_exec_time = proof.exec_time
