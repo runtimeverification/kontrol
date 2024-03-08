@@ -329,6 +329,10 @@ def exec_prove(
                 log = failure_log.print() + (Foundry.help_info() if not hevm else Hevm.help_info(proof.id))
                 for line in log:
                     print(line)
+            refuted_nodes = list(proof.node_refutations.keys())
+            if len(refuted_nodes) > 0:
+                print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
+                print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
 
     sys.exit(failed)
 
