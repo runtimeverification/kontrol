@@ -29,6 +29,7 @@ from .foundry import (
     foundry_section_edge,
     foundry_show,
     foundry_simplify_node,
+    foundry_split_node,
     foundry_state_diff,
     foundry_step_node,
     foundry_to_dot,
@@ -373,6 +374,16 @@ def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: i
 
 def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
     foundry_unrefute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
+
+
+def exec_split_node(
+    foundry_root: Path, test: str, node: NodeIdLike, branch_condition: str, version: int | None, **kwargs: Any
+) -> None:
+    node_ids = foundry_split_node(
+        foundry=_load_foundry(foundry_root), test=test, node=node, branch_condition=branch_condition, version=version
+    )
+
+    print(f'Node {node} has been split into {node_ids} on condition {branch_condition}.')
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
@@ -887,6 +898,14 @@ def _create_argument_parser() -> ArgumentParser:
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
     unrefute_node.add_argument('node', type=node_id_like, help='Node to unrefute.')
+
+    split_node = command_parser.add_parser(
+        'split-node',
+        help='Split a node on a given branch condition.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    split_node.add_argument('node', type=node_id_like, help='Node to split.')
+    split_node.add_argument('branch_condition', type=str, help='Branch condition written in K.')
 
     simplify_node = command_parser.add_parser(
         'simplify-node',
