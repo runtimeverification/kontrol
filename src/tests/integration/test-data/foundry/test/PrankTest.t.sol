@@ -53,6 +53,12 @@ contract PrankTest is Test {
         assertEq(prankContract.count(), addValue-subValue);
         vm.stopPrank();
     }
+
+    function testSymbolicStartPrank(address addr) public {
+        vm.startPrank(addr);
+        assert(prankContract.msgSender() == addr);
+        vm.stopPrank();
+    }
 }
 
 contract PrankTestMsgSender is Test {
