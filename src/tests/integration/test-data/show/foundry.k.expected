@@ -103,7 +103,6 @@ module FOUNDRY-MAIN
     imports public S2KtestZModStoreTest-VERIFICATION
     imports public S2KtestZModSymbolicStorageTest-VERIFICATION
     imports public S2KtestZModSymbolicStore-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModsrcZModTest-VERIFICATION
     imports public S2KsrcZModTestNumber-VERIFICATION
     imports public S2KtestZModToStringTest-VERIFICATION
     imports public S2KsrcZModToken-VERIFICATION
@@ -117,6 +116,7 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole2-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModTest-VERIFICATION
     
     
 
@@ -830,13 +830,6 @@ module S2KtestZModSymbolicStore-VERIFICATION
 
 endmodule
 
-module S2KlibZModforgeZSubstdZModsrcZModTest-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModsrcZModTest-CONTRACT
-    
-    
-
-endmodule
-
 module S2KsrcZModTestNumber-VERIFICATION
     imports public S2KsrcZModTestNumber-CONTRACT
     
@@ -923,6 +916,13 @@ endmodule
 
 module S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModTest-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModTest-CONTRACT
     
     
 
