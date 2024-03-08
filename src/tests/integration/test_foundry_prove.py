@@ -568,17 +568,17 @@ def test_foundry_resume_proof(
     assert_fail(test, single(prove_res))
 
 
-ALL_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code-tests').read_text().splitlines())
+ALL_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code').read_text().splitlines())
 
 
-@pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
+@pytest.mark.parametrize('test_id', ALL_INIT_CODE_TESTS)
+def test_foundry_init_code(test_id: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
     if no_use_booster:
         pytest.skip()
 
     prove_res = foundry_prove(
         foundry,
-        tests=[(test, None)],
+        tests=[(test_id, None)],
         prove_options=ProveOptions(
             run_constructor=True,
             bug_report=bug_report,
@@ -591,7 +591,7 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
     )
 
     # Then
-    assert_pass(test, single(prove_res))
+    assert_pass(test_id, single(prove_res))
 
 
 def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
