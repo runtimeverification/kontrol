@@ -33,9 +33,6 @@ module PAUSABILITY-LEMMAS [symbolic]
     // Arithmetic
     //
 
-    // Reflexivity of <=Int
-    rule A <=Int A => true [simplification]
-
     // Cancellativity #1
     rule A +Int B -Int B +Int C => A +Int C [simplification]
 
