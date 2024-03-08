@@ -80,70 +80,6 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
     return Foundry(session_foundry_root)
 
 
-DEPENDENCY_TESTS: Final = [
-    ['ArithmeticContract.add(uint256,uint256)', 'ArithmeticCallTest.test_double_add(uint256,uint256)'],
-    ['Identity.identity(uint256)'],
-    ['Identity.identity(uint256)', 'Identity.applyOp(uint256)'],
-    ['Identity.identity(uint256)', 'Identity.applyOp(uint256)', 'CSETest.test_identity(uint256,uint256)'],
-    ['AddConst.applyOp(uint256)'],
-    ['AddConst.applyOp(uint256)', 'CSETest.test_add_const(uint256, uint256)'],
-]
-
-
-@pytest.mark.parametrize('test', DEPENDENCY_TESTS)
-def test_foundry_dependency_manual(
-    test: list[str],
-    foundry: Foundry,
-    bug_report: BugReport | None,
-    server: KoreServer,
-    update_expected_output: bool,
-    no_use_booster: bool,
-) -> None:
-    if no_use_booster:
-        pytest.skip()
-
-    # Tests require at least one ifunctions
-    assert len(test) > 0
-
-    if bug_report is not None:
-        server._populate_bug_report(bug_report)
-
-    for i in range(0, len(test) - 1):
-
-        dependencies = test[0 : i - 1] if i > 0 else []
-
-        foundry_prove(
-            foundry,
-            tests=[(test[i], None)],
-            prove_options=ProveOptions(
-                max_depth=10000,
-                max_iterations=100,
-                break_on_calls=False,
-                fail_fast=False,
-                bug_report=bug_report,
-            ),
-            rpc_options=RPCOptions(
-                port=server.port,
-            ),
-            include_summaries=[(dependency, None) for dependency in dependencies],
-        )
-
-    show_res = foundry_show(
-        foundry,
-        test=test[-1],
-        to_module=False,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=False,
-        failing=False,
-        failure_info=False,
-        counterexample_info=False,
-        port=server.port,
-    )
-
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test[-1]}.expected', update=update_expected_output)
-
-
 ALL_DEPENDENCY_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-dependency-all').read_text().splitlines())
 SKIPPED_DEPENDENCY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-dependency-skip').read_text().splitlines())
 
@@ -166,20 +102,27 @@ def test_foundry_dependency_automated(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
+    prove_options = ProveOptions(
+        max_iterations=50,
+        bug_report=bug_report,
+        cse=True,
+        fail_fast=False,
+        workers=2,
+    )
+    cse_prove_options = ProveOptions(
+        max_iterations=50,
+        bug_report=bug_report,
+        cse=True,
+        fail_fast=False,
+        workers=2,
+    )
+
+    # Execute without cse
     foundry_prove(
         foundry,
         tests=[(test_id, None)],
-        prove_options=ProveOptions(
-            max_iterations=50,
-            bug_report=bug_report,
-            cse=True,
-            fail_fast=False,
-            workers=2,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-        include_summaries=[],
+        prove_options=prove_options,
+        rpc_options=RPCOptions(port=server.port, smt_timeout=500),
     )
 
     show_res = foundry_show(
@@ -195,4 +138,33 @@ def test_foundry_dependency_automated(
         port=server.port,
     )
 
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / f'show/{test_id}.no-cse.expected', update=update_expected_output
+    )
+
+    # Execute with cse
+    foundry_prove(
+        foundry,
+        tests=[(test_id, None)],
+        prove_options=cse_prove_options,
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    cse_show_res = foundry_show(
+        foundry,
+        test=test_id,
+        to_module=False,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=False,
+        failing=False,
+        failure_info=False,
+        counterexample_info=False,
+        port=server.port,
+    )
+
+    assert_or_update_show_output(
+        cse_show_res, TEST_DATA_DIR / f'show/{test_id}.cse.expected', update=update_expected_output
+    )
