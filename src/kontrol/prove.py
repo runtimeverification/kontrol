@@ -688,7 +688,7 @@ def _init_cterm(
     # The calling contract is assumed to be in the present accounts for non-tests
     if not (is_test or is_setup or is_constructor or active_symbolik):
         init_cterm.add_constraint(
-            mlEqualsFalse(
+            mlEqualsTrue(
                 KApply(
                     '_in_keys(_)_MAP_Bool_KItem_Map',
                     [KVariable('CALLER_ID', sort=KSort('Int')), init_cterm.cell('ACCOUNTS_CELL')],
