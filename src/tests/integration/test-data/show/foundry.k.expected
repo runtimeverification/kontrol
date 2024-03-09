@@ -1,5 +1,6 @@
 requires "contracts.k"
 requires "requires/lemmas.k"
+requires "requires/cse-lemmas.k"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
@@ -706,6 +707,7 @@ endmodule
 
 module S2KtestZModAssertTest-VERIFICATION
     imports public S2KtestZModAssertTest-CONTRACT
+    imports public CSE-LEMMAS
     
     
 
