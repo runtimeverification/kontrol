@@ -26,6 +26,7 @@ from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
+from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
@@ -818,6 +819,26 @@ def foundry_unrefute_node(foundry: Foundry, test: str, node: NodeIdLike, version
     proof = foundry.get_apr_proof(test_id)
 
     proof.unrefute_node(proof.kcfg.node(node))
+
+
+def foundry_split_node(
+    foundry: Foundry, test: str, node: NodeIdLike, branch_condition: str, version: int | None = None
+) -> list[int]:
+    contract_name, _ = single(foundry.matching_tests([test])).split('.')
+    test_id = foundry.get_test_id(test, version)
+    proof = foundry.get_apr_proof(test_id)
+
+    token = KToken(branch_condition, 'Bool')
+    node_printer = foundry_node_printer(foundry, contract_name, proof)
+    parsed_condition = node_printer.kprint.parse_token(token, as_rule=True)
+
+    split_nodes = proof.kcfg.split_on_constraints(
+        node, [mlEqualsTrue(parsed_condition), mlEqualsFalse(parsed_condition)]
+    )
+    _LOGGER.info(f'Split node {node} into {split_nodes} on branch condition {branch_condition}')
+    proof.write_proof_data()
+
+    return split_nodes
 
 
 def foundry_simplify_node(
