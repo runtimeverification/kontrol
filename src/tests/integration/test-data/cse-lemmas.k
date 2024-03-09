@@ -27,7 +27,7 @@ module CSE-LEMMAS
 
     // Non-equality of byte arrays
     rule { B1:Bytes #Equals B2:Bytes } => #Bottom
-      requires lengthBytes(B1) =/=Int lengthBytes(B2)
+      requires notBool ( lengthBytes(B1) ==Int lengthBytes(B2) )
       [simplification]
 
 endmodule
