@@ -401,10 +401,13 @@ Node 6:
 #And ( { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
+#And ( { true #Equals CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
+#And ( { true #Equals ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
+#And ( { true #Equals CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
 #And ( { true #Equals ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) ) }
-#And { true #Equals ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) ) } ) ) ) ) ) ) ) ) ) )
+#And { true #Equals ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -596,16 +599,22 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
        andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))
-       ensures ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+               )))))))))))))
+       ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
        andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))
+               )))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -798,11 +807,14 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
        andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -995,11 +1007,14 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
        andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
 
 endmodule
@@ -1015,6 +1030,9 @@ Failing nodes:
     #And { true #Equals 0 <=Int ORIGIN_ID:Int }
     #And { true #Equals 0 <=Int NUMBER_CELL:Int }
     #And { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
+    #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { CONTRACT_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
     #And { true #Equals CALLER_ID:Int <Int pow160 }
     #And { true #Equals ORIGIN_ID:Int <Int pow160 }
     #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
