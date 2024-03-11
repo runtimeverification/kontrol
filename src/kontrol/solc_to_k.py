@@ -369,6 +369,7 @@ class Contract:
         signature: str
         ast: dict | None
         natspec_values: dict | None
+        function_calls: tuple[str, ...] | None
 
         def __init__(
             self,
@@ -381,6 +382,7 @@ class Contract:
             contract_storage_digest: str,
             sort: KSort,
             devdoc: dict | None,
+            function_calls: Iterable[str] | None,
         ) -> None:
             self.signature = msig
             self.name = abi['name']
@@ -396,6 +398,7 @@ class Contract:
             natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
             self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
+            self.function_calls = tuple(function_calls) if function_calls is not None else None
 
         @property
         def klabel(self) -> KLabel:
@@ -632,6 +635,7 @@ class Contract:
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 method_devdoc = devdoc.get(msig)
+                method_calls = find_function_calls(method_ast)
                 _m = Contract.Method(
                     msig,
                     mid,
@@ -642,6 +646,7 @@ class Contract:
                     self.storage_digest,
                     self.sort_method,
                     method_devdoc,
+                    method_calls,
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
@@ -1168,3 +1173,50 @@ def hex_string_to_int(hex: str) -> int:
         return int(hex, 16)
     else:
         raise ValueError('Invalid hex format')
+
+
+def find_function_calls(node: dict) -> list[str]:
+    """Recursive function that takes a method AST and returns all the functions that are called in the given method.
+
+    :param node: AST of a Solidity Method
+    :type node: dict
+    :return: A list of unique function signatures that are called inside the provided method AST.
+    :rtype: list[str]
+
+    Functions that belong to contracts such as `Vm` and `KEVMCheatsBase` are ignored.
+    Functions like `abi.encodePacked` that do not belong to a Contract are assigned to a `UnknownContractType` and are ignored.
+    """
+    function_calls: list[str] = []
+
+    def _find_function_calls(node: dict) -> None:
+        if not node:
+            return
+
+        if node.get('nodeType') == 'FunctionCall':
+            expression = node.get('expression', {})
+            if expression.get('nodeType') == 'MemberAccess':
+                contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
+                contract_type = (
+                    contract_type_string.split()[-1] if 'contract' in contract_type_string else 'UnknownContractType'
+                )
+
+                function_name = expression.get('memberName')
+                arg_types = expression['typeDescriptions'].get('typeString')
+                args = arg_types.split()[1] if arg_types is not None else '()'
+
+                if contract_type not in ['KEVMCheatsBase', 'Vm', 'UnknownContractType']:
+                    value = f'{contract_type}.{function_name}{args}'
+                    # Check if value is not already in the list
+                    if value not in function_calls:
+                        function_calls.append(value)
+
+        for _key, value in node.items():
+            if isinstance(value, dict):
+                _find_function_calls(value)
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, dict):
+                        _find_function_calls(item)
+
+    _find_function_calls(node)
+    return function_calls

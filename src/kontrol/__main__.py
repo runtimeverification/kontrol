@@ -29,6 +29,7 @@ from .foundry import (
     foundry_section_edge,
     foundry_show,
     foundry_simplify_node,
+    foundry_split_node,
     foundry_state_diff,
     foundry_step_node,
     foundry_to_dot,
@@ -37,7 +38,7 @@ from .foundry import (
 )
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
-from .prove import foundry_prove
+from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
 
 if TYPE_CHECKING:
@@ -245,6 +246,7 @@ def exec_prove(
     deployment_state_path: Path | None = None,
     with_non_general_state: bool = False,
     xml_test_report: bool = False,
+    cse: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -282,6 +284,7 @@ def exec_prove(
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         active_symbolik=with_non_general_state,
+        cse=cse,
     )
 
     rpc_options = RPCOptions(
@@ -307,9 +310,11 @@ def exec_prove(
     for proof in results:
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
+            print(f'time: {proof.formatted_exec_time()}s')
         else:
             failed += 1
             print(f'PROOF FAILED: {proof.id}')
+            print(f'time: {proof.formatted_exec_time()}')
             failure_log = None
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
@@ -369,6 +374,16 @@ def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: i
 
 def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
     foundry_unrefute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
+
+
+def exec_split_node(
+    foundry_root: Path, test: str, node: NodeIdLike, branch_condition: str, version: int | None, **kwargs: Any
+) -> None:
+    node_ids = foundry_split_node(
+        foundry=_load_foundry(foundry_root), test=test, node=node, branch_condition=branch_condition, version=version
+    )
+
+    print(f'Node {node} has been split into {node_ids} on condition {branch_condition}.')
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
@@ -642,13 +657,6 @@ def _create_argument_parser() -> ArgumentParser:
     solc_to_k_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
     solc_to_k_args.add_argument('contract_name', type=str, help='Name of contract to generate K helpers for.')
 
-    def _parse_test_version_tuple(value: str) -> tuple[str, int | None]:
-        if ':' in value:
-            test, version = value.split(':')
-            return (test, int(version))
-        else:
-            return (value, None)
-
     build = command_parser.add_parser(
         'build',
         help='Kompile K definition corresponding to given output directory.',
@@ -745,7 +753,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--match-test',
-        type=_parse_test_version_tuple,
+        type=parse_test_version_tuple,
         dest='tests',
         default=[],
         action='append',
@@ -795,7 +803,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--include-summary',
-        type=_parse_test_version_tuple,
+        type=parse_test_version_tuple,
         dest='include_summaries',
         default=[],
         action='append',
@@ -814,6 +822,9 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Generate a JUnit XML report',
+    )
+    prove_args.add_argument(
+        '--cse', dest='cse', default=False, action='store_true', help='Use Compositional Symbolic Execution'
     )
 
     show_args = command_parser.add_parser(
@@ -887,6 +898,14 @@ def _create_argument_parser() -> ArgumentParser:
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
     unrefute_node.add_argument('node', type=node_id_like, help='Node to unrefute.')
+
+    split_node = command_parser.add_parser(
+        'split-node',
+        help='Split a node on a given branch condition.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    split_node.add_argument('node', type=node_id_like, help='Node to split.')
+    split_node.add_argument('branch_condition', type=str, help='Branch condition written in K.')
 
     simplify_node = command_parser.add_parser(
         'simplify-node',

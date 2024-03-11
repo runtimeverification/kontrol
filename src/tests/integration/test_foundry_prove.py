@@ -18,6 +18,7 @@ from kontrol.foundry import (
     foundry_refute_node,
     foundry_remove_node,
     foundry_show,
+    foundry_split_node,
     foundry_state_diff,
     foundry_step_node,
     foundry_unrefute_node,
@@ -84,8 +85,8 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
             foundry_kompile(
                 foundry=Foundry(foundry_root),
                 includes=(),
-                requires=[str(TEST_DATA_DIR / 'lemmas.k')],
-                imports=['LoopsTest:SUM-TO-N-INVARIANT'],
+                requires=[str(TEST_DATA_DIR / 'lemmas.k'), str(TEST_DATA_DIR / 'cse-lemmas.k')],
+                imports=['LoopsTest:SUM-TO-N-INVARIANT', 'AssertTest:CSE-LEMMAS'],
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
@@ -336,7 +337,13 @@ def test_foundry_merge_nodes(
     assert_pass(test, single(prove_res))
 
 
+ALL_DEPENDENCY_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-dependency-all').read_text().splitlines())
+SKIPPED_DEPENDENCY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-dependency-skip').read_text().splitlines())
+
+
+@pytest.mark.parametrize('test_id', ALL_DEPENDENCY_TESTS)
 def test_foundry_dependency(
+    test_id: str,
     foundry: Foundry,
     bug_report: BugReport | None,
     server: KoreServer,
@@ -346,34 +353,31 @@ def test_foundry_dependency(
     if no_use_booster:
         pytest.skip()
 
-    dependency = 'ArithmeticContract.add(uint256,uint256)'
-    test = 'ArithmeticCallTest.test_double_add(uint256,uint256)'
+    if test_id in SKIPPED_DEPENDENCY_TESTS:
+        pytest.skip()
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
     foundry_prove(
         foundry,
-        tests=[(dependency, None)],
-        prove_options=ProveOptions(max_iterations=10, bug_report=bug_report, fail_fast=False),
+        tests=[(test_id, None)],
+        prove_options=ProveOptions(
+            max_iterations=50,
+            bug_report=bug_report,
+            cse=True,
+            fail_fast=False,
+            workers=2,
+        ),
         rpc_options=RPCOptions(
             port=server.port,
         ),
-    )
-
-    foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(max_iterations=50, bug_report=bug_report, fail_fast=False),
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-        include_summaries=[(dependency, None)],
+        include_summaries=[],
     )
 
     show_res = foundry_show(
         foundry,
-        test=test,
+        test=test_id,
         to_module=False,
         sort_collections=True,
         omit_unstable_output=True,
@@ -384,7 +388,7 @@ def test_foundry_dependency(
         port=server.port,
     )
 
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test}.expected', update=update_expected_output)
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
 
 
 def check_pending(foundry: Foundry, test: str, pending: list[int]) -> None:
@@ -757,6 +761,7 @@ def test_foundry_xml_report(
         prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
+            reinit=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -773,3 +778,93 @@ def test_foundry_xml_report(
     failure = testsuite.findall('testcase[@name="test_assert_false()"]')
     assert failure
     assert failure[0].findall('failure')
+
+
+def test_foundry_split_node(
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    test = 'PrankTest.testSymbolicStartPrank'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    prove_res_1 = foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    assert_pass(test, single(prove_res_1))
+
+    # Remove node with non-deterministic branch
+    foundry_remove_node(foundry, test, node=13)
+
+    split_nodes = foundry_split_node(
+        foundry,
+        test,
+        node=12,
+        branch_condition='VV0_addr_114b9705 ==Int 491460923342184218035706888008750043977755113263',
+    )
+    assert split_nodes == [70, 71]
+
+    split_nodes = foundry_split_node(
+        foundry,
+        test,
+        node=71,
+        branch_condition='VV0_addr_114b9705 ==Int 645326474426547203313410069153905908525362434349',
+    )
+    assert split_nodes == [72, 73]
+
+    split_nodes = foundry_split_node(
+        foundry,
+        test,
+        node=73,
+        branch_condition='VV0_addr_114b9705 ==Int 728815563385977040452943777879061427756277306518',
+    )
+    assert split_nodes == [74, 75]
+
+    foundry_refute_node(foundry, test, node=70)
+    foundry_refute_node(foundry, test, node=72)
+    foundry_refute_node(foundry, test, node=74)
+
+    check_pending(foundry, test, [75])
+
+    prove_res_2 = foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    assert not single(prove_res_2).passed
+
+    show_res = foundry_show(
+        foundry,
+        test=test,
+        to_module=True,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        counterexample_info=True,
+        port=server.port,
+    )
+
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / 'show/split-node.expected', update=update_expected_output)

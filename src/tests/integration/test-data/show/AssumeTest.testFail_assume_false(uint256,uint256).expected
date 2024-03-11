@@ -249,11 +249,14 @@ Node 7:
 #And ( { true #Equals 0 <=Int VV1_b_114b9705:Int }
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
+#And ( { true #Equals CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
+#And ( { true #Equals ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
+#And ( { true #Equals CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
 #And ( { true #Equals VV1_b_114b9705:Int <Int pow256 }
-#And ( { true #Equals ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) ) }
-#And { true #Equals ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) ) } ) ) ) ) ) ) ) ) ) ) ) ) )
+#And ( { true #Equals ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) ) }
+#And { true #Equals ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -453,18 +456,24 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
-       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))))))
-       ensures ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
-       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
-               ))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))))))))))))))
+       ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
@@ -665,13 +674,16 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
-       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
-               ))))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -873,13 +885,16 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
-       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
-               ))))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))))))))))))))
        ensures VV0_a_114b9705:Int ==K VV1_b_114b9705:Int
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
@@ -1081,12 +1096,15 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
-       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
-               )))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
@@ -1287,12 +1305,15 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-       andBool ( ( notBool #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) )
-       andBool ( ( notBool #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) )
-               )))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-7)]
 
 endmodule
@@ -1310,19 +1331,23 @@ Failing nodes:
     #And { true #Equals 0 <=Int NUMBER_CELL:Int }
     #And { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
     #And { true #Equals 0 <=Int VV1_b_114b9705:Int }
+    #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { CONTRACT_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
     #And { true #Equals CALLER_ID:Int <Int pow160 }
     #And { true #Equals ORIGIN_ID:Int <Int pow160 }
-    #And { false #Equals #isPrecompiledAccount ( CALLER_ID:Int , SHANGHAI ) }
-    #And { false #Equals #isPrecompiledAccount ( ORIGIN_ID:Int , SHANGHAI ) }
     #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
     #And { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
-    #And { true #Equals VV1_b_114b9705:Int <Int pow256 } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And { true #Equals VV1_b_114b9705:Int <Int pow256 }
+    #And { false #Equals 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 }
+    #And { false #Equals 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
   Model:
-    CALLER_ID = 7719
+    CALLER_ID = 10
+    CONTRACT_ID = 3
     NUMBER_CELL = 0
-    ORIGIN_ID = 38
+    ORIGIN_ID = 10
     TIMESTAMP_CELL = 0
     VV0_a_114b9705 = 0
     VV1_b_114b9705 = 0
