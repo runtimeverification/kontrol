@@ -17,7 +17,7 @@ from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
-from pyk.prelude.ml import mlEqualsTrue
+from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
@@ -621,6 +621,7 @@ def _init_cterm(
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': program,
         'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
+        'ID_CELL': KVariable(Foundry.symbolic_contract_id(), sort=KSort('Int')),
         'ORIGIN_CELL': KVariable('ORIGIN_ID', sort=KSort('Int')),
         'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),
         'LOCALMEM_CELL': bytesToken(b''),
@@ -658,6 +659,17 @@ def _init_cterm(
             'ACCOUNTS_CELL': KEVM.accounts(init_account_list),
         }
         init_subst.update(init_subst_test)
+    else:
+        # Symbolic accounts of all relevant contracts
+        # Status: Currently, only the executing contract
+        # TODO: Add all other accounts belonging to relevant contracts
+        accounts: list[KInner] = [
+            Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), program),
+            KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')),
+        ]
+
+        init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
+        init_subst.update(init_subst_accounts)
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
@@ -672,6 +684,24 @@ def _init_cterm(
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
+    for contract_id in [Foundry.symbolic_contract_id(), 'CALLER_ID', 'ORIGIN_ID']:
+        # The address of the executing contract, the calling contract, and the origin contract
+        # is always guaranteed to not be the address of the cheatcode contract
+        init_cterm = init_cterm.add_constraint(
+            mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
+        )
+
+    # The calling contract is assumed to be in the present accounts for non-tests
+    if not (is_test or is_setup or is_constructor or active_symbolik):
+        init_cterm.add_constraint(
+            mlEqualsTrue(
+                KApply(
+                    '_in_keys(_)_MAP_Bool_KItem_Map',
+                    [KVariable('CALLER_ID', sort=KSort('Int')), init_cterm.cell('ACCOUNTS_CELL')],
+                )
+            )
+        )
+
     init_cterm = KEVM.add_invariant(init_cterm)
 
     return init_cterm
