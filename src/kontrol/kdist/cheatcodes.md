@@ -799,34 +799,34 @@ With address: Asserts the topics match and that the emitting address matches.
       requires SELECTOR ==Int selector ( "expectEmit(bool,bool,bool,bool,address)" )
 ```
 
+The `foundry.recordExpectedEvent` is used to record the event that is emitted following the `expectEmit` cheat code.
+When the `LOG(N)` OpCode is executed, a new `SubstateLogItem` will be stored in the `<log>` cell, including the `N` topics that are fetched from the `<wordStack>`.
+This rule incorporates the logic of the [evm-semantics `LOG` opcode rule](https://github.com/runtimeverification/evm-semantics/blob/v1.0.489/kevm-pyk/src/kevm_pyk/kproj/evm-semantics/evm.md?plain=1#L1132-L1137).
+Any change to the rule in evm-semantics needs to be included here as well.
+
 ```k
-    rule <k> LOG(N) _MEMSTART _MEMWIDTH ... </k>
+    rule [foundry.recordExpectedEvent]:
+         <k> LOG(N) MEMSTART MEMWIDTH => .K ... </k>
          <expectEmit>
           <recordEvent> true => false </recordEvent>
           <isEventExpected> false => true </isEventExpected>
           ...
         </expectEmit>
-        <wordStack> WS </wordStack>
+         <id> ACCT </id>
+         <wordStack> WS => #drop(N, WS) </wordStack>
+         <localMem> LM </localMem>
+         <log> L => L ListItem({ ACCT | WordStack2List(#take(N, WS)) | #range(LM, MEMSTART, MEMWIDTH) }) </log>
       requires #sizeWordStack(WS) >=Int N
       [priority(40)]
+```
 
-    rule <k> (.K => #clearExpectEmit) ~> LOG(N) MEMSTART MEMWIDTH ... </k>
-         <log> _ ListItem({ _ | TOPICS | DATA }:SubstateLogEntry) </log>
-         <expectEmit>
-          <recordEvent> false </recordEvent>
-          <isEventExpected> true </isEventExpected>
-          <checkedTopics> CHECKS </checkedTopics>
-          <checkedData> CHECKDATA </checkedData>
-          <expectedEventAddress> .Account </expectedEventAddress>
-        </expectEmit>
-        <wordStack> WS </wordStack>
-        <localMem> LM </localMem>
-      requires #sizeWordStack(WS) >=Int N
-       andBool  #checkTopics(CHECKS, TOPICS, WordStack2List(#take(N, WS)))
-       andBool ((notBool CHECKDATA) orBool (#asWord(DATA) ==Int #asWord(#range(LM, MEMSTART, MEMWIDTH))))
-      [priority(40)]
+`foundry.compareEvents` is used to compare the expected event with the one that is currently being emitted.
+If the events match, the `expectEmit` cheat code is marked as successful using `#clearExpectEmit`.
+Regardless if the events match or not, the canon `LOG(N)` [rule from evm-semantics](https://github.com/runtimeverification/evm-semantics/blob/v1.0.489/kevm-pyk/src/kevm_pyk/kproj/evm-semantics/evm.md?plain=1#L1132-L1137) will store the new event in the `<log>` cell.
 
-    rule <k> (.K => #clearExpectEmit) ~> LOG(N) MEMSTART MEMWIDTH ... </k>
+```k
+    rule [foundry.compareEvents]:
+         <k> (.K => #clearExpectEmit ) ~> LOG(N) MEMSTART MEMWIDTH ... </k>
          <log> _ ListItem({ _ | TOPICS | DATA }:SubstateLogEntry) </log>
          <id> ACCT </id>
          <expectEmit>
@@ -834,13 +834,14 @@ With address: Asserts the topics match and that the emitting address matches.
           <isEventExpected> true </isEventExpected>
           <checkedTopics> CHECKS </checkedTopics>
           <checkedData> CHECKDATA </checkedData>
-          <expectedEventAddress> ACCT </expectedEventAddress>
+          <expectedEventAddress> ADDR </expectedEventAddress>
         </expectEmit>
         <wordStack> WS </wordStack>
         <localMem> LM </localMem>
       requires #sizeWordStack(WS) >=Int N
        andBool  #checkTopics(CHECKS, TOPICS, WordStack2List(#take(N, WS)))
        andBool ((notBool CHECKDATA) orBool (#asWord(DATA) ==Int #asWord(#range(LM, MEMSTART, MEMWIDTH))))
+       andBool (ADDR ==K .Account orBool ADDR ==K ACCT)
       [priority(40)]
 ```
 
@@ -1367,7 +1368,11 @@ If the production is matched when no prank is active, it will be ignored.
          </expectEmit>
 ```
 
-- `#checkTopics` and `#checkTopic` are functions that compare the `TOPICS` of the expected `Event` with those of the currently emitted `Event`.
+- `#checkTopics` handles the comparison of two topic lists, guided by a list of boolean flags indicating which topics to compare.
+It validates that the lists are of equal length before comparing topics as dictated by the boolean flags.
+
+- `#checkTopic` decides if two topics should be compared based on a boolean flag.
+If the flag is false, it skips comparison, assuming success; otherwise, it compares the topics for equality.
 
 ```k
     syntax Bool ::= "#checkTopic" "(" Bool "," Int "," Int ")" [function, klabel(foundry_checkTopic)]
@@ -1376,9 +1381,9 @@ If the production is matched when no prank is active, it will be ignored.
     rule #checkTopic(CHECK, V1, V2) => (notBool CHECK) orBool (V1 ==Int V2)
 
     rule #checkTopics(.List, _, _) => true
-    rule #checkTopics(ListItem(true), L1, L2) => false requires L1 ==K .List orBool L2 ==K .List
-    rule #checkTopics(ListItem(false), L1, L2) => true requires L1 ==K .List orBool L2 ==K .List
-    rule #checkTopics(ListItem(CHECK) CHECKS, ListItem(V1) L1, ListItem(V2) L2) => #checkTopic(CHECK, V1, V2) andBool #checkTopics(CHECKS, L1, L2)
+    rule #checkTopics(_ , .List, .List) => true
+    rule #checkTopics(_, L1, L2) => false requires notBool size(L1) ==Int size(L2)
+    rule #checkTopics(ListItem(CHECK) CHECKS, ListItem(V1) L1, ListItem(V2) L2) => #checkTopic(CHECK, V1, V2) andBool #checkTopics(CHECKS, L1, L2) requires size(L1) ==Int size(L2)
 ```
 
 - `#addAddressToWhitelist` enables the whitelist restriction for calls and adds an address to the whitelist.
