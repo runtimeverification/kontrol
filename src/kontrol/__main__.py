@@ -30,6 +30,7 @@ from .foundry import (
     foundry_section_edge,
     foundry_show,
     foundry_simplify_node,
+    foundry_split_node,
     foundry_state_diff,
     foundry_step_node,
     foundry_to_dot,
@@ -104,6 +105,7 @@ def main() -> None:
             ProveCommand,
             ShowCommand,
             ToDotCommand,
+            SplitNodeCommand,
             ListCommand,
             ViewKCFGCommand,
             RemoveNodeCommand,
@@ -654,6 +656,35 @@ class UnRefuteNodeCommand(Command, FoundryTestOptions, FoundryOptions, LoggingOp
         foundry_unrefute_node(
             foundry=_load_foundry(self.foundry_root), test=self.test, node=self.node, version=self.version
         )
+
+
+class SplitNodeCommand(Command, FoundryTestOptions, FoundryOptions, LoggingOptions):
+    node: NodeIdLike
+    branch_condition: str
+
+    @staticmethod
+    def name() -> str:
+        return 'split-node'
+
+    @staticmethod
+    def help_str() -> str:
+        return 'Split a node on a given branch condition.'
+
+    def exec(self) -> None:
+        node_ids = foundry_split_node(
+            foundry=_load_foundry(self.foundry_root),
+            test=self.test,
+            node=self.node,
+            branch_condition=self.branch_condition,
+            version=self.version,
+        )
+
+        print(f'Node {self.node} has been split into {node_ids} on condition {self.branch_condition}.')
+
+    @staticmethod
+    def update_args(parser: ArgumentParser) -> None:
+        parser.add_argument('node', type=node_id_like, help='Node to split.')
+        parser.add_argument('branch_condition', type=str, help='Branch condition written in K.')
 
 
 class ToDotCommand(Command, FoundryTestOptions, FoundryOptions, LoggingOptions):
