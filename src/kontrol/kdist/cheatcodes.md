@@ -801,6 +801,8 @@ With address: Asserts the topics match and that the emitting address matches.
 
 The `foundry.recordExpectedEvent` is used to record the event that is emitted following the `expectEmit` cheat code.
 When the `LOG(N)` OpCode is executed, a new `SubstateLogItem` will be stored in the `<log>` cell, including the `N` topics that are fetched from the `<wordStack>`.
+This rule incorporates the logic of the [evm-semantics `LOG` opcode rule](https://github.com/runtimeverification/evm-semantics/blob/v1.0.489/kevm-pyk/src/kevm_pyk/kproj/evm-semantics/evm.md?plain=1#L1132-L1137).
+Any change to the rule in evm-semantics needs to be included here as well.
 
 ```k
     rule [foundry.recordExpectedEvent]:
@@ -1366,7 +1368,11 @@ If the production is matched when no prank is active, it will be ignored.
          </expectEmit>
 ```
 
-- `#checkTopics` and `#checkTopic` are functions that compare the `TOPICS` of the expected `Event` with those of the currently emitted `Event`.
+- `#checkTopics` handles the comparison of two topic lists, guided by a list of boolean flags indicating which topics to compare.
+It validates that the lists are of equal length before comparing topics as dictated by the boolean flags.
+
+- `#checkTopic` decides if two topics should be compared based on a boolean flag.
+If the flag is false, it skips comparison, assuming success; otherwise, it compares the topics for equality.
 
 ```k
     syntax Bool ::= "#checkTopic" "(" Bool "," Int "," Int ")" [function, klabel(foundry_checkTopic)]
@@ -1376,7 +1382,8 @@ If the production is matched when no prank is active, it will be ignored.
 
     rule #checkTopics(.List, _, _) => true
     rule #checkTopics(_ , .List, .List) => true
-    rule #checkTopics(ListItem(CHECK) CHECKS, ListItem(V1) L1, ListItem(V2) L2) => #checkTopic(CHECK, V1, V2) andBool #checkTopics(CHECKS, L1, L2)
+    rule #checkTopics(_, L1, L2) => false requires notBool size(L1) ==Int size(L2)
+    rule #checkTopics(ListItem(CHECK) CHECKS, ListItem(V1) L1, ListItem(V2) L2) => #checkTopic(CHECK, V1, V2) andBool #checkTopics(CHECKS, L1, L2) requires size(L1) ==Int size(L2)
 ```
 
 - `#addAddressToWhitelist` enables the whitelist restriction for calls and adds an address to the whitelist.
