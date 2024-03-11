@@ -117,6 +117,7 @@ class RPCOptions(Options):
         parser.add_argument(
             '--trace-rewrites',
             dest='trace_rewrites',
+            default=None,
             action='store_true',
             help='Log traces of all simplification and rewrite rule applications.',
         )
@@ -129,12 +130,14 @@ class RPCOptions(Options):
         parser.add_argument(
             '--use-booster',
             dest='use_booster',
+            default=None,
             action='store_true',
             help='Use the booster RPC server instead of kore-rpc.',
         )
         parser.add_argument(
             '--no-use-booster',
             dest='use_booster',
+            default=None,
             action='store_false',
             help='Do not use the booster RPC server instead of kore-rpc.',
         )

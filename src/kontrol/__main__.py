@@ -318,18 +318,21 @@ class BuildCommand(
         parser.add_argument(
             '--regen',
             dest='regen',
+            default=None,
             action='store_true',
             help='Regenerate foundry.k even if it already exists.',
         )
         parser.add_argument(
             '--rekompile',
             dest='rekompile',
+            default=None,
             action='store_true',
             help='Rekompile foundry.k even if kompiled definition already exists.',
         )
         parser.add_argument(
             '--no-forge-build',
             dest='no_forge_build',
+            default=None,
             action='store_true',
             help="Do not call 'forge build' during kompilation.",
         )
@@ -415,6 +418,7 @@ class ProveCommand(
         parser.add_argument(
             '--reinit',
             dest='reinit',
+            default=None,
             action='store_true',
             help='Reinitialize CFGs even if they already exist.',
         )
@@ -427,13 +431,15 @@ class ProveCommand(
         parser.add_argument(
             '--run-constructor',
             dest='run_constructor',
+            default=None,
             action='store_true',
             help='Include the contract constructor in the test execution.',
         )
-        parser.add_argument('--use-gas', dest='use_gas', action='store_true', help='Enables gas computation in KEVM.')
+        parser.add_argument('--use-gas', dest='use_gas', default=None, action='store_true', help='Enables gas computation in KEVM.')
         parser.add_argument(
             '--break-on-cheatcodes',
             dest='break_on_cheatcodes',
+            default=None,
             action='store_true',
             help='Break on all Foundry rules.',
         )
@@ -453,16 +459,18 @@ class ProveCommand(
         parser.add_argument(
             '--with-non-general-state',
             dest='with_non_general_state',
+            default=None,
             action='store_true',
             help='Flag used by Simbolik to initialise the state of a non test function as if it was a test function.',
         )
         parser.add_argument(
             '--xml-test-report',
             dest='xml_test_report',
+            default=None,
             action='store_true',
             help='Generate a JUnit XML report',
         )
-        parser.add_argument('--cse', dest='cse', action='store_true', help='Use Compositional Symbolic Execution')
+        parser.add_argument('--cse', dest='cse', default=None, action='store_true', help='Use Compositional Symbolic Execution')
 
     def exec(self) -> None:
         kore_rpc_command = (
@@ -562,12 +570,14 @@ class ShowCommand(
         parser.add_argument(
             '--omit-unstable-output',
             dest='omit_unstable_output',
+            default=None,
             action='store_true',
             help='Strip output that is likely to change without the contract logic changing',
         )
         parser.add_argument(
             '--to-kevm-claims',
             dest='to_kevm_claims',
+            default=None,
             action='store_true',
             help='Generate a K module which can be run directly as KEVM claims for the given KCFG (best-effort).',
         )
@@ -999,10 +1009,10 @@ class GetModelCommand(
             help='List of nodes to display the models of.',
         )
         parser.add_argument(
-            '--pending', dest='pending', action='store_true', help='Also display models of pending nodes'
+            '--pending', dest='pending', default=None, action='store_true', help='Also display models of pending nodes'
         )
         parser.add_argument(
-            '--failing', dest='failing', action='store_true', help='Also display models of failing nodes'
+            '--failing', dest='failing', default=None, action='store_true', help='Also display models of failing nodes'
         )
 
     def exec(self) -> None:
