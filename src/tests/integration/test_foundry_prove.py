@@ -211,6 +211,7 @@ def test_foundry_fail(
         prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
+            fail_fast=False,
         ),
         rpc_options=RPCOptions(
             port=server.port,
