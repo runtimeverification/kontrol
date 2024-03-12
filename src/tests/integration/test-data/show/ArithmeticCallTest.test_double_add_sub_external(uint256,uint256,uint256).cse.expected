@@ -1,0 +1,764 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (380 steps)
+├─ 3
+│   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> #codeDeposit 4914609233421842 ...
+│   pc: 30
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (1 step)
+├─ 4
+│   k: #halt ~> #pc [ RETURN ] ~> #execute ~> #codeDeposit 4914609233421842180357068880 ...
+│   pc: 30
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│
+│  (2 steps)
+├─ 5
+│   k: #halt ~> #codeDeposit 491460923342184218035706888008750043977755113263 ~> #pc [  ...
+│   pc: 30
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│
+│  (160 steps)
+├─ 6
+│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   pc: 248
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+│  (1 step)
+├─ 7
+│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   pc: 248
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+│  (2 steps)
+├─ 8 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 248
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+│  (1 step)
+├─ 9
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (510 steps)
+├─ 11
+│   k: STATICCALL 0 491460923342184218035706888008750043977755113263 128 100 128 32 ~>  ...
+│   pc: 1568
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (1 step)
+├─ 12
+│   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall 7 ...
+│   pc: 1568
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (18 steps)
+├─ 13
+│   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
+│   pc: 0
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (1 step)
+├─ 14
+│   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (3 steps)
+├─ 15
+│   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+│   pc: 279
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+┃
+┃ (1 step)
+┣━━┓
+┃  │
+┃  ├─ 16
+┃  │   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
+┃  │   pc: 0
+┃  │   callDepth: 2
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃
+┃  ┃ (1 step)
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 18
+┃  ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+┃  ┃  │   pc: 0
+┃  ┃  │   callDepth: 2
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 21 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ├─ 27
+┃  ┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃ (1 step)
+┃  ┃  ┃  ┃  ┣━━┓
+┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  ├─ 37
+┃  ┃  ┃  ┃  ┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃  ┃  ┃  │   pc: 128
+┃  ┃  ┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┃ (1 step)
+┃  ┃  ┃  ┃  ┃  ┣━━┓
+┃  ┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  ┃  ├─ 55
+┃  ┃  ┃  ┃  ┃  ┃  │   k: #popCallStack ~> #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128  ...
+┃  ┃  ┃  ┃  ┃  ┃  │   pc: 128
+┃  ┃  ┃  ┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┃  ┃ (1 step)
+┃  ┃  ┃  ┃  ┃  ┃  ┣━━┓
+┃  ┃  ┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  ┃  ┃  └─ 87 (leaf, pending)
+┃  ┃  ┃  ┃  ┃  ┃  ┃      k: JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_1 ...
+┃  ┃  ┃  ┃  ┃  ┃  ┃      pc: 610
+┃  ┃  ┃  ┃  ┃  ┃  ┃      callDepth: 1
+┃  ┃  ┃  ┃  ┃  ┃  ┃      statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┃  ┗━━┓
+┃  ┃  ┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃  ┃  ┃     └─ 88 (leaf, pending)
+┃  ┃  ┃  ┃  ┃  ┃         k: #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128 32 #buf ( 32 , (  ...
+┃  ┃  ┃  ┃  ┃  ┃         pc: 279
+┃  ┃  ┃  ┃  ┃  ┃         callDepth: 1
+┃  ┃  ┃  ┃  ┃  ┃         statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃  ┗━━┓
+┃  ┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃  ┃     ├─ 56
+┃  ┃  ┃  ┃  ┃     │   k: #popCallStack ~> #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128  ...
+┃  ┃  ┃  ┃  ┃     │   pc: 128
+┃  ┃  ┃  ┃  ┃     │   callDepth: 2
+┃  ┃  ┃  ┃  ┃     │   statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃  ┃     ┃ (1 step)
+┃  ┃  ┃  ┃  ┃     ┣━━┓
+┃  ┃  ┃  ┃  ┃     ┃  │
+┃  ┃  ┃  ┃  ┃     ┃  └─ 89 (leaf, pending)
+┃  ┃  ┃  ┃  ┃     ┃      k: JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_1 ...
+┃  ┃  ┃  ┃  ┃     ┃      pc: 610
+┃  ┃  ┃  ┃  ┃     ┃      callDepth: 1
+┃  ┃  ┃  ┃  ┃     ┃      statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃     ┃
+┃  ┃  ┃  ┃  ┃     ┗━━┓
+┃  ┃  ┃  ┃  ┃        │
+┃  ┃  ┃  ┃  ┃        └─ 90 (leaf, pending)
+┃  ┃  ┃  ┃  ┃            k: #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128 32 #buf ( 32 , (  ...
+┃  ┃  ┃  ┃  ┃            pc: 279
+┃  ┃  ┃  ┃  ┃            callDepth: 1
+┃  ┃  ┃  ┃  ┃            statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┗━━┓
+┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃     ├─ 38
+┃  ┃  ┃  ┃     │   k: JUMP 570 ~> #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> ...
+┃  ┃  ┃  ┃     │   pc: 562
+┃  ┃  ┃  ┃     │   callDepth: 2
+┃  ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃     │  (125 steps)
+┃  ┃  ┃  ┃     ├─ 57
+┃  ┃  ┃  ┃     │   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> #return 128 32 ~> #pc [ STATI ...
+┃  ┃  ┃  ┃     │   pc: 128
+┃  ┃  ┃  ┃     │   callDepth: 2
+┃  ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃     │  (1 step)
+┃  ┃  ┃  ┃     └─ 91 (leaf, pending)
+┃  ┃  ┃  ┃         k: #halt ~> #pc [ RETURN ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> # ...
+┃  ┃  ┃  ┃         pc: 128
+┃  ┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃  ┃         statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     ├─ 28
+┃  ┃  ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃     │   pc: 562
+┃  ┃  ┃     │   callDepth: 2
+┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┃ (1 step)
+┃  ┃  ┃     ┣━━┓
+┃  ┃  ┃     ┃  │
+┃  ┃  ┃     ┃  ├─ 39
+┃  ┃  ┃     ┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃     ┃  │   pc: 550
+┃  ┃  ┃     ┃  │   callDepth: 2
+┃  ┃  ┃     ┃  │   statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃     ┃  ┃ (1 step)
+┃  ┃  ┃     ┃  ┣━━┓
+┃  ┃  ┃     ┃  ┃  │
+┃  ┃  ┃     ┃  ┃  ├─ 58
+┃  ┃  ┃     ┃  ┃  │   k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem 128 3 ...
+┃  ┃  ┃     ┃  ┃  │   pc: 550
+┃  ┃  ┃     ┃  ┃  │   callDepth: 2
+┃  ┃  ┃     ┃  ┃  │   statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃  ┃  ┃
+┃  ┃  ┃     ┃  ┃  ┃ (1 step)
+┃  ┃  ┃     ┃  ┃  ┣━━┓
+┃  ┃  ┃     ┃  ┃  ┃  │
+┃  ┃  ┃     ┃  ┃  ┃  └─ 92 (leaf, pending)
+┃  ┃  ┃     ┃  ┃  ┃      k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> #return 128 32 ~> #pc [ STATIC ...
+┃  ┃  ┃     ┃  ┃  ┃      pc: 295
+┃  ┃  ┃     ┃  ┃  ┃      callDepth: 1
+┃  ┃  ┃     ┃  ┃  ┃      statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃  ┃  ┃
+┃  ┃  ┃     ┃  ┃  ┗━━┓
+┃  ┃  ┃     ┃  ┃     │
+┃  ┃  ┃     ┃  ┃     └─ 93 (leaf, pending)
+┃  ┃  ┃     ┃  ┃         k: #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem 128 32 b"NH{q\x00\x00\ ...
+┃  ┃  ┃     ┃  ┃         pc: 279
+┃  ┃  ┃     ┃  ┃         callDepth: 1
+┃  ┃  ┃     ┃  ┃         statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃  ┃
+┃  ┃  ┃     ┃  ┗━━┓
+┃  ┃  ┃     ┃     │
+┃  ┃  ┃     ┃     ├─ 59
+┃  ┃  ┃     ┃     │   k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem 128 3 ...
+┃  ┃  ┃     ┃     │   pc: 550
+┃  ┃  ┃     ┃     │   callDepth: 2
+┃  ┃  ┃     ┃     │   statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃     ┃
+┃  ┃  ┃     ┃     ┃ (1 step)
+┃  ┃  ┃     ┃     ┣━━┓
+┃  ┃  ┃     ┃     ┃  │
+┃  ┃  ┃     ┃     ┃  └─ 94 (leaf, pending)
+┃  ┃  ┃     ┃     ┃      k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> #return 128 32 ~> #pc [ STATIC ...
+┃  ┃  ┃     ┃     ┃      pc: 295
+┃  ┃  ┃     ┃     ┃      callDepth: 1
+┃  ┃  ┃     ┃     ┃      statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃     ┃
+┃  ┃  ┃     ┃     ┗━━┓
+┃  ┃  ┃     ┃        │
+┃  ┃  ┃     ┃        └─ 95 (leaf, pending)
+┃  ┃  ┃     ┃            k: #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem 128 32 b"NH{q\x00\x00\ ...
+┃  ┃  ┃     ┃            pc: 279
+┃  ┃  ┃     ┃            callDepth: 1
+┃  ┃  ┃     ┃            statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┗━━┓
+┃  ┃  ┃        │
+┃  ┃  ┃        ├─ 40
+┃  ┃  ┃        │   k: #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> ...
+┃  ┃  ┃        │   pc: 562
+┃  ┃  ┃        │   callDepth: 2
+┃  ┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃        │
+┃  ┃  ┃        │  (62 steps)
+┃  ┃  ┃        └─ 60 (leaf, pending)
+┃  ┃  ┃            k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> #return 128 32 ~> #pc [ STATIC ...
+┃  ┃  ┃            pc: 550
+┃  ┃  ┃            callDepth: 2
+┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     ├─ 22
+┃  ┃     │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
+┃  ┃     │   pc: 0
+┃  ┃     │   callDepth: 2
+┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     │
+┃  ┃     │  (340 steps)
+┃  ┃     ├─ 29 (split)
+┃  ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃     │   pc: 562
+┃  ┃     │   callDepth: 2
+┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃
+┃  ┃     ┃ (branch)
+┃  ┃     ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     ┃  │
+┃  ┃     ┃  ├─ 41
+┃  ┃     ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃     ┃  │   pc: 562
+┃  ┃     ┃  │   callDepth: 2
+┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃  ┃
+┃  ┃     ┃  ┃ (1 step)
+┃  ┃     ┃  ┣━━┓
+┃  ┃     ┃  ┃  │
+┃  ┃     ┃  ┃  └─ 61 (leaf, pending)
+┃  ┃     ┃  ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃     ┃  ┃      pc: 128
+┃  ┃     ┃  ┃      callDepth: 2
+┃  ┃     ┃  ┃      statusCode: EVMC_SUCCESS
+┃  ┃     ┃  ┃
+┃  ┃     ┃  ┗━━┓
+┃  ┃     ┃     │
+┃  ┃     ┃     └─ 62 (leaf, pending)
+┃  ┃     ┃         k: JUMP 570 ~> #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> ...
+┃  ┃     ┃         pc: 562
+┃  ┃     ┃         callDepth: 2
+┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃
+┃  ┃     ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃        │
+┃  ┃        ├─ 42
+┃  ┃        │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃        │   pc: 562
+┃  ┃        │   callDepth: 2
+┃  ┃        │   statusCode: STATUSCODE:StatusCode
+┃  ┃        ┃
+┃  ┃        ┃ (1 step)
+┃  ┃        ┣━━┓
+┃  ┃        ┃  │
+┃  ┃        ┃  └─ 63 (leaf, pending)
+┃  ┃        ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃        ┃      pc: 550
+┃  ┃        ┃      callDepth: 2
+┃  ┃        ┃      statusCode: EVMC_REVERT
+┃  ┃        ┃
+┃  ┃        ┗━━┓
+┃  ┃           │
+┃  ┃           └─ 64 (leaf, pending)
+┃  ┃               k: #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> ...
+┃  ┃               pc: 562
+┃  ┃               callDepth: 2
+┃  ┃               statusCode: STATUSCODE:StatusCode
+┃  ┃
+┃  ┗━━┓
+┃     │
+┃     ├─ 19
+┃     │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+┃     │   pc: 0
+┃     │   callDepth: 2
+┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃
+┃     ┃ (1 step)
+┃     ┣━━┓
+┃     ┃  │
+┃     ┃  ├─ 23 (split)
+┃     ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃  │   pc: 562
+┃     ┃  │   callDepth: 2
+┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃
+┃     ┃  ┃ (branch)
+┃     ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃     ┃  ┃  │
+┃     ┃  ┃  ├─ 30
+┃     ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃  ┃  │   pc: 562
+┃     ┃  ┃  │   callDepth: 2
+┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃  ┃
+┃     ┃  ┃  ┃ (1 step)
+┃     ┃  ┃  ┣━━┓
+┃     ┃  ┃  ┃  │
+┃     ┃  ┃  ┃  ├─ 43
+┃     ┃  ┃  ┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃     ┃  ┃  ┃  │   pc: 128
+┃     ┃  ┃  ┃  │   callDepth: 2
+┃     ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
+┃     ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┃ (1 step)
+┃     ┃  ┃  ┃  ┣━━┓
+┃     ┃  ┃  ┃  ┃  │
+┃     ┃  ┃  ┃  ┃  └─ 65 (leaf, pending)
+┃     ┃  ┃  ┃  ┃      k: #popCallStack ~> #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128  ...
+┃     ┃  ┃  ┃  ┃      pc: 128
+┃     ┃  ┃  ┃  ┃      callDepth: 2
+┃     ┃  ┃  ┃  ┃      statusCode: EVMC_SUCCESS
+┃     ┃  ┃  ┃  ┃
+┃     ┃  ┃  ┃  ┗━━┓
+┃     ┃  ┃  ┃     │
+┃     ┃  ┃  ┃     └─ 66 (leaf, pending)
+┃     ┃  ┃  ┃         k: #popCallStack ~> #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128  ...
+┃     ┃  ┃  ┃         pc: 128
+┃     ┃  ┃  ┃         callDepth: 2
+┃     ┃  ┃  ┃         statusCode: EVMC_SUCCESS
+┃     ┃  ┃  ┃
+┃     ┃  ┃  ┗━━┓
+┃     ┃  ┃     │
+┃     ┃  ┃     ├─ 44
+┃     ┃  ┃     │   k: JUMP 570 ~> #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> ...
+┃     ┃  ┃     │   pc: 562
+┃     ┃  ┃     │   callDepth: 2
+┃     ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃     │
+┃     ┃  ┃     │  (125 steps)
+┃     ┃  ┃     └─ 67 (leaf, pending)
+┃     ┃  ┃         k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> #return 128 32 ~> #pc [ STATI ...
+┃     ┃  ┃         pc: 128
+┃     ┃  ┃         callDepth: 2
+┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃
+┃     ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃     ┃     │
+┃     ┃     ├─ 31
+┃     ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃     │   pc: 562
+┃     ┃     │   callDepth: 2
+┃     ┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃     ┃
+┃     ┃     ┃ (1 step)
+┃     ┃     ┣━━┓
+┃     ┃     ┃  │
+┃     ┃     ┃  ├─ 45
+┃     ┃     ┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃     ┃     ┃  │   pc: 550
+┃     ┃     ┃  │   callDepth: 2
+┃     ┃     ┃  │   statusCode: EVMC_REVERT
+┃     ┃     ┃  ┃
+┃     ┃     ┃  ┃ (1 step)
+┃     ┃     ┃  ┣━━┓
+┃     ┃     ┃  ┃  │
+┃     ┃     ┃  ┃  └─ 68 (leaf, pending)
+┃     ┃     ┃  ┃      k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem 128 3 ...
+┃     ┃     ┃  ┃      pc: 550
+┃     ┃     ┃  ┃      callDepth: 2
+┃     ┃     ┃  ┃      statusCode: EVMC_REVERT
+┃     ┃     ┃  ┃
+┃     ┃     ┃  ┗━━┓
+┃     ┃     ┃     │
+┃     ┃     ┃     └─ 69 (leaf, pending)
+┃     ┃     ┃         k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem 128 3 ...
+┃     ┃     ┃         pc: 550
+┃     ┃     ┃         callDepth: 2
+┃     ┃     ┃         statusCode: EVMC_REVERT
+┃     ┃     ┃
+┃     ┃     ┗━━┓
+┃     ┃        │
+┃     ┃        ├─ 46
+┃     ┃        │   k: #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> ...
+┃     ┃        │   pc: 562
+┃     ┃        │   callDepth: 2
+┃     ┃        │   statusCode: STATUSCODE:StatusCode
+┃     ┃        │
+┃     ┃        │  (62 steps)
+┃     ┃        └─ 70 (leaf, pending)
+┃     ┃            k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> #return 128 32 ~> #pc [ STATIC ...
+┃     ┃            pc: 550
+┃     ┃            callDepth: 2
+┃     ┃            statusCode: STATUSCODE:StatusCode
+┃     ┃
+┃     ┗━━┓
+┃        │
+┃        ├─ 24
+┃        │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
+┃        │   pc: 0
+┃        │   callDepth: 2
+┃        │   statusCode: STATUSCODE:StatusCode
+┃        │
+┃        │  (340 steps)
+┃        ├─ 32 (split)
+┃        │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃        │   pc: 562
+┃        │   callDepth: 2
+┃        │   statusCode: STATUSCODE:StatusCode
+┃        ┃
+┃        ┃ (branch)
+┃        ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃        ┃  │
+┃        ┃  ├─ 47
+┃        ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃        ┃  │   pc: 562
+┃        ┃  │   callDepth: 2
+┃        ┃  │   statusCode: STATUSCODE:StatusCode
+┃        ┃  ┃
+┃        ┃  ┃ (1 step)
+┃        ┃  ┣━━┓
+┃        ┃  ┃  │
+┃        ┃  ┃  └─ 71 (leaf, pending)
+┃        ┃  ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃        ┃  ┃      pc: 128
+┃        ┃  ┃      callDepth: 2
+┃        ┃  ┃      statusCode: EVMC_SUCCESS
+┃        ┃  ┃
+┃        ┃  ┗━━┓
+┃        ┃     │
+┃        ┃     └─ 72 (leaf, pending)
+┃        ┃         k: JUMP 570 ~> #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> ...
+┃        ┃         pc: 562
+┃        ┃         callDepth: 2
+┃        ┃         statusCode: STATUSCODE:StatusCode
+┃        ┃
+┃        ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃           │
+┃           ├─ 48
+┃           │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃           │   pc: 562
+┃           │   callDepth: 2
+┃           │   statusCode: STATUSCODE:StatusCode
+┃           ┃
+┃           ┃ (1 step)
+┃           ┣━━┓
+┃           ┃  │
+┃           ┃  └─ 73 (leaf, pending)
+┃           ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃           ┃      pc: 550
+┃           ┃      callDepth: 2
+┃           ┃      statusCode: EVMC_REVERT
+┃           ┃
+┃           ┗━━┓
+┃              │
+┃              └─ 74 (leaf, pending)
+┃                  k: #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> ...
+┃                  pc: 562
+┃                  callDepth: 2
+┃                  statusCode: STATUSCODE:StatusCode
+┃
+┗━━┓
+   │
+   ├─ 17
+   │   k: #call 491460923342184218035706888008750043977755113263 4914609233421842180357068 ...
+   │   pc: 279
+   │   callDepth: 1
+   │   statusCode: STATUSCODE:StatusCode
+   │
+   │  (14 steps)
+   ├─ 20
+   │   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
+   │   pc: 0
+   │   callDepth: 2
+   │   statusCode: STATUSCODE:StatusCode
+   ┃
+   ┃ (1 step)
+   ┣━━┓
+   ┃  │
+   ┃  ├─ 25
+   ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+   ┃  │   pc: 0
+   ┃  │   callDepth: 2
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┃ (1 step)
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 33 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  ├─ 49
+   ┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃  │   pc: 562
+   ┃  ┃  ┃  │   callDepth: 2
+   ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┃ (1 step)
+   ┃  ┃  ┃  ┣━━┓
+   ┃  ┃  ┃  ┃  │
+   ┃  ┃  ┃  ┃  └─ 75 (leaf, pending)
+   ┃  ┃  ┃  ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+   ┃  ┃  ┃  ┃      pc: 128
+   ┃  ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃  ┃      statusCode: EVMC_SUCCESS
+   ┃  ┃  ┃  ┃
+   ┃  ┃  ┃  ┗━━┓
+   ┃  ┃  ┃     │
+   ┃  ┃  ┃     └─ 76 (leaf, pending)
+   ┃  ┃  ┃         k: JUMP 570 ~> #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> ...
+   ┃  ┃  ┃         pc: 562
+   ┃  ┃  ┃         callDepth: 2
+   ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     ├─ 50
+   ┃  ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃     │   pc: 562
+   ┃  ┃     │   callDepth: 2
+   ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃     ┃
+   ┃  ┃     ┃ (1 step)
+   ┃  ┃     ┣━━┓
+   ┃  ┃     ┃  │
+   ┃  ┃     ┃  └─ 77 (leaf, pending)
+   ┃  ┃     ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+   ┃  ┃     ┃      pc: 550
+   ┃  ┃     ┃      callDepth: 2
+   ┃  ┃     ┃      statusCode: EVMC_REVERT
+   ┃  ┃     ┃
+   ┃  ┃     ┗━━┓
+   ┃  ┃        │
+   ┃  ┃        └─ 78 (leaf, pending)
+   ┃  ┃            k: #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> ...
+   ┃  ┃            pc: 562
+   ┃  ┃            callDepth: 2
+   ┃  ┃            statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┗━━┓
+   ┃     │
+   ┃     ├─ 34
+   ┃     │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
+   ┃     │   pc: 0
+   ┃     │   callDepth: 2
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     │
+   ┃     │  (340 steps)
+   ┃     ├─ 51 (split)
+   ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃     │   pc: 562
+   ┃     │   callDepth: 2
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃
+   ┃     ┃ (branch)
+   ┃     ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     ┃  │
+   ┃     ┃  └─ 79 (leaf, pending)
+   ┃     ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃     ┃      pc: 562
+   ┃     ┃      callDepth: 2
+   ┃     ┃      statusCode: STATUSCODE:StatusCode
+   ┃     ┃
+   ┃     ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃        │
+   ┃        └─ 80 (leaf, pending)
+   ┃            k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃            pc: 562
+   ┃            callDepth: 2
+   ┃            statusCode: STATUSCODE:StatusCode
+   ┃
+   ┗━━┓
+      │
+      ├─ 26
+      │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+      │   pc: 0
+      │   callDepth: 2
+      │   statusCode: STATUSCODE:StatusCode
+      ┃
+      ┃ (1 step)
+      ┣━━┓
+      ┃  │
+      ┃  ├─ 35 (split)
+      ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃  │   pc: 562
+      ┃  │   callDepth: 2
+      ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃
+      ┃  ┃ (branch)
+      ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+      ┃  ┃  │
+      ┃  ┃  ├─ 52
+      ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃  ┃  │   pc: 562
+      ┃  ┃  │   callDepth: 2
+      ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃  ┃
+      ┃  ┃  ┃ (1 step)
+      ┃  ┃  ┣━━┓
+      ┃  ┃  ┃  │
+      ┃  ┃  ┃  └─ 81 (leaf, pending)
+      ┃  ┃  ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+      ┃  ┃  ┃      pc: 128
+      ┃  ┃  ┃      callDepth: 2
+      ┃  ┃  ┃      statusCode: EVMC_SUCCESS
+      ┃  ┃  ┃
+      ┃  ┃  ┗━━┓
+      ┃  ┃     │
+      ┃  ┃     └─ 82 (leaf, pending)
+      ┃  ┃         k: JUMP 570 ~> #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> ...
+      ┃  ┃         pc: 562
+      ┃  ┃         callDepth: 2
+      ┃  ┃         statusCode: STATUSCODE:StatusCode
+      ┃  ┃
+      ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+      ┃     │
+      ┃     ├─ 53
+      ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃     │   pc: 562
+      ┃     │   callDepth: 2
+      ┃     │   statusCode: STATUSCODE:StatusCode
+      ┃     ┃
+      ┃     ┃ (1 step)
+      ┃     ┣━━┓
+      ┃     ┃  │
+      ┃     ┃  └─ 83 (leaf, pending)
+      ┃     ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+      ┃     ┃      pc: 550
+      ┃     ┃      callDepth: 2
+      ┃     ┃      statusCode: EVMC_REVERT
+      ┃     ┃
+      ┃     ┗━━┓
+      ┃        │
+      ┃        └─ 84 (leaf, pending)
+      ┃            k: #pc [ JUMPI ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> ...
+      ┃            pc: 562
+      ┃            callDepth: 2
+      ┃            statusCode: STATUSCODE:StatusCode
+      ┃
+      ┗━━┓
+         │
+         ├─ 36
+         │   k: #next [ PUSH ( 1 ) ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #exe ...
+         │   pc: 0
+         │   callDepth: 2
+         │   statusCode: STATUSCODE:StatusCode
+         │
+         │  (340 steps)
+         ├─ 54 (split)
+         │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+         │   pc: 562
+         │   callDepth: 2
+         │   statusCode: STATUSCODE:StatusCode
+         ┃
+         ┃ (branch)
+         ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+         ┃  │
+         ┃  └─ 85 (leaf, pending)
+         ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+         ┃      pc: 562
+         ┃      callDepth: 2
+         ┃      statusCode: STATUSCODE:StatusCode
+         ┃
+         ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+            │
+            └─ 86 (leaf, pending)
+                k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+                pc: 562
+                callDepth: 2
+                statusCode: STATUSCODE:StatusCode
+
+
+┌─ 10 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
+
+
