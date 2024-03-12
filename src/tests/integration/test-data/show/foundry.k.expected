@@ -1,5 +1,6 @@
 requires "contracts.k"
 requires "requires/lemmas.k"
+requires "requires/cse-lemmas.k"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
@@ -49,7 +50,6 @@ module FOUNDRY-MAIN
     imports public S2KtestZModFreshIntTest-VERIFICATION
     imports public S2KtestZModGasTest-VERIFICATION
     imports public S2KtestZModGetCodeTest-VERIFICATION
-    imports public S2KtestZModHevmTests-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-VERIFICATION
     imports public S2KtestZModInitCodeTest-VERIFICATION
     imports public S2KtestZModInitCodeBranchTest-VERIFICATION
@@ -452,13 +452,6 @@ module S2KtestZModGetCodeTest-VERIFICATION
 
 endmodule
 
-module S2KtestZModHevmTests-VERIFICATION
-    imports public S2KtestZModHevmTests-CONTRACT
-    
-    
-
-endmodule
-
 module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     
@@ -714,6 +707,7 @@ endmodule
 
 module S2KtestZModAssertTest-VERIFICATION
     imports public S2KtestZModAssertTest-CONTRACT
+    imports public CSE-LEMMAS
     
     
 
