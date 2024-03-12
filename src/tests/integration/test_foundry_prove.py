@@ -586,12 +586,13 @@ def test_foundry_init_code(
 
     test = 'ConstructorTest.run_constructor()'
 
-    prove_res_1 = foundry_prove(
+    prove_res = foundry_prove(
         foundry,
         tests=[(test_id, None)],
         prove_options=ProveOptions(
             run_constructor=True,
             bug_report=bug_report,
+            fail_fast=False,
         ),
         rpc_options=RPCOptions(
             smt_timeout=300,
@@ -602,50 +603,10 @@ def test_foundry_init_code(
 
     # Then
     if test_id != test:
-        assert_pass(test_id, single(prove_res_1))
+        assert_pass(test_id, single(prove_res))
         return
     else:
-        assert_fail(test, single(prove_res_1))
-
-    # Continue checking non-test function
-    check_pending(foundry, test, [19, 20, 21])
-
-    foundry_step_node(
-        foundry,
-        test,
-        node=21,
-        depth=3,
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-    )
-    foundry_step_node(
-        foundry,
-        test,
-        node=19,
-        depth=48,
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-    )
-    check_pending(foundry, test, [20, 22, 23])
-
-    prove_res_2 = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(
-            run_constructor=True,
-            bug_report=bug_report,
-        ),
-        rpc_options=RPCOptions(
-            smt_timeout=300,
-            smt_retry_limit=10,
-            use_booster=not no_use_booster,
-        ),
-    )
-
-    check_pending(foundry, test, [20])
-    assert not single(prove_res_2).passed
+        assert_fail(test, single(prove_res))
 
     # And when
     show_res = foundry_show(
