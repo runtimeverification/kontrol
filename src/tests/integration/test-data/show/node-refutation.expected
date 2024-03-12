@@ -13,7 +13,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals 10 <=Int VV0_x_114b9705:Int }
+┣━━┓ constraint: 10 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  └─ 4 (leaf, refuted)
 ┃      k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -21,7 +21,7 @@
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃
-┗━━┓ constraint: { true #Equals ( notBool 10 <=Int VV0_x_114b9705:Int ) }
+┗━━┓ constraint: ( notBool 10 <=Int VV0_x_114b9705:Int )
    │
    ├─ 5
    │   k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...

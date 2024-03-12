@@ -69,7 +69,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 }
+┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263
 ┃  │
 ┃  └─ 70 (leaf, refuted)
 ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -77,7 +77,7 @@
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃
-┗━━┓ constraint: { false #Equals VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 }
+┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 )
    │
    ├─ 71 (split)
    │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -86,7 +86,7 @@
    │   statusCode: STATUSCODE:StatusCode
    ┃
    ┃ (branch)
-   ┣━━┓ constraint: { true #Equals VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 }
+   ┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349
    ┃  │
    ┃  └─ 72 (leaf, refuted)
    ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -94,7 +94,7 @@
    ┃      callDepth: 0
    ┃      statusCode: STATUSCODE:StatusCode
    ┃
-   ┗━━┓ constraint: { false #Equals VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 }
+   ┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 )
       │
       ├─ 73 (split)
       │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -103,7 +103,7 @@
       │   statusCode: STATUSCODE:StatusCode
       ┃
       ┃ (branch)
-      ┣━━┓ constraint: { true #Equals VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 }
+      ┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518
       ┃  │
       ┃  └─ 74 (leaf, refuted)
       ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -111,7 +111,7 @@
       ┃      callDepth: 0
       ┃      statusCode: STATUSCODE:StatusCode
       ┃
-      ┗━━┓ constraint: { false #Equals VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 }
+      ┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 )
          │
          ├─ 75
          │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...

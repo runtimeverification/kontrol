@@ -41,7 +41,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals 100 <=Int VV0_x_114b9705:Int }
+┣━━┓ constraint: 100 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 9
 ┃  │   k: JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...
@@ -78,7 +78,7 @@
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: { true #Equals ( notBool 100 <=Int VV0_x_114b9705:Int ) }
+┗━━┓ constraint: ( notBool 100 <=Int VV0_x_114b9705:Int )
    │
    ├─ 10
    │   k: JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...

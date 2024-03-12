@@ -41,7 +41,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int }
+┣━━┓ constraint: VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 9
 ┃  │   k: JUMPI 1594 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) ~> #pc [ JU ...
@@ -70,7 +70,7 @@
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃
-┗━━┓ constraint: { true #Equals ( notBool VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) }
+┗━━┓ constraint: ( notBool VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int )
    │
    ├─ 10
    │   k: JUMPI 1594 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) ~> #pc [ JU ...
