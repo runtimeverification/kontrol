@@ -36,4 +36,8 @@ contract ConstructorTest is Test {
         assert(!get_flag());
     }
 
+    function run_constructor() public {
+        assert(flag);
+    }
+
 }

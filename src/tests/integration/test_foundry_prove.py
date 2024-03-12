@@ -573,11 +573,20 @@ ALL_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code').read_te
 
 
 @pytest.mark.parametrize('test_id', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test_id: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
+def test_foundry_init_code(
+    test_id: str,
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    no_use_booster: bool,
+    server: KoreServer,
+) -> None:
     if no_use_booster:
         pytest.skip()
 
-    prove_res = foundry_prove(
+    test = 'ConstructorTest.run_constructor()'
+
+    prove_res_1 = foundry_prove(
         foundry,
         tests=[(test_id, None)],
         prove_options=ProveOptions(
@@ -592,7 +601,68 @@ def test_foundry_init_code(test_id: str, foundry: Foundry, bug_report: BugReport
     )
 
     # Then
-    assert_pass(test_id, single(prove_res))
+    if test_id != test:
+        assert_pass(test_id, single(prove_res_1))
+        return
+    else:
+        assert_fail(test, single(prove_res_1))
+
+    # Continue checking non-test function
+    check_pending(foundry, test, [19, 20, 21])
+
+    foundry_step_node(
+        foundry,
+        test,
+        node=21,
+        depth=3,
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+    foundry_step_node(
+        foundry,
+        test,
+        node=19,
+        depth=48,
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+    check_pending(foundry, test, [20, 22, 23])
+
+    prove_res_2 = foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            run_constructor=True,
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            smt_timeout=300,
+            smt_retry_limit=10,
+            use_booster=not no_use_booster,
+        ),
+    )
+
+    check_pending(foundry, test, [20])
+    assert not single(prove_res_2).passed
+
+    # And when
+    show_res = foundry_show(
+        foundry,
+        test=test,
+        to_module=True,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        counterexample_info=True,
+        port=server.port,
+    )
+
+    # Then
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test}.expected', update=update_expected_output)
 
 
 def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
