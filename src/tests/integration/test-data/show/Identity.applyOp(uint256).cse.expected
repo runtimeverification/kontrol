@@ -27,7 +27,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals CALLDEPTH_CELL:Int <Int 1024 }
+┣━━┓ constraint: CALLDEPTH_CELL:Int <Int 1024
 ┃  │
 ┃  ├─ 6
 ┃  │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
@@ -92,7 +92,7 @@
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: { true #Equals 1024 <=Int CALLDEPTH_CELL:Int }
+┗━━┓ constraint: 1024 <=Int CALLDEPTH_CELL:Int
    │
    ├─ 7
    │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
