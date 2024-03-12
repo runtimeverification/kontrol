@@ -90,7 +90,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) }
+┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  │
 ┃  ├─ 16
 ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
@@ -148,7 +148,7 @@
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃
 ┃  ┃ (branch)
-┃  ┣━━┓ constraint: { true #Equals ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) }
+┃  ┣━━┓ constraint: ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃  │
 ┃  ┃  ├─ 30
 ┃  ┃  │   k: JUMPI 570 bool2Word ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( max ...
@@ -206,7 +206,7 @@
 ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃
 ┃  ┃  ┃ (branch)
-┃  ┃  ┣━━┓ constraint: { true #Equals VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int }
+┃  ┃  ┣━━┓ constraint: VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 44
 ┃  ┃  ┃  │   k: JUMPI 618 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) ~> #pc [ JUM ...
@@ -264,7 +264,7 @@
 ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃
 ┃  ┃  ┃  ┃ (branch)
-┃  ┃  ┃  ┣━━┓ constraint: { true #Equals VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) }
+┃  ┃  ┃  ┣━━┓ constraint: VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
 ┃  ┃  ┃  ┃  │
 ┃  ┃  ┃  ┃  ├─ 58
 ┃  ┃  ┃  ┃  │   k: JUMPI 618 bool2Word ( VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_1 ...
@@ -279,7 +279,7 @@
 ┃  ┃  ┃  ┃      callDepth: 1
 ┃  ┃  ┃  ┃      statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃
-┃  ┃  ┃  ┗━━┓ constraint: { true #Equals ( notBool VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) ) }
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) )
 ┃  ┃  ┃     │
 ┃  ┃  ┃     ├─ 59
 ┃  ┃  ┃     │   k: JUMPI 618 bool2Word ( VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_1 ...
@@ -294,7 +294,7 @@
 ┃  ┃  ┃         callDepth: 1
 ┃  ┃  ┃         statusCode: EVMC_REVERT
 ┃  ┃  ┃
-┃  ┃  ┗━━┓ constraint: { true #Equals ( notBool VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) }
+┃  ┃  ┗━━┓ constraint: ( notBool VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int )
 ┃  ┃     │
 ┃  ┃     ├─ 45
 ┃  ┃     │   k: JUMPI 618 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) ~> #pc [ JUM ...
@@ -337,7 +337,7 @@
 ┃  ┃         callDepth: 0
 ┃  ┃         statusCode: EVMC_REVERT
 ┃  ┃
-┃  ┗━━┓ constraint: { true #Equals ( notBool ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) ) }
+┃  ┗━━┓ constraint: ( notBool ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
 ┃     │
 ┃     ├─ 31
 ┃     │   k: JUMPI 570 bool2Word ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( max ...
@@ -380,7 +380,7 @@
 ┃         callDepth: 0
 ┃         statusCode: EVMC_REVERT
 ┃
-┗━━┓ constraint: { true #Equals ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) ) }
+┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
    │
    ├─ 17
    │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
