@@ -79,7 +79,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
         if not foundry_root.is_dir():
             copy_tree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root))
 
-            run_process(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
+            run_process(['forge', 'install', '--no-git', 'foundry-rs/forge-std@75f1746'], cwd=foundry_root)
             run_process(['forge', 'build'], cwd=foundry_root)
 
             foundry_kompile(
