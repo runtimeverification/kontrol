@@ -14035,6 +14035,205 @@ module S2KtestZModAssertTest-CONTRACT
 
 endmodule
 
+module S2KtestZModnestedZModAssertNestedTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModnestedZModAssertNestedTestContract
+    
+    syntax S2KtestZModnestedZModAssertNestedTestContract ::= "S2KtestZModnestedZModAssertNestedTest" [symbol(""), klabel(contract_test%nested%AssertNestedTest)]
+    
+      
+    
+    rule  ( #initBytecode ( S2KtestZModnestedZModAssertNestedTest ) => #parseByteStack ( "0x608060405260078054600160ff199182168117909255600b8054909116909117905534801561002d57600080fd5b50610a438061003d6000396000f3fe608060405234801561001057600080fd5b50600436106100b45760003560e01c8063b5508aa911610071578063b5508aa914610119578063ba414fa614610121578063d6a2ec7614610139578063e20c9f7114610178578063f6c8460714610180578063fa7626d41461018257600080fd5b80631ed7831c146100b95780633e5e3c23146100d75780633f7286f4146100df57806366d9a9a0146100e757806385226c81146100fc578063916a17c614610111575b600080fd5b6100c161018f565b6040516100ce91906107b3565b60405180910390f35b6100c16101f1565b6100c1610251565b6100ef6102b1565b6040516100ce9190610800565b6101046103a0565b6040516100ce91906108e3565b6100ef610470565b610104610556565b610129610626565b60405190151581526020016100ce565b6101607f885cb69240a935d632d79c317109709ecfa91a80626ff3989d68f67f5b1dd12d81565b6040516001600160a01b0390911681526020016100ce565b6100c1610753565b005b6007546101299060ff1681565b606060148054806020026020016040519081016040528092919081815260200182805480156101e757602002820191906000526020600020905b81546001600160a01b031681526001909101906020018083116101c9575b5050505050905090565b606060168054806020026020016040519081016040528092919081815260200182805480156101e7576020028201919060005260206000209081546001600160a01b031681526001909101906020018083116101c9575050505050905090565b606060158054806020026020016040519081016040528092919081815260200182805480156101e7576020028201919060005260206000209081546001600160a01b031681526001909101906020018083116101c9575050505050905090565b60606019805480602002602001604051908101604052809291908181526020016000905b828210156103975760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561037f57602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116103415790505b505050505081525050815260200190600101906102d5565b50505050905090565b60606018805480602002602001604051908101604052809291908181526020016000905b828210156103975783829060005260206000200180546103e39061095d565b80601f016020809104026020016040519081016040528092919081815260200182805461040f9061095d565b801561045c5780601f106104315761010080835404028352916020019161045c565b820191906000526020600020905b81548152906001019060200180831161043f57829003601f168201915b5050505050815260200190600101906103c4565b6060601a805480602002602001604051908101604052809291908181526020016000905b828210156103975760008481526020908190206040805180820182526002860290920180546001600160a01b0316835260018101805483518187028101870190945280845293949193858301939283018282801561053e57602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b031916815260200190600401906020826003010492830192600103820291508084116105005790505b50505050508152505081526020019060010190610494565b60606017805480602002602001604051908101604052809291908181526020016000905b828210156103975783829060005260206000200180546105999061095d565b80601f01602080910402602001604051908101604052809291908181526020018280546105c59061095d565b80156106125780601f106105e757610100808354040283529160200191610612565b820191906000526020600020905b8154815290600101906020018083116105f557829003601f168201915b50505050508152602001906001019061057a565b600754600090610100900460ff16156106485750600754610100900460ff1690565b6000737109709ecfa91a80626ff3989d68f67f5b1dd12d3b1561074e5760408051737109709ecfa91a80626ff3989d68f67f5b1dd12d602082018190526519985a5b195960d21b828401528251808303840181526060830190935260009290916106d6917f667f9d70ca411d70ead50d8d5c22070dafc36ad75f3dcf5e7237b22ade9aecc491608001610997565b60408051601f19818403018152908290526106f0916109c8565b6000604051808303816000865af19150503d806000811461072d576040519150601f19603f3d011682016040523d82523d6000602084013e610732565b606091505b509150508080602001905181019061074a91906109e4565b9150505b919050565b606060138054806020026020016040519081016040528092919081815260200182805480156101e7576020028201919060005260206000209081546001600160a01b031681526001909101906020018083116101c9575050505050905090565b6020808252825182820181905260009190848201906040850190845b818110156107f45783516001600160a01b0316835292840192918401916001016107cf565b50909695505050505050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b848110156108a457898403603f19018652825180516001600160a01b03168552880151888501889052805188860181905290890190839060608701905b8083101561088f5783516001600160e01b0319168252928b019260019290920191908b0190610865565b50978a01979550505091870191600101610828565b50919998505050505050505050565b60005b838110156108ce5781810151838201526020016108b6565b838111156108dd576000848401525b50505050565b6000602080830181845280855180835260408601915060408160051b870101925083870160005b8281101561095057878503603f1901845281518051808752610931818989018a85016108b3565b601f01601f19169590950186019450928501929085019060010161090a565b5092979650505050505050565b600181811c9082168061097157607f821691505b60208210810361099157634e487b7160e01b600052602260045260246000fd5b50919050565b6001600160e01b03198316815281516000906109ba8160048501602087016108b3565b919091016004019392505050565b600082516109da8184602087016108b3565b9190910192915050565b6000602082840312156109f657600080fd5b81518015158114610a0657600080fd5b939250505056fea2646970667358221220e7bf1297e81da700d1ef63e4d0dacf172c467f3644e309ebdde1777d93f4087064736f6c634300080d0033" ) )
+      
+    
+    syntax Field ::= S2KtestZModnestedZModAssertNestedTestField
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "stdstore" [symbol(""), klabel(field_test%nested%AssertNestedTest_stdstore)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "IS_TEST" [symbol(""), klabel(field_test%nested%AssertNestedTest_IS_TEST)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "_failed" [symbol(""), klabel(field_test%nested%AssertNestedTest__failed)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "stdChainsInitialized" [symbol(""), klabel(field_test%nested%AssertNestedTest_stdChainsInitialized)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "chains" [symbol(""), klabel(field_test%nested%AssertNestedTest_chains)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "defaultRpcUrls" [symbol(""), klabel(field_test%nested%AssertNestedTest_defaultRpcUrls)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "idToAlias" [symbol(""), klabel(field_test%nested%AssertNestedTest_idToAlias)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "fallbackToDefaultRpcUrls" [symbol(""), klabel(field_test%nested%AssertNestedTest_fallbackToDefaultRpcUrls)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "gasMeteringOff" [symbol(""), klabel(field_test%nested%AssertNestedTest_gasMeteringOff)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "_excludedContracts" [symbol(""), klabel(field_test%nested%AssertNestedTest__excludedContracts)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "_excludedSenders" [symbol(""), klabel(field_test%nested%AssertNestedTest__excludedSenders)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "_targetedContracts" [symbol(""), klabel(field_test%nested%AssertNestedTest__targetedContracts)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "_targetedSenders" [symbol(""), klabel(field_test%nested%AssertNestedTest__targetedSenders)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "_excludedArtifacts" [symbol(""), klabel(field_test%nested%AssertNestedTest__excludedArtifacts)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "_targetedArtifacts" [symbol(""), klabel(field_test%nested%AssertNestedTest__targetedArtifacts)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "_targetedArtifactSelectors" [symbol(""), klabel(field_test%nested%AssertNestedTest__targetedArtifactSelectors)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestField ::= "_targetedSelectors" [symbol(""), klabel(field_test%nested%AssertNestedTest__targetedSelectors)]
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . stdstore ) => 0 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . IS_TEST ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . _failed ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . stdChainsInitialized ) => 7 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . chains ) => 8 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . defaultRpcUrls ) => 9 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . idToAlias ) => 10 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . fallbackToDefaultRpcUrls ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . gasMeteringOff ) => 11 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . _excludedContracts ) => 19 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . _excludedSenders ) => 20 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . _targetedContracts ) => 21 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . _targetedSenders ) => 22 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . _excludedArtifacts ) => 23 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . _targetedArtifacts ) => 24 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . _targetedArtifactSelectors ) => 25 )
+      
+    
+    rule  ( #loc ( S2KtestZModnestedZModAssertNestedTest . _targetedSelectors ) => 26 )
+      
+    
+    syntax Bytes ::= S2KtestZModnestedZModAssertNestedTestContract "." S2KtestZModnestedZModAssertNestedTestMethod [function, symbol(""), klabel(method_test%nested%AssertNestedTest)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2Kfailed" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2Kfailed_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2Kkevm" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2Kkevm_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KtargetContracts" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KtargetContracts_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KtargetSenders" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KtargetSenders_)]
+    
+    syntax S2KtestZModnestedZModAssertNestedTestMethod ::= "S2KtestZUndassertZUndtrueZUndnested" "(" ")" [symbol(""), klabel(method_test%nested%AssertNestedTest_S2KtestZUndassertZUndtrueZUndnested_)]
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2Kkevm ( ) => #abiCallData ( "kevm" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModnestedZModAssertNestedTest . S2KtestZUndassertZUndtrueZUndnested ( ) => #abiCallData ( "test_assert_true_nested" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "kevm()" ) => 3601001590 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_assert_true_nested()" ) => 4140320263 )
+      
+
+endmodule
+
 module S2KtestZModSnapshotTest-CONTRACT
     imports public FOUNDRY
     
