@@ -701,11 +701,11 @@ def test_foundry_xml_report(
         tests=[
             ('AssertTest.test_assert_true()', None),
             ('AssertTest.test_assert_false()', None),
+            ('AssertNestedTest.test_assert_true_nested()', None),
         ],
         prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
-            reinit=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -715,13 +715,15 @@ def test_foundry_xml_report(
 
     tree = Et.parse('kontrol_prove_report.xml')
     testsuites = tree.getroot()
-    testsuite = testsuites.find('testsuite')
+    testsuite = testsuites.find('testsuite[@name="AssertTest"]')
     assert testsuite
-    assert testsuite.get('name', 'None') == 'AssertTest'
     assert testsuite.findall('testcase[@name="test_assert_true()"]')
     failure = testsuite.findall('testcase[@name="test_assert_false()"]')
     assert failure
     assert failure[0].findall('failure')
+    testsuite_nested = testsuites.find('testsuite[@name="AssertNestedTest"]')
+    assert testsuite_nested
+    assert testsuite_nested.findall('testcase[@name="test_assert_true_nested()"]')
 
 
 def test_foundry_split_node(
