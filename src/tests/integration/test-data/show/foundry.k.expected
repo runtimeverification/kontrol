@@ -87,6 +87,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModSetUpTest-VERIFICATION
     imports public S2KtestZModSignTest-VERIFICATION
     imports public S2KtestZModAssertTest-VERIFICATION
+    imports public S2KtestZModnestedZModAssertNestedTest-VERIFICATION
     imports public S2KtestZModSnapshotTest-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModStdAssertions-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModStdChains-VERIFICATION
@@ -708,6 +709,13 @@ endmodule
 module S2KtestZModAssertTest-VERIFICATION
     imports public S2KtestZModAssertTest-CONTRACT
     imports public CSE-LEMMAS
+    
+    
+
+endmodule
+
+module S2KtestZModnestedZModAssertNestedTest-VERIFICATION
+    imports public S2KtestZModnestedZModAssertNestedTest-CONTRACT
     
     
 
