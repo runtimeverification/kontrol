@@ -480,9 +480,9 @@ def _method_to_cfg(
         init_node = cfg.create_node(init_cterm)
         new_node_ids = [init_node.id]
         init_node_id = init_node.id
-        if not method.is_testfail and not method.is_test:
-            _LOGGER.warning(
-                f'{contract.name_with_path}.{method.signature} is not prefixed with test or testFail, therefore it is not being checked for failures.'
+        if not method.is_test:
+            _LOGGER.info(
+                f'{contract.name_with_path}.{method.signature} is not prefixed with test or testFail, therefore it is not reported as failing in the presence of reverts or assertion violations.'
             )
 
     final_cterm = _final_cterm(
