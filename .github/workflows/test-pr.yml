@@ -126,7 +126,7 @@ jobs:
 
   cse-tests:
     needs: code-quality-checks
-    name: 'Integration Tests'
+    name: 'CSE Tests'
     runs-on: [self-hosted, linux, normal, fast]
     strategy:
       fail-fast: false
