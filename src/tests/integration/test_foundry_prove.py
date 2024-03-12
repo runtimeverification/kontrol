@@ -23,6 +23,7 @@ from kontrol.foundry import (
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
+from ..utils import forge_build
 from .utils import TEST_DATA_DIR
 
 if TYPE_CHECKING:
