@@ -102,40 +102,6 @@ def test_foundry_dependency_automated(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    # FIXME: Currently commented out to minimise CI load
-    # prove_options = ProveOptions(
-    #     max_iterations=50,
-    #     bug_report=bug_report,
-    #     cse=True,
-    #     fail_fast=False,
-    #     workers=2,
-    # )
-    #
-    # # TODO: Execute without cse
-    # foundry_prove(
-    #     foundry,
-    #     tests=[(test_id, None)],
-    #     prove_options=prove_options,
-    #     rpc_options=RPCOptions(port=server.port, smt_timeout=500),
-    # )
-    #
-    # show_res = foundry_show(
-    #     foundry,
-    #     test=test_id,
-    #     to_module=False,
-    #     sort_collections=True,
-    #     omit_unstable_output=True,
-    #     pending=False,
-    #     failing=False,
-    #     failure_info=False,
-    #     counterexample_info=False,
-    #     port=server.port,
-    # )
-    #
-    # assert_or_update_show_output(
-    #     show_res, TEST_DATA_DIR / f'show/{test_id}.no-cse.expected', update=update_expected_output
-    # )
-
     cse_prove_options = ProveOptions(
         max_iterations=50,
         bug_report=bug_report,
@@ -144,7 +110,6 @@ def test_foundry_dependency_automated(
         workers=2,
     )
 
-    # Execute with cse
     foundry_prove(
         foundry,
         tests=[(test_id, None)],
