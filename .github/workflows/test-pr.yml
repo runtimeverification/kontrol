@@ -116,7 +116,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS='--numprocesses=8 -vv'
+          TEST_ARGS='--numprocesses=8 -vv -s'
           [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
