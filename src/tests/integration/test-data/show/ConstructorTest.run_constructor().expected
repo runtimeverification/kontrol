@@ -13,7 +13,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals CALLVALUE_CELL:Int ==Int 0 }
+┣━━┓ constraint: CALLVALUE_CELL:Int ==Int 0
 ┃  │
 ┃  ├─ 4
 ┃  │   k: JUMPI 55 1 ~> #pc [ JUMPI ] ~> #execute ~> CONTINUATION:K
@@ -102,7 +102,7 @@
 ┃         callDepth: CALLDEPTH_CELL:Int
 ┃         statusCode: STATUSCODE:StatusCode
 ┃
-┗━━┓ constraint: { true #Equals ( notBool CALLVALUE_CELL:Int ==Int 0 ) }
+┗━━┓ constraint: ( notBool CALLVALUE_CELL:Int ==Int 0 )
    │
    ├─ 5
    │   k: JUMPI 55 bool2Word ( CALLVALUE_CELL:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~ ...
