@@ -14,30 +14,8 @@ contract ConstructorTest is Test {
         assert(!flag);
     }
 
-    function test_run_constructor_false() public {
-        flag = false;
-        assert(!flag);
-    }
-
-    function testFail_run_constructor_false() public {
-        flag = false;
-        assert(flag);
-    }
-
-    function get_flag() public returns (bool) {
-        return flag;
-    }
-
-    function test_run_constructor() public {
-        assert(get_flag());
-    }
-
-    function testFail_run_constructor() public {
-        assert(!get_flag());
-    }
-
     function run_constructor() public {
         assert(flag);
     }
-
+    
 }
