@@ -10,7 +10,7 @@ from filelock import FileLock
 from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.proof.reachability import APRFailureInfo
-from pyk.utils import run_process, single
+from pyk.utils import single
 
 from kontrol.foundry import (
     Foundry,
@@ -27,6 +27,7 @@ from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
+from ..utils import forge_build
 from .utils import TEST_DATA_DIR
 
 if TYPE_CHECKING:
@@ -38,9 +39,6 @@ if TYPE_CHECKING:
     from pyk.proof.proof import Proof
     from pyk.utils import BugReport
     from pytest import TempPathFactory
-
-
-FORGE_STD_REF: Final = '75f1746'
 
 
 sys.setrecursionlimit(10**7)
@@ -79,11 +77,10 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
         if not foundry_root.is_dir():
             copy_tree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root))
 
-            run_process(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
-            run_process(['forge', 'build'], cwd=foundry_root)
+            foundry = forge_build(TEST_DATA_DIR, foundry_root)
 
             foundry_kompile(
-                foundry=Foundry(foundry_root),
+                foundry=foundry,
                 includes=(),
                 requires=[str(TEST_DATA_DIR / 'lemmas.k'), str(TEST_DATA_DIR / 'cse-lemmas.k')],
                 imports=['LoopsTest:SUM-TO-N-INVARIANT', 'AssertTest:CSE-LEMMAS'],
