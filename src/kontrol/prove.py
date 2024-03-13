@@ -288,6 +288,10 @@ def _run_cfg_group(
             end_time = time.time()
             proof.add_exec_time(end_time - start_time)
             proof.write_proof_data()
+            if not test.method.is_test:
+                _LOGGER.warning(
+                    f'{test.method.signature} is not prefixed with test or testFail, therefore it is not reported as failing in the presence of reverts or assertion violations.'
+                )
             # Only return the failure info to avoid pickling the whole proof
             if proof.failure_info is not None and not isinstance(proof.failure_info, APRFailureInfo):
                 raise RuntimeError('Generated failure info for APRProof is not APRFailureInfo.')
@@ -480,10 +484,6 @@ def _method_to_cfg(
         init_node = cfg.create_node(init_cterm)
         new_node_ids = [init_node.id]
         init_node_id = init_node.id
-        if not method.is_test:
-            _LOGGER.warning(
-                f'{contract.name_with_path}.{method.signature} is not prefixed with test or testFail, therefore it is not reported as failing in the presence of reverts or assertion violations.'
-            )
 
     final_cterm = _final_cterm(
         empty_config, program, failing=method.is_testfail, is_test=method.is_test, is_setup=method.is_setup
