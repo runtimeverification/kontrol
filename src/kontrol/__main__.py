@@ -311,7 +311,7 @@ def exec_prove(
     for proof in results:
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}s')
+            print(f'time: {proof.formatted_exec_time()}')
         else:
             failed += 1
             print(f'PROOF FAILED: {proof.id}')
