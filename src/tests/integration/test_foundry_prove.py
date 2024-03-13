@@ -337,6 +337,65 @@ def test_foundry_merge_nodes(
     assert_pass(test, single(prove_res))
 
 
+def test_foundry_merge_loop_heads(
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+) -> None:
+    test = 'BMCLoopsTest.test_bmc(uint256)'
+
+    if no_use_booster and test in SKIPPED_LEGACY_TESTS:
+        pytest.skip()
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            max_iterations=20,
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    foundry_merge_nodes(foundry, test=test, node_ids=[15, 16], include_disjunct=True)
+
+    foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            max_iterations=10,
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    show_res = foundry_show(
+        foundry,
+        test=test,
+        to_module=True,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        counterexample_info=True,
+        port=server.port,
+    )
+
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / 'show/merge-loop-heads.expected', update=update_expected_output
+    )
+
+
 ALL_DEPENDENCY_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-dependency-all').read_text().splitlines())
 SKIPPED_DEPENDENCY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-dependency-skip').read_text().splitlines())
 
