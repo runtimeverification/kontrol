@@ -481,7 +481,7 @@ def _method_to_cfg(
         new_node_ids = [init_node.id]
         init_node_id = init_node.id
         if not method.is_test:
-            _LOGGER.info(
+            _LOGGER.warning(
                 f'{contract.name_with_path}.{method.signature} is not prefixed with test or testFail, therefore it is not reported as failing in the presence of reverts or assertion violations.'
             )
 
