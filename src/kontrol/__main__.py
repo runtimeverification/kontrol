@@ -5,7 +5,7 @@ import logging
 import sys
 from argparse import ArgumentParser
 from typing import TYPE_CHECKING
-
+from os import getcwd, chdir
 import pyk
 from kevm_pyk.cli import node_id_like
 from kevm_pyk.kompile import KompileTarget
@@ -40,6 +40,7 @@ from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
 from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
+from .utils import empty_lemmas_file_contents, run_kontrol_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -632,6 +633,31 @@ def exec_clean(
     run_process(['forge', 'clean', '--root', str(foundry_root)], logger=_LOGGER)
 
 
+def exec_init(
+    foundry_root: Path,
+    skip_forge: bool,
+    **kwargs: Any,
+) -> None:
+    """
+    Wrapper around forge init that also adds files for kontrol compatibility.
+
+    TODO: --root does not work for forge install, so we're temporary using `chdir`.
+    """
+
+    if not skip_forge:
+        run_process(['forge', 'init', str(foundry_root)], logger=_LOGGER)
+
+    write_to_file(foundry_root / 'lemmas.k', empty_lemmas_file_contents())
+    write_to_file(foundry_root / 'run-kontrol.sh', run_kontrol_file_contents(), grant_exec_permission=True)
+    cwd = getcwd()
+    chdir(foundry_root)
+    run_process(
+        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+        logger=_LOGGER,
+    )
+    chdir(cwd)
+
+
 # Helpers
 
 
@@ -1015,6 +1041,21 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.logging_args,
             kontrol_cli_args.foundry_args,
         ],
+    )
+    init = command_parser.add_parser(
+        'init',
+        help='Create a new Forge project compatible with Kontrol',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    init.add_argument(
+        '--skip-forge',
+        dest='skip_forge',
+        default=False,
+        action='store_true',
+        help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',
     )
 
     return parser
