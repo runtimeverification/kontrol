@@ -320,6 +320,11 @@ def exec_prove(
                 log = failure_log.print() + Foundry.help_info()
                 for line in log:
                     print(line)
+        _, test = proof.id.split('.')
+        if not any(test.startswith(prefix) for prefix in ['test', 'check', 'prove']):
+            print(
+                f'Info: {proof.id} is not prefixed with test or testFail, therefore it is not reported as failing in the presence of reverts or assertion violations.'
+            )
 
     sys.exit(failed)
 
