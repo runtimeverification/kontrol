@@ -921,7 +921,7 @@ def foundry_merge_nodes(
         if len(succ) == 0:
             apr_proof.kcfg.create_cover(node.id, new_node.id)
         else:
-            apr_proof.prune(node.id, [node.id])
+            apr_proof.prune(node.id, keep_nodes=[node.id])
             apr_proof.kcfg.create_cover(node.id, new_node.id)
 
     apr_proof.write_proof_data()
