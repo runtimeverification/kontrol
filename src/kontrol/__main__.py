@@ -14,7 +14,7 @@ from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
-from pyk.utils import ensure_dir_path
+from pyk.utils import ensure_dir_path, run_process
 
 from . import VERSION
 from .cli import KontrolCLIArgs
@@ -625,6 +625,13 @@ def exec_get_model(
     print(output)
 
 
+def exec_clean(
+    foundry_root: Path,
+    **kwargs: Any,
+) -> None:
+    run_process(['forge', 'clean', '--root', str(foundry_root)], logger=_LOGGER)
+
+
 # Helpers
 
 
@@ -1000,6 +1007,14 @@ def _create_argument_parser() -> ArgumentParser:
     )
     get_model.add_argument(
         '--failing', dest='failing', default=False, action='store_true', help='Also display models of failing nodes'
+    )
+    command_parser.add_parser(
+        'clean',
+        help='Remove the build artifacts and cache directories.',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
     )
 
     return parser
