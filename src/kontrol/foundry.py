@@ -415,13 +415,11 @@ class Foundry:
     @staticmethod
     def help_info() -> list[str]:
         res_lines: list[str] = []
-        print_foundry_success_info = any('foundry_success' in line for line in res_lines)
-        if print_foundry_success_info:
-            res_lines.append('')
-            res_lines.append('See `foundry_success` predicate for more information:')
-            res_lines.append(
-                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
-            )
+        res_lines.append('')
+        res_lines.append('See `foundry_success` predicate for more information:')
+        res_lines.append(
+            'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
+        )
         res_lines.append('')
         res_lines.append(
             'Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol'
@@ -741,7 +739,7 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
         tests += 1
         test, *_ = proof.id.split(':')
         contract, test_name = test.split('.')
-        _, contract_name = contract.split('%')
+        _, contract_name = contract.rsplit('%', 1)
         foundry_contract = foundry.contracts[contract]
         contract_path = foundry_contract.contract_path
         proof_exec_time = proof.exec_time

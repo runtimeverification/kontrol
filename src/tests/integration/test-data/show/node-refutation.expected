@@ -13,7 +13,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals 10 <=Int VV0_x_114b9705:Int }
+┣━━┓ constraint: 10 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  └─ 4 (leaf, refuted)
 ┃      k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -21,7 +21,7 @@
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃
-┗━━┓ constraint: { true #Equals ( notBool 10 <=Int VV0_x_114b9705:Int ) }
+┗━━┓ constraint: ( notBool 10 <=Int VV0_x_114b9705:Int )
    │
    ├─ 5
    │   k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -905,5 +905,8 @@ endmodule
 0 Failure nodes. (0 pending and 0 failing)
 
 Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
+
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
 Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol

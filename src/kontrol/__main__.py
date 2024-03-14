@@ -190,7 +190,6 @@ def exec_build(
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module {kwargs["main_module"]}')
     _ignore_arg(kwargs, 'syntax_module', f'--syntax-module {kwargs["syntax_module"]}')
-    _ignore_arg(kwargs, 'spec_module', f'--spec-module {kwargs["spec_module"]}')
     _ignore_arg(kwargs, 'o0', '-O0')
     _ignore_arg(kwargs, 'o1', '-O1')
     _ignore_arg(kwargs, 'o2', '-O2')
@@ -252,7 +251,6 @@ def exec_prove(
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
     _ignore_arg(kwargs, 'syntax_module', f'--syntax-module: {kwargs["syntax_module"]}')
     _ignore_arg(kwargs, 'definition_dir', f'--definition: {kwargs["definition_dir"]}')
-    _ignore_arg(kwargs, 'spec_module', f'--spec-module: {kwargs["spec_module"]}')
 
     if smt_timeout is None:
         smt_timeout = 300
@@ -310,7 +308,7 @@ def exec_prove(
     for proof in results:
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}s')
+            print(f'time: {proof.formatted_exec_time()}')
         else:
             failed += 1
             print(f'PROOF FAILED: {proof.id}')

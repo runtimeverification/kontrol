@@ -10,7 +10,7 @@ from filelock import FileLock
 from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.proof.reachability import APRFailureInfo
-from pyk.utils import run_process, single
+from pyk.utils import single
 
 from kontrol.foundry import (
     Foundry,
@@ -27,7 +27,8 @@ from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
-from .utils import TEST_DATA_DIR
+from ..utils import forge_build
+from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -38,9 +39,6 @@ if TYPE_CHECKING:
     from pyk.proof.proof import Proof
     from pyk.utils import BugReport
     from pytest import TempPathFactory
-
-
-FORGE_STD_REF: Final = '75f1746'
 
 
 sys.setrecursionlimit(10**7)
@@ -79,11 +77,10 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
         if not foundry_root.is_dir():
             copy_tree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root))
 
-            run_process(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
-            run_process(['forge', 'build'], cwd=foundry_root)
+            foundry = forge_build(TEST_DATA_DIR, foundry_root)
 
             foundry_kompile(
-                foundry=Foundry(foundry_root),
+                foundry=foundry,
                 includes=(),
                 requires=[str(TEST_DATA_DIR / 'lemmas.k'), str(TEST_DATA_DIR / 'cse-lemmas.k')],
                 imports=['LoopsTest:SUM-TO-N-INVARIANT', 'AssertTest:CSE-LEMMAS'],
@@ -337,60 +334,6 @@ def test_foundry_merge_nodes(
     assert_pass(test, single(prove_res))
 
 
-ALL_DEPENDENCY_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-dependency-all').read_text().splitlines())
-SKIPPED_DEPENDENCY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-dependency-skip').read_text().splitlines())
-
-
-@pytest.mark.parametrize('test_id', ALL_DEPENDENCY_TESTS)
-def test_foundry_dependency(
-    test_id: str,
-    foundry: Foundry,
-    bug_report: BugReport | None,
-    server: KoreServer,
-    update_expected_output: bool,
-    no_use_booster: bool,
-) -> None:
-    if no_use_booster:
-        pytest.skip()
-
-    if test_id in SKIPPED_DEPENDENCY_TESTS:
-        pytest.skip()
-
-    if bug_report is not None:
-        server._populate_bug_report(bug_report)
-
-    foundry_prove(
-        foundry,
-        tests=[(test_id, None)],
-        prove_options=ProveOptions(
-            max_iterations=50,
-            bug_report=bug_report,
-            cse=True,
-            fail_fast=False,
-            workers=2,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-        include_summaries=[],
-    )
-
-    show_res = foundry_show(
-        foundry,
-        test=test_id,
-        to_module=False,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=False,
-        failing=False,
-        failure_info=False,
-        counterexample_info=False,
-        port=server.port,
-    )
-
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
-
-
 def check_pending(foundry: Foundry, test: str, pending: list[int]) -> None:
     proofs = [foundry.get_optional_proof(pid) for pid in foundry.proof_ids_with_test(test)]
     apr_proofs: list[APRProof] = [proof for proof in proofs if type(proof) is APRProof]
@@ -510,15 +453,6 @@ def assert_fail(test: str, proof: Proof) -> None:
         assert proof.failure_info
 
 
-def assert_or_update_show_output(actual_text: str, expected_file: Path, *, update: bool) -> None:
-    if update:
-        expected_file.write_text(actual_text)
-    else:
-        assert expected_file.is_file()
-        expected_text = expected_file.read_text()
-        assert actual_text == expected_text
-
-
 def test_foundry_resume_proof(
     foundry: Foundry,
     update_expected_output: bool,
@@ -569,20 +503,30 @@ def test_foundry_resume_proof(
     assert_fail(test, single(prove_res))
 
 
-ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail_init()')
+ALL_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code').read_text().splitlines())
 
 
-@pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
+@pytest.mark.parametrize('test_id', ALL_INIT_CODE_TESTS)
+def test_foundry_init_code(
+    test_id: str,
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    no_use_booster: bool,
+    server: KoreServer,
+) -> None:
     if no_use_booster:
         pytest.skip()
 
+    test = 'ConstructorTest.run_constructor()'
+
     prove_res = foundry_prove(
         foundry,
-        tests=[(test, None)],
+        tests=[(test_id, None)],
         prove_options=ProveOptions(
             run_constructor=True,
             bug_report=bug_report,
+            fail_fast=False,
         ),
         rpc_options=RPCOptions(
             smt_timeout=300,
@@ -592,7 +536,28 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
     )
 
     # Then
-    assert_pass(test, single(prove_res))
+    if test_id != test:
+        assert_pass(test_id, single(prove_res))
+        return
+    else:
+        assert_fail(test, single(prove_res))
+
+    # And when
+    show_res = foundry_show(
+        foundry,
+        test=test,
+        to_module=True,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        counterexample_info=True,
+        port=server.port,
+    )
+
+    # Then
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test}.expected', update=update_expected_output)
 
 
 def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
@@ -757,11 +722,11 @@ def test_foundry_xml_report(
         tests=[
             ('AssertTest.test_assert_true()', None),
             ('AssertTest.test_assert_false()', None),
+            ('AssertNestedTest.test_assert_true_nested()', None),
         ],
         prove_options=ProveOptions(
             counterexample_info=True,
             bug_report=bug_report,
-            reinit=True,
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -771,13 +736,15 @@ def test_foundry_xml_report(
 
     tree = Et.parse('kontrol_prove_report.xml')
     testsuites = tree.getroot()
-    testsuite = testsuites.find('testsuite')
+    testsuite = testsuites.find('testsuite[@name="AssertTest"]')
     assert testsuite
-    assert testsuite.get('name', 'None') == 'AssertTest'
     assert testsuite.findall('testcase[@name="test_assert_true()"]')
     failure = testsuite.findall('testcase[@name="test_assert_false()"]')
     assert failure
     assert failure[0].findall('failure')
+    testsuite_nested = testsuites.find('testsuite[@name="AssertNestedTest"]')
+    assert testsuite_nested
+    assert testsuite_nested.findall('testcase[@name="test_assert_true_nested()"]')
 
 
 def test_foundry_split_node(
