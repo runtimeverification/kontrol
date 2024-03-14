@@ -11,8 +11,7 @@ jobs:
     name: 'Populate Nix Cache'
     strategy:
       matrix:
-        runner: 
-          - MacIntel
+        runner: [normal, MacIntel, ARM64]
     runs-on: ${{ matrix.runner }}
     steps:
       - name: 'Check out code'
@@ -20,23 +19,7 @@ jobs:
         with:
           ref: ${{ github.event.push.head.sha }}
           fetch-depth: 0
-
-      - name: 'Install Nix'
-        if: ${{ matrix.runner == 'macos-13' }}
-        uses: cachix/install-nix-action@v19
-        with:
-          install_url: https://releases.nixos.org/nix/nix-2.13.3/install
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-
-      - name: 'Install Cachix'
-        if: ${{ matrix.runner == 'macos-13' }}
-        uses: cachix/cachix-action@v12
-        with:
-          name: k-framework
-          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
-          skipPush: true
-
+          
       - name: 'Build and cache Kontrol'
         uses: workflow/nix-shell-action@v3
         env:
@@ -49,103 +32,89 @@ jobs:
             DRV=$(nix-store --query --deriver ${KONTROL})
             nix-store --query --requisites --include-outputs ${DRV} | cachix push k-framework
 
-  # nix-binary-cache:
-  #   name: 'Populate Nix Binary Cache'
-  #   strategy:
-  #     matrix:
-  #       runner: [normal, macos-13, ARM64]
-  #   runs-on: ${{ matrix.runner }}
-  #   steps:
-  #     - name: 'Check out code'
-  #       uses: actions/checkout@v4
+  nix-binary-cache:
+    name: 'Populate Nix Binary Cache'
+    strategy:
+      matrix:
+        runner: [normal, MacIntel, ARM64]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v4
 
-  #     - name: 'Install Nix'
-  #       if: ${{ matrix.runner == 'macos-13' }}
-  #       uses: cachix/install-nix-action@v19
-  #       with:
-  #         install_url: https://releases.nixos.org/nix/nix-2.13.3/install
-  #         extra_nix_config: |
-  #           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-
-  #     - name: 'Install Cachix'
-  #       if: ${{ matrix.runner == 'macos-13' }}
-  #       uses: cachix/cachix-action@v12
-  #       with:
-  #         name: k-framework-binary
-
-  #     - name: 'Publish Kontrol to k-framework-binary cache'
-  #       uses: workflow/nix-shell-action@v3
-  #       env:
-  #         CACHIX_AUTH_TOKEN: '${{ secrets.CACHIX_PRIVATE_KFB_TOKEN }}'
-  #         GC_DONT_GC: '1'
-  #       with:
-  #         packages: jq
-  #         script: |
-  #           export PATH="$(nix build github:runtimeverification/kup --no-link --json | jq -r '.[].outputs | to_entries[].value')/bin:$PATH"
-  #           kup publish k-framework-binary .#kontrol --keep-days 180
-  #           kup publish k-framework-binary .#kontrol.solc_0_8_13 --keep-days 180
-  #           kup publish k-framework-binary .#kontrol.solc_0_8_15 --keep-days 180
+      - name: 'Publish Kontrol to k-framework-binary cache'
+        uses: workflow/nix-shell-action@v3
+        env:
+          CACHIX_AUTH_TOKEN: '${{ secrets.CACHIX_PRIVATE_KFB_TOKEN }}'
+          GC_DONT_GC: '1'
+        with:
+          packages: jq
+          script: |
+            export PATH="$(nix build github:runtimeverification/kup --no-link --json | jq -r '.[].outputs | to_entries[].value')/bin:$PATH"
+            kup publish k-framework-binary .#kontrol --keep-days 180
+            kup publish k-framework-binary .#kontrol.solc_0_8_13 --keep-days 180
+            kup publish k-framework-binary .#kontrol.solc_0_8_15 --keep-days 180
 
 
-  # dockerhub:
-  #   name: 'Build and Publish Docker Image'
-  #   runs-on: [self-hosted, linux, normal]
-  #   steps:
-  #     - name: 'Check out code'
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{ github.event.push.head.sha }}
-  #         fetch-depth: 0
+  dockerhub:
+    name: 'Build and Publish Docker Image'
+    runs-on: [self-hosted, linux, normal]
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.push.head.sha }}
+          fetch-depth: 0
 
-  #     - name: 'Set environment'
-  #       run: |
-  #         KONTROL_VERSION=$(cat package/version)
-  #         TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${KONTROL_VERSION}
-  #         echo "TAG=${TAG}" >> ${GITHUB_ENV}
+      - name: 'Set environment'
+        run: |
+          KONTROL_VERSION=$(cat package/version)
+          TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${KONTROL_VERSION}
+          echo "TAG=${TAG}" >> ${GITHUB_ENV}
 
-  #     - name: 'Build Docker image'
-  #       run: |
-  #         K_VERSION=$(cat deps/k_release)
-  #         Z3_VERSION=$(cat deps/z3)
-  #         docker build . --no-cache --tag ${TAG} --build-arg K_VERSION=${K_VERSION} --build-arg Z3_VERSION=${Z3_VERSION}
+      - name: 'Build Docker image'
+        run: |
+          K_VERSION=$(cat deps/k_release)
+          Z3_VERSION=$(cat deps/z3)
+          docker build . --no-cache --tag ${TAG} --build-arg K_VERSION=${K_VERSION} --build-arg Z3_VERSION=${Z3_VERSION}
 
-  #     - name: 'Run Docker image'
-  #       run: docker run --rm ${TAG} kontrol --help
+      - name: 'Run Docker image'
+        run: docker run --rm ${TAG} kontrol --help
 
-  #     - name: 'Push Docker image to Docker Hub'
-  #       run: |
-  #         echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username rvdockerhub --password-stdin
-  #         docker image push ${TAG}
+      - name: 'Push Docker image to Docker Hub'
+        run: |
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username rvdockerhub --password-stdin
+          docker image push ${TAG}
 
           
-  # cut-release:
-  #   name: 'Cut Release'
-  #   runs-on: ubuntu-latest
-  #   needs: dockerhub
-  #   steps:
-  #     - name: 'Check out code'
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{ github.event.push.head.sha }}
-  #         fetch-depth: 0
+  cut-release:
+    name: 'Cut Release'
+    runs-on: ubuntu-latest
+    needs: dockerhub
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.push.head.sha }}
+          fetch-depth: 0
 
-  #     - name: 'Create release'
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       run: |
-  #         set -x
-  #         VERSION=v$(cat package/version)
-  #         gh release create ${VERSION} --target ${{ github.sha }}
+      - name: 'Create release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          VERSION=v$(cat package/version)
+          gh release create ${VERSION} --target ${{ github.sha }}
 
-  #     - name: 'Update dependents'
-  #       run: |
-  #         set -x
-  #         VERSION=$(cat package/version)
-  #         curl --fail                                                          \
-  #           -X POST                                                            \
-  #           -H "Accept: application/vnd.github+json"                           \
-  #           -H "Authorization: Bearer ${{ secrets.JENKINS_GITHUB_PAT }}"       \
-  #           -H "X-GitHub-Api-Version: 2022-11-28"                              \
-  #           https://api.github.com/repos/runtimeverification/devops/dispatches \
-  #           -d '{"event_type":"on-demand-test","client_payload":{"repo":"runtimeverification/kontrol","version":"'${VERSION}'"}}'
+      - name: 'Update dependents'
+        run: |
+          set -x
+          VERSION=$(cat package/version)
+          curl --fail                                                          \
+            -X POST                                                            \
+            -H "Accept: application/vnd.github+json"                           \
+            -H "Authorization: Bearer ${{ secrets.JENKINS_GITHUB_PAT }}"       \
+            -H "X-GitHub-Api-Version: 2022-11-28"                              \
+            https://api.github.com/repos/runtimeverification/devops/dispatches \
+            -d '{"event_type":"on-demand-test","client_payload":{"repo":"runtimeverification/kontrol","version":"'${VERSION}'"}}'
 
