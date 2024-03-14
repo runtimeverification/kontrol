@@ -915,7 +915,12 @@ def foundry_merge_nodes(
         anti_unification, _, _ = anti_unification.anti_unify(node.cterm, keep_values=True, kdef=foundry.kevm.definition)
     new_node = apr_proof.kcfg.create_node(anti_unification)
     for node in nodes:
-        apr_proof.kcfg.create_cover(node.id, new_node.id)
+        succ = apr_proof.kcfg.successors(node.id)
+        if len(succ) == 0:
+            apr_proof.kcfg.create_cover(node.id, new_node.id)
+        else:
+            apr_proof.prune(node.id, keep_nodes=[node.id])
+            apr_proof.kcfg.create_cover(node.id, new_node.id)
 
     apr_proof.write_proof_data()
 
