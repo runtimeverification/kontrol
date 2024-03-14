@@ -1,0 +1,1056 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (380 steps)
+├─ 3
+│   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> #codeDeposit 4914609233421842 ...
+│   pc: 30
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (1 step)
+├─ 4
+│   k: #halt ~> #pc [ RETURN ] ~> #execute ~> #codeDeposit 4914609233421842180357068880 ...
+│   pc: 30
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│
+│  (2 steps)
+├─ 5
+│   k: #halt ~> #codeDeposit 491460923342184218035706888008750043977755113263 ~> #pc [  ...
+│   pc: 30
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│
+│  (160 steps)
+├─ 6
+│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   pc: 248
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+│  (1 step)
+├─ 7
+│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   pc: 248
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+│  (2 steps)
+├─ 8 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 248
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+│  (1 step)
+├─ 9
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (510 steps)
+├─ 11
+│   k: STATICCALL 0 491460923342184218035706888008750043977755113263 128 100 128 32 ~>  ...
+│   pc: 1568
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (1 step)
+├─ 12
+│   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall 7 ...
+│   pc: 1568
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (18 steps)
+├─ 13
+│   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
+│   pc: 0
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (1 step)
+├─ 14
+│   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (3 steps)
+├─ 15
+│   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
+│   pc: 279
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+┃
+┃ (1 step)
+┣━━┓
+┃  │
+┃  ├─ 16
+┃  │   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
+┃  │   pc: 0
+┃  │   callDepth: 2
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃
+┃  ┃ (1 step)
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 18
+┃  ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+┃  ┃  │   pc: 0
+┃  ┃  │   callDepth: 2
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 26 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ├─ 58
+┃  ┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┃ (1 step)
+┃  ┃  ┃  ┃  ┣━━┓
+┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  └─ 122 (leaf, pending)
+┃  ┃  ┃  ┃  ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃  ┃  ┃      pc: 128
+┃  ┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃  ┃      statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┣━━┓
+┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  └─ 123 (leaf, pending)
+┃  ┃  ┃  ┃  ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃  ┃  ┃      pc: 128
+┃  ┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃  ┃      statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┣━━┓
+┃  ┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  ┃  └─ 124 (leaf, pending)
+┃  ┃  ┃  ┃  ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃  ┃  ┃      pc: 128
+┃  ┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃  ┃      statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃  ┗━━┓
+┃  ┃  ┃  ┃     │
+┃  ┃  ┃  ┃     └─ 125 (leaf, pending)
+┃  ┃  ┃  ┃         k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃  ┃         pc: 128
+┃  ┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃  ┃         statusCode: EVMC_SUCCESS
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     ├─ 59
+┃  ┃  ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃     │   pc: 562
+┃  ┃  ┃     │   callDepth: 2
+┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┃ (1 step)
+┃  ┃  ┃     ┣━━┓
+┃  ┃  ┃     ┃  │
+┃  ┃  ┃     ┃  └─ 126 (leaf, pending)
+┃  ┃  ┃     ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃     ┃      pc: 550
+┃  ┃  ┃     ┃      callDepth: 2
+┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┣━━┓
+┃  ┃  ┃     ┃  │
+┃  ┃  ┃     ┃  └─ 127 (leaf, pending)
+┃  ┃  ┃     ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃     ┃      pc: 550
+┃  ┃  ┃     ┃      callDepth: 2
+┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┣━━┓
+┃  ┃  ┃     ┃  │
+┃  ┃  ┃     ┃  └─ 128 (leaf, pending)
+┃  ┃  ┃     ┃      k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃     ┃      pc: 550
+┃  ┃  ┃     ┃      callDepth: 2
+┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
+┃  ┃  ┃     ┃
+┃  ┃  ┃     ┗━━┓
+┃  ┃  ┃        │
+┃  ┃  ┃        └─ 129 (leaf, pending)
+┃  ┃  ┃            k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~> # ...
+┃  ┃  ┃            pc: 550
+┃  ┃  ┃            callDepth: 2
+┃  ┃  ┃            statusCode: EVMC_REVERT
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 27 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  └─ 60 (leaf, pending)
+┃  ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃      pc: 562
+┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     └─ 61 (leaf, pending)
+┃  ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃         pc: 562
+┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 28 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  └─ 62 (leaf, pending)
+┃  ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃      pc: 562
+┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     └─ 63 (leaf, pending)
+┃  ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃         pc: 562
+┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     ├─ 29 (split)
+┃  ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃     │   pc: 562
+┃  ┃     │   callDepth: 2
+┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃
+┃  ┃     ┃ (branch)
+┃  ┃     ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     ┃  │
+┃  ┃     ┃  └─ 64 (leaf, pending)
+┃  ┃     ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃     ┃      pc: 562
+┃  ┃     ┃      callDepth: 2
+┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃
+┃  ┃     ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃        │
+┃  ┃        └─ 65 (leaf, pending)
+┃  ┃            k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃            pc: 562
+┃  ┃            callDepth: 2
+┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 19
+┃  ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+┃  ┃  │   pc: 0
+┃  ┃  │   callDepth: 2
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 30 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  └─ 66 (leaf, pending)
+┃  ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃      pc: 562
+┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     └─ 67 (leaf, pending)
+┃  ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃         pc: 562
+┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 31 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  └─ 68 (leaf, pending)
+┃  ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃      pc: 562
+┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     └─ 69 (leaf, pending)
+┃  ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃         pc: 562
+┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 32 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  └─ 70 (leaf, pending)
+┃  ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃      pc: 562
+┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     └─ 71 (leaf, pending)
+┃  ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃         pc: 562
+┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     ├─ 33 (split)
+┃  ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃     │   pc: 562
+┃  ┃     │   callDepth: 2
+┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃
+┃  ┃     ┃ (branch)
+┃  ┃     ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     ┃  │
+┃  ┃     ┃  └─ 72 (leaf, pending)
+┃  ┃     ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃     ┃      pc: 562
+┃  ┃     ┃      callDepth: 2
+┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃
+┃  ┃     ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃        │
+┃  ┃        └─ 73 (leaf, pending)
+┃  ┃            k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃            pc: 562
+┃  ┃            callDepth: 2
+┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 20
+┃  ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+┃  ┃  │   pc: 0
+┃  ┃  │   callDepth: 2
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 34 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  └─ 74 (leaf, pending)
+┃  ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃      pc: 562
+┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     └─ 75 (leaf, pending)
+┃  ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃         pc: 562
+┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 35 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  └─ 76 (leaf, pending)
+┃  ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃      pc: 562
+┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     └─ 77 (leaf, pending)
+┃  ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃         pc: 562
+┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 36 (split)
+┃  ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  │   pc: 562
+┃  ┃  ┃  │   callDepth: 2
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃ (branch)
+┃  ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  ┃  ┃  │
+┃  ┃  ┃  ┃  └─ 78 (leaf, pending)
+┃  ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃  ┃      pc: 562
+┃  ┃  ┃  ┃      callDepth: 2
+┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃  ┃     │
+┃  ┃  ┃     └─ 79 (leaf, pending)
+┃  ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃  ┃         pc: 562
+┃  ┃  ┃         callDepth: 2
+┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     ├─ 37 (split)
+┃  ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃     │   pc: 562
+┃  ┃     │   callDepth: 2
+┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃
+┃  ┃     ┃ (branch)
+┃  ┃     ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     ┃  │
+┃  ┃     ┃  └─ 80 (leaf, pending)
+┃  ┃     ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃     ┃      pc: 562
+┃  ┃     ┃      callDepth: 2
+┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃
+┃  ┃     ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┃        │
+┃  ┃        └─ 81 (leaf, pending)
+┃  ┃            k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  ┃            pc: 562
+┃  ┃            callDepth: 2
+┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃
+┃  ┗━━┓
+┃     │
+┃     ├─ 21
+┃     │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+┃     │   pc: 0
+┃     │   callDepth: 2
+┃     │   statusCode: STATUSCODE:StatusCode
+┃     ┃
+┃     ┃ (1 step)
+┃     ┣━━┓
+┃     ┃  │
+┃     ┃  ├─ 38 (split)
+┃     ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃  │   pc: 562
+┃     ┃  │   callDepth: 2
+┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃
+┃     ┃  ┃ (branch)
+┃     ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃     ┃  ┃  │
+┃     ┃  ┃  └─ 82 (leaf, pending)
+┃     ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃  ┃      pc: 562
+┃     ┃  ┃      callDepth: 2
+┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃
+┃     ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃     ┃     │
+┃     ┃     └─ 83 (leaf, pending)
+┃     ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃         pc: 562
+┃     ┃         callDepth: 2
+┃     ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃
+┃     ┣━━┓
+┃     ┃  │
+┃     ┃  ├─ 39 (split)
+┃     ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃  │   pc: 562
+┃     ┃  │   callDepth: 2
+┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃
+┃     ┃  ┃ (branch)
+┃     ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃     ┃  ┃  │
+┃     ┃  ┃  └─ 84 (leaf, pending)
+┃     ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃  ┃      pc: 562
+┃     ┃  ┃      callDepth: 2
+┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃
+┃     ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃     ┃     │
+┃     ┃     └─ 85 (leaf, pending)
+┃     ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃         pc: 562
+┃     ┃         callDepth: 2
+┃     ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃
+┃     ┣━━┓
+┃     ┃  │
+┃     ┃  ├─ 40 (split)
+┃     ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃  │   pc: 562
+┃     ┃  │   callDepth: 2
+┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃
+┃     ┃  ┃ (branch)
+┃     ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃     ┃  ┃  │
+┃     ┃  ┃  └─ 86 (leaf, pending)
+┃     ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃  ┃      pc: 562
+┃     ┃  ┃      callDepth: 2
+┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃  ┃
+┃     ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃     ┃     │
+┃     ┃     └─ 87 (leaf, pending)
+┃     ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃     ┃         pc: 562
+┃     ┃         callDepth: 2
+┃     ┃         statusCode: STATUSCODE:StatusCode
+┃     ┃
+┃     ┗━━┓
+┃        │
+┃        ├─ 41 (split)
+┃        │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃        │   pc: 562
+┃        │   callDepth: 2
+┃        │   statusCode: STATUSCODE:StatusCode
+┃        ┃
+┃        ┃ (branch)
+┃        ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃        ┃  │
+┃        ┃  └─ 88 (leaf, pending)
+┃        ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃        ┃      pc: 562
+┃        ┃      callDepth: 2
+┃        ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃
+┃        ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃           │
+┃           └─ 89 (leaf, pending)
+┃               k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃               pc: 562
+┃               callDepth: 2
+┃               statusCode: STATUSCODE:StatusCode
+┃
+┗━━┓
+   │
+   ├─ 17
+   │   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
+   │   pc: 0
+   │   callDepth: 2
+   │   statusCode: STATUSCODE:StatusCode
+   ┃
+   ┃ (1 step)
+   ┣━━┓
+   ┃  │
+   ┃  ├─ 22
+   ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+   ┃  │   pc: 0
+   ┃  │   callDepth: 2
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┃ (1 step)
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 42 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  └─ 90 (leaf, pending)
+   ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃      pc: 562
+   ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     └─ 91 (leaf, pending)
+   ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃         pc: 562
+   ┃  ┃         callDepth: 2
+   ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 43 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  └─ 92 (leaf, pending)
+   ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃      pc: 562
+   ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     └─ 93 (leaf, pending)
+   ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃         pc: 562
+   ┃  ┃         callDepth: 2
+   ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 44 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  └─ 94 (leaf, pending)
+   ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃      pc: 562
+   ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     └─ 95 (leaf, pending)
+   ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃         pc: 562
+   ┃  ┃         callDepth: 2
+   ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┗━━┓
+   ┃     │
+   ┃     ├─ 45 (split)
+   ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃     │   pc: 562
+   ┃     │   callDepth: 2
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃
+   ┃     ┃ (branch)
+   ┃     ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     ┃  │
+   ┃     ┃  └─ 96 (leaf, pending)
+   ┃     ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃     ┃      pc: 562
+   ┃     ┃      callDepth: 2
+   ┃     ┃      statusCode: STATUSCODE:StatusCode
+   ┃     ┃
+   ┃     ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃        │
+   ┃        └─ 97 (leaf, pending)
+   ┃            k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃            pc: 562
+   ┃            callDepth: 2
+   ┃            statusCode: STATUSCODE:StatusCode
+   ┃
+   ┣━━┓
+   ┃  │
+   ┃  ├─ 23
+   ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+   ┃  │   pc: 0
+   ┃  │   callDepth: 2
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┃ (1 step)
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 46 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  └─ 98 (leaf, pending)
+   ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃      pc: 562
+   ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     └─ 99 (leaf, pending)
+   ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃         pc: 562
+   ┃  ┃         callDepth: 2
+   ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 47 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  └─ 100 (leaf, pending)
+   ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃      pc: 562
+   ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     └─ 101 (leaf, pending)
+   ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃         pc: 562
+   ┃  ┃         callDepth: 2
+   ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 48 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  └─ 102 (leaf, pending)
+   ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃      pc: 562
+   ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     └─ 103 (leaf, pending)
+   ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃         pc: 562
+   ┃  ┃         callDepth: 2
+   ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┗━━┓
+   ┃     │
+   ┃     ├─ 49 (split)
+   ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃     │   pc: 562
+   ┃     │   callDepth: 2
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃
+   ┃     ┃ (branch)
+   ┃     ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     ┃  │
+   ┃     ┃  └─ 104 (leaf, pending)
+   ┃     ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃     ┃      pc: 562
+   ┃     ┃      callDepth: 2
+   ┃     ┃      statusCode: STATUSCODE:StatusCode
+   ┃     ┃
+   ┃     ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃        │
+   ┃        └─ 105 (leaf, pending)
+   ┃            k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃            pc: 562
+   ┃            callDepth: 2
+   ┃            statusCode: STATUSCODE:StatusCode
+   ┃
+   ┣━━┓
+   ┃  │
+   ┃  ├─ 24
+   ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+   ┃  │   pc: 0
+   ┃  │   callDepth: 2
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┃ (1 step)
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 50 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  └─ 106 (leaf, pending)
+   ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃      pc: 562
+   ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     └─ 107 (leaf, pending)
+   ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃         pc: 562
+   ┃  ┃         callDepth: 2
+   ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 51 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  └─ 108 (leaf, pending)
+   ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃      pc: 562
+   ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     └─ 109 (leaf, pending)
+   ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃         pc: 562
+   ┃  ┃         callDepth: 2
+   ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┣━━┓
+   ┃  ┃  │
+   ┃  ┃  ├─ 52 (split)
+   ┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  │   pc: 562
+   ┃  ┃  │   callDepth: 2
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┃ (branch)
+   ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃  ┃  ┃  │
+   ┃  ┃  ┃  └─ 110 (leaf, pending)
+   ┃  ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃  ┃      pc: 562
+   ┃  ┃  ┃      callDepth: 2
+   ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+   ┃  ┃  ┃
+   ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃  ┃     │
+   ┃  ┃     └─ 111 (leaf, pending)
+   ┃  ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃  ┃         pc: 562
+   ┃  ┃         callDepth: 2
+   ┃  ┃         statusCode: STATUSCODE:StatusCode
+   ┃  ┃
+   ┃  ┗━━┓
+   ┃     │
+   ┃     ├─ 53 (split)
+   ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃     │   pc: 562
+   ┃     │   callDepth: 2
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     ┃
+   ┃     ┃ (branch)
+   ┃     ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     ┃  │
+   ┃     ┃  └─ 112 (leaf, pending)
+   ┃     ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃     ┃      pc: 562
+   ┃     ┃      callDepth: 2
+   ┃     ┃      statusCode: STATUSCODE:StatusCode
+   ┃     ┃
+   ┃     ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   ┃        │
+   ┃        └─ 113 (leaf, pending)
+   ┃            k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   ┃            pc: 562
+   ┃            callDepth: 2
+   ┃            statusCode: STATUSCODE:StatusCode
+   ┃
+   ┗━━┓
+      │
+      ├─ 25
+      │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> #return 128 32 ~ ...
+      │   pc: 0
+      │   callDepth: 2
+      │   statusCode: STATUSCODE:StatusCode
+      ┃
+      ┃ (1 step)
+      ┣━━┓
+      ┃  │
+      ┃  ├─ 54 (split)
+      ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃  │   pc: 562
+      ┃  │   callDepth: 2
+      ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃
+      ┃  ┃ (branch)
+      ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+      ┃  ┃  │
+      ┃  ┃  └─ 114 (leaf, pending)
+      ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃  ┃      pc: 562
+      ┃  ┃      callDepth: 2
+      ┃  ┃      statusCode: STATUSCODE:StatusCode
+      ┃  ┃
+      ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+      ┃     │
+      ┃     └─ 115 (leaf, pending)
+      ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃         pc: 562
+      ┃         callDepth: 2
+      ┃         statusCode: STATUSCODE:StatusCode
+      ┃
+      ┣━━┓
+      ┃  │
+      ┃  ├─ 55 (split)
+      ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃  │   pc: 562
+      ┃  │   callDepth: 2
+      ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃
+      ┃  ┃ (branch)
+      ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+      ┃  ┃  │
+      ┃  ┃  └─ 116 (leaf, pending)
+      ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃  ┃      pc: 562
+      ┃  ┃      callDepth: 2
+      ┃  ┃      statusCode: STATUSCODE:StatusCode
+      ┃  ┃
+      ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+      ┃     │
+      ┃     └─ 117 (leaf, pending)
+      ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃         pc: 562
+      ┃         callDepth: 2
+      ┃         statusCode: STATUSCODE:StatusCode
+      ┃
+      ┣━━┓
+      ┃  │
+      ┃  ├─ 56 (split)
+      ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃  │   pc: 562
+      ┃  │   callDepth: 2
+      ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  ┃
+      ┃  ┃ (branch)
+      ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+      ┃  ┃  │
+      ┃  ┃  └─ 118 (leaf, pending)
+      ┃  ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃  ┃      pc: 562
+      ┃  ┃      callDepth: 2
+      ┃  ┃      statusCode: STATUSCODE:StatusCode
+      ┃  ┃
+      ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+      ┃     │
+      ┃     └─ 119 (leaf, pending)
+      ┃         k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+      ┃         pc: 562
+      ┃         callDepth: 2
+      ┃         statusCode: STATUSCODE:StatusCode
+      ┃
+      ┗━━┓
+         │
+         ├─ 57 (split)
+         │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+         │   pc: 562
+         │   callDepth: 2
+         │   statusCode: STATUSCODE:StatusCode
+         ┃
+         ┃ (branch)
+         ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+         ┃  │
+         ┃  └─ 120 (leaf, pending)
+         ┃      k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+         ┃      pc: 562
+         ┃      callDepth: 2
+         ┃      statusCode: STATUSCODE:StatusCode
+         ┃
+         ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+            │
+            └─ 121 (leaf, pending)
+                k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+                pc: 562
+                callDepth: 2
+                statusCode: STATUSCODE:StatusCode
+
+
+┌─ 10 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
+
+

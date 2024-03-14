@@ -503,20 +503,30 @@ def test_foundry_resume_proof(
     assert_fail(test, single(prove_res))
 
 
-ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail_init()')
+ALL_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code').read_text().splitlines())
 
 
-@pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
+@pytest.mark.parametrize('test_id', ALL_INIT_CODE_TESTS)
+def test_foundry_init_code(
+    test_id: str,
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    no_use_booster: bool,
+    server: KoreServer,
+) -> None:
     if no_use_booster:
         pytest.skip()
 
+    test = 'ConstructorTest.run_constructor()'
+
     prove_res = foundry_prove(
         foundry,
-        tests=[(test, None)],
+        tests=[(test_id, None)],
         prove_options=ProveOptions(
             run_constructor=True,
             bug_report=bug_report,
+            fail_fast=False,
         ),
         rpc_options=RPCOptions(
             smt_timeout=300,
@@ -526,7 +536,28 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
     )
 
     # Then
-    assert_pass(test, single(prove_res))
+    if test_id != test:
+        assert_pass(test_id, single(prove_res))
+        return
+    else:
+        assert_fail(test, single(prove_res))
+
+    # And when
+    show_res = foundry_show(
+        foundry,
+        test=test,
+        to_module=True,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        counterexample_info=True,
+        port=server.port,
+    )
+
+    # Then
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test}.expected', update=update_expected_output)
 
 
 def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
