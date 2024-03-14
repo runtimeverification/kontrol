@@ -49,36 +49,50 @@
 ┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (3 steps)
+┃  │  (328 steps)
 ┃  ├─ 12
+┃  │   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> #return 128 32 ~> #pc [ STATI ...
+┃  │   pc: 87
+┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (1 step)
+┃  ├─ 14
+┃  │   k: #halt ~> #pc [ RETURN ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> # ...
+┃  │   pc: 87
+┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
+┃  │   statusCode: EVMC_SUCCESS
+┃  │
+┃  │  (2 steps)
+┃  ├─ 16
 ┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
 ┃  │  (1 step)
-┃  ├─ 14
+┃  ├─ 18
 ┃  │   k: #popCallStack ~> #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128  ...
 ┃  │   pc: 87
 ┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
 ┃  │  (324 steps)
-┃  ├─ 16
+┃  ├─ 20
 ┃  │   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
 ┃  │  (1 step)
-┃  ├─ 18
+┃  ├─ 22
 ┃  │   k: #halt ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
 ┃  │  (2 steps)
-┃  ├─ 20 (terminal)
+┃  ├─ 23 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int

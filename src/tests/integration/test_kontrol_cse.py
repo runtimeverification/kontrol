@@ -104,9 +104,10 @@ def test_foundry_dependency_automated(
 
     # Execution without CSE
     prove_options = ProveOptions(
-        max_iterations=50,
+        max_depth=10000,
+        max_iterations=100,
         bug_report=bug_report,
-        cse=True,
+        cse=False,
         fail_fast=False,
         workers=2,
     )
@@ -137,7 +138,8 @@ def test_foundry_dependency_automated(
 
     # Execution with CSE
     cse_prove_options = ProveOptions(
-        max_iterations=50,
+        max_depth=10000,
+        max_iterations=100,
         bug_report=bug_report,
         cse=True,
         fail_fast=False,
