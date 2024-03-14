@@ -5,22 +5,8 @@
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (328 steps)
-├─ 3
-│   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
-│   pc: 87
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: STATUSCODE:StatusCode
-│
-│  (1 step)
-├─ 4
-│   k: #halt ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
-│   pc: 87
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: EVMC_SUCCESS
-│
-│  (2 steps)
-├─ 5 (terminal)
+│  (331 steps)
+├─ 3 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 87
 │   callDepth: CALLDEPTH_CELL:Int

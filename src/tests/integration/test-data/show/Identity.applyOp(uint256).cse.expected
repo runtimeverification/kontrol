@@ -5,22 +5,8 @@
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (363 steps)
-├─ 3
-│   k: STATICCALL 0 CONTRACT_ID:Int 128 36 128 32 ~> #pc [ STATICCALL ] ~> #execute ~>  ...
-│   pc: 148
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: STATUSCODE:StatusCode
-│
-│  (1 step)
-├─ 4
-│   k: #accessAccounts CONTRACT_ID:Int ~> #checkCall CONTRACT_ID:Int 0 ~> #call CONTRAC ...
-│   pc: 148
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: STATUSCODE:StatusCode
-│
-│  (3 steps)
-├─ 5 (split)
+│  (367 steps)
+├─ 3 (split)
 │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
 │   pc: 148
 │   callDepth: CALLDEPTH_CELL:Int
@@ -29,70 +15,21 @@
 ┃ (branch)
 ┣━━┓ constraint: CALLDEPTH_CELL:Int <Int 1024
 ┃  │
-┃  ├─ 6
+┃  ├─ 4
 ┃  │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
 ┃  │   pc: 148
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (15 steps)
-┃  ├─ 8
-┃  │   k: #precompiled? ( CONTRACT_ID:Int , SHANGHAI ) ~> #execute ~> #return 128 32 ~> #p ...
-┃  │   pc: 0
-┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-┃  │   statusCode: STATUSCODE:StatusCode
-┃  │
-┃  │  (1 step)
-┃  ├─ 10
-┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 0
-┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-┃  │   statusCode: STATUSCODE:StatusCode
-┃  │
-┃  │  (328 steps)
-┃  ├─ 12
-┃  │   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> #return 128 32 ~> #pc [ STATI ...
-┃  │   pc: 87
-┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-┃  │   statusCode: STATUSCODE:StatusCode
-┃  │
-┃  │  (1 step)
-┃  ├─ 14
-┃  │   k: #halt ~> #pc [ RETURN ] ~> #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> # ...
-┃  │   pc: 87
-┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-┃  │   statusCode: EVMC_SUCCESS
-┃  │
-┃  │  (2 steps)
-┃  ├─ 16
+┃  │  (347 steps)
+┃  ├─ 6
 ┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
-┃  │  (1 step)
-┃  ├─ 18
-┃  │   k: #popCallStack ~> #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128  ...
-┃  │   pc: 87
-┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-┃  │   statusCode: EVMC_SUCCESS
-┃  │
-┃  │  (324 steps)
-┃  ├─ 20
-┃  │   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 87
-┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  │   statusCode: EVMC_SUCCESS
-┃  │
-┃  │  (1 step)
-┃  ├─ 22
-┃  │   k: #halt ~> #pc [ RETURN ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 87
-┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  │   statusCode: EVMC_SUCCESS
-┃  │
-┃  │  (2 steps)
-┃  ├─ 23 (terminal)
+┃  │  (328 steps)
+┃  ├─ 8 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -108,56 +45,14 @@
 ┃
 ┗━━┓ constraint: 1024 <=Int CALLDEPTH_CELL:Int
    │
-   ├─ 7
+   ├─ 5
    │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
    │   pc: 148
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (4 steps)
-   ├─ 9
-   │   k: #end EVMC_CALL_DEPTH_EXCEEDED ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ ...
-   │   pc: 148
-   │   callDepth: CALLDEPTH_CELL:Int
-   │   statusCode: STATUSCODE:StatusCode
-   │
-   │  (1 step)
-   ├─ 11
-   │   k: #halt ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 b"\xac7\xee\x ...
-   │   pc: 148
-   │   callDepth: CALLDEPTH_CELL:Int
-   │   statusCode: EVMC_CALL_DEPTH_EXCEEDED
-   │
-   │  (1 step)
-   ├─ 13
-   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   │   pc: 148
-   │   callDepth: CALLDEPTH_CELL:Int
-   │   statusCode: EVMC_CALL_DEPTH_EXCEEDED
-   │
-   │  (1 step)
-   ├─ 15
-   │   k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #pc [ STATICCALL ] ~> #execute  ...
-   │   pc: 148
-   │   callDepth: CALLDEPTH_CELL:Int
-   │   statusCode: EVMC_CALL_DEPTH_EXCEEDED
-   │
-   │  (66 steps)
-   ├─ 17
-   │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-   │   pc: 163
-   │   callDepth: CALLDEPTH_CELL:Int
-   │   statusCode: EVMC_CALL_DEPTH_EXCEEDED
-   │
-   │  (1 step)
-   ├─ 19
-   │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-   │   pc: 163
-   │   callDepth: CALLDEPTH_CELL:Int
-   │   statusCode: EVMC_REVERT
-   │
-   │  (2 steps)
-   ├─ 21 (terminal)
+   │  (76 steps)
+   ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 163
    │   callDepth: CALLDEPTH_CELL:Int
