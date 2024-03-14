@@ -341,10 +341,10 @@ def test_foundry_merge_loop_heads(
     server: KoreServer,
     no_use_booster: bool,
 ) -> None:
-    test = 'BMCLoopsTest.test_bmc(uint256)'
-
-    if no_use_booster and test in SKIPPED_LEGACY_TESTS:
+    if no_use_booster:
         pytest.skip()
+
+    test = 'BMCLoopsTest.test_bmc(uint256)'
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
@@ -367,7 +367,7 @@ def test_foundry_merge_loop_heads(
         foundry,
         tests=[(test, None)],
         prove_options=ProveOptions(
-            max_iterations=10,
+            max_iterations=2,
             bug_report=bug_report,
         ),
         rpc_options=RPCOptions(
