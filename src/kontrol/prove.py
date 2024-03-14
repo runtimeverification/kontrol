@@ -101,9 +101,6 @@ def foundry_prove(
     setup_method_tests = collect_setup_methods(foundry, contracts, reinit=prove_options.reinit)
     setup_method_names = [test.name for test in setup_method_tests]
 
-    constructor_tests = collect_constructors(foundry, contracts, reinit=prove_options.reinit)
-    constructor_names = [test.name for test in constructor_tests]
-
     _LOGGER.info(f'Running tests: {test_names}')
 
     _LOGGER.info(f'Updating digests: {test_names}')
@@ -112,10 +109,6 @@ def foundry_prove(
 
     _LOGGER.info(f'Updating digests: {setup_method_names}')
     for test in setup_method_tests:
-        test.method.update_digest(foundry.digest_file)
-
-    _LOGGER.info(f'Updating digests: {constructor_names}')
-    for test in constructor_tests:
         test.method.update_digest(foundry.digest_file)
 
     def _run_prover(_test_suite: list[FoundryTest], include_summaries: bool = False) -> list[APRProof]:
@@ -128,6 +121,13 @@ def foundry_prove(
         )
 
     if prove_options.run_constructor:
+        constructor_tests = collect_constructors(foundry, contracts, reinit=prove_options.reinit)
+        constructor_names = [test.name for test in constructor_tests]
+
+        _LOGGER.info(f'Updating digests: {constructor_names}')
+        for test in constructor_tests:
+            test.method.update_digest(foundry.digest_file)
+
         _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
         results = _run_prover(constructor_tests, include_summaries=False)
         failed = [proof for proof in results if not proof.passed]
