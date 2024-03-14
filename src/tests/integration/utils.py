@@ -29,3 +29,12 @@ def gen_bin_runtime(contract_file: Path, output_dir: Path) -> tuple[Path, str]:
 
     main_file.write_text(k_text)
     return main_file, main_module_name
+
+
+def assert_or_update_show_output(actual_text: str, expected_file: Path, *, update: bool) -> None:
+    if update:
+        expected_file.write_text(actual_text)
+    else:
+        assert expected_file.is_file()
+        expected_text = expected_file.read_text()
+        assert actual_text == expected_text
