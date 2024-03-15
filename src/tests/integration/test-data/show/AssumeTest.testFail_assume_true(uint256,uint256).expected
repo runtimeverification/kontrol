@@ -40,7 +40,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (244 steps)
+│  (242 steps)
 ├─ 8
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
 │   pc: 281
@@ -257,6 +257,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -265,13 +268,24 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_a_114b9705:Int
        andBool ( 0 <=Int VV1_b_114b9705:Int
+       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))))))))))))))
+       ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
@@ -459,6 +473,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -469,11 +486,16 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -663,6 +685,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -673,11 +698,16 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( 0 <=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               ))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))))))))))))))
        ensures VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
@@ -865,6 +895,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -876,11 +909,16 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-7]: <foundry>
@@ -1068,6 +1106,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -1079,11 +1120,16 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-7)]
     
     rule [BASIC-BLOCK-7-TO-8]: <foundry>
@@ -1165,7 +1211,7 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
-                     ( .Map => ( 728815563385977040452943777879061427756277306518 |-> SetItem ( 7 ) ) )
+                     .Map
                    </accessedStorage>
                    ...
                  </substate>
@@ -1272,6 +1318,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -1283,11 +1332,16 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-7-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1368,7 +1422,7 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
-                     ( 728815563385977040452943777879061427756277306518 |-> SetItem ( 7 ) )
+                     .Map
                    </accessedStorage>
                    ...
                  </substate>
@@ -1475,6 +1529,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -1486,11 +1543,16 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
@@ -1571,7 +1633,7 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                      SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
-                     ( 728815563385977040452943777879061427756277306518 |-> SetItem ( 7 ) )
+                     .Map
                    </accessedStorage>
                    ...
                  </substate>
@@ -1678,6 +1740,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
                  .Set
                </storageSlotSet>
              </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
            </cheatcodes>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
@@ -1689,16 +1754,24 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-TRUE(UINT256,UINT256):0
        andBool ( VV0_a_114b9705:Int =/=Int VV1_b_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_a_114b9705:Int <Int pow256
        andBool ( VV1_b_114b9705:Int <Int pow256
-               )))))))))))))
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-10)]
 
 endmodule
 0 Failure nodes. (0 pending and 0 failing)
 
 Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
+
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
 Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol

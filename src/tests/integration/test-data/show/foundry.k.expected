@@ -1,5 +1,6 @@
 requires "contracts.k"
 requires "requires/lemmas.k"
+requires "requires/cse-lemmas.k"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
@@ -25,14 +26,15 @@ module FOUNDRY-MAIN
     imports public S2KtestZModWarpTest-VERIFICATION
     imports public S2KtestZModBroadcastTest-VERIFICATION
     imports public S2KsrcZModConstants-VERIFICATION
+    imports public S2KtestZModConstructorTest-VERIFICATION
     imports public S2KsrcZModContract-VERIFICATION
     imports public S2KtestZModContractTest-VERIFICATION
     imports public S2KtestZModContractBTest-VERIFICATION
     imports public S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounterTest-VERIFICATION
-    imports public S2KsrcZModDeploymentSummary-VERIFICATION
-    imports public S2KsrcZModDeploymentSummaryCode-VERIFICATION
-    imports public S2KtestZModDynamicTypes-VERIFICATION
+    imports public S2KsrcZModDeploymentState-VERIFICATION
+    imports public S2KsrcZModDeploymentStateCode-VERIFICATION
+    imports public S2KtestZModDynamicTypesTest-VERIFICATION
     imports public S2KsrcZModExpectEmit-VERIFICATION
     imports public S2KtestZModEmitContractTest-VERIFICATION
     imports public S2KtestZModEnvTest-VERIFICATION
@@ -45,6 +47,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModFfiTest-VERIFICATION
     imports public S2KtestZModFilesTest-VERIFICATION
     imports public S2KtestZModForkTest-VERIFICATION
+    imports public S2KtestZModFreshBytesTest-VERIFICATION
     imports public S2KtestZModFreshIntTest-VERIFICATION
     imports public S2KtestZModGasTest-VERIFICATION
     imports public S2KtestZModGetCodeTest-VERIFICATION
@@ -57,7 +60,11 @@ module FOUNDRY-MAIN
     imports public S2KtestZModLoopsTest-VERIFICATION
     imports public S2KtestZModMergeTest-VERIFICATION
     imports public S2KtestZModMethodDisambiguateTest-VERIFICATION
+    imports public S2KsrcZModMock-VERIFICATION
+    imports public S2KsrcZModNestedMock-VERIFICATION
+    imports public S2KtestZModMockCallRevertTest-VERIFICATION
     imports public S2KtestZModMockCallTest-VERIFICATION
+    imports public S2KtestZModMockCallTestFoundry-VERIFICATION
     imports public S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyToken-VERIFICATION
     imports public S2KtestZModNoImport-VERIFICATION
@@ -81,6 +88,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModSetUpTest-VERIFICATION
     imports public S2KtestZModSignTest-VERIFICATION
     imports public S2KtestZModAssertTest-VERIFICATION
+    imports public S2KtestZModnestedZModAssertNestedTest-VERIFICATION
     imports public S2KtestZModSnapshotTest-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModStdAssertions-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModStdChains-VERIFICATION
@@ -278,6 +286,13 @@ module S2KsrcZModConstants-VERIFICATION
 
 endmodule
 
+module S2KtestZModConstructorTest-VERIFICATION
+    imports public S2KtestZModConstructorTest-CONTRACT
+    
+    
+
+endmodule
+
 module S2KsrcZModContract-VERIFICATION
     imports public S2KsrcZModContract-CONTRACT
     
@@ -313,22 +328,22 @@ module S2KtestZModCounterTest-VERIFICATION
 
 endmodule
 
-module S2KsrcZModDeploymentSummary-VERIFICATION
-    imports public S2KsrcZModDeploymentSummary-CONTRACT
+module S2KsrcZModDeploymentState-VERIFICATION
+    imports public S2KsrcZModDeploymentState-CONTRACT
     
     
 
 endmodule
 
-module S2KsrcZModDeploymentSummaryCode-VERIFICATION
-    imports public S2KsrcZModDeploymentSummaryCode-CONTRACT
+module S2KsrcZModDeploymentStateCode-VERIFICATION
+    imports public S2KsrcZModDeploymentStateCode-CONTRACT
     
     
 
 endmodule
 
-module S2KtestZModDynamicTypes-VERIFICATION
-    imports public S2KtestZModDynamicTypes-CONTRACT
+module S2KtestZModDynamicTypesTest-VERIFICATION
+    imports public S2KtestZModDynamicTypesTest-CONTRACT
     
     
 
@@ -413,6 +428,13 @@ endmodule
 
 module S2KtestZModForkTest-VERIFICATION
     imports public S2KtestZModForkTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModFreshBytesTest-VERIFICATION
+    imports public S2KtestZModFreshBytesTest-CONTRACT
     
     
 
@@ -503,8 +525,36 @@ module S2KtestZModMethodDisambiguateTest-VERIFICATION
 
 endmodule
 
+module S2KsrcZModMock-VERIFICATION
+    imports public S2KsrcZModMock-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModNestedMock-VERIFICATION
+    imports public S2KsrcZModNestedMock-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModMockCallRevertTest-VERIFICATION
+    imports public S2KtestZModMockCallRevertTest-CONTRACT
+    
+    
+
+endmodule
+
 module S2KtestZModMockCallTest-VERIFICATION
     imports public S2KtestZModMockCallTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModMockCallTestFoundry-VERIFICATION
+    imports public S2KtestZModMockCallTestFoundry-CONTRACT
     
     
 
@@ -666,6 +716,14 @@ endmodule
 
 module S2KtestZModAssertTest-VERIFICATION
     imports public S2KtestZModAssertTest-CONTRACT
+    imports public CSE-LEMMAS
+    
+    
+
+endmodule
+
+module S2KtestZModnestedZModAssertNestedTest-VERIFICATION
+    imports public S2KtestZModnestedZModAssertNestedTest-CONTRACT
     
     
 

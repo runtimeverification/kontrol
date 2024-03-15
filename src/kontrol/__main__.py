@@ -12,7 +12,7 @@ from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
-from pyk.proof.reachability import APRProof
+from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path
 
@@ -24,18 +24,21 @@ from .foundry import (
     foundry_list,
     foundry_merge_nodes,
     foundry_node_printer,
+    foundry_refute_node,
     foundry_remove_node,
     foundry_section_edge,
     foundry_show,
     foundry_simplify_node,
+    foundry_split_node,
+    foundry_state_diff,
     foundry_step_node,
-    foundry_summary,
     foundry_to_dot,
-    read_summary,
+    foundry_unrefute_node,
+    read_deployment_state,
 )
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
-from .prove import foundry_prove
+from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
 
 if TYPE_CHECKING:
@@ -118,7 +121,7 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 # Command implementation
 
 
-def exec_summary(
+def exec_load_state_diff(
     name: str,
     accesses_file: Path,
     contract_names: Path | None,
@@ -126,10 +129,10 @@ def exec_summary(
     foundry_root: Path,
     license: str,
     comment_generated_file: str,
-    condense_summary: bool = False,
+    condense_state_diff: bool = False,
     **kwargs: Any,
 ) -> None:
-    foundry_summary(
+    foundry_state_diff(
         name,
         accesses_file,
         contract_names=contract_names,
@@ -137,7 +140,7 @@ def exec_summary(
         foundry=_load_foundry(foundry_root),
         license=license,
         comment_generated_file=comment_generated_file,
-        condense_summary=condense_summary,
+        condense_state_diff=condense_state_diff,
     )
 
 
@@ -187,7 +190,6 @@ def exec_build(
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module {kwargs["main_module"]}')
     _ignore_arg(kwargs, 'syntax_module', f'--syntax-module {kwargs["syntax_module"]}')
-    _ignore_arg(kwargs, 'spec_module', f'--spec-module {kwargs["spec_module"]}')
     _ignore_arg(kwargs, 'o0', '-O0')
     _ignore_arg(kwargs, 'o1', '-O1')
     _ignore_arg(kwargs, 'o2', '-O2')
@@ -240,13 +242,15 @@ def exec_prove(
     port: int | None = None,
     maude_port: int | None = None,
     use_gas: bool = False,
-    summary_path: Path | None = None,
+    deployment_state_path: Path | None = None,
+    with_non_general_state: bool = False,
+    xml_test_report: bool = False,
+    cse: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
     _ignore_arg(kwargs, 'syntax_module', f'--syntax-module: {kwargs["syntax_module"]}')
     _ignore_arg(kwargs, 'definition_dir', f'--definition: {kwargs["definition_dir"]}')
-    _ignore_arg(kwargs, 'spec_module', f'--spec-module: {kwargs["spec_module"]}')
 
     if smt_timeout is None:
         smt_timeout = 300
@@ -256,7 +260,7 @@ def exec_prove(
     if isinstance(kore_rpc_command, str):
         kore_rpc_command = kore_rpc_command.split()
 
-    summary_entries = read_summary(summary_path) if summary_path else None
+    deployment_state_entries = read_deployment_state(deployment_state_path) if deployment_state_path else None
 
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
@@ -276,7 +280,9 @@ def exec_prove(
         run_constructor=run_constructor,
         fail_fast=fail_fast,
         use_gas=use_gas,
-        summary_entries=summary_entries,
+        deployment_state_entries=deployment_state_entries,
+        active_symbolik=with_non_general_state,
+        cse=cse,
     )
 
     rpc_options = RPCOptions(
@@ -296,16 +302,19 @@ def exec_prove(
         rpc_options=rpc_options,
         tests=tests,
         include_summaries=include_summaries,
+        xml_test_report=xml_test_report,
     )
     failed = 0
     for proof in results:
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
+            print(f'time: {proof.formatted_exec_time()}')
         else:
             failed += 1
             print(f'PROOF FAILED: {proof.id}')
+            print(f'time: {proof.formatted_exec_time()}')
             failure_log = None
-            if isinstance(proof, APRProof):
+            if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
             if failure_info and failure_log is not None:
                 log = failure_log.print() + Foundry.help_info()
@@ -355,6 +364,24 @@ def exec_show(
         maude_port=maude_port,
     )
     print(output)
+
+
+def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
+    foundry_refute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
+
+
+def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
+    foundry_unrefute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
+
+
+def exec_split_node(
+    foundry_root: Path, test: str, node: NodeIdLike, branch_condition: str, version: int | None, **kwargs: Any
+) -> None:
+    node_ids = foundry_split_node(
+        foundry=_load_foundry(foundry_root), test=test, node=node, branch_condition=branch_condition, version=version
+    )
+
+    print(f'Node {node} has been split into {node_ids} on condition {branch_condition}.')
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
@@ -628,13 +655,6 @@ def _create_argument_parser() -> ArgumentParser:
     solc_to_k_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
     solc_to_k_args.add_argument('contract_name', type=str, help='Name of contract to generate K helpers for.')
 
-    def _parse_test_version_tuple(value: str) -> tuple[str, int | None]:
-        if ':' in value:
-            test, version = value.split(':')
-            return (test, int(version))
-        else:
-            return (value, None)
-
     build = command_parser.add_parser(
         'build',
         help='Kompile K definition corresponding to given output directory.',
@@ -669,44 +689,44 @@ def _create_argument_parser() -> ArgumentParser:
         help="Do not call 'forge build' during kompilation.",
     )
 
-    summary_args = command_parser.add_parser(
-        'summary',
-        help='Generate a solidity function summary from an account access dict',
+    state_diff_args = command_parser.add_parser(
+        'load-state-diff',
+        help='Generate a state diff summary from an account access dict',
         parents=[
             kontrol_cli_args.foundry_args,
         ],
     )
-    summary_args.add_argument('name', type=str, help='Generated contract name')
-    summary_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
-    summary_args.add_argument(
+    state_diff_args.add_argument('name', type=str, help='Generated contract name')
+    state_diff_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
+    state_diff_args.add_argument(
         '--contract-names',
         dest='contract_names',
         default=None,
         type=file_path,
         help='Path to JSON containing deployment addresses and its respective contract names',
     )
-    summary_args.add_argument(
-        '--condense-summary',
-        dest='condense_summary',
+    state_diff_args.add_argument(
+        '--condense-state-diff',
+        dest='condense_state_diff',
         default=False,
         type=bool,
-        help='Deploy summary as a single file',
+        help='Deploy state diff as a single file',
     )
-    summary_args.add_argument(
+    state_diff_args.add_argument(
         '--output-dir',
         dest='output_dir_name',
         default=None,
         type=str,
-        help='Path to write summary .sol files, relative to foundry root',
+        help='Path to write state diff .sol files, relative to foundry root',
     )
-    summary_args.add_argument(
+    state_diff_args.add_argument(
         '--comment-generated-files',
         dest='comment_generated_file',
-        default='// This file was autogenerated by running `kontrol summary`. Do not edit this file manually.\n',
+        default='// This file was autogenerated by running `kontrol load-state-diff`. Do not edit this file manually.\n',
         type=str,
-        help='Comment to write at the top of the auto generated summary files',
+        help='Comment to write at the top of the auto generated state diff files',
     )
-    summary_args.add_argument(
+    state_diff_args.add_argument(
         '--license',
         dest='license',
         default='UNLICENSED',
@@ -731,7 +751,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--match-test',
-        type=_parse_test_version_tuple,
+        type=parse_test_version_tuple,
         dest='tests',
         default=[],
         action='append',
@@ -774,18 +794,35 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--init-node-from',
-        dest='summary_path',
+        dest='deployment_state_path',
         default=None,
         type=file_path,
-        help='Path to JSON file containing the summary of the deployment process used for the project.',
+        help='Path to JSON file containing the deployment state of the deployment process used for the project.',
     )
     prove_args.add_argument(
         '--include-summary',
-        type=_parse_test_version_tuple,
+        type=parse_test_version_tuple,
         dest='include_summaries',
         default=[],
         action='append',
         help='Specify a summary to include as a lemma.',
+    )
+    prove_args.add_argument(
+        '--with-non-general-state',
+        dest='with_non_general_state',
+        default=False,
+        action='store_true',
+        help='Flag used by Simbolik to initialise the state of a non test function as if it was a test function.',
+    )
+    prove_args.add_argument(
+        '--xml-test-report',
+        dest='xml_test_report',
+        default=False,
+        action='store_true',
+        help='Generate a JUnit XML report',
+    )
+    prove_args.add_argument(
+        '--cse', dest='cse', default=False, action='store_true', help='Use Compositional Symbolic Execution'
     )
 
     show_args = command_parser.add_parser(
@@ -845,6 +882,28 @@ def _create_argument_parser() -> ArgumentParser:
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
     remove_node.add_argument('node', type=node_id_like, help='Node to remove CFG subgraph from.')
+
+    refute_node = command_parser.add_parser(
+        'refute-node',
+        help='Refute a node and add its refutation as a subproof.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    refute_node.add_argument('node', type=node_id_like, help='Node to refute.')
+
+    unrefute_node = command_parser.add_parser(
+        'unrefute-node',
+        help='Disable refutation of a node and remove corresponding refutation subproof.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    unrefute_node.add_argument('node', type=node_id_like, help='Node to unrefute.')
+
+    split_node = command_parser.add_parser(
+        'split-node',
+        help='Split a node on a given branch condition.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    split_node.add_argument('node', type=node_id_like, help='Node to split.')
+    split_node.add_argument('branch_condition', type=str, help='Branch condition written in K.')
 
     simplify_node = command_parser.add_parser(
         'simplify-node',
