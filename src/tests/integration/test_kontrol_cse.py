@@ -1,29 +1,23 @@
 from __future__ import annotations
 
 import sys
-from distutils.dir_util import copy_tree
 from typing import TYPE_CHECKING
 
 import pytest
-from filelock import FileLock
-from pyk.kore.rpc import kore_server
-from pyk.utils import run_process
 
-from kontrol.foundry import Foundry, foundry_show
-from kontrol.kompile import foundry_kompile
+from kontrol.foundry import foundry_show
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
-    from pathlib import Path
     from typing import Final
 
     from pyk.kore.rpc import KoreServer
     from pyk.utils import BugReport
-    from pytest import TempPathFactory
+
+    from kontrol.foundry import Foundry
 
 
 FORGE_STD_REF: Final = '75f1746'
