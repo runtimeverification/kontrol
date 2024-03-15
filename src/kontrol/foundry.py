@@ -415,13 +415,11 @@ class Foundry:
     @staticmethod
     def help_info() -> list[str]:
         res_lines: list[str] = []
-        print_foundry_success_info = any('foundry_success' in line for line in res_lines)
-        if print_foundry_success_info:
-            res_lines.append('')
-            res_lines.append('See `foundry_success` predicate for more information:')
-            res_lines.append(
-                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
-            )
+        res_lines.append('')
+        res_lines.append('See `foundry_success` predicate for more information:')
+        res_lines.append(
+            'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
+        )
         res_lines.append('')
         res_lines.append(
             'Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol'
@@ -917,7 +915,12 @@ def foundry_merge_nodes(
         anti_unification, _, _ = anti_unification.anti_unify(node.cterm, keep_values=True, kdef=foundry.kevm.definition)
     new_node = apr_proof.kcfg.create_node(anti_unification)
     for node in nodes:
-        apr_proof.kcfg.create_cover(node.id, new_node.id)
+        succ = apr_proof.kcfg.successors(node.id)
+        if len(succ) == 0:
+            apr_proof.kcfg.create_cover(node.id, new_node.id)
+        else:
+            apr_proof.prune(node.id, keep_nodes=[node.id])
+            apr_proof.kcfg.create_cover(node.id, new_node.id)
 
     apr_proof.write_proof_data()
 

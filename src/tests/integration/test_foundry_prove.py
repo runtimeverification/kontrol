@@ -28,7 +28,7 @@ from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
 from ..utils import forge_build
-from .utils import TEST_DATA_DIR
+from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -334,58 +334,63 @@ def test_foundry_merge_nodes(
     assert_pass(test, single(prove_res))
 
 
-ALL_DEPENDENCY_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-dependency-all').read_text().splitlines())
-SKIPPED_DEPENDENCY_TESTS: Final = set((TEST_DATA_DIR / 'foundry-dependency-skip').read_text().splitlines())
-
-
-@pytest.mark.parametrize('test_id', ALL_DEPENDENCY_TESTS)
-def test_foundry_dependency(
-    test_id: str,
+def test_foundry_merge_loop_heads(
     foundry: Foundry,
+    update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    update_expected_output: bool,
     no_use_booster: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
 
-    if test_id in SKIPPED_DEPENDENCY_TESTS:
-        pytest.skip()
+    test = 'BMCLoopsTest.test_bmc(uint256)'
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
     foundry_prove(
         foundry,
-        tests=[(test_id, None)],
+        tests=[(test, None)],
         prove_options=ProveOptions(
-            max_iterations=50,
+            max_iterations=20,
             bug_report=bug_report,
-            cse=True,
-            fail_fast=False,
-            workers=2,
         ),
         rpc_options=RPCOptions(
             port=server.port,
         ),
-        include_summaries=[],
+    )
+
+    foundry_merge_nodes(foundry, test=test, node_ids=[15, 16], include_disjunct=True)
+
+    foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            max_iterations=2,
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
     )
 
     show_res = foundry_show(
         foundry,
-        test=test_id,
-        to_module=False,
+        test=test,
+        to_module=True,
         sort_collections=True,
         omit_unstable_output=True,
-        pending=False,
-        failing=False,
-        failure_info=False,
-        counterexample_info=False,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        counterexample_info=True,
         port=server.port,
     )
 
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / 'show/merge-loop-heads.expected', update=update_expected_output
+    )
 
 
 def check_pending(foundry: Foundry, test: str, pending: list[int]) -> None:
@@ -507,15 +512,6 @@ def assert_fail(test: str, proof: Proof) -> None:
         assert proof.failure_info
 
 
-def assert_or_update_show_output(actual_text: str, expected_file: Path, *, update: bool) -> None:
-    if update:
-        expected_file.write_text(actual_text)
-    else:
-        assert expected_file.is_file()
-        expected_text = expected_file.read_text()
-        assert actual_text == expected_text
-
-
 def test_foundry_resume_proof(
     foundry: Foundry,
     update_expected_output: bool,
@@ -566,20 +562,29 @@ def test_foundry_resume_proof(
     assert_fail(test, single(prove_res))
 
 
-ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail_init()')
+ALL_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code').read_text().splitlines())
+SKIPPED_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code-skip').read_text().splitlines())
 
 
-@pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
-    if no_use_booster:
+@pytest.mark.parametrize('test_id', ALL_INIT_CODE_TESTS)
+def test_foundry_init_code(
+    test_id: str,
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    no_use_booster: bool,
+    server: KoreServer,
+) -> None:
+    if no_use_booster or test_id in SKIPPED_INIT_CODE_TESTS:
         pytest.skip()
 
     prove_res = foundry_prove(
         foundry,
-        tests=[(test, None)],
+        tests=[(test_id, None)],
         prove_options=ProveOptions(
             run_constructor=True,
             bug_report=bug_report,
+            fail_fast=False,
         ),
         rpc_options=RPCOptions(
             smt_timeout=300,
@@ -588,8 +593,7 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
         ),
     )
 
-    # Then
-    assert_pass(test, single(prove_res))
+    assert_pass(test_id, single(prove_res))
 
 
 def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
