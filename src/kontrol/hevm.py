@@ -13,7 +13,7 @@ class Hevm:
     def help_info(proof_id: str) -> list[str]:
         res_lines: list[str] = []
         _, test = proof_id.split('.')
-        if not test.startswith('proveFail'):
+        if not any(test.startswith(prefix) for prefix in ['testFail', 'checkFail', 'proveFail']):
             res_lines.append('')
             res_lines.append('See `hevm_success` predicate for more information:')
             res_lines.append(
