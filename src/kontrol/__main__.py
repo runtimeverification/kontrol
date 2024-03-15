@@ -29,6 +29,7 @@ from .foundry import (
     foundry_section_edge,
     foundry_show,
     foundry_simplify_node,
+    foundry_split_node,
     foundry_state_diff,
     foundry_step_node,
     foundry_to_dot,
@@ -189,7 +190,6 @@ def exec_build(
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module {kwargs["main_module"]}')
     _ignore_arg(kwargs, 'syntax_module', f'--syntax-module {kwargs["syntax_module"]}')
-    _ignore_arg(kwargs, 'spec_module', f'--spec-module {kwargs["spec_module"]}')
     _ignore_arg(kwargs, 'o0', '-O0')
     _ignore_arg(kwargs, 'o1', '-O1')
     _ignore_arg(kwargs, 'o2', '-O2')
@@ -251,7 +251,6 @@ def exec_prove(
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
     _ignore_arg(kwargs, 'syntax_module', f'--syntax-module: {kwargs["syntax_module"]}')
     _ignore_arg(kwargs, 'definition_dir', f'--definition: {kwargs["definition_dir"]}')
-    _ignore_arg(kwargs, 'spec_module', f'--spec-module: {kwargs["spec_module"]}')
 
     if smt_timeout is None:
         smt_timeout = 300
@@ -309,7 +308,7 @@ def exec_prove(
     for proof in results:
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}s')
+            print(f'time: {proof.formatted_exec_time()}')
         else:
             failed += 1
             print(f'PROOF FAILED: {proof.id}')
@@ -373,6 +372,16 @@ def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: i
 
 def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
     foundry_unrefute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
+
+
+def exec_split_node(
+    foundry_root: Path, test: str, node: NodeIdLike, branch_condition: str, version: int | None, **kwargs: Any
+) -> None:
+    node_ids = foundry_split_node(
+        foundry=_load_foundry(foundry_root), test=test, node=node, branch_condition=branch_condition, version=version
+    )
+
+    print(f'Node {node} has been split into {node_ids} on condition {branch_condition}.')
 
 
 def exec_to_dot(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
@@ -887,6 +896,14 @@ def _create_argument_parser() -> ArgumentParser:
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
     unrefute_node.add_argument('node', type=node_id_like, help='Node to unrefute.')
+
+    split_node = command_parser.add_parser(
+        'split-node',
+        help='Split a node on a given branch condition.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+    split_node.add_argument('node', type=node_id_like, help='Node to split.')
+    split_node.add_argument('branch_condition', type=str, help='Branch condition written in K.')
 
     simplify_node = command_parser.add_parser(
         'simplify-node',
