@@ -309,6 +309,12 @@ def exec_prove(
     )
     failed = 0
     for proof in results:
+        _, test = proof.id.split('.')
+        if not any(test.startswith(prefix) for prefix in ['test', 'check', 'prove']):
+            signature, _ = test.split(':')
+            _LOGGER.warning(
+                f"{signature} is not prefixed with 'test', 'prove', or 'check', therefore, it is not reported as failing in the presence of reverts or assertion violations."
+            )
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
             print(f'time: {proof.formatted_exec_time()}')
