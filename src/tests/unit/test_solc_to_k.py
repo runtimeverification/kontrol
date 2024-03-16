@@ -100,6 +100,12 @@ ESCAPE_DATA: list[tuple[str, str, str, str]] = [
     ('lower_z', '', 'z_', 'zZUnd'),
     ('with_escape_no_prefix', 'S2K', 'zS2K_', 'S2KzS2KZUnd'),
     ('doll', 'S2K', '$name', 'S2KZDlrname'),
+    (
+        'full_path',
+        'S2K',
+        'node_modules%@openzeppelin%contracts%utils%Address',
+        'S2KnodeZUndmodulesZModZAtopenzeppelinZModcontractsZModutilsZModAddress',
+    ),
 ]
 
 
