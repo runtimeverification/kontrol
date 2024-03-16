@@ -72,7 +72,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                 foundry=Foundry(foundry_root),
                 includes=(),
                 requires=[str(TEST_DATA_DIR / 'lemmas.k'), str(TEST_DATA_DIR / 'cse-lemmas.k')],
-                imports=['LoopsTest:SUM-TO-N-INVARIANT', 'ArithmeticCallTest:CSE-LEMMAS'],
+                imports=['LoopsTest:SUM-TO-N-INVARIANT', 'ArithmeticCallTest:CSE-LEMMAS', 'CSETest:CSE-LEMMAS'],
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
@@ -102,10 +102,48 @@ def test_foundry_dependency_automated(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    cse_prove_options = ProveOptions(
-        max_iterations=50,
+    # Execution without CSE
+    prove_options = ProveOptions(
+        max_depth=10000,
+        max_iterations=100,
+        break_on_calls=False,
         bug_report=bug_report,
+        fail_fast=False,
+        workers=2,
+    )
+
+    foundry_prove(
+        foundry,
+        tests=[(test_id, None)],
+        prove_options=prove_options,
+        rpc_options=RPCOptions(port=server.port, smt_timeout=500),
+    )
+
+    show_res = foundry_show(
+        foundry,
+        test=test_id,
+        to_module=False,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=False,
+        failing=False,
+        failure_info=False,
+        counterexample_info=False,
+        port=server.port,
+    )
+
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / f'show/{test_id}.no-cse.expected', update=update_expected_output
+    )
+
+    # Execution with CSE
+    cse_prove_options = ProveOptions(
+        max_depth=10000,
+        max_iterations=100,
+        bug_report=bug_report,
+        break_on_calls=False,
         cse=True,
+        reinit=True,
         fail_fast=False,
         workers=2,
     )
