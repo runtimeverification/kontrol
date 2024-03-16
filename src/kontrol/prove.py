@@ -288,6 +288,7 @@ def _run_cfg_group(
             end_time = time.time()
             proof.add_exec_time(end_time - start_time)
             proof.write_proof_data()
+
             # Only return the failure info to avoid pickling the whole proof
             if proof.failure_info is not None and not isinstance(proof.failure_info, APRFailureInfo):
                 raise RuntimeError('Generated failure info for APRProof is not APRFailureInfo.')
