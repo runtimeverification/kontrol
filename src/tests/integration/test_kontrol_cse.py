@@ -20,9 +20,6 @@ if TYPE_CHECKING:
     from kontrol.foundry import Foundry
 
 
-FORGE_STD_REF: Final = '75f1746'
-
-
 sys.setrecursionlimit(10**7)
 
 
