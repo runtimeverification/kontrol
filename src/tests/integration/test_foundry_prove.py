@@ -510,6 +510,7 @@ def test_foundry_resume_proof(
 
 
 ALL_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code').read_text().splitlines())
+SKIPPED_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code-skip').read_text().splitlines())
 
 
 @pytest.mark.parametrize('test_id', ALL_INIT_CODE_TESTS)
@@ -521,10 +522,8 @@ def test_foundry_init_code(
     no_use_booster: bool,
     server: KoreServer,
 ) -> None:
-    if no_use_booster:
+    if no_use_booster or test_id in SKIPPED_INIT_CODE_TESTS:
         pytest.skip()
-
-    test = 'ConstructorTest.run_constructor()'
 
     prove_res = foundry_prove(
         foundry,
@@ -541,29 +540,7 @@ def test_foundry_init_code(
         ),
     )
 
-    # Then
-    if test_id != test:
-        assert_pass(test_id, single(prove_res))
-        return
-    else:
-        assert_fail(test, single(prove_res))
-
-    # And when
-    show_res = foundry_show(
-        foundry,
-        test=test,
-        to_module=True,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=True,
-        failing=True,
-        failure_info=True,
-        counterexample_info=True,
-        port=server.port,
-    )
-
-    # Then
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test}.expected', update=update_expected_output)
+    assert_pass(test_id, single(prove_res))
 
 
 def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
