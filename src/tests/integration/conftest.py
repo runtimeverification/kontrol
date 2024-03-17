@@ -70,8 +70,17 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
             foundry_kompile(
                 foundry=Foundry(foundry_root),
                 includes=(),
-                requires=[str(TEST_DATA_DIR / 'lemmas.k'), str(TEST_DATA_DIR / 'cse-lemmas.k')],
-                imports=['LoopsTest:SUM-TO-N-INVARIANT', 'ArithmeticCallTest:CSE-LEMMAS', 'CSETest:CSE-LEMMAS'],
+                requires=[
+                    str(TEST_DATA_DIR / 'lemmas.k'),
+                    str(TEST_DATA_DIR / 'cse-lemmas.k'),
+                    str(TEST_DATA_DIR / 'pausability-lemmas.k'),
+                ],
+                imports=[
+                    'LoopsTest:SUM-TO-N-INVARIANT',
+                    'ArithmeticCallTest:CSE-LEMMAS',
+                    'CSETest:CSE-LEMMAS',
+                    'PortalTest:PAUSABILITY-LEMMAS',
+                ],
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
