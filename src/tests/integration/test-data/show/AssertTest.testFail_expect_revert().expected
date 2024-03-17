@@ -1380,7 +1380,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
            <kevm>
              <k>
-               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\xf4\x84H\x14" false
                ~> #return 128 0 )
@@ -1800,7 +1800,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
     rule [BASIC-BLOCK-10-TO-11]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0 => #accessAccounts 728815563385977040452943777879061427756277306518
+               ( STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0 ~> .K => #accessAccounts 728815563385977040452943777879061427756277306518
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 0 0 b"\xf3\xad0#" true
                ~> #return 128 0 )
@@ -2314,7 +2314,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
            <kevm>
              <k>
-               ( #precompiled? ( 728815563385977040452943777879061427756277306518 , SHANGHAI ) => .K )
+               ( #precompiled? ( 728815563385977040452943777879061427756277306518 , SHANGHAI ) ~> .K => .K )
                ~> #execute
                ~> #return 128 0
                ~> #pc [ STATICCALL ]
@@ -4586,4 +4586,4 @@ Join the Runtime Verification Discord server for support: https://discord.com/in
 See `foundry_success` predicate for more information:
 https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
-Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol
