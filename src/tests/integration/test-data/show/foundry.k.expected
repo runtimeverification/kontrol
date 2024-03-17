@@ -1,5 +1,7 @@
 requires "contracts.k"
 requires "requires/lemmas.k"
+requires "requires/cse-lemmas.k"
+requires "requires/pausability-lemmas.k"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
@@ -17,6 +19,9 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModCommonBase-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModScriptBase-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModTestBase-VERIFICATION
+    imports public S2KsrcZModcseZModAdd-VERIFICATION
+    imports public S2KsrcZModcseZModMultiply-VERIFICATION
+    imports public S2KsrcZModcseZModSub-VERIFICATION
     imports public S2KtestZModBlockParamsTest-VERIFICATION
     imports public S2KtestZModChainIdTest-VERIFICATION
     imports public S2KtestZModCoinBaseTest-VERIFICATION
@@ -24,7 +29,9 @@ module FOUNDRY-MAIN
     imports public S2KtestZModRollTest-VERIFICATION
     imports public S2KtestZModWarpTest-VERIFICATION
     imports public S2KtestZModBroadcastTest-VERIFICATION
+    imports public S2KtestZModCSETest-VERIFICATION
     imports public S2KsrcZModConstants-VERIFICATION
+    imports public S2KtestZModConstructorTest-VERIFICATION
     imports public S2KsrcZModContract-VERIFICATION
     imports public S2KtestZModContractTest-VERIFICATION
     imports public S2KtestZModContractBTest-VERIFICATION
@@ -49,6 +56,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModFreshIntTest-VERIFICATION
     imports public S2KtestZModGasTest-VERIFICATION
     imports public S2KtestZModGetCodeTest-VERIFICATION
+    imports public S2KtestZModHevmTests-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-VERIFICATION
     imports public S2KtestZModInitCodeTest-VERIFICATION
     imports public S2KtestZModInitCodeBranchTest-VERIFICATION
@@ -66,11 +74,16 @@ module FOUNDRY-MAIN
     imports public S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyToken-VERIFICATION
     imports public S2KtestZModNoImport-VERIFICATION
+    imports public S2KsrcZModcseZModUIntBinaryOp-VERIFICATION
+    imports public S2KsrcZModcseZModUIntUnaryOp-VERIFICATION
     imports public S2KsrcZModOwnerUpOnly-VERIFICATION
     imports public S2KtestZModOwnerUpOnlyTest-VERIFICATION
     imports public S2KtestZModAdditionalToken-VERIFICATION
     imports public S2KtestZModMyErc20-VERIFICATION
     imports public S2KtestZModPlainPrankTest-VERIFICATION
+    imports public S2KsrcZModPortal-VERIFICATION
+    imports public S2KsrcZModTypes-VERIFICATION
+    imports public S2KtestZModPortalTest-VERIFICATION
     imports public S2KsrcZModPrank-VERIFICATION
     imports public S2KtestZModPrankTest-VERIFICATION
     imports public S2KtestZModPrankTestMsgSender-VERIFICATION
@@ -86,6 +99,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModSetUpTest-VERIFICATION
     imports public S2KtestZModSignTest-VERIFICATION
     imports public S2KtestZModAssertTest-VERIFICATION
+    imports public S2KtestZModnestedZModAssertNestedTest-VERIFICATION
     imports public S2KtestZModSnapshotTest-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModStdAssertions-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModStdChains-VERIFICATION
@@ -111,8 +125,12 @@ module FOUNDRY-MAIN
     imports public S2KtestZModIntTypeTest-VERIFICATION
     imports public S2KtestZModStructTypeTest-VERIFICATION
     imports public S2KtestZModUintTypeTest-VERIFICATION
+    imports public S2KsrcZModcseZModAddConst-VERIFICATION
+    imports public S2KsrcZModcseZModIdentity-VERIFICATION
+    imports public S2KsrcZModcseZModIterate-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModVm-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModVmSafe-VERIFICATION
+    imports public S2KsrcZModcseZModWETH9-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole2-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
@@ -180,6 +198,7 @@ endmodule
 
 module S2KtestZModArithmeticCallTest-VERIFICATION
     imports public S2KtestZModArithmeticCallTest-CONTRACT
+    imports public CSE-LEMMAS
     
     
 
@@ -222,6 +241,27 @@ endmodule
 
 module S2KlibZModforgeZSubstdZModsrcZModTestBase-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModTestBase-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModAdd-VERIFICATION
+    imports public S2KsrcZModcseZModAdd-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModMultiply-VERIFICATION
+    imports public S2KsrcZModcseZModMultiply-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModSub-VERIFICATION
+    imports public S2KsrcZModcseZModSub-CONTRACT
     
     
 
@@ -276,8 +316,23 @@ module S2KtestZModBroadcastTest-VERIFICATION
 
 endmodule
 
+module S2KtestZModCSETest-VERIFICATION
+    imports public S2KtestZModCSETest-CONTRACT
+    imports public CSE-LEMMAS
+    
+    
+
+endmodule
+
 module S2KsrcZModConstants-VERIFICATION
     imports public S2KsrcZModConstants-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModConstructorTest-VERIFICATION
+    imports public S2KtestZModConstructorTest-CONTRACT
     
     
 
@@ -451,6 +506,13 @@ module S2KtestZModGetCodeTest-VERIFICATION
 
 endmodule
 
+module S2KtestZModHevmTests-VERIFICATION
+    imports public S2KtestZModHevmTests-CONTRACT
+    
+    
+
+endmodule
+
 module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     
@@ -571,6 +633,20 @@ module S2KtestZModNoImport-VERIFICATION
 
 endmodule
 
+module S2KsrcZModcseZModUIntBinaryOp-VERIFICATION
+    imports public S2KsrcZModcseZModUIntBinaryOp-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModUIntUnaryOp-VERIFICATION
+    imports public S2KsrcZModcseZModUIntUnaryOp-CONTRACT
+    
+    
+
+endmodule
+
 module S2KsrcZModOwnerUpOnly-VERIFICATION
     imports public S2KsrcZModOwnerUpOnly-CONTRACT
     
@@ -601,6 +677,28 @@ endmodule
 
 module S2KtestZModPlainPrankTest-VERIFICATION
     imports public S2KtestZModPlainPrankTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModPortal-VERIFICATION
+    imports public S2KsrcZModPortal-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModTypes-VERIFICATION
+    imports public S2KsrcZModTypes-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModPortalTest-VERIFICATION
+    imports public S2KtestZModPortalTest-CONTRACT
+    imports public PAUSABILITY-LEMMAS
     
     
 
@@ -706,6 +804,13 @@ endmodule
 
 module S2KtestZModAssertTest-VERIFICATION
     imports public S2KtestZModAssertTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModnestedZModAssertNestedTest-VERIFICATION
+    imports public S2KtestZModnestedZModAssertNestedTest-CONTRACT
     
     
 
@@ -886,6 +991,27 @@ module S2KtestZModUintTypeTest-VERIFICATION
 
 endmodule
 
+module S2KsrcZModcseZModAddConst-VERIFICATION
+    imports public S2KsrcZModcseZModAddConst-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModIdentity-VERIFICATION
+    imports public S2KsrcZModcseZModIdentity-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModIterate-VERIFICATION
+    imports public S2KsrcZModcseZModIterate-CONTRACT
+    
+    
+
+endmodule
+
 module S2KlibZModforgeZSubstdZModsrcZModVm-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
@@ -895,6 +1021,13 @@ endmodule
 
 module S2KlibZModforgeZSubstdZModsrcZModVmSafe-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModWETH9-VERIFICATION
+    imports public S2KsrcZModcseZModWETH9-CONTRACT
     
     
 

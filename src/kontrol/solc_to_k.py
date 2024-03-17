@@ -369,6 +369,7 @@ class Contract:
         signature: str
         ast: dict | None
         natspec_values: dict | None
+        function_calls: tuple[str, ...] | None
 
         def __init__(
             self,
@@ -381,6 +382,7 @@ class Contract:
             contract_storage_digest: str,
             sort: KSort,
             devdoc: dict | None,
+            function_calls: Iterable[str] | None,
         ) -> None:
             self.signature = msig
             self.name = abi['name']
@@ -396,6 +398,7 @@ class Contract:
             natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
             self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
+            self.function_calls = tuple(function_calls) if function_calls is not None else None
 
         @property
         def klabel(self) -> KLabel:
@@ -632,6 +635,7 @@ class Contract:
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 method_devdoc = devdoc.get(msig)
+                method_calls = find_function_calls(method_ast)
                 _m = Contract.Method(
                     msig,
                     mid,
@@ -642,6 +646,7 @@ class Contract:
                     self.storage_digest,
                     self.sort_method,
                     method_devdoc,
+                    method_calls,
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
@@ -649,6 +654,11 @@ class Contract:
                 self.constructor = _c
 
         self.methods = tuple(sorted(_methods, key=(lambda method: method.signature)))
+
+        if self.constructor is None:
+            empty_constructor = {'inputs': [], 'stateMutability': 'nonpayable', 'type': 'constructor'}
+            _c = Contract.Constructor(empty_constructor, self._name, self.digest, self.storage_digest, self.sort_method)
+            self.constructor = _c
 
         self.fields = FrozenDict({})
         if 'storageLayout' in self.contract_json and 'storage' in self.contract_json['storageLayout']:
@@ -726,7 +736,7 @@ class Contract:
 
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%']
+        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%', '@']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -743,6 +753,8 @@ class Contract:
                 as_ecaped = 'Sub'
             case '%':
                 as_ecaped = 'Mod'
+            case '@':
+                as_ecaped = 'At'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -761,6 +773,8 @@ class Contract:
             return '-', 3
         elif seq.startswith('Mod'):
             return '%', 3
+        elif seq.startswith('At'):
+            return '@', 2
         else:
             return chr(int(seq, base=16)), 4
 
@@ -1046,12 +1060,12 @@ def _range_predicates(abi: KApply, dynamic_type_length: int | None = None) -> li
 
 def _range_collection_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
     rp: list[KInner | None] = []
-    if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
+    if abi.label.name == 'typedArgs':
         if type(abi.args[0]) is KApply:
             rp += _range_predicates(abi.args[0], dynamic_type_length)
         if type(abi.args[1]) is KApply:
             rp += _range_collection_predicates(abi.args[1], dynamic_type_length)
-    elif abi.label.name == '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs':
+    elif abi.label.name == '.List{"typedArgs"}':
         return rp
     else:
         raise AssertionError('No list of typed args found')
@@ -1168,3 +1182,50 @@ def hex_string_to_int(hex: str) -> int:
         return int(hex, 16)
     else:
         raise ValueError('Invalid hex format')
+
+
+def find_function_calls(node: dict) -> list[str]:
+    """Recursive function that takes a method AST and returns all the functions that are called in the given method.
+
+    :param node: AST of a Solidity Method
+    :type node: dict
+    :return: A list of unique function signatures that are called inside the provided method AST.
+    :rtype: list[str]
+
+    Functions that belong to contracts such as `Vm` and `KEVMCheatsBase` are ignored.
+    Functions like `abi.encodePacked` that do not belong to a Contract are assigned to a `UnknownContractType` and are ignored.
+    """
+    function_calls: list[str] = []
+
+    def _find_function_calls(node: dict) -> None:
+        if not node:
+            return
+
+        if node.get('nodeType') == 'FunctionCall':
+            expression = node.get('expression', {})
+            if expression.get('nodeType') == 'MemberAccess':
+                contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
+                contract_type = (
+                    contract_type_string.split()[-1] if 'contract' in contract_type_string else 'UnknownContractType'
+                )
+
+                function_name = expression.get('memberName')
+                arg_types = expression['typeDescriptions'].get('typeString')
+                args = arg_types.split()[1] if arg_types is not None else '()'
+
+                if contract_type not in ['KEVMCheatsBase', 'Vm', 'UnknownContractType']:
+                    value = f'{contract_type}.{function_name}{args}'
+                    # Check if value is not already in the list
+                    if value not in function_calls:
+                        function_calls.append(value)
+
+        for _key, value in node.items():
+            if isinstance(value, dict):
+                _find_function_calls(value)
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, dict):
+                        _find_function_calls(item)
+
+    _find_function_calls(node)
+    return function_calls

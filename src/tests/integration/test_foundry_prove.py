@@ -1,15 +1,13 @@
 from __future__ import annotations
 
 import sys
-from distutils.dir_util import copy_tree
+import xml.etree.ElementTree as Et
 from typing import TYPE_CHECKING
 
 import pytest
-from filelock import FileLock
-from pyk.kore.rpc import kore_server
 from pyk.proof import APRProof
 from pyk.proof.reachability import APRFailureInfo
-from pyk.utils import run_process, single
+from pyk.utils import single
 
 from kontrol.foundry import (
     Foundry,
@@ -17,18 +15,17 @@ from kontrol.foundry import (
     foundry_refute_node,
     foundry_remove_node,
     foundry_show,
+    foundry_split_node,
     foundry_state_diff,
     foundry_step_node,
     foundry_unrefute_node,
 )
-from kontrol.kompile import foundry_kompile
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
-from .utils import TEST_DATA_DIR
+from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
     from pathlib import Path
     from typing import Final
 
@@ -38,58 +35,7 @@ if TYPE_CHECKING:
     from pytest import TempPathFactory
 
 
-FORGE_STD_REF: Final = '75f1746'
-
-
 sys.setrecursionlimit(10**7)
-
-
-@pytest.fixture(scope='module')
-def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
-    llvm_definition_dir = foundry.out / 'kompiled' / 'llvm-library' if not no_use_booster else None
-    kore_rpc_command = ('kore-rpc-booster',) if not no_use_booster else ('kore-rpc',)
-
-    yield kore_server(
-        definition_dir=foundry.kevm.definition_dir,
-        llvm_definition_dir=llvm_definition_dir,
-        module_name=foundry.kevm.main_module,
-        command=kore_rpc_command,
-        smt_timeout=300,
-        smt_retry_limit=10,
-        fallback_on=None,
-        interim_simplification=None,
-        no_post_exec_simplify=None,
-    )
-
-
-@pytest.fixture(scope='session')
-def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, worker_id: str) -> Foundry:
-    if foundry_root_dir:
-        return Foundry(foundry_root_dir)
-
-    if worker_id == 'master':
-        root_tmp_dir = tmp_path_factory.getbasetemp()
-    else:
-        root_tmp_dir = tmp_path_factory.getbasetemp().parent
-
-    foundry_root = root_tmp_dir / 'foundry'
-    with FileLock(str(foundry_root) + '.lock'):
-        if not foundry_root.is_dir():
-            copy_tree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root))
-
-            run_process(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
-            run_process(['forge', 'build'], cwd=foundry_root)
-
-            foundry_kompile(
-                foundry=Foundry(foundry_root),
-                includes=(),
-                requires=[str(TEST_DATA_DIR / 'lemmas.k')],
-                imports=['LoopsTest:SUM-TO-N-INVARIANT'],
-            )
-
-    session_foundry_root = tmp_path_factory.mktemp('foundry')
-    copy_tree(str(foundry_root), str(session_foundry_root))
-    return Foundry(session_foundry_root)
 
 
 def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_booster: bool) -> None:
@@ -335,55 +281,63 @@ def test_foundry_merge_nodes(
     assert_pass(test, single(prove_res))
 
 
-def test_foundry_dependency(
+def test_foundry_merge_loop_heads(
     foundry: Foundry,
+    update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
-    update_expected_output: bool,
     no_use_booster: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
 
-    dependency = 'ArithmeticContract.add(uint256,uint256)'
-    test = 'ArithmeticCallTest.test_double_add(uint256,uint256)'
+    test = 'BMCLoopsTest.test_bmc(uint256)'
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
     foundry_prove(
         foundry,
-        tests=[(dependency, None)],
-        prove_options=ProveOptions(max_iterations=10, bug_report=bug_report, fail_fast=False),
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            max_iterations=20,
+            bug_report=bug_report,
+        ),
         rpc_options=RPCOptions(
             port=server.port,
         ),
     )
 
+    foundry_merge_nodes(foundry, test=test, node_ids=[15, 16], include_disjunct=True)
+
     foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(max_iterations=50, bug_report=bug_report, fail_fast=False),
+        prove_options=ProveOptions(
+            max_iterations=2,
+            bug_report=bug_report,
+        ),
         rpc_options=RPCOptions(
             port=server.port,
         ),
-        include_summaries=[(dependency, None)],
     )
 
     show_res = foundry_show(
         foundry,
         test=test,
-        to_module=False,
+        to_module=True,
         sort_collections=True,
         omit_unstable_output=True,
-        pending=False,
-        failing=False,
-        failure_info=False,
-        counterexample_info=False,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        counterexample_info=True,
         port=server.port,
     )
 
-    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test}.expected', update=update_expected_output)
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / 'show/merge-loop-heads.expected', update=update_expected_output
+    )
 
 
 def check_pending(foundry: Foundry, test: str, pending: list[int]) -> None:
@@ -505,15 +459,6 @@ def assert_fail(test: str, proof: Proof) -> None:
         assert proof.failure_info
 
 
-def assert_or_update_show_output(actual_text: str, expected_file: Path, *, update: bool) -> None:
-    if update:
-        expected_file.write_text(actual_text)
-    else:
-        assert expected_file.is_file()
-        expected_text = expected_file.read_text()
-        assert actual_text == expected_text
-
-
 def test_foundry_resume_proof(
     foundry: Foundry,
     update_expected_output: bool,
@@ -564,20 +509,29 @@ def test_foundry_resume_proof(
     assert_fail(test, single(prove_res))
 
 
-ALL_INIT_CODE_TESTS: Final = ('InitCodeTest.test_init()', 'InitCodeTest.testFail_init()')
+ALL_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code').read_text().splitlines())
+SKIPPED_INIT_CODE_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-init-code-skip').read_text().splitlines())
 
 
-@pytest.mark.parametrize('test', ALL_INIT_CODE_TESTS)
-def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | None, no_use_booster: bool) -> None:
-    if no_use_booster:
+@pytest.mark.parametrize('test_id', ALL_INIT_CODE_TESTS)
+def test_foundry_init_code(
+    test_id: str,
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    no_use_booster: bool,
+    server: KoreServer,
+) -> None:
+    if no_use_booster or test_id in SKIPPED_INIT_CODE_TESTS:
         pytest.skip()
 
     prove_res = foundry_prove(
         foundry,
-        tests=[(test, None)],
+        tests=[(test_id, None)],
         prove_options=ProveOptions(
             run_constructor=True,
             bug_report=bug_report,
+            fail_fast=False,
         ),
         rpc_options=RPCOptions(
             smt_timeout=300,
@@ -586,8 +540,7 @@ def test_foundry_init_code(test: str, foundry: Foundry, bug_report: BugReport | 
         ),
     )
 
-    # Then
-    assert_pass(test, single(prove_res))
+    assert_pass(test_id, single(prove_res))
 
 
 def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
@@ -733,3 +686,135 @@ def test_foundry_refute_node(
 
     # Proof passes again
     assert_pass(test, single(prove_res_3))
+
+
+def test_foundry_xml_report(
+    foundry: Foundry,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    foundry_prove(
+        foundry,
+        tests=[
+            ('AssertTest.test_assert_true()', None),
+            ('AssertTest.test_assert_false()', None),
+            ('AssertNestedTest.test_assert_true_nested()', None),
+        ],
+        prove_options=ProveOptions(
+            counterexample_info=True,
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+        xml_test_report=True,
+    )
+
+    tree = Et.parse('kontrol_prove_report.xml')
+    testsuites = tree.getroot()
+    testsuite = testsuites.find('testsuite[@name="AssertTest"]')
+    assert testsuite
+    assert testsuite.findall('testcase[@name="test_assert_true()"]')
+    failure = testsuite.findall('testcase[@name="test_assert_false()"]')
+    assert failure
+    assert failure[0].findall('failure')
+    testsuite_nested = testsuites.find('testsuite[@name="AssertNestedTest"]')
+    assert testsuite_nested
+    assert testsuite_nested.findall('testcase[@name="test_assert_true_nested()"]')
+
+
+def test_foundry_split_node(
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    test = 'PrankTest.testSymbolicStartPrank'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    prove_res_1 = foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    assert_pass(test, single(prove_res_1))
+
+    # Remove node with non-deterministic branch
+    foundry_remove_node(foundry, test, node=13)
+
+    split_nodes = foundry_split_node(
+        foundry,
+        test,
+        node=12,
+        branch_condition='VV0_addr_114b9705 ==Int 491460923342184218035706888008750043977755113263',
+    )
+    assert split_nodes == [70, 71]
+
+    split_nodes = foundry_split_node(
+        foundry,
+        test,
+        node=71,
+        branch_condition='VV0_addr_114b9705 ==Int 645326474426547203313410069153905908525362434349',
+    )
+    assert split_nodes == [72, 73]
+
+    split_nodes = foundry_split_node(
+        foundry,
+        test,
+        node=73,
+        branch_condition='VV0_addr_114b9705 ==Int 728815563385977040452943777879061427756277306518',
+    )
+    assert split_nodes == [74, 75]
+
+    foundry_refute_node(foundry, test, node=70)
+    foundry_refute_node(foundry, test, node=72)
+    foundry_refute_node(foundry, test, node=74)
+
+    check_pending(foundry, test, [75])
+
+    prove_res_2 = foundry_prove(
+        foundry,
+        tests=[(test, None)],
+        prove_options=ProveOptions(
+            bug_report=bug_report,
+        ),
+        rpc_options=RPCOptions(
+            port=server.port,
+        ),
+    )
+
+    assert not single(prove_res_2).passed
+
+    show_res = foundry_show(
+        foundry,
+        test=test,
+        to_module=True,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        counterexample_info=True,
+        port=server.port,
+    )
+
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / 'show/split-node.expected', update=update_expected_output)
