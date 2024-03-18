@@ -10,6 +10,7 @@ This file describes the K semantics of the Foundry testing framework, which incl
 
 ```k
 requires "cheatcodes.md"
+requires "hevm.md"
 requires "hashed-locations.md"
 requires "edsl.md"
 requires "lemmas/lemmas.k"
@@ -18,6 +19,7 @@ module FOUNDRY
     imports FOUNDRY-SUCCESS
     imports FOUNDRY-CHEAT-CODES
     imports FOUNDRY-ACCOUNTS
+    imports HEVM-SUCCESS
     imports EDSL
     imports LEMMAS
 
