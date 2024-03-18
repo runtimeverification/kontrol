@@ -5,7 +5,7 @@ copyright: Copyright (c) Runtime Verification, Inc. All Rights Reserved.
 # Kontrol Contributor Guide
 
 Thank you for making a contribution to Kontrol.
-The following is a set of guidelines to get your changes reviewed, tested and merged into Kontrol. If you have any questions about this process or Kontrol in general, please get in touch via our [Discord Server](discord link).
+The following is a set of guidelines to get your changes reviewed, tested and merged into Kontrol. If you have any questions about this process or Kontrol in general, please get in touch via our [Discord Server](https://discord.com/invite/CurfmXNtbN).
 
 ## Opening an issue
 
