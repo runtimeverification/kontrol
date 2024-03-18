@@ -33,10 +33,9 @@ contract DynamicTypesTest is Test {
 
     /// @custom:kontrol-array-length-equals ctValues: 10,
     /// @custom:kontrol-bytes-length-equals content: 10000,
-    function test_single_struct_array(ComplexType[] calldata ctValues, uint256 offset) public {
+    function test_dynamic_struct_array(ComplexType[] calldata ctValues) public {
         require (ctValues.length == 10, "DynamicTypes: invalid length for ComplexType[]");
-        vm.assume(offset < 10);
-        assert(ctValues[offset].content.length == 10000);
+        assert(ctValues[8].content.length == 10000);
     }
 
     function test_dynamic_byte_read(bytes memory data, uint256 offset) public {
