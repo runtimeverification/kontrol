@@ -8,7 +8,7 @@ from pyk.utils import single
 from kontrol.options import ProveOptions, RPCOptions
 from kontrol.prove import foundry_prove
 
-from .test_foundry_prove import assert_pass, foundry, server  # noqa: F401
+from .test_foundry_prove import assert_pass
 
 if TYPE_CHECKING:
 
@@ -19,9 +19,9 @@ if TYPE_CHECKING:
 
 
 def test_simbolik_prove(
-    foundry: Foundry,  # noqa: F811
+    foundry: Foundry,
     bug_report: BugReport | None,
-    server: KoreServer,  # noqa: F811
+    server: KoreServer,
 ) -> None:
     test_id = 'SimbolikCode.getNumber()'
 
