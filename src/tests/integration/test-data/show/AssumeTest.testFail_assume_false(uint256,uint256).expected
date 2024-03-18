@@ -479,7 +479,7 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
     rule [BASIC-BLOCK-3-TO-4]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ( STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_a_114b9705:Int ==Int VV1_b_114b9705:Int ) ) true
                ~> #return 128 0 )
@@ -1357,4 +1357,4 @@ Join the Runtime Verification Discord server for support: https://discord.com/in
 See `foundry_success` predicate for more information:
 https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
 
-Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol
