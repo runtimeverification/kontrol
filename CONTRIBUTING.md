@@ -1,18 +1,29 @@
-# Contributing to Kontrol
+---
+copyright: Copyright (c) Runtime Verification, Inc. All Rights Reserved.
+---
 
-:+1::tada: Thanks for taking the time to contribute! :tada::+1:
+# Kontrol Contributor Guide
 
-The following is a set of guidelines for contributing to Kontrol. These are mostly guidelines, not rules. In each situation, use your best judgment, and feel free to propose changes to this document in a pull request.
+Thank you for making a contribution to Kontrol.
+The following is a set of guidelines to get your changes reviewed, tested and merged into Kontrol. If you have any questions about this process or Kontrol in general, please get in touch via our [Discord Server](discord link).
 
-## Opening a PR:
-When submitting a PR to Kontrol, provide a description of what the PR is fixing/introducing. If you think it's helpful, please describe the implementation for the fix or a new feature in more detail. If the PR addresses an open issue, mention it in the description using a [Closing Keyword](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue). Then:
-  - Request a review from people with expertise in the fix/feature you introduced. If you are still determining whom to request a review from, please check the last contributors to the edited files;
-  - Assign yourself to the PR;
-  - In the Projects tab, select "Kontrol" to link the PR with the Kontrol project;
-  - If it is still a work in progress, `Create a draft pull request` and mark it as ready for review once you have finished. Otherwise, `Create a pull request`. 
+## Opening an issue
 
-### Make sure your changes pass on CI
-In order to ensure that the PR will pass on CI:
+If you are using Kontrol and want to report something that doesn't work as you expect, the best way to do so is to open an issue against the [Kontrol repository](https://github.com/runtimeverification/kontrol).
+Please make sure to include as much relevant information as possible in your issue to help us reproduce it. We will reply to you with any questions we have about the issue, then triage it to get fixed.
+
+## Making a change to Kontrol
+
+We welcome contributions to Kontrol from the community. Because running the Kontrol test suite uses our private compute resources, there are a few steps to go through to get your changes tested and merged.
+
+### Fork the Kontrol repository
+
+For external contributors, please [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the Kontrol repository following the Github documentation. Commit any changes you make to a branch on your fork.
+
+### Develop your changes locally
+
+The first step is to develop and test your changes locally.
+
 ##### 1. Build Kontrol from source
 ```
 kup install k.openssl.procps --version v$(cat deps/k_release)
@@ -36,7 +47,23 @@ make test
 make test TEST_ARGS="--update-expected-output"
 ```
 
-### Add a new test to CI
+If your changes only apply to documentation, you can skip the testing phase.
+
+### Opening a PR:
+When submitting a PR to Kontrol, provide a description of what the PR is fixing/introducing. If you think it's helpful, please describe the implementation for the fix or a new feature in more detail. If the PR addresses an open issue, mention it in the description using a [Closing Keyword](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue). Then:
+  - Request a review from people with expertise in the fix/feature you introduced. If you are still determining whom to request a review from, please check the last contributors to the edited files;
+  - Assign yourself to the PR;
+  - In the Projects tab, select "Kontrol" to link the PR with the Kontrol project;
+  - If it is still a work in progress, `Create a draft pull request` and mark it as ready for review once you have finished. Otherwise, `Create a pull request`. 
+
+#### External contributors
+Once you have tested your changes locally, push your commits to your fork of Kontrol and [open a pull request (PR)](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests), again following the Github documentation. Because this PR is coming from an external fork, the Kontrol test suite and CI process will not run. This is expected behaviour. Additionally, please make sure that the commit history in your PR is clean by [rebasing](https://docs.github.com/en/get-started/using-git/about-git-rebase) any messy or partial commits. Finally, it is important that your commits are based on the Kontrol `master` branch.
+
+Next, please request a review from a Kontrol maintainer on your PR. The last person to modify the files you are changing is a good start, or if you're not sure, tag [@palinatolmach](https://github.com/palinatolmach) as a fallback.
+
+Once your code has been reviewed by a Kontrol maintainer, we will open a new PR that includes your commits with proper attribution. Doing so allows us to run our internal CI processes once we are happy with your code. If the tests pass, we will merge the PR and close your original PR. If changes need to be made subsequently to get tests to pass, they will need to be pushed to your original fork branch.
+
+### Adding a new test to CI
   Usually, fixing an existent feature or creating a new one requires editing/adding a new test for it in CI:  `src/tests/integration/test_foundry_prove.py`
   - If you are adding a new feature, you might want to add a new test for it in CI (see the tests for recently added features like [test_deployment_summary](https://github.com/runtimeverification/kontrol/blob/0c18ea7e846f9278624007c8072326d1ea1f95df/src/tests/integration/test_foundry_prove.py#L603) and [test_xml_report](https://github.com/runtimeverification/kontrol/blob/0c18ea7e846f9278624007c8072326d1ea1f95df/src/tests/integration/test_foundry_prove.py#L743)).
   - If you are addressing an issue that is reproducible with a Foundry test, then:
@@ -50,7 +77,7 @@ make test TEST_ARGS="--update-expected-output"
 poetry run pytest src/tests/integration -k 'test_foundry_xml_report' --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal
 ```
 
-### Run kontrol with a custom `pyk` / `kevm`
+### Running kontrol with a custom `pyk` / `kevm`
 - If your fix involves changes in `pyk` or `kevm`, you might want to run Kontrol with a custom `pyk`/`kevm`. If that is the case, follow these [instructions](https://github.com/runtimeverification/kontrol/issues/319).
 
 ### Adding support for a new cheatcode
@@ -78,3 +105,7 @@ If the cheatcode implementation requires additional information stored in the su
 - Make sure the tests are removed from `foundry-prove-skip`;
 - Check if the tests are in the `foundry-prove-skip-legacy`. If that is the case, remove them from that list. Run the tests locally with `kontrol prove --no-use-booster`. If a test takes more than 300s, it should be added again to `foundry-prove-skip-legacy`, otherwise it can be removed from that list;
 - Run `make test` to ensure all the tests pass after your changes.
+
+### Licensing
+
+Kontrol is licensed under the [BSD 3-Clause License](https://github.com/runtimeverification/kontrol/blob/master/LICENSE). If you make changes to Kontrol via a pull request, your changes will automatically be licensed under the same license following [Github's terms of service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#6-contributions-under-repository-license).
