@@ -49,7 +49,7 @@ make test TEST_ARGS="--update-expected-output"
 
 If your changes only apply to documentation, you can skip the testing phase.
 
-### Opening a PR:
+### Open a PR:
 When submitting a PR to Kontrol, provide a description of what the PR is fixing/introducing. If you think it's helpful, please describe the implementation for the fix or a new feature in more detail. If the PR addresses an open issue, mention it in the description using a [Closing Keyword](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue). Then:
   - Request a review from people with expertise in the fix/feature you introduced. If you are still determining whom to request a review from, please check the last contributors to the edited files;
   - Assign yourself to the PR;
@@ -63,7 +63,13 @@ Next, please request a review from a Kontrol maintainer on your PR. The last per
 
 Once your code has been reviewed by a Kontrol maintainer, we will open a new PR that includes your commits with proper attribution. Doing so allows us to run our internal CI processes once we are happy with your code. If the tests pass, we will merge the PR and close your original PR. If changes need to be made subsequently to get tests to pass, they will need to be pushed to your original fork branch.
 
-### Adding a new test to CI
+### Licensing
+
+Kontrol is licensed under the [BSD 3-Clause License](https://github.com/runtimeverification/kontrol/blob/master/LICENSE). If you make changes to Kontrol via a pull request, your changes will automatically be licensed under the same license following [Github's terms of service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#6-contributions-under-repository-license).
+
+### Contribution guidance
+
+#### Adding a new test to CI
   Usually, fixing an existent feature or creating a new one requires editing/adding a new test for it in CI:  `src/tests/integration/test_foundry_prove.py`
   - If you are adding a new feature, you might want to add a new test for it in CI (see the tests for recently added features like [test_deployment_summary](https://github.com/runtimeverification/kontrol/blob/0c18ea7e846f9278624007c8072326d1ea1f95df/src/tests/integration/test_foundry_prove.py#L603) and [test_xml_report](https://github.com/runtimeverification/kontrol/blob/0c18ea7e846f9278624007c8072326d1ea1f95df/src/tests/integration/test_foundry_prove.py#L743)).
   - If you are addressing an issue that is reproducible with a Foundry test, then:
@@ -77,10 +83,10 @@ Once your code has been reviewed by a Kontrol maintainer, we will open a new PR 
 poetry run pytest src/tests/integration -k 'test_foundry_xml_report' --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal
 ```
 
-### Running kontrol with a custom `pyk` / `kevm`
+#### Running kontrol with a custom `pyk` / `kevm`
 - If your fix involves changes in `pyk` or `kevm`, you might want to run Kontrol with a custom `pyk`/`kevm`. If that is the case, follow these [instructions](https://github.com/runtimeverification/kontrol/issues/319).
 
-### Adding support for a new cheatcode
+#### Adding support for a new cheatcode
 The `foundry_success` predicate, as well as the addresses needed to define cheatcodes, are in [foundry.md](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md).  The rules to support cheatcodes are located in [cheatcodes.md](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/cheatcodes.md). At the top of the file there is the subconfiguration needed to implement the cheatcodes. The [structure of execution](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/cheatcodes.md#structure-of-execution) presents how calls to the Foundry cheatcode address are handled. After understanding this infrastructure, implementing a new cheatcode resumes to:
 ##### 1. Add a new `call_foundry` rule for the cheatcode
 ```k
@@ -105,7 +111,3 @@ If the cheatcode implementation requires additional information stored in the su
 - Make sure the tests are removed from `foundry-prove-skip`;
 - Check if the tests are in the `foundry-prove-skip-legacy`. If that is the case, remove them from that list. Run the tests locally with `kontrol prove --no-use-booster`. If a test takes more than 300s, it should be added again to `foundry-prove-skip-legacy`, otherwise it can be removed from that list;
 - Run `make test` to ensure all the tests pass after your changes.
-
-### Licensing
-
-Kontrol is licensed under the [BSD 3-Clause License](https://github.com/runtimeverification/kontrol/blob/master/LICENSE). If you make changes to Kontrol via a pull request, your changes will automatically be licensed under the same license following [Github's terms of service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#6-contributions-under-repository-license).
