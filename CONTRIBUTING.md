@@ -5,7 +5,7 @@
 The following is a set of guidelines for contributing to Kontrol. These are mostly guidelines, not rules. In each situation, use your best judgment, and feel free to propose changes to this document in a pull request.
 
 ## Opening a PR:
-When opening a PR to Kontrol provide a description of what the PR is fixing/introducing. If you think it's helpful, you can also describe how you fix it. If the PR addresses an open issue, mention it in the description using a [Closing Keyword](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue). Then:
+When submitting a PR to Kontrol, provide a description of what the PR is fixing/introducing. If you think it's helpful, please describe the implementation for the fix or a new feature in more detail. If the PR addresses an open issue, mention it in the description using a [Closing Keyword](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue). Then:
   - Ask review from people with expertise in the fix/feature you addressed;
   - Assign yourself to the PR;
   - Link the Kontrol project to it;
