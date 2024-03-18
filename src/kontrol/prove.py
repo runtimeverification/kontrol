@@ -24,6 +24,7 @@ from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process, unique
 
 from .foundry import Foundry, foundry_to_xml
+from .hevm import Hevm
 from .solc_to_k import Contract, hex_string_to_int
 
 if TYPE_CHECKING:
@@ -263,6 +264,7 @@ def _run_cfg_group(
                 deployment_state_entries=prove_options.deployment_state_entries,
                 summary_ids=summary_ids,
                 active_symbolik=prove_options.active_symbolik,
+                hevm=prove_options.hevm,
             )
             cut_point_rules = KEVMSemantics.cut_point_rules(
                 prove_options.break_on_jumpi,
@@ -288,6 +290,7 @@ def _run_cfg_group(
             end_time = time.time()
             proof.add_exec_time(end_time - start_time)
             proof.write_proof_data()
+
             # Only return the failure info to avoid pickling the whole proof
             if proof.failure_info is not None and not isinstance(proof.failure_info, APRFailureInfo):
                 raise RuntimeError('Generated failure info for APRProof is not APRFailureInfo.')
@@ -329,6 +332,7 @@ def method_to_apr_proof(
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     summary_ids: Iterable[str] = (),
     active_symbolik: bool = False,
+    hevm: bool = False,
 ) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -352,6 +356,7 @@ def method_to_apr_proof(
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         active_symbolik=active_symbolik,
+        hevm=hevm,
     )
 
     apr_proof = APRProof(
@@ -392,12 +397,13 @@ def _method_to_initialized_cfg(
     use_gas: bool = False,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     active_symbolik: bool = False,
+    hevm: bool = False,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
-        empty_config, test.contract, test.method, setup_proof, use_gas, deployment_state_entries, active_symbolik
+        empty_config, test.contract, test.method, setup_proof, use_gas, deployment_state_entries, active_symbolik, hevm
     )
 
     for node_id in new_node_ids:
@@ -429,6 +435,7 @@ def _method_to_cfg(
     use_gas: bool,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None,
     active_symbolik: bool,
+    hevm: bool = False,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -482,7 +489,7 @@ def _method_to_cfg(
         init_node_id = init_node.id
 
     final_cterm = _final_cterm(
-        empty_config, program, failing=method.is_testfail, is_test=method.is_test, is_setup=method.is_setup
+        empty_config, program, failing=method.is_testfail, is_test=method.is_test, is_setup=method.is_setup, hevm=hevm
     )
     target_node = cfg.create_node(final_cterm)
 
@@ -729,23 +736,38 @@ def _final_cterm(
     failing: bool,
     is_test: bool = True,
     is_setup: bool = False,
+    hevm: bool = False,
 ) -> CTerm:
     final_term = _final_term(empty_config, program, is_test=is_test, is_setup=is_setup)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
-    foundry_success = Foundry.success(
-        KVariable('STATUSCODE_FINAL'),
-        dst_failed_post,
-        KVariable('ISREVERTEXPECTED_FINAL'),
-        KVariable('ISOPCODEEXPECTED_FINAL'),
-        KVariable('RECORDEVENT_FINAL'),
-        KVariable('ISEVENTEXPECTED_FINAL'),
-    )
     final_cterm = CTerm.from_kast(final_term)
     if is_test:
-        if not failing:
-            return final_cterm.add_constraint(mlEqualsTrue(foundry_success))
+        if not hevm:
+            foundry_success = Foundry.success(
+                KVariable('STATUSCODE_FINAL'),
+                dst_failed_post,
+                KVariable('ISREVERTEXPECTED_FINAL'),
+                KVariable('ISOPCODEEXPECTED_FINAL'),
+                KVariable('RECORDEVENT_FINAL'),
+                KVariable('ISEVENTEXPECTED_FINAL'),
+            )
+            if not failing:
+                return final_cterm.add_constraint(mlEqualsTrue(foundry_success))
+            else:
+                return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
         else:
-            return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
+            if not failing:
+                return final_cterm.add_constraint(
+                    mlEqualsTrue(
+                        Hevm.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL'))
+                    )
+                )
+            else:
+                # To do: Print warning to the user
+                return final_cterm.add_constraint(
+                    mlEqualsTrue(Hevm.hevm_fail(KVariable('STATUSCODE_FINAL'), dst_failed_post))
+                )
+
     return final_cterm
 
 
@@ -761,6 +783,7 @@ def _final_term(empty_config: KInner, program: KInner, is_test: bool, is_setup: 
     final_subst = {
         'K_CELL': KSequence([KEVM.halt(), KVariable('CONTINUATION')]),
         'STATUSCODE_CELL': KVariable('STATUSCODE_FINAL'),
+        'OUTPUT_CELL': KVariable('OUTPUT_FINAL'),
         'ISREVERTEXPECTED_CELL': KVariable('ISREVERTEXPECTED_FINAL'),
         'ISOPCODEEXPECTED_CELL': KVariable('ISOPCODEEXPECTED_FINAL'),
         'RECORDEVENT_CELL': KVariable('RECORDEVENT_FINAL'),
@@ -789,6 +812,7 @@ def _final_term(empty_config: KInner, program: KInner, is_test: bool, is_setup: 
         [
             KVariable('STATUSCODE_FINAL'),
             KVariable('ACCOUNTS_FINAL'),
+            KVariable('OUTPUT_FINAL'),
             KVariable('ISREVERTEXPECTED_FINAL'),
             KVariable('ISOPCODEEXPECTED_FINAL'),
             KVariable('RECORDEVENT_FINAL'),
