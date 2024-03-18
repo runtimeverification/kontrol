@@ -129,6 +129,7 @@
                 # list all supported solc versions here
                 solc_0_8_13 = kontrol { solc_version = final.solc_0_8_13; };
                 solc_0_8_15 = kontrol { solc_version = final.solc_0_8_15; };
+                solc_0_8_22 = kontrol { solc_version = final.solc_0_8_22; };
               } else
                 { };
             };
