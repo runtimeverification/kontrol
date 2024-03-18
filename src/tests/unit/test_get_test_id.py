@@ -81,7 +81,6 @@ TEST_ID_DATA: list[tuple[str, str, int | None, bool, str]] = [
 def test_foundry_get_test_id(
     monkeypatch: MonkeyPatch, test_id: str, test: str, version: int | None, expect_error: bool, expected_str: str
 ) -> None:
-
     # Given
     monkeypatch.setattr(Foundry, '__init__', lambda _: None)
     monkeypatch.setattr(Foundry, 'list_proof_dir', mock_listdir)

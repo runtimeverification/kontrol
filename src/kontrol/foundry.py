@@ -421,9 +421,7 @@ class Foundry:
             'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
         )
         res_lines.append('')
-        res_lines.append(
-            'Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol'
-        )
+        res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
         return res_lines
 
     @staticmethod
@@ -540,7 +538,7 @@ class Foundry:
         """
         find the highest used proof ID, to be used as a default. Returns None if no version of this proof exists.
         """
-        proof_ids = self.filter_proof_ids(listdir(self.proofs_dir), test.split('%')[1])
+        proof_ids = self.filter_proof_ids(self.list_proof_dir(), test.split('%')[-1])
         versions = {int(pid.split(':')[1]) for pid in proof_ids}
         return max(versions, default=None)
 
