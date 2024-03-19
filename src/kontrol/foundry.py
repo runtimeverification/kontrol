@@ -345,7 +345,7 @@ class Foundry:
             print(
                 f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Running the latest one. Use the `--version` flag to choose one.'
             )
-            latest_version = self.resolve_proof_version(matching_sigs[0], False, False, version)
+            latest_version = self.resolve_proof_version(matching_sigs[0], False, version)
             matching_proof_ids = self.proof_ids_with_test(test, latest_version)
 
         return _assert_single_id(matching_proof_ids)
@@ -486,59 +486,79 @@ class Foundry:
     def list_proof_dir(self) -> list[str]:
         return listdir(self.proofs_dir)
 
-    def resolve_proof_version(
+    def resolve_setup_proof_version(
         self,
         test: str,
         reinit: bool,
         skip_setup_reinit: bool,
+        test_version: int | None = None,
+    ) -> int:
+        _, method = self.get_contract_and_method(test)
+        base_test_version = 0 if test_version is None else test_version
+
+        if reinit and not skip_setup_reinit:
+            _LOGGER.info(f'Creating a new version of test {test} because --reinit was specified.')
+            return base_test_version
+
+        _LOGGER.info(
+            f'Reusing the latest version of {test} setup proof because --skip-setup-reinit was specified together with --reinit;'
+        )
+        if Proof.proof_data_exists(f'{test}:{base_test_version}', self.proofs_dir):
+            if not method.up_to_date(self.digest_file):
+                _LOGGER.warn(f'Using specified version {base_test_version} of proof {test}, but it is out of date.')
+            return base_test_version
+        else:
+            _LOGGER.info(
+                f'The specified version {base_test_version} of proof of setup test {test} does not exist. Using the previous latest version'
+            )
+
+        latest_version = self.latest_proof_version_before(test, base_test_version)
+        return self.check_method_change(latest_version, test, method)
+
+    def resolve_proof_version(
+        self,
+        test: str,
+        reinit: bool,
         user_specified_version: int | None,
     ) -> int:
         _, method = self.get_contract_and_method(test)
-
-        is_setup_test = test.find('.setUp()') > 0
 
         if reinit and user_specified_version is not None:
             raise ValueError('--reinit is not compatible with specifying proof versions.')
 
         if reinit:
-            if is_setup_test and skip_setup_reinit:
-                _LOGGER.info(
-                    f'--reinit and --skip-setup-reinit was specified for the setup test {test}. Reusing the latest version.'
-                )
-            else:
-                _LOGGER.info(f'Creating a new version of test {test} because --reinit was specified.')
-                return self.free_proof_version(test)
+            _LOGGER.info(f'Creating a new version of test {test} because --reinit was specified.')
+            return self.free_proof_version(test)
 
         if user_specified_version:
             _LOGGER.info(f'Using user-specified version {user_specified_version} for test {test}')
-            if Proof.proof_data_exists(f'{test}:{user_specified_version}', self.proofs_dir):
-                if not method.up_to_date(self.digest_file):
-                    _LOGGER.warn(
-                        f'Using specified version {user_specified_version} of proof {test}, but it is out of date.'
-                    )
-                return user_specified_version
-            else:
-                if not is_setup_test:
-                    raise ValueError(f'The specified version {user_specified_version} of proof {test} does not exist.')
-                else:
-                    _LOGGER.info(
-                        f'The specified version {user_specified_version} of proof of setup test {test} does not exist. Using the latest version of the setup test'
-                    )
+            if not Proof.proof_data_exists(f'{test}:{user_specified_version}', self.proofs_dir):
+                raise ValueError(f'The specified version {user_specified_version} of proof {test} does not exist.')
+            if not method.up_to_date(self.digest_file):
+                _LOGGER.warn(
+                    f'Using specified version {user_specified_version} of proof {test}, but it is out of date.'
+                )
+            return user_specified_version
 
         if not method.up_to_date(self.digest_file):
             _LOGGER.info(f'Creating a new version of test {test} because it is out of date.')
             return self.free_proof_version(test)
 
         latest_version = self.latest_proof_version(test)
-        if latest_version is not None:
+        return self.check_method_change(latest_version, test, method)
+
+    def check_method_change(
+        self, version: int | None, test: str, method: Contract.Method | Contract.Constructor
+    ) -> int:
+        if version is not None:
             _LOGGER.info(
-                f'Using the the latest version {latest_version} of test {test} because it is up to date and no version was specified.'
+                f'Using the the latest version {version} of test {test} because it is up to date and no version was specified.'
             )
             if type(method) is Contract.Method and not method.contract_up_to_date(self.digest_file):
                 _LOGGER.warning(
                     f'Test {test} was not reinitialized because it is up to date, but the contract it is a part of has changed.'
                 )
-            return latest_version
+            return version
 
         _LOGGER.info(
             f'Test {test} is up to date in {self.digest_file}, but does not exist on disk. Assigning version 0'
@@ -554,6 +574,14 @@ class Foundry:
         """
         proof_ids = self.filter_proof_ids(self.list_proof_dir(), test.split('%')[-1])
         versions = {int(pid.split(':')[1]) for pid in proof_ids}
+        return max(versions, default=None)
+
+    def latest_proof_version_before(self, test: str, base_test_ver: int) -> int | None:
+        """
+        find the highest used proof ID, less than. Returns None if no version of this proof exists.
+        """
+        proof_ids = self.filter_proof_ids(self.list_proof_dir(), test.split('%')[-1])
+        versions = {int(pid.split(':')[1]) for pid in proof_ids if int(pid.split(':')[1]) < base_test_ver}
         return max(versions, default=None)
 
     def free_proof_version(
