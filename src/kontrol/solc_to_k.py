@@ -539,8 +539,28 @@ class Contract:
                 abi_type = input.to_abi()
                 args.append(abi_type)
                 rps = []
-                if input.type == 'tuple':
-                    for sub_input in input.components:
+                if input.type.startswith('tuple'):
+                    components = input.components
+
+                    if input.type.endswith('[]'):
+                        if input.array_lengths is None:
+                            raise ValueError(f'Array length bounds missing for {input.name}')
+
+                        tuple_array_components = [
+                            Input(
+                                f'{_c.name}_{i}',
+                                _c.type,
+                                _c.components,
+                                _c.idx,
+                                _c.array_lengths,
+                                _c.dynamic_type_length,
+                            )
+                            for i in range(input.array_lengths[0])
+                            for _c in components
+                        ]
+                        components = tuple(tuple_array_components)
+
+                    for sub_input in components:
                         _abi_type = sub_input.to_abi()
                         rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
                 else:
