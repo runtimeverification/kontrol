@@ -77,6 +77,10 @@ BytesTypeTest.test_bytes4(bytes4)
   - assert symbolic bytes4 value converted to uint32 is leq maximum uint32 value
 BytesTypeTest.test_bytes4_fail(bytes4)
   - assert symbolic bytes4 value converted to uint32 is greater than maximum uint32 value
+UintTypeTest.test_uint256(uint256)
+  - test symbolic uint256 value is leq maximum possible uint256 value
+StructTypeTest.test_vars((uint8,uint32,bytes32))
+  - test symbolic struct in function argument, assert various fields are less than maximum possible values for their types
 
 CounterTest.testIncrement()
   - test creation of Counter contract and both its functions
@@ -148,17 +152,26 @@ SetUpDeployTest.test_extcodesize()
   - test contract deployed in setup has positive extcodesize
 
 StoreTest.testGasLoadColdVM()
+  - correct amount of gas used by load when account is accessed for the first time
 StoreTest.testGasLoadWarmUp()
+  - lower amount of gas used by acccessing address after already loading from that address
 StoreTest.testGasStoreColdVM()
+  - correct amount of gas used by store when account is accessed for the first time
 StoreTest.testGasStoreWarmUp()
+  - lower amount of gas used by acccessing address after already storing at that address
 StoreTest.testLoadNonExistent()
+  - loading a value from a non-existent address yields 0
 StoreTest.testStoreLoad()
+  - store a value to an account's storage and load it back
 StoreTest.testStoreLoadNonExistent()
+  - store a value to a not yet existing account's storage and load it back
+
 SymbolicStorageTest.testEmptyInitialStorage(uint256)
+  - loading a value from a non-set storage slot yields 0
 SymbolicStorageTest.testFail_SymbolicStorage(uint256)
+  - symbolicStorage cheatcode with neq requires, use hardcoded address
 SymbolicStorageTest.testFail_SymbolicStorage1(uint256)
-UintTypeTest.test_uint256(uint256)
-StructTypeTest.test_vars((uint8,uint32,bytes32))
+  - symbolicStorage cheatcode with neq requires, use contract address
 
 Skipped tests:
 
