@@ -86,7 +86,7 @@ def test_foundry_get_test_id(
     monkeypatch.setattr(Foundry, 'list_proof_dir', mock_listdir)
     monkeypatch.setattr(Foundry, 'all_tests', mock_all_tests())
     monkeypatch.setattr(Foundry, 'all_non_tests', mock_all_non_tests())
-    monkeypatch.setattr(Foundry, 'resolve_proof_version', lambda _self, _test, _reinit, _version: 1)
+    monkeypatch.setattr(Foundry, 'resolve_proof_version', lambda _self, _test, _reinit, _skip_setup_reinit, _version: 1)
 
     foundry = Foundry()  # type: ignore
 

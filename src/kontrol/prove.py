@@ -98,7 +98,9 @@ def foundry_prove(
     print(f'Running functions: {test_names}')
 
     contracts = [test.contract for test in test_suite]
-    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=prove_options.reinit)
+    setup_method_tests = collect_setup_methods(
+        foundry, contracts, reinit=prove_options.reinit, skip_setup_reinit=prove_options.skip_setup_reinit
+    )
     setup_method_names = [test.name for test in setup_method_tests]
 
     _LOGGER.info(f'Running tests: {test_names}')
@@ -189,12 +191,14 @@ def collect_tests(
     res: list[FoundryTest] = []
     for sig, ver in tests:
         contract, method = foundry.get_contract_and_method(sig)
-        version = foundry.resolve_proof_version(sig, reinit, ver)
+        version = foundry.resolve_proof_version(sig, reinit, False, ver)
         res.append(FoundryTest(contract, method, version))
     return res
 
 
-def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool) -> list[FoundryTest]:
+def collect_setup_methods(
+    foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool, skip_setup_reinit: bool
+) -> list[FoundryTest]:
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
     for contract in contracts:
@@ -205,7 +209,7 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
         method = contract.method_by_name.get('setUp')
         if not method:
             continue
-        version = foundry.resolve_proof_version(f'{contract.name_with_path}.setUp()', reinit, None)
+        version = foundry.resolve_proof_version(f'{contract.name_with_path}.setUp()', reinit, skip_setup_reinit, None)
         res.append(FoundryTest(contract, method, version))
     return res
 
@@ -221,7 +225,7 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
         method = contract.constructor
         if not method:
             continue
-        version = foundry.resolve_proof_version(f'{contract.name_with_path}.init', reinit, None)
+        version = foundry.resolve_proof_version(f'{contract.name_with_path}.init', reinit, False, None)
         res.append(FoundryTest(contract, method, version))
     return res
 

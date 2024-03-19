@@ -345,7 +345,7 @@ class Foundry:
             print(
                 f'Found {len(matching_proof_ids)} matching proofs for {test}:{version}. Running the latest one. Use the `--version` flag to choose one.'
             )
-            latest_version = self.resolve_proof_version(matching_sigs[0], False, version)
+            latest_version = self.resolve_proof_version(matching_sigs[0], False, False, version)
             matching_proof_ids = self.proof_ids_with_test(test, latest_version)
 
         return _assert_single_id(matching_proof_ids)
@@ -490,26 +490,40 @@ class Foundry:
         self,
         test: str,
         reinit: bool,
+        skip_setup_reinit: bool,
         user_specified_version: int | None,
     ) -> int:
         _, method = self.get_contract_and_method(test)
+
+        is_setup_test = test.find('.setUp()') > 0
 
         if reinit and user_specified_version is not None:
             raise ValueError('--reinit is not compatible with specifying proof versions.')
 
         if reinit:
-            _LOGGER.info(f'Creating a new version of test {test} because --reinit was specified.')
-            return self.free_proof_version(test)
+            if is_setup_test and skip_setup_reinit:
+                _LOGGER.info(
+                    f'--reinit and --skip-setup-reinit was specified for the setup test {test}. Reusing the latest version.'
+                )
+            else:
+                _LOGGER.info(f'Creating a new version of test {test} because --reinit was specified.')
+                return self.free_proof_version(test)
 
         if user_specified_version:
             _LOGGER.info(f'Using user-specified version {user_specified_version} for test {test}')
-            if not Proof.proof_data_exists(f'{test}:{user_specified_version}', self.proofs_dir):
-                raise ValueError(f'The specified version {user_specified_version} of proof {test} does not exist.')
-            if not method.up_to_date(self.digest_file):
-                _LOGGER.warn(
-                    f'Using specified version {user_specified_version} of proof {test}, but it is out of date.'
-                )
-            return user_specified_version
+            if Proof.proof_data_exists(f'{test}:{user_specified_version}', self.proofs_dir):
+                if not method.up_to_date(self.digest_file):
+                    _LOGGER.warn(
+                        f'Using specified version {user_specified_version} of proof {test}, but it is out of date.'
+                    )
+                return user_specified_version
+            else:
+                if not is_setup_test:
+                    raise ValueError(f'The specified version {user_specified_version} of proof {test} does not exist.')
+                else:
+                    _LOGGER.info(
+                        f'The specified version {user_specified_version} of proof of setup test {test} does not exist. Using the latest version of the setup test'
+                    )
 
         if not method.up_to_date(self.digest_file):
             _LOGGER.info(f'Creating a new version of test {test} because it is out of date.')
