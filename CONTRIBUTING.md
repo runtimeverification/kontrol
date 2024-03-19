@@ -74,7 +74,7 @@ Kontrol is licensed under the [BSD 3-Clause License](https://github.com/runtimev
   - If you are adding a new feature, you might want to add a new test for it in CI (see the tests for recently added features like [test_deployment_summary](https://github.com/runtimeverification/kontrol/blob/0c18ea7e846f9278624007c8072326d1ea1f95df/src/tests/integration/test_foundry_prove.py#L603) and [test_xml_report](https://github.com/runtimeverification/kontrol/blob/0c18ea7e846f9278624007c8072326d1ea1f95df/src/tests/integration/test_foundry_prove.py#L743)).
   - If you are addressing an issue that is reproducible with a Foundry test, then:
     - Add the test into `src/tests/integration/test-data/foundry/test`;
-    - Edit the `foundry-{prove-all,skip,fail}` lists according to your fix. For instance:
+    - Edit the `foundry-{prove-all,skip,fail}` lists according to your fix. To make a test run on CI you should add a _signature_ of the test in these files. Tests in `foundry-fail` are expected to fail. For instance:
       - If the test was failing with `kontrol prove` and it is supposed to pass, then add the test to `foundry-prove-all` and make sure that the test is not in `foundry-prove-skip` (or `foundry-prove-skip-legacy` in case the test should also run in the legacy backend);
       - If the test was passing with `kontrol prove` and it is supposed to fail, then add the test to `foundry-fail` and make sure that the test is not in `foundry-prove-skip` (or `foundry-prove-skip-legacy` in case the test should also run in the legacy backend);
   - Run `make test-integration` locally to ensure all tests pass in CI.
