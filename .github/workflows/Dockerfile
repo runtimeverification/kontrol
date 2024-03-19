@@ -27,7 +27,6 @@ RUN    apt-get update                  \
             cmake                      \
             curl                       \
             debhelper                  \
-
             libboost-test-dev          \
             libcrypto++-dev            \
             libprocps-dev              \
