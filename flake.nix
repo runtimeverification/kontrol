@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.498";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.500";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -129,6 +129,7 @@
                 # list all supported solc versions here
                 solc_0_8_13 = kontrol { solc_version = final.solc_0_8_13; };
                 solc_0_8_15 = kontrol { solc_version = final.solc_0_8_15; };
+                solc_0_8_22 = kontrol { solc_version = final.solc_0_8_22; };
               } else
                 { };
             };
