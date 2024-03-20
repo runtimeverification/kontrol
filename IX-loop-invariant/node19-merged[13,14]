@@ -1,0 +1,38 @@
+Merged nodes [13, 14] into new node 19.
+<k>
+  JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 32 )
+  ~> #pc [ JUMPI ]
+  ~> #execute 
+  ~> CONTINUATION:K
+  </k>
+<useGas> false </useGas>
+<schedule> SHANGHAI </schedule>
+<program> PROGRAM </program>
+<jumpDests> JUMPDESTS </jumpDests>
+<pc> 2703 </pc>
+<wordStack>
+  ( 32 : ( 352 : ( ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) +Int 804 ) : ( lengthBytes ( VV5_data_114b9705:Bytes ) : ( 2764 : ( lengthBytes ( VV5_data_114b9705:Bytes ) : ( 0 : ( 320 : ( ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) +Int 772 ) : ( 4267 : ( 320 : ( 0 : ( ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) +Int 356 ) : ( 1 : ( ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes )+Int maxUInt5 ) ) +Int 484 ) : ( 68 : ( VV6__l2OutputIndex_114b9705:Int : ( 128 : ( 2449 : ( selector ( "proveWithdrawalTransaction((uint256,address,address,uint256,uint256,bytes),uint256,(bytes32,bytes32,bytes32,bytes32),bytes[])" ) : ( 491460923342184218035706888008750043977755113263 : ( 1 : ( ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) +Int 484 ) : ( 68 : ( VV6__l2OutputIndex_114b9705:Int : ( 128 : ( 220 : ( selector ( "test_withdrawal_paused((uint256,address,address,uint256,uint256,bytes),uint256,(bytes32,bytes32,bytes32,bytes32),bytes[])" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+</wordStack>
+<localMem>
+  b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) +Int 352 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , VV0_nonce_114b9705:Int ) +Bytes #buf ( 32 , VV1_sender_114b9705:Int ) +Bytes #buf ( 32 , VV2_target_114b9705:Int ) +Bytes #buf ( 32 , VV3_value_114b9705:Int ) +Bytes #buf ( 32 , VV4_gasLimit_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01@" +Bytes #buf ( 32 , lengthBytes ( VV5_data_114b9705:Bytes ) ) +Bytes VV5_data_114b9705:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( VV5_data_114b9705:Bytes ) ) , 0 ) +Bytes b"HpIo\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , VV0_nonce_114b9705:Int ) +Bytes #buf ( 32 , VV1_sender_114b9705:Int ) +Bytes #buf ( 32 , VV2_target_114b9705:Int ) +Bytes #buf ( 32 , VV3_value_114b9705:Int ) +Bytes #buf ( 32 , VV4_gasLimit_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0" +Bytes #buf ( 32 , lengthBytes ( VV5_data_114b9705:Bytes ) ) +Bytes #range ( VV5_data_114b9705:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( VV5_data_114b9705:Bytes ) ) , 0 ) +Bytes b"HpIo\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , VV0_nonce_114b9705:Int ) +Bytes #buf ( 32 , VV1_sender_114b9705:Int ) +Bytes #buf ( 32 , VV2_target_114b9705:Int ) +Bytes #buf ( 32 , VV3_value_114b9705:Int ) +Bytes #buf ( 32 , VV4_gasLimit_114b9705:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0" +Bytes #buf ( 32 , lengthBytes ( VV5_data_114b9705:Bytes ) ) , 0 , 32 )
+</localMem>
+#And ( { true #Equals 0 <=Int VV0_nonce_114b9705:Int }
+#And ( { true #Equals 0 <=Int VV3_value_114b9705:Int }
+#And ( { true #Equals 0 <=Int VV1_sender_114b9705:Int }
+#And ( { true #Equals 0 <=Int VV2_target_114b9705:Int }
+#And ( { true #Equals 0 <=Int VV4_gasLimit_114b9705:Int }
+#And ( { true #Equals 0 <=Int VV6__l2OutputIndex_114b9705:Int }
+#And ( { true #Equals VV5_data_114b9705:Bytes ~> .K =/=K b"" ~> .K }
+#And ( { true #Equals VV1_sender_114b9705:Int <Int pow160 }
+#And ( { true #Equals VV2_target_114b9705:Int <Int pow160 }
+#And ( { true #Equals VV0_nonce_114b9705:Int <Int pow256 }
+#And ( { true #Equals VV3_value_114b9705:Int <Int pow256 }
+#And ( { true #Equals VV4_gasLimit_114b9705:Int <Int pow256 }
+#And ( { true #Equals VV6__l2OutputIndex_114b9705:Int <Int pow256 }
+#And ( { true #Equals lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 1073741824 }
+#And ( { true #Equals lengthBytes ( VV5_data_114b9705:Bytes ) <Int pow64 }
+#And ( { true #Equals lengthBytes ( VV5_data_114b9705:Bytes ) <=Int maxUInt64 }
+#And ( { true #Equals -129 <Int ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) }
+#And ( { true #Equals ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) <=Int 18446744073709551167 }
+#And ( { true #Equals ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ) +Int maxUInt5 ) ) <=Int 18446744073709551263 }
+#And { true #Equals ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 32 orBool ( notBool lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 32 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
