@@ -92,6 +92,7 @@
                 procps
               ];
               nativeBuildInputs = [ prev.makeWrapper ];
+              propagatedBuildInputs = [ final.secp256k1 ];
 
               src = ./.;
 
