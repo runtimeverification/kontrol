@@ -665,7 +665,7 @@ def _init_cterm(
         'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
         'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
         'TRACEMEMORY_CELL': TRUE if trace_options.trace_memory else FALSE,
-        'RECORDTRACE_CELL': FALSE,
+        'RECORDEDTRACE_CELL': FALSE,
         'TRACEDATA_CELL': KApply('.List'),
     }
 

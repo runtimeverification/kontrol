@@ -11,7 +11,7 @@ The configuration of the KEVMTracing is defined as follwing:
 - `<traceStorage>` signals if the storage should be recorded in the `TraceItem`.
 - `<traceWordStack>` signals if the storage should be recorded in the `TraceItem`.
 - `<traceMemory>` signals if the storage should be recorded in the `TraceItem`.
-- `<recordTrace>` is an auxiliary cell that is used to determine if the current step has been recorded or not.
+- `<recordedTrace>` is an auxiliary cell that is used to determine if the current step has been recorded or not.
 - `<traceData>` is a collection of `TraceItems`.
 
 ```k
@@ -21,7 +21,7 @@ The configuration of the KEVMTracing is defined as follwing:
         <traceStorage>   false </traceStorage>
         <traceWordStack> false </traceWordStack>
         <traceMemory>    false </traceMemory>
-        <recordTrace>    false </recordTrace>
+        <recordedTrace>  false </recordedTrace>
         <traceData>      .List </traceData>
       </KEVMTracing>
 ```
@@ -43,7 +43,7 @@ Each `TraceItem` contains:
          <traceStorage>   DSTG          </traceStorage>
          <traceWordStack> DSTK          </traceWordStack>
          <traceMemory>    DMEM          </traceMemory>
-         <recordTrace>    false => true </recordTrace>
+         <recordedTrace>  false => true </recordedTrace>
          <pc>             PCOUNT        </pc>
          <wordStack>      WS            </wordStack>
          <callDepth>      CD            </callDepth>
@@ -58,12 +58,16 @@ Each `TraceItem` contains:
            ...
            .List => ListItem({ PCOUNT
                              | OPC
-                             | #if DSTK ==K false #then WS      #else .WordStack #fi
-                             | #if DMEM ==K false #then MEM     #else .Bytes     #fi
-                             | #if DSTG ==K false #then STORAGE #else .Map       #fi
+                             | #if DSTK ==K true #then WS      #else .WordStack #fi
+                             | #if DMEM ==K true #then MEM     #else .Bytes     #fi
+                             | #if DSTG ==K true #then STORAGE #else .Map       #fi
                              | CD
                              })
          </traceData>
+      [priority(25)]
+
+    rule <k> #execute ... </k>
+         <recordedTrace> true => false </recordedTrace>
       [priority(25)]
 
 endmodule

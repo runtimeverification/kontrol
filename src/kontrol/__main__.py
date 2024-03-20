@@ -864,21 +864,21 @@ def _create_argument_parser() -> ArgumentParser:
         help='Trace opcode execution and store it in the configuration',
     )
     prove_args.add_argument(
-        '--trace-no-storage',
+        '--no-trace-storage',
         dest='trace_storage',
         action='store_false',
         default=True,
         help='If tracing is active, avoid storing storage information.',
     )
     prove_args.add_argument(
-        '--trace-no-wordstack',
+        '--no-trace-wordstack',
         dest='trace_wordstack',
         action='store_false',
         default=True,
         help='If tracing is active, avoid storing wordstack information.',
     )
     prove_args.add_argument(
-        '--trace-no-memory',
+        '--no-trace-memory',
         dest='trace_memory',
         action='store_false',
         default=True,
