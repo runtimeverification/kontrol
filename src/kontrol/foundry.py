@@ -568,7 +568,7 @@ def foundry_show(
     pending: bool = False,
     failing: bool = False,
     failure_info: bool = False,
-    counterexample_info: bool = False,
+    counterexample_info: bool = True,
     smt_timeout: int | None = None,
     smt_retry_limit: int | None = None,
     port: int | None = None,

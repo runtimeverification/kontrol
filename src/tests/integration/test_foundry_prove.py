@@ -97,7 +97,7 @@ def test_foundry_prove(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    prove_options = ProveOptions(counterexample_info=True, bug_report=bug_report, use_gas=test_id in GAS_TESTS)
+    prove_options = ProveOptions(bug_report=bug_report, break_on_calls=True, use_gas=test_id in GAS_TESTS)
 
     # When
     prove_res = foundry_prove(
@@ -123,7 +123,6 @@ def test_foundry_prove(
         pending=True,
         failing=True,
         failure_info=True,
-        counterexample_info=True,
         port=server.port,
     )
 
@@ -152,10 +151,7 @@ def test_foundry_fail(
     prove_res = foundry_prove(
         foundry,
         tests=[(test_id, None)],
-        prove_options=ProveOptions(
-            counterexample_info=True,
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -177,7 +173,6 @@ def test_foundry_fail(
         pending=True,
         failing=True,
         failure_info=True,
-        counterexample_info=True,
         port=server.port,
     )
 
@@ -310,10 +305,7 @@ def test_foundry_merge_loop_heads(
     foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(
-            max_iterations=2,
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(max_iterations=2, bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -328,7 +320,6 @@ def test_foundry_merge_loop_heads(
         pending=True,
         failing=True,
         failure_info=True,
-        counterexample_info=True,
         port=server.port,
     )
 
@@ -365,6 +356,7 @@ def test_foundry_auto_abstraction(
         prove_options=ProveOptions(
             auto_abstract_gas=True,
             bug_report=bug_report,
+            break_on_calls=True,
             use_gas=True,
         ),
         rpc_options=RPCOptions(
@@ -408,7 +400,7 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(bug_report=bug_report),
+        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -428,9 +420,7 @@ def test_foundry_remove_node(
     prove_res = foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -473,10 +463,7 @@ def test_foundry_resume_proof(
         foundry,
         tests=[(test, None)],
         prove_options=ProveOptions(
-            auto_abstract_gas=True,
-            max_iterations=4,
-            reinit=True,
-            bug_report=bug_report,
+            auto_abstract_gas=True, max_iterations=4, reinit=True, bug_report=bug_report, break_on_calls=True
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -491,10 +478,7 @@ def test_foundry_resume_proof(
         foundry,
         tests=[(test, None)],
         prove_options=ProveOptions(
-            auto_abstract_gas=True,
-            max_iterations=10,
-            reinit=False,
-            bug_report=bug_report,
+            auto_abstract_gas=True, max_iterations=10, reinit=False, bug_report=bug_report, break_on_calls=True
         ),
         rpc_options=RPCOptions(
             port=server.port,
@@ -603,9 +587,7 @@ def test_foundry_refute_node(
     prove_res_1 = foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -632,9 +614,7 @@ def test_foundry_refute_node(
     prove_res_2 = foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -652,7 +632,6 @@ def test_foundry_refute_node(
         pending=True,
         failing=True,
         failure_info=True,
-        counterexample_info=True,
         port=server.port,
     )
 
@@ -671,9 +650,7 @@ def test_foundry_refute_node(
     prove_res_3 = foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -703,7 +680,6 @@ def test_foundry_xml_report(
             ('AssertNestedTest.test_assert_true_nested()', None),
         ],
         prove_options=ProveOptions(
-            counterexample_info=True,
             bug_report=bug_report,
         ),
         rpc_options=RPCOptions(
@@ -743,9 +719,7 @@ def test_foundry_split_node(
     prove_res_1 = foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -789,9 +763,7 @@ def test_foundry_split_node(
     prove_res_2 = foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(
-            bug_report=bug_report,
-        ),
+        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
@@ -808,7 +780,6 @@ def test_foundry_split_node(
         pending=True,
         failing=True,
         failure_info=True,
-        counterexample_info=True,
         port=server.port,
     )
 

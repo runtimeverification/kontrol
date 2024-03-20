@@ -144,12 +144,12 @@
       ┃  ┃  │   callDepth: 0
       ┃  ┃  │   statusCode: STATUSCODE:StatusCode
       ┃  ┃  │
-      ┃  ┃  │  (138 steps)
+      ┃  ┃  │  (135 steps)
       ┃  ┃  └─ 28 (leaf, pending)
-      ┃  ┃      k: #halt ~> CONTINUATION:K
+      ┃  ┃      k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
       ┃  ┃      pc: 350
       ┃  ┃      callDepth: 0
-      ┃  ┃      statusCode: EVMC_SUCCESS
+      ┃  ┃      statusCode: STATUSCODE:StatusCode
       ┃  ┃
       ┃  ┗━━┓ constraint: ( notBool VV0_n_114b9705:Int <=Int 2 )
       ┃     │
@@ -397,7 +397,9 @@ Node 28:
   <foundry>
     <kevm>
       <k>
-        #halt
+        #end EVMC_SUCCESS
+        ~> #pc [ STOP ]
+        ~> #execute
         ~> CONTINUATION:K
       </k>
       <mode>
@@ -414,9 +416,6 @@ Node 28:
           <output>
             b""
           </output>
-          <statusCode>
-            EVMC_SUCCESS
-          </statusCode>
           <callStack>
             .List
           </callStack>
@@ -2490,8 +2489,9 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
            <kevm>
              <k>
                ( JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 2 )
-               ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ~> #pc [ JUMPI ] => #end EVMC_SUCCESS
+               ~> #pc [ STOP ] )
+               ~> #execute
                ~> _CONTINUATION
              </k>
              <mode>
@@ -2508,9 +2508,6 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                  <output>
                    b""
                  </output>
-                 <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
-                 </statusCode>
                  <callStack>
                    .List
                  </callStack>

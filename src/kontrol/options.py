@@ -49,7 +49,7 @@ class ProveOptions:
         break_on_basic_blocks: bool = False,
         break_on_cheatcodes: bool = False,
         workers: int = 1,
-        counterexample_info: bool = False,
+        counterexample_info: bool = True,
         max_iterations: int | None = None,
         run_constructor: bool = False,
         fail_fast: bool = True,
