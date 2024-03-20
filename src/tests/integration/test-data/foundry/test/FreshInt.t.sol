@@ -32,7 +32,7 @@ contract FreshCheatcodes is Test, KEVMCheats {
     }
 
     function test_address() public {
-        uint256 fresh_address = kevm.freshAddress();
+        uint256 fresh_address = uint160(kevm.freshAddress());
         assertGe(fresh_address, type(uint160).min);
         assertLe(fresh_address, type(uint160).max);
     }
