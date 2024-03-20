@@ -4,7 +4,7 @@ import "forge-std/Test.sol";
 
 import "../src/KEVMCheats.sol";
 
-contract FreshIntTest is Test, KEVMCheats {
+contract FreshCheatcodes is Test, KEVMCheats {
     int128 constant min = -170141183460469231731687303715884105728;
     int128 constant max = 170141183460469231731687303715884105727;
 
@@ -29,5 +29,11 @@ contract FreshIntTest is Test, KEVMCheats {
     function testFail_int128() public {
         int128 val = int128(uint128(kevm.freshUInt(16)));
         assertGt(val, max);
+    }
+
+    function test_address() public {
+        uint256 fresh_address = kevm.freshAddress();
+        assertGe(fresh_address, type(uint160).min);
+        assertLe(fresh_address, type(uint160).max);
     }
 }

@@ -33,6 +33,8 @@ interface KEVMCheatsBase {
     function freshBool() external returns (uint256);
     // Returns a symbolic byte array
     function freshBytes(uint256) external returns (bytes memory);
+    // Returns a symbolic address value
+    function freshAddress() external returns (address);
 }
 
 abstract contract KEVMCheats {
