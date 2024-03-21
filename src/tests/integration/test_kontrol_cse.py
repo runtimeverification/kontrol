@@ -49,7 +49,6 @@ def test_foundry_dependency_automated(
         max_depth=10000,
         max_iterations=100,
         bug_report=bug_report,
-        break_on_calls=False,
         cse=True,
         fail_fast=False,
         workers=2,

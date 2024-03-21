@@ -27,7 +27,7 @@
     let
       nixLibs = pkgs:
         with pkgs;
-        "-I${procps}/include -L${procps}/lib -I${openssl.dev}/include -L${openssl.out}/lib";
+        "-I${procps}/include -L${procps}/lib -I${openssl.dev}/include -L${openssl.out}/lib -I${secp256k1}/include -L${secp256k1}/lib";
       overlay = final: prev:
         let
           nixpkgs-pyk = import inputs.nixpkgs-pyk {
