@@ -1,0 +1,454 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: lib/solmate/lib/ds-test/src/test.sol:3:19
+│
+│  (402 steps)
+├─ 3
+│   k: #halt ~> #codeDeposit 491460923342184218035706888008750043977755113263 ~> #pc [  ...
+│   pc: 43
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│   src: lib/solmate/lib/ds-test/src/test.sol:3:19
+│
+│  (163 steps)
+├─ 4 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 221
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/safeconsole.sol:40:41
+│
+│  (1 step)
+├─ 5
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: lib/solmate/lib/ds-test/src/test.sol:3:19
+│
+│  (2359 steps)
+├─ 7 (split)
+│   k: JUMPI 2719 bool2Word ( VV5_data_114b9705:Bytes ~> .K ==K b"" ~> .K ) ~> #pc [ JU ...
+│   pc: 2703
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: script/Counter.s.sol:13:13
+┃
+┃ (branch)
+┣━━┓ constraint: VV5_data_114b9705:Bytes ~> .K ==K b"" ~> .K
+┃  │
+┃  ├─ 8
+┃  │   k: JUMPI 2719 bool2Word ( VV5_data_114b9705:Bytes ~> .K ==K b"" ~> .K ) ~> #pc [ JU ...
+┃  │   pc: 2703
+┃  │   callDepth: 0
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: script/Counter.s.sol:13:13
+┃  │
+┃  │  (2904 steps)
+┃  ├─ 10
+┃  │   k: #halt ~> #return 352 0 ~> #pc [ CALL ] ~> #checkRevert ~> #updateRevertOutput 35 ...
+┃  │   pc: 140
+┃  │   callDepth: 1
+┃  │   statusCode: EVMC_REVERT
+┃  │   src: lib/forge-std/src/StdError.sol:16:16
+┃  │
+┃  │  (134 steps)
+┃  ├─ 12 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 221
+┃  │   callDepth: 0
+┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: lib/forge-std/src/safeconsole.sol:40:41
+┃  │
+┃  ┊  constraint: true
+┃  ┊  subst: OMITTED SUBST
+┃  └─ 6 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┗━━┓ constraint: ( notBool VV5_data_114b9705:Bytes ~> .K ==K b"" ~> .K )
+   │
+   ├─ 9
+   │   k: JUMPI 2719 bool2Word ( VV5_data_114b9705:Bytes ~> .K ==K b"" ~> .K ) ~> #pc [ JU ...
+   │   pc: 2703
+   │   callDepth: 0
+   │   statusCode: STATUSCODE:StatusCode
+   │   src: script/Counter.s.sol:13:13
+   │
+   │  (71 steps)
+   ├─ 11 (split)
+   │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 32 ) ~> #pc ...
+   │   pc: 2703
+   │   callDepth: 0
+   │   statusCode: STATUSCODE:StatusCode
+   │   src: script/Counter.s.sol:13:13
+   ┃
+   ┃ (branch)
+   ┣━━┓ constraint: lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 32
+   ┃  │
+   ┃  ├─ 13
+   ┃  │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 32 ) ~> #pc ...
+   ┃  │   pc: 2703
+   ┃  │   callDepth: 0
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  │   src: script/Counter.s.sol:13:13
+   ┃  │
+   ┃  │  (32 steps)
+   ┃  ├─ 15
+   ┃  │   k: JUMPI 2734 bool2Word ( 32 <=Int lengthBytes ( VV5_data_114b9705:Bytes ) ) ~> #pc ...
+   ┃  │   pc: 2727
+   ┃  │   callDepth: 0
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  │   src: script/Counter.s.sol:13:13
+   ┃  │
+   ┃  ┊  constraint: OMITTED CONSTRAINT
+   ┃  ┊  subst: OMITTED SUBST
+   ┃  ├─ 42 (split)
+   ┃  │   k: JUMPI 2734 bool2Word ( V_2f51df73:Int <=Int lengthBytes ( VV5_data_114b9705:Byte ...
+   ┃  │   pc: 2727
+   ┃  │   callDepth: 0
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  │   src: script/Counter.s.sol:13:13
+   ┃  ┃
+   ┃  ┃ (branch)
+   ┃  ┣━━┓ constraint: V_2f51df73:Int <=Int lengthBytes ( VV5_data_114b9705:Bytes )
+   ┃  ┃  │
+   ┃  ┃  ├─ 43
+   ┃  ┃  │   k: JUMPI 2734 bool2Word ( V_2f51df73:Int <=Int lengthBytes ( VV5_data_114b9705:Byte ...
+   ┃  ┃  │   pc: 2727
+   ┃  ┃  │   callDepth: 0
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  │   src: script/Counter.s.sol:13:13
+   ┃  ┃  │
+   ┃  ┃  │  (1060 steps)
+   ┃  ┃  ├─ 45
+   ┃  ┃  │   k: CALL 0 491460923342184218035706888008750043977755113263 0 ( ( notMaxUInt5 &Int ( ...
+   ┃  ┃  │   pc: 2478
+   ┃  ┃  │   callDepth: 0
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  │   src: script/Counter.s.sol:13:13
+   ┃  ┃  │
+   ┃  ┃  │  (1 step)
+   ┃  ┃  ├─ 47
+   ┃  ┃  │   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall 7 ...
+   ┃  ┃  │   pc: 2478
+   ┃  ┃  │   callDepth: 0
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  │   src: script/Counter.s.sol:13:13
+   ┃  ┃  │
+   ┃  ┃  │  (18 steps)
+   ┃  ┃  ├─ 49
+   ┃  ┃  │   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
+   ┃  ┃  │   pc: 0
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  │   src: lib/solmate/lib/ds-test/src/test.sol:3:19
+   ┃  ┃  │
+   ┃  ┃  │  (1 step)
+   ┃  ┃  ├─ 51
+   ┃  ┃  │   k: #execute ~> #return ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ...
+   ┃  ┃  │   pc: 0
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  │   src: lib/solmate/lib/ds-test/src/test.sol:3:19
+   ┃  ┃  │
+   ┃  ┃  │  (1789 steps)
+   ┃  ┃  ├─ 53
+   ┃  ┃  │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> #return ( ( notMaxUInt5 &Int ( ...
+   ┃  ┃  │   pc: 140
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  ┃  │   src: lib/forge-std/src/StdError.sol:16:16
+   ┃  ┃  │
+   ┃  ┃  │  (1 step)
+   ┃  ┃  ├─ 55
+   ┃  ┃  │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> #return ( ( notMaxUInt5 &Int ( lengthByte ...
+   ┃  ┃  │   pc: 140
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: EVMC_REVERT
+   ┃  ┃  │   src: lib/forge-std/src/StdError.sol:16:16
+   ┃  ┃  │
+   ┃  ┃  │  (2 steps)
+   ┃  ┃  ├─ 57
+   ┃  ┃  │   k: #halt ~> #return ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes )  ...
+   ┃  ┃  │   pc: 140
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: EVMC_REVERT
+   ┃  ┃  │   src: lib/forge-std/src/StdError.sol:16:16
+   ┃  ┃  │
+   ┃  ┃  │  (1 step)
+   ┃  ┃  ├─ 59
+   ┃  ┃  │   k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem ( ( n ...
+   ┃  ┃  │   pc: 140
+   ┃  ┃  │   callDepth: 1
+   ┃  ┃  │   statusCode: EVMC_REVERT
+   ┃  ┃  │   src: lib/forge-std/src/StdError.sol:16:16
+   ┃  ┃  │
+   ┃  ┃  │  (130 steps)
+   ┃  ┃  ├─ 61
+   ┃  ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+   ┃  ┃  │   pc: 221
+   ┃  ┃  │   callDepth: 0
+   ┃  ┃  │   statusCode: EVMC_SUCCESS
+   ┃  ┃  │   src: lib/forge-std/src/safeconsole.sol:40:41
+   ┃  ┃  │
+   ┃  ┃  │  (1 step)
+   ┃  ┃  ├─ 63
+   ┃  ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+   ┃  ┃  │   pc: 221
+   ┃  ┃  │   callDepth: 0
+   ┃  ┃  │   statusCode: EVMC_SUCCESS
+   ┃  ┃  │   src: lib/forge-std/src/safeconsole.sol:40:41
+   ┃  ┃  │
+   ┃  ┃  │  (2 steps)
+   ┃  ┃  ├─ 65 (terminal)
+   ┃  ┃  │   k: #halt ~> CONTINUATION:K
+   ┃  ┃  │   pc: 221
+   ┃  ┃  │   callDepth: 0
+   ┃  ┃  │   statusCode: EVMC_SUCCESS
+   ┃  ┃  │   src: lib/forge-std/src/safeconsole.sol:40:41
+   ┃  ┃  │
+   ┃  ┃  ┊  constraint: true
+   ┃  ┃  ┊  subst: OMITTED SUBST
+   ┃  ┃  └─ 6 (leaf, target, terminal)
+   ┃  ┃      k: #halt ~> CONTINUATION:K
+   ┃  ┃      pc: PC_CELL_5d410f2a:Int
+   ┃  ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+   ┃  ┃      statusCode: STATUSCODE_FINAL:StatusCode
+   ┃  ┃
+   ┃  ┗━━┓ constraint: ( notBool V_2f51df73:Int <=Int lengthBytes ( VV5_data_114b9705:Bytes ) )
+   ┃     │
+   ┃     ├─ 44
+   ┃     │   k: JUMPI 2734 bool2Word ( V_2f51df73:Int <=Int lengthBytes ( VV5_data_114b9705:Byte ...
+   ┃     │   pc: 2727
+   ┃     │   callDepth: 0
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     │   src: script/Counter.s.sol:13:13
+   ┃     │
+   ┃     │  (1073 steps)
+   ┃     ├─ 46
+   ┃     │   k: CALL 0 491460923342184218035706888008750043977755113263 0 ( ( notMaxUInt5 &Int ( ...
+   ┃     │   pc: 2478
+   ┃     │   callDepth: 0
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     │   src: script/Counter.s.sol:13:13
+   ┃     │
+   ┃     │  (1 step)
+   ┃     ├─ 48
+   ┃     │   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall 7 ...
+   ┃     │   pc: 2478
+   ┃     │   callDepth: 0
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     │   src: script/Counter.s.sol:13:13
+   ┃     │
+   ┃     │  (18 steps)
+   ┃     ├─ 50
+   ┃     │   k: #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> ...
+   ┃     │   pc: 0
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     │   src: lib/solmate/lib/ds-test/src/test.sol:3:19
+   ┃     │
+   ┃     │  (1 step)
+   ┃     ├─ 52
+   ┃     │   k: #execute ~> #return ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes ...
+   ┃     │   pc: 0
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     │   src: lib/solmate/lib/ds-test/src/test.sol:3:19
+   ┃     │
+   ┃     │  (1789 steps)
+   ┃     ├─ 54
+   ┃     │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> #return ( ( notMaxUInt5 &Int ( ...
+   ┃     │   pc: 140
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: STATUSCODE:StatusCode
+   ┃     │   src: lib/forge-std/src/StdError.sol:16:16
+   ┃     │
+   ┃     │  (1 step)
+   ┃     ├─ 56
+   ┃     │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> #return ( ( notMaxUInt5 &Int ( lengthByte ...
+   ┃     │   pc: 140
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: EVMC_REVERT
+   ┃     │   src: lib/forge-std/src/StdError.sol:16:16
+   ┃     │
+   ┃     │  (2 steps)
+   ┃     ├─ 58
+   ┃     │   k: #halt ~> #return ( ( notMaxUInt5 &Int ( lengthBytes ( VV5_data_114b9705:Bytes )  ...
+   ┃     │   pc: 140
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: EVMC_REVERT
+   ┃     │   src: lib/forge-std/src/StdError.sol:16:16
+   ┃     │
+   ┃     │  (1 step)
+   ┃     ├─ 60
+   ┃     │   k: #popCallStack ~> #popWorldState ~> 0 ~> #push ~> #refund 0 ~> #setLocalMem ( ( n ...
+   ┃     │   pc: 140
+   ┃     │   callDepth: 1
+   ┃     │   statusCode: EVMC_REVERT
+   ┃     │   src: lib/forge-std/src/StdError.sol:16:16
+   ┃     │
+   ┃     │  (130 steps)
+   ┃     ├─ 62
+   ┃     │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+   ┃     │   pc: 221
+   ┃     │   callDepth: 0
+   ┃     │   statusCode: EVMC_SUCCESS
+   ┃     │   src: lib/forge-std/src/safeconsole.sol:40:41
+   ┃     │
+   ┃     │  (1 step)
+   ┃     ├─ 64
+   ┃     │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+   ┃     │   pc: 221
+   ┃     │   callDepth: 0
+   ┃     │   statusCode: EVMC_SUCCESS
+   ┃     │   src: lib/forge-std/src/safeconsole.sol:40:41
+   ┃     │
+   ┃     │  (2 steps)
+   ┃     ├─ 66 (terminal)
+   ┃     │   k: #halt ~> CONTINUATION:K
+   ┃     │   pc: 221
+   ┃     │   callDepth: 0
+   ┃     │   statusCode: EVMC_SUCCESS
+   ┃     │   src: lib/forge-std/src/safeconsole.sol:40:41
+   ┃     │
+   ┃     ┊  constraint: true
+   ┃     ┊  subst: OMITTED SUBST
+   ┃     └─ 6 (leaf, target, terminal)
+   ┃         k: #halt ~> CONTINUATION:K
+   ┃         pc: PC_CELL_5d410f2a:Int
+   ┃         callDepth: CALLDEPTH_CELL_5d410f2a:Int
+   ┃         statusCode: STATUSCODE_FINAL:StatusCode
+   ┃
+   ┗━━┓ constraint: ( notBool lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 32 )
+      │
+      ├─ 14
+      │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 32 ) ~> #pc ...
+      │   pc: 2703
+      │   callDepth: 0
+      │   statusCode: STATUSCODE:StatusCode
+      │   src: script/Counter.s.sol:13:13
+      │
+      │  (71 steps)
+      ├─ 16 (split)
+      │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 64 ) ~> #pc ...
+      │   pc: 2703
+      │   callDepth: 0
+      │   statusCode: STATUSCODE:StatusCode
+      │   src: script/Counter.s.sol:13:13
+      ┃
+      ┃ (branch)
+      ┣━━┓ constraint: lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 64
+      ┃  │
+      ┃  ├─ 19
+      ┃  │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 64 ) ~> #pc ...
+      ┃  │   pc: 2703
+      ┃  │   callDepth: 0
+      ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  │   src: script/Counter.s.sol:13:13
+      ┃  │
+      ┃  │  (32 steps)
+      ┃  ├─ 23
+      ┃  │   k: JUMPI 2734 bool2Word ( 64 <=Int lengthBytes ( VV5_data_114b9705:Bytes ) ) ~> #pc ...
+      ┃  │   pc: 2727
+      ┃  │   callDepth: 0
+      ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  │   src: script/Counter.s.sol:13:13
+      ┃  │
+      ┃  ┊  constraint: OMITTED CONSTRAINT
+      ┃  ┊  subst: OMITTED SUBST
+      ┃  └─ 42 (split)
+      ┃      k: JUMPI 2734 bool2Word ( V_2f51df73:Int <=Int lengthBytes ( VV5_data_114b9705:Byte ...
+      ┃      pc: 2727
+      ┃      callDepth: 0
+      ┃      statusCode: STATUSCODE:StatusCode
+      ┃      src: script/Counter.s.sol:13:13
+      ┃     (continues as previously)
+      ┃
+      ┗━━┓ constraint: ( notBool lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 64 )
+         │
+         ├─ 20
+         │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 64 ) ~> #pc ...
+         │   pc: 2703
+         │   callDepth: 0
+         │   statusCode: STATUSCODE:StatusCode
+         │   src: script/Counter.s.sol:13:13
+         │
+         │  (71 steps)
+         ├─ 24 (split)
+         │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 96 ) ~> #pc ...
+         │   pc: 2703
+         │   callDepth: 0
+         │   statusCode: STATUSCODE:StatusCode
+         │   src: script/Counter.s.sol:13:13
+         ┃
+         ┃ (branch)
+         ┣━━┓ constraint: lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 96
+         ┃  │
+         ┃  ├─ 29
+         ┃  │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 96 ) ~> #pc ...
+         ┃  │   pc: 2703
+         ┃  │   callDepth: 0
+         ┃  │   statusCode: STATUSCODE:StatusCode
+         ┃  │   src: script/Counter.s.sol:13:13
+         ┃  │
+         ┃  │  (32 steps)
+         ┃  ├─ 33
+         ┃  │   k: JUMPI 2734 bool2Word ( 96 <=Int lengthBytes ( VV5_data_114b9705:Bytes ) ) ~> #pc ...
+         ┃  │   pc: 2727
+         ┃  │   callDepth: 0
+         ┃  │   statusCode: STATUSCODE:StatusCode
+         ┃  │   src: script/Counter.s.sol:13:13
+         ┃  │
+         ┃  ┊  constraint: OMITTED CONSTRAINT
+         ┃  ┊  subst: OMITTED SUBST
+         ┃  └─ 42 (split)
+         ┃      k: JUMPI 2734 bool2Word ( V_2f51df73:Int <=Int lengthBytes ( VV5_data_114b9705:Byte ...
+         ┃      pc: 2727
+         ┃      callDepth: 0
+         ┃      statusCode: STATUSCODE:StatusCode
+         ┃      src: script/Counter.s.sol:13:13
+         ┃     (continues as previously)
+         ┃
+         ┗━━┓ constraint: ( notBool lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 96 )
+            │
+            ├─ 30
+            │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 96 ) ~> #pc ...
+            │   pc: 2703
+            │   callDepth: 0
+            │   statusCode: STATUSCODE:StatusCode
+            │   src: script/Counter.s.sol:13:13
+            │
+            │  (71 steps)
+            ├─ 34 (split)
+            │   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 128 ) ~> #p ...
+            │   pc: 2703
+            │   callDepth: 0
+            │   statusCode: STATUSCODE:StatusCode
+            │   src: script/Counter.s.sol:13:13
+            ┃
+            ┃ (branch)
+            ┣━━┓ constraint: lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 128
+            ┃  │
+            ┃  └─ 39 (leaf, refuted)
+            ┃      k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 128 ) ~> #p ...
+            ┃      pc: 2703
+            ┃      callDepth: 0
+            ┃      statusCode: STATUSCODE:StatusCode
+            ┃      src: script/Counter.s.sol:13:13
+            ┃
+            ┗━━┓ constraint: ( notBool lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 128 )
+               │
+               └─ 40 (leaf, refuted)
+                   k: JUMPI 2719 bool2Word ( lengthBytes ( VV5_data_114b9705:Bytes ) <=Int 128 ) ~> #p ...
+                   pc: 2703
+                   callDepth: 0
+                   statusCode: STATUSCODE:StatusCode
+                   src: script/Counter.s.sol:13:13
