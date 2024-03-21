@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.500";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.503";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -27,7 +27,7 @@
     let
       nixLibs = pkgs:
         with pkgs;
-        "-I${procps}/include -L${procps}/lib -I${openssl.dev}/include -L${openssl.out}/lib";
+        "-I${procps}/include -L${procps}/lib -I${openssl.dev}/include -L${openssl.out}/lib -I${secp256k1}/include -L${secp256k1}/lib";
       overlay = final: prev:
         let
           nixpkgs-pyk = import inputs.nixpkgs-pyk {
