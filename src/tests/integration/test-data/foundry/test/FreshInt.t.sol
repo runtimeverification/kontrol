@@ -2,9 +2,9 @@ pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
 
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract FreshCheatcodes is Test, KEVMCheats {
+contract FreshCheatcodes is Test, KontrolCheats {
     int128 constant min = -170141183460469231731687303715884105728;
     int128 constant max = 170141183460469231731687303715884105727;
 
@@ -32,7 +32,7 @@ contract FreshCheatcodes is Test, KEVMCheats {
     }
 
     function test_address() public {
-        uint256 fresh_address = uint160(kevm.freshAddress());
+        uint256 fresh_address = uint160(freshAddress());
         assertGe(fresh_address, type(uint160).min);
         assertLe(fresh_address, type(uint160).max);
     }
