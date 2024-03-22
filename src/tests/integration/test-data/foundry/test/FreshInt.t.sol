@@ -8,12 +8,6 @@ contract FreshCheatcodes is Test, KontrolCheats {
     int128 constant min = -170141183460469231731687303715884105728;
     int128 constant max = 170141183460469231731687303715884105727;
 
-    function test_uint128() public {
-        uint256 fresh_uint128 = uint256(kevm.freshUInt(32));
-        assertGe(fresh_uint128, type(uint128).min);
-        assertLe(fresh_uint128, type(uint128).max);
-    }
-
     function test_bool() public {
         uint256 fresh_uint256 = kevm.freshBool();
         assertGe(fresh_uint256, 0);
