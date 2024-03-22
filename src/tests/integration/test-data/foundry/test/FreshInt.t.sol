@@ -32,8 +32,22 @@ contract FreshCheatcodes is Test, KontrolCheats {
     }
 
     function test_address() public {
-        uint256 fresh_address = uint160(freshAddress());
+        uint256 fresh_address = uint160(kevm.freshAddress());
         assertGe(fresh_address, type(uint160).min);
         assertLe(fresh_address, type(uint160).max);
+    }
+
+    function test_freshUints(uint8 x) public {
+        uint256 freshUint = kevm.freshUInt(x);
+
+        assert(0 <= freshUint);
+        assert(freshUint < 2 ** (8 * x));
+    }
+
+    function test_freshSymbolicWord() public {
+        uint256 freshUint192 = freshUInt192();
+
+        assert(0 <= freshUint192);
+        assert(freshUint192 < type(uint192).max);
     }
 }
