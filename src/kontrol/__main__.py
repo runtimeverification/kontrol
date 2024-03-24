@@ -380,7 +380,14 @@ def exec_show(
 
 
 def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
-    foundry_refute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
+    foundry = _load_foundry(foundry_root)
+    refutation = foundry_refute_node(foundry=foundry, test=test, node=node, version=version)
+
+    if refutation:
+        claim, _ = refutation.to_claim('refuted-' + str(node))
+        print('\nClaim for the refutation:\n')
+        print(foundry.kevm.pretty_print(claim))
+        print('\n')
 
 
 def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
