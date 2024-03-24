@@ -23,6 +23,7 @@ from .foundry import (
     foundry_get_model,
     foundry_list,
     foundry_merge_nodes,
+    foundry_minimize_proof,
     foundry_node_printer,
     foundry_refute_node,
     foundry_remove_node,
@@ -248,6 +249,7 @@ def exec_prove(
     xml_test_report: bool = False,
     cse: bool = False,
     hevm: bool = False,
+    minimize_proofs: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -286,6 +288,7 @@ def exec_prove(
         active_symbolik=with_non_general_state,
         cse=cse,
         hevm=hevm,
+        minimize_proofs=minimize_proofs
     )
 
     rpc_options = RPCOptions(
@@ -421,6 +424,10 @@ def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs:
     node_printer = foundry_node_printer(foundry, contract_name, proof)
     viewer = APRProofViewer(proof, foundry.kevm, node_printer=node_printer, custom_view=_custom_view)
     viewer.run()
+
+
+def exec_minimize_proof(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
+    foundry_minimize_proof(foundry=_load_foundry(foundry_root), test=test, version=version)
 
 
 def exec_remove_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
@@ -844,6 +851,9 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Use hevm success predicate instead of foundry to determine if a test is passing',
     )
+    prove_args.add_argument(
+        '--minimize-proofs', dest='minimize_proofs', default=False, action='store_true', help='Minimize obtained KCFGs'
+    )
 
     show_args = command_parser.add_parser(
         'show',
@@ -893,6 +903,12 @@ def _create_argument_parser() -> ArgumentParser:
     command_parser.add_parser(
         'view-kcfg',
         help='Explore a given proof in the KCFG visualizer.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+
+    command_parser.add_parser(
+        'minimize-proof',
+        help='Minimize the KCFG of the proof for a given test.',
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
 

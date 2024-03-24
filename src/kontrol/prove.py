@@ -287,6 +287,9 @@ def _run_cfg_group(
                 fail_fast=prove_options.fail_fast,
             )
 
+            if prove_options.minimize_proofs:
+                proof.minimize_kcfg()
+
             end_time = time.time()
             proof.add_exec_time(end_time - start_time)
             proof.write_proof_data()
