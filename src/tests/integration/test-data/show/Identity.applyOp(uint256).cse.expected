@@ -21,15 +21,8 @@
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (347 steps)
-┃  ├─ 6
-┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 87
-┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-┃  │   statusCode: EVMC_SUCCESS
-┃  │
-┃  │  (328 steps)
-┃  ├─ 8 (terminal)
+┃  │  (345 steps)
+┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int
