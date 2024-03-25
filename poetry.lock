@@ -360,13 +360,13 @@ flake8 = "*"
 
 [[package]]
 name = "graphviz"
-version = "0.20.2"
+version = "0.20.3"
 description = "Simple Python interface for Graphviz"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "graphviz-0.20.2-py3-none-any.whl", hash = "sha256:63d1ae75f1ca60f980e1cd3a61a678eef8de645ef8427736b2bb9bdd035ca44b"},
-    {file = "graphviz-0.20.2.zip", hash = "sha256:d29ca3aadbe5d6e6c584045b7ec4fc1c15af2448dc1c0211b5e94344833243da"},
+    {file = "graphviz-0.20.3-py3-none-any.whl", hash = "sha256:81f848f2904515d8cd359cc611faba817598d2feaac4027b266aa3eda7b3dde5"},
+    {file = "graphviz-0.20.3.zip", hash = "sha256:09d6bc81e6a9fa392e7ba52135a9d49f1ed62526f96499325930e87ca1b5925d"},
 ]
 
 [package.extras]
@@ -434,7 +434,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.503"
+version = "1.0.506"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -443,14 +443,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.718"}
+pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.731"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.503"
-resolved_reference = "92be72ea87b01d38b8a99c06bec52ed6056bd374"
+reference = "v1.0.506"
+resolved_reference = "92bdb3d61f6a94d1a64285e9bcf77002923381fa"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -809,7 +809,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.718"
+version = "0.1.731"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -830,8 +830,8 @@ xdg-base-dirs = "^6.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.718"
-resolved_reference = "d0f2f62f0c2b4e970cc9e146eb7da3b649dddee2"
+reference = "v0.1.731"
+resolved_reference = "2954a674d891aee9e71dcf1f8c6e2c8b23e0e5fe"
 
 [[package]]
 name = "pyperclip"
@@ -878,13 +878,13 @@ testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "no
 
 [[package]]
 name = "pytest-cov"
-version = "4.1.0"
+version = "5.0.0"
 description = "Pytest plugin for measuring coverage."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "pytest-cov-4.1.0.tar.gz", hash = "sha256:3904b13dfbfec47f003b8e77fd5b589cd11904a21ddf1ab38a64f204d6a10ef6"},
-    {file = "pytest_cov-4.1.0-py3-none-any.whl", hash = "sha256:6ba70b9e97e69fcc3fb45bfeab2d0a138fb65c4d0d6a41ef33983ad114be8c3a"},
+    {file = "pytest-cov-5.0.0.tar.gz", hash = "sha256:5837b58e9f6ebd335b0f8060eecce69b662415b16dc503883a02f45dfeb14857"},
+    {file = "pytest_cov-5.0.0-py3-none-any.whl", hash = "sha256:4f0764a1219df53214206bf1feea4633c3b558a2925c8b59f144f682861ce652"},
 ]
 
 [package.dependencies]
@@ -892,21 +892,21 @@ coverage = {version = ">=5.2.1", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtualenv"]
+testing = ["fields", "hunter", "process-tests", "pytest-xdist", "virtualenv"]
 
 [[package]]
 name = "pytest-mock"
-version = "3.12.0"
+version = "3.14.0"
 description = "Thin-wrapper around the mock package for easier use with pytest"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest-mock-3.12.0.tar.gz", hash = "sha256:31a40f038c22cad32287bb43932054451ff5583ff094bca6f675df2f8bc1a6e9"},
-    {file = "pytest_mock-3.12.0-py3-none-any.whl", hash = "sha256:0972719a7263072da3a21c7f4773069bcc7486027d7e8e1f81d98a47e701bc4f"},
+    {file = "pytest-mock-3.14.0.tar.gz", hash = "sha256:2719255a1efeceadbc056d6bf3df3d1c5015530fb40cf347c0f9afac88410bd0"},
+    {file = "pytest_mock-3.14.0-py3-none-any.whl", hash = "sha256:0b72c38033392a5f4621342fe11e9219ac11ec9d375f8e2a0c164539e0d70f6f"},
 ]
 
 [package.dependencies]
-pytest = ">=5.0"
+pytest = ">=6.2.5"
 
 [package.extras]
 dev = ["pre-commit", "pytest-asyncio", "tox"]
@@ -947,13 +947,13 @@ testing = ["filelock"]
 
 [[package]]
 name = "pyupgrade"
-version = "3.15.1"
+version = "3.15.2"
 description = "A tool to automatically upgrade syntax for newer versions."
 optional = false
 python-versions = ">=3.8.1"
 files = [
-    {file = "pyupgrade-3.15.1-py2.py3-none-any.whl", hash = "sha256:c5e005de2805edcd333d1deb04553200ec69da85e4bc9db37b16345ed9e27ed9"},
-    {file = "pyupgrade-3.15.1.tar.gz", hash = "sha256:7690857cae0f6253f39241dcd2e57118c333c438b78609fc3c17a5aa61227b7d"},
+    {file = "pyupgrade-3.15.2-py2.py3-none-any.whl", hash = "sha256:ce309e0ff8ecb73f56a45f12570be84bbbde9540d13697cacb261a7f595fb1f5"},
+    {file = "pyupgrade-3.15.2.tar.gz", hash = "sha256:c488d6896c546d25845712ef6402657123008d56c1063174e27aabe15bd6b4e5"},
 ]
 
 [package.dependencies]
@@ -1111,4 +1111,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "11d5e89b9ed238cdad3af4469f340dc9ed11ecb7b421d7756079c2c46ff2b5eb"
+content-hash = "744da9bc5ca8bab886b4fc8244b08f033bf2d0f1938ffb603a0d37526fd1d321"
