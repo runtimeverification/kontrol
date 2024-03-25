@@ -578,7 +578,9 @@ class Foundry:
 
     def latest_proof_version_before(self, test: str, base_test_ver: int) -> int | None:
         """
-        find the highest used proof ID, less than. Returns None if no version of this proof exists.
+        Find the highest used proof ID, less than base_test_ver. 
+        
+        Returns None if no version of this proof exists.
         """
         proof_ids = self.filter_proof_ids(self.list_proof_dir(), test.split('%')[-1])
         versions = {int(pid.split(':')[1]) for pid in proof_ids if int(pid.split(':')[1]) < base_test_ver}
