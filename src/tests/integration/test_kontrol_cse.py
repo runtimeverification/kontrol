@@ -50,6 +50,8 @@ def test_foundry_dependency_automated(
         max_iterations=100,
         bug_report=bug_report,
         cse=True,
+        # TODO: Enable this after https://github.com/runtimeverification/pyk/pull/1009/ gets merged
+        # minimize_proofs=True,
         fail_fast=False,
         workers=2,
     )
