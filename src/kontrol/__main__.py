@@ -788,7 +788,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='skip_setup_reinit',
         default=False,
         action='store_true',
-        help='Do not reinitialize test setup; reuse most recent setup proof instead',
+        help='Do not reinitialize test setup; instead, reuse most recent reinitialized setup proof for the test proof. Should be used together with "--reinit"',
     )
     prove_args.add_argument(
         '--bmc-depth',
