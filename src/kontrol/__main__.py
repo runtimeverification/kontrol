@@ -288,7 +288,7 @@ def exec_prove(
         active_symbolik=with_non_general_state,
         cse=cse,
         hevm=hevm,
-        minimize_proofs=minimize_proofs
+        minimize_proofs=minimize_proofs,
     )
 
     rpc_options = RPCOptions(
