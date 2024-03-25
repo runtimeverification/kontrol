@@ -388,6 +388,8 @@ def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: i
         print('\nClaim for the refutation:\n')
         print(foundry.kevm.pretty_print(claim))
         print('\n')
+    else:
+        raise ValueError(f'Unable to refute node for test {test}: {node}')
 
 
 def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
