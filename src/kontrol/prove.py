@@ -469,11 +469,6 @@ def _method_to_cfg(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} still has pending branches.'
             )
 
-        if setup_proof.bounded:
-            raise RuntimeError(
-                f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} still has bounded branches.'
-            )
-
         if setup_proof.failing:
             raise RuntimeError(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} still has failing branches.'
