@@ -10,33 +10,17 @@ jobs:
     name: 'Populate Nix Cache'
     strategy:
       matrix:
-        runner: [normal, macos-13, ARM64]
+        runner: [normal, MacIntel, ARM64]
     runs-on: ${{ matrix.runner }}
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.push.head.sha }}
           fetch-depth: 0
-
-      - name: 'Install Nix'
-        if: ${{ matrix.runner == 'macos-13' }}
-        uses: cachix/install-nix-action@v19
-        with:
-          install_url: https://releases.nixos.org/nix/nix-2.13.3/install
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-
-      - name: 'Install Cachix'
-        if: ${{ matrix.runner == 'macos-13' }}
-        uses: cachix/cachix-action@v12
-        with:
-          name: k-framework
-          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
-          skipPush: true
-
+          
       - name: 'Build and cache Kontrol'
-        uses: workflow/nix-shell-action@v3.0.3
+        uses: workflow/nix-shell-action@v3
         env:
           GC_DONT_GC: 1
           CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_PUBLIC_TOKEN }}
@@ -51,25 +35,11 @@ jobs:
     name: 'Populate Nix Binary Cache'
     strategy:
       matrix:
-        runner: [normal, macos-13, ARM64]
+        runner: [normal, MacIntel, ARM64]
     runs-on: ${{ matrix.runner }}
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
-
-      - name: 'Install Nix'
-        if: ${{ matrix.runner == 'macos-13' }}
-        uses: cachix/install-nix-action@v19
-        with:
-          install_url: https://releases.nixos.org/nix/nix-2.13.3/install
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-
-      - name: 'Install Cachix'
-        if: ${{ matrix.runner == 'macos-13' }}
-        uses: cachix/cachix-action@v12
-        with:
-          name: k-framework-binary
+        uses: actions/checkout@v4
 
       - name: 'Publish Kontrol to k-framework-binary cache'
         uses: workflow/nix-shell-action@v3
@@ -90,7 +60,7 @@ jobs:
     runs-on: [self-hosted, linux, normal]
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.push.head.sha }}
           fetch-depth: 0
@@ -122,7 +92,7 @@ jobs:
     needs: dockerhub
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.push.head.sha }}
           fetch-depth: 0
