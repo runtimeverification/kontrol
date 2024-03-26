@@ -26,7 +26,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (839 steps)
+│  (499 steps)
 ├─ 7 (split)
 │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
 │   pc: 562
@@ -42,7 +42,7 @@
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (754 steps)
+┃  │  (414 steps)
 ┃  ├─ 10 (split)
 ┃  │   k: JUMPI 570 bool2Word ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( max ...
 ┃  │   pc: 562
@@ -58,7 +58,7 @@
 ┃  ┃  │   callDepth: 1
 ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  │
-┃  ┃  │  (796 steps)
+┃  ┃  │  (422 steps)
 ┃  ┃  ├─ 14 (split)
 ┃  ┃  │   k: JUMPI 618 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) ~> #pc [ JUM ...
 ┃  ┃  │   pc: 610
@@ -74,7 +74,7 @@
 ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  │
-┃  ┃  ┃  │  (788 steps)
+┃  ┃  ┃  │  (414 steps)
 ┃  ┃  ┃  ├─ 18 (split)
 ┃  ┃  ┃  │   k: JUMPI 618 bool2Word ( VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_1 ...
 ┃  ┃  ┃  │   pc: 610
