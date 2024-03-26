@@ -1,0 +1,138 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (383 steps)
+├─ 3
+│   k: #halt ~> #codeDeposit 491460923342184218035706888008750043977755113263 ~> #pc [  ...
+│   pc: 30
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│
+│  (163 steps)
+├─ 4 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 248
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+│  (1 step)
+├─ 5
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (478 steps)
+├─ 7 (split)
+│   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+│   pc: 562
+│   callDepth: 1
+│   statusCode: STATUSCODE:StatusCode
+┃
+┃ (branch)
+┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  │
+┃  ├─ 8
+┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  │   pc: 562
+┃  │   callDepth: 1
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (414 steps)
+┃  ├─ 10 (split)
+┃  │   k: JUMPI 570 bool2Word ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( max ...
+┃  │   pc: 562
+┃  │   callDepth: 1
+┃  │   statusCode: EVMC_SUCCESS
+┃  ┃
+┃  ┃ (branch)
+┃  ┣━━┓ constraint: ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃  │
+┃  ┃  ├─ 12
+┃  ┃  │   k: JUMPI 570 bool2Word ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( max ...
+┃  ┃  │   pc: 562
+┃  ┃  │   callDepth: 1
+┃  ┃  │   statusCode: EVMC_SUCCESS
+┃  ┃  │
+┃  ┃  │  (266 steps)
+┃  ┃  ├─ 14 (split)
+┃  ┃  │   k: JUMPI 2528 bool2Word ( VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y ...
+┃  ┃  │   pc: 2520
+┃  ┃  │   callDepth: 0
+┃  ┃  │   statusCode: EVMC_SUCCESS
+┃  ┃  ┃
+┃  ┃  ┃ (branch)
+┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int )
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 16
+┃  ┃  ┃  │   k: JUMPI 2528 bool2Word ( VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y ...
+┃  ┃  ┃  │   pc: 2520
+┃  ┃  ┃  │   callDepth: 0
+┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
+┃  ┃  ┃  │
+┃  ┃  ┃  │  (56 steps)
+┃  ┃  ┃  ├─ 18 (terminal)
+┃  ┃  ┃  │   k: #halt ~> CONTINUATION:K
+┃  ┃  ┃  │   pc: 248
+┃  ┃  ┃  │   callDepth: 0
+┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
+┃  ┃  ┃  │
+┃  ┃  ┃  ┊  constraint: true
+┃  ┃  ┃  ┊  subst: OMITTED SUBST
+┃  ┃  ┃  └─ 6 (leaf, target, terminal)
+┃  ┃  ┃      k: #halt ~> CONTINUATION:K
+┃  ┃  ┃      pc: PC_CELL_5d410f2a:Int
+┃  ┃  ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃  ┃  ┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃  ┃  ┃
+┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) )
+┃  ┃     │
+┃  ┃     ├─ 17
+┃  ┃     │   k: JUMPI 2528 bool2Word ( VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y ...
+┃  ┃     │   pc: 2520
+┃  ┃     │   callDepth: 0
+┃  ┃     │   statusCode: EVMC_SUCCESS
+┃  ┃     │
+┃  ┃     │  (66 steps)
+┃  ┃     └─ 19 (leaf, terminal)
+┃  ┃         k: #halt ~> CONTINUATION:K
+┃  ┃         pc: 3736
+┃  ┃         callDepth: 0
+┃  ┃         statusCode: EVMC_REVERT
+┃  ┃
+┃  ┗━━┓ constraint: ( notBool ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃     │
+┃     ├─ 13
+┃     │   k: JUMPI 570 bool2Word ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( max ...
+┃     │   pc: 562
+┃     │   callDepth: 1
+┃     │   statusCode: EVMC_SUCCESS
+┃     │
+┃     │  (73 steps)
+┃     └─ 15 (leaf, terminal)
+┃         k: #halt ~> CONTINUATION:K
+┃         pc: 2474
+┃         callDepth: 0
+┃         statusCode: EVMC_REVERT
+┃
+┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   │
+   ├─ 9
+   │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   │   pc: 562
+   │   callDepth: 1
+   │   statusCode: STATUSCODE:StatusCode
+   │
+   │  (73 steps)
+   └─ 11 (leaf, terminal)
+       k: #halt ~> CONTINUATION:K
+       pc: 2357
+       callDepth: 0
+       statusCode: EVMC_REVERT
+
+
+

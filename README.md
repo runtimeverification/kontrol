@@ -1,8 +1,10 @@
 # Kontrol
 Kontrol combines [KEVM](https://github.com/runtimeverification/evm-semantics) and [Foundry](https://book.getfoundry.sh/) to grant developers the ability to perform formal verification without learning a new language or tool. This is especially useful for those who are not verification engineers. Additionally, developers can leverage Foundry test suites they have already developed and use symbolic execution to increase the level of confidence.
 
-## Documentation
-Documentation for Kontrol can be found here: [https://docs.runtimeverification.com/kontrol](https://docs.runtimeverification.com/kontrol).
+## Documentation & Support
+Documentation for Kontrol can be found in [Kontrol book](https://docs.runtimeverification.com/kontrol).
+
+Join our [Discord server](https://discord.com/invite/CurfmXNtbN) if you have any questions or require support.
 
 ## Fast Installation
 

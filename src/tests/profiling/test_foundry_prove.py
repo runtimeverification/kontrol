@@ -32,7 +32,6 @@ def test_foundy_prove(profile: Profiler, no_use_booster: bool, bug_report: BugRe
             foundry,
             tests=[('AssertTest.test_revert_branch', None)],
             prove_options=ProveOptions(
-                counterexample_info=True,
                 bug_report=bug_report,
             ),
             rpc_options=RPCOptions(

@@ -539,8 +539,28 @@ class Contract:
                 abi_type = input.to_abi()
                 args.append(abi_type)
                 rps = []
-                if input.type == 'tuple':
-                    for sub_input in input.components:
+                if input.type.startswith('tuple'):
+                    components = input.components
+
+                    if input.type.endswith('[]'):
+                        if input.array_lengths is None:
+                            raise ValueError(f'Array length bounds missing for {input.name}')
+
+                        tuple_array_components = [
+                            Input(
+                                f'{_c.name}_{i}',
+                                _c.type,
+                                _c.components,
+                                _c.idx,
+                                _c.array_lengths,
+                                _c.dynamic_type_length,
+                            )
+                            for i in range(input.array_lengths[0])
+                            for _c in components
+                        ]
+                        components = tuple(tuple_array_components)
+
+                    for sub_input in components:
                         _abi_type = sub_input.to_abi()
                         rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
                 else:
@@ -655,6 +675,11 @@ class Contract:
 
         self.methods = tuple(sorted(_methods, key=(lambda method: method.signature)))
 
+        if self.constructor is None:
+            empty_constructor = {'inputs': [], 'stateMutability': 'nonpayable', 'type': 'constructor'}
+            _c = Contract.Constructor(empty_constructor, self._name, self.digest, self.storage_digest, self.sort_method)
+            self.constructor = _c
+
         self.fields = FrozenDict({})
         if 'storageLayout' in self.contract_json and 'storage' in self.contract_json['storageLayout']:
             _fields_list = [(_f['label'], int(_f['slot'])) for _f in self.contract_json['storageLayout']['storage']]
@@ -731,7 +756,7 @@ class Contract:
 
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%']
+        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%', '@']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -748,6 +773,8 @@ class Contract:
                 as_ecaped = 'Sub'
             case '%':
                 as_ecaped = 'Mod'
+            case '@':
+                as_ecaped = 'At'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -766,6 +793,8 @@ class Contract:
             return '-', 3
         elif seq.startswith('Mod'):
             return '%', 3
+        elif seq.startswith('At'):
+            return '@', 2
         else:
             return chr(int(seq, base=16)), 4
 

@@ -36,6 +36,7 @@ from .foundry import (
     foundry_unrefute_node,
     read_deployment_state,
 )
+from .hevm import Hevm
 from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions
 from .prove import foundry_prove, parse_test_version_tuple
@@ -191,7 +192,6 @@ def exec_build(
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module {kwargs["main_module"]}')
     _ignore_arg(kwargs, 'syntax_module', f'--syntax-module {kwargs["syntax_module"]}')
-    _ignore_arg(kwargs, 'spec_module', f'--spec-module {kwargs["spec_module"]}')
     _ignore_arg(kwargs, 'o0', '-O0')
     _ignore_arg(kwargs, 'o1', '-O1')
     _ignore_arg(kwargs, 'o2', '-O2')
@@ -224,7 +224,7 @@ def exec_prove(
     workers: int = 1,
     break_every_step: bool = False,
     break_on_jumpi: bool = False,
-    break_on_calls: bool = True,
+    break_on_calls: bool = False,
     break_on_storage: bool = False,
     break_on_basic_blocks: bool = False,
     break_on_cheatcodes: bool = False,
@@ -236,11 +236,11 @@ def exec_prove(
     smt_retry_limit: int | None = None,
     smt_tactic: str | None = None,
     failure_info: bool = True,
-    counterexample_info: bool = False,
+    counterexample_info: bool = True,
     trace_rewrites: bool = False,
     auto_abstract_gas: bool = False,
     run_constructor: bool = False,
-    fail_fast: bool = False,
+    fail_fast: bool = True,
     port: int | None = None,
     maude_port: int | None = None,
     use_gas: bool = False,
@@ -248,12 +248,12 @@ def exec_prove(
     with_non_general_state: bool = False,
     xml_test_report: bool = False,
     cse: bool = False,
+    hevm: bool = False,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
     _ignore_arg(kwargs, 'syntax_module', f'--syntax-module: {kwargs["syntax_module"]}')
     _ignore_arg(kwargs, 'definition_dir', f'--definition: {kwargs["definition_dir"]}')
-    _ignore_arg(kwargs, 'spec_module', f'--spec-module: {kwargs["spec_module"]}')
 
     if smt_timeout is None:
         smt_timeout = 300
@@ -286,6 +286,7 @@ def exec_prove(
         deployment_state_entries=deployment_state_entries,
         active_symbolik=with_non_general_state,
         cse=cse,
+        hevm=hevm,
     )
 
     rpc_options = RPCOptions(
@@ -309,9 +310,15 @@ def exec_prove(
     )
     failed = 0
     for proof in results:
+        _, test = proof.id.split('.')
+        if not any(test.startswith(prefix) for prefix in ['test', 'check', 'prove']):
+            signature, _ = test.split(':')
+            _LOGGER.warning(
+                f"{signature} is not prefixed with 'test', 'prove', or 'check', therefore, it is not reported as failing in the presence of reverts or assertion violations."
+            )
         if proof.passed:
             print(f'PROOF PASSED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}s')
+            print(f'time: {proof.formatted_exec_time()}')
         else:
             failed += 1
             print(f'PROOF FAILED: {proof.id}')
@@ -320,9 +327,13 @@ def exec_prove(
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
             if failure_info and failure_log is not None:
-                log = failure_log.print() + Foundry.help_info()
+                log = failure_log.print() + (Foundry.help_info() if not hevm else Hevm.help_info(proof.id))
                 for line in log:
                     print(line)
+            refuted_nodes = list(proof.node_refutations.keys())
+            if len(refuted_nodes) > 0:
+                print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
+                print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
 
     sys.exit(failed)
 
@@ -342,7 +353,7 @@ def exec_show(
     pending: bool = False,
     failing: bool = False,
     failure_info: bool = False,
-    counterexample_info: bool = False,
+    counterexample_info: bool = True,
     port: int | None = None,
     maude_port: int | None = None,
     **kwargs: Any,
@@ -858,6 +869,13 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--cse', dest='cse', default=False, action='store_true', help='Use Compositional Symbolic Execution'
+    )
+    prove_args.add_argument(
+        '--hevm',
+        dest='hevm',
+        default=False,
+        action='store_true',
+        help='Use hevm success predicate instead of foundry to determine if a test is passing',
     )
 
     show_args = command_parser.add_parser(

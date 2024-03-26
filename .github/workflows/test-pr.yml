@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.JENKINS_GITHUB_PAT }}
           fetch-depth: 0
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: 'Install Poetry'
         uses: Gr1N/setup-poetry@v8
       - name: 'Run code quality checks'
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: 'Install Poetry'
         uses: Gr1N/setup-poetry@v8
       - name: 'Run unit tests'
@@ -71,7 +71,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: 'Set up Docker'
@@ -103,7 +103,7 @@ jobs:
     timeout-minutes: 120
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: 'Set up Docker'
@@ -116,8 +116,39 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS='--numprocesses=8 -vv'
+          TEST_ARGS='--numprocesses=8 -vv -k "not test_kontrol_cse"'
           [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
+      - name: 'Tear down Docker'
+        if: always()
+        run: |
+          docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
+
+  cse-tests:
+    needs: code-quality-checks
+    name: 'CSE Tests'
+    runs-on: [self-hosted, linux, normal, fast]
+    strategy:
+      fail-fast: false
+      matrix:
+        backend: ['booster']
+    timeout-minutes: 120
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 'Set up Docker'
+        uses: ./.github/actions/with-docker
+        with:
+          container-name: kontrol-ci-integration-${{ github.sha }}
+      - name: 'Build KEVM'
+        run: |
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'poetry install'
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
+      - name: 'Run CSE tests'
+        run: |
+          TEST_ARGS='--numprocesses=8 -vv -k "test_kontrol_cse"'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
@@ -131,7 +162,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -192,7 +223,7 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: 'Check out code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 

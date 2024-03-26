@@ -1041,7 +1041,16 @@ Failing nodes:
     #And { false #Equals 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
+  Model:
+    CALLER_ID = 10
+    CONTRACT_ID = 2
+    NUMBER_CELL = 0
+    ORIGIN_ID = 10
+    TIMESTAMP_CELL = 0
 
 Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
 
-Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
+
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol
