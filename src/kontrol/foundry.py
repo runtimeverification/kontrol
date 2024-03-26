@@ -918,7 +918,7 @@ def foundry_merge_nodes(
     if check_cells_ne:
         if check_same_loop(nodes):
             pass
-        elif not check_same_loop(nodes):
+        else:
             raise ValueError(f'Nodes {node_ids} cannot be merged because they differ in: {check_cells_ne}')
 
     anti_unification = nodes[0].cterm
