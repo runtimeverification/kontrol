@@ -12,6 +12,7 @@ from pyk.utils import single
 from kontrol.foundry import (
     Foundry,
     foundry_merge_nodes,
+    foundry_minimize_proof,
     foundry_refute_node,
     foundry_remove_node,
     foundry_show,
