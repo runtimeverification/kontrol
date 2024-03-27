@@ -806,11 +806,11 @@ def test_foundry_prove_skips_setup(
                 setup_dir = Path('') if p.proof_dir is None else p.proof_dir
                 assert Proof.proof_data_exists(setup_ver, setup_dir) == expect_setup_exists
 
-    def run_prover(test_name: str, _reinit: bool, skip_setup: bool) -> list[APRProof]:
+    def run_prover(test_name: str, _reinit: bool, _setup_version: int | None = None) -> list[APRProof]:
         return foundry_prove(
             foundry,
             tests=[(test_name, None)],
-            prove_options=ProveOptions(bug_report=bug_report, reinit=_reinit, skip_setup_reinit=skip_setup),
+            prove_options=ProveOptions(bug_report=bug_report, reinit=_reinit, setup_version=_setup_version),
             rpc_options=RPCOptions(
                 port=server.port,
             ),
@@ -825,25 +825,22 @@ def test_foundry_prove_skips_setup(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    prove_res = run_prover(test_a, _reinit=True, skip_setup=False)
+    prove_res = run_prover(test_a, _reinit=True, _setup_version=None)
     assert_correct_ids_generted(prove_res, test_a, expected_test_ver=0, expected_setup_ver=0, expect_setup_exists=True)
 
-    prove_res = run_prover(test_a, _reinit=True, skip_setup=True)
+    prove_res = run_prover(test_a, _reinit=True, _setup_version=0)
     assert_correct_ids_generted(prove_res, test_a, expected_test_ver=1, expected_setup_ver=0, expect_setup_exists=True)
     assert_correct_ids_generted(prove_res, test_a, expected_test_ver=1, expected_setup_ver=1, expect_setup_exists=False)
 
-    prove_res = run_prover(test_a, _reinit=True, skip_setup=False)
-    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=2, expected_setup_ver=2, expect_setup_exists=True)
-    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=2, expected_setup_ver=1, expect_setup_exists=False)
+    prove_res = run_prover(test_a, _reinit=True, _setup_version=None)
+    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=2, expected_setup_ver=0, expect_setup_exists=True)
+    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=2, expected_setup_ver=1, expect_setup_exists=True)
 
-    prove_res = run_prover(test_b, _reinit=True, skip_setup=True)
+    prove_res = run_prover(test_b, _reinit=True, _setup_version=1)
     assert_correct_ids_generted(prove_res, test_b, expected_test_ver=0, expected_setup_ver=0, expect_setup_exists=True)
-    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=0, expected_setup_ver=1, expect_setup_exists=False)
+    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=0, expected_setup_ver=1, expect_setup_exists=True)
 
-    prove_res = run_prover(test_a, _reinit=True, skip_setup=False)
-    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=3, expected_setup_ver=3, expect_setup_exists=True)
-
-    prove_res = run_prover(test_b, _reinit=True, skip_setup=False)
+    prove_res = run_prover(test_b, _reinit=True, _setup_version=None)
     assert_correct_ids_generted(prove_res, test_b, expected_test_ver=1, expected_setup_ver=0, expect_setup_exists=True)
     assert_correct_ids_generted(prove_res, test_b, expected_test_ver=1, expected_setup_ver=1, expect_setup_exists=True)
-
+    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=1, expected_setup_ver=2, expect_setup_exists=True)

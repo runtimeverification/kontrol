@@ -100,7 +100,7 @@ def foundry_prove(
 
     contracts = [(test.contract, test.version) for test in test_suite]
     setup_method_tests = collect_setup_methods(
-        foundry, contracts, reinit=prove_options.reinit, skip_setup_reinit=prove_options.skip_setup_reinit
+        foundry, contracts, reinit=prove_options.reinit, setup_version=prove_options.setup_version
     )
     setup_method_names = [test.name for test in setup_method_tests]
 
@@ -198,7 +198,7 @@ def collect_tests(
 
 
 def collect_setup_methods(
-    foundry: Foundry, contracts: Iterable[tuple[Contract, int]] = (), *, reinit: bool, skip_setup_reinit: bool
+    foundry: Foundry, contracts: Iterable[tuple[Contract, int]] = (), *, reinit: bool, setup_version: int | None = None
 ) -> list[FoundryTest]:
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
@@ -211,7 +211,7 @@ def collect_setup_methods(
         if not method:
             continue
         version = foundry.resolve_setup_proof_version(
-            f'{contract.name_with_path}.setUp()', reinit, skip_setup_reinit, test_version
+            f'{contract.name_with_path}.setUp()', reinit, test_version, setup_version
         )
         res.append(FoundryTest(contract, method, version))
     return res

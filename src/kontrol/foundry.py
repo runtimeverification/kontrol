@@ -488,33 +488,33 @@ class Foundry:
         return listdir(self.proofs_dir)
 
     def resolve_setup_proof_version(
-        self,
-        test: str,
-        reinit: bool,
-        skip_setup_reinit: bool,
-        test_version: int | None = None,
+        self, test: str, reinit: bool, test_version: int | None = None, user_specified_setup_version: int | None = None
     ) -> int:
         _, method = self.get_contract_and_method(test)
-        base_test_version = 0 if test_version is None else test_version
+        effective_test_version = 0 if test_version is None else self.free_proof_version(test)
 
-        if reinit and not skip_setup_reinit:
-            _LOGGER.info(f'Creating a new version of test {test} because --reinit was specified.')
-            return base_test_version
-
-        _LOGGER.info(
-            f'Reusing the latest version of {test} setup proof because --skip-setup-reinit was specified together with --reinit;'
-        )
-        if Proof.proof_data_exists(f'{test}:{base_test_version}', self.proofs_dir):
-            if not method.up_to_date(self.digest_file):
-                _LOGGER.warn(f'Using specified version {base_test_version} of proof {test}, but it is out of date.')
-            return base_test_version
+        if reinit:
+            if user_specified_setup_version is None:
+                _LOGGER.info(
+                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is not specified.'
+                )
+            elif not Proof.proof_data_exists(f'{test}:{user_specified_setup_version}', self.proofs_dir):
+                _LOGGER.info(
+                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is set to a non-existing version'
+                )
+            else:
+                _LOGGER.info(f'Reusing version {user_specified_setup_version} of setup proof')
+                effective_test_version = user_specified_setup_version
         else:
-            _LOGGER.info(
-                f'The specified version {base_test_version} of proof of setup test {test} does not exist. Using the previous latest version'
-            )
+            latest_test_version = self.latest_proof_version(test)
+            effective_test_version = 0 if latest_test_version is None else latest_test_version
+            if user_specified_setup_version is not None and Proof.proof_data_exists(
+                f'{test}:{user_specified_setup_version}', self.proofs_dir
+            ):
+                effective_test_version = user_specified_setup_version
+            _LOGGER.info(f'Reusing version {effective_test_version} of setup proof')
 
-        latest_version = self.latest_proof_version_before(test, base_test_version)
-        return self.check_method_change(latest_version, test, method)
+        return self.check_method_change(effective_test_version, test, method)
 
     def resolve_proof_version(
         self,
@@ -575,16 +575,6 @@ class Foundry:
         """
         proof_ids = self.filter_proof_ids(self.list_proof_dir(), test.split('%')[-1])
         versions = {int(pid.split(':')[1]) for pid in proof_ids}
-        return max(versions, default=None)
-
-    def latest_proof_version_before(self, test: str, base_test_ver: int) -> int | None:
-        """
-        Find the highest used proof ID, less than base_test_ver.
-
-        Returns None if no version of this proof exists.
-        """
-        proof_ids = self.filter_proof_ids(self.list_proof_dir(), test.split('%')[-1])
-        versions = {int(pid.split(':')[1]) for pid in proof_ids if int(pid.split(':')[1]) < base_test_ver}
         return max(versions, default=None)
 
     def free_proof_version(
