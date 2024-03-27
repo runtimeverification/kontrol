@@ -19,6 +19,7 @@ from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
+from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process, unique
@@ -468,9 +469,17 @@ def _method_to_cfg(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} still has pending branches.'
             )
 
-        init_node_id = setup_proof.init
+        if setup_proof.failing:
+            raise RuntimeError(
+                f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} still has failing branches.'
+            )
 
-        cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())  # Copy KCFG
+        assert setup_proof.status == ProofStatus.PASSED
+
+        init_node_id = setup_proof.init
+        # Copy KCFG and minimize it
+        cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())
+        cfg.minimize()
         final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
         cfg.remove_node(setup_proof.target)
         if not final_states:
@@ -543,8 +552,8 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
 
-    # adding constraints from the initial cterm
-    for constraint in cterm.constraints:
+    # Adding constraints from the initial cterm and initial node
+    for constraint in cterm.constraints + node.cterm.constraints:
         new_init_cterm = new_init_cterm.add_constraint(constraint)
     new_init_cterm = KEVM.add_invariant(new_init_cterm)
 
