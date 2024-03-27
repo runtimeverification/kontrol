@@ -2,7 +2,7 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
 contract Dummy {
     function numberA() public pure returns (uint) {
@@ -10,7 +10,7 @@ contract Dummy {
     }
 }
 
-contract ExpectCallTest is Test, KEVMCheats {
+contract ExpectCallTest is Test, KontrolCheats {
 
 
     function testExpectStaticCall() public {

@@ -2,9 +2,9 @@ pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
 
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract FreshBytesTest is Test, KEVMCheats {
+contract FreshBytesTest is Test, KontrolCheats {
     bytes1 local_byte;
     bytes local_bytes;
 

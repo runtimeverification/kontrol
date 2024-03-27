@@ -2,7 +2,7 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
 contract ValueStore {
 	uint256 public value1;
@@ -17,7 +17,7 @@ contract ValueStore {
 	}
 }
 
-contract AllowChangesTest is Test, KEVMCheats {
+contract AllowChangesTest is Test, KontrolCheats {
 	function test() public {
 		assertTrue(true);
 	}

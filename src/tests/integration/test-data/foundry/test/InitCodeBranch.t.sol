@@ -2,9 +2,9 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract InitCodeBranchTest is Test, KEVMCheats {
+contract InitCodeBranchTest is Test, KontrolCheats {
 
     uint a;
     uint b;

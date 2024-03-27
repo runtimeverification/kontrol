@@ -2,9 +2,9 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract GasTest is Test, KEVMCheats {
+contract GasTest is Test, KontrolCheats {
     function testInfiniteGas() public {
         // Infinite gas is used by default
         uint256 gasLeftBefore = gasleft();

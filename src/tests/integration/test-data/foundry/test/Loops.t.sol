@@ -2,9 +2,9 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract LoopsTest is Test, KEVMCheats {
+contract LoopsTest is Test, KontrolCheats {
 
     uint constant WAD = 10 ** 18;
     uint constant RAY = 10 ** 27;

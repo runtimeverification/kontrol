@@ -2,14 +2,14 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
 contract SymbolicStore {
     uint256 private testNumber = 1337; // slot 0
     constructor() {}
 }
 
-contract SymbolicStorageTest is Test, KEVMCheats { 
+contract SymbolicStorageTest is Test, KontrolCheats { 
     function testFail_SymbolicStorage(uint256 slot) public {
          address addr = 0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8;
          kevm.symbolicStorage(addr);

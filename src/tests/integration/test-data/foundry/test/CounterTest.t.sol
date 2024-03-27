@@ -2,7 +2,7 @@
 pragma solidity >=0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
 contract Counter {
     uint256 public number;
@@ -16,7 +16,7 @@ contract Counter {
     }
 }
 
-contract CounterTest is Test, KEVMCheats {
+contract CounterTest is Test, KontrolCheats {
     Counter public counter;
     
     // function setUp() public {
