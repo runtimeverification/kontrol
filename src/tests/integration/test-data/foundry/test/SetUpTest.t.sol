@@ -2,6 +2,7 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
+import "../src/KEVMCheats.sol";
 
 // This experiment covers the basic behavior of the
 // test contract constructor and setup function.
@@ -15,9 +16,10 @@ import "forge-std/Test.sol";
 //
 // Before each test the VM reverts to the post
 // setup state.
-contract SetUpTest is Test {
-    
+contract SetUpTest is Test, KEVMCheats {
+
     uint256 counter = 0;
+    uint256 data;
 
     constructor () {
         counter = 100;
@@ -25,6 +27,8 @@ contract SetUpTest is Test {
 
     function setUp() public{
         counter++;
+        data = uint256(kevm.freshUInt(32));
+        vm.assume(data < 42);
     }
 
     function testSetUpCalled() public {
@@ -37,5 +41,9 @@ contract SetUpTest is Test {
         // The following assertion is only here so that
         // x is used and not thrown away by the optimizer
         assertEq(x, x);
+    }
+
+    function testSetupData() public {
+      assert(data < 42);
     }
 }

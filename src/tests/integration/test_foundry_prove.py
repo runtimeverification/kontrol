@@ -457,7 +457,7 @@ def test_foundry_remove_node(
     foundry_remove_node(
         foundry,
         test=test,
-        node=4,
+        node=8,
     )
 
     proof = foundry.get_optional_proof(single(foundry.proof_ids_with_test(test)))
