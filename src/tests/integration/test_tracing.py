@@ -77,6 +77,7 @@ def test_foundry_trace(
         max_iterations=100,
         bug_report=bug_report,
         fail_fast=False,
+        reinit=True,
         trace_options=trace_options,
     )
 
