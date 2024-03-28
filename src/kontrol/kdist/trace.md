@@ -6,7 +6,7 @@ This module handles the tracing of EVM opcodes during an execution.
 module EVM-TRACING
     imports EVM
 ```
-The configuration of the KEVMTracing is defined as follwing:
+The configuration of the KEVMTracing is defined as following:
 - `<activeTracing>` signals if the tracing feature is active or not.
 - `<traceStorage>` signals if the storage should be recorded in the `TraceItem`.
 - `<traceWordStack>` signals if the storage should be recorded in the `TraceItem`.
