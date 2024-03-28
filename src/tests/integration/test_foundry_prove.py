@@ -294,13 +294,17 @@ def test_foundry_merge_loop_heads(
     foundry_prove(
         foundry,
         tests=[(test, None)],
-        prove_options=ProveOptions(max_iterations=20, bug_report=bug_report, break_on_calls=True),
+        prove_options=ProveOptions(max_iterations=15, bug_report=bug_report, break_on_calls=True),
         rpc_options=RPCOptions(
             port=server.port,
         ),
     )
 
-    foundry_merge_nodes(foundry, test=test, node_ids=[15, 16], include_disjunct=True)
+    check_pending(foundry, test, [17, 18, 19])
+
+    foundry_merge_nodes(foundry, test=test, node_ids=[4, 9, 15], include_disjunct=True)
+
+    check_pending(foundry, test, [19, 20])
 
     foundry_prove(
         foundry,

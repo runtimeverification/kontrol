@@ -899,6 +899,15 @@ def foundry_merge_nodes(
                 return False
         return True
 
+    def check_same_loop(nodes: Iterable[KCFG.Node]) -> bool:
+        nodes = list(nodes)
+        if len(nodes) < 2:
+            return True
+        for node in nodes[1:]:
+            if not KEVMSemantics().same_loop(nodes[0].cterm, node.cterm):
+                return False
+        return True
+
     test_id = foundry.get_test_id(test, version)
     apr_proof = foundry.get_apr_proof(test_id)
 
@@ -908,8 +917,12 @@ def foundry_merge_nodes(
     nodes = [apr_proof.kcfg.node(int(node_id)) for node_id in node_ids]
     check_cells = ['K_CELL', 'PROGRAM_CELL', 'PC_CELL', 'CALLDEPTH_CELL']
     check_cells_ne = [check_cell for check_cell in check_cells if not check_cells_equal(check_cell, nodes)]
+
     if check_cells_ne:
-        raise ValueError(f'Nodes {node_ids} cannot be merged because they differ in: {check_cells_ne}')
+        if check_same_loop(nodes):
+            pass
+        else:
+            raise ValueError(f'Nodes {node_ids} cannot be merged because they differ in: {check_cells_ne}')
 
     anti_unification = nodes[0].cterm
     for node in nodes[1:]:
