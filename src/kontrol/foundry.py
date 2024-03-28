@@ -43,6 +43,7 @@ if TYPE_CHECKING:
     from pyk.kast.inner import KInner
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.tui import KCFGElem
+    from pyk.proof.implies import RefutationProof
     from pyk.proof.show import NodePrinter
     from pyk.utils import BugReport
 
@@ -254,7 +255,7 @@ class Foundry:
 
     def build(self) -> None:
         try:
-            run_process(['forge', 'build', '--root', str(self._root)], logger=_LOGGER)
+            run_process(['forge', 'build', '--build-info', '--root', str(self._root)], logger=_LOGGER)
         except FileNotFoundError:
             print("Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH.")
             sys.exit(1)
@@ -803,11 +804,13 @@ def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: 
     apr_proof.write_proof_data()
 
 
-def foundry_refute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
+def foundry_refute_node(
+    foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None
+) -> RefutationProof | None:
     test_id = foundry.get_test_id(test, version)
     proof = foundry.get_apr_proof(test_id)
 
-    proof.refute_node(proof.kcfg.node(node))
+    return proof.refute_node(proof.kcfg.node(node))
 
 
 def foundry_unrefute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
