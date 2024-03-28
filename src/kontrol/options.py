@@ -34,6 +34,7 @@ class ProveOptions:
     active_symbolik: bool
     cse: bool
     hevm: bool
+    minimize_proofs: bool
 
     def __init__(
         self,
@@ -59,6 +60,7 @@ class ProveOptions:
         active_symbolik: bool = False,
         cse: bool = False,
         hevm: bool = False,
+        minimize_proofs: bool = False,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
@@ -81,6 +83,7 @@ class ProveOptions:
         object.__setattr__(self, 'active_symbolik', active_symbolik)
         object.__setattr__(self, 'cse', cse)
         object.__setattr__(self, 'hevm', hevm)
+        object.__setattr__(self, 'minimize_proofs', minimize_proofs)
 
 
 @dataclass(frozen=True)
