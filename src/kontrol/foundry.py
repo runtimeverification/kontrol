@@ -689,7 +689,7 @@ def foundry_show(
             return _contains
 
         for node in proof.kcfg.nodes:
-            proof.kcfg.replace_node(node.id, _remove_foundry_config(node.cterm))
+            proof.kcfg.let_node(node.id, cterm=_remove_foundry_config(node.cterm))
 
         # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
         proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
@@ -907,7 +907,7 @@ def foundry_simplify_node(
     ) as kcfg_explore:
         new_term, _ = kcfg_explore.cterm_symbolic.simplify(cterm)
     if replace:
-        apr_proof.kcfg.replace_node(node, new_term)
+        apr_proof.kcfg.let_node(node, cterm=new_term)
         apr_proof.write_proof_data()
     res_term = minimize_term(new_term.kast) if minimize else new_term.kast
     return foundry.kevm.pretty_print(res_term, unalias=False, sort_collections=sort_collections)
