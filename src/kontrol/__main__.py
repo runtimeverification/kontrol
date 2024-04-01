@@ -797,7 +797,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='setup_version',
         default=None,
         type=int,
-        help='Instead of reinitializing the test setup with together the test proof, select the setup version to be reused during the proof.',
+        help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
     )
     prove_args.add_argument(
         '--bmc-depth',
