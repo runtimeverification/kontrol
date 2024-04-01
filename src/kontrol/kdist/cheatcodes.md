@@ -89,77 +89,7 @@ module FOUNDRY-CHEAT-CODES
       </cheatcodes>
 ```
 
-First we have some helpers in K which can:
-
--   Inject a given boolean condition into's this execution's path condition
--   Set the `FoundryCheat . Failed` location to `True`.
-```k
-    syntax KItem ::= #assume ( Bool ) [klabel(foundry_assume), symbol]
- // ------------------------------------------------------------------
-    rule <k> #assume(B) => .K ... </k> ensures B
-
-     syntax KItem ::= "#markAsFailed" [klabel(foundry_markAsFailed)]
-  // ---------------------------------------------------------------
-     rule <k> #markAsFailed => .K ... </k>
-          <account>
-             <acctID> #address(FoundryCheat) </acctID>
-             <storage> STORAGE => STORAGE [ #loc(FoundryCheat . Failed) <- 1 ] </storage>
-             ...
-           </account>
-```
-
-#### Structure of execution
-
-The `foundry.call` rule is used to inject specific behaviour for each cheat code.
-The rule has a higher priority than any other `#call` rule and will match every call made to the [Foundry cheatcode address](https://book.getfoundry.sh/cheatcodes/#cheatcodes-reference).
-The function selector, represented as `#asWord(#range(ARGS, 0, 4))` and the call data `#range(ARGS, 4, lengthBytes(ARGS) -Int 4)` are passed to the `#call_foundry` production, which will further rewrite using rules defined for implemented cheat codes.
-Finally, the rule for `#return_foundry` is used to end the execution of the `CALL` OpCode.
-
-```k
-    rule [foundry.call]:
-         <k> (#checkCall _ _
-          ~> #call _ CHEAT_ADDR _ _ _ ARGS _
-          ~> #return RETSTART RETWIDTH )
-          => #call_foundry #asWord(#range(ARGS, 0, 4)) #range(ARGS, 4, lengthBytes(ARGS) -Int 4)
-          ~> #return_foundry RETSTART RETWIDTH
-         ...
-         </k>
-         <output> _ => .Bytes </output>
-    requires CHEAT_ADDR ==Int #address(FoundryCheat)
-    [priority(40)]
-```
-
-We define two productions named `#return_foundry` and `#call_foundry`, which will be used by each cheat code.
-The rule `foundry.return` will rewrite the `#return_foundry` production into other productions that will place the output of the execution into the local memory, refund the gas value of the call and push the value `1` on the call stack.
-
-```k
-    syntax KItem ::= "#return_foundry" Int Int  [klabel(foundry_return)]
-                   | "#call_foundry" Int Bytes  [klabel(foundry_call)]
-                   | "#error_foundry" Int Bytes [klabel(foundry_error)]
- // -------------------------------------------------------------------
-    rule [foundry.return]:
-         <k> #return_foundry RETSTART RETWIDTH
-          => #setLocalMem RETSTART RETWIDTH OUT
-          ~> #refund GCALL
-          ~> 1 ~> #push
-          ... </k>
-         <output> OUT </output>
-         <callGas> GCALL </callGas>
-```
-
-We define a new status codes:
- - `FOUNDRY_UNIMPLEMENTED`, which signals that the execution ran into an unimplemented cheat code.
- - `FOUNDRY_WHITELISTCALL`, which signals that an address outside the whitelist has been called during the execution.
- - `FOUNDRY_WHITELISTSTORAGE`, which signals that a storage index of an address outside the whitelist has been changed during the execution.
-
-```k
-    syntax ExceptionalStatusCode ::= "FOUNDRY_UNIMPLEMENTED"
-                                   | "FOUNDRY_WHITELISTCALL"
-                                   | "FOUNDRY_WHITELISTSTORAGE"
- // -----------------------------------------------------------
-```
-
-Below, we define rules for the `#call_foundry` production, handling the cheat codes.
+Below, we define rules for the `#cheatcode_call` production, handling the cheat codes.
 
 #### `assume` - Insert a condition
 
@@ -167,13 +97,13 @@ Below, we define rules for the `#call_foundry` production, handling the cheat co
 function assume(bool) external;
 ```
 
-`foundry.call.assume` will match when the `assume` cheat code function is called.
+`cheatcode.call.assume` will match when the `assume` cheat code function is called.
 This rule then takes a `bool` condition from the function call data, represented using the `ARGS` variable, and injects it into the execution path using the `#assume` production.
 `==K #bufStrict(32, 1)` is used to mark that the condition should hold.
 
 ```k
-    rule [foundry.call.assume]:
-         <k> #call_foundry SELECTOR ARGS => #assume(ARGS ==K #bufStrict(32, 1)) ... </k>
+    rule [cheatcode.call.assume]:
+         <k> #cheatcode_call SELECTOR ARGS => #assume(ARGS ==K #bufStrict(32, 1)) ... </k>
       requires SELECTOR ==Int selector ( "assume(bool)" )
       [preserves-definedness]
 ```
@@ -184,12 +114,12 @@ This rule then takes a `bool` condition from the function call data, represented
 function deal(address who, uint256 newBalance) external;
 ```
 
-`foundry.call.deal` will match when the `deal` cheat code function is called.
+`cheatcode.call.deal` will match when the `deal` cheat code function is called.
 The rule then takes from the function call data the target account, using `#asWord(#range(ARGS, 0, 32)`, and the new balance, using `#asWord(#range(ARGS, 32, 32))`, and forwards them to the `#setBalance` production which updates the account accordingly.
 
 ```k
-    rule [foundry.call.deal]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #setBalance #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
+    rule [cheatcode.call.deal]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #setBalance #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ( "deal(address,uint256)" )
 ```
 
@@ -199,13 +129,13 @@ The rule then takes from the function call data the target account, using `#asWo
 function etch(address who, bytes calldata code) external;
 ```
 
-`foundry.call.etch` will match when the `etch` cheat code function is called.
+`cheatcode.call.etch` will match when the `etch` cheat code function is called.
 This rule then takes from the function call data the target account, using `#asWord(#range(ARGS, 0, 32)`, and the new bytecode, using `#range(ARGS, CODE_START, CODE_LENGTH)`, where `#asWord(#range(ARGS, 64, 32))` is used to determine the length of the second argument.
 The values are forwarded to the `#setCode` production which updates the account accordingly.
 
 ```k
-    rule [foundry.call.etch]:
-         <k> #call_foundry SELECTOR ARGS
+    rule [cheatcode.call.etch]:
+         <k> #cheatcode_call SELECTOR ARGS
           => #loadAccount #asWord(#range(ARGS, 0, 32))
           ~> #setCode #asWord(#range(ARGS, 0, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32)))
          ...
@@ -219,12 +149,12 @@ The values are forwarded to the `#setCode` production which updates the account 
 function warp(uint256) external;
 ```
 
-`foundry.call.warp` will match when the `warp` cheat code function is called.
+`cheatcode.call.warp` will match when the `warp` cheat code function is called.
 This rule then takes the `uint256` value from the function call data which is represented as `ARGS` and updates the `<timestamp>` cell.
 
 ```k
-    rule [foundry.call.warp]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.warp]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <timestamp> _ => #asWord(ARGS) </timestamp>
       requires SELECTOR ==Int selector( "warp(uint256)" )
 ```
@@ -235,12 +165,12 @@ This rule then takes the `uint256` value from the function call data which is re
 function roll(uint256) external;
 ```
 
-`foundry.call.roll` will match when the `roll` cheat code function is called.
+`cheatcode.call.roll` will match when the `roll` cheat code function is called.
 This rule then takes the `uint256` value from the function call data which is represented as `ARGS` and updates the `<number>` cell.
 
 ```k
-    rule [foundry.call.roll]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.roll]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <number> _ => #asWord(ARGS) </number>
       requires SELECTOR ==Int selector ( "roll(uint256)" )
 ```
@@ -251,12 +181,12 @@ This rule then takes the `uint256` value from the function call data which is re
 function fee(uint256) external;
 ```
 
-`foundry.call.fee` will match when the `fee` cheat code function is called.
+`cheatcode.call.fee` will match when the `fee` cheat code function is called.
 This rule then takes the `uint256` value from the function call data which is represented as `ARGS` and updates the `<baseFee>` cell.
 
 ```k
-    rule [foundry.call.fee]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.fee]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <baseFee> _ => #asWord(ARGS) </baseFee>
       requires SELECTOR ==Int selector ( "fee(uint256)" )
 ```
@@ -267,12 +197,12 @@ This rule then takes the `uint256` value from the function call data which is re
 function chainId(uint256) external;
 ```
 
-`foundry.call.chainId` will match when the `chainId` cheat code function is called.
+`cheatcode.call.chainId` will match when the `chainId` cheat code function is called.
 This rule then takes the `uint256` value from the function call data which is represented as `ARGS` and updates the `<chainID>` cell.
 
 ```k
-    rule [foundry.call.chainId]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.chainId]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <chainID> _ => #asWord(ARGS) </chainID>
       requires SELECTOR ==Int selector ( "chainId(uint256)" )
 ```
@@ -283,12 +213,12 @@ This rule then takes the `uint256` value from the function call data which is re
 function coinbase(address) external;
 ```
 
-`foundry.call.coinbase` will match when the `coinbase` cheat code function is called.
+`cheatcode.call.coinbase` will match when the `coinbase` cheat code function is called.
 This rule then takes the `uint256` value from the function call data which is represented as `ARGS` and updates the `<coinbase>` cell.
 
 ```k
-    rule [foundry.call.coinbase]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.coinbase]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <coinbase> _ => #asWord(ARGS) </coinbase>
       requires SELECTOR ==Int selector ( "coinbase(address)" )
 ```
@@ -299,13 +229,13 @@ This rule then takes the `uint256` value from the function call data which is re
 function label(address addr, string calldata label) external;
 ```
 
-`foundry.call.label` will match when the `label` cheat code function is called.
+`cheatcode.call.label` will match when the `label` cheat code function is called.
 If an address is labelled, the label will show up in test traces instead of the address.
 However, there is no change on the state and therefore this rule just skips the cheatcode invocation.
 
 ```k
-    rule [foundry.call.label]:
-         <k> #call_foundry SELECTOR _ARGS => .K ... </k>
+    rule [cheatcode.call.label]:
+         <k> #cheatcode_call SELECTOR _ARGS => .K ... </k>
       requires SELECTOR ==Int selector ( "label(address,string)" )
 ```
 
@@ -315,12 +245,12 @@ However, there is no change on the state and therefore this rule just skips the 
 function getNonce(address account) external returns (uint64);
 ```
 
-`foundry.call.getNonce` will match when the `getNonce` cheat code function is called.
+`cheatcode.call.getNonce` will match when the `getNonce` cheat code function is called.
 This rule takes the `address` value from the function call data, which is represented as `ARGS`, and forwards it to the `#returnNonce` production, which will update the `<output>` cell with the `nonce` of the account.
 
 ```k
-    rule [foundry.call.getNonce]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #returnNonce #asWord(ARGS) ... </k>
+    rule [cheatcode.call.getNonce]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #returnNonce #asWord(ARGS) ... </k>
       requires SELECTOR ==Int selector ( "getNonce(address)" )
 ```
 
@@ -330,12 +260,12 @@ This rule takes the `address` value from the function call data, which is repres
 function setNonce(address account, uint64 nonce) external;
 ```
 
-`foundry.call.setNonce` will match when the `setNonce` function is called.
+`cheatcode.call.setNonce` will match when the `setNonce` function is called.
 This rule takes the `address` value and `uint64` value corresponding to new nonce using from the function call data, which is represented as `ARGS` forwards it to the `#setNonce` production, which will update the nonce of the account.
 
 ```k
-    rule [foundry.call.setNonce]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #setNonce #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
+    rule [cheatcode.call.setNonce]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #setNonce #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ( "setNonce(address,uint64)" )
 ```
 
@@ -345,13 +275,13 @@ This rule takes the `address` value and `uint64` value corresponding to new nonc
 function addr(uint256 privateKey) external returns (address);
 ```
 
-`foundry.call.addr` will match when the `addr` cheat code function is called.
+`cheatcode.call.addr` will match when the `addr` cheat code function is called.
 This rule takes `uint256` private key from the function call data, which is represented as `ARGS`, and computes the address.
 The `<output>` cell will be updated with the value of the address generated from the private key, padded to 32 bytes wide.
 
 ```k
-    rule [foundry.call.addr]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.addr]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #bufStrict(32, #addrFromPrivateKey(#unparseDataBytes(ARGS))) </output>
       requires SELECTOR ==Int selector ( "addr(uint256)" )
       [preserves-definedness]
@@ -363,13 +293,13 @@ The `<output>` cell will be updated with the value of the address generated from
 function load(address account, bytes32 slot) external returns (bytes32);
 ```
 
-`foundry.call.load` will match when the `load` cheat code function is called.
+`cheatcode.call.load` will match when the `load` cheat code function is called.
 This rule loads the storage slot identified by `#asWord(#range(ARGS, 32, 32))` (referring to `slot` argument) from account `#asWord(#range(ARGS, 0, 32))` (referring to `account`).
 The value of the identified storage slot is placed in the `<output>` cell using the `#returnStorage` production.
 
 ```k
-    rule [foundry.call.load]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #returnStorage #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
+    rule [cheatcode.call.load]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #returnStorage #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ( "load(address,bytes32)" )
 ```
 
@@ -379,12 +309,12 @@ The value of the identified storage slot is placed in the `<output>` cell using 
 function store(address account, bytes32 slot, bytes32 value) external;
 ```
 
-`foundry.call.store` will match when the `store` cheat code function is called.
+`cheatcode.call.store` will match when the `store` cheat code function is called.
 This rule then takes from the function call data the account using `#asWord(#range(ARGS, 0, 32))` and the new slot value using `#asWord(#range(ARGS, 32, 32))` and updates the slot denoted by `#asWord(#range(ARGS, 64, 32))`.
 
 ```k
-    rule [foundry.call.store]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #setStorage #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #asWord(#range(ARGS, 64, 32)) ... </k>
+    rule [cheatcode.call.store]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #setStorage #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #asWord(#range(ARGS, 64, 32)) ... </k>
       requires SELECTOR ==Int selector ( "store(address,bytes32,bytes32)" )
 ```
 
@@ -394,12 +324,12 @@ This rule then takes from the function call data the account using `#asWord(#ran
 function symbolicStorage(address) external;
 ```
 
-`foundry.call.symbolicStorage` will match when the `symbolicStorage` cheat code function is called.
+`cheatcode.call.symbolicStorage` will match when the `symbolicStorage` cheat code function is called.
 This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes its storage completely symbolic.
 
 ```k
-    rule [foundry.call.symbolicStorage]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setSymbolicStorage #asWord(ARGS) ... </k>
+    rule [cheatcode.call.symbolicStorage]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setSymbolicStorage #asWord(ARGS) ... </k>
       requires SELECTOR ==Int selector ( "symbolicStorage(address)" )
 ```
 
@@ -409,12 +339,12 @@ This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes 
 function freshUInt(uint8) external returns (uint256);
 ```
 
-`foundry.call.freshUInt` will match when the `freshUInt` cheat code function is called.
+`cheatcode.call.freshUInt` will match when the `freshUInt` cheat code function is called.
 This rule returns a symbolic integer of up to the bit width that was sent as an argument.
 
 ```{.k .symbolic}
-    rule [foundry.call.freshUInt]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.freshUInt]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
        andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
@@ -428,12 +358,12 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
 function freshBool() external returns (bool);
 ```
 
-`foundry.call.freshBool` will match when the `freshBool` cheat code function is called.
+`cheatcode.call.freshBool` will match when the `freshBool` cheat code function is called.
 This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 
 ```{.k .symbolic}
-    rule [foundry.call.freshBool]:
-         <k> #call_foundry SELECTOR _ => .K ... </k>
+    rule [cheatcode.call.freshBool]:
+         <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
        ensures #rangeBool(?WORD)
@@ -446,12 +376,12 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 function freshBytes(uint256) external returns (bytes memory);
 ```
 
-`foundry.call.freshBytes` will match when the `freshBytes` cheat code function is called.
+`cheatcode.call.freshBytes` will match when the `freshBytes` cheat code function is called.
 This rule returns a fully symbolic byte array value of the given length.
 
 ```{.k .symbolic}
-    rule [foundry.call.freshBytes]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.freshBytes]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ =>
             #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES
             +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 )
@@ -473,8 +403,8 @@ function expectRevert(bytes calldata msg) external;
 All cheat code calls which take place while `expectRevert` is active are ignored.
 
 ```k
-    rule [foundry.call.ignoreCalls]:
-         <k> #call_foundry _ _ => .K ... </k>
+    rule [cheatcode.call.ignoreCalls]:
+         <k> #cheatcode_call _ _ => .K ... </k>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            ...
@@ -524,8 +454,8 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
 If the `expectRevert()` selector is matched, call the `#setExpectRevert` production to initialize the `<expectedRevert>` subconfiguration.
 
 ```k
-    rule [foundry.call.expectRevert]:
-         <k> #call_foundry SELECTOR ARGS => #setExpectRevert ARGS ... </k>
+    rule [cheatcode.call.expectRevert]:
+         <k> #cheatcode_call SELECTOR ARGS => #setExpectRevert ARGS ... </k>
       requires SELECTOR ==Int selector ( "expectRevert()" )
         orBool SELECTOR ==Int selector ( "expectRevert(bytes)" )
 ```
@@ -542,40 +472,40 @@ First we define a sort to identify expected opcodes.
 If the `expect*OPCODE*` selector is matched, the rule will load the account into the state and add the `#setExpectOpcode` production to the K cell to initialize the `<expectedOpcode/>` subconfiguration with the given parameters.
 
 ```k
-    rule [foundry.call.expectStaticCall]:
-         <k> #call_foundry SELECTOR ARGS
+    rule [cheatcode.call.expectStaticCall]:
+         <k> #cheatcode_call SELECTOR ARGS
           => #loadAccount #asWord(#range(ARGS, 0, 32))
           ~> #setExpectOpcode #asWord(#range(ARGS, 0, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) 0 Static
           ...
          </k>
       requires SELECTOR ==Int selector ( "expectStaticCall(address,bytes)" )
 
-    rule [foundry.call.expectDelegateCall]:
-         <k> #call_foundry SELECTOR ARGS
+    rule [cheatcode.call.expectDelegateCall]:
+         <k> #cheatcode_call SELECTOR ARGS
           => #loadAccount #asWord(#range(ARGS, 0, 32))
           ~> #setExpectOpcode #asWord(#range(ARGS, 0, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) 0 Delegate
           ...
          </k>
       requires SELECTOR ==Int selector ( "expectDelegateCall(address,bytes)" )
 
-    rule [foundry.call.expectRegularCall]:
-         <k> #call_foundry SELECTOR ARGS
+    rule [cheatcode.call.expectRegularCall]:
+         <k> #cheatcode_call SELECTOR ARGS
           => #loadAccount #asWord(#range(ARGS, 0, 32))
           ~> #setExpectOpcode #asWord(#range(ARGS, 0, 32)) #range(ARGS, 128, #asWord(#range(ARGS, 96, 32))) #asWord(#range(ARGS, 32, 32)) Call
           ...
          </k>
       requires SELECTOR ==Int selector ( "expectRegularCall(address,uint256,bytes)" )
 
-    rule [foundry.call.expectCreate]:
-         <k> #call_foundry SELECTOR ARGS
+    rule [cheatcode.call.expectCreate]:
+         <k> #cheatcode_call SELECTOR ARGS
           => #loadAccount #asWord(#range(ARGS, 0, 32))
           ~> #setExpectOpcode #asWord(#range(ARGS, 0, 32)) #range(ARGS, 128, #asWord(#range(ARGS, 96, 32))) #asWord(#range(ARGS, 32, 32)) Create
           ...
          </k>
       requires SELECTOR ==Int selector ( "expectCreate(address,uint256,bytes)" )
 
-    rule [foundry.call.expectCreate2]:
-         <k> #call_foundry SELECTOR ARGS
+    rule [cheatcode.call.expectCreate2]:
+         <k> #cheatcode_call SELECTOR ARGS
           => #loadAccount #asWord(#range(ARGS, 0, 32))
           ~> #setExpectOpcode #asWord(#range(ARGS, 0, 32)) #range(ARGS, 128, #asWord(#range(ARGS, 96, 32))) #asWord(#range(ARGS, 32, 32)) Create2
           ...
@@ -688,17 +618,17 @@ function startPrank(address) external;
 function startPrank(address sender, address origin) external;
 ```
 
-`foundry.call.startPrank` and `foundry.call.startPrankWithOrigin` will match when either of `startPrank` functions are called.
-The addresses which will be used to impersonate future calls are retrieved from the local memory using `#asWord(#range(ARGS, 0, 32)` for the sender, and `#asWord(#range(ARGS, 32, 32)` for the origin (only for the `foundry.call.startPrankWithOrigin` rule).
+`cheatcode.call.startPrank` and `cheatcode.call.startPrankWithOrigin` will match when either of `startPrank` functions are called.
+The addresses which will be used to impersonate future calls are retrieved from the local memory using `#asWord(#range(ARGS, 0, 32)` for the sender, and `#asWord(#range(ARGS, 32, 32)` for the origin (only for the `cheatcode.call.startPrankWithOrigin` rule).
 The `#loadAccount` production is used to load accounts into the state if they are missing.
 
 ```k
-    rule [foundry.call.startPrank]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setPrank #asWord(ARGS) .Account false ... </k>
+    rule [cheatcode.call.startPrank]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setPrank #asWord(ARGS) .Account false ... </k>
       requires SELECTOR ==Int selector ( "startPrank(address)" )
 
-    rule [foundry.call.startPrankWithOrigin]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #loadAccount #asWord(#range(ARGS, 32, 32)) ~> #setPrank #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) false ... </k>
+    rule [cheatcode.call.startPrankWithOrigin]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #loadAccount #asWord(#range(ARGS, 32, 32)) ~> #setPrank #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) false ... </k>
       requires SELECTOR ==Int selector ( "startPrank(address,address)" )
 ```
 
@@ -710,12 +640,12 @@ function prank(address sender, address origin) external;
 ```
 
 ```k
-    rule [foundry.call.prank]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setPrank #asWord(ARGS) .Account true ... </k>
+    rule [cheatcode.call.prank]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setPrank #asWord(ARGS) .Account true ... </k>
       requires SELECTOR ==Int selector ( "prank(address)" )
 
-    rule [foundry.call.prankWithOrigin]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #loadAccount #asWord(#range(ARGS, 32, 32)) ~> #setPrank #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) true ... </k>
+    rule [cheatcode.call.prankWithOrigin]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #loadAccount #asWord(#range(ARGS, 32, 32)) ~> #setPrank #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) true ... </k>
       requires SELECTOR ==Int selector ( "prank(address,address)" )
 ```
 
@@ -725,11 +655,11 @@ function prank(address sender, address origin) external;
 function stopPrank() external;
 ```
 
-`foundry.call.stopPrank` will match when `stopPrank` function will be called. This rule will invoke `#endPrank` which will clean up the `<prank/>` subconfiguration and restore the previous values of the `msg.sender` and `tx.origin`.
+`cheatcode.call.stopPrank` will match when `stopPrank` function will be called. This rule will invoke `#endPrank` which will clean up the `<prank/>` subconfiguration and restore the previous values of the `msg.sender` and `tx.origin`.
 
 ```k
-    rule [foundry.call.stopPrank]:
-         <k> #call_foundry SELECTOR _ => #endPrank ~> #clearPrank ... </k>
+    rule [cheatcode.call.stopPrank]:
+         <k> #cheatcode_call SELECTOR _ => #endPrank ~> #clearPrank ... </k>
       requires SELECTOR ==Int selector ( "stopPrank()" )
 ```
 
@@ -745,8 +675,8 @@ function setGas(uint256 newGas) external;
 `setGas` is useful when writing tests that depend on the gas used, and so a specific concrete amount is needed instead of the default infinite gas.
 
 ```{.k .bytes}
-    rule [foundry.call.setGas]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.setGas]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <gas> _ => #asWord(ARGS) </gas>
          <callGas> _ => 0 </callGas>
       requires SELECTOR ==Int selector ( "setGas(uint256)" )
@@ -762,8 +692,8 @@ function infiniteGas() external;
 It is applied by default.
 
 ```{.k .bytes .symbolic}
-    rule [foundry.call.infiniteGas]:
-         <k> #call_foundry SELECTOR _ARGS => .K ... </k>
+    rule [cheatcode.call.infiniteGas]:
+         <k> #cheatcode_call SELECTOR _ARGS => .K ... </k>
          <gas> _ => #gas(?_VGAS) </gas>
          <callGas> _ => #gas(?_VCALLGAS) </callGas>
       requires SELECTOR ==Int selector ( "infiniteGas()" )
@@ -790,12 +720,12 @@ Without checking the emitter address: Asserts the topics match without checking 
 With address: Asserts the topics match and that the emitting address matches.
 
 ```k
-    rule [foundry.call.expectEmit]:
-         <k> #call_foundry SELECTOR ARGS => #setExpectEmit word2Bool(#asWord(#range(ARGS, 0, 32))) word2Bool(#asWord(#range(ARGS, 32, 32))) word2Bool(#asWord(#range(ARGS, 64, 32))) word2Bool(#asWord(#range(ARGS, 96, 32))) .Account ... </k>
+    rule [cheatcode.call.expectEmit]:
+         <k> #cheatcode_call SELECTOR ARGS => #setExpectEmit word2Bool(#asWord(#range(ARGS, 0, 32))) word2Bool(#asWord(#range(ARGS, 32, 32))) word2Bool(#asWord(#range(ARGS, 64, 32))) word2Bool(#asWord(#range(ARGS, 96, 32))) .Account ... </k>
       requires SELECTOR ==Int selector ( "expectEmit(bool,bool,bool,bool)" )
 
-    rule [foundry.call.expectEmitAddr]:
-         <k> #call_foundry SELECTOR ARGS => #setExpectEmit word2Bool(#asWord(#range(ARGS, 0, 32))) word2Bool(#asWord(#range(ARGS, 32, 32))) word2Bool(#asWord(#range(ARGS, 64, 32))) word2Bool(#asWord(#range(ARGS, 96, 32))) #asWord(#range(ARGS, 128, 32)) ... </k>
+    rule [cheatcode.call.expectEmitAddr]:
+         <k> #cheatcode_call SELECTOR ARGS => #setExpectEmit word2Bool(#asWord(#range(ARGS, 0, 32))) word2Bool(#asWord(#range(ARGS, 32, 32))) word2Bool(#asWord(#range(ARGS, 64, 32))) word2Bool(#asWord(#range(ARGS, 96, 32))) #asWord(#range(ARGS, 128, 32)) ... </k>
       requires SELECTOR ==Int selector ( "expectEmit(bool,bool,bool,bool,address)" )
 ```
 
@@ -900,7 +830,7 @@ Adds an account address to the whitelist. The execution of the modified KEVM wil
 
 ```k
     rule [foundry.allowCallsToAddress]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #addAddressToWhitelist #asWord(ARGS) ... </k>
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #addAddressToWhitelist #asWord(ARGS) ... </k>
          requires SELECTOR ==Int selector ( "allowCallsToAddress(address)" )
 ```
 
@@ -912,7 +842,7 @@ function allowChangesToStorage(address,uint256) external;
 
 ```k
     rule [foundry.allowStorageSlotToAddress]:
-         <k> #call_foundry SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #addStorageSlotToWhitelist { #asWord(#range(ARGS, 0, 32)) | #asWord(#range(ARGS, 32, 32)) } ... </k>
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #addStorageSlotToWhitelist { #asWord(#range(ARGS, 0, 32)) | #asWord(#range(ARGS, 32, 32)) } ... </k>
          requires SELECTOR ==Int selector ( "allowChangesToStorage(address,uint256)" )
 ```
 
@@ -923,14 +853,14 @@ function allowChangesToStorage(address,uint256) external;
 function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, bytes32 r, bytes32 s);
 ```
 
-`foundry.call.sign` will match when the `sign` cheat code function is called.
+`cheatcode.call.sign` will match when the `sign` cheat code function is called.
 This rule takes the `privateKey` to sign using `#range(ARGS,0,32)` and the `digest` to be signed using `#range(ARGS, 32, 32)`,
 then performs the signature by passing them to the `ECDSASign ( Bytes, Bytes )` function (from KEVM).
 The `ECDSASign` function returns the signed data in [r,s,v] form, which we convert to a `Bytes` using `#parseByteStack`.
 
 ```k
-    rule [foundry.call.sign]:
-         <k> #call_foundry SELECTOR ARGS => .K ... </k>
+    rule [cheatcode.call.sign]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #sign(#range(ARGS, 32, 32),#range(ARGS,0,32)) </output>
       requires SELECTOR ==Int selector ( "sign(uint256,bytes32)" )
       [preserves-definedness]
@@ -939,8 +869,8 @@ The `ECDSASign` function returns the signed data in [r,s,v] form, which we conve
 Otherwise, throw an error for any other call to the Foundry contract.
 
 ```k
-    rule [foundry.call.owise]:
-         <k> #call_foundry SELECTOR ARGS => #error_foundry SELECTOR ARGS ... </k>
+    rule [cheatcode.call.owise]:
+         <k> #cheatcode_call SELECTOR ARGS => #cheatcode_error SELECTOR ARGS ... </k>
          <statusCode> _ => FOUNDRY_UNIMPLEMENTED </statusCode>
       [owise]
 ```
@@ -954,7 +884,7 @@ Mock calls
 function mockCall(address where, bytes calldata data, bytes calldata retdata) external;
 ```
 
-`foundry.call.mockCall` will match when the `mockCall` cheat code function is called.
+`cheatcode.call.mockCall` will match when the `mockCall` cheat code function is called.
 This rule then takes the `address` value from the function calldata and etches a single byte into the account code, in case it is empty.
 The rule also takes the bytes `CALLDATA` and the bytes `RETURNDATA` from the function calldata and forwards them, together with the address to be mocked, to the `setMockCall` production.
 The `setMockCall` production will update the configuration in order to store the information of the mock call.
@@ -963,8 +893,8 @@ The current implementation of the `mockCall` cheatcode has some limitations:
 - It does not work if there are multiple mock calls with common prefixes for the same address - see test `MockCallTestFoundry.testMockCallMultiplePartialMatch`
 
 ```k
-    rule [foundry.call.mockCall]:
-         <k> #call_foundry SELECTOR ARGS
+    rule [cheatcode.call.mockCall]:
+         <k> #cheatcode_call SELECTOR ARGS
           => #loadAccount #asWord(#range(ARGS, 0, 32))
           ~> #etchAccountIfEmpty #asWord(#range(ARGS, 0, 32))
           ~> #setMockCall #asWord(#range(ARGS, 0, 32)) #range(ARGS, #asWord(#range(ARGS, 32, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32))) #range(ARGS, #asWord(#range(ARGS, 64, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 64, 32)), 32)))
