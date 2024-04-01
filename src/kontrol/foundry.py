@@ -487,6 +487,35 @@ class Foundry:
     def list_proof_dir(self) -> list[str]:
         return listdir(self.proofs_dir)
 
+    def resolve_setup_proof_version(
+        self, test: str, reinit: bool, test_version: int | None = None, user_specified_setup_version: int | None = None
+    ) -> int:
+        _, method = self.get_contract_and_method(test)
+        effective_test_version = 0 if test_version is None else self.free_proof_version(test)
+
+        if reinit:
+            if user_specified_setup_version is None:
+                _LOGGER.info(
+                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is not specified.'
+                )
+            elif not Proof.proof_data_exists(f'{test}:{user_specified_setup_version}', self.proofs_dir):
+                _LOGGER.info(
+                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is set to a non-existing version'
+                )
+            else:
+                _LOGGER.info(f'Reusing version {user_specified_setup_version} of setup proof')
+                effective_test_version = user_specified_setup_version
+        else:
+            latest_test_version = self.latest_proof_version(test)
+            effective_test_version = 0 if latest_test_version is None else latest_test_version
+            if user_specified_setup_version is not None and Proof.proof_data_exists(
+                f'{test}:{user_specified_setup_version}', self.proofs_dir
+            ):
+                effective_test_version = user_specified_setup_version
+            _LOGGER.info(f'Reusing version {effective_test_version} of setup proof')
+
+        return self.check_method_change(effective_test_version, test, method)
+
     def resolve_proof_version(
         self,
         test: str,
@@ -517,15 +546,20 @@ class Foundry:
             return self.free_proof_version(test)
 
         latest_version = self.latest_proof_version(test)
-        if latest_version is not None:
+        return self.check_method_change(latest_version, test, method)
+
+    def check_method_change(
+        self, version: int | None, test: str, method: Contract.Method | Contract.Constructor
+    ) -> int:
+        if version is not None:
             _LOGGER.info(
-                f'Using the the latest version {latest_version} of test {test} because it is up to date and no version was specified.'
+                f'Using the the latest version {version} of test {test} because it is up to date and no version was specified.'
             )
             if type(method) is Contract.Method and not method.contract_up_to_date(self.digest_file):
                 _LOGGER.warning(
                     f'Test {test} was not reinitialized because it is up to date, but the contract it is a part of has changed.'
                 )
-            return latest_version
+            return version
 
         _LOGGER.info(
             f'Test {test} is up to date in {self.digest_file}, but does not exist on disk. Assigning version 0'
