@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import sys
 import xml.etree.ElementTree as Et
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
 from pyk.proof import APRProof
+from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo
 from pyk.utils import single
 
@@ -27,11 +29,9 @@ from kontrol.prove import foundry_prove
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
 if TYPE_CHECKING:
-    from pathlib import Path
     from typing import Final
 
     from pyk.kore.rpc import KoreServer
-    from pyk.proof.proof import Proof
     from pyk.utils import BugReport
     from pytest import TempPathFactory
 
@@ -831,3 +831,63 @@ def test_foundry_split_node(
     )
 
     assert_or_update_show_output(show_res, TEST_DATA_DIR / 'show/split-node.expected', update=update_expected_output)
+
+
+def test_foundry_prove_skips_setup(
+    foundry: Foundry,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+) -> None:
+    def assert_correct_ids_generted(
+        proofs: list[APRProof],
+        test_name: str,
+        expected_test_ver: int,
+        expected_setup_ver: int,
+        expect_setup_exists: bool,
+    ) -> None:
+        for p in proofs:
+            if test_name in p.id:
+                assert int(p.id.split(':')[1]) == expected_test_ver
+                setup_ver = p.id.split('.')[0] + '.setUp():' + str(expected_setup_ver)
+                setup_dir = Path('') if p.proof_dir is None else p.proof_dir
+                assert Proof.proof_data_exists(setup_ver, setup_dir) == expect_setup_exists
+
+    def run_prover(test_name: str, _reinit: bool, _setup_version: int | None = None) -> list[APRProof]:
+        return foundry_prove(
+            foundry,
+            tests=[(test_name, None)],
+            prove_options=ProveOptions(bug_report=bug_report, reinit=_reinit, setup_version=_setup_version),
+            rpc_options=RPCOptions(
+                port=server.port,
+            ),
+        )
+
+    if no_use_booster:
+        pytest.skip()
+
+    test_a = 'ContractBTest.testNumberIs42'
+    test_b = 'ContractBTest.testFailSubtract43'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    prove_res = run_prover(test_a, _reinit=True, _setup_version=None)
+    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=0, expected_setup_ver=0, expect_setup_exists=True)
+
+    prove_res = run_prover(test_a, _reinit=True, _setup_version=0)
+    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=1, expected_setup_ver=0, expect_setup_exists=True)
+    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=1, expected_setup_ver=1, expect_setup_exists=False)
+
+    prove_res = run_prover(test_a, _reinit=True, _setup_version=None)
+    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=2, expected_setup_ver=0, expect_setup_exists=True)
+    assert_correct_ids_generted(prove_res, test_a, expected_test_ver=2, expected_setup_ver=1, expect_setup_exists=True)
+
+    prove_res = run_prover(test_b, _reinit=True, _setup_version=1)
+    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=0, expected_setup_ver=0, expect_setup_exists=True)
+    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=0, expected_setup_ver=1, expect_setup_exists=True)
+
+    prove_res = run_prover(test_b, _reinit=True, _setup_version=None)
+    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=1, expected_setup_ver=0, expect_setup_exists=True)
+    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=1, expected_setup_ver=1, expect_setup_exists=True)
+    assert_correct_ids_generted(prove_res, test_b, expected_test_ver=1, expected_setup_ver=2, expect_setup_exists=True)

@@ -98,8 +98,10 @@ def foundry_prove(
     test_names = [test.name for test in test_suite]
     print(f'Running functions: {test_names}')
 
-    contracts = [test.contract for test in test_suite]
-    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=prove_options.reinit)
+    contracts = [(test.contract, test.version) for test in test_suite]
+    setup_method_tests = collect_setup_methods(
+        foundry, contracts, reinit=prove_options.reinit, setup_version=prove_options.setup_version
+    )
     setup_method_names = [test.name for test in setup_method_tests]
 
     _LOGGER.info(f'Running tests: {test_names}')
@@ -195,10 +197,12 @@ def collect_tests(
     return res
 
 
-def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool) -> list[FoundryTest]:
+def collect_setup_methods(
+    foundry: Foundry, contracts: Iterable[tuple[Contract, int]] = (), *, reinit: bool, setup_version: int | None = None
+) -> list[FoundryTest]:
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
-    for contract in contracts:
+    for contract, test_version in contracts:
         if contract.name_with_path in contract_names:
             continue
         contract_names.add(contract.name_with_path)
@@ -206,15 +210,19 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
         method = contract.method_by_name.get('setUp')
         if not method:
             continue
-        version = foundry.resolve_proof_version(f'{contract.name_with_path}.setUp()', reinit, None)
+        version = foundry.resolve_setup_proof_version(
+            f'{contract.name_with_path}.setUp()', reinit, test_version, setup_version
+        )
         res.append(FoundryTest(contract, method, version))
     return res
 
 
-def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool) -> list[FoundryTest]:
+def collect_constructors(
+    foundry: Foundry, contracts: Iterable[tuple[Contract, int]] = (), *, reinit: bool
+) -> list[FoundryTest]:
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
-    for contract in contracts:
+    for contract, _ in contracts:
         if contract.name_with_path in contract_names:
             continue
         contract_names.add(contract.name_with_path)
@@ -417,13 +425,13 @@ def _method_to_initialized_cfg(
         init_cterm = CTerm.from_kast(init_term)
         _LOGGER.info(f'Computing definedness constraint for node {node_id} for test: {test.name}')
         init_cterm = kcfg_explore.cterm_symbolic.assume_defined(init_cterm)
-        kcfg.replace_node(node_id, init_cterm)
+        kcfg.let_node(node_id, cterm=init_cterm)
 
     _LOGGER.info(f'Expanding macros in target state for test: {test.name}')
     target_term = kcfg.node(target_node_id).cterm.kast
     target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
     target_cterm = CTerm.from_kast(target_term)
-    kcfg.replace_node(target_node_id, target_cterm)
+    kcfg.let_node(target_node_id, cterm=target_cterm)
 
     _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
     kcfg_explore.simplify(kcfg, {})

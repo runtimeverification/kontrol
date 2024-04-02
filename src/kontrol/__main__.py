@@ -219,6 +219,7 @@ def exec_prove(
     max_depth: int = 1000,
     max_iterations: int | None = None,
     reinit: bool = False,
+    setup_version: int | None = None,
     tests: Iterable[tuple[str, int | None]] = (),
     include_summaries: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
@@ -269,6 +270,7 @@ def exec_prove(
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
         reinit=reinit,
+        setup_version=setup_version,
         bug_report=bug_report,
         bmc_depth=bmc_depth,
         max_depth=max_depth,
@@ -796,6 +798,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Reinitialize CFGs even if they already exist.',
+    )
+    prove_args.add_argument(
+        '--setup-version',
+        dest='setup_version',
+        default=None,
+        type=int,
+        help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
     )
     prove_args.add_argument(
         '--bmc-depth',
