@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 from argparse import ArgumentParser
+from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
@@ -45,7 +46,7 @@ from .solc_to_k import solc_compile, solc_to_k
 
 if TYPE_CHECKING:
     from argparse import Namespace
-    from collections.abc import Callable, Iterable
+    from collections.abc import Callable
     from pathlib import Path
     from typing import Any, Final, TypeVar
 
@@ -65,6 +66,51 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         if args[arg] is not None:
             _LOGGER.warning(f'Ignoring command-line option: {cli_option}')
         args.pop(arg)
+
+
+def generate_options(args: dict[str, Any]) -> LoggingOptions:
+    command = args['command']
+    match command:
+        case 'load-state-diff':
+            return LoadStateDiffOptions(args)
+        case 'version':
+            return VersionOptions(args)
+        case 'compile':
+            return CompileOptions(args)
+        case 'solc-to-k':
+            return SolcToKOptions(args)
+        case 'build':
+            return BuildOptions(args)
+        case 'prove':
+            return ProveOptions(args)
+        case 'show':
+            return ShowOptions(args)
+        case 'refute-node':
+            return RefuteNodeOptions(args)
+        case 'unrefute-node':
+            return UnrefuteNodeOptions(args)
+        case 'split-node':
+            return SplitNodeOptions(args)
+        case 'to-dot':
+            return ToDotOptions(args)
+        case 'list':
+            return ListOptions(args)
+        case 'view-kcfg':
+            return ViewKcfgOptions(args)
+        case 'remove-node':
+            return RemoveNodeOptions(args)
+        case 'simplify-node':
+            return SimplifyNodeOptions(args)
+        case 'step-node':
+            return StepNodeOptions(args)
+        case 'merge-nodes':
+            return MergeNodesOptions(args)
+        case 'section-edge':
+            return SectionEdgeOptions(args)
+        case 'get-model':
+            return GetModelOptions(args)
+        case _:
+            raise ValueError(f'Unrecognized command: {command}')
 
 
 def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
@@ -87,12 +133,17 @@ def main() -> None:
 
     _check_k_version()
 
+    stripped_args = {
+        key: val for (key, val) in vars(args).items() if val is not None and not (isinstance(val, Iterable) and not val)
+    }
+    options = generate_options(stripped_args)
+
     executor_name = 'exec_' + args.command.lower().replace('-', '_')
     if executor_name not in globals():
         raise AssertionError(f'Unimplemented command: {args.command}')
 
     execute = globals()[executor_name]
-    execute(**vars(args))
+    execute(options)
 
 
 def _check_k_version() -> None:
@@ -558,7 +609,7 @@ def exec_step_node(options: StepNodeOptions) -> None:
     )
 
 
-class MergeNodesCommand(FoundryTestOptions, LoggingOptions, FoundryOptions):
+class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     nodes: list[NodeIdLike]
 
     @staticmethod
@@ -568,13 +619,13 @@ class MergeNodesCommand(FoundryTestOptions, LoggingOptions, FoundryOptions):
         }
 
 
-def exec_merge_nodes(options: MergeNodesCommand) -> None:
+def exec_merge_nodes(options: MergeNodesOptions) -> None:
     foundry_merge_nodes(
         foundry=_load_foundry(options.foundry_root), node_ids=options.nodes, test=options.test, version=options.version
     )
 
 
-class SectionEdgeCommand(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
     edge: tuple[str, str]
     sections: int
 
@@ -585,7 +636,7 @@ class SectionEdgeCommand(FoundryTestOptions, LoggingOptions, RpcOptions, BugRepo
         }
 
 
-def exec_section_edge(options: SectionEdgeCommand) -> None:
+def exec_section_edge(options: SectionEdgeOptions) -> None:
     kore_rpc_command = None
     if isinstance(options.kore_rpc_command, str):
         kore_rpc_command = options.kore_rpc_command.split()
