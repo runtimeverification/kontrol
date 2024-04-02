@@ -113,16 +113,12 @@ The rule `cheatcode.return` will rewrite the `#cheatcode_return` production into
          <callGas> GCALL </callGas>
 ```
 
-We define a new status codes:
- - `FOUNDRY_UNIMPLEMENTED`, which signals that the execution ran into an unimplemented cheat code.
- - `FOUNDRY_WHITELISTCALL`, which signals that an address outside the whitelist has been called during the execution.
- - `FOUNDRY_WHITELISTSTORAGE`, which signals that a storage index of an address outside the whitelist has been changed during the execution.
+We define a new status code:
+ - `CHEATCODE_UNIMPLEMENTED`, which signals that the execution ran into an unimplemented cheat code.
 
 ```k
-    syntax ExceptionalStatusCode ::= "FOUNDRY_UNIMPLEMENTED"
-                                   | "FOUNDRY_WHITELISTCALL"
-                                   | "FOUNDRY_WHITELISTSTORAGE"
- // -----------------------------------------------------------
+    syntax ExceptionalStatusCode ::= "CHEATCODE_UNIMPLEMENTED"
+ // ---------------------------------------------------------
 ```
 
 ```k

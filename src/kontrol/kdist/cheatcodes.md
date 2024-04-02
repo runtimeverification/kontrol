@@ -786,6 +786,17 @@ A `StorageSlot` pair is formed from an address and a storage index.
  // ------------------------------------------
 ```
 
+We define two new status codes:
+ - `KONTROL_WHITELISTCALL`, which signals that an address outside the whitelist has been called during the execution.
+ - `KONTROL_WHITELISTSTORAGE`, which signals that a storage index of an address outside the whitelist has been changed during the execution.
+
+```k
+    syntax ExceptionalStatusCode ::= "KONTROL_WHITELISTCALL"
+                                   | "KONTROL_WHITELISTSTORAGE"
+ // -----------------------------------------------------------
+```
+
+
 The `ACCTTO` value is checked for each call while the whitelist restriction is enabled for calls.
 If the address is not in the whitelist `WLIST` then `KEVM` goes into an error state providing the `ACCTTO` value.
 
@@ -793,7 +804,7 @@ If the address is not in the whitelist `WLIST` then `KEVM` goes into an error st
     rule [foundry.catchNonWhitelistedCalls]:
          <k> (#call _ ACCTTO _ _ _ _ false
           ~> #popCallStack
-          ~> #popWorldState) => #end FOUNDRY_WHITELISTCALL ... </k>
+          ~> #popWorldState) => #end KONTROL_WHITELISTCALL ... </k>
          <whitelist>
            <isCallWhitelistActive> true </isCallWhitelistActive>
            <addressSet> WLIST </addressSet>
@@ -808,9 +819,9 @@ If the pair is not present in the whitelist `WLIST` then `KEVM` goes into an err
 
 ```k
     rule [foundry.catchNonWhitelistedStorageChanges]:
-         <k> SSTORE INDEX _ => #end FOUNDRY_WHITELISTSTORAGE ... </k>
+         <k> SSTORE INDEX _ => #end KONTROL_WHITELISTSTORAGE ... </k>
          <id> ACCT </id>
-         <statusCode> _ => FOUNDRY_WHITELISTSTORAGE </statusCode>
+         <statusCode> _ => KONTROL_WHITELISTSTORAGE </statusCode>
          <whitelist>
            <isStorageWhitelistActive> true </isStorageWhitelistActive>
            <storageSlotSet> WLIST </storageSlotSet>
@@ -871,7 +882,7 @@ Otherwise, throw an error for any other call to the Foundry contract.
 ```k
     rule [cheatcode.call.owise]:
          <k> #cheatcode_call SELECTOR ARGS => #cheatcode_error SELECTOR ARGS ... </k>
-         <statusCode> _ => FOUNDRY_UNIMPLEMENTED </statusCode>
+         <statusCode> _ => CHEATCODE_UNIMPLEMENTED </statusCode>
       [owise]
 ```
 
