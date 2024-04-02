@@ -235,6 +235,7 @@ class ProveOptions(
     bmc_depth: int | None
     run_constructor: bool
     use_gas: bool
+    setup_version: int | None
     break_on_cheatcodes: bool
     deployment_state_path: Path | None
     include_summaries: list[tuple[str, int | None]]
@@ -253,6 +254,7 @@ class ProveOptions(
             'use_gas': False,
             'break_on_cheatcodes': False,
             'deployment_state_path': None,
+            'setup_version': None,
             'include_summaries': [],
             'with_non_general_state': False,
             'xml_test_report': False,
@@ -273,6 +275,7 @@ def exec_prove(options: ProveOptions) -> None:
     prove_options = OldProveOptions(
         auto_abstract_gas=options.auto_abstract_gas,
         reinit=options.reinit,
+        setup_version=options.setup_version,
         bug_report=options.bug_report,
         bmc_depth=options.bmc_depth,
         max_depth=options.max_depth,
@@ -387,9 +390,16 @@ class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
 
 
 def exec_refute_node(options: RefuteNodeOptions) -> None:
-    foundry_refute_node(
-        foundry=_load_foundry(options.foundry_root), test=options.test, node=options.node, version=options.version
-    )
+    foundry = _load_foundry(options.foundry_root)
+    refutation = foundry_refute_node(foundry=foundry, test=options.test, node=options.node, version=options.version)
+
+    if refutation:
+        claim, _ = refutation.to_claim('refuted-' + str(options.node))
+        print('\nClaim for the refutation:\n')
+        print(foundry.kevm.pretty_print(claim))
+        print('\n')
+    else:
+        raise ValueError(f'Unable to refute node for test {options.test}: {options.node}')
 
 
 class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
@@ -784,6 +794,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Reinitialize CFGs even if they already exist.',
+    )
+    prove_args.add_argument(
+        '--setup-version',
+        dest='setup_version',
+        default=None,
+        type=int,
+        help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
     )
     prove_args.add_argument(
         '--bmc-depth',
