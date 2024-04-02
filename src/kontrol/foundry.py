@@ -1013,7 +1013,6 @@ def foundry_section_edge(
     rpc_options: RPCOptions,
     version: int | None = None,
     sections: int = 2,
-    replace: bool = False,
     bug_report: BugReport | None = None,
 ) -> None:
     test_id = foundry.get_test_id(test, version)
