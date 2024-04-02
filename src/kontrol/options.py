@@ -29,6 +29,7 @@ class ProveOptions:
     run_constructor: bool
     fail_fast: bool
     reinit: bool
+    setup_version: int | None
     use_gas: bool
     deployment_state_entries: Iterable[DeploymentStateEntry] | None
     active_symbolik: bool
@@ -55,6 +56,7 @@ class ProveOptions:
         run_constructor: bool = False,
         fail_fast: bool = True,
         reinit: bool = False,
+        setup_version: int | None = None,
         use_gas: bool = False,
         deployment_state_entries: list[DeploymentStateEntry] | None = None,
         active_symbolik: bool = False,
@@ -78,6 +80,7 @@ class ProveOptions:
         object.__setattr__(self, 'run_constructor', run_constructor)
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
+        object.__setattr__(self, 'setup_version', setup_version)
         object.__setattr__(self, 'use_gas', use_gas)
         object.__setattr__(self, 'deployment_state_entries', deployment_state_entries)
         object.__setattr__(self, 'active_symbolik', active_symbolik)
