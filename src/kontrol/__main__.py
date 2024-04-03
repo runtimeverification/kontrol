@@ -260,7 +260,7 @@ def exec_prove(options: ProveOptions) -> None:
 
 def exec_show(options: ShowOptions) -> None:
     output = foundry_show(
-        foundry=_load_foundry(foundry_root, use_hex_encoding=use_hex_encoding),
+        foundry=_load_foundry(options.foundry_root, use_hex_encoding=options.use_hex_encoding),
         options=options,
     )
     print(output)
@@ -311,7 +311,7 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
 
 
 def exec_view_kcfg(options: ViewKcfgOptions) -> None:
-    foundry = _load_foundry(foundry_root, use_hex_encoding=True)
+    foundry = _load_foundry(options.foundry_root, use_hex_encoding=True)
     test_id = foundry.get_test_id(options.test, options.version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
