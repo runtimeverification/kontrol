@@ -864,11 +864,15 @@ def foundry_refute_node(
     return proof.refute_node(proof.kcfg.node(options.node))
 
 
-def foundry_unrefute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
-    test_id = foundry.get_test_id(test, version)
+class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
+    node: NodeIdLike
+
+
+def foundry_unrefute_node(foundry: Foundry, options: UnrefuteNodeOptions) -> None:
+    test_id = foundry.get_test_id(options.test, options.version)
     proof = foundry.get_apr_proof(test_id)
 
-    proof.unrefute_node(proof.kcfg.node(node))
+    proof.unrefute_node(proof.kcfg.node(options.node))
 
 
 def foundry_split_node(

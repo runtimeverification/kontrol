@@ -16,6 +16,7 @@ from kontrol.foundry import (
     LoadStateDiffOptions,
     RefuteNodeOptions,
     ShowOptions,
+    UnrefuteNodeOptions,
     foundry_merge_nodes,
     foundry_refute_node,
     foundry_remove_node,
@@ -694,7 +695,7 @@ def test_foundry_refute_node(
     check_pending(foundry, test, [])
 
     # Remove refutation of node 4
-    foundry_unrefute_node(foundry, test, node=4)
+    foundry_unrefute_node(foundry, UnrefuteNodeOptions({'test': test, 'node': 4}))
 
     check_pending(foundry, test, [4])
 

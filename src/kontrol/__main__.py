@@ -24,6 +24,7 @@ from .foundry import (
     LoadStateDiffOptions,
     RefuteNodeOptions,
     ShowOptions,
+    UnrefuteNodeOptions,
     foundry_get_model,
     foundry_list,
     foundry_merge_nodes,
@@ -272,13 +273,10 @@ def exec_refute_node(options: RefuteNodeOptions) -> None:
         raise ValueError(f'Unable to refute node for test {options.test}: {options.node}')
 
 
-class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
-    node: NodeIdLike
-
-
 def exec_unrefute_node(options: UnrefuteNodeOptions) -> None:
     foundry_unrefute_node(
-        foundry=_load_foundry(options.foundry_root), test=options.test, node=options.node, version=options.version
+        foundry=_load_foundry(options.foundry_root),
+        options=options,
     )
 
 
