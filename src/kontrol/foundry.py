@@ -957,13 +957,19 @@ def foundry_simplify_node(
     return foundry.kevm.pretty_print(res_term, unalias=False, sort_collections=options.sort_collections)
 
 
+class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    nodes: list[NodeIdLike]
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'nodes': [],
+        }
+
+
 def foundry_merge_nodes(
     foundry: Foundry,
-    test: str,
-    node_ids: Iterable[NodeIdLike],
-    version: int | None = None,
-    bug_report: BugReport | None = None,
-    include_disjunct: bool = False,
+    options: MergeNodesOptions,
 ) -> None:
     def check_cells_equal(cell: str, nodes: Iterable[KCFG.Node]) -> bool:
         nodes = list(nodes)
@@ -977,17 +983,17 @@ def foundry_merge_nodes(
                 return False
         return True
 
-    test_id = foundry.get_test_id(test, version)
+    test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
 
-    if len(list(node_ids)) < 2:
-        raise ValueError(f'Must supply at least 2 nodes to merge, got: {node_ids}')
+    if len(list(options.nodes)) < 2:
+        raise ValueError(f'Must supply at least 2 nodes to merge, got: {options.nodes}')
 
-    nodes = [apr_proof.kcfg.node(int(node_id)) for node_id in node_ids]
+    nodes = [apr_proof.kcfg.node(int(node_id)) for node_id in options.nodes]
     check_cells = ['K_CELL', 'PROGRAM_CELL', 'PC_CELL', 'CALLDEPTH_CELL']
     check_cells_ne = [check_cell for check_cell in check_cells if not check_cells_equal(check_cell, nodes)]
     if check_cells_ne:
-        raise ValueError(f'Nodes {node_ids} cannot be merged because they differ in: {check_cells_ne}')
+        raise ValueError(f'Nodes {options.nodes} cannot be merged because they differ in: {check_cells_ne}')
 
     anti_unification = nodes[0].cterm
     for node in nodes[1:]:
@@ -1003,7 +1009,7 @@ def foundry_merge_nodes(
 
     apr_proof.write_proof_data()
 
-    print(f'Merged nodes {node_ids} into new node {new_node.id}.')
+    print(f'Merged nodes {options.nodes} into new node {new_node.id}.')
     print(foundry.kevm.pretty_print(new_node.cterm.kast))
 
 

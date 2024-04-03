@@ -22,6 +22,7 @@ from .cli import FoundryOptions, FoundryTestOptions, KontrolCLIArgs, RpcOptions
 from .foundry import (
     Foundry,
     LoadStateDiffOptions,
+    MergeNodesOptions,
     RefuteNodeOptions,
     RemoveNodeOptions,
     ShowOptions,
@@ -349,19 +350,10 @@ def exec_step_node(options: StepNodeOptions) -> None:
     )
 
 
-class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    nodes: list[NodeIdLike]
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'nodes': [],
-        }
-
-
 def exec_merge_nodes(options: MergeNodesOptions) -> None:
     foundry_merge_nodes(
-        foundry=_load_foundry(options.foundry_root), node_ids=options.nodes, test=options.test, version=options.version
+        foundry=_load_foundry(options.foundry_root),
+        options=options,
     )
 
 

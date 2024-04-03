@@ -14,6 +14,7 @@ from pyk.utils import single
 from kontrol.foundry import (
     Foundry,
     LoadStateDiffOptions,
+    MergeNodesOptions,
     RefuteNodeOptions,
     RemoveNodeOptions,
     ShowOptions,
@@ -280,7 +281,7 @@ def test_foundry_merge_nodes(
     )
     check_pending(foundry, test, [6, 7])
 
-    foundry_merge_nodes(foundry, test=test, node_ids=[6, 7], include_disjunct=True)
+    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [6, 7], 'include_disjunct': True}))
 
     check_pending(foundry, test, [8])
 
@@ -325,7 +326,7 @@ def test_foundry_merge_loop_heads(
         ),
     )
 
-    foundry_merge_nodes(foundry, test=test, node_ids=[15, 16], include_disjunct=True)
+    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [15, 16], 'include_disjunct': True}))
 
     foundry_prove(
         foundry=foundry,
