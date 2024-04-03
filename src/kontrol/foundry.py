@@ -850,13 +850,18 @@ def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: 
     apr_proof.write_proof_data()
 
 
+class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
+    node: NodeIdLike
+
+
 def foundry_refute_node(
-    foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None
+    foundry: Foundry,
+    options: RefuteNodeOptions,
 ) -> RefutationProof | None:
-    test_id = foundry.get_test_id(test, version)
+    test_id = foundry.get_test_id(options.test, options.version)
     proof = foundry.get_apr_proof(test_id)
 
-    return proof.refute_node(proof.kcfg.node(node))
+    return proof.refute_node(proof.kcfg.node(options.node))
 
 
 def foundry_unrefute_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:

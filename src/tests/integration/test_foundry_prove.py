@@ -14,6 +14,7 @@ from pyk.utils import single
 from kontrol.foundry import (
     Foundry,
     LoadStateDiffOptions,
+    RefuteNodeOptions,
     ShowOptions,
     foundry_merge_nodes,
     foundry_refute_node,
@@ -649,7 +650,7 @@ def test_foundry_refute_node(
     check_pending(foundry, test, [4, 5])
 
     # Mark node 4 as refuted
-    foundry_refute_node(foundry, test, node=4)
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 4}))
 
     # Refuted node is not longer pending
     check_pending(foundry, test, [5])
@@ -811,9 +812,9 @@ def test_foundry_split_node(
     )
     assert split_nodes == [74, 75]
 
-    foundry_refute_node(foundry, test, node=70)
-    foundry_refute_node(foundry, test, node=72)
-    foundry_refute_node(foundry, test, node=74)
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 70}))
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 72}))
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 74}))
 
     check_pending(foundry, test, [75])
 

@@ -22,6 +22,7 @@ from .cli import FoundryOptions, FoundryTestOptions, KontrolCLIArgs, RpcOptions
 from .foundry import (
     Foundry,
     LoadStateDiffOptions,
+    RefuteNodeOptions,
     ShowOptions,
     foundry_get_model,
     foundry_list,
@@ -258,13 +259,9 @@ def exec_show(options: ShowOptions) -> None:
     print(output)
 
 
-class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
-    node: NodeIdLike
-
-
 def exec_refute_node(options: RefuteNodeOptions) -> None:
     foundry = _load_foundry(options.foundry_root)
-    refutation = foundry_refute_node(foundry=foundry, test=options.test, node=options.node, version=options.version)
+    refutation = foundry_refute_node(foundry=foundry, options=options)
 
     if refutation:
         claim, _ = refutation.to_claim('refuted-' + str(options.node))
