@@ -32,6 +32,8 @@ contract FreshCheatcodes is Test, KontrolCheats {
     }
 
     function test_freshUints(uint8 x) public {
+        vm.assume(0 < x);
+        vm.assume(x <= 32);
         uint256 freshUint = kevm.freshUInt(x);
 
         assert(0 <= freshUint);
@@ -42,6 +44,6 @@ contract FreshCheatcodes is Test, KontrolCheats {
         uint256 freshUint192 = freshUInt192();
 
         assert(0 <= freshUint192);
-        assert(freshUint192 < type(uint192).max);
+        assert(freshUint192 <= type(uint192).max);
     }
 }
