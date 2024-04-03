@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 import pyk
 from kevm_pyk.cli import DisplayOptions, ExploreOptions, KCFGShowOptions, KOptions, KProveOptions, node_id_like
 from kevm_pyk.utils import arg_pair_of
-from pyk.cli.args import BugReportOptions, KompileOptions, LoggingOptions, ParallelOptions, SMTOptions
+from pyk.cli.args import BugReportOptions, LoggingOptions, ParallelOptions, SMTOptions
 from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
@@ -18,7 +18,7 @@ from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path
 
 from . import VERSION
-from .cli import FoundryOptions, FoundryTestOptions, KGenOptions, KompileTargetOptions, KontrolCLIArgs, RpcOptions
+from .cli import FoundryOptions, FoundryTestOptions, KontrolCLIArgs, RpcOptions
 from .foundry import (
     Foundry,
     LoadStateDiffOptions,
@@ -39,7 +39,7 @@ from .foundry import (
     read_deployment_state,
 )
 from .hevm import Hevm
-from .kompile import foundry_kompile
+from .kompile import BuildOptions, foundry_kompile
 from .options import ProveOptions as OldProveOptions
 from .options import RPCOptions as OldRPCOptions
 from .prove import foundry_prove, parse_test_version_tuple
@@ -203,34 +203,10 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
     print(k_text)
 
 
-class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
-    regen: bool
-    rekompile: bool
-    no_forge_build: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'regen': False,
-            'rekompile': False,
-            'no_forge_build': False,
-        }
-
-
 def exec_build(options: BuildOptions) -> None:
     foundry_kompile(
+        options=options,
         foundry=_load_foundry(options.foundry_root),
-        includes=options.includes,
-        regen=options.regen,
-        rekompile=options.rekompile,
-        requires=options.requires,
-        imports=options.imports,
-        ccopts=options.ccopts,
-        llvm_kompile=options.llvm_kompile,
-        debug=options.debug,
-        verbose=options.verbose,
-        target=options.target,
-        no_forge_build=options.no_forge_build,
     )
 
 
