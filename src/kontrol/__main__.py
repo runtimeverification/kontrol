@@ -218,6 +218,7 @@ def exec_prove(
     max_depth: int = 1000,
     max_iterations: int | None = None,
     reinit: bool = False,
+    setup_version: int | None = None,
     tests: Iterable[tuple[str, int | None]] = (),
     include_summaries: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
@@ -267,6 +268,7 @@ def exec_prove(
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
         reinit=reinit,
+        setup_version=setup_version,
         bug_report=bug_report,
         bmc_depth=bmc_depth,
         max_depth=max_depth,
@@ -380,7 +382,16 @@ def exec_show(
 
 
 def exec_refute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
-    foundry_refute_node(foundry=_load_foundry(foundry_root), test=test, node=node, version=version)
+    foundry = _load_foundry(foundry_root)
+    refutation = foundry_refute_node(foundry=foundry, test=test, node=node, version=version)
+
+    if refutation:
+        claim, _ = refutation.to_claim('refuted-' + str(node))
+        print('\nClaim for the refutation:\n')
+        print(foundry.kevm.pretty_print(claim))
+        print('\n')
+    else:
+        raise ValueError(f'Unable to refute node for test {test}: {node}')
 
 
 def exec_unrefute_node(foundry_root: Path, test: str, node: NodeIdLike, version: int | None, **kwargs: Any) -> None:
@@ -780,6 +791,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Reinitialize CFGs even if they already exist.',
+    )
+    prove_args.add_argument(
+        '--setup-version',
+        dest='setup_version',
+        default=None,
+        type=int,
+        help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
     )
     prove_args.add_argument(
         '--bmc-depth',

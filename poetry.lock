@@ -434,7 +434,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.509"
+version = "1.0.517"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -443,14 +443,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.731"}
+pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.765"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.509"
-resolved_reference = "89669194a78cbcd865f7395742fff0e0d59fcd9b"
+reference = "v1.0.517"
+resolved_reference = "810188911a1f7e72f32dc382836334f8acc66c55"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -758,17 +758,17 @@ test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
 
 [[package]]
 name = "pybind11"
-version = "2.11.1"
+version = "2.12.0"
 description = "Seamless operability between C++11 and Python"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "pybind11-2.11.1-py3-none-any.whl", hash = "sha256:33cdd02a6453380dd71cc70357ce388ad1ee8d32bd0e38fc22b273d050aa29b3"},
-    {file = "pybind11-2.11.1.tar.gz", hash = "sha256:00cd59116a6e8155aecd9174f37ba299d1d397ed4a6b86ac1dfe01b3e40f2cc4"},
+    {file = "pybind11-2.12.0-py3-none-any.whl", hash = "sha256:df8d60b94f9e714d81013db233393d430ebf9f3551642b82291cf1b14d1afdbd"},
+    {file = "pybind11-2.12.0.tar.gz", hash = "sha256:5e3c557a84b06b969247630407fc4d985bed157b4253b13153b8e8e165e0c3dc"},
 ]
 
 [package.extras]
-global = ["pybind11-global (==2.11.1)"]
+global = ["pybind11-global (==2.12.0)"]
 
 [[package]]
 name = "pycodestyle"
@@ -809,7 +809,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.731"
+version = "0.1.765"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -830,8 +830,8 @@ xdg-base-dirs = "^6.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.731"
-resolved_reference = "2954a674d891aee9e71dcf1f8c6e2c8b23e0e5fe"
+reference = "v0.1.765"
+resolved_reference = "d595372ea4865576bd68468020dc6b4ca13f0087"
 
 [[package]]
 name = "pyperclip"
@@ -1111,4 +1111,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "dea7c0f69018f462aa7c281108a0c2f3bbe2570de262a641b12a2a3dee85048a"
+content-hash = "63b1988d9b5b9047c999697e197f59d1102677364a0b07e9ade7b231975e9c1e"
