@@ -8,9 +8,9 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
-from kevm_pyk.cli import DisplayOptions, ExploreOptions, KCFGShowOptions, KOptions, KProveOptions, node_id_like
+from kevm_pyk.cli import DisplayOptions, KCFGShowOptions, KOptions, node_id_like
 from kevm_pyk.utils import arg_pair_of
-from pyk.cli.args import BugReportOptions, LoggingOptions, ParallelOptions, SMTOptions
+from pyk.cli.args import BugReportOptions, LoggingOptions, SMTOptions
 from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
@@ -40,9 +40,8 @@ from .foundry import (
 )
 from .hevm import Hevm
 from .kompile import BuildOptions, foundry_kompile
-from .options import ProveOptions as OldProveOptions
 from .options import RPCOptions as OldRPCOptions
-from .prove import foundry_prove, parse_test_version_tuple
+from .prove import ProveOptions, foundry_prove, parse_test_version_tuple
 from .solc_to_k import SolcToKOptions, solc_compile, solc_to_k
 
 if TYPE_CHECKING:
@@ -210,102 +209,15 @@ def exec_build(options: BuildOptions) -> None:
     )
 
 
-class ProveOptions(
-    LoggingOptions,
-    ParallelOptions,
-    KOptions,
-    KProveOptions,
-    SMTOptions,
-    RpcOptions,
-    BugReportOptions,
-    ExploreOptions,
-    FoundryOptions,
-):
-    tests: list[tuple[str, int | None]]
-    reinit: bool
-    bmc_depth: int | None
-    run_constructor: bool
-    use_gas: bool
-    setup_version: int | None
-    break_on_cheatcodes: bool
-    deployment_state_path: Path | None
-    include_summaries: list[tuple[str, int | None]]
-    with_non_general_state: bool
-    xml_test_report: bool
-    cse: bool
-    hevm: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'tests': [],
-            'reinit': False,
-            'bmc_depth': None,
-            'run_constructor': False,
-            'use_gas': False,
-            'break_on_cheatcodes': False,
-            'deployment_state_path': None,
-            'setup_version': None,
-            'include_summaries': [],
-            'with_non_general_state': False,
-            'xml_test_report': False,
-            'cse': False,
-            'hevm': False,
-        }
-
-
 def exec_prove(options: ProveOptions) -> None:
-    kore_rpc_command = None
-    if isinstance(options.kore_rpc_command, str):
-        kore_rpc_command = options.kore_rpc_command.split()
-
     deployment_state_entries = (
         read_deployment_state(options.deployment_state_path) if options.deployment_state_path else None
     )
 
-    prove_options = OldProveOptions(
-        auto_abstract_gas=options.auto_abstract_gas,
-        reinit=options.reinit,
-        setup_version=options.setup_version,
-        bug_report=options.bug_report,
-        bmc_depth=options.bmc_depth,
-        max_depth=options.max_depth,
-        break_every_step=options.break_every_step,
-        break_on_jumpi=options.break_on_jumpi,
-        break_on_calls=options.break_on_calls,
-        break_on_storage=options.break_on_storage,
-        break_on_basic_blocks=options.break_on_basic_blocks,
-        break_on_cheatcodes=options.break_on_cheatcodes,
-        workers=options.workers,
-        counterexample_info=options.counterexample_info,
-        max_iterations=options.max_iterations,
-        run_constructor=options.run_constructor,
-        fail_fast=options.fail_fast,
-        use_gas=options.use_gas,
-        deployment_state_entries=deployment_state_entries,
-        active_symbolik=options.with_non_general_state,
-        cse=options.cse,
-        hevm=options.hevm,
-    )
-
-    rpc_options = OldRPCOptions(
-        use_booster=options.use_booster,
-        kore_rpc_command=kore_rpc_command,
-        smt_timeout=options.smt_timeout,
-        smt_retry_limit=options.smt_retry_limit,
-        smt_tactic=options.smt_tactic,
-        trace_rewrites=options.trace_rewrites,
-        port=options.port,
-        maude_port=options.maude_port,
-    )
-
     results = foundry_prove(
         foundry=_load_foundry(options.foundry_root, options.bug_report),
-        prove_options=prove_options,
-        rpc_options=rpc_options,
-        tests=options.tests,
-        include_summaries=options.include_summaries,
-        xml_test_report=options.xml_test_report,
+        options=options,
+        deployment_state_entries=deployment_state_entries,
     )
     failed = 0
     for proof in results:

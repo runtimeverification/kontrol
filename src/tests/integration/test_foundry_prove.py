@@ -23,8 +23,8 @@ from kontrol.foundry import (
     foundry_step_node,
     foundry_unrefute_node,
 )
-from kontrol.options import ProveOptions, RPCOptions
-from kontrol.prove import foundry_prove
+from kontrol.options import RPCOptions
+from kontrol.prove import ProveOptions, foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
@@ -98,14 +98,19 @@ def test_foundry_prove(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    prove_options = ProveOptions(bug_report=bug_report, break_on_calls=True, use_gas=test_id in GAS_TESTS)
-
     # When
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test_id, None)],
-        prove_options=prove_options,
-        rpc_options=RPCOptions(port=server.port, smt_timeout=500),
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test_id, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'use_gas': test_id in GAS_TESTS,
+                'port': server.port,
+                'smt_timeout': 500,
+            }
+        ),
     )
 
     # Then
@@ -150,21 +155,24 @@ def test_foundry_fail(
         server._populate_bug_report(bug_report)
 
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test_id, None)],
-        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test_id, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
-    # Then
+    # then
     assert_fail(test_id, single(prove_res))
 
     if test_id not in SHOW_TESTS:
         return
 
-    # And when
+    # and when
     show_res = foundry_show(
         foundry,
         test=test_id,
@@ -177,37 +185,37 @@ def test_foundry_fail(
         port=server.port,
     )
 
-    # Then
+    # then
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
 
 
-ALL_BMC_TESTS: Final = tuple((TEST_DATA_DIR / 'foundry-bmc-all').read_text().splitlines())
-SKIPPED_BMC_TESTS: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().splitlines())
+all_bmc_tests: Final = tuple((TEST_DATA_DIR / 'foundry-bmc-all').read_text().splitlines())
+skipped_bmc_tests: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().splitlines())
 
 
-@pytest.mark.parametrize('test_id', ALL_BMC_TESTS)
+@pytest.mark.parametrize('test_id', all_bmc_tests)
 def test_foundry_bmc(
     test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
 ) -> None:
     if no_use_booster:
         pytest.skip()
 
-    if test_id in SKIPPED_BMC_TESTS:
+    if test_id in skipped_bmc_tests:
         pytest.skip()
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    # When
+    # when
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test_id, None)],
-        prove_options=ProveOptions(
-            bmc_depth=3,
-            bug_report=bug_report,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test_id, None)],
+                'bmc_depth': 3,
+                'bug_report': bug_report,
+                'port': server.port,
+            }
         ),
     )
 
@@ -227,14 +235,9 @@ def test_foundry_merge_nodes(
         server._populate_bug_report(bug_report)
 
     foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(
-            max_iterations=2,
-            bug_report=bug_report,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {'tests': [(test, None)], 'max_iterations': 2, 'bug_report': bug_report, 'port': server.port}
         ),
     )
 
@@ -265,13 +268,13 @@ def test_foundry_merge_nodes(
     check_pending(foundry, test, [8])
 
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(
-            bug_report=bug_report,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'port': server.port,
+            }
         ),
     )
     assert_pass(test, single(prove_res))
@@ -293,22 +296,30 @@ def test_foundry_merge_loop_heads(
         server._populate_bug_report(bug_report)
 
     foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(max_iterations=20, bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'max_iterations': 20,
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
     foundry_merge_nodes(foundry, test=test, node_ids=[15, 16], include_disjunct=True)
 
     foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(max_iterations=2, bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'max_iterations': 2,
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
@@ -352,16 +363,16 @@ def test_foundry_auto_abstraction(
         server._populate_bug_report(bug_report)
 
     foundry_prove(
-        foundry,
-        tests=[(test_id, None)],
-        prove_options=ProveOptions(
-            auto_abstract_gas=True,
-            bug_report=bug_report,
-            break_on_calls=True,
-            use_gas=True,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test_id, None)],
+                'auto_abstract_gas': True,
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'use_gas': True,
+                'port': server.port,
+            }
         ),
     )
 
@@ -399,11 +410,14 @@ def test_foundry_remove_node(
         server._populate_bug_report(bug_report)
 
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
     assert_pass(test, single(prove_res))
@@ -419,11 +433,14 @@ def test_foundry_remove_node(
     assert proof.pending
 
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
     assert_pass(test, single(prove_res))
@@ -461,13 +478,16 @@ def test_foundry_resume_proof(
         server._populate_bug_report(bug_report)
 
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(
-            auto_abstract_gas=True, max_iterations=4, reinit=True, bug_report=bug_report, break_on_calls=True
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'auto_abstract_gas': True,
+                'max_iterations': 4,
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
@@ -476,13 +496,17 @@ def test_foundry_resume_proof(
     assert proof.pending
 
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(
-            auto_abstract_gas=True, max_iterations=10, reinit=False, bug_report=bug_report, break_on_calls=True
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'auto_abstract_gas': True,
+                'max_iterations': 10,
+                'reinit': False,
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
@@ -506,17 +530,15 @@ def test_foundry_init_code(
         pytest.skip()
 
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test_id, None)],
-        prove_options=ProveOptions(
-            run_constructor=True,
-            bug_report=bug_report,
-            fail_fast=False,
-        ),
-        rpc_options=RPCOptions(
-            smt_timeout=300,
-            smt_retry_limit=10,
-            use_booster=not no_use_booster,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test_id, None)],
+                'run_constructor': True,
+                'bug_report': bug_report,
+                'fail_fast': False,
+                'use_booster': not no_use_booster,
+            }
         ),
     )
 
@@ -587,11 +609,14 @@ def test_foundry_refute_node(
         server._populate_bug_report(bug_report)
 
     prove_res_1 = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
@@ -614,11 +639,14 @@ def test_foundry_refute_node(
 
     # Proof will only advance from node 5, since 4 is refuted
     prove_res_2 = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
@@ -650,11 +678,14 @@ def test_foundry_refute_node(
 
     # Execution will continue from node 4
     prove_res_3 = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
@@ -675,19 +706,19 @@ def test_foundry_xml_report(
         server._populate_bug_report(bug_report)
 
     foundry_prove(
-        foundry,
-        tests=[
-            ('AssertTest.test_assert_true()', None),
-            ('AssertTest.test_assert_false()', None),
-            ('AssertNestedTest.test_assert_true_nested()', None),
-        ],
-        prove_options=ProveOptions(
-            bug_report=bug_report,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [
+                    ('AssertTest.test_assert_true()', None),
+                    ('AssertTest.test_assert_false()', None),
+                    ('AssertNestedTest.test_assert_true_nested()', None),
+                ],
+                'bug_report': bug_report,
+                'port': server.port,
+                'xml_test_report': True,
+            }
         ),
-        rpc_options=RPCOptions(
-            port=server.port,
-        ),
-        xml_test_report=True,
     )
 
     tree = Et.parse('kontrol_prove_report.xml')
@@ -719,11 +750,14 @@ def test_foundry_split_node(
         server._populate_bug_report(bug_report)
 
     prove_res_1 = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
@@ -763,11 +797,14 @@ def test_foundry_split_node(
     check_pending(foundry, test, [75])
 
     prove_res_2 = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(bug_report=bug_report, break_on_calls=True),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+            }
         ),
     )
 
@@ -810,11 +847,15 @@ def test_foundry_prove_skips_setup(
 
     def run_prover(test_name: str, _reinit: bool, _setup_version: int | None = None) -> list[APRProof]:
         return foundry_prove(
-            foundry,
-            tests=[(test_name, None)],
-            prove_options=ProveOptions(bug_report=bug_report, reinit=_reinit, setup_version=_setup_version),
-            rpc_options=RPCOptions(
-                port=server.port,
+            foundry=foundry,
+            options=ProveOptions(
+                {
+                    'tests': [(test_name, None)],
+                    'bug_report': bug_report,
+                    'reinit': _reinit,
+                    'setup_version': _setup_version,
+                    'port': server.port,
+                }
             ),
         )
 
