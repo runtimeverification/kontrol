@@ -1007,42 +1007,54 @@ def foundry_merge_nodes(
     print(foundry.kevm.pretty_print(new_node.cterm.kast))
 
 
+class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+    node: NodeIdLike
+    repeat: int
+    depth: int
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'repeat': 1,
+            'depth': 1,
+        }
+
+
 def foundry_step_node(
     foundry: Foundry,
-    test: str,
-    node: NodeIdLike,
-    rpc_options: RPCOptions,
-    version: int | None = None,
-    repeat: int = 1,
-    depth: int = 1,
-    bug_report: BugReport | None = None,
+    options: StepNodeOptions,
 ) -> None:
-    if repeat < 1:
-        raise ValueError(f'Expected positive value for --repeat, got: {repeat}')
-    if depth < 1:
-        raise ValueError(f'Expected positive value for --depth, got: {depth}')
+    if options.repeat < 1:
+        raise ValueError(f'Expected positive value for --repeat, got: {options.repeat}')
+    if options.depth < 1:
+        raise ValueError(f'Expected positive value for --depth, got: {options.depth}')
 
-    test_id = foundry.get_test_id(test, version)
+    test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
-    start_server = rpc_options.port is None
+    start_server = options.port is None
+
+    kore_rpc_command = None
+    if isinstance(options.kore_rpc_command, str):
+        kore_rpc_command = options.kore_rpc_command.split()
 
     with legacy_explore(
         foundry.kevm,
         kcfg_semantics=KEVMSemantics(),
         id=apr_proof.id,
-        bug_report=bug_report,
-        kore_rpc_command=rpc_options.kore_rpc_command,
-        llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-        smt_timeout=rpc_options.smt_timeout,
-        smt_retry_limit=rpc_options.smt_retry_limit,
-        smt_tactic=rpc_options.smt_tactic,
-        trace_rewrites=rpc_options.trace_rewrites,
+        bug_report=options.bug_report,
+        kore_rpc_command=kore_rpc_command,
+        llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
+        smt_timeout=options.smt_timeout,
+        smt_retry_limit=options.smt_retry_limit,
+        smt_tactic=options.smt_tactic,
+        trace_rewrites=options.trace_rewrites,
         start_server=start_server,
-        port=rpc_options.port,
-        maude_port=rpc_options.maude_port,
+        port=options.port,
+        maude_port=options.maude_port,
     ) as kcfg_explore:
-        for _i in range(repeat):
-            node = kcfg_explore.step(apr_proof.kcfg, node, apr_proof.logs, depth=depth)
+        node = options.node
+        for _i in range(options.repeat):
+            node = kcfg_explore.step(apr_proof.kcfg, node, apr_proof.logs, depth=options.depth)
             apr_proof.write_proof_data()
 
 

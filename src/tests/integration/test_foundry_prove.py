@@ -18,6 +18,7 @@ from kontrol.foundry import (
     RemoveNodeOptions,
     ShowOptions,
     SplitNodeOptions,
+    StepNodeOptions,
     UnrefuteNodeOptions,
     foundry_merge_nodes,
     foundry_refute_node,
@@ -28,7 +29,6 @@ from kontrol.foundry import (
     foundry_step_node,
     foundry_unrefute_node,
 )
-from kontrol.options import RPCOptions
 from kontrol.prove import ProveOptions, foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
@@ -258,20 +258,24 @@ def test_foundry_merge_nodes(
 
     foundry_step_node(
         foundry,
-        test,
-        node=4,
-        depth=49,
-        rpc_options=RPCOptions(
-            port=server.port,
+        options=StepNodeOptions(
+            {
+                'test': test,
+                'node': 4,
+                'depth': 49,
+                'port': server.port,
+            }
         ),
     )
     foundry_step_node(
         foundry,
-        test,
-        node=5,
-        depth=50,
-        rpc_options=RPCOptions(
-            port=server.port,
+        options=StepNodeOptions(
+            {
+                'test': test,
+                'node': 5,
+                'depth': 50,
+                'port': server.port,
+            }
         ),
     )
     check_pending(foundry, test, [6, 7])

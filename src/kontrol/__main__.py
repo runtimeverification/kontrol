@@ -27,6 +27,7 @@ from .foundry import (
     ShowOptions,
     SimplifyNodeOptions,
     SplitNodeOptions,
+    StepNodeOptions,
     ToDotOptions,
     UnrefuteNodeOptions,
     foundry_get_model,
@@ -341,44 +342,10 @@ def exec_simplify_node(options: SimplifyNodeOptions) -> None:
     print(f'Simplified:\n{pretty_term}')
 
 
-class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    node: NodeIdLike
-    repeat: int
-    depth: int
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'repeat': 1,
-            'depth': 1,
-        }
-
-
 def exec_step_node(options: StepNodeOptions) -> None:
-    kore_rpc_command = None
-    if isinstance(options.kore_rpc_command, str):
-        kore_rpc_command = options.kore_rpc_command.split()
-
-    rpc_options = OldRPCOptions(
-        use_booster=options.use_booster,
-        kore_rpc_command=kore_rpc_command,
-        smt_timeout=options.smt_timeout,
-        smt_retry_limit=options.smt_retry_limit,
-        smt_tactic=options.smt_tactic,
-        trace_rewrites=options.trace_rewrites,
-        port=options.port,
-        maude_port=options.maude_port,
-    )
-
     foundry_step_node(
         foundry=_load_foundry(options.foundry_root, options.bug_report),
-        test=options.test,
-        version=options.version,
-        node=options.node,
-        rpc_options=rpc_options,
-        repeat=options.repeat,
-        depth=options.depth,
-        bug_report=options.bug_report,
+        options=options,
     )
 
 
