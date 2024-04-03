@@ -25,6 +25,7 @@ from .foundry import (
     RefuteNodeOptions,
     ShowOptions,
     SplitNodeOptions,
+    ToDotOptions,
     UnrefuteNodeOptions,
     foundry_get_model,
     foundry_list,
@@ -290,11 +291,8 @@ def exec_split_node(options: SplitNodeOptions) -> None:
     print(f'Node {options.node} has been split into {node_ids} on condition {options.branch_condition}.')
 
 
-class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
-
-
 def exec_to_dot(options: ToDotOptions) -> None:
-    foundry_to_dot(foundry=_load_foundry(options.foundry_root), test=options.test, version=options.version)
+    foundry_to_dot(foundry=_load_foundry(options.foundry_root), options=options)
 
 
 class ListOptions(LoggingOptions, KOptions, FoundryOptions): ...

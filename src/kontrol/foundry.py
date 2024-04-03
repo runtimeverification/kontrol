@@ -730,10 +730,13 @@ def foundry_show(
     return '\n'.join([line.rstrip() for line in res_lines])
 
 
-def foundry_to_dot(foundry: Foundry, test: str, version: int | None = None) -> None:
+class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+
+def foundry_to_dot(foundry: Foundry, options: ToDotOptions) -> None:
     dump_dir = foundry.proofs_dir / 'dump'
-    test_id = foundry.get_test_id(test, version)
-    contract_name, _ = single(foundry.matching_tests([test])).split('.')
+    test_id = foundry.get_test_id(options.test, options.version)
+    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
     proof = foundry.get_apr_proof(test_id)
 
     node_printer = foundry_node_printer(foundry, contract_name, proof)
