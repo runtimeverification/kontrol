@@ -259,8 +259,8 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
                )))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
@@ -483,8 +483,8 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
                )))))))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
@@ -707,14 +707,14 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-TRUE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
                )))))))))))))
        ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
                )))))
       [priority(20), label(BASIC-BLOCK-4-TO-6)]
 
