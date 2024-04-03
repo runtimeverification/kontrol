@@ -8,7 +8,7 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
-from kevm_pyk.cli import DisplayOptions, KCFGShowOptions, KOptions, node_id_like
+from kevm_pyk.cli import DisplayOptions, KOptions, node_id_like
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.args import BugReportOptions, LoggingOptions, SMTOptions
 from pyk.cli.utils import file_path
@@ -22,6 +22,7 @@ from .cli import FoundryOptions, FoundryTestOptions, KontrolCLIArgs, RpcOptions
 from .foundry import (
     Foundry,
     LoadStateDiffOptions,
+    ShowOptions,
     foundry_get_model,
     foundry_list,
     foundry_merge_nodes,
@@ -249,41 +250,10 @@ def exec_prove(options: ProveOptions) -> None:
     sys.exit(failed)
 
 
-class ShowOptions(
-    FoundryTestOptions, LoggingOptions, KOptions, KCFGShowOptions, DisplayOptions, FoundryOptions, RpcOptions
-):
-    omit_unstable_output: bool
-    to_kevm_claims: bool
-    kevm_claim_dir: Path | None
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'omit_unstable_output': False,
-            'to_kevm_claims': False,
-            'kevm_claim_dir': None,
-        }
-
-
 def exec_show(options: ShowOptions) -> None:
     output = foundry_show(
         foundry=_load_foundry(options.foundry_root),
-        test=options.test,
-        version=options.version,
-        nodes=options.nodes,
-        node_deltas=options.node_deltas,
-        to_module=options.to_module,
-        to_kevm_claims=options.to_kevm_claims,
-        kevm_claim_dir=options.kevm_claim_dir,
-        minimize=options.minimize,
-        omit_unstable_output=options.omit_unstable_output,
-        sort_collections=options.sort_collections,
-        pending=options.pending,
-        failing=options.failing,
-        failure_info=options.failure_info,
-        counterexample_info=options.counterexample_info,
-        port=options.port,
-        maude_port=options.maude_port,
+        options=options,
     )
     print(output)
 

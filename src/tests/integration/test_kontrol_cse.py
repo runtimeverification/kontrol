@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from kontrol.foundry import foundry_show
+from kontrol.foundry import ShowOptions, foundry_show
 from kontrol.prove import ProveOptions, foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
@@ -61,16 +61,20 @@ def test_foundry_dependency_automated(
     )
 
     cse_show_res = foundry_show(
-        foundry,
-        test=test_id,
-        to_module=False,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=False,
-        failing=False,
-        failure_info=False,
-        counterexample_info=False,
-        port=server.port,
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': False,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': False,
+                'failing': False,
+                'failure_info': False,
+                'counterexample_info': False,
+                'port': server.port,
+            }
+        ),
     )
 
     assert_or_update_show_output(

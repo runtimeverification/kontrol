@@ -14,6 +14,7 @@ from pyk.utils import single
 from kontrol.foundry import (
     Foundry,
     LoadStateDiffOptions,
+    ShowOptions,
     foundry_merge_nodes,
     foundry_refute_node,
     foundry_remove_node,
@@ -121,15 +122,19 @@ def test_foundry_prove(
 
     # And when
     show_res = foundry_show(
-        foundry,
-        test=test_id,
-        to_module=True,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=True,
-        failing=True,
-        failure_info=True,
-        port=server.port,
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
     )
 
     # Then
@@ -174,15 +179,19 @@ def test_foundry_fail(
 
     # and when
     show_res = foundry_show(
-        foundry,
-        test=test_id,
-        to_module=True,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=True,
-        failing=True,
-        failure_info=True,
-        port=server.port,
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
     )
 
     # then
@@ -324,15 +333,19 @@ def test_foundry_merge_loop_heads(
     )
 
     show_res = foundry_show(
-        foundry,
-        test=test,
-        to_module=True,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=True,
-        failing=True,
-        failure_info=True,
-        port=server.port,
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
     )
 
     assert_or_update_show_output(
@@ -377,16 +390,20 @@ def test_foundry_auto_abstraction(
     )
 
     show_res = foundry_show(
-        foundry,
-        test=test_id,
-        to_module=True,
-        minimize=False,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=True,
-        failing=True,
-        failure_info=True,
-        port=server.port,
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'minimize': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
     )
 
     assert_or_update_show_output(
@@ -654,15 +671,19 @@ def test_foundry_refute_node(
     assert not single(prove_res_2).passed
 
     show_res = foundry_show(
-        foundry,
-        test=test,
-        to_module=True,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=True,
-        failing=True,
-        failure_info=True,
-        port=server.port,
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
     )
 
     assert_or_update_show_output(
@@ -811,15 +832,19 @@ def test_foundry_split_node(
     assert not single(prove_res_2).passed
 
     show_res = foundry_show(
-        foundry,
-        test=test,
-        to_module=True,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=True,
-        failing=True,
-        failure_info=True,
-        port=server.port,
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
     )
 
     assert_or_update_show_output(show_res, TEST_DATA_DIR / 'show/split-node.expected', update=update_expected_output)

@@ -15,9 +15,10 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
+from kevm_pyk.cli import DisplayOptions, KCFGShowOptions, KOptions
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
-from pyk.cli.args import LoggingOptions
+from pyk.cli.args import LoggingOptions, SMTOptions
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSort, KToken, KVariable
 from pyk.kast.manip import collect, extract_lhs, minimize_term
@@ -34,7 +35,7 @@ from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
 from . import VERSION
-from .cli import FoundryOptions
+from .cli import FoundryOptions, FoundryTestOptions, RpcOptions
 from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
 
@@ -590,34 +591,41 @@ class Foundry:
         return latest_version + 1 if latest_version is not None else 0
 
 
+class ShowOptions(
+    FoundryTestOptions,
+    LoggingOptions,
+    KOptions,
+    KCFGShowOptions,
+    DisplayOptions,
+    FoundryOptions,
+    RpcOptions,
+    SMTOptions,
+):
+    omit_unstable_output: bool
+    to_kevm_claims: bool
+    kevm_claim_dir: Path | None
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'omit_unstable_output': False,
+            'to_kevm_claims': False,
+            'kevm_claim_dir': None,
+        }
+
+
 def foundry_show(
     foundry: Foundry,
-    test: str,
-    version: int | None = None,
-    nodes: Iterable[NodeIdLike] = (),
-    node_deltas: Iterable[tuple[NodeIdLike, NodeIdLike]] = (),
-    to_module: bool = False,
-    to_kevm_claims: bool = False,
-    kevm_claim_dir: Path | None = None,
-    minimize: bool = True,
-    sort_collections: bool = False,
-    omit_unstable_output: bool = False,
-    pending: bool = False,
-    failing: bool = False,
-    failure_info: bool = False,
-    counterexample_info: bool = True,
-    smt_timeout: int | None = None,
-    smt_retry_limit: int | None = None,
-    port: int | None = None,
-    maude_port: int | None = None,
+    options: ShowOptions,
 ) -> str:
-    contract_name, _ = single(foundry.matching_tests([test])).split('.')
-    test_id = foundry.get_test_id(test, version)
+    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
+    test_id = foundry.get_test_id(options.test, options.version)
     proof = foundry.get_apr_proof(test_id)
 
-    if pending:
+    nodes: Iterable[int | str] = options.nodes
+    if options.pending:
         nodes = list(nodes) + [node.id for node in proof.pending]
-    if failing:
+    if options.failing:
         nodes = list(nodes) + [node.id for node in proof.failing]
     nodes = unique(nodes)
 
@@ -629,36 +637,38 @@ def foundry_show(
         '<code>',
     ]
 
-    node_printer = foundry_node_printer(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
+    node_printer = foundry_node_printer(
+        foundry, contract_name, proof, omit_unstable_output=options.omit_unstable_output
+    )
     proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
 
     res_lines = proof_show.show(
         proof,
         nodes=nodes,
-        node_deltas=node_deltas,
-        to_module=to_module,
-        minimize=minimize,
-        sort_collections=sort_collections,
-        omit_cells=(unstable_cells if omit_unstable_output else []),
+        node_deltas=options.node_deltas,
+        to_module=options.to_module,
+        minimize=options.minimize,
+        sort_collections=options.sort_collections,
+        omit_cells=(unstable_cells if options.omit_unstable_output else []),
     )
 
-    start_server = port is None
+    start_server = options.port is None
 
-    if failure_info:
+    if options.failure_info:
         with legacy_explore(
             foundry.kevm,
             kcfg_semantics=KEVMSemantics(),
             id=test_id,
-            smt_timeout=smt_timeout,
-            smt_retry_limit=smt_retry_limit,
+            smt_timeout=options.smt_timeout,
+            smt_retry_limit=options.smt_retry_limit,
             start_server=start_server,
-            port=port,
-            maude_port=maude_port,
+            port=options.port,
+            maude_port=options.maude_port,
         ) as kcfg_explore:
-            res_lines += print_failure_info(proof, kcfg_explore, counterexample_info)
+            res_lines += print_failure_info(proof, kcfg_explore, options.counterexample_info)
             res_lines += Foundry.help_info()
 
-    if to_kevm_claims:
+    if options.to_kevm_claims:
         _foundry_labels = [
             prod.klabel
             for prod in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].productions
@@ -713,8 +723,8 @@ def foundry_show(
 
             res_lines += defn_lines
 
-            if kevm_claim_dir is not None:
-                kevm_claims_file = kevm_claim_dir / (module_name.lower() + '.k')
+            if options.kevm_claim_dir is not None:
+                kevm_claims_file = options.kevm_claim_dir / (module_name.lower() + '.k')
                 kevm_claims_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
 
     return '\n'.join([line.rstrip() for line in res_lines])
