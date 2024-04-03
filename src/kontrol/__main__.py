@@ -8,7 +8,7 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
-from kevm_pyk.cli import DisplayOptions, KOptions, node_id_like
+from kevm_pyk.cli import KOptions, node_id_like
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.args import BugReportOptions, LoggingOptions, SMTOptions
 from pyk.cli.utils import file_path
@@ -25,6 +25,7 @@ from .foundry import (
     RefuteNodeOptions,
     RemoveNodeOptions,
     ShowOptions,
+    SimplifyNodeOptions,
     SplitNodeOptions,
     ToDotOptions,
     UnrefuteNodeOptions,
@@ -331,45 +332,11 @@ def exec_remove_node(options: RemoveNodeOptions) -> None:
     )
 
 
-class SimplifyNodeOptions(
-    FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
-):
-    node: NodeIdLike
-    replace: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'replace': False,
-        }
-
-
 def exec_simplify_node(options: SimplifyNodeOptions) -> None:
-    kore_rpc_command = None
-    if isinstance(options.kore_rpc_command, str):
-        kore_rpc_command = options.kore_rpc_command.split()
-
-    rpc_options = OldRPCOptions(
-        use_booster=options.use_booster,
-        kore_rpc_command=kore_rpc_command,
-        smt_timeout=options.smt_timeout,
-        smt_retry_limit=options.smt_retry_limit,
-        smt_tactic=options.smt_tactic,
-        trace_rewrites=options.trace_rewrites,
-        port=options.port,
-        maude_port=options.maude_port,
-    )
 
     pretty_term = foundry_simplify_node(
         foundry=_load_foundry(options.foundry_root, options.bug_report),
-        test=options.test,
-        version=options.version,
-        node=options.node,
-        rpc_options=rpc_options,
-        replace=options.replace,
-        minimize=options.minimize,
-        sort_collections=options.sort_collections,
-        bug_report=options.bug_report,
+        options=options,
     )
     print(f'Simplified:\n{pretty_term}')
 

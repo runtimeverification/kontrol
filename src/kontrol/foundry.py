@@ -18,7 +18,7 @@ import tomlkit
 from kevm_pyk.cli import DisplayOptions, KCFGShowOptions, KOptions
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
-from pyk.cli.args import LoggingOptions, SMTOptions
+from pyk.cli.args import BugReportOptions, LoggingOptions, SMTOptions
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSort, KToken, KVariable
 from pyk.kast.manip import collect, extract_lhs, minimize_term
@@ -908,43 +908,53 @@ def foundry_split_node(
     return split_nodes
 
 
+class SimplifyNodeOptions(
+    FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
+):
+    node: NodeIdLike
+    replace: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'replace': False,
+        }
+
+
 def foundry_simplify_node(
     foundry: Foundry,
-    test: str,
-    node: NodeIdLike,
-    rpc_options: RPCOptions,
-    version: int | None = None,
-    replace: bool = False,
-    minimize: bool = True,
-    sort_collections: bool = False,
-    bug_report: BugReport | None = None,
+    options: SimplifyNodeOptions,
 ) -> str:
-    test_id = foundry.get_test_id(test, version)
+    test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
-    cterm = apr_proof.kcfg.node(node).cterm
-    start_server = rpc_options.port is None
+    cterm = apr_proof.kcfg.node(options.node).cterm
+    start_server = options.port is None
+
+    kore_rpc_command = None
+    if isinstance(options.kore_rpc_command, str):
+        kore_rpc_command = options.kore_rpc_command.split()
 
     with legacy_explore(
         foundry.kevm,
         kcfg_semantics=KEVMSemantics(),
         id=apr_proof.id,
-        bug_report=bug_report,
-        kore_rpc_command=rpc_options.kore_rpc_command,
-        llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-        smt_timeout=rpc_options.smt_timeout,
-        smt_retry_limit=rpc_options.smt_retry_limit,
-        smt_tactic=rpc_options.smt_tactic,
-        trace_rewrites=rpc_options.trace_rewrites,
+        bug_report=options.bug_report,
+        kore_rpc_command=kore_rpc_command,
+        llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
+        smt_timeout=options.smt_timeout,
+        smt_retry_limit=options.smt_retry_limit,
+        smt_tactic=options.smt_tactic,
+        trace_rewrites=options.trace_rewrites,
         start_server=start_server,
-        port=rpc_options.port,
-        maude_port=rpc_options.maude_port,
+        port=options.port,
+        maude_port=options.maude_port,
     ) as kcfg_explore:
         new_term, _ = kcfg_explore.cterm_symbolic.simplify(cterm)
-    if replace:
-        apr_proof.kcfg.let_node(node, cterm=new_term)
+    if options.replace:
+        apr_proof.kcfg.let_node(options.node, cterm=new_term)
         apr_proof.write_proof_data()
-    res_term = minimize_term(new_term.kast) if minimize else new_term.kast
-    return foundry.kevm.pretty_print(res_term, unalias=False, sort_collections=sort_collections)
+    res_term = minimize_term(new_term.kast) if options.minimize else new_term.kast
+    return foundry.kevm.pretty_print(res_term, unalias=False, sort_collections=options.sort_collections)
 
 
 def foundry_merge_nodes(
