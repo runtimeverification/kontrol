@@ -16,6 +16,7 @@ from kontrol.foundry import (
     LoadStateDiffOptions,
     RefuteNodeOptions,
     ShowOptions,
+    SplitNodeOptions,
     UnrefuteNodeOptions,
     foundry_merge_nodes,
     foundry_refute_node,
@@ -791,25 +792,37 @@ def test_foundry_split_node(
 
     split_nodes = foundry_split_node(
         foundry,
-        test,
-        node=12,
-        branch_condition='VV0_addr_114b9705 ==Int 491460923342184218035706888008750043977755113263',
+        SplitNodeOptions(
+            {
+                'test': test,
+                'node': 12,
+                'branch_condition': 'VV0_addr_114b9705 ==Int 491460923342184218035706888008750043977755113263',
+            }
+        ),
     )
     assert split_nodes == [70, 71]
 
     split_nodes = foundry_split_node(
         foundry,
-        test,
-        node=71,
-        branch_condition='VV0_addr_114b9705 ==Int 645326474426547203313410069153905908525362434349',
+        SplitNodeOptions(
+            {
+                'test': test,
+                'node': 71,
+                'branch_condition': 'VV0_addr_114b9705 ==Int 645326474426547203313410069153905908525362434349',
+            }
+        ),
     )
     assert split_nodes == [72, 73]
 
     split_nodes = foundry_split_node(
         foundry,
-        test,
-        node=73,
-        branch_condition='VV0_addr_114b9705 ==Int 728815563385977040452943777879061427756277306518',
+        options=SplitNodeOptions(
+            {
+                'test': test,
+                'node': 73,
+                'branch_condition': 'VV0_addr_114b9705 ==Int 728815563385977040452943777879061427756277306518',
+            }
+        ),
     )
     assert split_nodes == [74, 75]
 

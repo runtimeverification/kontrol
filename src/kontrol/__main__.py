@@ -24,6 +24,7 @@ from .foundry import (
     LoadStateDiffOptions,
     RefuteNodeOptions,
     ShowOptions,
+    SplitNodeOptions,
     UnrefuteNodeOptions,
     foundry_get_model,
     foundry_list,
@@ -280,18 +281,10 @@ def exec_unrefute_node(options: UnrefuteNodeOptions) -> None:
     )
 
 
-class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    node: NodeIdLike
-    branch_condition: str
-
-
 def exec_split_node(options: SplitNodeOptions) -> None:
     node_ids = foundry_split_node(
         foundry=_load_foundry(options.foundry_root),
-        test=options.test,
-        node=options.node,
-        branch_condition=options.branch_condition,
-        version=options.version,
+        options=options,
     )
 
     print(f'Node {options.node} has been split into {node_ids} on condition {options.branch_condition}.')

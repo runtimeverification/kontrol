@@ -875,21 +875,27 @@ def foundry_unrefute_node(foundry: Foundry, options: UnrefuteNodeOptions) -> Non
     proof.unrefute_node(proof.kcfg.node(options.node))
 
 
+class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    node: NodeIdLike
+    branch_condition: str
+
+
 def foundry_split_node(
-    foundry: Foundry, test: str, node: NodeIdLike, branch_condition: str, version: int | None = None
+    foundry: Foundry,
+    options: SplitNodeOptions,
 ) -> list[int]:
-    contract_name, _ = single(foundry.matching_tests([test])).split('.')
-    test_id = foundry.get_test_id(test, version)
+    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
+    test_id = foundry.get_test_id(options.test, options.version)
     proof = foundry.get_apr_proof(test_id)
 
-    token = KToken(branch_condition, 'Bool')
+    token = KToken(options.branch_condition, 'Bool')
     node_printer = foundry_node_printer(foundry, contract_name, proof)
     parsed_condition = node_printer.kprint.parse_token(token, as_rule=True)
 
     split_nodes = proof.kcfg.split_on_constraints(
-        node, [mlEqualsTrue(parsed_condition), mlEqualsFalse(parsed_condition)]
+        options.node, [mlEqualsTrue(parsed_condition), mlEqualsFalse(parsed_condition)]
     )
-    _LOGGER.info(f'Split node {node} into {split_nodes} on branch condition {branch_condition}')
+    _LOGGER.info(f'Split node {options.node} into {split_nodes} on branch condition {options.branch_condition}')
     proof.write_proof_data()
 
     return split_nodes
