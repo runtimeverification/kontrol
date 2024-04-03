@@ -43,7 +43,7 @@ from .kompile import foundry_kompile
 from .options import ProveOptions as OldProveOptions
 from .options import RPCOptions as OldRPCOptions
 from .prove import foundry_prove, parse_test_version_tuple
-from .solc_to_k import solc_compile, solc_to_k
+from .solc_to_k import SolcToKOptions, solc_compile, solc_to_k
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -198,19 +198,8 @@ def exec_compile(options: CompileOptions) -> None:
     print(json.dumps(res))
 
 
-class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
-    contract_file: Path
-    contract_name: str
-
-
 def exec_solc_to_k(options: SolcToKOptions) -> None:
-    k_text = solc_to_k(
-        contract_file=options.contract_file,
-        contract_name=options.contract_name,
-        main_module=options.main_module,
-        requires=options.requires,
-        imports=options.imports,
-    )
+    k_text = solc_to_k(options)
     print(k_text)
 
 
