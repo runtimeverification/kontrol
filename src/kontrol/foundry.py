@@ -1123,37 +1123,51 @@ def foundry_state_diff(options: LoadStateDiffOptions, foundry: Foundry) -> None:
         )
 
 
+class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+    edge: tuple[str, str]
+    sections: int
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'sections': 2,
+        }
+
+
 def foundry_section_edge(
     foundry: Foundry,
-    test: str,
-    edge: tuple[str, str],
-    rpc_options: RPCOptions,
-    version: int | None = None,
-    sections: int = 2,
-    bug_report: BugReport | None = None,
+    options: SectionEdgeOptions,
 ) -> None:
-    test_id = foundry.get_test_id(test, version)
+    test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
-    source_id, target_id = edge
-    start_server = rpc_options.port is None
+    source_id, target_id = options.edge
+    start_server = options.port is None
+
+    kore_rpc_command = None
+    if isinstance(options.kore_rpc_command, str):
+        kore_rpc_command = options.kore_rpc_command.split()
 
     with legacy_explore(
         foundry.kevm,
         kcfg_semantics=KEVMSemantics(),
         id=apr_proof.id,
-        bug_report=bug_report,
-        kore_rpc_command=rpc_options.kore_rpc_command,
-        llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-        smt_timeout=rpc_options.smt_timeout,
-        smt_retry_limit=rpc_options.smt_retry_limit,
-        smt_tactic=rpc_options.smt_tactic,
-        trace_rewrites=rpc_options.trace_rewrites,
+        bug_report=options.bug_report,
+        kore_rpc_command=kore_rpc_command,
+        llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
+        smt_timeout=options.smt_timeout,
+        smt_retry_limit=options.smt_retry_limit,
+        smt_tactic=options.smt_tactic,
+        trace_rewrites=options.trace_rewrites,
         start_server=start_server,
-        port=rpc_options.port,
-        maude_port=rpc_options.maude_port,
+        port=options.port,
+        maude_port=options.maude_port,
     ) as kcfg_explore:
         kcfg_explore.section_edge(
-            apr_proof.kcfg, source_id=int(source_id), target_id=int(target_id), logs=apr_proof.logs, sections=sections
+            apr_proof.kcfg,
+            source_id=int(source_id),
+            target_id=int(target_id),
+            logs=apr_proof.logs,
+            sections=options.sections,
         )
     apr_proof.write_proof_data()
 

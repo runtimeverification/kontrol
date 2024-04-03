@@ -25,6 +25,7 @@ from .foundry import (
     MergeNodesOptions,
     RefuteNodeOptions,
     RemoveNodeOptions,
+    SectionEdgeOptions,
     ShowOptions,
     SimplifyNodeOptions,
     SplitNodeOptions,
@@ -357,41 +358,11 @@ def exec_merge_nodes(options: MergeNodesOptions) -> None:
     )
 
 
-class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    edge: tuple[str, str]
-    sections: int
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'sections': 2,
-        }
-
-
 def exec_section_edge(options: SectionEdgeOptions) -> None:
-    kore_rpc_command = None
-    if isinstance(options.kore_rpc_command, str):
-        kore_rpc_command = options.kore_rpc_command.split()
-
-    rpc_options = OldRPCOptions(
-        use_booster=options.use_booster,
-        kore_rpc_command=kore_rpc_command,
-        smt_timeout=options.smt_timeout,
-        smt_retry_limit=options.smt_retry_limit,
-        smt_tactic=options.smt_tactic,
-        trace_rewrites=options.trace_rewrites,
-        port=options.port,
-        maude_port=options.maude_port,
-    )
 
     foundry_section_edge(
         foundry=_load_foundry(options.foundry_root, options.bug_report),
-        test=options.test,
-        version=options.version,
-        rpc_options=rpc_options,
-        edge=options.edge,
-        sections=options.sections,
-        bug_report=options.bug_report,
+        options=options,
     )
 
 
