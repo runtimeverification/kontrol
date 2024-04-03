@@ -215,50 +215,49 @@ def test_foundry_bmc(
     assert_pass(test_id, single(prove_res))
 
 
-# TODO: Enable this after https://github.com/runtimeverification/pyk/pull/1009/ gets merged
-# MINIMIZE_TESTS = set((TEST_DATA_DIR / 'foundry-minimize').read_text().splitlines())
+MINIMIZE_TESTS = set((TEST_DATA_DIR / 'foundry-minimize').read_text().splitlines())
 
 
-# @pytest.mark.parametrize('test_id', MINIMIZE_TESTS)
-# def test_foundry_minimize_proof(
-#     test_id: str,
-#     foundry: Foundry,
-#     update_expected_output: bool,
-#     no_use_booster: bool,
-#     bug_report: BugReport | None,
-#     server: KoreServer,
-# ) -> None:
-#     if bug_report is not None:
-#         server._populate_bug_report(bug_report)
+@pytest.mark.parametrize('test_id', MINIMIZE_TESTS)
+def test_foundry_minimize_proof(
+    test_id: str,
+    foundry: Foundry,
+    update_expected_output: bool,
+    no_use_booster: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+) -> None:
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
 
-#     prove_options = ProveOptions(bug_report=bug_report, break_on_calls=True)
+    prove_options = ProveOptions(bug_report=bug_report, break_on_calls=True)
 
-#     # When
-#     foundry_prove(
-#         foundry,
-#         tests=[(test_id, None)],
-#         prove_options=prove_options,
-#         rpc_options=RPCOptions(port=server.port, smt_timeout=500),
-#     )
+    # When
+    foundry_prove(
+        foundry,
+        tests=[(test_id, None)],
+        prove_options=prove_options,
+        rpc_options=RPCOptions(port=server.port, smt_timeout=500),
+    )
 
-#     foundry_minimize_proof(foundry, test_id)
+    foundry_minimize_proof(foundry, test_id)
 
-#     show_res = foundry_show(
-#         foundry,
-#         test=test_id,
-#         to_module=True,
-#         sort_collections=True,
-#         omit_unstable_output=True,
-#         pending=True,
-#         failing=True,
-#         failure_info=True,
-#         port=server.port,
-#     )
+    show_res = foundry_show(
+        foundry,
+        test=test_id,
+        to_module=True,
+        sort_collections=True,
+        omit_unstable_output=True,
+        pending=True,
+        failing=True,
+        failure_info=True,
+        port=server.port,
+    )
 
-#     # Then
-#     assert_or_update_show_output(
-#         show_res, TEST_DATA_DIR / f'show/minimized/{test_id}.expected', update=update_expected_output
-#     )
+    # Then
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / f'show/minimized/{test_id}.expected', update=update_expected_output
+    )
 
 
 def test_foundry_merge_nodes(
