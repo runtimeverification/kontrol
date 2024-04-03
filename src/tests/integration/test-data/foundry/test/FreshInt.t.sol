@@ -26,9 +26,9 @@ contract FreshCheatcodes is Test, KontrolCheats {
     }
 
     function test_address() public {
-        uint256 fresh_address = uint160(kevm.freshAddress());
-        assertGe(fresh_address, type(uint160).min);
-        assertLe(fresh_address, type(uint160).max);
+        address fresh_address = kevm.freshAddress();
+        assertNotEq(fresh_address, address(this));
+        assertNotEq(fresh_address, address(vm));
     }
 
     function test_freshUints(uint8 x) public {
