@@ -402,7 +402,7 @@ This rule returns a symbolic address value.
 
 ```{.k .symbolic}
     rule [foundry.call.freshAddress]:
-         <k> #call_foundry SELECTOR _ => .K ... </k>
+         <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshAddress()" )
        ensures #rangeAddress(?WORD) andBool ?WORD =/=Int #address(FoundryTest) andBool ?WORD =/=Int #address(FoundryCheat)
