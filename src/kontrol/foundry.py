@@ -50,8 +50,6 @@ if TYPE_CHECKING:
     from pyk.proof.show import NodePrinter
     from pyk.utils import BugReport
 
-    from .options import RPCOptions
-
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -1172,23 +1170,32 @@ def foundry_section_edge(
     apr_proof.write_proof_data()
 
 
+class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+    nodes: list[NodeIdLike]
+    pending: bool
+    failing: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'nodes': [],
+            'pending': False,
+            'failing': False,
+        }
+
+
 def foundry_get_model(
     foundry: Foundry,
-    test: str,
-    rpc_options: RPCOptions,
-    version: int | None = None,
-    nodes: Iterable[NodeIdLike] = (),
-    pending: bool = False,
-    failing: bool = False,
-    bug_report: BugReport | None = None,
+    options: GetModelOptions,
 ) -> str:
-    test_id = foundry.get_test_id(test, version)
+    test_id = foundry.get_test_id(options.test, options.version)
     proof = foundry.get_apr_proof(test_id)
 
-    if not nodes:
+    if not options.nodes:
         _LOGGER.warning('Node ID is not provided. Displaying models of failing and pending nodes:')
         failing = pending = True
 
+    nodes: Iterable[NodeIdLike] = options.nodes
     if pending:
         nodes = list(nodes) + [node.id for node in proof.pending]
     if failing:
@@ -1197,22 +1204,26 @@ def foundry_get_model(
 
     res_lines = []
 
-    start_server = rpc_options.port is None
+    start_server = options.port is None
+
+    kore_rpc_command = None
+    if isinstance(options.kore_rpc_command, str):
+        kore_rpc_command = options.kore_rpc_command.split()
 
     with legacy_explore(
         foundry.kevm,
         kcfg_semantics=KEVMSemantics(),
         id=proof.id,
-        bug_report=bug_report,
-        kore_rpc_command=rpc_options.kore_rpc_command,
-        llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-        smt_timeout=rpc_options.smt_timeout,
-        smt_retry_limit=rpc_options.smt_retry_limit,
-        smt_tactic=rpc_options.smt_tactic,
-        trace_rewrites=rpc_options.trace_rewrites,
+        bug_report=options.bug_report,
+        kore_rpc_command=kore_rpc_command,
+        llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
+        smt_timeout=options.smt_timeout,
+        smt_retry_limit=options.smt_retry_limit,
+        smt_tactic=options.smt_tactic,
+        trace_rewrites=options.trace_rewrites,
         start_server=start_server,
-        port=rpc_options.port,
-        maude_port=rpc_options.maude_port,
+        port=options.port,
+        maude_port=options.maude_port,
     ) as kcfg_explore:
         for node_id in nodes:
             res_lines.append('')

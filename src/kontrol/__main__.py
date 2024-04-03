@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 import pyk
 from kevm_pyk.cli import KOptions, node_id_like
 from kevm_pyk.utils import arg_pair_of
-from pyk.cli.args import BugReportOptions, LoggingOptions, SMTOptions
+from pyk.cli.args import LoggingOptions
 from pyk.cli.utils import file_path
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
@@ -18,9 +18,10 @@ from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path
 
 from . import VERSION
-from .cli import FoundryOptions, FoundryTestOptions, KontrolCLIArgs, RpcOptions
+from .cli import FoundryOptions, FoundryTestOptions, KontrolCLIArgs
 from .foundry import (
     Foundry,
+    GetModelOptions,
     LoadStateDiffOptions,
     MergeNodesOptions,
     RefuteNodeOptions,
@@ -50,7 +51,6 @@ from .foundry import (
 )
 from .hevm import Hevm
 from .kompile import BuildOptions, foundry_kompile
-from .options import RPCOptions as OldRPCOptions
 from .prove import ProveOptions, foundry_prove, parse_test_version_tuple
 from .solc_to_k import SolcToKOptions, solc_compile, solc_to_k
 
@@ -61,7 +61,6 @@ if TYPE_CHECKING:
     from typing import Any, Final, TypeVar
 
     from pyk.cterm import CTerm
-    from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.tui import KCFGElem
     from pyk.utils import BugReport
 
@@ -366,44 +365,11 @@ def exec_section_edge(options: SectionEdgeOptions) -> None:
     )
 
 
-class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    nodes: list[NodeIdLike]
-    pending: bool
-    failing: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'nodes': [],
-            'pending': False,
-            'failing': False,
-        }
-
-
 def exec_get_model(options: GetModelOptions) -> None:
-    kore_rpc_command = None
-    if isinstance(options.kore_rpc_command, str):
-        kore_rpc_command = options.kore_rpc_command.split()
 
-    rpc_options = OldRPCOptions(
-        use_booster=options.use_booster,
-        kore_rpc_command=kore_rpc_command,
-        smt_timeout=options.smt_timeout,
-        smt_retry_limit=options.smt_retry_limit,
-        smt_tactic=options.smt_tactic,
-        trace_rewrites=options.trace_rewrites,
-        port=options.port,
-        maude_port=options.maude_port,
-    )
     output = foundry_get_model(
         foundry=_load_foundry(options.foundry_root),
-        test=options.test,
-        version=options.version,
-        nodes=options.nodes,
-        rpc_options=rpc_options,
-        pending=options.pending,
-        failing=options.failing,
-        bug_report=options.bug_report,
+        options=options,
     )
     print(output)
 
