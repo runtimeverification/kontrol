@@ -58,6 +58,7 @@ class Foundry:
     _root: Path
     _toml: dict[str, Any]
     _bug_report: BugReport | None
+    _use_hex_encoding: bool
 
     class Sorts:
         FOUNDRY_CELL: Final = KSort('FoundryCell')
@@ -66,11 +67,13 @@ class Foundry:
         self,
         foundry_root: Path,
         bug_report: BugReport | None = None,
+        use_hex_encoding: bool = False,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
+        self._use_hex_encoding = use_hex_encoding
 
     def lookup_full_contract_name(self, contract_name: str) -> str:
         contracts = [
@@ -130,6 +133,7 @@ class Foundry:
             main_file=self.main_file,
             use_directory=use_directory,
             bug_report=self._bug_report,
+            use_hex=self._use_hex_encoding,
         )
 
     @cached_property
@@ -602,6 +606,7 @@ class ShowOptions(
     omit_unstable_output: bool
     to_kevm_claims: bool
     kevm_claim_dir: Path | None
+    use_hex_encoding: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -609,6 +614,7 @@ class ShowOptions(
             'omit_unstable_output': False,
             'to_kevm_claims': False,
             'kevm_claim_dir': None,
+            'use_hex_encoding': False,
         }
 
 

@@ -122,9 +122,9 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
             raise ValueError(f'Unrecognized command: {command}')
 
 
-def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
+def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:
     try:
-        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
+        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report, use_hex_encoding=use_hex_encoding)
     except FileNotFoundError:
         print(
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
@@ -260,7 +260,7 @@ def exec_prove(options: ProveOptions) -> None:
 
 def exec_show(options: ShowOptions) -> None:
     output = foundry_show(
-        foundry=_load_foundry(options.foundry_root),
+        foundry=_load_foundry(foundry_root, use_hex_encoding=use_hex_encoding),
         options=options,
     )
     print(output)
@@ -311,7 +311,7 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
 
 
 def exec_view_kcfg(options: ViewKcfgOptions) -> None:
-    foundry = _load_foundry(options.foundry_root)
+    foundry = _load_foundry(foundry_root, use_hex_encoding=True)
     test_id = foundry.get_test_id(options.test, options.version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -616,6 +616,13 @@ def _create_argument_parser() -> ArgumentParser:
         dest='kevm_claim_dir',
         type=ensure_dir_path,
         help='Path to write KEVM claim files at.',
+    )
+    show_args.add_argument(
+        '--use-hex-encoding',
+        dest='use_hex_encoding',
+        default=False,
+        action='store_true',
+        help='Print elements in hexadecimal encoding.',
     )
 
     command_parser.add_parser(
