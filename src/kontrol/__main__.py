@@ -23,6 +23,7 @@ from .foundry import (
     Foundry,
     LoadStateDiffOptions,
     RefuteNodeOptions,
+    RemoveNodeOptions,
     ShowOptions,
     SplitNodeOptions,
     ToDotOptions,
@@ -323,13 +324,10 @@ def exec_view_kcfg(options: ViewKcfgOptions) -> None:
     viewer.run()
 
 
-class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    node: NodeIdLike
-
-
 def exec_remove_node(options: RemoveNodeOptions) -> None:
     foundry_remove_node(
-        foundry=_load_foundry(options.foundry_root), test=options.test, version=options.version, node=options.node
+        foundry=_load_foundry(options.foundry_root),
+        options=options,
     )
 
 

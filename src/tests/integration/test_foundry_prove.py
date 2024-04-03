@@ -15,6 +15,7 @@ from kontrol.foundry import (
     Foundry,
     LoadStateDiffOptions,
     RefuteNodeOptions,
+    RemoveNodeOptions,
     ShowOptions,
     SplitNodeOptions,
     UnrefuteNodeOptions,
@@ -442,11 +443,7 @@ def test_foundry_remove_node(
     )
     assert_pass(test, single(prove_res))
 
-    foundry_remove_node(
-        foundry,
-        test=test,
-        node=8,
-    )
+    foundry_remove_node(foundry, options=RemoveNodeOptions({'test': test, 'node': 8}))
 
     proof = foundry.get_optional_proof(single(foundry.proof_ids_with_test(test)))
     assert type(proof) is APRProof
@@ -645,8 +642,8 @@ def test_foundry_refute_node(
     check_pending(foundry, test, [])
 
     # Remove successors of nodes 4 and 5
-    foundry_remove_node(foundry, test, node=6)
-    foundry_remove_node(foundry, test, node=7)
+    foundry_remove_node(foundry, RemoveNodeOptions({'test': test, 'node': 6}))
+    foundry_remove_node(foundry, RemoveNodeOptions({'test': test, 'node': 7}))
 
     # Now nodes 4 and 5 are pending
     check_pending(foundry, test, [4, 5])
@@ -788,7 +785,7 @@ def test_foundry_split_node(
     assert_pass(test, single(prove_res_1))
 
     # Remove node with non-deterministic branch
-    foundry_remove_node(foundry, test, node=13)
+    foundry_remove_node(foundry, RemoveNodeOptions({'test': test, 'node': 13}))
 
     split_nodes = foundry_split_node(
         foundry,

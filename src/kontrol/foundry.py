@@ -845,10 +845,14 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
     tree.write('kontrol_prove_report.xml')
 
 
-def foundry_remove_node(foundry: Foundry, test: str, node: NodeIdLike, version: int | None = None) -> None:
-    test_id = foundry.get_test_id(test, version)
+class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    node: NodeIdLike
+
+
+def foundry_remove_node(foundry: Foundry, options: RemoveNodeOptions) -> None:
+    test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
-    node_ids = apr_proof.prune(node)
+    node_ids = apr_proof.prune(options.node)
     _LOGGER.info(f'Pruned nodes: {node_ids}')
     apr_proof.write_proof_data()
 
