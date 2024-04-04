@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import logging
 import time
+from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, NamedTuple
-from copy import copy
 
 from kevm_pyk.cli import ExploreOptions, KOptions, KProveOptions
 from kevm_pyk.kevm import KEVM, KEVMSemantics
