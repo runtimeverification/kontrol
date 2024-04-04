@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) )
+┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  │
 ┃  ├─ 8
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -14,10 +14,10 @@
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (446 steps)
+┃  │  (470 steps)
 ┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 87
+┃  │   pc: 128
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
@@ -29,7 +29,7 @@
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) )
+┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
    │
    ├─ 9
    │   k: #execute ~> CONTINUATION:K
@@ -37,10 +37,10 @@
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (371 steps)
+   │  (407 steps)
    ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 179
+   │   pc: 550
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
    │

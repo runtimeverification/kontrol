@@ -1,0 +1,55 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (1556 steps)
+├─ 9 (split)
+│   k: JUMPI 2519 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+│   pc: 2510
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+┃
+┃ (branch)
+┣━━┓ constraint: pow64 <=Int VV0_x_114b9705:Int
+┃  │
+┃  ├─ 10
+┃  │   k: JUMPI 2519 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+┃  │   pc: 2510
+┃  │   callDepth: 0
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (412 steps)
+┃  └─ 12 (vacuous, leaf)
+┃      k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃      pc: 0
+┃      callDepth: 1
+┃      statusCode: STATUSCODE:StatusCode
+┃
+┗━━┓ constraint: ( notBool pow64 <=Int VV0_x_114b9705:Int )
+   │
+   ├─ 11
+   │   k: JUMPI 2519 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+   │   pc: 2510
+   │   callDepth: 0
+   │   statusCode: STATUSCODE:StatusCode
+   │
+   │  (1937 steps)
+   ├─ 13 (terminal)
+   │   k: #halt ~> CONTINUATION:K
+   │   pc: 221
+   │   callDepth: 0
+   │   statusCode: EVMC_SUCCESS
+   │
+   ┊  constraint: true
+   ┊  subst: OMITTED SUBST
+   └─ 8 (leaf, target, terminal)
+       k: #halt ~> CONTINUATION:K
+       pc: PC_CELL_5d410f2a:Int
+       callDepth: CALLDEPTH_CELL_5d410f2a:Int
+       statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
