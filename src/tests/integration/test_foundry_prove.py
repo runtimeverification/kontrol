@@ -404,7 +404,7 @@ def test_foundry_auto_abstraction(
             {
                 'test': test_id,
                 'to_module': True,
-                'minimize': True,
+                'minimize': False,
                 'sort_collections': True,
                 'omit_unstable_output': True,
                 'pending': True,

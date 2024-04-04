@@ -615,6 +615,7 @@ class ShowOptions(
             'to_kevm_claims': False,
             'kevm_claim_dir': None,
             'use_hex_encoding': False,
+            'counterexample_info': True,
         }
 
 
