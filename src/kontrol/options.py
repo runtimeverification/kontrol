@@ -35,6 +35,7 @@ class ProveOptions:
     active_symbolik: bool
     cse: bool
     hevm: bool
+    trace_options: TraceOptions | None
 
     def __init__(
         self,
@@ -61,6 +62,7 @@ class ProveOptions:
         active_symbolik: bool = False,
         cse: bool = False,
         hevm: bool = False,
+        trace_options: TraceOptions | None = None,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
@@ -84,6 +86,7 @@ class ProveOptions:
         object.__setattr__(self, 'active_symbolik', active_symbolik)
         object.__setattr__(self, 'cse', cse)
         object.__setattr__(self, 'hevm', hevm)
+        object.__setattr__(self, 'trace_options', trace_options)
 
 
 @dataclass(frozen=True)
@@ -123,3 +126,24 @@ class RPCOptions:
         object.__setattr__(self, 'trace_rewrites', trace_rewrites)
         object.__setattr__(self, 'port', port)
         object.__setattr__(self, 'maude_port', maude_port)
+
+
+@dataclass(frozen=True)
+class TraceOptions:
+    active_tracing: bool
+    trace_storage: bool
+    trace_wordstack: bool
+    trace_memory: bool
+
+    def __init__(
+        self,
+        *,
+        active_tracing: bool = False,
+        trace_storage: bool = False,
+        trace_wordstack: bool = False,
+        trace_memory: bool = False,
+    ) -> None:
+        object.__setattr__(self, 'active_tracing', active_tracing)
+        object.__setattr__(self, 'trace_storage', trace_storage)
+        object.__setattr__(self, 'trace_wordstack', trace_wordstack)
+        object.__setattr__(self, 'trace_memory', trace_memory)

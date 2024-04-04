@@ -38,7 +38,7 @@ from .foundry import (
 )
 from .hevm import Hevm
 from .kompile import foundry_kompile
-from .options import ProveOptions, RPCOptions
+from .options import ProveOptions, RPCOptions, TraceOptions
 from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
 
@@ -249,6 +249,10 @@ def exec_prove(
     xml_test_report: bool = False,
     cse: bool = False,
     hevm: bool = False,
+    evm_tracing: bool = False,
+    trace_storage: bool = True,
+    trace_wordstack: bool = True,
+    trace_memory: bool = True,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -264,6 +268,13 @@ def exec_prove(
         kore_rpc_command = kore_rpc_command.split()
 
     deployment_state_entries = read_deployment_state(deployment_state_path) if deployment_state_path else None
+
+    trace_options = TraceOptions(
+        active_tracing=evm_tracing,
+        trace_storage=trace_storage,
+        trace_wordstack=trace_wordstack,
+        trace_memory=trace_memory,
+    )
 
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
@@ -288,6 +299,7 @@ def exec_prove(
         active_symbolik=with_non_general_state,
         cse=cse,
         hevm=hevm,
+        trace_options=trace_options,
     )
 
     rpc_options = RPCOptions(
@@ -862,6 +874,34 @@ def _create_argument_parser() -> ArgumentParser:
         default=False,
         action='store_true',
         help='Use hevm success predicate instead of foundry to determine if a test is passing',
+    )
+    prove_args.add_argument(
+        '--evm-tracing',
+        dest='evm_tracing',
+        action='store_true',
+        default=False,
+        help='Trace opcode execution and store it in the configuration',
+    )
+    prove_args.add_argument(
+        '--no-trace-storage',
+        dest='trace_storage',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing storage information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-wordstack',
+        dest='trace_wordstack',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing wordstack information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-memory',
+        dest='trace_memory',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing memory information.',
     )
 
     show_args = command_parser.add_parser(

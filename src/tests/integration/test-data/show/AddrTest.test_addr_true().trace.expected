@@ -1,0 +1,267 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (1258 steps)
+├─ 3 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 333
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+┊  constraint: true
+┊  subst: OMITTED SUBST
+└─ 2 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
+
+module SUMMARY-TEST%ADDRTEST.TEST-ADDR-TRUE():0
+    
+    
+    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"09\x1e\xdb"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( selector ( "test_addr_true()" ) : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00~_ER\t\x1ai\x12]]\xfc\xb7\xb8\xc2e\x90)9[\xdf\x00\x00\x00\x01" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressSet>
+                 .Set
+               </addressSet>
+               <storageSlotSet>
+                 .Set
+               </storageSlotSet>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               true
+             </activeTracing>
+             <traceStorage>
+               true
+             </traceStorage>
+             <traceWordStack>
+               true
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               ( false => true )
+             </recordedTrace>
+             <traceData>
+               ( .List => ListItem ( { 0 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2 | PUSH ( 1 ) | ( 128 : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 4 | MSTORE | ( 64 : ( 128 : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 5 | CALLVALUE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 6 | DUP ( 1 ) | ( 0 : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 7 | ISZERO | ( 0 : ( 0 : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 8 | PUSH ( 2 ) | ( 1 : ( 0 : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 11 | JUMPI | ( 16 : ( 1 : ( 0 : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 16 | JUMPDEST | ( 0 : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 17 | POP | ( 0 : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 18 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 20 | CALLDATASIZE | ( 4 : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 21 | LT | ( 4 : ( 4 : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 22 | PUSH ( 2 ) | ( 0 : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 25 | JUMPI | ( 289 : ( 0 : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 26 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 28 | CALLDATALOAD | ( 0 : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 29 | PUSH ( 1 ) | ( 21811939971307878371609545721423501445952979766733309685993256792374749691904 : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { maxUInt5 | SHR | ( 224 : ( 21811939971307878371609545721423501445952979766733309685993256792374749691904 : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 32 | DUP ( 1 ) | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 33 | PUSH ( 4 ) | ( selector ( "test_addr_true()" ) : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 38 | GT | ( selector ( "testFail_addr_true()" ) : ( selector ( "test_addr_true()" ) : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 39 | PUSH ( 2 ) | ( 1 : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 42 | JUMPI | ( 173 : ( 1 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 173 | JUMPDEST | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 174 | DUP ( 1 ) | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 175 | PUSH ( 4 ) | ( selector ( "test_addr_true()" ) : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 180 | GT | ( selector ( "targetArtifactSelectors()" ) : ( selector ( "test_addr_true()" ) : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 181 | PUSH ( 2 ) | ( 1 : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 184 | JUMPI | ( 244 : ( 1 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 244 | JUMPDEST | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 245 | DUP ( 1 ) | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 246 | PUSH ( 4 ) | ( selector ( "test_addr_true()" ) : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 251 | EQ | ( selector ( "excludeSenders()" ) : ( selector ( "test_addr_true()" ) : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 252 | PUSH ( 2 ) | ( 0 : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { maxUInt8 | JUMPI | ( 294 : ( 0 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 256 | DUP ( 1 ) | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 257 | PUSH ( 4 ) | ( selector ( "test_addr_true()" ) : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 262 | EQ | ( selector ( "test_addr_true()" ) : ( selector ( "test_addr_true()" ) : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 263 | PUSH ( 2 ) | ( 1 : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 266 | JUMPI | ( 324 : ( 1 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 324 | JUMPDEST | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 325 | PUSH ( 2 ) | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 328 | PUSH ( 2 ) | ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 331 | JUMP | ( 684 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 684 | JUMPDEST | ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 685 | PUSH ( 1 ) | ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 687 | MLOAD | ( 64 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 688 | PUSH ( 1 ) | ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 690 | PUSH ( 3 ) | ( 1 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 694 | PUSH ( 1 ) | ( 6191543 : ( 1 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 696 | SHL | ( 224 : ( 6191543 : ( 1 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 697 | SUB | ( 166923669067369873766191994592930785159943346089370123761369690313261580288 : ( 1 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 698 | NOT | ( 166923669067369873766191994592930785159943346089370123761369690313261580287 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 699 | DUP ( 2 ) | ( 115625165568248825549804793014094977068110041319551193915696214317599868059648 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 700 | MSTORE | ( 128 : ( 115625165568248825549804793014094977068110041319551193915696214317599868059648 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 701 | PUSH ( 1 ) | ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 703 | PUSH ( 1 ) | ( 1 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 705 | DUP ( 3 ) | ( 4 : ( 1 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 706 | ADD | ( 128 : ( 4 : ( 1 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 707 | MSTORE | ( 132 : ( 1 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 708 | PUSH ( 1 ) | ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 710 | SWAP ( 1 ) | ( 0 : ( 128 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 711 | PUSH ( 1 ) | ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 713 | DUP ( 1 ) | ( 0 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 714 | MLOAD | ( 0 : ( 0 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 715 | PUSH ( 1 ) | ( 0 : ( 0 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 717 | PUSH ( 2 ) | ( 32 : ( 0 : ( 0 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 720 | DUP ( 4 ) | ( 4647 : ( 32 : ( 0 : ( 0 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 721 | CODECOPY | ( 0 : ( 4647 : ( 32 : ( 0 : ( 0 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 722 | DUP ( 2 ) | ( 0 : ( 0 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 723 | MLOAD | ( 0 : ( 0 : ( 0 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 724 | SWAP ( 2 ) | ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 0 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 725 | MSTORE | ( 0 : ( 0 : ( 645326474426547203313410069153905908525362434349 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 726 | SWAP ( 1 ) | ( 645326474426547203313410069153905908525362434349 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 727 | PUSH ( 4 ) | ( 128 : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 732 | SWAP ( 1 ) | ( selector ( "addr(uint256)" ) : ( 128 : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 733 | PUSH ( 1 ) | ( 128 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 735 | ADD | ( 36 : ( 128 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 736 | PUSH ( 1 ) | ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 738 | PUSH ( 1 ) | ( 32 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 740 | MLOAD | ( 64 : ( 32 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 741 | DUP ( 1 ) | ( 128 : ( 32 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 742 | DUP ( 4 ) | ( 128 : ( 128 : ( 32 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 743 | SUB | ( 164 : ( 128 : ( 128 : ( 32 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 744 | DUP ( 2 ) | ( 36 : ( 128 : ( 32 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 745 | DUP ( 7 ) | ( 128 : ( 36 : ( 128 : ( 32 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 746 | GAS | ( 645326474426547203313410069153905908525362434349 : ( 128 : ( 36 : ( 128 : ( 32 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 747 | STATICCALL | ( 0 : ( 645326474426547203313410069153905908525362434349 : ( 128 : ( 36 : ( 128 : ( 32 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 748 | ISZERO | ( 1 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 749 | DUP ( 1 ) | ( 0 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 750 | ISZERO | ( 0 : ( 0 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 751 | PUSH ( 2 ) | ( 1 : ( 0 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 754 | JUMPI | ( 764 : ( 1 : ( 0 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 764 | JUMPDEST | ( 0 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 765 | POP | ( 0 : ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 766 | POP | ( 164 : ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 767 | POP | ( selector ( "addr(uint256)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 768 | POP | ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 769 | PUSH ( 1 ) | ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 771 | MLOAD | ( 64 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 772 | RETURNDATASIZE | ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 773 | PUSH ( 1 ) | ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 775 | NOT | ( maxUInt5 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 776 | PUSH ( 1 ) | ( notMaxUInt5 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 778 | DUP ( 3 ) | ( maxUInt5 : ( notMaxUInt5 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 779 | ADD | ( 32 : ( maxUInt5 : ( notMaxUInt5 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 780 | AND | ( 63 : ( notMaxUInt5 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 781 | DUP ( 3 ) | ( 32 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 782 | ADD | ( 128 : ( 32 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 783 | DUP ( 1 ) | ( 160 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 784 | PUSH ( 1 ) | ( 160 : ( 160 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 786 | MSTORE | ( 64 : ( 160 : ( 160 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 787 | POP | ( 160 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 788 | DUP ( 2 ) | ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 789 | ADD | ( 128 : ( 32 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 790 | SWAP ( 1 ) | ( 160 : ( 128 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 791 | PUSH ( 2 ) | ( 128 : ( 160 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 794 | SWAP ( 2 ) | ( 800 : ( 128 : ( 160 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 795 | SWAP ( 1 ) | ( 160 : ( 128 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 796 | PUSH ( 2 ) | ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 799 | JUMP | ( 4448 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4448 | JUMPDEST | ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4449 | PUSH ( 1 ) | ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4451 | PUSH ( 1 ) | ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4453 | DUP ( 3 ) | ( 32 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4454 | DUP ( 5 ) | ( 128 : ( 32 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4455 | SUB | ( 160 : ( 128 : ( 32 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4456 | SLT | ( 32 : ( 32 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4457 | ISZERO | ( 0 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4458 | PUSH ( 2 ) | ( 1 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4461 | JUMPI | ( 4466 : ( 1 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4466 | JUMPDEST | ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4467 | DUP ( 2 ) | ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4468 | MLOAD | ( 128 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4469 | PUSH ( 2 ) | ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4472 | DUP ( 2 ) | ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4473 | PUSH ( 2 ) | ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4476 | JUMP | ( 4196 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4196 | JUMPDEST | ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4197 | PUSH ( 1 ) | ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4199 | PUSH ( 1 ) | ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4201 | PUSH ( 1 ) | ( 1 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4203 | SHL | ( 160 : ( 1 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4204 | SUB | ( pow160 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4205 | DUP ( 2 ) | ( maxUInt160 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4206 | AND | ( 721457446580647751014191829380889690493307935711 : ( maxUInt160 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4207 | DUP ( 2 ) | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4208 | EQ | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4209 | PUSH ( 2 ) | ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4212 | JUMPI | ( 832 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 832 | JUMPDEST | ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 833 | POP | ( 721457446580647751014191829380889690493307935711 : ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 834 | JUMP | ( 4246 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4246 | JUMPDEST | ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4247 | SWAP ( 4 ) | ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 128 : ( 160 : ( 800 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4248 | SWAP ( 3 ) | ( 800 : ( 0 : ( 128 : ( 160 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4249 | POP | ( 160 : ( 0 : ( 128 : ( 800 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4250 | POP | ( 0 : ( 128 : ( 800 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4251 | POP | ( 128 : ( 800 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 4252 | JUMP | ( 800 : ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 800 | JUMPDEST | ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 801 | SWAP ( 1 ) | ( 721457446580647751014191829380889690493307935711 : ( 0 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 802 | POP | ( 0 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 803 | PUSH ( 2 ) | ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 806 | DUP ( 2 ) | ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 807 | PUSH ( 20 ) | ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 828 | PUSH ( 2 ) | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 831 | JUMP | ( 3164 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3164 | JUMPDEST | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3165 | DUP ( 1 ) | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3166 | PUSH ( 1 ) | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3168 | PUSH ( 1 ) | ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3170 | PUSH ( 1 ) | ( 1 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3172 | SHL | ( 160 : ( 1 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3173 | SUB | ( pow160 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3174 | AND | ( maxUInt160 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3175 | DUP ( 3 ) | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3176 | PUSH ( 1 ) | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3178 | PUSH ( 1 ) | ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3180 | PUSH ( 1 ) | ( 1 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3182 | SHL | ( 160 : ( 1 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3183 | SUB | ( pow160 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3184 | AND | ( maxUInt160 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3185 | EQ | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3186 | PUSH ( 2 ) | ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 3189 | JUMPI | ( 2098 : ( 1 : ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 2098 | JUMPDEST | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 2099 | POP | ( 721457446580647751014191829380889690493307935711 : ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 2100 | POP | ( 721457446580647751014191829380889690493307935711 : ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 2101 | JUMP | ( 832 : ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) ) | b"" | .Map | 0 } ) ListItem ( { 832 | JUMPDEST | ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 833 | POP | ( 721457446580647751014191829380889690493307935711 : ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) ) | b"" | .Map | 0 } ) ListItem ( { 834 | JUMP | ( 332 : ( selector ( "test_addr_true()" ) : .WordStack ) ) | b"" | .Map | 0 } ) ListItem ( { 332 | JUMPDEST | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) ListItem ( { 333 | STOP | ( selector ( "test_addr_true()" ) : .WordStack ) | b"" | .Map | 0 } ) )
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))))))))))
+       ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+
+endmodule
+0 Failure nodes. (0 pending and 0 failing)
+
+Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
+
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
+
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol
