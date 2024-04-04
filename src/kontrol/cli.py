@@ -59,6 +59,22 @@ class KompileTargetOptions(Options):
         }
 
 
+class TraceOptions(Options):
+    active_tracing: bool
+    trace_storage: bool
+    trace_wordstack: bool
+    trace_memory: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'active_tracing': False,
+            'trace_storage': False,
+            'trace_wordstack': False,
+            'trace_memory': False,
+        }
+
+
 class RpcOptions(Options):
     trace_rewrites: bool
     kore_rpc_command: str | None

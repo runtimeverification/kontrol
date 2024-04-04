@@ -29,6 +29,7 @@ from pyk.utils import run_process, unique
 from .cli import FoundryOptions, RpcOptions
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
+from .options import TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
 
 if TYPE_CHECKING:
@@ -54,6 +55,7 @@ class ProveOptions(
     BugReportOptions,
     ExploreOptions,
     FoundryOptions,
+    TraceOptions,
 ):
     tests: list[tuple[str, int | None]]
     reinit: bool
@@ -321,6 +323,12 @@ def _run_cfg_group(
                 summary_ids=summary_ids,
                 active_symbolik=options.with_non_general_state,
                 hevm=options.hevm,
+                trace_options=TraceOptions(
+                    active_tracing=options.active_tracing,
+                    trace_memory=options.trace_memory,
+                    trace_storage=options.trace_storage,
+                    trace_wordstack=options.trace_wordstack,
+                ),
             )
             cut_point_rules = KEVMSemantics.cut_point_rules(
                 options.break_on_jumpi,
@@ -389,6 +397,7 @@ def method_to_apr_proof(
     summary_ids: Iterable[str] = (),
     active_symbolik: bool = False,
     hevm: bool = False,
+    trace_options: TraceOptions | None = None,
 ) -> APRProof:
     if Proof.proof_data_exists(test.id, foundry.proofs_dir):
         apr_proof = foundry.get_apr_proof(test.id)
@@ -413,6 +422,7 @@ def method_to_apr_proof(
         deployment_state_entries=deployment_state_entries,
         active_symbolik=active_symbolik,
         hevm=hevm,
+        trace_options=trace_options,
     )
 
     apr_proof = APRProof(
@@ -454,12 +464,21 @@ def _method_to_initialized_cfg(
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     active_symbolik: bool = False,
     hevm: bool = False,
+    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
-        empty_config, test.contract, test.method, setup_proof, use_gas, deployment_state_entries, active_symbolik, hevm
+        empty_config,
+        test.contract,
+        test.method,
+        setup_proof,
+        use_gas,
+        deployment_state_entries,
+        active_symbolik,
+        hevm,
+        trace_options,
     )
 
     for node_id in new_node_ids:
@@ -492,6 +511,7 @@ def _method_to_cfg(
     deployment_state_entries: Iterable[DeploymentStateEntry] | None,
     active_symbolik: bool,
     hevm: bool = False,
+    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -515,6 +535,7 @@ def _method_to_cfg(
         callvalue=callvalue,
         is_constructor=isinstance(method, Contract.Constructor),
         active_symbolik=active_symbolik,
+        trace_options=trace_options,
     )
     new_node_ids = []
 
@@ -676,8 +697,12 @@ def _init_cterm(
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    trace_options: TraceOptions | None = None,
 ) -> CTerm:
     schedule = KApply('SHANGHAI_EVM')
+
+    if not trace_options:
+        trace_options = TraceOptions()
 
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
@@ -706,6 +731,12 @@ def _init_cterm(
         'ADDRESSSET_CELL': set_empty(),
         'STORAGESLOTSET_CELL': set_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
+        'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
+        'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
+        'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
+        'TRACEMEMORY_CELL': TRUE if trace_options.trace_memory else FALSE,
+        'RECORDEDTRACE_CELL': FALSE,
+        'TRACEDATA_CELL': KApply('.List'),
     }
 
     if is_test or is_setup or is_constructor or active_symbolik:

@@ -584,6 +584,34 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Use hevm success predicate instead of foundry to determine if a test is passing',
     )
+    prove_args.add_argument(
+        '--evm-tracing',
+        dest='evm_tracing',
+        action='store_true',
+        default=False,
+        help='Trace opcode execution and store it in the configuration',
+    )
+    prove_args.add_argument(
+        '--no-trace-storage',
+        dest='trace_storage',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing storage information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-wordstack',
+        dest='trace_wordstack',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing wordstack information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-memory',
+        dest='trace_memory',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing memory information.',
+    )
 
     show_args = command_parser.add_parser(
         'show',
