@@ -4,6 +4,7 @@ import logging
 import time
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, NamedTuple
+from copy import copy
 
 from kevm_pyk.cli import ExploreOptions, KOptions, KProveOptions
 from kevm_pyk.kevm import KEVM, KEVMSemantics
@@ -135,7 +136,9 @@ def foundry_prove(
 
             if len(test_version_tuples) > 0:
                 _LOGGER.info(f'For test {test.name}, found external calls: {test_version_tuples}')
-                summary_ids.extend(p.id for p in foundry_prove(options, foundry, deployment_state_entries))
+                new_prove_options = copy(options)
+                new_prove_options.tests = test_version_tuples
+                summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, deployment_state_entries))
 
     test_suite = collect_tests(foundry, options.tests, reinit=options.reinit)
     test_names = [test.name for test in test_suite]

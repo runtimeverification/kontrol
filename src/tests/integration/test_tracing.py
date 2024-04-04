@@ -85,6 +85,7 @@ def test_foundry_trace(
                 'trace_wordstack': trace_options.trace_wordstack,
                 'trace_memory': trace_options.trace_memory,
                 'trace_storage': trace_options.trace_storage,
+                'active_tracing': trace_options.active_tracing,
                 'port': server.port,
             }
         ),
