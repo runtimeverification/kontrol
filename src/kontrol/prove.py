@@ -26,10 +26,9 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process, unique
 
-from .cli import FoundryOptions, RpcOptions
+from .cli import FoundryOptions, RpcOptions, TraceOptions
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
-from .options import TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
 
 if TYPE_CHECKING:
