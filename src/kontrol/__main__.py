@@ -67,9 +67,9 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         args.pop(arg)
 
 
-def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
+def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:
     try:
-        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
+        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report, use_hex_encoding=use_hex_encoding)
     except FileNotFoundError:
         print(
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
@@ -219,6 +219,7 @@ def exec_prove(
     max_depth: int = 1000,
     max_iterations: int | None = None,
     reinit: bool = False,
+    setup_version: int | None = None,
     tests: Iterable[tuple[str, int | None]] = (),
     include_summaries: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
@@ -268,6 +269,7 @@ def exec_prove(
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
         reinit=reinit,
+        setup_version=setup_version,
         bug_report=bug_report,
         bmc_depth=bmc_depth,
         max_depth=max_depth,
@@ -362,10 +364,11 @@ def exec_show(
     counterexample_info: bool = True,
     port: int | None = None,
     maude_port: int | None = None,
+    use_hex_encoding: bool = False,
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
-        foundry=_load_foundry(foundry_root),
+        foundry=_load_foundry(foundry_root, use_hex_encoding=use_hex_encoding),
         test=test,
         version=version,
         nodes=nodes,
@@ -423,7 +426,7 @@ def exec_list(foundry_root: Path, **kwargs: Any) -> None:
 
 
 def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry = _load_foundry(foundry_root)
+    foundry = _load_foundry(foundry_root, use_hex_encoding=True)
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -798,6 +801,13 @@ def _create_argument_parser() -> ArgumentParser:
         help='Reinitialize CFGs even if they already exist.',
     )
     prove_args.add_argument(
+        '--setup-version',
+        dest='setup_version',
+        default=None,
+        type=int,
+        help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
+    )
+    prove_args.add_argument(
         '--bmc-depth',
         dest='bmc_depth',
         default=None,
@@ -892,6 +902,13 @@ def _create_argument_parser() -> ArgumentParser:
         dest='kevm_claim_dir',
         type=ensure_dir_path,
         help='Path to write KEVM claim files at.',
+    )
+    show_args.add_argument(
+        '--use-hex-encoding',
+        dest='use_hex_encoding',
+        default=False,
+        action='store_true',
+        help='Print elements in hexadecimal encoding.',
     )
 
     command_parser.add_parser(

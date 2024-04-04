@@ -57,6 +57,7 @@ class Foundry:
     _root: Path
     _toml: dict[str, Any]
     _bug_report: BugReport | None
+    _use_hex_encoding: bool
 
     class Sorts:
         FOUNDRY_CELL: Final = KSort('FoundryCell')
@@ -65,11 +66,13 @@ class Foundry:
         self,
         foundry_root: Path,
         bug_report: BugReport | None = None,
+        use_hex_encoding: bool = False,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
+        self._use_hex_encoding = use_hex_encoding
 
     def lookup_full_contract_name(self, contract_name: str) -> str:
         contracts = [
@@ -129,6 +132,7 @@ class Foundry:
             main_file=self.main_file,
             use_directory=use_directory,
             bug_report=self._bug_report,
+            use_hex=self._use_hex_encoding,
         )
 
     @cached_property
@@ -487,6 +491,35 @@ class Foundry:
     def list_proof_dir(self) -> list[str]:
         return listdir(self.proofs_dir)
 
+    def resolve_setup_proof_version(
+        self, test: str, reinit: bool, test_version: int | None = None, user_specified_setup_version: int | None = None
+    ) -> int:
+        _, method = self.get_contract_and_method(test)
+        effective_test_version = 0 if test_version is None else self.free_proof_version(test)
+
+        if reinit:
+            if user_specified_setup_version is None:
+                _LOGGER.info(
+                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is not specified.'
+                )
+            elif not Proof.proof_data_exists(f'{test}:{user_specified_setup_version}', self.proofs_dir):
+                _LOGGER.info(
+                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is set to a non-existing version'
+                )
+            else:
+                _LOGGER.info(f'Reusing version {user_specified_setup_version} of setup proof')
+                effective_test_version = user_specified_setup_version
+        else:
+            latest_test_version = self.latest_proof_version(test)
+            effective_test_version = 0 if latest_test_version is None else latest_test_version
+            if user_specified_setup_version is not None and Proof.proof_data_exists(
+                f'{test}:{user_specified_setup_version}', self.proofs_dir
+            ):
+                effective_test_version = user_specified_setup_version
+            _LOGGER.info(f'Reusing version {effective_test_version} of setup proof')
+
+        return self.check_method_change(effective_test_version, test, method)
+
     def resolve_proof_version(
         self,
         test: str,
@@ -517,15 +550,20 @@ class Foundry:
             return self.free_proof_version(test)
 
         latest_version = self.latest_proof_version(test)
-        if latest_version is not None:
+        return self.check_method_change(latest_version, test, method)
+
+    def check_method_change(
+        self, version: int | None, test: str, method: Contract.Method | Contract.Constructor
+    ) -> int:
+        if version is not None:
             _LOGGER.info(
-                f'Using the the latest version {latest_version} of test {test} because it is up to date and no version was specified.'
+                f'Using the the latest version {version} of test {test} because it is up to date and no version was specified.'
             )
             if type(method) is Contract.Method and not method.contract_up_to_date(self.digest_file):
                 _LOGGER.warning(
                     f'Test {test} was not reinitialized because it is up to date, but the contract it is a part of has changed.'
                 )
-            return latest_version
+            return version
 
         _LOGGER.info(
             f'Test {test} is up to date in {self.digest_file}, but does not exist on disk. Assigning version 0'
@@ -655,7 +693,7 @@ def foundry_show(
             return _contains
 
         for node in proof.kcfg.nodes:
-            proof.kcfg.replace_node(node.id, _remove_foundry_config(node.cterm))
+            proof.kcfg.let_node(node.id, cterm=_remove_foundry_config(node.cterm))
 
         # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
         proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
@@ -873,7 +911,7 @@ def foundry_simplify_node(
     ) as kcfg_explore:
         new_term, _ = kcfg_explore.cterm_symbolic.simplify(cterm)
     if replace:
-        apr_proof.kcfg.replace_node(node, new_term)
+        apr_proof.kcfg.let_node(node, cterm=new_term)
         apr_proof.write_proof_data()
     res_term = minimize_term(new_term.kast) if minimize else new_term.kast
     return foundry.kevm.pretty_print(res_term, unalias=False, sort_collections=sort_collections)
