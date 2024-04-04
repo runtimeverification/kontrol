@@ -215,7 +215,7 @@ def test_foundry_bmc(
     assert_pass(test_id, single(prove_res))
 
 
-MINIMIZE_TESTS = set((TEST_DATA_DIR / 'foundry-minimize').read_text().splitlines())
+MINIMIZE_TESTS = tuple((TEST_DATA_DIR / 'foundry-minimize').read_text().splitlines())
 
 
 @pytest.mark.parametrize('test_id', MINIMIZE_TESTS)
