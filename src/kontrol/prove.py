@@ -323,10 +323,12 @@ def _run_cfg_group(
                 active_symbolik=options.with_non_general_state,
                 hevm=options.hevm,
                 trace_options=TraceOptions(
-                    active_tracing=options.active_tracing,
-                    trace_memory=options.trace_memory,
-                    trace_storage=options.trace_storage,
-                    trace_wordstack=options.trace_wordstack,
+                    {
+                        'active_tracing': options.active_tracing,
+                        'trace_memory': options.trace_memory,
+                        'trace_storage': options.trace_storage,
+                        'trace_wordstack': options.trace_wordstack,
+                    }
                 ),
             )
             cut_point_rules = KEVMSemantics.cut_point_rules(
@@ -701,7 +703,7 @@ def _init_cterm(
     schedule = KApply('SHANGHAI_EVM')
 
     if not trace_options:
-        trace_options = TraceOptions()
+        trace_options = TraceOptions({})
 
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
