@@ -310,7 +310,7 @@ AST_DATA: list[tuple[str, dict, list[str]]] = [
                             'expression': {
                                 'expression': {
                                     'typeDescriptions': {
-                                        'typeString': 'contract KEVMCheatsBase',
+                                        'typeString': 'contract KontrolCheatsBase',
                                     },
                                 },
                                 'memberName': 'infiniteGas',
