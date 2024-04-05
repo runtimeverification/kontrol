@@ -370,7 +370,7 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
        [preserves-definedness]
 ```
 
-#### `freshBytes` - Returns a single symbolic boolean.
+#### `freshBytes` - Returns a fully symbolic byte array value of the given length.
 
 ```
 function freshBytes(uint256) external returns (bytes memory);
@@ -389,6 +389,24 @@ This rule returns a fully symbolic byte array value of the given length.
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
       [preserves-definedness]
+```
+
+#### `freshAddress` - Returns a single symbolic address.
+
+```
+function freshAddress() external returns (address);
+```
+
+`foundry.call.freshAddress` will match when the `freshAddress` cheat code function is called.
+This rule returns a symbolic address value.
+
+```{.k .symbolic}
+    rule [foundry.call.freshAddress]:
+         <k> #cheatcode_call SELECTOR _ => .K ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "freshAddress()" )
+       ensures #rangeAddress(?WORD) andBool ?WORD =/=Int #address(FoundryTest) andBool ?WORD =/=Int #address(FoundryCheat)
+       [preserves-definedness]
 ```
 
 Expecting the next call to revert
@@ -1438,6 +1456,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
+    rule ( selector ( "freshAddress()" )                           => 2363359817 )
     rule ( selector ( "prank(address)" )                           => 3395723175 )
     rule ( selector ( "prank(address,address)" )                   => 1206193358 )
     rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )
