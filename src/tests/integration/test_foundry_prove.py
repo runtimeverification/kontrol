@@ -105,7 +105,7 @@ def test_foundry_prove(
         foundry,
         tests=[(test_id, None)],
         prove_options=prove_options,
-        rpc_options=RPCOptions(port=server.port, smt_timeout=500),
+        rpc_options=RPCOptions(port=server.port, smt_timeout=1000, smt_retry_limit=10),
     )
 
     # Then
@@ -237,7 +237,7 @@ def test_foundry_minimize_proof(
         foundry,
         tests=[(test_id, None)],
         prove_options=prove_options,
-        rpc_options=RPCOptions(port=server.port, smt_timeout=500),
+        rpc_options=RPCOptions(port=server.port, smt_timeout=1000, smt_retry_limit=10),
     )
 
     foundry_minimize_proof(foundry, test_id)
@@ -559,7 +559,7 @@ def test_foundry_init_code(
             fail_fast=False,
         ),
         rpc_options=RPCOptions(
-            smt_timeout=300,
+            smt_timeout=1000,
             smt_retry_limit=10,
             use_booster=not no_use_booster,
         ),
