@@ -249,7 +249,7 @@ def _run_cfg_group(
             proof = foundry.get_apr_proof(test.id)
             if proof.passed:
                 return None
-        start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else 0.0
+        start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
@@ -299,7 +299,7 @@ def _run_cfg_group(
                 counterexample_info=prove_options.counterexample_info,
                 fail_fast=prove_options.fail_fast,
             )
-            if start_time != 0.0:
+            if start_time is not None:
                 end_time = time.time()
                 proof.add_exec_time(end_time - start_time)
             proof.write_proof_data()
