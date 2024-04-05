@@ -1217,7 +1217,7 @@ def find_function_calls(node: dict) -> list[str]:
     :return: A list of unique function signatures that are called inside the provided method AST.
     :rtype: list[str]
 
-    Functions that belong to contracts such as `Vm` and `KEVMCheatsBase` are ignored.
+    Functions that belong to contracts such as `Vm` and `KontrolCheatsBase` are ignored.
     Functions like `abi.encodePacked` that do not belong to a Contract are assigned to a `UnknownContractType` and are ignored.
     """
     function_calls: list[str] = []
@@ -1238,7 +1238,7 @@ def find_function_calls(node: dict) -> list[str]:
                 arg_types = expression['typeDescriptions'].get('typeString')
                 args = arg_types.split()[1] if arg_types is not None else '()'
 
-                if contract_type not in ['KEVMCheatsBase', 'Vm', 'UnknownContractType']:
+                if contract_type not in ['KontrolCheatsBase', 'Vm', 'UnknownContractType']:
                     value = f'{contract_type}.{function_name}{args}'
                     # Check if value is not already in the list
                     if value not in function_calls:
