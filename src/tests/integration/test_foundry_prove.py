@@ -230,7 +230,7 @@ def test_foundry_minimize_proof(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    prove_options = ProveOptions(bug_report=bug_report, break_on_calls=True, reinit=True)
+    prove_options = ProveOptions(bug_report=bug_report, break_on_calls=True, reinit=True, fail_fast=False)
 
     # When
     foundry_prove(
