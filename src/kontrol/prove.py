@@ -244,11 +244,12 @@ def _run_cfg_group(
     summary_ids: Iterable[str],
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
+        proof = None
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
-            apr_proof = foundry.get_apr_proof(test.id)
-            if apr_proof.passed:
+            proof = foundry.get_apr_proof(test.id)
+            if proof.passed:
                 return None
-        start_time = time.time()
+        start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
@@ -264,19 +265,20 @@ def _run_cfg_group(
             port=rpc_options.port,
             maude_port=rpc_options.maude_port,
         ) as kcfg_explore:
-            proof = method_to_apr_proof(
-                test=test,
-                foundry=foundry,
-                kcfg_explore=kcfg_explore,
-                bmc_depth=prove_options.bmc_depth,
-                run_constructor=prove_options.run_constructor,
-                use_gas=prove_options.use_gas,
-                deployment_state_entries=prove_options.deployment_state_entries,
-                summary_ids=summary_ids,
-                active_symbolik=prove_options.active_symbolik,
-                hevm=prove_options.hevm,
-                trace_options=prove_options.trace_options,
-            )
+            if proof is None:
+                proof = method_to_apr_proof(
+                    test=test,
+                    foundry=foundry,
+                    kcfg_explore=kcfg_explore,
+                    bmc_depth=prove_options.bmc_depth,
+                    run_constructor=prove_options.run_constructor,
+                    use_gas=prove_options.use_gas,
+                    deployment_state_entries=prove_options.deployment_state_entries,
+                    summary_ids=summary_ids,
+                    active_symbolik=prove_options.active_symbolik,
+                    hevm=prove_options.hevm,
+                    trace_options=prove_options.trace_options,
+                )
             cut_point_rules = KEVMSemantics.cut_point_rules(
                 prove_options.break_on_jumpi,
                 prove_options.break_on_calls,
@@ -297,9 +299,9 @@ def _run_cfg_group(
                 counterexample_info=prove_options.counterexample_info,
                 fail_fast=prove_options.fail_fast,
             )
-
-            end_time = time.time()
-            proof.add_exec_time(end_time - start_time)
+            if start_time is not None:
+                end_time = time.time()
+                proof.add_exec_time(end_time - start_time)
             proof.write_proof_data()
 
             # Only return the failure info to avoid pickling the whole proof
@@ -346,10 +348,6 @@ def method_to_apr_proof(
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> APRProof:
-    if Proof.proof_data_exists(test.id, foundry.proofs_dir):
-        apr_proof = foundry.get_apr_proof(test.id)
-        return apr_proof
-
     setup_proof = None
     if isinstance(test.method, Contract.Constructor):
         _LOGGER.info(f'Creating proof from constructor for test: {test.id}')
