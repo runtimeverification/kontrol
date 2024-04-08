@@ -227,6 +227,9 @@ def test_foundry_minimize_proof(
     bug_report: BugReport | None,
     server: KoreServer,
 ) -> None:
+    if no_use_booster:
+        pytest.skip()
+
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
