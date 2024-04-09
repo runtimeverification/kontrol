@@ -69,11 +69,11 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
 def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:
     try:
         foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report, use_hex_encoding=use_hex_encoding)
-    except FileNotFoundError:
+    except FileNotFoundError as err:
         raise RuntimeError(
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
             file=sys.stderr,
-        )
+        ) from err
     return foundry
 
 
