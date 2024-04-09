@@ -38,7 +38,7 @@ from .foundry import (
 )
 from .hevm import Hevm
 from .kompile import foundry_kompile
-from .options import ProveOptions, RPCOptions
+from .options import ProveOptions, RPCOptions, TraceOptions
 from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
 from .utils import empty_lemmas_file_contents, run_kontrol_file_contents, write_to_file
@@ -67,9 +67,9 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         args.pop(arg)
 
 
-def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
+def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:
     try:
-        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
+        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report, use_hex_encoding=use_hex_encoding)
     except FileNotFoundError:
         print(
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
@@ -219,6 +219,7 @@ def exec_prove(
     max_depth: int = 1000,
     max_iterations: int | None = None,
     reinit: bool = False,
+    setup_version: int | None = None,
     tests: Iterable[tuple[str, int | None]] = (),
     include_summaries: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
@@ -249,6 +250,10 @@ def exec_prove(
     xml_test_report: bool = False,
     cse: bool = False,
     hevm: bool = False,
+    evm_tracing: bool = False,
+    trace_storage: bool = True,
+    trace_wordstack: bool = True,
+    trace_memory: bool = True,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -265,9 +270,17 @@ def exec_prove(
 
     deployment_state_entries = read_deployment_state(deployment_state_path) if deployment_state_path else None
 
+    trace_options = TraceOptions(
+        active_tracing=evm_tracing,
+        trace_storage=trace_storage,
+        trace_wordstack=trace_wordstack,
+        trace_memory=trace_memory,
+    )
+
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
         reinit=reinit,
+        setup_version=setup_version,
         bug_report=bug_report,
         bmc_depth=bmc_depth,
         max_depth=max_depth,
@@ -287,6 +300,7 @@ def exec_prove(
         active_symbolik=with_non_general_state,
         cse=cse,
         hevm=hevm,
+        trace_options=trace_options,
     )
 
     rpc_options = RPCOptions(
@@ -356,10 +370,11 @@ def exec_show(
     counterexample_info: bool = True,
     port: int | None = None,
     maude_port: int | None = None,
+    use_hex_encoding: bool = False,
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
-        foundry=_load_foundry(foundry_root),
+        foundry=_load_foundry(foundry_root, use_hex_encoding=use_hex_encoding),
         test=test,
         version=version,
         nodes=nodes,
@@ -417,7 +432,7 @@ def exec_list(foundry_root: Path, **kwargs: Any) -> None:
 
 
 def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry = _load_foundry(foundry_root)
+    foundry = _load_foundry(foundry_root, use_hex_encoding=True)
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -824,6 +839,13 @@ def _create_argument_parser() -> ArgumentParser:
         help='Reinitialize CFGs even if they already exist.',
     )
     prove_args.add_argument(
+        '--setup-version',
+        dest='setup_version',
+        default=None,
+        type=int,
+        help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
+    )
+    prove_args.add_argument(
         '--bmc-depth',
         dest='bmc_depth',
         default=None,
@@ -886,6 +908,34 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Use hevm success predicate instead of foundry to determine if a test is passing',
     )
+    prove_args.add_argument(
+        '--evm-tracing',
+        dest='evm_tracing',
+        action='store_true',
+        default=False,
+        help='Trace opcode execution and store it in the configuration',
+    )
+    prove_args.add_argument(
+        '--no-trace-storage',
+        dest='trace_storage',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing storage information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-wordstack',
+        dest='trace_wordstack',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing wordstack information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-memory',
+        dest='trace_memory',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing memory information.',
+    )
 
     show_args = command_parser.add_parser(
         'show',
@@ -918,6 +968,13 @@ def _create_argument_parser() -> ArgumentParser:
         dest='kevm_claim_dir',
         type=ensure_dir_path,
         help='Path to write KEVM claim files at.',
+    )
+    show_args.add_argument(
+        '--use-hex-encoding',
+        dest='use_hex_encoding',
+        default=False,
+        action='store_true',
+        help='Print elements in hexadecimal encoding.',
     )
 
     command_parser.add_parser(

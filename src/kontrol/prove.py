@@ -26,6 +26,7 @@ from pyk.utils import run_process, unique
 
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
+from .options import TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
 
 if TYPE_CHECKING:
@@ -98,8 +99,10 @@ def foundry_prove(
     test_names = [test.name for test in test_suite]
     print(f'Running functions: {test_names}')
 
-    contracts = [test.contract for test in test_suite]
-    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=prove_options.reinit)
+    contracts = [(test.contract, test.version) for test in test_suite]
+    setup_method_tests = collect_setup_methods(
+        foundry, contracts, reinit=prove_options.reinit, setup_version=prove_options.setup_version
+    )
     setup_method_names = [test.name for test in setup_method_tests]
 
     _LOGGER.info(f'Running tests: {test_names}')
@@ -195,10 +198,12 @@ def collect_tests(
     return res
 
 
-def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool) -> list[FoundryTest]:
+def collect_setup_methods(
+    foundry: Foundry, contracts: Iterable[tuple[Contract, int]] = (), *, reinit: bool, setup_version: int | None = None
+) -> list[FoundryTest]:
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
-    for contract in contracts:
+    for contract, test_version in contracts:
         if contract.name_with_path in contract_names:
             continue
         contract_names.add(contract.name_with_path)
@@ -206,15 +211,19 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
         method = contract.method_by_name.get('setUp')
         if not method:
             continue
-        version = foundry.resolve_proof_version(f'{contract.name_with_path}.setUp()', reinit, None)
+        version = foundry.resolve_setup_proof_version(
+            f'{contract.name_with_path}.setUp()', reinit, test_version, setup_version
+        )
         res.append(FoundryTest(contract, method, version))
     return res
 
 
-def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool) -> list[FoundryTest]:
+def collect_constructors(
+    foundry: Foundry, contracts: Iterable[tuple[Contract, int]] = (), *, reinit: bool
+) -> list[FoundryTest]:
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
-    for contract in contracts:
+    for contract, _ in contracts:
         if contract.name_with_path in contract_names:
             continue
         contract_names.add(contract.name_with_path)
@@ -235,11 +244,12 @@ def _run_cfg_group(
     summary_ids: Iterable[str],
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
+        proof = None
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
-            apr_proof = foundry.get_apr_proof(test.id)
-            if apr_proof.passed:
+            proof = foundry.get_apr_proof(test.id)
+            if proof.passed:
                 return None
-        start_time = time.time()
+        start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
         start_server = rpc_options.port is None
         with legacy_explore(
             foundry.kevm,
@@ -255,18 +265,20 @@ def _run_cfg_group(
             port=rpc_options.port,
             maude_port=rpc_options.maude_port,
         ) as kcfg_explore:
-            proof = method_to_apr_proof(
-                test=test,
-                foundry=foundry,
-                kcfg_explore=kcfg_explore,
-                bmc_depth=prove_options.bmc_depth,
-                run_constructor=prove_options.run_constructor,
-                use_gas=prove_options.use_gas,
-                deployment_state_entries=prove_options.deployment_state_entries,
-                summary_ids=summary_ids,
-                active_symbolik=prove_options.active_symbolik,
-                hevm=prove_options.hevm,
-            )
+            if proof is None:
+                proof = method_to_apr_proof(
+                    test=test,
+                    foundry=foundry,
+                    kcfg_explore=kcfg_explore,
+                    bmc_depth=prove_options.bmc_depth,
+                    run_constructor=prove_options.run_constructor,
+                    use_gas=prove_options.use_gas,
+                    deployment_state_entries=prove_options.deployment_state_entries,
+                    summary_ids=summary_ids,
+                    active_symbolik=prove_options.active_symbolik,
+                    hevm=prove_options.hevm,
+                    trace_options=prove_options.trace_options,
+                )
             cut_point_rules = KEVMSemantics.cut_point_rules(
                 prove_options.break_on_jumpi,
                 prove_options.break_on_calls,
@@ -287,9 +299,9 @@ def _run_cfg_group(
                 counterexample_info=prove_options.counterexample_info,
                 fail_fast=prove_options.fail_fast,
             )
-
-            end_time = time.time()
-            proof.add_exec_time(end_time - start_time)
+            if start_time is not None:
+                end_time = time.time()
+                proof.add_exec_time(end_time - start_time)
             proof.write_proof_data()
 
             # Only return the failure info to avoid pickling the whole proof
@@ -334,11 +346,8 @@ def method_to_apr_proof(
     summary_ids: Iterable[str] = (),
     active_symbolik: bool = False,
     hevm: bool = False,
+    trace_options: TraceOptions | None = None,
 ) -> APRProof:
-    if Proof.proof_data_exists(test.id, foundry.proofs_dir):
-        apr_proof = foundry.get_apr_proof(test.id)
-        return apr_proof
-
     setup_proof = None
     if isinstance(test.method, Contract.Constructor):
         _LOGGER.info(f'Creating proof from constructor for test: {test.id}')
@@ -358,6 +367,7 @@ def method_to_apr_proof(
         deployment_state_entries=deployment_state_entries,
         active_symbolik=active_symbolik,
         hevm=hevm,
+        trace_options=trace_options,
     )
 
     apr_proof = APRProof(
@@ -399,12 +409,21 @@ def _method_to_initialized_cfg(
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     active_symbolik: bool = False,
     hevm: bool = False,
+    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
-        empty_config, test.contract, test.method, setup_proof, use_gas, deployment_state_entries, active_symbolik, hevm
+        empty_config,
+        test.contract,
+        test.method,
+        setup_proof,
+        use_gas,
+        deployment_state_entries,
+        active_symbolik,
+        hevm,
+        trace_options,
     )
 
     for node_id in new_node_ids:
@@ -414,13 +433,13 @@ def _method_to_initialized_cfg(
         init_cterm = CTerm.from_kast(init_term)
         _LOGGER.info(f'Computing definedness constraint for node {node_id} for test: {test.name}')
         init_cterm = kcfg_explore.cterm_symbolic.assume_defined(init_cterm)
-        kcfg.replace_node(node_id, init_cterm)
+        kcfg.let_node(node_id, cterm=init_cterm)
 
     _LOGGER.info(f'Expanding macros in target state for test: {test.name}')
     target_term = kcfg.node(target_node_id).cterm.kast
     target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
     target_cterm = CTerm.from_kast(target_term)
-    kcfg.replace_node(target_node_id, target_cterm)
+    kcfg.let_node(target_node_id, cterm=target_cterm)
 
     _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
     kcfg_explore.simplify(kcfg, {})
@@ -437,6 +456,7 @@ def _method_to_cfg(
     deployment_state_entries: Iterable[DeploymentStateEntry] | None,
     active_symbolik: bool,
     hevm: bool = False,
+    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -460,6 +480,7 @@ def _method_to_cfg(
         callvalue=callvalue,
         is_constructor=isinstance(method, Contract.Constructor),
         active_symbolik=active_symbolik,
+        trace_options=trace_options,
     )
     new_node_ids = []
 
@@ -621,8 +642,12 @@ def _init_cterm(
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    trace_options: TraceOptions | None = None,
 ) -> CTerm:
     schedule = KApply('SHANGHAI_EVM')
+
+    if not trace_options:
+        trace_options = TraceOptions()
 
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
@@ -651,6 +676,12 @@ def _init_cterm(
         'ADDRESSSET_CELL': set_empty(),
         'STORAGESLOTSET_CELL': set_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
+        'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
+        'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
+        'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
+        'TRACEMEMORY_CELL': TRUE if trace_options.trace_memory else FALSE,
+        'RECORDEDTRACE_CELL': FALSE,
+        'TRACEDATA_CELL': KApply('.List'),
     }
 
     if is_test or is_setup or is_constructor or active_symbolik:
