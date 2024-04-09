@@ -75,7 +75,7 @@ def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_h
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
             file=sys.stderr,
         )
-        sys.exit(1)
+        sys.exit(127)
     return foundry
 
 
@@ -351,7 +351,7 @@ def exec_prove(
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
                 print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
 
-    sys.exit(failed)
+    sys.exit(1 if failed else 0)
 
 
 def exec_show(
