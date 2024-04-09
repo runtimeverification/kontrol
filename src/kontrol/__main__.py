@@ -70,11 +70,10 @@ def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_h
     try:
         foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report, use_hex_encoding=use_hex_encoding)
     except FileNotFoundError:
-        print(
+        raise RuntimeError(
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
             file=sys.stderr,
         )
-        sys.exit(1)
     return foundry
 
 
@@ -321,7 +320,6 @@ def exec_prove(
         include_summaries=include_summaries,
         xml_test_report=xml_test_report,
     )
-    failed = 0
     for proof in results:
         _, test = proof.id.split('.')
         if not any(test.startswith(prefix) for prefix in ['test', 'check', 'prove']):
@@ -333,7 +331,6 @@ def exec_prove(
             print(f'PROOF PASSED: {proof.id}')
             print(f'time: {proof.formatted_exec_time()}')
         else:
-            failed += 1
             print(f'PROOF FAILED: {proof.id}')
             print(f'time: {proof.formatted_exec_time()}')
             failure_log = None
@@ -348,7 +345,7 @@ def exec_prove(
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
                 print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
 
-    sys.exit(failed)
+    sys.exit(1)
 
 
 def exec_show(
