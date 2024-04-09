@@ -344,7 +344,7 @@ def exec_prove(
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
                 print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
 
-    sys.exit(1)
+    sys.exit(1 if failed else 0)
 
 
 def exec_show(
