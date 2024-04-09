@@ -11,6 +11,7 @@ from kevm_pyk.cli import node_id_like
 from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
@@ -313,14 +314,20 @@ def exec_prove(
         maude_port=maude_port,
     )
 
-    results = foundry_prove(
-        foundry=_load_foundry(foundry_root, bug_report),
-        prove_options=prove_options,
-        rpc_options=rpc_options,
-        tests=tests,
-        include_summaries=include_summaries,
-        xml_test_report=xml_test_report,
-    )
+    try:
+        results = foundry_prove(
+            foundry=_load_foundry(foundry_root, bug_report),
+            prove_options=prove_options,
+            rpc_options=rpc_options,
+            tests=tests,
+            include_summaries=include_summaries,
+            xml_test_report=xml_test_report,
+        )
+    except CTermSMTError as err:
+        raise RuntimeError(
+            f'SMT solver error; SMT timeout occured. SMT timeout parameter is currently set to {smt_timeout}ms, you may increase it using "--smt-timeout" command line argument. Related KAST pattern provided below:\n{err.message}'
+        ) from err
+
     failed = 0
     for proof in results:
         _, test = proof.id.split('.')
