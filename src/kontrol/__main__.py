@@ -69,10 +69,12 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
 def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:
     try:
         foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report, use_hex_encoding=use_hex_encoding)
-    except FileNotFoundError as err:
-        raise RuntimeError(
+    except FileNotFoundError:
+        print(
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
-        ) from err
+            file=sys.stderr,
+        )
+        sys.exit(127)
     return foundry
 
 
@@ -319,6 +321,7 @@ def exec_prove(
         include_summaries=include_summaries,
         xml_test_report=xml_test_report,
     )
+    failed = 0
     for proof in results:
         _, test = proof.id.split('.')
         if not any(test.startswith(prefix) for prefix in ['test', 'check', 'prove']):
@@ -330,6 +333,7 @@ def exec_prove(
             print(f'PROOF PASSED: {proof.id}')
             print(f'time: {proof.formatted_exec_time()}')
         else:
+            failed += 1
             print(f'PROOF FAILED: {proof.id}')
             print(f'time: {proof.formatted_exec_time()}')
             failure_log = None
