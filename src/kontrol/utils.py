@@ -35,7 +35,7 @@ def empty_lemmas_file_contents() -> str:
 requires "evm.md"
 requires "foundry.md"
 
-module PAUSABILITY-LEMMAS
+module KONTROL-LEMMAS
     imports BOOL
     imports FOUNDRY
     imports INFINITE-GAS
