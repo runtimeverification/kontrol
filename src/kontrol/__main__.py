@@ -4,8 +4,9 @@ import json
 import logging
 import sys
 from argparse import ArgumentParser
+from os import chdir, getcwd
 from typing import TYPE_CHECKING
-from os import getcwd, chdir
+
 import pyk
 from kevm_pyk.cli import node_id_like
 from kevm_pyk.kompile import KompileTarget
