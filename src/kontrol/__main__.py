@@ -12,6 +12,7 @@ from kevm_pyk.cli import KOptions, node_id_like
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.args import LoggingOptions
 from pyk.cli.utils import file_path
+from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
@@ -130,7 +131,7 @@ def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_h
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
             file=sys.stderr,
         )
-        sys.exit(1)
+        sys.exit(127)
     return foundry
 
 
@@ -223,11 +224,17 @@ def exec_prove(options: ProveOptions) -> None:
         read_deployment_state(options.deployment_state_path) if options.deployment_state_path else None
     )
 
-    results = foundry_prove(
-        foundry=_load_foundry(options.foundry_root, options.bug_report),
-        options=options,
-        deployment_state_entries=deployment_state_entries,
-    )
+    try:
+        results = foundry_prove(
+            foundry=_load_foundry(options.foundry_root, options.bug_report),
+            options=options,
+            deployment_state_entries=deployment_state_entries,
+        )
+    except CTermSMTError as err:
+        raise RuntimeError(
+            f'SMT solver error; SMT timeout occured. SMT timeout parameter is currently set to {options.smt_timeout}ms, you may increase it using "--smt-timeout" command line argument. Related KAST pattern provided below:\n{err.message}'
+        ) from err
+
     failed = 0
     for proof in results:
         _, test = proof.id.split('.')
@@ -255,7 +262,7 @@ def exec_prove(options: ProveOptions) -> None:
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
                 print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
 
-    sys.exit(failed)
+    sys.exit(1 if failed else 0)
 
 
 def exec_show(options: ShowOptions) -> None:
