@@ -42,7 +42,7 @@ from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions, TraceOptions
 from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
-from .utils import empty_lemmas_file_contents, run_kontrol_file_contents, write_to_file
+from .utils import empty_lemmas_file_contents, kontrol_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -675,7 +675,7 @@ def exec_init(
     **kwargs: Any,
 ) -> None:
     """
-    Wrapper around forge init that also adds files for kontrol compatibility.
+    Wrapper around forge init that adds files required for kontrol compatibility.
 
     TODO: --root does not work for forge install, so we're temporary using `chdir`.
     """
@@ -684,7 +684,7 @@ def exec_init(
         run_process(['forge', 'init', str(foundry_root)], logger=_LOGGER)
 
     write_to_file(foundry_root / 'lemmas.k', empty_lemmas_file_contents())
-    write_to_file(foundry_root / 'run-kontrol.sh', run_kontrol_file_contents(), grant_exec_permission=True)
+    write_to_file(foundry_root / 'KONTROL.md', kontrol_file_contents())
     cwd = getcwd()
     chdir(foundry_root)
     run_process(
