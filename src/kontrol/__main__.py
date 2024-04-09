@@ -72,7 +72,6 @@ def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_h
     except FileNotFoundError as err:
         raise RuntimeError(
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
-            file=sys.stderr,
         ) from err
     return foundry
 
