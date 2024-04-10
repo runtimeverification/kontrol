@@ -114,7 +114,6 @@ def test_foundry_prove(
                 'break_on_calls': True,
                 'use_gas': test_id in GAS_TESTS,
                 'port': server.port,
-                'smt_timeout': 500,
             }
         ),
     )

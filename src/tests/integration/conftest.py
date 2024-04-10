@@ -41,7 +41,7 @@ def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
         llvm_definition_dir=llvm_definition_dir,
         module_name=foundry.kevm.main_module,
         command=kore_rpc_command,
-        smt_timeout=300,
+        smt_timeout=500,
         smt_retry_limit=10,
         fallback_on=None,
         interim_simplification=None,
