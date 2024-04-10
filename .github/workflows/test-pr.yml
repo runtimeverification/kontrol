@@ -199,7 +199,7 @@ jobs:
           docker exec ${CONTAINER_NAME} chown -R ${DOCKER_USER}:${DOCKER_GROUP} ${FOUNDRY_ROOT}
       - name: 'Run forge build'
         run: |
-          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git foundry-rs/forge-std@75f1746
+          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git foundry-rs/forge-std@bb4ceea
           docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git runtimeverification/kontrol-cheatcodes
           docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge build
       - name: 'Run kontrol build'

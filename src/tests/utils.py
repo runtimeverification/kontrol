@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 from typing import TYPE_CHECKING
 
-FORGE_STD_REF: Final = '75f1746'
+FORGE_STD_REF: Final = 'bb4ceea'
 
 
 def forge_build(test_data_dir: Path, target_dir: Path) -> Foundry:

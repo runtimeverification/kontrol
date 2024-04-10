@@ -16,8 +16,15 @@ module KONTROL-ASSERTIONS
     rule [cheatcode.call.assertEq]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ( "assertEq(uint256,uint256)" )
-        orBool SELECTOR ==Int selector ( "assertEq(bool,bool)" )
+        orBool SELECTOR ==Int selector ( "assertEq(bool,bool)"       )
+        orBool SELECTOR ==Int selector ( "assertEq(address,address)" )
+        orBool SELECTOR ==Int selector ( "assertEq(bytes32,bytes32)" )
 ```
+
+```k
+    rule [cheatcode.call.assertTrue]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) bool2Word(true) ... </k>
+      requires SELECTOR ==Int selector ( "assertTrue(bool)" )
 
 
 Utils
@@ -44,7 +51,10 @@ Function selectors
 
 ```k
     rule selector ( "assertEq(uint256,uint256)" ) => 2552851540
-    rule selector ( "assertEq(bool,bool)" ) => 4160631927
+    rule selector ( "assertEq(bool,bool)"       ) => 4160631927
+    rule selector ( "assertEq(address,address)" ) => 1364419062
+    rule selector ( "assertEq(bytes32,bytes32)" ) => 2089076379
+    rule selector ( "assertTrue(bool)"          ) => 211801473
 ```
 
 ```k
