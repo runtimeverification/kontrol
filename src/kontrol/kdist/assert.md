@@ -25,7 +25,7 @@ module KONTROL-ASSERTIONS
     rule [cheatcode.call.assertTrue]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) bool2Word(true) ... </k>
       requires SELECTOR ==Int selector ( "assertTrue(bool)" )
-
+```
 
 Utils
 -----
