@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 from argparse import ArgumentParser
+from os import chdir, getcwd
 from typing import TYPE_CHECKING
 
 import pyk
@@ -11,10 +12,11 @@ from kevm_pyk.cli import node_id_like
 from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
-from pyk.utils import ensure_dir_path
+from pyk.utils import ensure_dir_path, run_process
 
 from . import VERSION
 from .cli import KontrolCLIArgs
@@ -41,6 +43,7 @@ from .kompile import foundry_kompile
 from .options import ProveOptions, RPCOptions, TraceOptions
 from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
+from .utils import empty_lemmas_file_contents, kontrol_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -74,7 +77,7 @@ def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_h
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
             file=sys.stderr,
         )
-        sys.exit(1)
+        sys.exit(127)
     return foundry
 
 
@@ -313,14 +316,20 @@ def exec_prove(
         maude_port=maude_port,
     )
 
-    results = foundry_prove(
-        foundry=_load_foundry(foundry_root, bug_report),
-        prove_options=prove_options,
-        rpc_options=rpc_options,
-        tests=tests,
-        include_summaries=include_summaries,
-        xml_test_report=xml_test_report,
-    )
+    try:
+        results = foundry_prove(
+            foundry=_load_foundry(foundry_root, bug_report),
+            prove_options=prove_options,
+            rpc_options=rpc_options,
+            tests=tests,
+            include_summaries=include_summaries,
+            xml_test_report=xml_test_report,
+        )
+    except CTermSMTError as err:
+        raise RuntimeError(
+            f'SMT solver error; SMT timeout occured. SMT timeout parameter is currently set to {smt_timeout}ms, you may increase it using "--smt-timeout" command line argument. Related KAST pattern provided below:\n{err.message}'
+        ) from err
+
     failed = 0
     for proof in results:
         _, test = proof.id.split('.')
@@ -348,7 +357,7 @@ def exec_prove(
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
                 print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
 
-    sys.exit(failed)
+    sys.exit(1 if failed else 0)
 
 
 def exec_show(
@@ -658,6 +667,38 @@ def exec_get_model(
         bug_report=bug_report,
     )
     print(output)
+
+
+def exec_clean(
+    foundry_root: Path,
+    **kwargs: Any,
+) -> None:
+    run_process(['forge', 'clean', '--root', str(foundry_root)], logger=_LOGGER)
+
+
+def exec_init(
+    foundry_root: Path,
+    skip_forge: bool,
+    **kwargs: Any,
+) -> None:
+    """
+    Wrapper around forge init that adds files required for kontrol compatibility.
+
+    TODO: --root does not work for forge install, so we're temporary using `chdir`.
+    """
+
+    if not skip_forge:
+        run_process(['forge', 'init', str(foundry_root)], logger=_LOGGER)
+
+    write_to_file(foundry_root / 'lemmas.k', empty_lemmas_file_contents())
+    write_to_file(foundry_root / 'KONTROL.md', kontrol_file_contents())
+    cwd = getcwd()
+    chdir(foundry_root)
+    run_process(
+        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+        logger=_LOGGER,
+    )
+    chdir(cwd)
 
 
 # Helpers
@@ -1084,6 +1125,29 @@ def _create_argument_parser() -> ArgumentParser:
     )
     get_model.add_argument(
         '--failing', dest='failing', default=False, action='store_true', help='Also display models of failing nodes'
+    )
+    command_parser.add_parser(
+        'clean',
+        help='Remove the build artifacts and cache directories.',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    init = command_parser.add_parser(
+        'init',
+        help='Create a new Forge project compatible with Kontrol',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    init.add_argument(
+        '--skip-forge',
+        dest='skip_forge',
+        default=False,
+        action='store_true',
+        help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',
     )
 
     return parser
