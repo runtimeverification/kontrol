@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 from argparse import ArgumentParser
+from os import chdir, getcwd
 from typing import TYPE_CHECKING
 
 import pyk
@@ -11,10 +12,11 @@ from kevm_pyk.cli import node_id_like
 from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import file_path
+from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
-from pyk.utils import ensure_dir_path
+from pyk.utils import ensure_dir_path, run_process
 
 from . import VERSION
 from .cli import KontrolCLIArgs
@@ -38,9 +40,10 @@ from .foundry import (
 )
 from .hevm import Hevm
 from .kompile import foundry_kompile
-from .options import ProveOptions, RPCOptions
+from .options import ProveOptions, RPCOptions, TraceOptions
 from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
+from .utils import empty_lemmas_file_contents, kontrol_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -66,15 +69,15 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         args.pop(arg)
 
 
-def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None) -> Foundry:
+def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:
     try:
-        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report)
+        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report, use_hex_encoding=use_hex_encoding)
     except FileNotFoundError:
         print(
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
             file=sys.stderr,
         )
-        sys.exit(1)
+        sys.exit(127)
     return foundry
 
 
@@ -218,6 +221,7 @@ def exec_prove(
     max_depth: int = 1000,
     max_iterations: int | None = None,
     reinit: bool = False,
+    setup_version: int | None = None,
     tests: Iterable[tuple[str, int | None]] = (),
     include_summaries: Iterable[tuple[str, int | None]] = (),
     workers: int = 1,
@@ -248,6 +252,10 @@ def exec_prove(
     xml_test_report: bool = False,
     cse: bool = False,
     hevm: bool = False,
+    evm_tracing: bool = False,
+    trace_storage: bool = True,
+    trace_wordstack: bool = True,
+    trace_memory: bool = True,
     **kwargs: Any,
 ) -> None:
     _ignore_arg(kwargs, 'main_module', f'--main-module: {kwargs["main_module"]}')
@@ -264,9 +272,17 @@ def exec_prove(
 
     deployment_state_entries = read_deployment_state(deployment_state_path) if deployment_state_path else None
 
+    trace_options = TraceOptions(
+        active_tracing=evm_tracing,
+        trace_storage=trace_storage,
+        trace_wordstack=trace_wordstack,
+        trace_memory=trace_memory,
+    )
+
     prove_options = ProveOptions(
         auto_abstract_gas=auto_abstract_gas,
         reinit=reinit,
+        setup_version=setup_version,
         bug_report=bug_report,
         bmc_depth=bmc_depth,
         max_depth=max_depth,
@@ -286,6 +302,7 @@ def exec_prove(
         active_symbolik=with_non_general_state,
         cse=cse,
         hevm=hevm,
+        trace_options=trace_options,
     )
 
     rpc_options = RPCOptions(
@@ -299,14 +316,20 @@ def exec_prove(
         maude_port=maude_port,
     )
 
-    results = foundry_prove(
-        foundry=_load_foundry(foundry_root, bug_report),
-        prove_options=prove_options,
-        rpc_options=rpc_options,
-        tests=tests,
-        include_summaries=include_summaries,
-        xml_test_report=xml_test_report,
-    )
+    try:
+        results = foundry_prove(
+            foundry=_load_foundry(foundry_root, bug_report),
+            prove_options=prove_options,
+            rpc_options=rpc_options,
+            tests=tests,
+            include_summaries=include_summaries,
+            xml_test_report=xml_test_report,
+        )
+    except CTermSMTError as err:
+        raise RuntimeError(
+            f'SMT solver error; SMT timeout occured. SMT timeout parameter is currently set to {smt_timeout}ms, you may increase it using "--smt-timeout" command line argument. Related KAST pattern provided below:\n{err.message}'
+        ) from err
+
     failed = 0
     for proof in results:
         _, test = proof.id.split('.')
@@ -334,7 +357,7 @@ def exec_prove(
                 print(f'The proof cannot be completed while there are refuted nodes: {refuted_nodes}.')
                 print('Either unrefute the nodes or discharge the corresponding refutation subproofs.')
 
-    sys.exit(failed)
+    sys.exit(1 if failed else 0)
 
 
 def exec_show(
@@ -355,10 +378,11 @@ def exec_show(
     counterexample_info: bool = True,
     port: int | None = None,
     maude_port: int | None = None,
+    use_hex_encoding: bool = False,
     **kwargs: Any,
 ) -> None:
     output = foundry_show(
-        foundry=_load_foundry(foundry_root),
+        foundry=_load_foundry(foundry_root, use_hex_encoding=use_hex_encoding),
         test=test,
         version=version,
         nodes=nodes,
@@ -416,7 +440,7 @@ def exec_list(foundry_root: Path, **kwargs: Any) -> None:
 
 
 def exec_view_kcfg(foundry_root: Path, test: str, version: int | None, **kwargs: Any) -> None:
-    foundry = _load_foundry(foundry_root)
+    foundry = _load_foundry(foundry_root, use_hex_encoding=True)
     test_id = foundry.get_test_id(test, version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -645,6 +669,38 @@ def exec_get_model(
     print(output)
 
 
+def exec_clean(
+    foundry_root: Path,
+    **kwargs: Any,
+) -> None:
+    run_process(['forge', 'clean', '--root', str(foundry_root)], logger=_LOGGER)
+
+
+def exec_init(
+    foundry_root: Path,
+    skip_forge: bool,
+    **kwargs: Any,
+) -> None:
+    """
+    Wrapper around forge init that adds files required for kontrol compatibility.
+
+    TODO: --root does not work for forge install, so we're temporary using `chdir`.
+    """
+
+    if not skip_forge:
+        run_process(['forge', 'init', str(foundry_root)], logger=_LOGGER)
+
+    write_to_file(foundry_root / 'lemmas.k', empty_lemmas_file_contents())
+    write_to_file(foundry_root / 'KONTROL.md', kontrol_file_contents())
+    cwd = getcwd()
+    chdir(foundry_root)
+    run_process(
+        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+        logger=_LOGGER,
+    )
+    chdir(cwd)
+
+
 # Helpers
 
 
@@ -791,6 +847,13 @@ def _create_argument_parser() -> ArgumentParser:
         help='Reinitialize CFGs even if they already exist.',
     )
     prove_args.add_argument(
+        '--setup-version',
+        dest='setup_version',
+        default=None,
+        type=int,
+        help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
+    )
+    prove_args.add_argument(
         '--bmc-depth',
         dest='bmc_depth',
         default=None,
@@ -853,6 +916,34 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Use hevm success predicate instead of foundry to determine if a test is passing',
     )
+    prove_args.add_argument(
+        '--evm-tracing',
+        dest='evm_tracing',
+        action='store_true',
+        default=False,
+        help='Trace opcode execution and store it in the configuration',
+    )
+    prove_args.add_argument(
+        '--no-trace-storage',
+        dest='trace_storage',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing storage information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-wordstack',
+        dest='trace_wordstack',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing wordstack information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-memory',
+        dest='trace_memory',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing memory information.',
+    )
 
     show_args = command_parser.add_parser(
         'show',
@@ -885,6 +976,13 @@ def _create_argument_parser() -> ArgumentParser:
         dest='kevm_claim_dir',
         type=ensure_dir_path,
         help='Path to write KEVM claim files at.',
+    )
+    show_args.add_argument(
+        '--use-hex-encoding',
+        dest='use_hex_encoding',
+        default=False,
+        action='store_true',
+        help='Print elements in hexadecimal encoding.',
     )
 
     command_parser.add_parser(
@@ -1027,6 +1125,29 @@ def _create_argument_parser() -> ArgumentParser:
     )
     get_model.add_argument(
         '--failing', dest='failing', default=False, action='store_true', help='Also display models of failing nodes'
+    )
+    command_parser.add_parser(
+        'clean',
+        help='Remove the build artifacts and cache directories.',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    init = command_parser.add_parser(
+        'init',
+        help='Create a new Forge project compatible with Kontrol',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    init.add_argument(
+        '--skip-forge',
+        dest='skip_forge',
+        default=False,
+        action='store_true',
+        help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',
     )
 
     return parser
