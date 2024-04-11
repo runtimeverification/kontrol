@@ -57,6 +57,12 @@ module FOUNDRY-MAIN
     imports public S2KtestZModGasTest-VERIFICATION
     imports public S2KtestZModGetCodeTest-VERIFICATION
     imports public S2KtestZModHevmTests-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC165-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC20-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721Enumerable-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721Metadata-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721TokenReceiver-VERIFICATION
     imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-VERIFICATION
     imports public S2KtestZModInitCodeTest-VERIFICATION
@@ -71,6 +77,9 @@ module FOUNDRY-MAIN
     imports public S2KtestZModMockCallRevertTest-VERIFICATION
     imports public S2KtestZModMockCallTest-VERIFICATION
     imports public S2KtestZModMockCallTestFoundry-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-VERIFICATION
     imports public S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyToken-VERIFICATION
     imports public S2KtestZModNoImport-VERIFICATION
@@ -112,6 +121,7 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModstdStorage-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModstdStorageSafe-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModStdStyle-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModstdToml-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModStdUtils-VERIFICATION
     imports public S2KtestZModStore-VERIFICATION
     imports public S2KtestZModStoreTest-VERIFICATION
@@ -134,7 +144,6 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole2-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
     
     
 
@@ -513,6 +522,48 @@ module S2KtestZModHevmTests-VERIFICATION
 
 endmodule
 
+module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC165-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC165-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC20-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC20-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721Enumerable-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721Enumerable-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721Metadata-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721Metadata-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721TokenReceiver-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIERC721TokenReceiver-CONTRACT
+    
+    
+
+endmodule
+
 module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-VERIFICATION
     imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
     
@@ -607,6 +658,27 @@ endmodule
 
 module S2KtestZModMockCallTestFoundry-VERIFICATION
     imports public S2KtestZModMockCallTestFoundry-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC20-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModIERC721TokenReceiver-CONTRACT
+    
+    
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModmocksZModMockERC721-CONTRACT
     
     
 
@@ -900,6 +972,13 @@ module S2KlibZModforgeZSubstdZModsrcZModStdStyle-VERIFICATION
 
 endmodule
 
+module S2KlibZModforgeZSubstdZModsrcZModstdToml-VERIFICATION
+    imports public S2KlibZModforgeZSubstdZModsrcZModstdToml-CONTRACT
+    
+    
+
+endmodule
+
 module S2KlibZModforgeZSubstdZModsrcZModStdUtils-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModStdUtils-CONTRACT
     
@@ -1049,13 +1128,6 @@ endmodule
 
 module S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-CONTRACT
-    
-    
-
-endmodule
-
-module S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-CONTRACT
     
     
 

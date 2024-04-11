@@ -5,10 +5,10 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (324 steps)
+│  (345 steps)
 ├─ 3 (split)
-│   k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
-│   pc: 525
+│   k: JUMPI 905 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
+│   pc: 895
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 ┃
@@ -16,37 +16,37 @@
 ┣━━┓ constraint: 10 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  └─ 4 (leaf, refuted)
-┃      k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
-┃      pc: 525
+┃      k: JUMPI 905 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
+┃      pc: 895
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃
 ┗━━┓ constraint: ( notBool 10 <=Int VV0_x_114b9705:Int )
    │
    ├─ 5
-   │   k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
-   │   pc: 525
+   │   k: JUMPI 905 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
+   │   pc: 895
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
    │  (90 steps)
    ├─ 12
    │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-   │   pc: 235
+   │   pc: 283
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
    │  (1 step)
    ├─ 13
    │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-   │   pc: 235
+   │   pc: 283
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
    │
    │  (2 steps)
    ├─ 14 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 235
+   │   pc: 283
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
    │
@@ -67,7 +67,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int )
+               ( .K => JUMPI 905 bool2Word ( 10 <=Int VV0_x_114b9705:Int )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION
@@ -109,7 +109,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( VV0_x_114b9705:Int : ( 234 : ( selector ( "test_branch_merge(uint256)" ) : .WordStack ) ) ) )
+                     ( .WordStack => ( VV0_x_114b9705:Int : ( 282 : ( selector ( "test_branch_merge(uint256)" ) : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -298,7 +298,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
     rule [BASIC-BLOCK-5-TO-12]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int )
+               ( JUMPI 905 bool2Word ( 10 <=Int VV0_x_114b9705:Int )
                ~> #pc [ JUMPI ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
@@ -341,7 +341,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( VV0_x_114b9705:Int => selector ( "test_branch_merge(uint256)" ) ) : ( ( 234 : ( selector ( "test_branch_merge(uint256)" ) : .WordStack ) ) => .WordStack ) )
+                     ( ( VV0_x_114b9705:Int => selector ( "test_branch_merge(uint256)" ) ) : ( ( 282 : ( selector ( "test_branch_merge(uint256)" ) : .WordStack ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -417,7 +417,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 27 |-> 0 ) )
+                       ( .Map => ( maxUInt5 |-> 0 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -647,7 +647,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 0 )
+                       ( maxUInt5 |-> 0 )
                      </storage>
                      <origStorage>
                        .Map
@@ -876,7 +876,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 0 )
+                       ( maxUInt5 |-> 0 )
                      </storage>
                      <origStorage>
                        .Map

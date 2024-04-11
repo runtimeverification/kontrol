@@ -5,10 +5,10 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (546 steps)
+│  (575 steps)
 ├─ 4 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 248
+│   pc: 259
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
 │
@@ -19,7 +19,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (531 steps)
+│  (564 steps)
 ├─ 7
 │   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 │   pc: 279
@@ -71,7 +71,7 @@
 ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  │  (430 steps)
+┃  ┃  ┃  ┃  ┃  │  (442 steps)
 ┃  ┃  ┃  ┃  ┃  └─ 118 (leaf, pending)
 ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃  ┃      pc: 279
@@ -86,7 +86,7 @@
 ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  │  (430 steps)
+┃  ┃  ┃  ┃  ┃  │  (442 steps)
 ┃  ┃  ┃  ┃  ┃  └─ 119 (leaf, pending)
 ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃  ┃      pc: 279
@@ -101,7 +101,7 @@
 ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  │  (430 steps)
+┃  ┃  ┃  ┃  ┃  │  (442 steps)
 ┃  ┃  ┃  ┃  ┃  └─ 120 (leaf, pending)
 ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃  ┃      pc: 279
@@ -116,7 +116,7 @@
 ┃  ┃  ┃  ┃     │   callDepth: 1
 ┃  ┃  ┃  ┃     │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃     │
-┃  ┃  ┃  ┃     │  (430 steps)
+┃  ┃  ┃  ┃     │  (442 steps)
 ┃  ┃  ┃  ┃     └─ 121 (leaf, pending)
 ┃  ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃         pc: 279
@@ -143,7 +143,7 @@
 ┃  ┃  ┃     ┃  │  (72 steps)
 ┃  ┃  ┃     ┃  └─ 122 (leaf, pending)
 ┃  ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃     ┃      pc: 1584
+┃  ┃  ┃     ┃      pc: 1940
 ┃  ┃  ┃     ┃      callDepth: 0
 ┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
 ┃  ┃  ┃     ┃
@@ -158,7 +158,7 @@
 ┃  ┃  ┃     ┃  │  (72 steps)
 ┃  ┃  ┃     ┃  └─ 123 (leaf, pending)
 ┃  ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃     ┃      pc: 1584
+┃  ┃  ┃     ┃      pc: 1940
 ┃  ┃  ┃     ┃      callDepth: 0
 ┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
 ┃  ┃  ┃     ┃
@@ -173,7 +173,7 @@
 ┃  ┃  ┃     ┃  │  (72 steps)
 ┃  ┃  ┃     ┃  └─ 124 (leaf, pending)
 ┃  ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃     ┃      pc: 1584
+┃  ┃  ┃     ┃      pc: 1940
 ┃  ┃  ┃     ┃      callDepth: 0
 ┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
 ┃  ┃  ┃     ┃
@@ -188,7 +188,7 @@
 ┃  ┃  ┃        │  (72 steps)
 ┃  ┃  ┃        └─ 125 (leaf, pending)
 ┃  ┃  ┃            k: #halt ~> CONTINUATION:K
-┃  ┃  ┃            pc: 1584
+┃  ┃  ┃            pc: 1940
 ┃  ┃  ┃            callDepth: 0
 ┃  ┃  ┃            statusCode: EVMC_REVERT
 ┃  ┃  ┃
@@ -218,7 +218,7 @@
 ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  │  (430 steps)
+┃  ┃  ┃  ┃  ┃  │  (442 steps)
 ┃  ┃  ┃  ┃  ┃  └─ 126 (leaf, pending)
 ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃  ┃      pc: 279
@@ -233,7 +233,7 @@
 ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  │  (430 steps)
+┃  ┃  ┃  ┃  ┃  │  (442 steps)
 ┃  ┃  ┃  ┃  ┃  └─ 127 (leaf, pending)
 ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃  ┃      pc: 279
@@ -248,7 +248,7 @@
 ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  │  (430 steps)
+┃  ┃  ┃  ┃  ┃  │  (442 steps)
 ┃  ┃  ┃  ┃  ┃  └─ 128 (leaf, pending)
 ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃  ┃      pc: 279
@@ -263,7 +263,7 @@
 ┃  ┃  ┃  ┃     │   callDepth: 1
 ┃  ┃  ┃  ┃     │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃     │
-┃  ┃  ┃  ┃     │  (430 steps)
+┃  ┃  ┃  ┃     │  (442 steps)
 ┃  ┃  ┃  ┃     └─ 129 (leaf, pending)
 ┃  ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃         pc: 279
@@ -290,7 +290,7 @@
 ┃  ┃  ┃     ┃  │  (72 steps)
 ┃  ┃  ┃     ┃  └─ 130 (leaf, pending)
 ┃  ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃     ┃      pc: 1584
+┃  ┃  ┃     ┃      pc: 1940
 ┃  ┃  ┃     ┃      callDepth: 0
 ┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
 ┃  ┃  ┃     ┃
@@ -305,7 +305,7 @@
 ┃  ┃  ┃     ┃  │  (72 steps)
 ┃  ┃  ┃     ┃  └─ 131 (leaf, pending)
 ┃  ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃     ┃      pc: 1584
+┃  ┃  ┃     ┃      pc: 1940
 ┃  ┃  ┃     ┃      callDepth: 0
 ┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
 ┃  ┃  ┃     ┃
@@ -320,7 +320,7 @@
 ┃  ┃  ┃     ┃  │  (72 steps)
 ┃  ┃  ┃     ┃  └─ 132 (leaf, pending)
 ┃  ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃     ┃      pc: 1584
+┃  ┃  ┃     ┃      pc: 1940
 ┃  ┃  ┃     ┃      callDepth: 0
 ┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
 ┃  ┃  ┃     ┃
@@ -335,7 +335,7 @@
 ┃  ┃  ┃        │  (72 steps)
 ┃  ┃  ┃        └─ 133 (leaf, pending)
 ┃  ┃  ┃            k: #halt ~> CONTINUATION:K
-┃  ┃  ┃            pc: 1584
+┃  ┃  ┃            pc: 1940
 ┃  ┃  ┃            callDepth: 0
 ┃  ┃  ┃            statusCode: EVMC_REVERT
 ┃  ┃  ┃
@@ -365,7 +365,7 @@
 ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  │  (430 steps)
+┃  ┃  ┃  ┃  ┃  │  (442 steps)
 ┃  ┃  ┃  ┃  ┃  └─ 134 (leaf, pending)
 ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃  ┃      pc: 279
@@ -380,7 +380,7 @@
 ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  │  (430 steps)
+┃  ┃  ┃  ┃  ┃  │  (442 steps)
 ┃  ┃  ┃  ┃  ┃  └─ 135 (leaf, pending)
 ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃  ┃      pc: 279
@@ -395,7 +395,7 @@
 ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  │  (430 steps)
+┃  ┃  ┃  ┃  ┃  │  (442 steps)
 ┃  ┃  ┃  ┃  ┃  └─ 136 (leaf, pending)
 ┃  ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃  ┃      pc: 279
@@ -410,7 +410,7 @@
 ┃  ┃  ┃  ┃     │   callDepth: 1
 ┃  ┃  ┃  ┃     │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃     │
-┃  ┃  ┃  ┃     │  (430 steps)
+┃  ┃  ┃  ┃     │  (442 steps)
 ┃  ┃  ┃  ┃     └─ 137 (leaf, pending)
 ┃  ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃  ┃  ┃         pc: 279
@@ -437,7 +437,7 @@
 ┃  ┃  ┃     ┃  │  (72 steps)
 ┃  ┃  ┃     ┃  └─ 138 (leaf, pending)
 ┃  ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃     ┃      pc: 1584
+┃  ┃  ┃     ┃      pc: 1940
 ┃  ┃  ┃     ┃      callDepth: 0
 ┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
 ┃  ┃  ┃     ┃
@@ -452,7 +452,7 @@
 ┃  ┃  ┃     ┃  │  (72 steps)
 ┃  ┃  ┃     ┃  └─ 139 (leaf, pending)
 ┃  ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃     ┃      pc: 1584
+┃  ┃  ┃     ┃      pc: 1940
 ┃  ┃  ┃     ┃      callDepth: 0
 ┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
 ┃  ┃  ┃     ┃
@@ -467,7 +467,7 @@
 ┃  ┃  ┃     ┃  │  (72 steps)
 ┃  ┃  ┃     ┃  └─ 140 (leaf, pending)
 ┃  ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃     ┃      pc: 1584
+┃  ┃  ┃     ┃      pc: 1940
 ┃  ┃  ┃     ┃      callDepth: 0
 ┃  ┃  ┃     ┃      statusCode: EVMC_REVERT
 ┃  ┃  ┃     ┃
@@ -482,7 +482,7 @@
 ┃  ┃  ┃        │  (72 steps)
 ┃  ┃  ┃        └─ 141 (leaf, pending)
 ┃  ┃  ┃            k: #halt ~> CONTINUATION:K
-┃  ┃  ┃            pc: 1584
+┃  ┃  ┃            pc: 1940
 ┃  ┃  ┃            callDepth: 0
 ┃  ┃  ┃            statusCode: EVMC_REVERT
 ┃  ┃  ┃
@@ -512,7 +512,7 @@
 ┃  ┃     ┃  ┃  │   callDepth: 1
 ┃  ┃     ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃     ┃  ┃  │
-┃  ┃     ┃  ┃  │  (430 steps)
+┃  ┃     ┃  ┃  │  (442 steps)
 ┃  ┃     ┃  ┃  └─ 142 (leaf, pending)
 ┃  ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃     ┃  ┃      pc: 279
@@ -527,7 +527,7 @@
 ┃  ┃     ┃  ┃  │   callDepth: 1
 ┃  ┃     ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃     ┃  ┃  │
-┃  ┃     ┃  ┃  │  (430 steps)
+┃  ┃     ┃  ┃  │  (442 steps)
 ┃  ┃     ┃  ┃  └─ 143 (leaf, pending)
 ┃  ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃     ┃  ┃      pc: 279
@@ -542,7 +542,7 @@
 ┃  ┃     ┃  ┃  │   callDepth: 1
 ┃  ┃     ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃     ┃  ┃  │
-┃  ┃     ┃  ┃  │  (430 steps)
+┃  ┃     ┃  ┃  │  (442 steps)
 ┃  ┃     ┃  ┃  └─ 144 (leaf, pending)
 ┃  ┃     ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃     ┃  ┃      pc: 279
@@ -557,7 +557,7 @@
 ┃  ┃     ┃     │   callDepth: 1
 ┃  ┃     ┃     │   statusCode: EVMC_SUCCESS
 ┃  ┃     ┃     │
-┃  ┃     ┃     │  (430 steps)
+┃  ┃     ┃     │  (442 steps)
 ┃  ┃     ┃     └─ 145 (leaf, pending)
 ┃  ┃     ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
 ┃  ┃     ┃         pc: 279
@@ -584,7 +584,7 @@
 ┃  ┃        ┃  │  (72 steps)
 ┃  ┃        ┃  └─ 146 (leaf, pending)
 ┃  ┃        ┃      k: #halt ~> CONTINUATION:K
-┃  ┃        ┃      pc: 1584
+┃  ┃        ┃      pc: 1940
 ┃  ┃        ┃      callDepth: 0
 ┃  ┃        ┃      statusCode: EVMC_REVERT
 ┃  ┃        ┃
@@ -599,7 +599,7 @@
 ┃  ┃        ┃  │  (72 steps)
 ┃  ┃        ┃  └─ 147 (leaf, pending)
 ┃  ┃        ┃      k: #halt ~> CONTINUATION:K
-┃  ┃        ┃      pc: 1584
+┃  ┃        ┃      pc: 1940
 ┃  ┃        ┃      callDepth: 0
 ┃  ┃        ┃      statusCode: EVMC_REVERT
 ┃  ┃        ┃
@@ -614,7 +614,7 @@
 ┃  ┃        ┃  │  (72 steps)
 ┃  ┃        ┃  └─ 148 (leaf, pending)
 ┃  ┃        ┃      k: #halt ~> CONTINUATION:K
-┃  ┃        ┃      pc: 1584
+┃  ┃        ┃      pc: 1940
 ┃  ┃        ┃      callDepth: 0
 ┃  ┃        ┃      statusCode: EVMC_REVERT
 ┃  ┃        ┃
@@ -629,7 +629,7 @@
 ┃  ┃           │  (72 steps)
 ┃  ┃           └─ 149 (leaf, pending)
 ┃  ┃               k: #halt ~> CONTINUATION:K
-┃  ┃               pc: 1584
+┃  ┃               pc: 1940
 ┃  ┃               callDepth: 0
 ┃  ┃               statusCode: EVMC_REVERT
 ┃  ┃
@@ -653,7 +653,7 @@
 ┃     ┃  │  (72 steps)
 ┃     ┃  └─ 38 (leaf, terminal)
 ┃     ┃      k: #halt ~> CONTINUATION:K
-┃     ┃      pc: 1584
+┃     ┃      pc: 1940
 ┃     ┃      callDepth: 0
 ┃     ┃      statusCode: EVMC_REVERT
 ┃     ┃
@@ -668,7 +668,7 @@
 ┃     ┃  │  (72 steps)
 ┃     ┃  └─ 39 (leaf, terminal)
 ┃     ┃      k: #halt ~> CONTINUATION:K
-┃     ┃      pc: 1584
+┃     ┃      pc: 1940
 ┃     ┃      callDepth: 0
 ┃     ┃      statusCode: EVMC_REVERT
 ┃     ┃
@@ -683,7 +683,7 @@
 ┃     ┃  │  (72 steps)
 ┃     ┃  └─ 40 (leaf, terminal)
 ┃     ┃      k: #halt ~> CONTINUATION:K
-┃     ┃      pc: 1584
+┃     ┃      pc: 1940
 ┃     ┃      callDepth: 0
 ┃     ┃      statusCode: EVMC_REVERT
 ┃     ┃
@@ -698,7 +698,7 @@
 ┃        │  (72 steps)
 ┃        └─ 41 (leaf, terminal)
 ┃            k: #halt ~> CONTINUATION:K
-┃            pc: 1584
+┃            pc: 1940
 ┃            callDepth: 0
 ┃            statusCode: EVMC_REVERT
 ┃
@@ -746,7 +746,7 @@
    ┃  ┃  ┃  ┃  │   callDepth: 1
    ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  │  (430 steps)
+   ┃  ┃  ┃  ┃  │  (442 steps)
    ┃  ┃  ┃  ┃  └─ 150 (leaf, pending)
    ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃  ┃      pc: 279
@@ -761,7 +761,7 @@
    ┃  ┃  ┃  ┃  │   callDepth: 1
    ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  │  (430 steps)
+   ┃  ┃  ┃  ┃  │  (442 steps)
    ┃  ┃  ┃  ┃  └─ 151 (leaf, pending)
    ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃  ┃      pc: 279
@@ -776,7 +776,7 @@
    ┃  ┃  ┃  ┃  │   callDepth: 1
    ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  │  (430 steps)
+   ┃  ┃  ┃  ┃  │  (442 steps)
    ┃  ┃  ┃  ┃  └─ 152 (leaf, pending)
    ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃  ┃      pc: 279
@@ -791,7 +791,7 @@
    ┃  ┃  ┃     │   callDepth: 1
    ┃  ┃  ┃     │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃     │
-   ┃  ┃  ┃     │  (430 steps)
+   ┃  ┃  ┃     │  (442 steps)
    ┃  ┃  ┃     └─ 153 (leaf, pending)
    ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃         pc: 279
@@ -818,7 +818,7 @@
    ┃  ┃     ┃  │  (72 steps)
    ┃  ┃     ┃  └─ 154 (leaf, pending)
    ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-   ┃  ┃     ┃      pc: 1584
+   ┃  ┃     ┃      pc: 1940
    ┃  ┃     ┃      callDepth: 0
    ┃  ┃     ┃      statusCode: EVMC_REVERT
    ┃  ┃     ┃
@@ -833,7 +833,7 @@
    ┃  ┃     ┃  │  (72 steps)
    ┃  ┃     ┃  └─ 155 (leaf, pending)
    ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-   ┃  ┃     ┃      pc: 1584
+   ┃  ┃     ┃      pc: 1940
    ┃  ┃     ┃      callDepth: 0
    ┃  ┃     ┃      statusCode: EVMC_REVERT
    ┃  ┃     ┃
@@ -848,7 +848,7 @@
    ┃  ┃     ┃  │  (72 steps)
    ┃  ┃     ┃  └─ 156 (leaf, pending)
    ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-   ┃  ┃     ┃      pc: 1584
+   ┃  ┃     ┃      pc: 1940
    ┃  ┃     ┃      callDepth: 0
    ┃  ┃     ┃      statusCode: EVMC_REVERT
    ┃  ┃     ┃
@@ -863,7 +863,7 @@
    ┃  ┃        │  (72 steps)
    ┃  ┃        └─ 157 (leaf, pending)
    ┃  ┃            k: #halt ~> CONTINUATION:K
-   ┃  ┃            pc: 1584
+   ┃  ┃            pc: 1940
    ┃  ┃            callDepth: 0
    ┃  ┃            statusCode: EVMC_REVERT
    ┃  ┃
@@ -893,7 +893,7 @@
    ┃  ┃  ┃  ┃  │   callDepth: 1
    ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  │  (430 steps)
+   ┃  ┃  ┃  ┃  │  (442 steps)
    ┃  ┃  ┃  ┃  └─ 158 (leaf, pending)
    ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃  ┃      pc: 279
@@ -908,7 +908,7 @@
    ┃  ┃  ┃  ┃  │   callDepth: 1
    ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  │  (430 steps)
+   ┃  ┃  ┃  ┃  │  (442 steps)
    ┃  ┃  ┃  ┃  └─ 159 (leaf, pending)
    ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃  ┃      pc: 279
@@ -923,7 +923,7 @@
    ┃  ┃  ┃  ┃  │   callDepth: 1
    ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  │  (430 steps)
+   ┃  ┃  ┃  ┃  │  (442 steps)
    ┃  ┃  ┃  ┃  └─ 160 (leaf, pending)
    ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃  ┃      pc: 279
@@ -938,7 +938,7 @@
    ┃  ┃  ┃     │   callDepth: 1
    ┃  ┃  ┃     │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃     │
-   ┃  ┃  ┃     │  (430 steps)
+   ┃  ┃  ┃     │  (442 steps)
    ┃  ┃  ┃     └─ 161 (leaf, pending)
    ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃         pc: 279
@@ -965,7 +965,7 @@
    ┃  ┃     ┃  │  (72 steps)
    ┃  ┃     ┃  └─ 162 (leaf, pending)
    ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-   ┃  ┃     ┃      pc: 1584
+   ┃  ┃     ┃      pc: 1940
    ┃  ┃     ┃      callDepth: 0
    ┃  ┃     ┃      statusCode: EVMC_REVERT
    ┃  ┃     ┃
@@ -980,7 +980,7 @@
    ┃  ┃     ┃  │  (72 steps)
    ┃  ┃     ┃  └─ 163 (leaf, pending)
    ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-   ┃  ┃     ┃      pc: 1584
+   ┃  ┃     ┃      pc: 1940
    ┃  ┃     ┃      callDepth: 0
    ┃  ┃     ┃      statusCode: EVMC_REVERT
    ┃  ┃     ┃
@@ -995,7 +995,7 @@
    ┃  ┃     ┃  │  (72 steps)
    ┃  ┃     ┃  └─ 164 (leaf, pending)
    ┃  ┃     ┃      k: #halt ~> CONTINUATION:K
-   ┃  ┃     ┃      pc: 1584
+   ┃  ┃     ┃      pc: 1940
    ┃  ┃     ┃      callDepth: 0
    ┃  ┃     ┃      statusCode: EVMC_REVERT
    ┃  ┃     ┃
@@ -1010,7 +1010,7 @@
    ┃  ┃        │  (72 steps)
    ┃  ┃        └─ 165 (leaf, pending)
    ┃  ┃            k: #halt ~> CONTINUATION:K
-   ┃  ┃            pc: 1584
+   ┃  ┃            pc: 1940
    ┃  ┃            callDepth: 0
    ┃  ┃            statusCode: EVMC_REVERT
    ┃  ┃
@@ -1040,7 +1040,7 @@
    ┃  ┃  ┃  ┃  │   callDepth: 1
    ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  │  (430 steps)
+   ┃  ┃  ┃  ┃  │  (442 steps)
    ┃  ┃  ┃  ┃  └─ 166 (leaf, pending)
    ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃  ┃      pc: 279
@@ -1055,7 +1055,7 @@
    ┃  ┃  ┃  ┃  │   callDepth: 1
    ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  │  (430 steps)
+   ┃  ┃  ┃  ┃  │  (442 steps)
    ┃  ┃  ┃  ┃  └─ 167 (leaf, pending)
    ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃  ┃      pc: 279
@@ -1070,7 +1070,7 @@
    ┃  ┃  ┃  ┃  │   callDepth: 1
    ┃  ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  │  (430 steps)
+   ┃  ┃  ┃  ┃  │  (442 steps)
    ┃  ┃  ┃  ┃  └─ 168 (leaf, pending)
    ┃  ┃  ┃  ┃      k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃  ┃      pc: 279
@@ -1085,7 +1085,7 @@
    ┃  ┃  ┃     │   callDepth: 1
    ┃  ┃  ┃     │   statusCode: EVMC_SUCCESS
    ┃  ┃  ┃     │
-   ┃  ┃  ┃     │  (430 steps)
+   ┃  ┃  ┃     │  (442 steps)
    ┃  ┃  ┃     └─ 169 (leaf, pending)
    ┃  ┃  ┃         k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
    ┃  ┃  ┃         pc: 279
@@ -1244,7 +1244,7 @@
       ┃  │  (72 steps)
       ┃  └─ 50 (leaf, terminal)
       ┃      k: #halt ~> CONTINUATION:K
-      ┃      pc: 1584
+      ┃      pc: 1940
       ┃      callDepth: 0
       ┃      statusCode: EVMC_REVERT
       ┃
@@ -1259,7 +1259,7 @@
       ┃  │  (72 steps)
       ┃  └─ 51 (leaf, terminal)
       ┃      k: #halt ~> CONTINUATION:K
-      ┃      pc: 1584
+      ┃      pc: 1940
       ┃      callDepth: 0
       ┃      statusCode: EVMC_REVERT
       ┃
@@ -1274,7 +1274,7 @@
       ┃  │  (72 steps)
       ┃  └─ 52 (leaf, terminal)
       ┃      k: #halt ~> CONTINUATION:K
-      ┃      pc: 1584
+      ┃      pc: 1940
       ┃      callDepth: 0
       ┃      statusCode: EVMC_REVERT
       ┃
@@ -1289,7 +1289,7 @@
          │  (72 steps)
          └─ 53 (leaf, terminal)
              k: #halt ~> CONTINUATION:K
-             pc: 1584
+             pc: 1940
              callDepth: 0
              statusCode: EVMC_REVERT
 

@@ -5,10 +5,10 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (546 steps)
+│  (575 steps)
 ├─ 4 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 248
+│   pc: 259
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
 │
@@ -19,7 +19,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (478 steps)
+│  (490 steps)
 ├─ 7 (split)
 │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
 │   pc: 562
@@ -35,7 +35,7 @@
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (414 steps)
+┃  │  (426 steps)
 ┃  ├─ 10 (split)
 ┃  │   k: JUMPI 570 bool2Word ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( max ...
 ┃  │   pc: 562
@@ -53,8 +53,8 @@
 ┃  ┃  │
 ┃  ┃  │  (266 steps)
 ┃  ┃  ├─ 14 (split)
-┃  ┃  │   k: JUMPI 2528 bool2Word ( VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y ...
-┃  ┃  │   pc: 2520
+┃  ┃  │   k: JUMPI 2762 bool2Word ( VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y ...
+┃  ┃  │   pc: 2754
 ┃  ┃  │   callDepth: 0
 ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃
@@ -62,15 +62,15 @@
 ┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int )
 ┃  ┃  ┃  │
 ┃  ┃  ┃  ├─ 16
-┃  ┃  ┃  │   k: JUMPI 2528 bool2Word ( VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y ...
-┃  ┃  ┃  │   pc: 2520
+┃  ┃  ┃  │   k: JUMPI 2762 bool2Word ( VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y ...
+┃  ┃  ┃  │   pc: 2754
 ┃  ┃  ┃  │   callDepth: 0
 ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  │
 ┃  ┃  ┃  │  (56 steps)
 ┃  ┃  ┃  ├─ 18 (terminal)
 ┃  ┃  ┃  │   k: #halt ~> CONTINUATION:K
-┃  ┃  ┃  │   pc: 248
+┃  ┃  ┃  │   pc: 259
 ┃  ┃  ┃  │   callDepth: 0
 ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  │
@@ -85,15 +85,15 @@
 ┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) )
 ┃  ┃     │
 ┃  ┃     ├─ 17
-┃  ┃     │   k: JUMPI 2528 bool2Word ( VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y ...
-┃  ┃     │   pc: 2520
+┃  ┃     │   k: JUMPI 2762 bool2Word ( VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y ...
+┃  ┃     │   pc: 2754
 ┃  ┃     │   callDepth: 0
 ┃  ┃     │   statusCode: EVMC_SUCCESS
 ┃  ┃     │
 ┃  ┃     │  (66 steps)
 ┃  ┃     └─ 19 (leaf, terminal)
 ┃  ┃         k: #halt ~> CONTINUATION:K
-┃  ┃         pc: 3736
+┃  ┃         pc: 4231
 ┃  ┃         callDepth: 0
 ┃  ┃         statusCode: EVMC_REVERT
 ┃  ┃
@@ -108,7 +108,7 @@
 ┃     │  (73 steps)
 ┃     └─ 15 (leaf, terminal)
 ┃         k: #halt ~> CONTINUATION:K
-┃         pc: 2474
+┃         pc: 2708
 ┃         callDepth: 0
 ┃         statusCode: EVMC_REVERT
 ┃
@@ -123,7 +123,7 @@
    │  (73 steps)
    └─ 11 (leaf, terminal)
        k: #halt ~> CONTINUATION:K
-       pc: 2357
+       pc: 2586
        callDepth: 0
        statusCode: EVMC_REVERT
 

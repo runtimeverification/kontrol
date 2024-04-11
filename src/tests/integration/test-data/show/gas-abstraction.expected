@@ -5,10 +5,10 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (683 steps)
+│  (641 steps)
 ├─ 3
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 2698
+│   pc: 3218
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
@@ -19,7 +19,7 @@
     STATUSCODE <- STATUSCODE:StatusCode
     CALLER_ID <- CALLER_ID:Int
     VGAS <- VGAS:Int
-    VGAS_4b7cee1f <- ( VGAS:Int +Int -373 )
+    VGAS_283b72b5 <- ( VGAS:Int +Int -351 )
     CALLGAS_CELL <- CALLGAS_CELL:Gas
     SELFDESTRUCT_CELL <- SELFDESTRUCT_CELL:Set
     REFUND_CELL <- REFUND_CELL:Int
@@ -66,21 +66,21 @@
 }
 ├─ 4
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 2698
+│   pc: 3218
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1 step)
 ├─ 5
 │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 2698
+│   pc: 3218
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
 │
 │  (2 steps)
 └─ 6 (leaf, terminal)
     k: #halt ~> CONTINUATION:K
-    pc: 2698
+    pc: 3218
     callDepth: 0
     statusCode: EVMC_REVERT
 
@@ -146,7 +146,7 @@ Node 6:
               0
             </callValue>
             <wordStack>
-              ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
+              ( 1148 : ( ( VGAS:Int +Int -276 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -185 ) : ( 314 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
             </wordStack>
             <localMem>
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -479,7 +479,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1148 : ( ( VGAS:Int +Int -276 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -185 ) : ( 314 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -705,7 +705,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( 1148 : ( ( VGAS:Int +Int -276 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -185 ) : ( 314 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -925,7 +925,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( 1148 : ( ( VGAS:Int +Int -276 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -185 ) : ( 314 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
