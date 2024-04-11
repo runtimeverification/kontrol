@@ -82,47 +82,31 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
 
 def generate_options(args: dict[str, Any]) -> LoggingOptions:
     command = args['command']
-    match command:
-        case 'load-state-diff':
-            return LoadStateDiffOptions(args)
-        case 'version':
-            return VersionOptions(args)
-        case 'compile':
-            return CompileOptions(args)
-        case 'solc-to-k':
-            return SolcToKOptions(args)
-        case 'build':
-            return BuildOptions(args)
-        case 'prove':
-            return ProveOptions(args)
-        case 'show':
-            return ShowOptions(args)
-        case 'refute-node':
-            return RefuteNodeOptions(args)
-        case 'unrefute-node':
-            return UnrefuteNodeOptions(args)
-        case 'split-node':
-            return SplitNodeOptions(args)
-        case 'to-dot':
-            return ToDotOptions(args)
-        case 'list':
-            return ListOptions(args)
-        case 'view-kcfg':
-            return ViewKcfgOptions(args)
-        case 'remove-node':
-            return RemoveNodeOptions(args)
-        case 'simplify-node':
-            return SimplifyNodeOptions(args)
-        case 'step-node':
-            return StepNodeOptions(args)
-        case 'merge-nodes':
-            return MergeNodesOptions(args)
-        case 'section-edge':
-            return SectionEdgeOptions(args)
-        case 'get-model':
-            return GetModelOptions(args)
-        case _:
-            raise ValueError(f'Unrecognized command: {command}')
+    options = {
+        'load-state-diff': LoadStateDiffOptions(args),
+        'version': VersionOptions(args),
+        'compile': CompileOptions(args),
+        'solc-to-k': SolcToKOptions(args),
+        'build': BuildOptions(args),
+        'prove': ProveOptions(args),
+        'show': ShowOptions(args),
+        'refute-node': RefuteNodeOptions(args),
+        'unrefute-node': UnrefuteNodeOptions(args),
+        'split-node': SplitNodeOptions(args),
+        'to-dot': ToDotOptions(args),
+        'list': ListOptions(args),
+        'view-kcfg': ViewKcfgOptions(args),
+        'remove-node': RemoveNodeOptions(args),
+        'simplify-node': SimplifyNodeOptions(args),
+        'step-node': StepNodeOptions(args),
+        'merge-nodes': MergeNodesOptions(args),
+        'section-edge': SectionEdgeOptions(args),
+        'get-model': GetModelOptions(args),
+    }
+    try:
+        return options[command]
+    except KeyError as err:
+        raise ValueError(f'Unrecognized command: {command}') from err
 
 
 def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:
