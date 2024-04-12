@@ -5,9 +5,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from kontrol.foundry import foundry_show
-from kontrol.options import ProveOptions, RPCOptions
-from kontrol.prove import foundry_prove
+from kontrol.foundry import ShowOptions, foundry_show
+from kontrol.prove import ProveOptions, foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
@@ -45,35 +44,37 @@ def test_foundry_dependency_automated(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    cse_prove_options = ProveOptions(
-        max_depth=10000,
-        max_iterations=100,
-        bug_report=bug_report,
-        cse=True,
-        fail_fast=False,
-        workers=2,
-    )
-
     foundry_prove(
-        foundry,
-        tests=[(test_id, None)],
-        prove_options=cse_prove_options,
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'max_depth': 10000,
+                'max_iterations': 100,
+                'bug_report': bug_report,
+                'cse': True,
+                'fail_fast': False,
+                'workers': 2,
+                'port': server.port,
+                'tests': [(test_id, None)],
+            }
         ),
     )
 
     cse_show_res = foundry_show(
-        foundry,
-        test=test_id,
-        to_module=False,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=False,
-        failing=False,
-        failure_info=False,
-        counterexample_info=False,
-        port=server.port,
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': False,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': False,
+                'failing': False,
+                'failure_info': False,
+                'counterexample_info': False,
+                'port': server.port,
+            }
+        ),
     )
 
     assert_or_update_show_output(
