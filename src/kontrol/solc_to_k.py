@@ -8,7 +8,9 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
+from kevm_pyk.cli import KOptions
 from kevm_pyk.kevm import KEVM
+from pyk.cli.args import LoggingOptions
 from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.manip import abstract_term_safely
@@ -18,6 +20,8 @@ from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.string import stringToken
 from pyk.utils import FrozenDict, hash_str, run_process, single
+
+from .cli import KGenOptions
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -30,31 +34,32 @@ if TYPE_CHECKING:
 _LOGGER: Final = logging.getLogger(__name__)
 
 
-def solc_to_k(
-    contract_file: Path,
-    contract_name: str,
-    main_module: str | None,
-    requires: Iterable[str] = (),
-    imports: Iterable[str] = (),
-) -> str:
+class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
+    contract_file: Path
+    contract_name: str
+
+
+def solc_to_k(options: SolcToKOptions) -> str:
     definition_dir = kdist.get('evm-semantics.haskell')
     kevm = KEVM(definition_dir)
     empty_config = kevm.definition.empty_config(KEVM.Sorts.KEVM_CELL)
 
-    solc_json = solc_compile(contract_file)
-    contract_json = solc_json['contracts'][contract_file.name][contract_name]
-    if 'sources' in solc_json and contract_file.name in solc_json['sources']:
-        contract_source = solc_json['sources'][contract_file.name]
+    solc_json = solc_compile(options.contract_file)
+    contract_json = solc_json['contracts'][options.contract_file.name][options.contract_name]
+    if 'sources' in solc_json and options.contract_file.name in solc_json['sources']:
+        contract_source = solc_json['sources'][options.contract_file.name]
         for key in ['id', 'ast']:
             if key not in contract_json and key in contract_source:
                 contract_json[key] = contract_source[key]
-    contract = Contract(contract_name, contract_json, foundry=False)
+    contract = Contract(options.contract_name, contract_json, foundry=False)
 
-    imports = list(imports)
-    requires = list(requires)
+    imports = list(options.imports)
+    requires = list(options.requires)
     contract_module = contract_to_main_module(contract, empty_config, imports=['EDSL'] + imports)
     _main_module = KFlatModule(
-        main_module if main_module else 'MAIN', [], [KImport(mname) for mname in [contract_module.name] + imports]
+        options.main_module if options.main_module else 'MAIN',
+        [],
+        [KImport(mname) for mname in [contract_module.name] + imports],
     )
     modules = (contract_module, _main_module)
     bin_runtime_definition = KDefinition(
@@ -136,7 +141,7 @@ class Input:
         """
         Recursively unwrap components of a complex type to create a list of Input instances.
 
-        :param components:: A list of dictionaries representing component structures
+        :param components: A list of dictionaries representing component structures
         :param idx: Starting index for components, defaults to 0
         :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
         :return: A list of Input instances for each component, including nested components
@@ -213,11 +218,8 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, .
 
     In case of arrays and nested arrays, the bound values are stored in an immutable list.
     In case of dynamic types such as `string` and `bytes` the length bound is stored in its own variable.
-    As a convention, the length of a nested array or of a dynamic type array is accessed by appending `[]` to the name of the variable.
-    i.e. for `bytes[][] _b`, the lengths are registered as:
-        _b: length of the upper most array
-        _b[]: length of the inner array
-        _b[][]: length of the `bytes` elements in the inner array.
+    As a convention, the length of a one-dimensional array (`bytes[]`), the length is represented as a single integer.
+    For a nested array, the length is represented as a sequence of whitespace-separated integers, e.g., `10 10 10`.
     If an array length is missing, the default value will be `2` to avoid generating symbolic variables.
     The dynamic type length is optional, ommiting it may cause branchings in symbolic execution.
     """
@@ -226,12 +228,28 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, .
     dynamic_type_length: int | None
     input_array_lengths: tuple[int, ...] | None
     array_lengths: list[int] = []
-    while _type.endswith('[]'):
-        array_lengths.append(lengths.get(_name, 2))
-        _type = _type[:-2]
-        _name += '[]'
+
+    array_dimensions = _type.count('[]')
+    if array_dimensions:
+        all_array_lengths = lengths.get('kontrol-array-length-equals')
+        this_array_lengths = all_array_lengths.get(_name) if all_array_lengths is not None else None
+        if this_array_lengths is not None:
+            array_lengths = [this_array_lengths] if isinstance(this_array_lengths, int) else this_array_lengths
+        else:
+            array_lengths = [2] * array_dimensions
+
+        # If an insufficient number of lengths was provided, add default length `2` for every missing dimension
+        if len(array_lengths) < array_dimensions:
+            array_lengths.extend([2] * (array_dimensions - len(array_lengths)))
+
     input_array_lengths = tuple(array_lengths) if array_lengths else None
-    dynamic_type_length = lengths.get(_name) if _type in ['bytes', 'string'] else None
+
+    all_dynamic_type_lengths = lengths.get('kontrol-bytes-length-equals')
+    dynamic_type_length = (
+        all_dynamic_type_lengths.get(_name)
+        if _type.startswith(('bytes', 'string')) and all_dynamic_type_lengths is not None
+        else None
+    )
     return (input_array_lengths, dynamic_type_length)
 
 
@@ -240,9 +258,9 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     Parse developer documentation (devdoc) to extract specific information based on a given tag.
 
     Example:
-        If devdoc contains { 'custom:kontrol-length-equals': '_withdrawalProof 10,_withdrawalProof[] 600,_l2OutputIndex 4,'},
-        and the function is called with tag='custom:kontrol-length-equals', it would return:
-        { '_withdrawalProof': 10, '_withdrawalProof[]': 600, '_l2OutputIndex': 4 }
+        If devdoc contains { '@custom:kontrol-array-length-equals': 'content: 10,_withdrawalProof: 10 10,_l2OutputIndex 4,'},
+        and the function is called with tag='@custom:kontrol-array-length-equals', it would return:
+        { 'content': 10, '_withdrawalProof': [10, 10], '_l2OutputIndex': 4 }
     """
 
     if devdoc is None or tag not in devdoc:
@@ -261,9 +279,10 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
         try:
             key, value_str = part.split(':')
             key = key.strip()
-            natspecs[key] = int(value_str.strip())
+            values = value_str.split()
+            natspecs[key] = [int(value.strip()) for value in values] if len(values) > 1 else int(values[0].strip())
         except ValueError:
-            _LOGGER.warning(f'Skipping invalid fomat {part} in {tag}')
+            _LOGGER.warning(f'Skipping invalid format {part} in {tag}')
     return natspecs
 
 
@@ -355,6 +374,7 @@ class Contract:
         signature: str
         ast: dict | None
         natspec_values: dict | None
+        function_calls: tuple[str, ...] | None
 
         def __init__(
             self,
@@ -367,6 +387,7 @@ class Contract:
             contract_storage_digest: str,
             sort: KSort,
             devdoc: dict | None,
+            function_calls: Iterable[str] | None,
         ) -> None:
             self.signature = msig
             self.name = abi['name']
@@ -379,8 +400,10 @@ class Contract:
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
             self.ast = ast
-            self.natspec_values = parse_devdoc('custom:kontrol-length-equals', devdoc)
+            natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
+            self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
+            self.function_calls = tuple(function_calls) if function_calls is not None else None
 
         @property
         def klabel(self) -> KLabel:
@@ -521,8 +544,28 @@ class Contract:
                 abi_type = input.to_abi()
                 args.append(abi_type)
                 rps = []
-                if input.type == 'tuple':
-                    for sub_input in input.components:
+                if input.type.startswith('tuple'):
+                    components = input.components
+
+                    if input.type.endswith('[]'):
+                        if input.array_lengths is None:
+                            raise ValueError(f'Array length bounds missing for {input.name}')
+
+                        tuple_array_components = [
+                            Input(
+                                f'{_c.name}_{i}',
+                                _c.type,
+                                _c.components,
+                                _c.idx,
+                                _c.array_lengths,
+                                _c.dynamic_type_length,
+                            )
+                            for i in range(input.array_lengths[0])
+                            for _c in components
+                        ]
+                        components = tuple(tuple_array_components)
+
+                    for sub_input in components:
                         _abi_type = sub_input.to_abi()
                         rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
                 else:
@@ -617,6 +660,7 @@ class Contract:
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 method_devdoc = devdoc.get(msig)
+                method_calls = find_function_calls(method_ast)
                 _m = Contract.Method(
                     msig,
                     mid,
@@ -627,6 +671,7 @@ class Contract:
                     self.storage_digest,
                     self.sort_method,
                     method_devdoc,
+                    method_calls,
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
@@ -634,6 +679,11 @@ class Contract:
                 self.constructor = _c
 
         self.methods = tuple(sorted(_methods, key=(lambda method: method.signature)))
+
+        if self.constructor is None:
+            empty_constructor = {'inputs': [], 'stateMutability': 'nonpayable', 'type': 'constructor'}
+            _c = Contract.Constructor(empty_constructor, self._name, self.digest, self.storage_digest, self.sort_method)
+            self.constructor = _c
 
         self.fields = FrozenDict({})
         if 'storageLayout' in self.contract_json and 'storage' in self.contract_json['storageLayout']:
@@ -711,7 +761,7 @@ class Contract:
 
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%']
+        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%', '@']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -728,6 +778,8 @@ class Contract:
                 as_ecaped = 'Sub'
             case '%':
                 as_ecaped = 'Mod'
+            case '@':
+                as_ecaped = 'At'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -746,6 +798,8 @@ class Contract:
             return '-', 3
         elif seq.startswith('Mod'):
             return '%', 3
+        elif seq.startswith('At'):
+            return '@', 2
         else:
             return chr(int(seq, base=16)), 4
 
@@ -1031,12 +1085,12 @@ def _range_predicates(abi: KApply, dynamic_type_length: int | None = None) -> li
 
 def _range_collection_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
     rp: list[KInner | None] = []
-    if abi.label.name == '_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs':
+    if abi.label.name == 'typedArgs':
         if type(abi.args[0]) is KApply:
             rp += _range_predicates(abi.args[0], dynamic_type_length)
         if type(abi.args[1]) is KApply:
             rp += _range_collection_predicates(abi.args[1], dynamic_type_length)
-    elif abi.label.name == '.List{"_,__EVM-ABI_TypedArgs_TypedArg_TypedArgs"}_TypedArgs':
+    elif abi.label.name == '.List{"typedArgs"}':
         return rp
     else:
         raise AssertionError('No list of typed args found')
@@ -1153,3 +1207,50 @@ def hex_string_to_int(hex: str) -> int:
         return int(hex, 16)
     else:
         raise ValueError('Invalid hex format')
+
+
+def find_function_calls(node: dict) -> list[str]:
+    """Recursive function that takes a method AST and returns all the functions that are called in the given method.
+
+    :param node: AST of a Solidity Method
+    :type node: dict
+    :return: A list of unique function signatures that are called inside the provided method AST.
+    :rtype: list[str]
+
+    Functions that belong to contracts such as `Vm` and `KontrolCheatsBase` are ignored.
+    Functions like `abi.encodePacked` that do not belong to a Contract are assigned to a `UnknownContractType` and are ignored.
+    """
+    function_calls: list[str] = []
+
+    def _find_function_calls(node: dict) -> None:
+        if not node:
+            return
+
+        if node.get('nodeType') == 'FunctionCall':
+            expression = node.get('expression', {})
+            if expression.get('nodeType') == 'MemberAccess':
+                contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
+                contract_type = (
+                    contract_type_string.split()[-1] if 'contract' in contract_type_string else 'UnknownContractType'
+                )
+
+                function_name = expression.get('memberName')
+                arg_types = expression['typeDescriptions'].get('typeString')
+                args = arg_types.split()[1] if arg_types is not None else '()'
+
+                if contract_type not in ['KontrolCheatsBase', 'Vm', 'UnknownContractType']:
+                    value = f'{contract_type}.{function_name}{args}'
+                    # Check if value is not already in the list
+                    if value not in function_calls:
+                        function_calls.append(value)
+
+        for _key, value in node.items():
+            if isinstance(value, dict):
+                _find_function_calls(value)
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, dict):
+                        _find_function_calls(item)
+
+    _find_function_calls(node)
+    return function_calls

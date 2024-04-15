@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.473";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.522";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -27,7 +27,7 @@
     let
       nixLibs = pkgs:
         with pkgs;
-        "-I${procps}/include -L${procps}/lib -I${openssl.dev}/include -L${openssl.out}/lib";
+        "-I${procps}/include -L${procps}/lib -I${openssl.dev}/include -L${openssl.out}/lib -I${secp256k1}/include -L${secp256k1}/lib";
       overlay = final: prev:
         let
           nixpkgs-pyk = import inputs.nixpkgs-pyk {
@@ -129,6 +129,7 @@
                 # list all supported solc versions here
                 solc_0_8_13 = kontrol { solc_version = final.solc_0_8_13; };
                 solc_0_8_15 = kontrol { solc_version = final.solc_0_8_15; };
+                solc_0_8_22 = kontrol { solc_version = final.solc_0_8_22; };
               } else
                 { };
             };

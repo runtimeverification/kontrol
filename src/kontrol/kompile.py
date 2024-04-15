@@ -4,15 +4,18 @@ import json
 import logging
 import shutil
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
+from kevm_pyk.cli import KOptions
 from kevm_pyk.kevm import KEVM
-from kevm_pyk.kompile import KompileTarget, kevm_kompile
+from kevm_pyk.kompile import kevm_kompile
+from pyk.cli.args import KompileOptions, LoggingOptions
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
 from pyk.kore.kompiled import KompiledKore
 from pyk.utils import ensure_dir_path, hash_str
 
+from .cli import FoundryOptions, KGenOptions, KompileTargetOptions
 from .foundry import Foundry
 from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
@@ -26,39 +29,45 @@ if TYPE_CHECKING:
 _LOGGER: Final = logging.getLogger(__name__)
 
 
+class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
+    regen: bool
+    rekompile: bool
+    no_forge_build: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'regen': False,
+            'rekompile': False,
+            'no_forge_build': False,
+        }
+
+
 def foundry_kompile(
+    options: BuildOptions,
     foundry: Foundry,
-    includes: Iterable[str],
-    regen: bool = False,
-    rekompile: bool = False,
-    requires: Iterable[str] = (),
-    imports: Iterable[str] = (),
-    ccopts: Iterable[str] = (),
-    llvm_kompile: bool = True,
-    debug: bool = False,
-    verbose: bool = False,
-    target: KompileTarget = KompileTarget.HASKELL,
-    no_forge_build: bool = False,
 ) -> None:
     syntax_module = 'FOUNDRY-CONTRACTS'
     foundry_requires_dir = foundry.kompiled / 'requires'
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
     main_module = 'FOUNDRY-MAIN'
-    includes = [include for include in includes if Path(include).exists()] + [str(KSRC_DIR)]
+    includes = [include for include in options.includes if Path(include).exists()] + [str(KSRC_DIR)]
     ensure_dir_path(foundry.kompiled)
     ensure_dir_path(foundry_requires_dir)
 
     requires_paths: dict[str, str] = {}
 
-    if not no_forge_build:
+    if not options.no_forge_build:
         foundry.build()
+
+    regen = options.regen
 
     if not foundry.up_to_date():
         _LOGGER.info('Detected updates to contracts, regenerating K definition.')
         regen = True
 
-    for r in requires:
+    for r in options.requires:
         req = Path(r)
         if not req.exists():
             raise ValueError(f'No such file: {req}')
@@ -74,7 +83,7 @@ def foundry_kompile(
             regen = True
 
     _imports: dict[str, list[str]] = {contract.name_with_path: [] for contract in foundry.contracts.values()}
-    for i in imports:
+    for i in options.imports:
         imp = i.split(':')
         full_import_name = foundry.lookup_full_contract_name(imp[0])
         if not len(imp) == 2:
@@ -87,7 +96,6 @@ def foundry_kompile(
     if regen or not foundry_contracts_file.exists() or not foundry.main_file.exists():
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
-        imports = ['FOUNDRY']
         kevm = KEVM(kdist.get('kontrol.foundry'))
         empty_config = kevm.definition.empty_config(Foundry.Sorts.FOUNDRY_CELL)
         bin_runtime_definition = _foundry_to_contract_def(
@@ -115,7 +123,7 @@ def foundry_kompile(
         _LOGGER.info(f'Wrote file: {foundry.main_file}')
 
     def kompilation_digest() -> str:
-        k_files = list(requires) + [foundry_contracts_file, foundry.main_file]
+        k_files = list(options.requires) + [foundry_contracts_file, foundry.main_file]
         return hash_str(''.join([hash_str(Path(k_file).read_text()) for k_file in k_files]))
 
     def kompilation_up_to_date() -> bool:
@@ -136,20 +144,20 @@ def foundry_kompile(
 
         _LOGGER.info('Updated Kompilation digest')
 
-    if not kompilation_up_to_date() or rekompile or not kompiled_timestamp.exists():
+    if not kompilation_up_to_date() or options.rekompile or not kompiled_timestamp.exists():
         output_dir = foundry.kompiled
         kevm_kompile(
-            target=target,
+            target=options.target,
             output_dir=output_dir,
             main_file=foundry.main_file,
             main_module=main_module,
             syntax_module=syntax_module,
             includes=includes,
             emit_json=True,
-            ccopts=ccopts,
+            ccopts=options.ccopts,
             llvm_library=foundry.llvm_library,
-            debug=debug,
-            verbose=verbose,
+            debug=options.debug,
+            verbose=options.verbose,
         )
         KompiledKore.load(output_dir).write(output_dir)
 

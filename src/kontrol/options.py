@@ -29,9 +29,13 @@ class ProveOptions:
     run_constructor: bool
     fail_fast: bool
     reinit: bool
+    setup_version: int | None
     use_gas: bool
     deployment_state_entries: Iterable[DeploymentStateEntry] | None
     active_symbolik: bool
+    cse: bool
+    hevm: bool
+    trace_options: TraceOptions | None
 
     def __init__(
         self,
@@ -42,19 +46,23 @@ class ProveOptions:
         max_depth: int = 1000,
         break_every_step: bool = False,
         break_on_jumpi: bool = False,
-        break_on_calls: bool = True,
+        break_on_calls: bool = False,
         break_on_storage: bool = False,
         break_on_basic_blocks: bool = False,
         break_on_cheatcodes: bool = False,
         workers: int = 1,
-        counterexample_info: bool = False,
+        counterexample_info: bool = True,
         max_iterations: int | None = None,
         run_constructor: bool = False,
         fail_fast: bool = True,
         reinit: bool = False,
+        setup_version: int | None = None,
         use_gas: bool = False,
         deployment_state_entries: list[DeploymentStateEntry] | None = None,
         active_symbolik: bool = False,
+        cse: bool = False,
+        hevm: bool = False,
+        trace_options: TraceOptions | None = None,
     ) -> None:
         object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
         object.__setattr__(self, 'bug_report', bug_report)
@@ -72,9 +80,13 @@ class ProveOptions:
         object.__setattr__(self, 'run_constructor', run_constructor)
         object.__setattr__(self, 'fail_fast', fail_fast)
         object.__setattr__(self, 'reinit', reinit)
+        object.__setattr__(self, 'setup_version', setup_version)
         object.__setattr__(self, 'use_gas', use_gas)
         object.__setattr__(self, 'deployment_state_entries', deployment_state_entries)
         object.__setattr__(self, 'active_symbolik', active_symbolik)
+        object.__setattr__(self, 'cse', cse)
+        object.__setattr__(self, 'hevm', hevm)
+        object.__setattr__(self, 'trace_options', trace_options)
 
 
 @dataclass(frozen=True)
@@ -114,3 +126,24 @@ class RPCOptions:
         object.__setattr__(self, 'trace_rewrites', trace_rewrites)
         object.__setattr__(self, 'port', port)
         object.__setattr__(self, 'maude_port', maude_port)
+
+
+@dataclass(frozen=True)
+class TraceOptions:
+    active_tracing: bool
+    trace_storage: bool
+    trace_wordstack: bool
+    trace_memory: bool
+
+    def __init__(
+        self,
+        *,
+        active_tracing: bool = False,
+        trace_storage: bool = False,
+        trace_wordstack: bool = False,
+        trace_memory: bool = False,
+    ) -> None:
+        object.__setattr__(self, 'active_tracing', active_tracing)
+        object.__setattr__(self, 'trace_storage', trace_storage)
+        object.__setattr__(self, 'trace_wordstack', trace_wordstack)
+        object.__setattr__(self, 'trace_memory', trace_memory)
