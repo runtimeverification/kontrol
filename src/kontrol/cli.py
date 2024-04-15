@@ -9,92 +9,39 @@ from typing import TYPE_CHECKING, Any
 import tomli
 from kevm_pyk.cli import KEVMCLIArgs, node_id_like
 from kevm_pyk.kompile import KompileTarget
-from pyk.cli.args import Options
-from pyk.cli.utils import dir_path
+from kevm_pyk.utils import arg_pair_of
+from pyk.cli.utils import dir_path, ensure_dir_path, file_path
+
+from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
     from argparse import Namespace
     from collections.abc import Callable
-    from typing import Any, Final, TypeVar
+    from typing import Final, TypeVar
 
     T = TypeVar('T')
 
-
-class FoundryOptions(Options):
-    foundry_root: Path
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'foundry_root': Path('.'),
-        }
+_LOGGER: Final = logging.getLogger(__name__)
 
 
-class FoundryTestOptions(Options):
-    test: str
-    version: int | None
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'version': None,
-        }
-
-
-class KGenOptions(Options):
-    requires: list[str]
-    imports: list[str]
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'requires': [],
-            'imports': [],
-        }
-
-
-class KompileTargetOptions(Options):
-    target: KompileTarget
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'target': KompileTarget.HASKELL,
-        }
-
-
-class TraceOptions(Options):
-    active_tracing: bool
-    trace_storage: bool
-    trace_wordstack: bool
-    trace_memory: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'active_tracing': False,
-            'trace_storage': False,
-            'trace_wordstack': False,
-            'trace_memory': False,
-        }
-
-
-class RpcOptions(Options):
-    trace_rewrites: bool
-    kore_rpc_command: str | None
-    use_booster: bool
-    port: int | None
-    maude_port: int | None
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'trace_rewrites': False,
-            'kore_rpc_command': None,
-            'use_booster': True,
-            'port': None,
-            'maude_port': None,
-        }
+class ConfigArgs:
+    @cached_property
+    def config_args(self) -> ArgumentParser:
+        args = ArgumentParser(add_help=False)
+        args.add_argument(
+            '--config-file',
+            dest='config_file',
+            type=file_path,
+            default=Path('./pyk.toml'),
+            help='Path to Pyk config file.',
+        )
+        args.add_argument(
+            '--config-profile',
+            dest='config_profile',
+            default='default',
+            help='Config profile to be used.',
+        )
+        return args
 
 
 class KontrolCLIArgs(KEVMCLIArgs):
@@ -106,24 +53,6 @@ class KontrolCLIArgs(KEVMCLIArgs):
             dest='foundry_root',
             type=dir_path,
             help='Path to Foundry project root directory.',
-        )
-        return args
-
-    @cached_property
-    def config_args(self) -> ArgumentParser:
-        args = ArgumentParser(add_help=False)
-        args.add_argument(
-            '--config',
-            dest='config_file',
-            type=file_path,
-            default=Path('./kontrol.toml'),
-            help='Path to Kontrol config file.',
-        )
-        args.add_argument(
-            '--config-profile',
-            dest='config_profile',
-            default='default',
-            help='Config profile to be used.',
         )
         return args
 
@@ -217,6 +146,7 @@ def _create_argument_parser() -> ArgumentParser:
         return parse
 
     kontrol_cli_args = KontrolCLIArgs()
+    config_args = ConfigArgs()
     parser = ArgumentParser(prog='kontrol')
 
     command_parser = parser.add_subparsers(dest='command', required=True)
@@ -233,49 +163,43 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.logging_args,
             kontrol_cli_args.k_args,
             kontrol_cli_args.k_gen_args,
+            config_args.config_args,
         ],
     )
     solc_to_k_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
     solc_to_k_args.add_argument('contract_name', type=str, help='Name of contract to generate K helpers for.')
 
-    def _parse_test_version_tuple(value: str) -> tuple[str, int | None]:
-        if ':' in value:
-            test, version = value.split(':')
-            return (test, int(version))
-        else:
-            return (value, None)
-
     build = command_parser.add_parser(
         'build',
         help='Kompile K definition corresponding to given output directory.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.k_args,
             kontrol_cli_args.k_gen_args,
             kontrol_cli_args.kompile_args,
             kontrol_cli_args.foundry_args,
             kontrol_cli_args.kompile_target_args,
+            config_args.config_args,
         ],
     )
     build.add_argument(
         '--regen',
         dest='regen',
-        default=False,
+        default=None,
         action='store_true',
         help='Regenerate foundry.k even if it already exists.',
     )
     build.add_argument(
         '--rekompile',
         dest='rekompile',
-        default=False,
+        default=None,
         action='store_true',
         help='Rekompile foundry.k even if kompiled definition already exists.',
     )
     build.add_argument(
         '--no-forge-build',
         dest='no_forge_build',
-        default=False,
+        default=None,
         action='store_true',
         help="Do not call 'forge build' during kompilation.",
     )
@@ -283,45 +207,38 @@ def _create_argument_parser() -> ArgumentParser:
     state_diff_args = command_parser.add_parser(
         'load-state-diff',
         help='Generate a state diff summary from an account access dict',
-        parents=[
-            kontrol_cli_args.config_args,
-            kontrol_cli_args.foundry_args,
-        ],
+        parents=[kontrol_cli_args.foundry_args, config_args.config_args],
     )
     state_diff_args.add_argument('name', type=str, help='Generated contract name')
     state_diff_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
     state_diff_args.add_argument(
         '--contract-names',
         dest='contract_names',
-        default=None,
         type=file_path,
         help='Path to JSON containing deployment addresses and its respective contract names',
     )
     state_diff_args.add_argument(
         '--condense-state-diff',
         dest='condense_state_diff',
-        default=False,
+        default=None,
         type=bool,
         help='Deploy state diff as a single file',
     )
     state_diff_args.add_argument(
         '--output-dir',
         dest='output_dir_name',
-        default=None,
         type=str,
         help='Path to write state diff .sol files, relative to foundry root',
     )
     state_diff_args.add_argument(
         '--comment-generated-files',
         dest='comment_generated_file',
-        default='// This file was autogenerated by running `kontrol load-state-diff`. Do not edit this file manually.\n',
         type=str,
         help='Comment to write at the top of the auto generated state diff files',
     )
     state_diff_args.add_argument(
         '--license',
         dest='license',
-        default='UNLICENSED',
         type=str,
         help='License for the auto generated contracts',
     )
@@ -330,7 +247,6 @@ def _create_argument_parser() -> ArgumentParser:
         'prove',
         help='Run Foundry Proof.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.parallel_args,
             kontrol_cli_args.k_args,
@@ -340,11 +256,12 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.bug_report_args,
             kontrol_cli_args.explore_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     prove_args.add_argument(
         '--match-test',
-        type=_parse_test_version_tuple,
+        type=parse_test_version_tuple,
         dest='tests',
         default=[],
         action='append',
@@ -357,9 +274,16 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--reinit',
         dest='reinit',
-        default=False,
+        default=None,
         action='store_true',
         help='Reinitialize CFGs even if they already exist.',
+    )
+    prove_args.add_argument(
+        '--setup-version',
+        dest='setup_version',
+        default=None,
+        type=int,
+        help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
     )
     prove_args.add_argument(
         '--bmc-depth',
@@ -371,30 +295,29 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--run-constructor',
         dest='run_constructor',
-        default=False,
+        default=None,
         action='store_true',
         help='Include the contract constructor in the test execution.',
     )
     prove_args.add_argument(
-        '--use-gas', dest='use_gas', default=False, action='store_true', help='Enables gas computation in KEVM.'
+        '--use-gas', dest='use_gas', default=None, action='store_true', help='Enables gas computation in KEVM.'
     )
     prove_args.add_argument(
         '--break-on-cheatcodes',
         dest='break_on_cheatcodes',
-        default=False,
+        default=None,
         action='store_true',
         help='Break on all Foundry rules.',
     )
     prove_args.add_argument(
         '--init-node-from',
         dest='deployment_state_path',
-        default=None,
         type=file_path,
         help='Path to JSON file containing the deployment state of the deployment process used for the project.',
     )
     prove_args.add_argument(
         '--include-summary',
-        type=_parse_test_version_tuple,
+        type=parse_test_version_tuple,
         dest='include_summaries',
         default=[],
         action='append',
@@ -403,35 +326,80 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--with-non-general-state',
         dest='with_non_general_state',
-        default=False,
+        default=None,
         action='store_true',
         help='Flag used by Simbolik to initialise the state of a non test function as if it was a test function.',
+    )
+    prove_args.add_argument(
+        '--xml-test-report',
+        dest='xml_test_report',
+        default=None,
+        action='store_true',
+        help='Generate a JUnit XML report',
+    )
+    prove_args.add_argument(
+        '--cse', dest='cse', default=None, action='store_true', help='Use Compositional Symbolic Execution'
+    )
+    prove_args.add_argument(
+        '--hevm',
+        dest='hevm',
+        default=None,
+        action='store_true',
+        help='Use hevm success predicate instead of foundry to determine if a test is passing',
+    )
+    prove_args.add_argument(
+        '--evm-tracing',
+        dest='evm_tracing',
+        action='store_true',
+        default=False,
+        help='Trace opcode execution and store it in the configuration',
+    )
+    prove_args.add_argument(
+        '--no-trace-storage',
+        dest='trace_storage',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing storage information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-wordstack',
+        dest='trace_wordstack',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing wordstack information.',
+    )
+    prove_args.add_argument(
+        '--no-trace-memory',
+        dest='trace_memory',
+        action='store_false',
+        default=True,
+        help='If tracing is active, avoid storing memory information.',
     )
 
     show_args = command_parser.add_parser(
         'show',
         help='Print the CFG for a given proof.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.k_args,
             kontrol_cli_args.kcfg_show_args,
             kontrol_cli_args.display_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     show_args.add_argument(
         '--omit-unstable-output',
         dest='omit_unstable_output',
-        default=False,
+        default=None,
         action='store_true',
         help='Strip output that is likely to change without the contract logic changing',
     )
     show_args.add_argument(
         '--to-kevm-claims',
         dest='to_kevm_claims',
-        default=False,
+        default=None,
         action='store_true',
         help='Generate a K module which can be run directly as KEVM claims for the given KCFG (best-effort).',
     )
@@ -441,15 +409,22 @@ def _create_argument_parser() -> ArgumentParser:
         type=ensure_dir_path,
         help='Path to write KEVM claim files at.',
     )
+    show_args.add_argument(
+        '--use-hex-encoding',
+        dest='use_hex_encoding',
+        default=False,
+        action='store_true',
+        help='Print elements in hexadecimal encoding.',
+    )
 
     command_parser.add_parser(
         'to-dot',
         help='Dump the given CFG for the test as DOT for visualization.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
 
@@ -457,10 +432,10 @@ def _create_argument_parser() -> ArgumentParser:
         'list',
         help='List information about CFGs on disk',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.k_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
 
@@ -468,10 +443,10 @@ def _create_argument_parser() -> ArgumentParser:
         'view-kcfg',
         help='Explore a given proof in the KCFG visualizer.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
 
@@ -479,10 +454,10 @@ def _create_argument_parser() -> ArgumentParser:
         'remove-node',
         help='Remove a node and its successors.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     remove_node.add_argument('node', type=node_id_like, help='Node to remove CFG subgraph from.')
@@ -491,10 +466,10 @@ def _create_argument_parser() -> ArgumentParser:
         'refute-node',
         help='Refute a node and add its refutation as a subproof.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     refute_node.add_argument('node', type=node_id_like, help='Node to refute.')
@@ -503,19 +478,31 @@ def _create_argument_parser() -> ArgumentParser:
         'unrefute-node',
         help='Disable refutation of a node and remove corresponding refutation subproof.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     unrefute_node.add_argument('node', type=node_id_like, help='Node to unrefute.')
+
+    split_node = command_parser.add_parser(
+        'split-node',
+        help='Split a node on a given branch condition.',
+        parents=[
+            kontrol_cli_args.foundry_test_args,
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+            config_args.config_args,
+        ],
+    )
+    split_node.add_argument('node', type=node_id_like, help='Node to split.')
+    split_node.add_argument('branch_condition', type=str, help='Branch condition written in K.')
 
     simplify_node = command_parser.add_parser(
         'simplify-node',
         help='Simplify a given node, and potentially replace it.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.smt_args,
@@ -523,39 +510,40 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.bug_report_args,
             kontrol_cli_args.display_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     simplify_node.add_argument('node', type=node_id_like, help='Node to simplify in CFG.')
     simplify_node.add_argument(
-        '--replace', default=False, help='Replace the original node with the simplified variant in the graph.'
+        '--replace', default=None, help='Replace the original node with the simplified variant in the graph.'
     )
 
     step_node = command_parser.add_parser(
         'step-node',
         help='Step from a given node, adding it to the CFG.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.rpc_args,
             kontrol_cli_args.bug_report_args,
             kontrol_cli_args.smt_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     step_node.add_argument('node', type=node_id_like, help='Node to step from in CFG.')
     step_node.add_argument(
-        '--repeat', type=int, default=1, help='How many node expansions to do from the given start node (>= 1).'
+        '--repeat', type=int, help='How many node expansions to do from the given start node (>= 1).'
     )
-    step_node.add_argument('--depth', type=int, default=1, help='How many steps to take from initial node on edge.')
+    step_node.add_argument('--depth', type=int, help='How many steps to take from initial node on edge.')
     merge_node = command_parser.add_parser(
         'merge-nodes',
         help='Merge multiple nodes into one branch.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     merge_node.add_argument(
@@ -571,29 +559,29 @@ def _create_argument_parser() -> ArgumentParser:
         'section-edge',
         help='Given an edge in the graph, cut it into sections to get intermediate nodes.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.rpc_args,
             kontrol_cli_args.bug_report_args,
             kontrol_cli_args.smt_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     section_edge.add_argument('edge', type=arg_pair_of(str, str), help='Edge to section in CFG.')
-    section_edge.add_argument('--sections', type=int, default=2, help='Number of sections to make from edge (>= 2).')
+    section_edge.add_argument('--sections', type=int, help='Number of sections to make from edge (>= 2).')
 
     get_model = command_parser.add_parser(
         'get-model',
         help='Display a model for a given node.',
         parents=[
-            kontrol_cli_args.config_args,
             kontrol_cli_args.foundry_test_args,
             kontrol_cli_args.logging_args,
             kontrol_cli_args.rpc_args,
             kontrol_cli_args.bug_report_args,
             kontrol_cli_args.smt_args,
             kontrol_cli_args.foundry_args,
+            config_args.config_args,
         ],
     )
     get_model.add_argument(
@@ -605,10 +593,27 @@ def _create_argument_parser() -> ArgumentParser:
         help='List of nodes to display the models of.',
     )
     get_model.add_argument(
-        '--pending', dest='pending', default=False, action='store_true', help='Also display models of pending nodes'
+        '--pending', dest='pending', default=None, action='store_true', help='Also display models of pending nodes'
     )
     get_model.add_argument(
-        '--failing', dest='failing', default=False, action='store_true', help='Also display models of failing nodes'
+        '--failing', dest='failing', default=None, action='store_true', help='Also display models of failing nodes'
+    )
+    command_parser.add_parser(
+        'clean',
+        help='Remove the build artifacts and cache directories.',
+        parents=[kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args, config_args.config_args],
+    )
+    init = command_parser.add_parser(
+        'init',
+        help='Create a new Forge project compatible with Kontrol',
+        parents=[kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args, config_args.config_args],
+    )
+    init.add_argument(
+        '--skip-forge',
+        dest='skip_forge',
+        default=False,
+        action='store_true',
+        help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',
     )
 
     return parser

@@ -30,6 +30,14 @@ def write_to_file(file_path: Path, content: str, grant_exec_permission: bool = F
         print(f'An error occurred while writing to the file: {e}')
 
 
+def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
+    if ':' in value:
+        test, version = value.split(':')
+        return (test, int(version))
+    else:
+        return (value, None)
+
+
 def empty_lemmas_file_contents() -> str:
     return """
 requires "evm.md"

@@ -15,10 +15,8 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
-from kevm_pyk.cli import DisplayOptions, KCFGShowOptions, KOptions
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
-from pyk.cli.args import BugReportOptions, LoggingOptions, SMTOptions
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSort, KToken, KVariable
 from pyk.kast.manip import collect, extract_lhs, minimize_term
@@ -35,7 +33,6 @@ from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
 from . import VERSION
-from .cli import FoundryOptions, FoundryTestOptions, RpcOptions
 from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
 
@@ -49,6 +46,21 @@ if TYPE_CHECKING:
     from pyk.proof.implies import RefutationProof
     from pyk.proof.show import NodePrinter
     from pyk.utils import BugReport
+
+    from .options import (
+        GetModelOptions,
+        LoadStateDiffOptions,
+        MergeNodesOptions,
+        RefuteNodeOptions,
+        RemoveNodeOptions,
+        SectionEdgeOptions,
+        ShowOptions,
+        SimplifyNodeOptions,
+        SplitNodeOptions,
+        StepNodeOptions,
+        ToDotOptions,
+        UnrefuteNodeOptions,
+    )
 
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -594,32 +606,6 @@ class Foundry:
         return latest_version + 1 if latest_version is not None else 0
 
 
-class ShowOptions(
-    FoundryTestOptions,
-    LoggingOptions,
-    KOptions,
-    KCFGShowOptions,
-    DisplayOptions,
-    FoundryOptions,
-    RpcOptions,
-    SMTOptions,
-):
-    omit_unstable_output: bool
-    to_kevm_claims: bool
-    kevm_claim_dir: Path | None
-    use_hex_encoding: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'omit_unstable_output': False,
-            'to_kevm_claims': False,
-            'kevm_claim_dir': None,
-            'use_hex_encoding': False,
-            'counterexample_info': True,
-        }
-
-
 def foundry_show(
     foundry: Foundry,
     options: ShowOptions,
@@ -736,9 +722,6 @@ def foundry_show(
     return '\n'.join([line.rstrip() for line in res_lines])
 
 
-class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
-
-
 def foundry_to_dot(foundry: Foundry, options: ToDotOptions) -> None:
     dump_dir = foundry.proofs_dir / 'dump'
     test_id = foundry.get_test_id(options.test, options.version)
@@ -851,20 +834,12 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
     tree.write('kontrol_prove_report.xml')
 
 
-class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    node: NodeIdLike
-
-
 def foundry_remove_node(foundry: Foundry, options: RemoveNodeOptions) -> None:
     test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
     node_ids = apr_proof.prune(options.node)
     _LOGGER.info(f'Pruned nodes: {node_ids}')
     apr_proof.write_proof_data()
-
-
-class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
-    node: NodeIdLike
 
 
 def foundry_refute_node(
@@ -877,20 +852,11 @@ def foundry_refute_node(
     return proof.refute_node(proof.kcfg.node(options.node))
 
 
-class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
-    node: NodeIdLike
-
-
 def foundry_unrefute_node(foundry: Foundry, options: UnrefuteNodeOptions) -> None:
     test_id = foundry.get_test_id(options.test, options.version)
     proof = foundry.get_apr_proof(test_id)
 
     proof.unrefute_node(proof.kcfg.node(options.node))
-
-
-class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    node: NodeIdLike
-    branch_condition: str
 
 
 def foundry_split_node(
@@ -912,19 +878,6 @@ def foundry_split_node(
     proof.write_proof_data()
 
     return split_nodes
-
-
-class SimplifyNodeOptions(
-    FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
-):
-    node: NodeIdLike
-    replace: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'replace': False,
-        }
 
 
 def foundry_simplify_node(
@@ -961,16 +914,6 @@ def foundry_simplify_node(
         apr_proof.write_proof_data()
     res_term = minimize_term(new_term.kast) if options.minimize else new_term.kast
     return foundry.kevm.pretty_print(res_term, unalias=False, sort_collections=options.sort_collections)
-
-
-class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    nodes: list[NodeIdLike]
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'nodes': [],
-        }
 
 
 def foundry_merge_nodes(
@@ -1019,19 +962,6 @@ def foundry_merge_nodes(
     print(foundry.kevm.pretty_print(new_node.cterm.kast))
 
 
-class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    node: NodeIdLike
-    repeat: int
-    depth: int
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'repeat': 1,
-            'depth': 1,
-        }
-
-
 def foundry_step_node(
     foundry: Foundry,
     options: StepNodeOptions,
@@ -1068,26 +998,6 @@ def foundry_step_node(
         for _i in range(options.repeat):
             node = kcfg_explore.step(apr_proof.kcfg, node, apr_proof.logs, depth=options.depth)
             apr_proof.write_proof_data()
-
-
-class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
-    name: str
-    accesses_file: Path
-    contract_names: Path | None
-    condense_state_diff: bool
-    output_dir_name: str | None
-    comment_generated_file: str
-    license: str
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'contract_names': None,
-            'condense_state_diff': False,
-            'output_dir_name': None,
-            'comment_generated_file': '// This file was autogenerated by running `kontrol load-state-diff`. Do not edit this file manually.\n',
-            'license': 'UNLICENSED',
-        }
 
 
 def foundry_state_diff(options: LoadStateDiffOptions, foundry: Foundry) -> None:
@@ -1129,17 +1039,6 @@ def foundry_state_diff(options: LoadStateDiffOptions, foundry: Foundry) -> None:
         )
 
 
-class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    edge: tuple[str, str]
-    sections: int
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'sections': 2,
-        }
-
-
 def foundry_section_edge(
     foundry: Foundry,
     options: SectionEdgeOptions,
@@ -1176,20 +1075,6 @@ def foundry_section_edge(
             sections=options.sections,
         )
     apr_proof.write_proof_data()
-
-
-class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    nodes: list[NodeIdLike]
-    pending: bool
-    failing: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'nodes': [],
-            'pending': False,
-            'failing': False,
-        }
 
 
 def foundry_get_model(

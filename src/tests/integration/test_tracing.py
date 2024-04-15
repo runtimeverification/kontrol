@@ -33,12 +33,15 @@ def parse_trace_options(trace_wordstack: str, trace_memory: str, trace_storage: 
     def _str_to_bool(s: str) -> bool:
         return s.lower() in ['true', '1', 't', 'y', 'yes']
 
-    return TraceOptions(
-        active_tracing=True,
-        trace_wordstack=_str_to_bool(trace_wordstack),
-        trace_memory=_str_to_bool(trace_memory),
-        trace_storage=_str_to_bool(trace_storage),
+    trace_options = TraceOptions(
+        args={
+            'active_tracing': True,
+            'trace_wordstack': _str_to_bool(trace_wordstack),
+            'trace_memory': _str_to_bool(trace_memory),
+            'trace_storage': _str_to_bool(trace_storage),
+        }
     )
+    return trace_options
 
 
 ALL_TRACE_TESTS_WITH_OPTIONS = [

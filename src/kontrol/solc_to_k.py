@@ -8,9 +8,7 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
-from kevm_pyk.cli import KOptions
 from kevm_pyk.kevm import KEVM
-from pyk.cli.args import LoggingOptions
 from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.manip import abstract_term_safely
@@ -21,8 +19,6 @@ from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.string import stringToken
 from pyk.utils import FrozenDict, hash_str, run_process, single
 
-from .cli import KGenOptions
-
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from pathlib import Path
@@ -31,12 +27,10 @@ if TYPE_CHECKING:
     from pyk.kast import KInner
     from pyk.kast.outer import KProductionItem, KSentence
 
+    from .options import SolcToKOptions
+
+
 _LOGGER: Final = logging.getLogger(__name__)
-
-
-class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
-    contract_file: Path
-    contract_name: str
 
 
 def solc_to_k(options: SolcToKOptions) -> str:
