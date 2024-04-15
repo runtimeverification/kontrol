@@ -61,6 +61,8 @@ def foundry_kompile(
     if not options.no_forge_build:
         foundry.build()
 
+    regen = options.regen
+
     if not foundry.up_to_date():
         _LOGGER.info('Detected updates to contracts, regenerating K definition.')
         regen = True
