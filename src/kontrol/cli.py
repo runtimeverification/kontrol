@@ -13,6 +13,7 @@ from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import dir_path, ensure_dir_path, file_path
 
 from .utils import parse_test_version_tuple
+from .options import get_option_string_destination
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -618,79 +619,40 @@ def _create_argument_parser() -> ArgumentParser:
 
     return parser
 
-
-def read_toml_args(parser: ArgumentParser, args: Namespace, cmd_args: list[str]) -> Namespace:
-    def canonicalize_option(long_opt: str) -> None:
-        if long_opt in ['ccopt', 'I', 'O0', 'O1', 'O2', 'O3']:
-            toml_commands.append('-' + long_opt)
-        elif long_opt == 'includes':
-            toml_commands.extend(['-I' + a_path for a_path in toml_profile_args[long_opt]])
-            toml_profile_args[long_opt] = ''
-        elif long_opt == 'optimization-level':
-            level = toml_profile_args[long_opt] if toml_profile_args[long_opt] >= 0 else 0
-            level = level if toml_profile_args[long_opt] <= 3 else 3
-            toml_profile_args[long_opt] = ''
-            toml_commands.append('-O' + str(level))
-        elif long_opt == 'counterexample-information':
-            toml_commands.append('--counterexample-information')
-            toml_commands.append('--failure-information')
-        else:
-            toml_commands.append('--' + long_opt)
-
-    def canonicalize_negative_logic_option(long_opt: str) -> None:
-        switching_options = [
-            'emit-json',
-            'minimize',
-            'use-booster',
-            'failure-information',
-            'break-on-calls',
-            'always-check-subsumption',
-            'expand-macros',
-            'always-check-subsumption',
-            'fast-check-subsumption',
-            'gas',
-            'post-exec-simplify',
-            'counterexample-informaiton',
-            'fail-fast',
-            'llvm-kompile',
-        ]
-        if long_opt in switching_options:
-            toml_commands.append('--no-' + long_opt)
-        elif long_opt[:4] == 'no-' and long_opt[3:] in switching_options:
-            toml_commands.append('--' + long_opt[3:])
-
+def parse_toml_args(args: Namespace) -> dict[str, Any]:
     def get_profile(toml_profile: dict[str, Any], profile_list: list[str]) -> dict[str, Any]:
-        if len(profile_list) == 0 or profile_list[0] not in toml_profile.keys():
-            return toml_profile
+        if len(profile_list) == 0 or profile_list[0] not in toml_profile:
+            return {k: v for k, v in toml_profile.items() if type(v) is not dict}
         elif len(profile_list) == 1:
-            return toml_profile[profile_list[0]]
+            return {k: v for k, v in toml_profile[profile_list[0]].items() if type(v) is not dict}
         return get_profile(toml_profile[profile_list[0]], profile_list[1:])
 
-    toml_args = {}
-    if args.config_file.is_file():
-        with open(args.config_file, 'rb') as config_file:
-            try:
-                toml_args = tomli.load(config_file)
-            except tomli.TOMLDecodeError:
-                _LOGGER.error(
-                    'Input config file is not in TOML format, ignoring the file and carrying on with the provided command line agruments'
-                )
+    toml_args: dict[str, Any] = {}
+    if not hasattr(args, 'config_file') or not args.config_file.is_file():
+        return {}
 
-    toml_commands = [args.command]
-    toml_profile_args = (
-        get_profile(toml_args[args.command], args.config_profile.split('.')) if args.command in toml_args.keys() else {}
+    with open(args.config_file, 'rb') as config_file:
+        try:
+            toml_args = tomli.load(config_file)
+        except tomli.TOMLDecodeError:
+            _LOGGER.error(
+                'Input config file is not in TOML format, ignoring the file and carrying on with the provided command line agruments'
+            )
+
+    toml_args = (
+        get_profile(toml_args[args.command], args.config_profile.split('.')) if args.command in toml_args else {}
     )
 
-    for a_key in toml_profile_args:
-        if a_key in ['config', 'profile'] or isinstance(toml_profile_args[a_key], dict):
-            continue
-        elif type(toml_profile_args[a_key]) is not bool:
-            canonicalize_option(a_key)
-            if len(str(toml_profile_args[a_key])) > 0:
-                toml_commands.append(str(toml_profile_args[a_key]))
-        elif toml_profile_args[a_key]:
-            canonicalize_option(a_key)
+    toml_adj_args: dict[str, Any] = {}
+    for k, v in toml_args.items():
+        opt_string = get_option_string_destination(args.command, k)
+        if opt_string[:3] == 'no_':
+            toml_adj_args[opt_string[3:]] = not v
+        elif k == 'optimization-level':
+            level = toml_args[k] if toml_args[k] >= 0 else 0
+            level = level if toml_args[k] <= 3 else 3
+            toml_adj_args['-o' + str(level)] = True
         else:
-            canonicalize_negative_logic_option(a_key)
+            toml_adj_args[opt_string] = v
 
-    return parser.parse_args(toml_commands + cmd_args)
+    return toml_adj_args

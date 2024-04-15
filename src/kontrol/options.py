@@ -91,6 +91,10 @@ def get_option_string_destination(command: str, option_string: str) -> str:
 class CompileOptions(LoggingOptions):
     contract_file: Path
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return LoggingOptions.from_option_string()
+
 
 class FoundryOptions(Options):
     foundry_root: Path
@@ -154,7 +158,10 @@ class KompileTargetOptions(Options):
         }
 
 
-class ListOptions(LoggingOptions, KOptions, FoundryOptions): ...
+class ListOptions(LoggingOptions, KOptions, FoundryOptions):
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return FoundryOptions.from_option_string() | KOptions.from_option_string() | LoggingOptions.from_option_string()
 
 
 class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
@@ -178,10 +185,14 @@ class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
 
     @staticmethod
     def from_option_string() -> dict[str, Any]:
-        return {
-            'output-dir': 'output_dir_name',
-            'comment-generated-files': 'comment_generated_file',
-        }
+        return (
+            {
+                'output-dir': 'output_dir_name',
+                'comment-generated-files': 'comment_generated_file',
+            }
+            | FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+        )
 
 
 class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
@@ -195,17 +206,38 @@ class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
 
     @staticmethod
     def from_option_string() -> dict[str, Any]:
-        return {
-            'node': 'nodes',
-        }
+        return (
+            {
+                'node': 'nodes',
+            }
+            | FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+        )
 
 
 class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
     node: NodeIdLike
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+        )
+
 
 class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     node: NodeIdLike
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+        )
 
 
 class RpcOptions(Options):
@@ -236,6 +268,17 @@ class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugRepo
             'sections': 2,
         }
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | SMTOptions.from_option_string()
+        )
+
 
 class ShowOptions(
     FoundryTestOptions,
@@ -262,6 +305,19 @@ class ShowOptions(
             'counterexample_info': True,
         }
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | KOptions.from_option_string()
+            | KCFGShowOptions.from_option_string()
+            | DisplayOptions.from_option_string()
+            | SMTOptions.from_option_string()
+        )
+
 
 class SimplifyNodeOptions(
     FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
@@ -275,15 +331,39 @@ class SimplifyNodeOptions(
             'replace': False,
         }
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | DisplayOptions.from_option_string()
+            | SMTOptions.from_option_string()
+        )
+
 
 class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
     contract_file: Path
     contract_name: str
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return KOptions.from_option_string() | KGenOptions.from_option_string() | LoggingOptions.from_option_string()
+
 
 class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     node: NodeIdLike
     branch_condition: str
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+        )
 
 
 class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
@@ -298,8 +378,27 @@ class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
             'depth': 1,
         }
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | SMTOptions.from_option_string()
+        )
 
-class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+        )
 
 
 class TraceOptions(Options):
@@ -321,11 +420,31 @@ class TraceOptions(Options):
 class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
     node: NodeIdLike
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+        )
 
-class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+        )
 
 
-class VersionOptions(LoggingOptions): ...
+class VersionOptions(LoggingOptions):
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return LoggingOptions.from_option_string()
 
 
 class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
@@ -341,6 +460,17 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             'no_forge_build': False,
         }
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | KOptions.from_option_string()
+            | KGenOptions.from_option_string()
+            | KompileOptions.from_option_string()
+            | KompileTargetOptions.from_option_string()
+        )
+
 
 class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
     nodes: list[NodeIdLike]
@@ -354,6 +484,17 @@ class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
             'pending': False,
             'failing': False,
         }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | SMTOptions.from_option_string()
+        )
 
 
 class ProveOptions(
@@ -402,8 +543,20 @@ class ProveOptions(
 
     @staticmethod
     def from_option_string() -> dict[str, Any]:
-        return {
-            'match-test': 'tests',
-            'init-node-from': 'deployment_state_path',
-            'include-summary': 'include_summaries',
-        }
+        return (
+            {
+                'match-test': 'tests',
+                'init-node-from': 'deployment_state_path',
+                'include-summary': 'include_summaries',
+            }
+            | FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | ParallelOptions.from_option_string()
+            | KOptions.from_option_string()
+            | KProveOptions.from_option_string()
+            | SMTOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | ExploreOptions.from_option_string()
+            | TraceOptions.from_option_string()
+        )

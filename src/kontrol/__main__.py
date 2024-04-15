@@ -15,7 +15,7 @@ from pyk.proof.tui import APRProofViewer
 from pyk.utils import run_process
 
 from . import VERSION
-from .cli import _create_argument_parser
+from .cli import _create_argument_parser, parse_toml_args
 from .foundry import (
     Foundry,
     foundry_get_model,
@@ -101,11 +101,12 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
+    toml_args = parse_toml_args(args)
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
 
     _check_k_version()
 
-    stripped_args = {
+    stripped_args = toml_args | {
         key: val for (key, val) in vars(args).items() if val is not None and not (isinstance(val, Iterable) and not val)
     }
     options = generate_options(stripped_args)
