@@ -12,8 +12,8 @@ from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import dir_path, ensure_dir_path, file_path
 
-from .utils import parse_test_version_tuple
 from .options import get_option_string_destination
+from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -33,7 +33,7 @@ class ConfigArgs:
             '--config-file',
             dest='config_file',
             type=file_path,
-            default=Path('./pyk.toml'),
+            default=Path('./kontrol.toml'),
             help='Path to Pyk config file.',
         )
         args.add_argument(
@@ -619,6 +619,7 @@ def _create_argument_parser() -> ArgumentParser:
 
     return parser
 
+
 def parse_toml_args(args: Namespace) -> dict[str, Any]:
     def get_profile(toml_profile: dict[str, Any], profile_list: list[str]) -> dict[str, Any]:
         if len(profile_list) == 0 or profile_list[0] not in toml_profile:
@@ -651,7 +652,7 @@ def parse_toml_args(args: Namespace) -> dict[str, Any]:
         elif k == 'optimization-level':
             level = toml_args[k] if toml_args[k] >= 0 else 0
             level = level if toml_args[k] <= 3 else 3
-            toml_adj_args['-o' + str(level)] = True
+            toml_adj_args['o' + str(level)] = True
         else:
             toml_adj_args[opt_string] = v
 
