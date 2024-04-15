@@ -10,7 +10,7 @@ from pyk.kore.rpc import kore_server
 from pyk.utils import run_process
 
 from kontrol.foundry import Foundry
-from kontrol.kompile import foundry_kompile
+from kontrol.kompile import BuildOptions, foundry_kompile
 
 from .utils import TEST_DATA_DIR, gen_bin_runtime
 
@@ -41,7 +41,7 @@ def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
         llvm_definition_dir=llvm_definition_dir,
         module_name=foundry.kevm.main_module,
         command=kore_rpc_command,
-        smt_timeout=300,
+        smt_timeout=500,
         smt_retry_limit=10,
         fallback_on=None,
         interim_simplification=None,
@@ -69,19 +69,23 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
             run_process(['forge', 'build'], cwd=foundry_root)
 
             foundry_kompile(
+                BuildOptions(
+                    {
+                        'includes': (),
+                        'requires': [
+                            str(TEST_DATA_DIR / 'lemmas.k'),
+                            str(TEST_DATA_DIR / 'cse-lemmas.k'),
+                            str(TEST_DATA_DIR / 'pausability-lemmas.k'),
+                        ],
+                        'imports': [
+                            'LoopsTest:SUM-TO-N-INVARIANT',
+                            'ArithmeticCallTest:CSE-LEMMAS',
+                            'CSETest:CSE-LEMMAS',
+                            'PortalTest:PAUSABILITY-LEMMAS',
+                        ],
+                    }
+                ),
                 foundry=Foundry(foundry_root),
-                includes=(),
-                requires=[
-                    str(TEST_DATA_DIR / 'lemmas.k'),
-                    str(TEST_DATA_DIR / 'cse-lemmas.k'),
-                    str(TEST_DATA_DIR / 'pausability-lemmas.k'),
-                ],
-                imports=[
-                    'LoopsTest:SUM-TO-N-INVARIANT',
-                    'ArithmeticCallTest:CSE-LEMMAS',
-                    'CSETest:CSE-LEMMAS',
-                    'PortalTest:PAUSABILITY-LEMMAS',
-                ],
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
