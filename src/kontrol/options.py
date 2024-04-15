@@ -88,6 +88,10 @@ def get_option_string_destination(command: str, option_string: str) -> str:
         return option_string.replace('-', '_')
 
 
+class CompileOptions(LoggingOptions):
+    contract_file: Path
+
+
 class FoundryOptions(Options):
     foundry_root: Path
 
@@ -121,19 +125,6 @@ class FoundryTestOptions(Options):
         }
 
 
-class ListOptions(LoggingOptions, KOptions, FoundryOptions): ...
-
-
-class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
-
-
-class VersionOptions(LoggingOptions): ...
-
-
-class CompileOptions(LoggingOptions):
-    contract_file: Path
-
-
 class KGenOptions(Options):
     requires: list[str]
     imports: list[str]
@@ -163,144 +154,7 @@ class KompileTargetOptions(Options):
         }
 
 
-class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
-    contract_file: Path
-    contract_name: str
-
-
-class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
-    regen: bool
-    rekompile: bool
-    no_forge_build: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'regen': False,
-            'rekompile': False,
-            'no_forge_build': False,
-        }
-
-
-class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
-
-
-class TraceOptions(Options):
-    active_tracing: bool
-    trace_storage: bool
-    trace_wordstack: bool
-    trace_memory: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'active_tracing': False,
-            'trace_storage': False,
-            'trace_wordstack': False,
-            'trace_memory': False,
-        }
-
-
-class RpcOptions(Options):
-    trace_rewrites: bool
-    kore_rpc_command: str | None
-    use_booster: bool
-    port: int | None
-    maude_port: int | None
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'trace_rewrites': False,
-            'kore_rpc_command': None,
-            'use_booster': True,
-            'port': None,
-            'maude_port': None,
-        }
-
-
-class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    node: NodeIdLike
-
-
-class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
-    node: NodeIdLike
-
-
-class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
-    node: NodeIdLike
-
-
-class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    edge: tuple[str, str]
-    sections: int
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'sections': 2,
-        }
-
-
-class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    node: NodeIdLike
-    repeat: int
-    depth: int
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'repeat': 1,
-            'depth': 1,
-        }
-
-
-class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    nodes: list[NodeIdLike]
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'nodes': [],
-        }
-
-    @staticmethod
-    def from_option_string() -> dict[str, Any]:
-        return {
-            'node': 'nodes',
-        }
-
-
-class SimplifyNodeOptions(
-    FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
-):
-    node: NodeIdLike
-    replace: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'replace': False,
-        }
-
-
-class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    node: NodeIdLike
-    branch_condition: str
-
-
-class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    nodes: list[NodeIdLike]
-    pending: bool
-    failing: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'nodes': [],
-            'pending': False,
-            'failing': False,
-        }
+class ListOptions(LoggingOptions, KOptions, FoundryOptions): ...
 
 
 class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
@@ -330,6 +184,59 @@ class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
         }
 
 
+class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    nodes: list[NodeIdLike]
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'nodes': [],
+        }
+
+    @staticmethod
+    def from_option_string() -> dict[str, Any]:
+        return {
+            'node': 'nodes',
+        }
+
+
+class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
+    node: NodeIdLike
+
+
+class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    node: NodeIdLike
+
+
+class RpcOptions(Options):
+    trace_rewrites: bool
+    kore_rpc_command: str | None
+    use_booster: bool
+    port: int | None
+    maude_port: int | None
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'trace_rewrites': False,
+            'kore_rpc_command': None,
+            'use_booster': True,
+            'port': None,
+            'maude_port': None,
+        }
+
+
+class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+    edge: tuple[str, str]
+    sections: int
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'sections': 2,
+        }
+
+
 class ShowOptions(
     FoundryTestOptions,
     LoggingOptions,
@@ -353,6 +260,99 @@ class ShowOptions(
             'kevm_claim_dir': None,
             'use_hex_encoding': False,
             'counterexample_info': True,
+        }
+
+
+class SimplifyNodeOptions(
+    FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
+):
+    node: NodeIdLike
+    replace: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'replace': False,
+        }
+
+
+class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
+    contract_file: Path
+    contract_name: str
+
+
+class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    node: NodeIdLike
+    branch_condition: str
+
+
+class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+    node: NodeIdLike
+    repeat: int
+    depth: int
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'repeat': 1,
+            'depth': 1,
+        }
+
+
+class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+
+class TraceOptions(Options):
+    active_tracing: bool
+    trace_storage: bool
+    trace_wordstack: bool
+    trace_memory: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'active_tracing': False,
+            'trace_storage': False,
+            'trace_wordstack': False,
+            'trace_memory': False,
+        }
+
+
+class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
+    node: NodeIdLike
+
+
+class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+
+class VersionOptions(LoggingOptions): ...
+
+
+class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
+    regen: bool
+    rekompile: bool
+    no_forge_build: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'regen': False,
+            'rekompile': False,
+            'no_forge_build': False,
+        }
+
+
+class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+    nodes: list[NodeIdLike]
+    pending: bool
+    failing: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'nodes': [],
+            'pending': False,
+            'failing': False,
         }
 
 
