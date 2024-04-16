@@ -143,7 +143,7 @@ def main() -> None:
 
 
 def _check_k_version() -> None:
-    expected_k_version = KVersion.parse(f'v{pyk.K_VERSION}')
+    expected_k_version = KVersion.parse(f'v{pyk.__version__}')
     actual_k_version = k_version()
 
     if not _compare_versions(expected_k_version, actual_k_version):
