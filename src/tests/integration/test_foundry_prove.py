@@ -15,6 +15,7 @@ from kontrol.foundry import (
     Foundry,
     LoadStateDiffOptions,
     MergeNodesOptions,
+    MinimizeProofOptions,
     RefuteNodeOptions,
     RemoveNodeOptions,
     ShowOptions,
@@ -22,6 +23,7 @@ from kontrol.foundry import (
     StepNodeOptions,
     UnrefuteNodeOptions,
     foundry_merge_nodes,
+    foundry_minimize_proof,
     foundry_refute_node,
     foundry_remove_node,
     foundry_show,
@@ -234,6 +236,61 @@ def test_foundry_bmc(
 
     # Then
     assert_pass(test_id, single(prove_res))
+
+
+MINIMIZE_TESTS = tuple((TEST_DATA_DIR / 'foundry-minimize').read_text().splitlines())
+
+
+@pytest.mark.parametrize('test_id', MINIMIZE_TESTS)
+def test_foundry_minimize_proof(
+    test_id: str,
+    foundry: Foundry,
+    update_expected_output: bool,
+    no_use_booster: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    options = ProveOptions(
+        {
+            'tests': [(test_id, None)],
+            'break_on_calls': True,
+            'reinit': True,
+            'bug_report': bug_report,
+            'port': server.port,
+        }
+    )
+
+    # When
+    foundry_prove(foundry=foundry, options=options)
+
+    foundry_minimize_proof(foundry, options=MinimizeProofOptions({'test': test_id}))
+
+    show_res = foundry_show(
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
+    )
+
+    # Then
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / f'show/minimized/{test_id}.expected', update=update_expected_output
+    )
 
 
 def test_foundry_merge_nodes(

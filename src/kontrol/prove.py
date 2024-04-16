@@ -70,6 +70,7 @@ class ProveOptions(
     xml_test_report: bool
     cse: bool
     hevm: bool
+    minimize_proofs: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -87,6 +88,7 @@ class ProveOptions(
             'xml_test_report': False,
             'cse': False,
             'hevm': False,
+            'minimize_proofs': False,
         }
 
 
@@ -356,6 +358,10 @@ def _run_cfg_group(
                 counterexample_info=options.counterexample_info,
                 fail_fast=options.fail_fast,
             )
+
+            if options.minimize_proofs:
+                proof.minimize_kcfg()
+
             if start_time is not None:
                 end_time = time.time()
                 proof.add_exec_time(end_time - start_time)

@@ -26,6 +26,7 @@ from .foundry import (
     GetModelOptions,
     LoadStateDiffOptions,
     MergeNodesOptions,
+    MinimizeProofOptions,
     RefuteNodeOptions,
     RemoveNodeOptions,
     SectionEdgeOptions,
@@ -38,6 +39,7 @@ from .foundry import (
     foundry_get_model,
     foundry_list,
     foundry_merge_nodes,
+    foundry_minimize_proof,
     foundry_node_printer,
     foundry_refute_node,
     foundry_remove_node,
@@ -102,6 +104,7 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'merge-nodes': MergeNodesOptions(args),
         'section-edge': SectionEdgeOptions(args),
         'get-model': GetModelOptions(args),
+        'minimize-proof': MinimizeProofOptions(args),
     }
     try:
         return options[command]
@@ -318,6 +321,10 @@ def exec_view_kcfg(options: ViewKcfgOptions) -> None:
     node_printer = foundry_node_printer(foundry, contract_name, proof)
     viewer = APRProofViewer(proof, foundry.kevm, node_printer=node_printer, custom_view=_custom_view)
     viewer.run()
+
+
+def exec_minimize_proof(options: MinimizeProofOptions) -> None:
+    foundry_minimize_proof(foundry=_load_foundry(options.foundry_root), options=options)
 
 
 def exec_remove_node(options: RemoveNodeOptions) -> None:
@@ -610,6 +617,9 @@ def _create_argument_parser() -> ArgumentParser:
         help='Use hevm success predicate instead of foundry to determine if a test is passing',
     )
     prove_args.add_argument(
+        '--minimize-proofs', dest='minimize_proofs', default=False, action='store_true', help='Minimize obtained KCFGs'
+    )
+    prove_args.add_argument(
         '--evm-tracing',
         dest='evm_tracing',
         action='store_true',
@@ -693,6 +703,12 @@ def _create_argument_parser() -> ArgumentParser:
     command_parser.add_parser(
         'view-kcfg',
         help='Explore a given proof in the KCFG visualizer.',
+        parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
+    )
+
+    command_parser.add_parser(
+        'minimize-proof',
+        help='Minimize the KCFG of the proof for a given test.',
         parents=[kontrol_cli_args.foundry_test_args, kontrol_cli_args.logging_args, kontrol_cli_args.foundry_args],
     )
 
