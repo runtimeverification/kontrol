@@ -21,35 +21,72 @@
 │
 │  (564 steps)
 ├─ 7
-│   k: #checkDepthExceeded ~> #call 491460923342184218035706888008750043977755113263 49 ...
-│   pc: 279
+│   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   pc: 0
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (1 step)
 ┣━━┓
 ┃  │
-┃  ├─ 8 (split)
-┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
-┃  │   pc: 562
-┃  │   callDepth: 2
-┃  │   statusCode: STATUSCODE:StatusCode
+┃  ├─ 8
+┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   pc: 550
+┃  │   callDepth: 1
+┃  │   statusCode: EVMC_REVERT
+┃  │
+┃  │  (72 steps)
+┃  └─ 11 (leaf, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: 1584
+┃      callDepth: 0
+┃      statusCode: EVMC_REVERT
+┃
+┣━━┓
+┃  │
+┃  ├─ 9
+┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   pc: 128
+┃  │   callDepth: 1
+┃  │   statusCode: EVMC_SUCCESS
+┃  │
+┃  │  (429 steps)
+┃  ├─ 12
+┃  │   k: #execute ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: 1
+┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃
-┃  ┃ (branch)
-┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃ (1 step)
+┃  ┣━━┓
 ┃  ┃  │
-┃  ┃  ├─ 10
-┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
-┃  ┃  │   pc: 562
-┃  ┃  │   callDepth: 2
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ├─ 14
+┃  ┃  │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  ┃  │   pc: 550
+┃  ┃  │   callDepth: 1
+┃  ┃  │   statusCode: EVMC_REVERT
+┃  ┃  │
+┃  ┃  │  (72 steps)
+┃  ┃  └─ 17 (leaf, terminal)
+┃  ┃      k: #halt ~> CONTINUATION:K
+┃  ┃      pc: 1708
+┃  ┃      callDepth: 0
+┃  ┃      statusCode: EVMC_REVERT
+┃  ┃
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 15 (split)
+┃  ┃  │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  ┃  │   pc: 128
+┃  ┃  │   callDepth: 1
+┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃
-┃  ┃  ┃ (1 step)
-┃  ┃  ┣━━┓
+┃  ┃  ┃ (branch)
+┃  ┃  ┣━━┓ constraint: VV0_x_114b9705:Int <Int ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
 ┃  ┃  ┃  │
-┃  ┃  ┃  ├─ 14 (split)
-┃  ┃  ┃  │   k: JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_1 ...
-┃  ┃  ┃  │   pc: 610
+┃  ┃  ┃  ├─ 24
+┃  ┃  ┃  │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  ┃  ┃  │   pc: 128
 ┃  ┃  ┃  │   callDepth: 1
 ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃
@@ -194,10 +231,11 @@
 ┃  ┃  ┃
 ┃  ┃  ┣━━┓
 ┃  ┃  ┃  │
-┃  ┃  ┃  ├─ 15 (split)
-┃  ┃  ┃  │   k: JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_1 ...
-┃  ┃  ┃  │   pc: 610
-┃  ┃  ┃  │   callDepth: 1
+┃  ┃  ┃  │  (328 steps)
+┃  ┃  ┃  ├─ 22 (terminal)
+┃  ┃  ┃  │   k: #halt ~> CONTINUATION:K
+┃  ┃  ┃  │   pc: 248
+┃  ┃  ┃  │   callDepth: 0
 ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  ┃
 ┃  ┃  ┃  ┃ (branch)
@@ -486,11 +524,11 @@
 ┃  ┃  ┃            callDepth: 0
 ┃  ┃  ┃            statusCode: EVMC_REVERT
 ┃  ┃  ┃
-┃  ┃  ┗━━┓
+┃  ┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <Int ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) )
 ┃  ┃     │
-┃  ┃     ├─ 17 (split)
-┃  ┃     │   k: JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_1 ...
-┃  ┃     │   pc: 610
+┃  ┃     ├─ 25
+┃  ┃     │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  ┃     │   pc: 128
 ┃  ┃     │   callDepth: 1
 ┃  ┃     │   statusCode: EVMC_SUCCESS
 ┃  ┃     ┃
@@ -633,7 +671,7 @@
 ┃  ┃               callDepth: 0
 ┃  ┃               statusCode: EVMC_REVERT
 ┃  ┃
-┃  ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+┃  ┗━━┓
 ┃     │
 ┃     ├─ 11
 ┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
@@ -1293,11 +1331,5 @@
              callDepth: 0
              statusCode: EVMC_REVERT
 
-
-┌─ 6 (root, leaf, target, terminal)
-│   k: #halt ~> CONTINUATION:K
-│   pc: PC_CELL_5d410f2a:Int
-│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
-│   statusCode: STATUSCODE_FINAL:StatusCode
 
 

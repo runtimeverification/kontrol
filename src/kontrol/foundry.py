@@ -851,6 +851,16 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
     tree.write('kontrol_prove_report.xml')
 
 
+class MinimizeProofOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+
+def foundry_minimize_proof(foundry: Foundry, options: MinimizeProofOptions) -> None:
+    test_id = foundry.get_test_id(options.test, options.version)
+    apr_proof = foundry.get_apr_proof(test_id)
+    apr_proof.minimize_kcfg()
+    apr_proof.write_proof_data()
+
+
 class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     node: NodeIdLike
 
