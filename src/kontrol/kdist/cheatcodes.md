@@ -476,6 +476,7 @@ If the `expectRevert()` selector is matched, call the `#setExpectRevert` product
          <k> #cheatcode_call SELECTOR ARGS => #setExpectRevert ARGS ... </k>
       requires SELECTOR ==Int selector ( "expectRevert()" )
         orBool SELECTOR ==Int selector ( "expectRevert(bytes)" )
+        orBool SELECTOR ==Int selector ( "expectRevert(bytes4)" )
 ```
 
 Expecting a specific CALL/CREATE opcode
@@ -1171,7 +1172,7 @@ Will also return true if REASON is `.Bytes`.
     syntax Bool ::= "#matchReason" "(" Bytes "," Bytes ")" [function, klabel(foundry_matchReason)]
  // ----------------------------------------------------------------------------------------------
     rule #matchReason(REASON, _) => true requires REASON ==K .Bytes
-    rule #matchReason(REASON, OUT) => REASON ==K #range(OUT, 4, lengthBytes(OUT) -Int 4) requires REASON =/=K .Bytes
+    rule #matchReason(REASON, OUT) => #range(REASON, lengthBytes(REASON) -Int 32, 32) ==K #range(OUT, lengthBytes(OUT) -Int 32, 32) requires REASON =/=K .Bytes
 ```
 
 - `#setExpectOpcode` initializes the `<expectedOpcode>` subconfiguration with an expected `Address`, and `Bytes` to match the calldata.
@@ -1440,6 +1441,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "store(address,bytes32,bytes32)" )           => 1892290747 )
     rule ( selector ( "setNonce(address,uint64)" )                 => 4175530839 )
     rule ( selector ( "expectRevert()" )                           => 4102309908 )
+    rule ( selector ( "expectRevert(bytes4)" )                     => 3273568480 )
     rule ( selector ( "expectRevert(bytes)" )                      => 4069379763 )
     rule ( selector ( "startPrank(address)" )                      => 105151830  )
     rule ( selector ( "startPrank(address,address)" )              => 1169514616 )
@@ -1487,7 +1489,6 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule selector ( "envBytes32(string,string)" )               => 1525821889
     rule selector ( "envString(string,string)" )                => 347089865
     rule selector ( "envBytes(string,string)" )                 => 3720504603
-    rule selector ( "expectRevert(bytes4)" )                    => 3273568480
     rule selector ( "record()" )                                => 644673801
     rule selector ( "accesses(address)" )                       => 1706857601
     rule selector ( "mockCall(address,uint256,bytes,bytes)" )   => 2168494993
