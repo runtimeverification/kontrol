@@ -5,9 +5,9 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from kontrol.foundry import foundry_show
-from kontrol.options import ProveOptions, RPCOptions, TraceOptions
-from kontrol.prove import foundry_prove
+from kontrol.foundry import ShowOptions, foundry_show
+from kontrol.options import TraceOptions
+from kontrol.prove import ProveOptions, foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
@@ -72,34 +72,39 @@ def test_foundry_trace(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
-    prove_options = ProveOptions(
-        max_depth=10000,
-        max_iterations=100,
-        bug_report=bug_report,
-        fail_fast=False,
-        reinit=True,
-        trace_options=trace_options,
-    )
-
     foundry_prove(
-        foundry,
-        tests=[(test_id, None)],
-        prove_options=prove_options,
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test_id, None)],
+                'max_depth': 10000,
+                'max_iterations': 100,
+                'bug_report': bug_report,
+                'fail_fast': False,
+                'reinit': True,
+                'trace_wordstack': trace_options.trace_wordstack,
+                'trace_memory': trace_options.trace_memory,
+                'trace_storage': trace_options.trace_storage,
+                'active_tracing': trace_options.active_tracing,
+                'port': server.port,
+            }
         ),
     )
 
     trace_show_res = foundry_show(
-        foundry,
-        test=test_id,
-        to_module=True,
-        sort_collections=True,
-        omit_unstable_output=True,
-        pending=True,
-        failing=True,
-        failure_info=True,
-        port=server.port,
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
     )
 
     assert_or_update_show_output(

@@ -1,27 +1,20 @@
 
-┌─ 1 (root, init)
+┌─ 1 (root, split, init)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: STATUSCODE:StatusCode
-│
-│  (367 steps)
-├─ 3 (split)
-│   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
-│   pc: 148
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
 ┣━━┓ constraint: CALLDEPTH_CELL:Int <Int 1024
 ┃  │
-┃  ├─ 4
-┃  │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
-┃  │   pc: 148
+┃  ├─ 8
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (345 steps)
+┃  │  (712 steps)
 ┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 87
@@ -38,13 +31,13 @@
 ┃
 ┗━━┓ constraint: 1024 <=Int CALLDEPTH_CELL:Int
    │
-   ├─ 5
-   │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
-   │   pc: 148
+   ├─ 9
+   │   k: #execute ~> CONTINUATION:K
+   │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (76 steps)
+   │  (443 steps)
    ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 163
