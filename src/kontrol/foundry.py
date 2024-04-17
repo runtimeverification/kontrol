@@ -1011,7 +1011,7 @@ def foundry_merge_nodes(
 
     if check_cells_ne:
         if not all(KEVMSemantics().same_loop(nodes[0].cterm, nd.cterm) for nd in nodes):
-            raise ValueError(f'Nodes {node_ids} cannot be merged because they differ in: {check_cells_ne}')
+            raise ValueError(f'Nodes {options.nodes} cannot be merged because they differ in: {check_cells_ne}')
 
     anti_unification = nodes[0].cterm
     for node in nodes[1:]:
