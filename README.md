@@ -22,7 +22,7 @@ You need to install the [K Framework] on your system, see the instructions there
 The fastest way is via the [kup package manager], with which you can do to get the correct version of K:
 
 ```sh
-kup install k.openssl.procps --version v$(cat deps/k_release)
+kup install k.openssl.procps.secp256k1 --version v$(cat deps/k_release)
 ```
 
 #### Poetry dependencies
