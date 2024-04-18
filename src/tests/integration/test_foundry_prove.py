@@ -374,7 +374,7 @@ def test_foundry_merge_loop_heads(
         options=ProveOptions(
             {
                 'tests': [(test, None)],
-                'max_iterations': 20,
+                'max_iterations': 15,
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
@@ -382,7 +382,11 @@ def test_foundry_merge_loop_heads(
         ),
     )
 
-    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [15, 16], 'include_disjunct': True}))
+    check_pending(foundry, test, [17, 18, 19])
+
+    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [4, 9, 15], 'include_disjunct': True}))
+
+    check_pending(foundry, test, [19, 20])
 
     foundry_prove(
         foundry=foundry,
