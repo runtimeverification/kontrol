@@ -2,9 +2,9 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract AddrTest is Test, KEVMCheats {
+contract AddrTest is Test, KontrolCheats {
 
     function test_addr_true() public {
         address alice = vm.addr(1);

@@ -1,0 +1,269 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (965 steps)
+├─ 3 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: 281
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+┊  constraint: true
+┊  subst: OMITTED SUBST
+└─ 2 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
+
+module SUMMARY-TEST%BLOCKPARAMSTEST.TESTWARP(UINT256):0
+    
+    
+    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"t\xb4\x1dj" +Bytes #buf ( 32 , VV0_time_114b9705:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( selector ( "testWarp(uint256)" ) : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe5\xd6\xbf\x02" +Bytes #buf ( 32 , VV0_time_114b9705:Int ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     ( TIMESTAMP_CELL:Int => VV0_time_114b9705:Int )
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressSet>
+                 .Set
+               </addressSet>
+               <storageSlotSet>
+                 .Set
+               </storageSlotSet>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               true
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               ( false => true )
+             </recordedTrace>
+             <traceData>
+               ( .List => ListItem ( { 0 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 4 | MSTORE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 5 | CALLVALUE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 6 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 7 | ISZERO | .WordStack | b"" | .Map | 0 } ) ListItem ( { 8 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 11 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 16 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 17 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 18 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 20 | CALLDATASIZE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 21 | LT | .WordStack | b"" | .Map | 0 } ) ListItem ( { 22 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 25 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 26 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 28 | CALLDATALOAD | .WordStack | b"" | .Map | 0 } ) ListItem ( { 29 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { maxUInt5 | SHR | .WordStack | b"" | .Map | 0 } ) ListItem ( { 32 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 33 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 38 | GT | .WordStack | b"" | .Map | 0 } ) ListItem ( { 39 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 42 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 151 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 152 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 153 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 158 | GT | .WordStack | b"" | .Map | 0 } ) ListItem ( { 159 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 162 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 163 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 164 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 169 | EQ | .WordStack | b"" | .Map | 0 } ) ListItem ( { 170 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 173 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 174 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 175 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 180 | EQ | .WordStack | b"" | .Map | 0 } ) ListItem ( { 181 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 184 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 185 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 186 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 191 | EQ | .WordStack | b"" | .Map | 0 } ) ListItem ( { 192 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 195 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 368 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 369 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 372 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 375 | CALLDATASIZE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 376 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 378 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 381 | JUMP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3402 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3403 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3405 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3407 | DUP ( 3 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3408 | DUP ( 5 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3409 | SUB | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3410 | SLT | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3411 | ISZERO | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3412 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3415 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3420 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3421 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3422 | CALLDATALOAD | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3423 | SWAP ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3424 | SWAP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3425 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 3426 | JUMP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 382 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 383 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 386 | JUMP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1250 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1251 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1253 | MLOAD | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1254 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1259 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1261 | SHL | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1262 | DUP ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1263 | MSTORE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1264 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1266 | DUP ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1267 | ADD | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1268 | DUP ( 3 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1269 | SWAP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1270 | MSTORE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1271 | PUSH ( 20 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1292 | SWAP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1293 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1298 | SWAP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1299 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1301 | ADD | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1302 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1304 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1306 | MLOAD | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1307 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1308 | DUP ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1309 | SUB | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1310 | DUP ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1311 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1313 | DUP ( 8 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1314 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1315 | EXTCODESIZE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1316 | ISZERO | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1317 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1318 | ISZERO | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1319 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1322 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1327 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1328 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1329 | GAS | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1330 | CALL | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1331 | ISZERO | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1332 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1333 | ISZERO | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1334 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1337 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1347 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1348 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1349 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1350 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1351 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1352 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1355 | TIMESTAMP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1356 | DUP ( 3 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1357 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 1360 | JUMP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2647 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2648 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2649 | DUP ( 3 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2650 | EQ | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2651 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2654 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2886 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2887 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2888 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2889 | JUMP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 607 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 608 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 609 | JUMP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 280 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 281 | STOP | .WordStack | b"" | .Map | 0 } ) )
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int VV0_time_114b9705:Int
+       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( VV0_time_114b9705:Int <Int pow256
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))))))))))))
+       ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+               )))))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+
+endmodule
+0 Failure nodes. (0 pending and 0 failing)
+
+Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
+
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
+
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

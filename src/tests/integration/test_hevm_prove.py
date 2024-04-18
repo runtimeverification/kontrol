@@ -8,8 +8,7 @@ from pyk.proof import APRProof
 from pyk.proof.reachability import APRFailureInfo
 from pyk.utils import single
 
-from kontrol.options import ProveOptions, RPCOptions
-from kontrol.prove import foundry_prove
+from kontrol.prove import ProveOptions, foundry_prove
 
 if TYPE_CHECKING:
     from typing import Final
@@ -62,15 +61,15 @@ def test_hevm_prove_passing(
         server._populate_bug_report(bug_report)
 
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(
-            counterexample_info=True,
-            bug_report=bug_report,
-            hevm=True,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'counterexample_info': True,
+                'bug_report': bug_report,
+                'hevm': True,
+                'port': server.port,
+                'tests': [(test, None)],
+            }
         ),
     )
 
@@ -98,15 +97,15 @@ def test_hevm_prove_failing(
         server._populate_bug_report(bug_report)
 
     prove_res = foundry_prove(
-        foundry,
-        tests=[(test, None)],
-        prove_options=ProveOptions(
-            counterexample_info=True,
-            bug_report=bug_report,
-            hevm=True,
-        ),
-        rpc_options=RPCOptions(
-            port=server.port,
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'counterexample_info': True,
+                'bug_report': bug_report,
+                'hevm': True,
+                'port': server.port,
+            }
         ),
     )
 

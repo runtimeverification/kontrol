@@ -2,9 +2,9 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract MergeTest is Test, KEVMCheats {
+contract MergeTest is Test, KontrolCheats {
     uint y;
 
     function test_branch_merge(uint x) public {

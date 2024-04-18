@@ -1,0 +1,56 @@
+
+┌─ 1 (root, split, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+┃
+┃ (branch)
+┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  │
+┃  ├─ 8
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (470 steps)
+┃  ├─ 6 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 128
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_SUCCESS
+┃  │
+┃  ┊  constraint: OMITTED CONSTRAINT
+┃  ┊  subst: OMITTED SUBST
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+   │
+   ├─ 9
+   │   k: #execute ~> CONTINUATION:K
+   │   pc: 0
+   │   callDepth: CALLDEPTH_CELL:Int
+   │   statusCode: STATUSCODE:StatusCode
+   │
+   │  (407 steps)
+   ├─ 7 (terminal)
+   │   k: #halt ~> CONTINUATION:K
+   │   pc: 550
+   │   callDepth: CALLDEPTH_CELL:Int
+   │   statusCode: EVMC_REVERT
+   │
+   ┊  constraint: OMITTED CONSTRAINT
+   ┊  subst: OMITTED SUBST
+   └─ 2 (leaf, target, terminal)
+       k: #halt ~> CONTINUATION:K
+       pc: PC_CELL_5d410f2a:Int
+       callDepth: CALLDEPTH_CELL_5d410f2a:Int
+       statusCode: STATUSCODE_FINAL:StatusCode
+
+
+

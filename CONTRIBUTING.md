@@ -91,8 +91,8 @@ poetry run pytest src/tests/integration -k 'test_foundry_xml_report' --maxfail=1
 The `foundry_success` predicate, i.e., the criteria used to determine if a test is passing or failing, as well as the addresses needed to define cheatcodes, are in [foundry.md](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md).  The rules to support cheatcodes are located in [cheatcodes.md](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/cheatcodes.md). At the top of the file there is the subconfiguration needed to implement the cheatcodes. The [structure of execution](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/cheatcodes.md#structure-of-execution) presents how calls to the Foundry cheatcode address are handled. After understanding this infrastructure, implementing a new cheatcode resumes to:
 ##### 1. Add a new `call_foundry` rule for the cheatcode
 ```k
- rule [foundry.call.cheatcode]:
-         <k> #call_foundry SELECTOR ARGS => logic implementation of the cheatcode ... </k>
+ rule [cheatcode.call.cheatcode]:
+         <k> #cheatcode_call SELECTOR ARGS => logic implementation of the cheatcode ... </k>
       requires SELECTOR ==Int selector ( "cheatcode signature" )
 ```
 
