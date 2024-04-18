@@ -26,7 +26,6 @@ The first step is to develop and test your changes locally.
 
 ##### 1. Build Kontrol from source
 ```
-kup install k.openssl.procps --version v$(cat deps/k_release)
 kup install k.openssl.procps.secp256k1 --version v$(cat deps/k_release)
 poetry install
 poetry run kdist clean
