@@ -151,7 +151,7 @@ def foundry_kompile(
             output_dir=output_dir,
             main_file=foundry.main_file,
             main_module=main_module,
-            syntax_module=syntax_module,
+            syntax_module=None,
             includes=includes,
             emit_json=True,
             ccopts=options.ccopts,

@@ -11,10 +11,11 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cli.args import BugReportOptions, LoggingOptions, ParallelOptions, SMTOptions
-from pyk.cterm import CTerm
+from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
-from pyk.kcfg import KCFG
+from pyk.kcfg import KCFG, KCFGExplore
+from pyk.kore.rpc import KoreClient, TransportType
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
@@ -38,7 +39,6 @@ if TYPE_CHECKING:
     from typing import Final
 
     from pyk.kast.inner import KInner
-    from pyk.kcfg import KCFGExplore
 
     from .deployment import DeploymentStateEntry
 
@@ -317,6 +317,38 @@ def _run_cfg_group(
             port=options.port,
             maude_port=options.maude_port,
         ) as kcfg_explore:
+
+            def create_kcfg_explore() -> KCFGExplore:
+                if options.maude_port is None:
+                    dispatch = None
+                else:
+                    dispatch = {
+                        'execute': [('localhost', options.maude_port, TransportType.HTTP)],
+                        'simplify': [('localhost', options.maude_port, TransportType.HTTP)],
+                        'add-module': [
+                            ('localhost', options.maude_port, TransportType.HTTP),
+                            ('localhost', kcfg_explore.cterm_symbolic._kore_client.port, TransportType.SINGLE_SOCKET),
+                        ],
+                    }
+                client = KoreClient(
+                    'localhost',
+                    kcfg_explore.cterm_symbolic._kore_client.port,
+                    bug_report=options.bug_report,
+                    bug_report_id=test.id,
+                    dispatch=dispatch,
+                )
+                cterm_symbolic = CTermSymbolic(
+                    client,
+                    foundry.kevm.definition,
+                    foundry.kevm.kompiled_kore,
+                    trace_rewrites=options.trace_rewrites,
+                )
+                return KCFGExplore(
+                    cterm_symbolic,
+                    kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                    id=test.id,
+                )
+
             if proof is None:
                 proof = method_to_apr_proof(
                     test=test,
@@ -350,7 +382,7 @@ def _run_cfg_group(
                 )
             run_prover(
                 proof,
-                kcfg_explore,
+                create_kcfg_explore,
                 max_depth=options.max_depth,
                 max_iterations=options.max_iterations,
                 cut_point_rules=cut_point_rules,
