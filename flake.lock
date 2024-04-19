@@ -50,41 +50,6 @@
         "type": "github"
       }
     },
-    "booster-backend": {
-      "inputs": {
-        "haskell-backend": [
-          "kevm",
-          "k-framework",
-          "haskell-backend"
-        ],
-        "nixpkgs": [
-          "kevm",
-          "k-framework",
-          "haskell-backend",
-          "nixpkgs"
-        ],
-        "stacklock2nix": [
-          "kevm",
-          "k-framework",
-          "haskell-backend",
-          "stacklock2nix"
-        ]
-      },
-      "locked": {
-        "lastModified": 1712228520,
-        "narHash": "sha256-OYQTmMtjy/BJNRt/VqAOwF5QWNK/3Gx5Q7DHWtMnf+4=",
-        "owner": "runtimeverification",
-        "repo": "hs-backend-booster",
-        "rev": "34305b11a3d31e663f4070c684b709c25437a491",
-        "type": "github"
-      },
-      "original": {
-        "owner": "runtimeverification",
-        "repo": "hs-backend-booster",
-        "rev": "34305b11a3d31e663f4070c684b709c25437a491",
-        "type": "github"
-      }
-    },
     "cpp-httplib": {
       "flake": false,
       "locked": {
@@ -255,23 +220,22 @@
           "rv-utils",
           "nixpkgs"
         ],
-        "nixpkgs2305": "nixpkgs2305",
         "rv-utils": "rv-utils",
         "stacklock2nix": "stacklock2nix",
         "z3": "z3"
       },
       "locked": {
-        "lastModified": 1712202157,
-        "narHash": "sha256-FzTigd8bF24lB4baiCRorFLYeSan96vG1koMaQdWHRY=",
+        "lastModified": 1712660533,
+        "narHash": "sha256-6LDPI9A/bOxUsDKE5dMTy/tUBNXnyrm0jcMr1eletIU=",
         "owner": "runtimeverification",
         "repo": "haskell-backend",
-        "rev": "531f7c1db1a9fad6d18cbcedb3cfd3e35d6b82a5",
+        "rev": "4468436fa4dbeefdf072403911f3f262be72c1a1",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
         "repo": "haskell-backend",
-        "rev": "531f7c1db1a9fad6d18cbcedb3cfd3e35d6b82a5",
+        "rev": "4468436fa4dbeefdf072403911f3f262be72c1a1",
         "type": "github"
       }
     },
@@ -294,7 +258,6 @@
     },
     "k-framework": {
       "inputs": {
-        "booster-backend": "booster-backend",
         "flake-utils": "flake-utils",
         "haskell-backend": "haskell-backend",
         "llvm-backend": "llvm-backend",
@@ -307,16 +270,16 @@
         "rv-utils": "rv-utils_3"
       },
       "locked": {
-        "lastModified": 1712579410,
-        "narHash": "sha256-qfVRk3tjaLIHajE56H1XnqdwfTG6wwfQIzWvzFh2yNo=",
+        "lastModified": 1713450319,
+        "narHash": "sha256-avxWXaJVCkmJy+qh4ItF7V7DjDNK7W2UplTIRi0Qh4U=",
         "owner": "runtimeverification",
         "repo": "k",
-        "rev": "c2479269e52706355dfc3658186edf263fa59397",
+        "rev": "c2e3ba5c0706422cd1ae59b8aabe7f4c905f9c93",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v6.3.77",
+        "ref": "v7.0.13",
         "repo": "k",
         "type": "github"
       }
@@ -360,16 +323,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1713208894,
-        "narHash": "sha256-/QvOqkfmufT3kFQHqJIAQXVAT2Hra8mmBOGVfXNywsw=",
+        "lastModified": 1713547923,
+        "narHash": "sha256-o/rmjaBmlaaNHJKxsqIMg6y5XmTX9DM44Yor2FTBUMc=",
         "owner": "runtimeverification",
         "repo": "evm-semantics",
-        "rev": "4cb939ab42f82eb4243a1bc78354e9fe3150a556",
+        "rev": "20c6551a6b704cfafb43c4da0a981cbd0dd10b2a",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v1.0.523",
+        "ref": "noah/parallel-integration",
         "repo": "evm-semantics",
         "type": "github"
       }
@@ -463,21 +426,6 @@
         "repo": "nixpkgs",
         "rev": "e2ffefe304d941bb98989847944f3b58e0adcdd5",
         "type": "github"
-      }
-    },
-    "nixpkgs2305": {
-      "locked": {
-        "lastModified": 1704290814,
-        "narHash": "sha256-LWvKHp7kGxk/GEtlrGYV68qIvPHkU9iToomNFGagixU=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "70bdadeb94ffc8806c0570eb5c2695ad29f0e421",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "ref": "nixos-23.05",
-        "type": "indirect"
       }
     },
     "nixpkgs_2": {
@@ -583,17 +531,19 @@
         "poetry2nix": "poetry2nix"
       },
       "locked": {
-        "lastModified": 1712653657,
-        "narHash": "sha256-bk7LdKkT/SMZnO4Hwl2ojbWBMIrywJcmn11xgInVVZ4=",
+        "dir": "pyk",
+        "lastModified": 1713483001,
+        "narHash": "sha256-NDsS/CLHgKbjIrabhwoGcKSQqe1jP/bn//OQKD/aZ34=",
         "owner": "runtimeverification",
-        "repo": "pyk",
-        "rev": "f705bcd96224b80a35619a8e4112f7880bcaae81",
+        "repo": "k",
+        "rev": "2afab9fe1fd3b6b861c9a250d60a12fb76fd0323",
         "type": "github"
       },
       "original": {
+        "dir": "pyk",
         "owner": "runtimeverification",
-        "ref": "v0.1.778",
-        "repo": "pyk",
+        "ref": "noah/apr-prove-parallel-2",
+        "repo": "k",
         "type": "github"
       }
     },
