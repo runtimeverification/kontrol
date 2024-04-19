@@ -71,6 +71,7 @@ class ProveOptions(
     cse: bool
     hevm: bool
     minimize_proofs: bool
+    max_frontier_parallel: int
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -89,6 +90,7 @@ class ProveOptions(
             'cse': False,
             'hevm': False,
             'minimize_proofs': False,
+            'max_frontier_parallel': 1,
         }
 
 
@@ -388,6 +390,7 @@ def _run_cfg_group(
                 cut_point_rules=cut_point_rules,
                 terminal_rules=KEVMSemantics.terminal_rules(options.break_every_step),
                 counterexample_info=options.counterexample_info,
+                max_frontier_parallel=options.max_frontier_parallel,
                 fail_fast=options.fail_fast,
             )
 
