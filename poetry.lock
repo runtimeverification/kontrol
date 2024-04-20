@@ -239,13 +239,13 @@ profile = ["gprof2dot (>=2022.7.29)"]
 
 [[package]]
 name = "exceptiongroup"
-version = "1.2.0"
+version = "1.2.1"
 description = "Backport of PEP 654 (exception groups)"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "exceptiongroup-1.2.0-py3-none-any.whl", hash = "sha256:4bfd3996ac73b41e9b9628b04e079f193850720ea5945fc96a08633c66912f14"},
-    {file = "exceptiongroup-1.2.0.tar.gz", hash = "sha256:91f5c769735f051a4290d52edd0858999b57e5876e9f85937691bd4c9fa3ed68"},
+    {file = "exceptiongroup-1.2.1-py3-none-any.whl", hash = "sha256:5258b9ed329c5bbdd31a309f53cbfb0b155341807f6ff7606a1e801a891b29ad"},
+    {file = "exceptiongroup-1.2.1.tar.gz", hash = "sha256:a4785e48b045528f5bfe627b6ad554ff32def154f42372786903b7abcfe1aa16"},
 ]
 
 [package.extras]
@@ -434,7 +434,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.523"
+version = "1.0.532"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -443,14 +443,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.778"}
+pyk = {git = "https://github.com/runtimeverification/k.git", tag = "v7.0.13", subdirectory = "pyk"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.523"
-resolved_reference = "4cb939ab42f82eb4243a1bc78354e9fe3150a556"
+reference = "v1.0.532"
+resolved_reference = "3151f010f985145650fe45e69cc1c4df410978e6"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -809,7 +809,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.778"
+version = "7.0.13"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -829,9 +829,10 @@ xdg-base-dirs = "^6.0.1"
 
 [package.source]
 type = "git"
-url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.778"
-resolved_reference = "f705bcd96224b80a35619a8e4112f7880bcaae81"
+url = "https://github.com/runtimeverification/k.git"
+reference = "v7.0.13"
+resolved_reference = "c2e3ba5c0706422cd1ae59b8aabe7f4c905f9c93"
+subdirectory = "pyk"
 
 [[package]]
 name = "pyperclip"
@@ -1111,4 +1112,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "00191ac771d93a2e2ad5238f9096da85c009233aff08c0e33e4aa1927ff95d21"
+content-hash = "1ea4dcd6d91766167b44d7ddaee0e417324104a94ea78ca826b79a79e3f69bd4"

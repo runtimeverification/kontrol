@@ -1008,8 +1008,10 @@ def foundry_merge_nodes(
     nodes = [apr_proof.kcfg.node(int(node_id)) for node_id in options.nodes]
     check_cells = ['K_CELL', 'PROGRAM_CELL', 'PC_CELL', 'CALLDEPTH_CELL']
     check_cells_ne = [check_cell for check_cell in check_cells if not check_cells_equal(check_cell, nodes)]
+
     if check_cells_ne:
-        raise ValueError(f'Nodes {options.nodes} cannot be merged because they differ in: {check_cells_ne}')
+        if not all(KEVMSemantics().same_loop(nodes[0].cterm, nd.cterm) for nd in nodes):
+            raise ValueError(f'Nodes {options.nodes} cannot be merged because they differ in: {check_cells_ne}')
 
     anti_unification = nodes[0].cterm
     for node in nodes[1:]:
