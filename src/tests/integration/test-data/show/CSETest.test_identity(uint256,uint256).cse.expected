@@ -5,10 +5,10 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (1556 steps)
+│  (1609 steps)
 ├─ 9 (split)
-│   k: JUMPI 2519 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
-│   pc: 2510
+│   k: JUMPI 2749 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+│   pc: 2740
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 ┃
@@ -16,12 +16,12 @@
 ┣━━┓ constraint: pow64 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 10
-┃  │   k: JUMPI 2519 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
-┃  │   pc: 2510
+┃  │   k: JUMPI 2749 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+┃  │   pc: 2740
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (412 steps)
+┃  │  (422 steps)
 ┃  └─ 12 (vacuous, leaf)
 ┃      k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃      pc: 0
@@ -31,15 +31,15 @@
 ┗━━┓ constraint: ( notBool pow64 <=Int VV0_x_114b9705:Int )
    │
    ├─ 11
-   │   k: JUMPI 2519 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
-   │   pc: 2510
+   │   k: JUMPI 2749 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+   │   pc: 2740
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (1937 steps)
+   │  (1967 steps)
    ├─ 13 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 221
+   │   pc: 248
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
    │
