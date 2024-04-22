@@ -47,7 +47,6 @@ def foundry_kompile(
     options: BuildOptions,
     foundry: Foundry,
 ) -> None:
-    #      syntax_module = 'FOUNDRY-CONTRACTS'
     foundry_requires_dir = foundry.kompiled / 'requires'
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
@@ -151,7 +150,7 @@ def foundry_kompile(
             output_dir=output_dir,
             main_file=foundry.main_file,
             main_module=main_module,
-            syntax_module=None,
+            syntax_module=options.syntax_module,
             includes=includes,
             emit_json=True,
             ccopts=options.ccopts,
