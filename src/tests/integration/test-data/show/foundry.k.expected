@@ -30,9 +30,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModWarpTest-VERIFICATION
     imports public S2KtestZModBroadcastTest-VERIFICATION
     imports public S2KtestZModCSETest-VERIFICATION
-    imports public S2KsrcZModConstants-VERIFICATION
     imports public S2KtestZModConstructorTest-VERIFICATION
-    imports public S2KsrcZModContract-VERIFICATION
     imports public S2KtestZModContractTest-VERIFICATION
     imports public S2KtestZModContractBTest-VERIFICATION
     imports public S2KtestZModCounter-VERIFICATION
@@ -333,22 +331,8 @@ module S2KtestZModCSETest-VERIFICATION
 
 endmodule
 
-module S2KsrcZModConstants-VERIFICATION
-    imports public S2KsrcZModConstants-CONTRACT
-    
-    
-
-endmodule
-
 module S2KtestZModConstructorTest-VERIFICATION
     imports public S2KtestZModConstructorTest-CONTRACT
-    
-    
-
-endmodule
-
-module S2KsrcZModContract-VERIFICATION
-    imports public S2KsrcZModContract-CONTRACT
     
     
 

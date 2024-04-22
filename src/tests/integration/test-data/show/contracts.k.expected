@@ -4070,20 +4070,6 @@ module S2KtestZModCSETest-CONTRACT
 
 endmodule
 
-module S2KsrcZModConstants-CONTRACT
-    imports public FOUNDRY
-    
-    syntax Contract ::= S2KsrcZModConstantsContract
-    
-    syntax S2KsrcZModConstantsContract ::= "S2KsrcZModConstants" [symbol(""), klabel(contract_src%Constants)]
-    
-      
-    
-    rule  ( #initBytecode ( S2KsrcZModConstants ) => #parseByteStack ( "0x" ) )
-      
-
-endmodule
-
 module S2KtestZModConstructorTest-CONTRACT
     imports public FOUNDRY
     
@@ -4305,20 +4291,6 @@ module S2KtestZModConstructorTest-CONTRACT
       
     
     rule  ( selector ( "test_constructor()" ) => 3919276849 )
-      
-
-endmodule
-
-module S2KsrcZModContract-CONTRACT
-    imports public FOUNDRY
-    
-    syntax Contract ::= S2KsrcZModContractContract
-    
-    syntax S2KsrcZModContractContract ::= "S2KsrcZModContract" [symbol(""), klabel(contract_src%Contract)]
-    
-      
-    
-    rule  ( #initBytecode ( S2KsrcZModContract ) => #parseByteStack ( "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220a494da5389f19b63ded247f4f69b97ad24738e7693d6e514bcf759c4dafed62a64736f6c634300080d0033" ) )
       
 
 endmodule
