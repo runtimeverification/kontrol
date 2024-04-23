@@ -100,7 +100,7 @@ jobs:
       fail-fast: false
       matrix:
         backend: ['legacy', 'booster']
-    timeout-minutes: 150
+    timeout-minutes: 120
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
@@ -163,7 +163,7 @@ jobs:
       fail-fast: false
       matrix:
         backend: ['booster']
-    timeout-minutes: 120
+    timeout-minutes: 25
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
