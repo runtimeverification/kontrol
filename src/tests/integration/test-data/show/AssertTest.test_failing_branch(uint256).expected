@@ -309,21 +309,21 @@ Node 16:
   ...
 </generatedTop>
 #And ( { true #Equals 0 <=Int CALLER_ID:Int }
-#And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
+#And ( { true #Equals CALLER_ID:Int <Int pow160 }
+#And ( { true #Equals CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
+#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
+#And ( { true #Equals CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
 #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
+#And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
+#And ( { true #Equals ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
+#And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
+#And ( { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) }
+#And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
 #And ( { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
+#And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
 #And ( { true #Equals 0 <=Int VV0_x_114b9705:Int }
 #And ( { true #Equals VV0_x_114b9705:Int <Int 100 }
-#And ( { true #Equals CALLER_ID:Int <Int pow160 }
-#And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
-#And ( { true #Equals CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
-#And ( { true #Equals ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
-#And ( { true #Equals CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
-#And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
-#And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
-#And ( { true #Equals VV0_x_114b9705:Int <Int pow256 }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+#And { true #Equals VV0_x_114b9705:Int <Int pow256 } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -538,19 +538,19 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
+      requires ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
                )))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-5)]
     
@@ -762,22 +762,22 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
+      requires ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
                )))))))))))))
-       ensures ( 0 <=Int ?VV0_x_114b9705
-       andBool ( ?VV0_x_114b9705 <Int pow256
+       ensures ( ?VV0_x_114b9705 <Int pow256
+       andBool ( 0 <=Int ?VV0_x_114b9705
                ))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
@@ -988,26 +988,26 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+      requires ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
                )))))))))))))))
        ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
@@ -1221,21 +1221,21 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 100 <=Int VV0_x_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( 100 <=Int VV0_x_114b9705:Int
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
@@ -1448,21 +1448,21 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool 100 <=Int VV0_x_114b9705:Int )
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( ( notBool 100 <=Int VV0_x_114b9705:Int )
                ))))))))))))))))
        ensures VV0_x_114b9705:Int <Int 100
       [priority(20), label(BASIC-BLOCK-10-TO-12)]
@@ -1678,21 +1678,21 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 100 <=Int VV0_x_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( 100 <=Int VV0_x_114b9705:Int
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-13)]
     
@@ -1907,21 +1907,21 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( VV0_x_114b9705:Int <Int 100
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-14)]
     
@@ -2136,21 +2136,21 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 100 <=Int VV0_x_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( 100 <=Int VV0_x_114b9705:Int
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-15)]
     
@@ -2365,21 +2365,21 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( VV0_x_114b9705:Int <Int 100
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-14-TO-16)]
 
@@ -2392,22 +2392,22 @@ Failing nodes:
   Failure reason:
     Matching failed.
     The remaining implication is:
-    { true #Equals 0 <=Int CALLER_ID:Int }
-    #And { true #Equals 0 <=Int ORIGIN_ID:Int }
-    #And { true #Equals 0 <=Int NUMBER_CELL:Int }
-    #And { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
-    #And { true #Equals 0 <=Int VV0_x_114b9705:Int }
-    #And { true #Equals VV0_x_114b9705:Int <Int 100 }
-    #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And #Not ( { CONTRACT_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    { false #Equals #range ( 0 < CALLER_ID:Int <= 9 ) }
+    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 9 ) }
     #And { true #Equals CALLER_ID:Int <Int pow160 }
     #And { true #Equals ORIGIN_ID:Int <Int pow160 }
-    #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
     #And { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
+    #And { true #Equals VV0_x_114b9705:Int <Int 100 }
     #And { true #Equals VV0_x_114b9705:Int <Int pow256 }
-    #And { false #Equals #range ( 0 < CALLER_ID:Int <= 9 ) }
-    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 9 ) } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And { true #Equals 0 <=Int CALLER_ID:Int }
+    #And { true #Equals 0 <=Int NUMBER_CELL:Int }
+    #And { true #Equals 0 <=Int ORIGIN_ID:Int }
+    #And { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
+    #And { true #Equals 0 <=Int VV0_x_114b9705:Int }
+    #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
+    #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { CONTRACT_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     { true #Equals notBool 100 <=Int VV0_x_114b9705:Int }
   Model:
