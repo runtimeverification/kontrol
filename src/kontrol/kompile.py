@@ -74,7 +74,7 @@ def foundry_kompile(
             raise ValueError(
                 f'Required K files have conflicting names: {r} and {requires_paths[req.name]}. Consider changing the name of one of these files.'
             )
-        requires_paths[req.name] = r
+        requires_paths[req.name] = r  # noqa: B909
         req_path = foundry_requires_dir / req.name
         if regen or not req_path.exists():
             _LOGGER.info(f'Copying requires path: {req} -> {req_path}')

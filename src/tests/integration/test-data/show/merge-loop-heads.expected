@@ -371,8 +371,8 @@ Node 21:
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
 #And ( { true #Equals VV0_n_114b9705:Int <Int pow256 }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+#And ( { true #Equals ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) ) }
+#And { true #Equals ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -605,8 +605,8 @@ Node 22:
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
 #And ( { true #Equals VV0_n_114b9705:Int <Int pow256 }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+#And ( { true #Equals ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) ) }
+#And { true #Equals ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -835,9 +835,9 @@ Node 23:
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
 #And ( { true #Equals VV0_n_114b9705:Int <Int pow256 }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And ( { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) }
-#And { true #Equals ( ( V_8ae8c0f0:Int ==Int V_45741f39:Int andBool ( ( V_45741f39:Int ==Int 0 andBool VV0_n_114b9705:Int <=Int 0 ) orBool ( V_45741f39:Int ==Int 1 andBool #range ( 0 < VV0_n_114b9705:Int <= 1 ) ) ) ) orBool ( V_8ae8c0f0:Int ==Int 2 andBool ( 0 <Int VV0_n_114b9705:Int andBool ( 1 <Int VV0_n_114b9705:Int andBool ( VV0_n_114b9705:Int <=Int 2 andBool ( notBool CONTRACT_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) ) ) ) ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+#And ( { true #Equals ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) ) }
+#And ( { true #Equals ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) ) }
+#And { true #Equals ( ( V_8ae8c0f0:Int ==Int V_45741f39:Int andBool ( ( V_45741f39:Int ==Int 0 andBool VV0_n_114b9705:Int <=Int 0 ) orBool ( V_45741f39:Int ==Int 1 andBool ( 0 <Int VV0_n_114b9705:Int andBool VV0_n_114b9705:Int <=Int 1 ) ) ) ) orBool ( V_8ae8c0f0:Int ==Int 2 andBool ( 0 <Int VV0_n_114b9705:Int andBool ( 1 <Int VV0_n_114b9705:Int andBool ( VV0_n_114b9705:Int <=Int 2 andBool ( notBool CONTRACT_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) ) ) ) ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -1064,14 +1064,14 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
                )))))))))))))))
        ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
                )))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
@@ -1296,8 +1296,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
                ))))))))))))))))
        ensures 0 <Int VV0_n_114b9705:Int
       [priority(20), label(BASIC-BLOCK-5-TO-7)]
@@ -1524,8 +1524,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
                )))))))))))))))))
        ensures 1 <Int VV0_n_114b9705:Int
       [priority(20), label(BASIC-BLOCK-10-TO-13)]
@@ -1753,8 +1753,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
                ))))))))))))))))))
        ensures 2 <Int VV0_n_114b9705:Int
       [priority(20), label(BASIC-BLOCK-16-TO-19)]
@@ -1979,8 +1979,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_n_114b9705:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
        andBool ( ( ( V_8ae8c0f0 ==K V_45741f39:Int
            andBool ( ( ( V_45741f39 ==K 0
                andBool ( VV0_n_114b9705:Int <=Int 0
