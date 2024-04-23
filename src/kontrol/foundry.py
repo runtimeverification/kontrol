@@ -9,7 +9,7 @@ import sys
 import traceback
 import xml.etree.ElementTree as Et
 from functools import cached_property
-from os import listdir
+from os import chdir, listdir
 from pathlib import Path
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
@@ -38,6 +38,7 @@ from . import VERSION
 from .cli import FoundryOptions, FoundryTestOptions, RpcOptions
 from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
+from .utils import empty_lemmas_file_contents, kontrol_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -1301,3 +1302,28 @@ def foundry_node_printer(
     if type(proof) is APRProof:
         return FoundryAPRNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
+
+
+def init_project(skip_forge: bool, project_root: Path) -> None:
+    """
+    Wrapper around `forge init` that creates new Foundry projects compatible with Kontrol.
+
+    :param skip_forge: Skip the `forge init` process, if there already exists a Foundry project.
+    :param project_root: Name of the new project that is created.
+    TODO: --root does not work for forge install, so we're temporary using `chdir`.
+    """
+
+    if not skip_forge:
+        run_process(['forge', 'init', str(project_root), '--no-git'], logger=_LOGGER)
+
+    root = ensure_dir_path(project_root)
+    cwd = Path.cwd()
+    chdir(root)
+    write_to_file(Path('lemmas.k'), empty_lemmas_file_contents())
+    write_to_file(Path('KONTROL.md'), kontrol_file_contents())
+
+    run_process(
+        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+        logger=_LOGGER,
+    )
+    chdir(cwd)
