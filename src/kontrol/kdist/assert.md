@@ -59,30 +59,37 @@ Capturing cheat code calls
         orBool SELECTOR ==Int selector ( "assertEq(bool,bool)"       )
         orBool SELECTOR ==Int selector ( "assertEq(address,address)" )
         orBool SELECTOR ==Int selector ( "assertEq(bytes32,bytes32)" )
+    [preserves-definedness]
 
     rule [cheatcode.call.assertTrue]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) bool2Word(true) ... </k>
       requires SELECTOR ==Int selector ( "assertTrue(bool)" )
+    [preserves-definedness]
 
     rule [cheatcode.call.assertNotEq]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_not_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ("assertNotEq(address,address)")
+    [preserves-definedness]
 
     rule [cheatcode.call.assertGe]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_ge #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ("assertGe(uint256,uint256)")
+    [preserves-definedness]
 
     rule [cheatcode.call.assertGt]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_gt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ("assertGt(uint256,uint256)")
+    [preserves-definedness]
 
     rule [cheatcode.call.assertLe]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_le #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ("assertLe(uint256,uint256)")
+    [preserves-definedness]
 
     rule [cheatcode.call.assertLt]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_lt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ("assertLt(uint256,uint256)")
+    [preserves-definedness]
 ```
 
 Function selectors
