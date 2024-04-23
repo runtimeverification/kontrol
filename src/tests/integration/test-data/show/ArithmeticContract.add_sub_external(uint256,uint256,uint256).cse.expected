@@ -56,8 +56,8 @@
 ┃
 ┣━━┓ constraints:
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
-┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
 ┃  │
 ┃  ├─ 26
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -82,8 +82,8 @@
 ┃
 ┗━━┓ constraints:
    ┃     CALLDEPTH_CELL:Int <Int 1024
-   ┃     ( notBool VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) )
    ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     ( notBool VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) )
    │
    ├─ 27
    │   k: #execute ~> CONTINUATION:K

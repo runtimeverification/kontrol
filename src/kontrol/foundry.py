@@ -152,7 +152,7 @@ class Foundry:
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
             contract = Contract(contract_name, contract_json, foundry=True)
 
-            _contracts[contract.name_with_path] = contract
+            _contracts[contract.name_with_path] = contract  # noqa: B909
 
         return _contracts
 

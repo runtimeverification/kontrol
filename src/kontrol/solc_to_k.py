@@ -693,7 +693,7 @@ class Contract:
                 if _l in _fields:
                     _LOGGER.info(f'Found duplicate field access key on contract {self._name}: {_l}')
                     continue
-                _fields[_l] = _s
+                _fields[_l] = _s  # noqa: B909
             self.fields = FrozenDict(_fields)
 
     @cached_property
