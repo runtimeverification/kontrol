@@ -5,7 +5,7 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (1139 steps)
+│  (1077 steps)
 ├─ 7
 │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 │   pc: 0
@@ -24,7 +24,7 @@
 ┃  │  (72 steps)
 ┃  └─ 11 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
-┃      pc: 1940
+┃      pc: 1584
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃
@@ -36,7 +36,7 @@
 ┃  │   callDepth: 1
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
-┃  │  (441 steps)
+┃  │  (429 steps)
 ┃  ├─ 12
 ┃  │   k: #execute ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 0
@@ -55,7 +55,7 @@
 ┃  ┃  │  (72 steps)
 ┃  ┃  └─ 17 (leaf, terminal)
 ┃  ┃      k: #halt ~> CONTINUATION:K
-┃  ┃      pc: 2069
+┃  ┃      pc: 1708
 ┃  ┃      callDepth: 0
 ┃  ┃      statusCode: EVMC_REVERT
 ┃  ┃
@@ -79,7 +79,7 @@
 ┃  ┃  ┃  │  (328 steps)
 ┃  ┃  ┃  ├─ 22 (terminal)
 ┃  ┃  ┃  │   k: #halt ~> CONTINUATION:K
-┃  ┃  ┃  │   pc: 259
+┃  ┃  ┃  │   pc: 248
 ┃  ┃  ┃  │   callDepth: 0
 ┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
 ┃  ┃  ┃  │
@@ -102,7 +102,7 @@
 ┃  ┃     │  (331 steps)
 ┃  ┃     └─ 23 (leaf, terminal)
 ┃  ┃         k: #halt ~> CONTINUATION:K
-┃  ┃         pc: 4231
+┃  ┃         pc: 3736
 ┃  ┃         callDepth: 0
 ┃  ┃         statusCode: EVMC_REVERT
 ┃  ┃
@@ -117,7 +117,7 @@
 ┃     │  (72 steps)
 ┃     └─ 19 (leaf, terminal)
 ┃         k: #halt ~> CONTINUATION:K
-┃         pc: 2069
+┃         pc: 1708
 ┃         callDepth: 0
 ┃         statusCode: EVMC_REVERT
 ┃
@@ -132,7 +132,7 @@
    │  (72 steps)
    └─ 13 (leaf, terminal)
        k: #halt ~> CONTINUATION:K
-       pc: 1940
+       pc: 1584
        callDepth: 0
        statusCode: EVMC_REVERT
 

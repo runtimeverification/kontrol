@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     from pytest import TempPathFactory
 
 
-FORGE_STD_REF: Final = 'bb4ceea'
+FORGE_STD_REF: Final = '75f1746'
 
 
 @pytest.fixture
