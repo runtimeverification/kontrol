@@ -519,9 +519,9 @@ Node 15:
 
 
 
-module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
-
-
+module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):1
+    
+    
     rule [BASIC-BLOCK-1-TO-8]: <foundry>
            <kevm>
              <k>
@@ -754,7 +754,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( 0 <=Int ?VV1_y_114b9705
                )))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-8)]
-
+    
     rule [BASIC-BLOCK-9-TO-15]: <foundry>
            <kevm>
              <k>
@@ -985,7 +985,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
                ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-15)]
-
+    
     rule [BASIC-BLOCK-10-TO-16]: <foundry>
            <kevm>
              <k>

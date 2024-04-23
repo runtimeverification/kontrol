@@ -285,9 +285,9 @@ Node 16:
 
 
 
-module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
-
-
+module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):1
+    
+    
     rule [BASIC-BLOCK-1-TO-8]: <foundry>
            <kevm>
              <k>
@@ -518,7 +518,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
        andBool ( ?VV0_x_114b9705 <Int pow256
                )))))))
       [priority(20), label(BASIC-BLOCK-1-TO-8)]
-
+    
     rule [BASIC-BLOCK-9-TO-15]: <foundry>
            <kevm>
              <k>
@@ -747,7 +747,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
        andBool ( 100 <=Int VV0_x_114b9705:Int
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-15)]
-
+    
     rule [BASIC-BLOCK-10-TO-16]: <foundry>
            <kevm>
              <k>
