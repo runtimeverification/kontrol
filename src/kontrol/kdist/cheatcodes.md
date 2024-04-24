@@ -472,11 +472,14 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
 If the `expectRevert()` selector is matched, call the `#setExpectRevert` production to initialize the `<expectedRevert>` subconfiguration.
 
 ```k
-    rule [cheatcode.call.expectRevert]:
+    rule [cheatcode.call.expectRevert.1]:
          <k> #cheatcode_call SELECTOR ARGS => #setExpectRevert ARGS ... </k>
       requires SELECTOR ==Int selector ( "expectRevert()" )
         orBool SELECTOR ==Int selector ( "expectRevert(bytes)" )
-        orBool SELECTOR ==Int selector ( "expectRevert(bytes4)" )
+
+    rule [cheatcode.call.expectRevert.2]:
+         <k> #cheatcode_call SELECTOR ARGS => #setExpectRevertBytes4 ARGS ... </k>
+      requires SELECTOR ==Int selector ( "expectRevert(bytes4)" )
 ```
 
 Expecting a specific CALL/CREATE opcode
@@ -1081,6 +1084,20 @@ Utils
          </expectedRevert>
 ```
 
+- `#setExpectRevert` sets the `<expectedRevert>` subconfiguration with the current call depth and the expected message from `expectRevert`.
+
+```k
+    syntax KItem ::= "#setExpectRevertBytes4" Bytes [klabel(foundry_setExpectRevert)]
+ // ---------------------------------------------------------------------------
+    rule <k> #setExpectRevertBytes4 EXPECTED => .K ... </k>
+         <callDepth> CD </callDepth>
+         <expectedRevert>
+           <isRevertExpected> false => true </isRevertExpected>
+           <expectedDepth> _ => CD </expectedDepth>
+           <expectedReason> _ => #buf(32, 32) +Bytes #buf(32, 4) +Bytes EXPECTED </expectedReason>
+         </expectedRevert>
+```
+
 - `#clearExpectRevert` sets the `<expectedRevert>` subconfiguration to initial values.
 
 ```k
@@ -1172,7 +1189,7 @@ Will also return true if REASON is `.Bytes`.
     syntax Bool ::= "#matchReason" "(" Bytes "," Bytes ")" [function, klabel(foundry_matchReason)]
  // ----------------------------------------------------------------------------------------------
     rule #matchReason(REASON, _) => true requires REASON ==K .Bytes
-    rule #matchReason(REASON, OUT) => #range(REASON, lengthBytes(REASON) -Int 32, 32) ==K #range(OUT, lengthBytes(OUT) -Int 32, 32) requires REASON =/=K .Bytes
+    rule #matchReason(REASON, OUT) => REASON ==K #range(OUT, 4, lengthBytes(OUT) -Int 4) requires REASON =/=K .Bytes
 ```
 
 - `#setExpectOpcode` initializes the `<expectedOpcode>` subconfiguration with an expected `Address`, and `Bytes` to match the calldata.
