@@ -105,6 +105,8 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'section-edge': SectionEdgeOptions(args),
         'get-model': GetModelOptions(args),
         'minimize-proof': MinimizeProofOptions(args),
+        'clean': CleanOptions(args),
+        'init': InitOptions(args),
     }
     try:
         return options[command]
@@ -146,7 +148,7 @@ def main() -> None:
 
 
 def _check_k_version() -> None:
-    expected_k_version = KVersion.parse(f'v{pyk.K_VERSION}')
+    expected_k_version = KVersion.parse(f'v{pyk.__version__}')
     actual_k_version = k_version()
 
     if not _compare_versions(expected_k_version, actual_k_version):
@@ -374,31 +376,37 @@ def exec_get_model(options: GetModelOptions) -> None:
     print(output)
 
 
-def exec_clean(
-    foundry_root: Path,
-    **kwargs: Any,
-) -> None:
-    run_process(['forge', 'clean', '--root', str(foundry_root)], logger=_LOGGER)
+class CleanOptions(FoundryOptions, LoggingOptions): ...
 
 
-def exec_init(
-    foundry_root: Path,
-    skip_forge: bool,
-    **kwargs: Any,
-) -> None:
+def exec_clean(options: CleanOptions) -> None:
+    run_process(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)
+
+
+class InitOptions(FoundryOptions, LoggingOptions):
+    skip_forge: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'skip_forge': False,
+        }
+
+
+def exec_init(options: InitOptions) -> None:
     """
     Wrapper around forge init that adds files required for kontrol compatibility.
 
     TODO: --root does not work for forge install, so we're temporary using `chdir`.
     """
 
-    if not skip_forge:
-        run_process(['forge', 'init', str(foundry_root)], logger=_LOGGER)
+    if not options.skip_forge:
+        run_process(['forge', 'init', str(options.foundry_root)], logger=_LOGGER)
 
-    write_to_file(foundry_root / 'lemmas.k', empty_lemmas_file_contents())
-    write_to_file(foundry_root / 'KONTROL.md', kontrol_file_contents())
+    write_to_file(options.foundry_root / 'lemmas.k', empty_lemmas_file_contents())
+    write_to_file(options.foundry_root / 'KONTROL.md', kontrol_file_contents())
     cwd = getcwd()
-    chdir(foundry_root)
+    chdir(options.foundry_root)
     run_process(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,

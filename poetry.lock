@@ -239,13 +239,13 @@ profile = ["gprof2dot (>=2022.7.29)"]
 
 [[package]]
 name = "exceptiongroup"
-version = "1.2.0"
+version = "1.2.1"
 description = "Backport of PEP 654 (exception groups)"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "exceptiongroup-1.2.0-py3-none-any.whl", hash = "sha256:4bfd3996ac73b41e9b9628b04e079f193850720ea5945fc96a08633c66912f14"},
-    {file = "exceptiongroup-1.2.0.tar.gz", hash = "sha256:91f5c769735f051a4290d52edd0858999b57e5876e9f85937691bd4c9fa3ed68"},
+    {file = "exceptiongroup-1.2.1-py3-none-any.whl", hash = "sha256:5258b9ed329c5bbdd31a309f53cbfb0b155341807f6ff7606a1e801a891b29ad"},
+    {file = "exceptiongroup-1.2.1.tar.gz", hash = "sha256:a4785e48b045528f5bfe627b6ad554ff32def154f42372786903b7abcfe1aa16"},
 ]
 
 [package.extras]
@@ -299,13 +299,13 @@ pyflakes = ">=3.2.0,<3.3.0"
 
 [[package]]
 name = "flake8-bugbear"
-version = "24.2.6"
+version = "24.4.21"
 description = "A plugin for flake8 finding likely bugs and design problems in your program. Contains warnings that don't belong in pyflakes and pycodestyle."
 optional = false
 python-versions = ">=3.8.1"
 files = [
-    {file = "flake8-bugbear-24.2.6.tar.gz", hash = "sha256:f9cb5f2a9e792dd80ff68e89a14c12eed8620af8b41a49d823b7a33064ac9658"},
-    {file = "flake8_bugbear-24.2.6-py3-none-any.whl", hash = "sha256:663ef5de80cd32aacd39d362212983bc4636435a6f83700b4ed35acbd0b7d1b8"},
+    {file = "flake8_bugbear-24.4.21-py3-none-any.whl", hash = "sha256:58581060a1650f4b11344795db8a4934867d4450486319ece86d7720a9414036"},
+    {file = "flake8_bugbear-24.4.21.tar.gz", hash = "sha256:d1a87b8f6ca1ed28772c36515f751ea3709e041d78bca60590a570b9cb802e55"},
 ]
 
 [package.dependencies]
@@ -434,7 +434,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.523"
+version = "1.0.534"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -443,14 +443,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/pyk.git", tag = "v0.1.778"}
+pyk = {git = "https://github.com/runtimeverification/k.git", tag = "v7.0.17", subdirectory = "pyk"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.523"
-resolved_reference = "4cb939ab42f82eb4243a1bc78354e9fe3150a556"
+reference = "v1.0.534"
+resolved_reference = "14c9808cd81590e7f32c7743e3e54a52304fac99"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -692,13 +692,13 @@ test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4.3)", "pytest-
 
 [[package]]
 name = "pluggy"
-version = "1.4.0"
+version = "1.5.0"
 description = "plugin and hook calling mechanisms for python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pluggy-1.4.0-py3-none-any.whl", hash = "sha256:7db9f7b503d67d1c5b95f59773ebb58a8c1c288129a88665838012cfb07b8981"},
-    {file = "pluggy-1.4.0.tar.gz", hash = "sha256:8c85c2876142a764e5b7548e7d9a0e0ddb46f5185161049a79b7e974454223be"},
+    {file = "pluggy-1.5.0-py3-none-any.whl", hash = "sha256:44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669"},
+    {file = "pluggy-1.5.0.tar.gz", hash = "sha256:2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1"},
 ]
 
 [package.extras]
@@ -809,7 +809,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "0.1.778"
+version = "7.0.17"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -829,9 +829,10 @@ xdg-base-dirs = "^6.0.1"
 
 [package.source]
 type = "git"
-url = "https://github.com/runtimeverification/pyk.git"
-reference = "v0.1.778"
-resolved_reference = "f705bcd96224b80a35619a8e4112f7880bcaae81"
+url = "https://github.com/runtimeverification/k.git"
+reference = "v7.0.17"
+resolved_reference = "1c1c0717c85468290b2c3faa54aae24386c7f03b"
+subdirectory = "pyk"
 
 [[package]]
 name = "pyperclip"
@@ -1111,4 +1112,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "00191ac771d93a2e2ad5238f9096da85c009233aff08c0e33e4aa1927ff95d21"
+content-hash = "5a8fd5daa277977454b8950e07f6d754dc7d2a4f1b5cf4d74e8d8ce9f8b40033"

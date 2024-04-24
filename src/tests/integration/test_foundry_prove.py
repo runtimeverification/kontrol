@@ -568,6 +568,7 @@ def test_foundry_resume_proof(
                 'max_iterations': 4,
                 'bug_report': bug_report,
                 'break_on_calls': True,
+                'reinit': True,
                 'port': server.port,
             }
         ),
