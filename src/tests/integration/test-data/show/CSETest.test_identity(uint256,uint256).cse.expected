@@ -28,7 +28,7 @@
 ┃      callDepth: 1
 ┃      statusCode: STATUSCODE:StatusCode
 ┃
-┗━━┓ constraint: ( notBool pow64 <=Int VV0_x_114b9705:Int )
+┗━━┓ constraint: VV0_x_114b9705:Int <Int pow64
    │
    ├─ 11
    │   k: JUMPI 2519 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
