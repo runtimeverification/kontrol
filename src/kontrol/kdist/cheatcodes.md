@@ -1084,7 +1084,7 @@ Utils
          </expectedRevert>
 ```
 
-- `#setExpectRevert` sets the `<expectedRevert>` subconfiguration with the current call depth and the expected message from `expectRevert`.
+- `#setExpectRevertBytes4` sets the `<expectedRevert>` subconfiguration with the current call depth and the expected message from `expectRevert`. When `bytes4` type parameter is used some of the information is not directly included in the `EXPECTED` data since they become constant values, such as the size of the expected output. Here we set them manually to constant values.
 
 ```k
     syntax KItem ::= "#setExpectRevertBytes4" Bytes [klabel(foundry_setExpectRevert)]
