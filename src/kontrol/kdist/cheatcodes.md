@@ -472,10 +472,14 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
 If the `expectRevert()` selector is matched, call the `#setExpectRevert` production to initialize the `<expectedRevert>` subconfiguration.
 
 ```k
-    rule [cheatcode.call.expectRevert]:
+    rule [cheatcode.call.expectRevert.1]:
          <k> #cheatcode_call SELECTOR ARGS => #setExpectRevert ARGS ... </k>
       requires SELECTOR ==Int selector ( "expectRevert()" )
         orBool SELECTOR ==Int selector ( "expectRevert(bytes)" )
+
+    rule [cheatcode.call.expectRevert.2]:
+         <k> #cheatcode_call SELECTOR ARGS => #setExpectRevertBytes4 ARGS ... </k>
+      requires SELECTOR ==Int selector ( "expectRevert(bytes4)" )
 ```
 
 Expecting a specific CALL/CREATE opcode
@@ -1080,6 +1084,22 @@ Utils
          </expectedRevert>
 ```
 
+- `#setExpectRevertBytes4` sets the `<expectedRevert>` subconfiguration with the current call depth and the expected message from `expectRevert`.
+When `bytes4` type parameter is used some of the information is not directly included in the `EXPECTED` data since they become constant values, such as the size of the expected output.
+Here we set them manually to constant values.
+
+```k
+    syntax KItem ::= "#setExpectRevertBytes4" Bytes [klabel(foundry_setExpectRevert)]
+ // ---------------------------------------------------------------------------------
+    rule <k> #setExpectRevertBytes4 EXPECTED => .K ... </k>
+         <callDepth> CD </callDepth>
+         <expectedRevert>
+           <isRevertExpected> false => true </isRevertExpected>
+           <expectedDepth> _ => CD </expectedDepth>
+           <expectedReason> _ => #buf(32, 32) +Bytes #buf(32, 4) +Bytes EXPECTED </expectedReason>
+         </expectedRevert>
+```
+
 - `#clearExpectRevert` sets the `<expectedRevert>` subconfiguration to initial values.
 
 ```k
@@ -1440,6 +1460,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "store(address,bytes32,bytes32)" )           => 1892290747 )
     rule ( selector ( "setNonce(address,uint64)" )                 => 4175530839 )
     rule ( selector ( "expectRevert()" )                           => 4102309908 )
+    rule ( selector ( "expectRevert(bytes4)" )                     => 3273568480 )
     rule ( selector ( "expectRevert(bytes)" )                      => 4069379763 )
     rule ( selector ( "startPrank(address)" )                      => 105151830  )
     rule ( selector ( "startPrank(address,address)" )              => 1169514616 )
@@ -1487,7 +1508,6 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule selector ( "envBytes32(string,string)" )               => 1525821889
     rule selector ( "envString(string,string)" )                => 347089865
     rule selector ( "envBytes(string,string)" )                 => 3720504603
-    rule selector ( "expectRevert(bytes4)" )                    => 3273568480
     rule selector ( "record()" )                                => 644673801
     rule selector ( "accesses(address)" )                       => 1706857601
     rule selector ( "mockCall(address,uint256,bytes,bytes)" )   => 2168494993
