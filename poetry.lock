@@ -434,7 +434,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.535"
+version = "1.0.536"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -443,14 +443,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/k.git", tag = "v7.0.17", subdirectory = "pyk"}
+pyk = {git = "https://github.com/runtimeverification/k.git", branch = "petar/terminal-node-subsumption-correction", subdirectory = "pyk"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.535"
-resolved_reference = "d536769d08136676e4e14b809dae2d07eef6633b"
+reference = "petar/terminal-node-subsumption-correction"
+resolved_reference = "64e2193aa08d75380df2765d7923311bd1951872"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -810,7 +810,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "7.0.17"
+version = "7.0.0"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -831,8 +831,8 @@ xdg-base-dirs = "^6.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/k.git"
-reference = "v7.0.17"
-resolved_reference = "1c1c0717c85468290b2c3faa54aae24386c7f03b"
+reference = "petar/terminal-node-subsumption-correction"
+resolved_reference = "1470d6978c28fb535a83c9b513081e7958f60417"
 subdirectory = "pyk"
 
 [[package]]
@@ -1113,4 +1113,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "8992fa8f20743e36595bd1ff29cea33f96d24693c5a6242b2623a68ca26a9a40"
+content-hash = "d6b1e2e6853090d968087c469a279121ab28dd190bba62677636e9bd0419d4d5"
