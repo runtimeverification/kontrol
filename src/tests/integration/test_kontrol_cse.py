@@ -66,7 +66,7 @@ def test_foundry_dependency_automated(
         options=ShowOptions(
             {
                 'test': test_id,
-                'to_module': False,
+                'to_module': True,
                 'sort_collections': True,
                 'omit_unstable_output': True,
                 'pending': False,

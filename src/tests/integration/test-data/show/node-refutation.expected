@@ -21,7 +21,7 @@
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃
-┗━━┓ constraint: ( notBool 10 <=Int VV0_x_114b9705:Int )
+┗━━┓ constraint: VV0_x_114b9705:Int <Int 10
    │
    ├─ 5
    │   k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -30,21 +30,21 @@
    │   statusCode: STATUSCODE:StatusCode
    │
    │  (90 steps)
-   ├─ 12
+   ├─ 10
    │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
    │   pc: 235
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
    │  (1 step)
-   ├─ 13
+   ├─ 11
    │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
    │   pc: 235
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
    │
    │  (2 steps)
-   ├─ 14 (terminal)
+   ├─ 12 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 235
    │   callDepth: 0
@@ -271,31 +271,31 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))
        ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
-    rule [BASIC-BLOCK-5-TO-12]: <foundry>
+    rule [BASIC-BLOCK-5-TO-10]: <foundry>
            <kevm>
              <k>
                ( JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int )
@@ -504,26 +504,25 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( VV0_x_114b9705:Int <Int 10
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( ( notBool 10 <=Int VV0_x_114b9705:Int )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
-       ensures VV0_x_114b9705:Int <Int 10
-      [priority(20), label(BASIC-BLOCK-5-TO-12)]
+      [priority(20), label(BASIC-BLOCK-5-TO-10)]
     
-    rule [BASIC-BLOCK-12-TO-13]: <foundry>
+    rule [BASIC-BLOCK-10-TO-11]: <foundry>
            <kevm>
              <k>
                ( #end EVMC_SUCCESS => #halt )
@@ -734,25 +733,25 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int 10
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-12-TO-13)]
+      [priority(20), label(BASIC-BLOCK-10-TO-11)]
     
-    rule [BASIC-BLOCK-13-TO-14]: <foundry>
+    rule [BASIC-BLOCK-11-TO-12]: <foundry>
            <kevm>
              <k>
                #halt
@@ -963,23 +962,23 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int 10
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-13-TO-14)]
+      [priority(20), label(BASIC-BLOCK-11-TO-12)]
 
 endmodule
 0 Failure nodes. (0 pending and 0 failing)
