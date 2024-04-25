@@ -46,6 +46,7 @@ def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
         fallback_on=None,
         interim_simplification=None,
         no_post_exec_simplify=None,
+        haskell_threads=3,
     )
 
 

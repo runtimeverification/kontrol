@@ -318,6 +318,7 @@ def _run_cfg_group(
             start_server=start_server,
             port=options.port,
             maude_port=options.maude_port,
+            haskell_threads=options.max_frontier_parallel,
         ) as kcfg_explore:
 
             def create_kcfg_explore() -> KCFGExplore:
