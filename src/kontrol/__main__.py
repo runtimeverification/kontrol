@@ -843,9 +843,9 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
     init.add_argument(
-        '--name',
         dest='project_root',
-        default=Path.cwd(),
+        nargs='?',
+        default=None,
         type=Path,
         help='Name of the project to be initialized. If missing, the current directory is used.',
     )
