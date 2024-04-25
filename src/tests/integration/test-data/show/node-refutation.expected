@@ -21,7 +21,7 @@
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃
-┗━━┓ constraint: ( notBool 10 <=Int VV0_x_114b9705:Int )
+┗━━┓ constraint: VV0_x_114b9705:Int <Int 10
    │
    ├─ 5
    │   k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -518,9 +518,8 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( ( notBool 10 <=Int VV0_x_114b9705:Int )
+       andBool ( VV0_x_114b9705:Int <Int 10
                ))))))))))))))))
-       ensures VV0_x_114b9705:Int <Int 10
       [priority(20), label(BASIC-BLOCK-5-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>

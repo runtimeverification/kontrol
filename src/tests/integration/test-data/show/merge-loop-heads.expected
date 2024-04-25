@@ -36,7 +36,7 @@
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃
-┗━━┓ constraint: ( notBool VV0_n_114b9705:Int <=Int 0 )
+┗━━┓ constraint: 0 <Int VV0_n_114b9705:Int
    │
    ├─ 5
    │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -69,7 +69,7 @@
    ┃      statusCode: STATUSCODE:StatusCode
    ┃     (continues as previously)
    ┃
-   ┗━━┓ constraint: ( notBool VV0_n_114b9705:Int <=Int 1 )
+   ┗━━┓ constraint: 1 <Int VV0_n_114b9705:Int
       │
       ├─ 10
       │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -102,7 +102,7 @@
       ┃      statusCode: STATUSCODE:StatusCode
       ┃     (continues as previously)
       ┃
-      ┗━━┓ constraint: ( notBool VV0_n_114b9705:Int <=Int 2 )
+      ┗━━┓ constraint: 2 <Int VV0_n_114b9705:Int
          │
          ├─ 16
          │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -126,7 +126,7 @@
          ┃      callDepth: 0
          ┃      statusCode: STATUSCODE:StatusCode
          ┃
-         ┗━━┓ constraint: ( notBool VV0_n_114b9705:Int <=Int 3 )
+         ┗━━┓ constraint: 3 <Int VV0_n_114b9705:Int
             │
             └─ 22 (leaf, pending)
                 k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 3 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -606,7 +606,7 @@ Node 22:
 #And ( { true #Equals 2 <Int VV0_n_114b9705:Int }
 #And ( { true #Equals 0 <Int VV0_n_114b9705:Int }
 #And ( { true #Equals 1 <Int VV0_n_114b9705:Int }
-#And { true #Equals ( notBool VV0_n_114b9705:Int <=Int 3 ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+#And { true #Equals 3 <Int VV0_n_114b9705:Int } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -826,7 +826,7 @@ Node 23:
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
 #And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And ( { true #Equals ( ( V_8ae8c0f0:Int ==Int V_45741f39:Int andBool ( ( V_45741f39:Int ==Int 0 andBool VV0_n_114b9705:Int <=Int 0 ) orBool ( V_45741f39:Int ==Int 1 andBool #range ( 0 < VV0_n_114b9705:Int <= 1 ) ) ) ) orBool ( V_8ae8c0f0:Int ==Int 2 andBool ( ( notBool CONTRACT_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( 0 <Int VV0_n_114b9705:Int andBool #range ( 1 < VV0_n_114b9705:Int <= 2 ) ) ) ) ) }
+#And ( { true #Equals ( ( V_8ae8c0f0:Int ==Int V_45741f39:Int andBool ( ( V_45741f39:Int ==Int 0 andBool VV0_n_114b9705:Int <=Int 0 ) orBool ( V_45741f39:Int ==Int 1 andBool ( 0 <Int VV0_n_114b9705:Int andBool VV0_n_114b9705:Int <=Int 1 ) ) ) ) orBool ( V_8ae8c0f0:Int ==Int 2 andBool ( ( notBool CONTRACT_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( 0 <Int VV0_n_114b9705:Int andBool ( 1 <Int VV0_n_114b9705:Int andBool VV0_n_114b9705:Int <=Int 2 ) ) ) ) ) }
 #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
@@ -1297,9 +1297,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_n_114b9705:Int <Int pow256
        andBool ( 0 <=Int VV0_n_114b9705:Int
-       andBool ( ( notBool VV0_n_114b9705:Int <=Int 0 )
+       andBool ( 0 <Int VV0_n_114b9705:Int
                ))))))))))))))))
-       ensures 0 <Int VV0_n_114b9705:Int
       [priority(20), label(BASIC-BLOCK-5-TO-7)]
     
     rule [BASIC-BLOCK-10-TO-13]: <foundry>
@@ -1525,9 +1524,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( VV0_n_114b9705:Int <Int pow256
        andBool ( 0 <=Int VV0_n_114b9705:Int
        andBool ( 0 <Int VV0_n_114b9705:Int
-       andBool ( ( notBool VV0_n_114b9705:Int <=Int 1 )
+       andBool ( 1 <Int VV0_n_114b9705:Int
                )))))))))))))))))
-       ensures 1 <Int VV0_n_114b9705:Int
       [priority(20), label(BASIC-BLOCK-10-TO-13)]
     
     rule [BASIC-BLOCK-16-TO-19]: <foundry>
@@ -1754,9 +1752,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( 0 <=Int VV0_n_114b9705:Int
        andBool ( 0 <Int VV0_n_114b9705:Int
        andBool ( 1 <Int VV0_n_114b9705:Int
-       andBool ( ( notBool VV0_n_114b9705:Int <=Int 2 )
+       andBool ( 2 <Int VV0_n_114b9705:Int
                ))))))))))))))))))
-       ensures 2 <Int VV0_n_114b9705:Int
       [priority(20), label(BASIC-BLOCK-16-TO-19)]
     
     rule [BASIC-BLOCK-20-TO-23]: <foundry>

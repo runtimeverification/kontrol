@@ -28,7 +28,7 @@
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃
-┗━━┓ constraint: ( notBool VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int )
+┗━━┓ constraint: VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
    │
    ├─ 10
    │   k: JUMPI 1594 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) ~> #pc [ JU ...
@@ -1213,9 +1213,8 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( ( notBool VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int )
+       andBool ( VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
                ))))))))))))))))))
-       ensures VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
       [priority(20), label(BASIC-BLOCK-10-TO-16)]
 
 endmodule

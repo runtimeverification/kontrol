@@ -29,7 +29,7 @@
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) )
+┗━━┓ constraint: ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) <Int VV0_x_114b9705:Int
    │
    ├─ 9
    │   k: #execute ~> CONTINUATION:K
