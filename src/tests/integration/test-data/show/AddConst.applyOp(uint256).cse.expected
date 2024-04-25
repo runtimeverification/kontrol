@@ -246,7 +246,7 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
+       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
        andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) )
                ))))))))))))))))))))))))
        ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -257,7 +257,7 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
+       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
                )))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
@@ -449,7 +449,7 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
+       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
        andBool ( ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) <Int VV0_x_114b9705:Int
                ))))))))))))))))))))))))
        ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -460,7 +460,7 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
+       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
                )))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
