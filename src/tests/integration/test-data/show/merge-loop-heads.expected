@@ -826,7 +826,7 @@ Node 23:
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
 #And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And ( { true #Equals ( ( V_8ae8c0f0:Int ==Int V_45741f39:Int andBool ( ( V_45741f39:Int ==Int 0 andBool VV0_n_114b9705:Int <=Int 0 ) orBool ( V_45741f39:Int ==Int 1 andBool ( 0 <Int VV0_n_114b9705:Int andBool VV0_n_114b9705:Int <=Int 1 ) ) ) ) orBool ( V_8ae8c0f0:Int ==Int 2 andBool ( ( notBool CONTRACT_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( 0 <Int VV0_n_114b9705:Int andBool ( 1 <Int VV0_n_114b9705:Int andBool VV0_n_114b9705:Int <=Int 2 ) ) ) ) ) }
+#And ( { true #Equals ( ( V_8ae8c0f0:Int ==Int V_45741f39:Int andBool ( ( V_45741f39:Int ==Int 0 andBool VV0_n_114b9705:Int <=Int 0 ) orBool ( V_45741f39:Int ==Int 1 andBool #range ( 0 < VV0_n_114b9705:Int <= 1 ) ) ) ) orBool ( V_8ae8c0f0:Int ==Int 2 andBool ( ( notBool CONTRACT_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( 0 <Int VV0_n_114b9705:Int andBool #range ( 1 < VV0_n_114b9705:Int <= 2 ) ) ) ) ) }
 #And ( { true #Equals 0 <=Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
