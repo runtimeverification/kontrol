@@ -6,135 +6,137 @@
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1077 steps)
-├─ 7
+├─ 7 (split)
 │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
 ┃
-┃ (1 step)
-┣━━┓
+┃ (branch)
+┣━━┓ constraint: ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 8
-┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 295
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   pc: 0
 ┃  │   callDepth: 1
-┃  │   statusCode: EVMC_REVERT
+┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (72 steps)
+┃  │  (73 steps)
 ┃  └─ 11 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 1584
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃
-┣━━┓
+┣━━┓ constraints:
+┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
+┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  │
-┃  ├─ 9
-┃  │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 550
+┃  ├─ 10
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   pc: 0
 ┃  │   callDepth: 1
-┃  │   statusCode: EVMC_REVERT
+┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (72 steps)
-┃  └─ 12 (leaf, terminal)
+┃  │  (73 steps)
+┃  └─ 13 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 1584
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃
-┗━━┓
+┣━━┓ constraints:
+┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
+┃  ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <Int pow256
+┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
+┃  ┃     0 <=Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
+┃  │
+┃  ├─ 24
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: 1
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (503 steps)
+┃  └─ 17 (leaf, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: 1708
+┃      callDepth: 0
+┃      statusCode: EVMC_REVERT
+┃
+┣━━┓ constraints:
+┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
+┃  ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <Int pow256
+┃  ┃     ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
+┃  ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     0 <=Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
+┃  │
+┃  ├─ 26
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: 1
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (503 steps)
+┃  └─ 19 (leaf, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: 1708
+┃      callDepth: 0
+┃      statusCode: EVMC_REVERT
+┃
+┣━━┓ constraints:
+┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
+┃  ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <Int pow256
+┃  ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     0 <=Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
+┃  ┃     VV2_z_114b9705:Int <=Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int )
+┃  ┃     VV0_x_114b9705:Int <Int ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
+┃  │
+┃  ├─ 29
+┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: 1
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (759 steps)
+┃  ├─ 22 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 248
+┃  │   callDepth: 0
+┃  │   statusCode: EVMC_SUCCESS
+┃  │
+┃  ┊  constraint: true
+┃  ┊  subst: OMITTED SUBST
+┃  └─ 6 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┗━━┓ constraints:
+   ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
+   ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <Int pow256
+   ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     0 <=Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
+   ┃     VV2_z_114b9705:Int <=Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int )
+   ┃     ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int VV0_x_114b9705:Int
    │
-   ├─ 10
-   │   k: #halt ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   │   pc: 128
-   │   callDepth: 1
-   │   statusCode: EVMC_SUCCESS
-   │
-   │  (429 steps)
-   ├─ 13
-   │   k: #execute ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   ├─ 30
+   │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: 1
-   │   statusCode: EVMC_SUCCESS
-   ┃
-   ┃ (1 step)
-   ┣━━┓
-   ┃  │
-   ┃  ├─ 14
-   ┃  │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  │   pc: 295
-   ┃  │   callDepth: 1
-   ┃  │   statusCode: EVMC_REVERT
-   ┃  │
-   ┃  │  (72 steps)
-   ┃  └─ 17 (leaf, terminal)
-   ┃      k: #halt ~> CONTINUATION:K
-   ┃      pc: 1708
-   ┃      callDepth: 0
-   ┃      statusCode: EVMC_REVERT
-   ┃
-   ┣━━┓
-   ┃  │
-   ┃  ├─ 15
-   ┃  │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  │   pc: 550
-   ┃  │   callDepth: 1
-   ┃  │   statusCode: EVMC_REVERT
-   ┃  │
-   ┃  │  (72 steps)
-   ┃  └─ 18 (leaf, terminal)
-   ┃      k: #halt ~> CONTINUATION:K
-   ┃      pc: 1708
-   ┃      callDepth: 0
-   ┃      statusCode: EVMC_REVERT
-   ┃
-   ┗━━┓
-      │
-      ├─ 16 (split)
-      │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      │   pc: 128
-      │   callDepth: 1
-      │   statusCode: EVMC_SUCCESS
-      ┃
-      ┃ (branch)
-      ┣━━┓ constraint: VV0_x_114b9705:Int <Int ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
-      ┃  │
-      ┃  ├─ 24
-      ┃  │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃  │   pc: 128
-      ┃  │   callDepth: 1
-      ┃  │   statusCode: EVMC_SUCCESS
-      ┃  │
-      ┃  │  (328 steps)
-      ┃  ├─ 22 (terminal)
-      ┃  │   k: #halt ~> CONTINUATION:K
-      ┃  │   pc: 248
-      ┃  │   callDepth: 0
-      ┃  │   statusCode: EVMC_SUCCESS
-      ┃  │
-      ┃  ┊  constraint: true
-      ┃  ┊  subst: OMITTED SUBST
-      ┃  └─ 6 (leaf, target, terminal)
-      ┃      k: #halt ~> CONTINUATION:K
-      ┃      pc: PC_CELL_5d410f2a:Int
-      ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-      ┃      statusCode: STATUSCODE_FINAL:StatusCode
-      ┃
-      ┗━━┓ constraint: ( notBool VV0_x_114b9705:Int <Int ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) )
-         │
-         ├─ 25
-         │   k: #halt ~> #return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-         │   pc: 128
-         │   callDepth: 1
-         │   statusCode: EVMC_SUCCESS
-         │
-         │  (331 steps)
-         └─ 23 (leaf, terminal)
-             k: #halt ~> CONTINUATION:K
-             pc: 3736
-             callDepth: 0
-             statusCode: EVMC_REVERT
+   │   statusCode: STATUSCODE:StatusCode
+   │
+   │  (762 steps)
+   └─ 23 (leaf, terminal)
+       k: #halt ~> CONTINUATION:K
+       pc: 3736
+       callDepth: 0
+       statusCode: EVMC_REVERT
 
 
 

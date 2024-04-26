@@ -33,14 +33,14 @@
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
 ┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
 ┃  │
-┃  ├─ 22
+┃  ├─ 23
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (552 steps)
-┃  ├─ 10 (terminal)
+┃  ├─ 11 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 295
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -83,7 +83,7 @@
 ┗━━┓ constraints:
    ┃     CALLDEPTH_CELL:Int <Int 1024
    ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-   ┃     ( notBool VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) )
+   ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
    │
    ├─ 27
    │   k: #execute ~> CONTINUATION:K
