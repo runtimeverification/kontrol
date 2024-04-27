@@ -251,9 +251,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
                ))))))))))))))))))))))))
        ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -261,9 +261,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
                )))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
@@ -457,9 +457,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
                ))))))))))))))))))))))))
        ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -467,9 +467,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
                )))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
