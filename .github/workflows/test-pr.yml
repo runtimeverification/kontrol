@@ -116,7 +116,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS='--numprocesses=8 -vvvvv -k "not test_kontrol_cse and not test_foundry_minimize_proof"'
+          TEST_ARGS='--numprocesses=8 -vv -k "not test_kontrol_cse and not test_foundry_minimize_proof"'
           [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
@@ -148,7 +148,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
       - name: 'Run CSE and Minimize tests'
         run: |
-          TEST_ARGS='--numprocesses=8 -vvvvv -k "test_kontrol_cse or test_foundry_minimize_proof"'
+          TEST_ARGS='--numprocesses=8 -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
