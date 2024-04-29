@@ -395,7 +395,7 @@ class InitOptions(LoggingOptions):
 
 
 def exec_init(options: InitOptions) -> None:
-    init_project(options.skip_forge, options.project_root)
+    init_project(project_root=options.project_root, skip_forge=options.skip_forge)
 
 
 # Helpers

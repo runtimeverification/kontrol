@@ -1304,7 +1304,7 @@ def foundry_node_printer(
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
 
 
-def init_project(skip_forge: bool, project_root: Path) -> None:
+def init_project(project_root: Path, *, skip_forge: bool) -> None:
     """
     Wrapper around `forge init` that creates new Foundry projects compatible with Kontrol.
 

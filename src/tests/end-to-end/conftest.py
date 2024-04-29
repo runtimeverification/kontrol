@@ -51,7 +51,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
     foundry_root = root_tmp_dir / 'kontrol-test-project'
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
-            init_project(skip_forge=False, project_root=foundry_root)
+            init_project(project_root=foundry_root, skip_forge=False)
             copy_tree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'src'))
 
             foundry_kompile(
