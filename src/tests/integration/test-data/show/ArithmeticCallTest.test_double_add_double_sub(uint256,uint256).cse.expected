@@ -95,7 +95,7 @@
 ┃  ┃     ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) <Int pow256
 ┃  ┃     0 <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
 ┃  ┃     VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
-┃  ┃     ( notBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) ) ==K 0 )
+┃  ┃     ( notBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) ) ==Int 0 )
 ┃  │
 ┃  ├─ 46
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -126,7 +126,7 @@
    ┃     ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) <Int pow256
    ┃     0 <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
    ┃     VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
-   ┃     0 ==K ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
+   ┃     0 ==Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
    │
    ├─ 47
    │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -854,9 +854,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -866,14 +866,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                )))))))))))))
        ensures ( 0 <=Int ?VV0_x_114b9705
        andBool ( 0 <=Int ?VV1_y_114b9705
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ?VV0_x_114b9705 <Int pow256
        andBool ( ?VV1_y_114b9705 <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-1-TO-7)]
     
     rule [BASIC-BLOCK-29-TO-15]: <foundry>
@@ -2310,7 +2305,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
        andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
        andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-       andBool ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) ) =/=K 0
+       andBool ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) ) =/=Int 0
                )))))))))))))))))))))))))
        ensures 0 =/=Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
       [priority(20), label(BASIC-BLOCK-46-TO-26)]
@@ -2673,9 +2668,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
        andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
        andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-       andBool ( 0 ==K ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
+       andBool ( 0 ==Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
                )))))))))))))))))))))))))
-       ensures 0 ==Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
       [priority(20), label(BASIC-BLOCK-47-TO-27)]
 
 endmodule
