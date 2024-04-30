@@ -238,9 +238,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CONTRACT_ID:Int <Int pow160
@@ -255,16 +255,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
        andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
                ))))))))))))))))))))))))
-       ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
-               )))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -444,9 +434,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 1024 <=Int CALLDEPTH_CELL:Int
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CONTRACT_ID:Int <Int pow160
@@ -461,16 +451,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
        andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
                ))))))))))))))))))))))))
-       ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int CONTRACT_ID:Int andBool CONTRACT_ID:Int <=Int 9 ) )
-               )))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule
