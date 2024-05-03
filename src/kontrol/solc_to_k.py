@@ -137,6 +137,52 @@ class Input:
         return KEVM.abi_tuple(abi_types)
 
     @staticmethod
+    def flatten_tuple(components: Iterable[Input], array_index: int | None = None) -> list[Input]:
+        """
+        Recursively unwraps components of a tuple.
+
+        The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
+        """
+        flat_components: list[Input] = []
+        for _c in components:
+            component = _c
+            if array_index is not None:
+                component = Input(
+                    f'{_c.name}_{array_index}',
+                    _c.type,
+                    _c.components,
+                    _c.idx,
+                    _c.array_lengths,
+                    _c.dynamic_type_length,
+                )
+
+            flat_components.extend(component.flattened(array_index))
+
+        return flat_components
+
+    def flatten_array(self) -> list[Input]:
+        """
+        Recursively unwraps components of an array.
+        
+        The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
+        TODO: Add support for nested arrays and use the entire 'input.array_lengths' array
+        instead of only the first value.
+        """
+        base_type = self.type.rstrip('[]')
+        if self.array_lengths is None:
+            raise ValueError(f'Array length bounds missing for {self.name}')
+        array_length = self.array_lengths[0]
+        array_elements: list[Input] = []
+
+        if base_type == 'tuple':
+            array_elements = [Input.flatten_tuple(self.components, index) for index in range(array_length)]
+        else:
+            array_elements = [
+                Input(f'{self.name}_{n}', base_type, idx=self.idx).flattened() for n in range(array_length)
+            ]
+        return array_elements
+
+    @staticmethod
     def _unwrap_components(components: list[dict], idx: int = 0, natspec_lengths: dict | None = None) -> list[Input]:
         """
         Recursively unwrap components of a complex type to create a list of Input instances.
@@ -194,10 +240,11 @@ class Input:
         else:
             return self.make_single_type()
 
-    def flattened(self) -> list[Input]:
-        if len(self.components) > 0:
-            nest = [comp.flattened() for comp in self.components]
-            return [fcomp for fncomp in nest for fcomp in fncomp]
+    def flattened(self, array_index: int | None = None) -> list[Input]:
+        if self.type.endswith('[]'):
+            return self.flatten_array()
+        elif self.type == 'tuple':
+            return Input.flatten_tuple(self.components, array_index)
         else:
             return [self]
 
@@ -443,40 +490,27 @@ class Contract:
 
         @cached_property
         def flat_inputs(self) -> tuple[Input, ...]:
-            return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
+            def flatten(lst):
+                for i in lst:
+                    if isinstance(i, list):
+                        yield from flatten(i)
+                    else:
+                        yield i
+
+            inputs = []
+            for input in self.inputs:
+                inputs.extend(input.flattened())
+
+            flattened_inputs = list(flatten(inputs))
+            return (tuple(flattened_inputs))
 
         @cached_property
         def arg_names(self) -> tuple[str, ...]:
-            arg_names: list[str] = []
-            for input in self.inputs:
-                if input.type.endswith('[]'):
-                    if input.array_lengths is None:
-                        raise ValueError(f'Array length bounds missing for {input.name}')
-                    length = input.array_lengths[0]
-                    arg_names.extend(
-                        f'{sub_input.arg_name}_{i}' for i in range(length) for sub_input in input.flattened()
-                    )
-                else:
-                    arg_names.extend([sub_input.arg_name for sub_input in input.flattened()])
-            return tuple(arg_names)
+            return tuple(input.arg_name for input in self.flat_inputs)
 
         @cached_property
         def arg_types(self) -> tuple[str, ...]:
-            arg_types: list[str] = []
-            for input in self.inputs:
-                if input.type.endswith('[]'):
-                    if input.array_lengths is None:
-                        raise ValueError(f'Array length bounds missing for {input.name}')
-                    length = input.array_lengths[0]
-                    base_type = input.type.split('[')[0]
-                    if base_type == 'tuple':
-                        arg_types.extend(f'{sub_input.type}' for _i in range(length) for sub_input in input.flattened())
-                    else:
-                        arg_types.extend([base_type] * length)
-
-                else:
-                    arg_types.extend([sub_input.type for sub_input in input.flattened()])
-            return tuple(arg_types)
+            return tuple(input.type for input in self.flat_inputs)
 
         def up_to_date(self, digest_file: Path) -> bool:
             if not digest_file.exists():
