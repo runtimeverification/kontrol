@@ -270,16 +270,16 @@
         "rv-utils": "rv-utils_3"
       },
       "locked": {
-        "lastModified": 1714671731,
-        "narHash": "sha256-rMcddGEMkJ6Co42koVDN/g9epJFkBS2cJvEhAn7Q7kM=",
+        "lastModified": 1714742734,
+        "narHash": "sha256-QrRKI8xUeLyb8Zt7Zpfp+ff7fGecCfKX2+Cu3XnBTTU=",
         "owner": "runtimeverification",
         "repo": "k",
-        "rev": "be1acaf3f66f7d296024e9e7aaee8a24d9481475",
+        "rev": "d3d17af3868ff4b531c404d01ef5cfdcf2e3b75e",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v7.0.40",
+        "ref": "v7.0.41",
         "repo": "k",
         "type": "github"
       }
@@ -323,16 +323,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1714689703,
-        "narHash": "sha256-kOtfvfQ7QIdADM6fM/CDlmUoHArck9oLJFRNloJkGL8=",
+        "lastModified": 1714991146,
+        "narHash": "sha256-WbMiuhVnnfNeLmAdT8BimGac8+qAxoCYTYbxf8GniaM=",
         "owner": "runtimeverification",
         "repo": "evm-semantics",
-        "rev": "fbdb6851a9f9292765a4e97d69366d3098d7fb16",
+        "rev": "f75ee835b4466f2ba4fda9b6189cdfc13a56ef1b",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v1.0.541",
+        "ref": "v1.0.542",
         "repo": "evm-semantics",
         "type": "github"
       }
@@ -533,17 +533,17 @@
       },
       "locked": {
         "dir": "pyk",
-        "lastModified": 1714671731,
-        "narHash": "sha256-rMcddGEMkJ6Co42koVDN/g9epJFkBS2cJvEhAn7Q7kM=",
+        "lastModified": 1714742734,
+        "narHash": "sha256-QrRKI8xUeLyb8Zt7Zpfp+ff7fGecCfKX2+Cu3XnBTTU=",
         "owner": "runtimeverification",
         "repo": "k",
-        "rev": "be1acaf3f66f7d296024e9e7aaee8a24d9481475",
+        "rev": "d3d17af3868ff4b531c404d01ef5cfdcf2e3b75e",
         "type": "github"
       },
       "original": {
         "dir": "pyk",
         "owner": "runtimeverification",
-        "ref": "v7.0.40",
+        "ref": "v7.0.41",
         "repo": "k",
         "type": "github"
       }
@@ -661,20 +661,33 @@
         ],
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "solc-macos-amd64-list-json": "solc-macos-amd64-list-json"
       },
       "locked": {
-        "lastModified": 1711538161,
-        "narHash": "sha256-rETVdEIQ2PyEcNgzXXFSiYAYl0koCeGDIWp9XYBTxoQ=",
+        "lastModified": 1714911716,
+        "narHash": "sha256-xBaHwC6YCZZUwkt3JG0YRFaIRoVagPWYTMndLiGnSNg=",
         "owner": "hellwolf",
         "repo": "solc.nix",
-        "rev": "a995838545a7383a0b37776e969743b1346d5479",
+        "rev": "2eda57da0e1cf13e82b849a67965c7c43afc11fc",
         "type": "github"
       },
       "original": {
         "owner": "hellwolf",
         "repo": "solc.nix",
         "type": "github"
+      }
+    },
+    "solc-macos-amd64-list-json": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-akcOahJE/QR0jCPvo4aBf0loJt9P8zvP2E7oCBCRIho=",
+        "type": "file",
+        "url": "https://binaries.soliditylang.org/macosx-amd64/list.json"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://binaries.soliditylang.org/macosx-amd64/list.json"
       }
     },
     "stacklock2nix": {
