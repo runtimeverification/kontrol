@@ -35,6 +35,9 @@ test-unit: poetry-install
 test-integration: poetry-install
 	$(POETRY_RUN) pytest src/tests/integration --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal $(TEST_ARGS)
 
+test-haskell-backend-performance: poetry-install
+	$(POETRY_RUN) pytest src/tests/integration/test_foundry_prove.py::test_foundry_prove --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal $(TEST_ARGS)
+
 
 # Coverage
 
