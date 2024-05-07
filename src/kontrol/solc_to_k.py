@@ -137,13 +137,12 @@ class Input:
         return KEVM.abi_tuple(abi_types)
 
     @staticmethod
-    def flatten_tuple(components: Iterable[Input], array_index: int | None = None) -> list[Input]:
+    def _flatten_tuple(components: Iterable[Input], array_index: int | None = None) -> list[Input]:
         """
         Recursively unwraps components of a tuple.
 
         The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
         """
-
         flat_components: list[Input] = []
         for _c in components:
             component = _c
@@ -158,30 +157,7 @@ class Input:
                 )
 
             flat_components.extend(component.flattened(array_index))
-
         return flat_components
-
-    def flatten_array(self) -> list[Input]:
-        """
-        Recursively unwraps components of an array.
-
-        The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
-        TODO: Add support for nested arrays and use the entire 'input.array_lengths' array
-        instead of only the first value.
-        """
-        base_type = self.type.rstrip('[]')
-        if self.array_lengths is None:
-            raise ValueError(f'Array length bounds missing for {self.name}')
-        array_length = self.array_lengths[0]
-        array_elements: list[Input] = []
-
-        if base_type == 'tuple':
-            array_elements = [Input.flatten_tuple(self.components, index) for index in range(array_length)]
-        else:
-            array_elements = [
-                Input(f'{self.name}_{n}', base_type, idx=self.idx).flattened() for n in range(array_length)
-            ]
-        return array_elements
 
     @staticmethod
     def _unwrap_components(components: list[dict], idx: int = 0, natspec_lengths: dict | None = None) -> list[Input]:
@@ -193,16 +169,27 @@ class Input:
         :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
         :return: A list of Input instances for each component, including nested components
         """
-        return [
-            Input(
-                component['name'],
-                component['type'],
-                tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
-                idx,
-                *process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None),
+        inputs = []
+        for component in components:
+            lengths = process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None)
+            inputs.append(
+                Input(
+                    component['name'],
+                    component['type'],
+                    tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
+                    idx,
+                    *lengths,
+                )
             )
-            for idx, component in enumerate(components, start=idx)
-        ]
+            if component['type'].endswith('[]') and component['type'].startswith('tuple'):
+                array_length, _ = lengths
+
+                if array_length is None:
+                    raise ValueError(f'Array length bounds missing for {component['name']}')
+                idx += array_length[0]
+            else:
+                idx += 1
+        return inputs
 
     def make_single_type(self) -> KApply:
         """
@@ -235,6 +222,28 @@ class Input:
         else:
             return KEVM.abi_type(self.type, KVariable(self.arg_name))
 
+    def flatten_array(self) -> list[Input]:
+        """
+        Recursively unwraps components of an array.
+
+        The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
+        TODO: Add support for nested arrays and use the entire 'input.array_lengths' array
+        instead of only the first value.
+        """
+        base_type = self.type.rstrip('[]')
+        if self.array_lengths is None:
+            raise ValueError(f'Array length bounds missing for {self.name}')
+        array_length = self.array_lengths[0]
+        array_elements: list[Input] = []
+
+        if base_type == 'tuple':
+            array_elements = [Input._flatten_tuple(self.components, index) for index in range(array_length)]
+        else:
+            array_elements = [
+                Input(f'{self.name}_{n}', base_type, idx=self.idx).flattened() for n in range(array_length)
+            ]
+        return array_elements
+
     def to_abi(self) -> KApply:
         if self.type == 'tuple':
             return Input._make_tuple_type(self.components)
@@ -245,7 +254,7 @@ class Input:
         if self.type.endswith('[]'):
             return self.flatten_array()
         elif self.type == 'tuple':
-            return Input.flatten_tuple(self.components, array_index)
+            return Input._flatten_tuple(self.components, array_index)
         else:
             return [self]
 
@@ -256,7 +265,8 @@ def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) ->
     for input in abi_inputs:
         cur_input = Input.from_dict(input, index, natspec_lengths)
         inputs.append(cur_input)
-        index += len(cur_input.flattened())
+        index_offset = len(cur_input.flattened()) if cur_input.type.startswith('tuple') else 1
+        index += index_offset
     return inputs
 
 
@@ -498,12 +508,8 @@ class Contract:
                     else:
                         yield i
 
-            inputs = []
-            for input in self.inputs:
-                inputs.extend(input.flattened())
-
-            flattened_inputs = list(flatten(inputs))
-            return tuple(flattened_inputs)
+            inputs = flatten([input.flattened() for input in self.inputs])
+            return tuple(inputs)
 
         @cached_property
         def arg_names(self) -> tuple[str, ...]:
