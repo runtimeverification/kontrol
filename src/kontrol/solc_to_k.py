@@ -236,12 +236,10 @@ class Input:
         array_length = self.array_lengths[0]
         array_elements: list[Input] = []
 
-        if base_type == 'tuple':
-            array_elements = [Input._flatten_tuple(self.components, index) for index in range(array_length)]
-        else:
-            array_elements = [
-                Input(f'{self.name}_{n}', base_type, idx=self.idx).flattened() for n in range(array_length)
-            ]
+        array_elements = [
+            Input(f'{self.name}_{index}', base_type, self.components, idx=self.idx).flattened(index)
+            for index in range(array_length)
+        ]
         return array_elements
 
     def to_abi(self) -> KApply:
@@ -260,13 +258,18 @@ class Input:
 
 
 def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) -> list[Input]:
+    def count_components(input: Input) -> int:
+        if len(input.components) > 0:
+            return sum(count_components(component) for component in input.components)
+        else:
+            return 1
+
     inputs = []
     index = 0
     for input in abi_inputs:
         cur_input = Input.from_dict(input, index, natspec_lengths)
         inputs.append(cur_input)
-        index_offset = len(cur_input.flattened()) if cur_input.type.startswith('tuple') else 1
-        index += index_offset
+        index += count_components(cur_input)
     return inputs
 
 

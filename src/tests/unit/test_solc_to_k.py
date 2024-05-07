@@ -432,3 +432,137 @@ def test_find_function_calls(test_id: str, ast: dict, expected: list[str]) -> No
     output = find_function_calls(ast)
     # Then
     assert output == expected
+
+
+FLAT_INPUT_DATA: list[tuple[str, Input, list[Input]]] = [
+    (
+        'test_simple_tuple',
+        Input(
+            name='_tx',
+            type='tuple',
+            components=(
+                Input(name='nonce', type='uint256', components=(), idx=0, array_lengths=None, dynamic_type_length=None),
+                Input(
+                    name='sender',
+                    type='address',
+                    components=(),
+                    idx=1,
+                    array_lengths=None,
+                    dynamic_type_length=None,
+                ),
+                Input(
+                    name='target',
+                    type='address',
+                    components=(),
+                    idx=2,
+                    array_lengths=None,
+                    dynamic_type_length=None,
+                ),
+                Input(name='value', type='uint256', components=(), idx=3, array_lengths=None, dynamic_type_length=None),
+                Input(
+                    name='gasLimit',
+                    type='uint256',
+                    components=(),
+                    idx=4,
+                    array_lengths=None,
+                    dynamic_type_length=None,
+                ),
+                Input(name='data', type='bytes', components=(), idx=5, array_lengths=None, dynamic_type_length=600),
+            ),
+            idx=0,
+            array_lengths=None,
+            dynamic_type_length=None,
+        ),
+        [
+            Input(name='nonce', type='uint256', components=(), idx=0, array_lengths=None, dynamic_type_length=None),
+            Input(
+                name='sender',
+                type='address',
+                components=(),
+                idx=1,
+                array_lengths=None,
+                dynamic_type_length=None,
+            ),
+            Input(
+                name='target',
+                type='address',
+                components=(),
+                idx=2,
+                array_lengths=None,
+                dynamic_type_length=None,
+            ),
+            Input(name='value', type='uint256', components=(), idx=3, array_lengths=None, dynamic_type_length=None),
+            Input(
+                name='gasLimit',
+                type='uint256',
+                components=(),
+                idx=4,
+                array_lengths=None,
+                dynamic_type_length=None,
+            ),
+            Input(name='data', type='bytes', components=(), idx=5, array_lengths=None, dynamic_type_length=600),
+        ],
+    ),
+    (
+        'test_nested_tuple',
+        Input(
+            name='cntValues',
+            type='tuple',
+            components=(
+                Input(
+                    name='values',
+                    type='tuple[]',
+                    components=(
+                        Input(
+                            name='id',
+                            type='uint256',
+                            components=(),
+                            idx=0,
+                            array_lengths=None,
+                            dynamic_type_length=None,
+                        ),
+                        Input(
+                            name='content',
+                            type='bytes',
+                            components=(),
+                            idx=1,
+                            array_lengths=None,
+                            dynamic_type_length=None,
+                        ),
+                    ),
+                    idx=0,
+                    array_lengths=[2],
+                    dynamic_type_length=None,
+                ),
+                Input(name='id', type='uint256', components=(), idx=2, array_lengths=None, dynamic_type_length=None),
+            ),
+            idx=0,
+            array_lengths=None,
+            dynamic_type_length=None,
+        ),
+        [
+            [
+                Input(name='id_0', type='uint256', components=(), idx=0, array_lengths=None, dynamic_type_length=None),
+                Input(
+                    name='content_0', type='bytes', components=(), idx=1, array_lengths=None, dynamic_type_length=None
+                ),
+            ],
+            [
+                Input(name='id_1', type='uint256', components=(), idx=0, array_lengths=None, dynamic_type_length=None),
+                Input(
+                    name='content_1', type='bytes', components=(), idx=1, array_lengths=None, dynamic_type_length=None
+                ),
+            ],
+            Input(name='id', type='uint256', components=(), idx=2, array_lengths=None, dynamic_type_length=None),
+        ],
+    ),
+]
+
+
+@pytest.mark.parametrize('test_id,input,expected', FLAT_INPUT_DATA, ids=[test_id for test_id, *_ in FLAT_INPUT_DATA])
+def test_flat_inputs(test_id: str, input: Input, expected: list[Input]) -> None:
+    # When
+    _input = input.flattened()
+
+    # Then
+    assert _input == expected
