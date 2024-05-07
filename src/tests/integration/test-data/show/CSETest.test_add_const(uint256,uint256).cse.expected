@@ -239,7 +239,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
-                     ( b"\x0f\xee)\xd1" => b"\xe9\x19\xcf\x83" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes ( #buf ( 32 , VV1_y_114b9705:Int ) => b"" )
+                     ( b"\x0f\xee)\xd1" => b"\xe9\x19\xcf\x83" ) +Bytes ( #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) => #buf ( 32 , VV0_x_114b9705:Int ) )
                    </callData>
                    <callValue>
                      0
