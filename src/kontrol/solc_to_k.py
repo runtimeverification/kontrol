@@ -185,7 +185,7 @@ class Input:
                 array_length, _ = lengths
 
                 if array_length is None:
-                    raise ValueError(f'Array length bounds missing for {component['name']}')
+                    raise ValueError(f'Array length bounds missing for {component["name"]}')
                 idx += array_length[0]
             else:
                 idx += 1
@@ -504,8 +504,8 @@ class Contract:
 
         @cached_property
         def flat_inputs(self) -> tuple[Input, ...]:
-            def flatten(lst):
-                for i in lst:
+            def flatten(inputs: list[Input]) -> Iterable[Input]:
+                for i in inputs:
                     if isinstance(i, list):
                         yield from flatten(i)
                     else:
