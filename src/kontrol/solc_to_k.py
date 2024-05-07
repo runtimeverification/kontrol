@@ -143,6 +143,7 @@ class Input:
 
         The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
         """
+
         flat_components: list[Input] = []
         for _c in components:
             component = _c
@@ -163,7 +164,7 @@ class Input:
     def flatten_array(self) -> list[Input]:
         """
         Recursively unwraps components of an array.
-        
+
         The 'array_index' parameter is used to uniquely identify elements within an array of tuples.
         TODO: Add support for nested arrays and use the entire 'input.array_lengths' array
         instead of only the first value.
@@ -502,7 +503,7 @@ class Contract:
                 inputs.extend(input.flattened())
 
             flattened_inputs = list(flatten(inputs))
-            return (tuple(flattened_inputs))
+            return tuple(flattened_inputs)
 
         @cached_property
         def arg_names(self) -> tuple[str, ...]:
@@ -582,22 +583,8 @@ class Contract:
                     components = input.components
 
                     if input.type.endswith('[]'):
-                        if input.array_lengths is None:
-                            raise ValueError(f'Array length bounds missing for {input.name}')
-
-                        tuple_array_components = [
-                            Input(
-                                f'{_c.name}_{i}',
-                                _c.type,
-                                _c.components,
-                                _c.idx,
-                                _c.array_lengths,
-                                _c.dynamic_type_length,
-                            )
-                            for i in range(input.array_lengths[0])
-                            for _c in components
-                        ]
-                        components = tuple(tuple_array_components)
+                        flat_tuple_array_components = [fcomp for fncomp in input.flattened() for fcomp in fncomp]
+                        components = tuple(flat_tuple_array_components)
 
                     for sub_input in components:
                         _abi_type = sub_input.to_abi()
