@@ -196,7 +196,27 @@ class Input:
 
     def flattened(self) -> list[Input]:
         if len(self.components) > 0:
-            nest = [comp.flattened() for comp in self.components]
+            components = []
+            if self.type.endswith('[]'):
+                if self.array_lengths is None:
+                    raise ValueError(f'Array length bounds missing for {self.name}')
+
+                components = [
+                    Input(
+                        f'{_c.name}_{i}',
+                        _c.type,
+                        _c.components,
+                        _c.idx,
+                        _c.array_lengths,
+                        _c.dynamic_type_length,
+                    )
+                    for i in range(self.array_lengths[0])
+                    for _c in self.components
+                ]
+            else:
+                components = list(self.components)
+
+            nest = [comp.flattened() for comp in components]
             return [fcomp for fncomp in nest for fcomp in fncomp]
         else:
             return [self]
@@ -449,13 +469,11 @@ class Contract:
         def arg_names(self) -> tuple[str, ...]:
             arg_names: list[str] = []
             for input in self.inputs:
-                if input.type.endswith('[]'):
+                if input.type.endswith('[]') and not input.type.startswith('tuple'):
                     if input.array_lengths is None:
                         raise ValueError(f'Array length bounds missing for {input.name}')
                     length = input.array_lengths[0]
-                    arg_names.extend(
-                        f'{sub_input.arg_name}_{i}' for i in range(length) for sub_input in input.flattened()
-                    )
+                    arg_names.extend(f'{input.arg_name}_{i}' for i in range(length))
                 else:
                     arg_names.extend([sub_input.arg_name for sub_input in input.flattened()])
             return tuple(arg_names)
@@ -470,7 +488,7 @@ class Contract:
                     length = input.array_lengths[0]
                     base_type = input.type.split('[')[0]
                     if base_type == 'tuple':
-                        arg_types.extend(f'{sub_input.type}' for _i in range(length) for sub_input in input.flattened())
+                        arg_types.extend([sub_input.type for sub_input in input.flattened()])
                     else:
                         arg_types.extend([base_type] * length)
 
