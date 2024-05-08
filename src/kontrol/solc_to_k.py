@@ -146,16 +146,29 @@ class Input:
         :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
         :return: A list of Input instances for each component, including nested components
         """
-        return [
-            Input(
-                component['name'],
-                component['type'],
-                tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
-                idx,
-                *process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None),
+        inputs = []
+        for component in components:
+            lengths = process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None)
+            inputs.append(
+                Input(
+                    component['name'],
+                    component['type'],
+                    tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
+                    idx,
+                    *lengths,
+                )
             )
-            for idx, component in enumerate(components, start=idx)
-        ]
+            # If the component is of `tuple[n]` type, it will have `n` elements with different `idx`
+            if component['type'].endswith('[]') and component['type'].startswith('tuple'):
+                array_length, _ = lengths
+
+                if array_length is None:
+                    raise ValueError(f'Array length bounds missing for {component["name"]}')
+                idx += array_length[0]
+            else:
+            # Otherwise, use the next `idx` for the next component
+                idx += 1
+        return inputs
 
     def make_single_type(self) -> KApply:
         """
@@ -223,12 +236,18 @@ class Input:
 
 
 def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) -> list[Input]:
+    def count_components(input: Input) -> int:
+        if len(input.components) > 0:
+            return sum(count_components(component) for component in input.components)
+        else:
+            return 1
+
     inputs = []
     index = 0
     for input in abi_inputs:
         cur_input = Input.from_dict(input, index, natspec_lengths)
         inputs.append(cur_input)
-        index += len(cur_input.flattened())
+        index += count_components(cur_input)
     return inputs
 
 
