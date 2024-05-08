@@ -239,7 +239,7 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                      ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
-                     ( b"\xc0\xbd\x83$" => b"i\xab\xff\xa1" ) +Bytes #buf ( 32 , ( VV0_x_114b9705:Int => VV1_y_114b9705:Int ) ) +Bytes ( #buf ( 32 , VV1_y_114b9705:Int ) => b"" )
+                     ( b"\xc0\xbd\x83$" => b"i\xab\xff\xa1" ) +Bytes ( #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) => #buf ( 32 , VV1_y_114b9705:Int ) )
                    </callData>
                    <callValue>
                      0
