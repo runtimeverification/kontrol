@@ -166,7 +166,7 @@ class Input:
                     raise ValueError(f'Array length bounds missing for {component["name"]}')
                 idx += array_length[0]
             else:
-            # Otherwise, use the next `idx` for the next component
+                # Otherwise, use the next `idx` for the next component
                 idx += 1
         return inputs
 
