@@ -385,7 +385,7 @@ def _run_cfg_group(
                 )
             run_prover(
                 proof,
-                create_kcfg_explore,
+                create_kcfg_explore=create_kcfg_explore,
                 max_depth=options.max_depth,
                 max_iterations=options.max_iterations,
                 cut_point_rules=cut_point_rules,
