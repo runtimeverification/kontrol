@@ -208,12 +208,14 @@ class Input:
             return self.make_single_type()
 
     def flattened(self) -> list[Input]:
-        if len(self.components) > 0:
-            components = []
-            if self.type.endswith('[]'):
-                if self.array_lengths is None:
-                    raise ValueError(f'Array length bounds missing for {self.name}')
+        components = []
 
+        if self.type.endswith('[]'):
+            if self.array_lengths is None:
+                raise ValueError(f'Array length bounds missing for {self.name}')
+
+            base_type = self.type.rstrip('[]')
+            if base_type == 'tuple':
                 components = [
                     Input(
                         f'{_c.name}_{i}',
@@ -227,12 +229,14 @@ class Input:
                     for _c in self.components
                 ]
             else:
-                components = list(self.components)
-
-            nest = [comp.flattened() for comp in components]
-            return [fcomp for fncomp in nest for fcomp in fncomp]
+                components = [Input(f'{self.name}_{i}', base_type, idx=self.idx) for i in range(self.array_lengths[0])]
+        elif self.type == 'tuple':
+            components = list(self.components)
         else:
             return [self]
+
+        nest = [comp.flattened() for comp in components]
+        return [fcomp for fncomp in nest for fcomp in fncomp]
 
 
 def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) -> list[Input]:
