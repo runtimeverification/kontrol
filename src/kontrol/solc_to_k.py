@@ -146,16 +146,29 @@ class Input:
         :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
         :return: A list of Input instances for each component, including nested components
         """
-        return [
-            Input(
-                component['name'],
-                component['type'],
-                tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
-                idx,
-                *process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None),
+        inputs = []
+        for component in components:
+            lengths = process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None)
+            inputs.append(
+                Input(
+                    component['name'],
+                    component['type'],
+                    tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
+                    idx,
+                    *lengths,
+                )
             )
-            for idx, component in enumerate(components, start=idx)
-        ]
+            # If the component is of `tuple[n]` type, it will have `n` elements with different `idx`
+            if component['type'].endswith('[]') and component['type'].startswith('tuple'):
+                array_length, _ = lengths
+
+                if array_length is None:
+                    raise ValueError(f'Array length bounds missing for {component["name"]}')
+                idx += array_length[0]
+            else:
+                # Otherwise, use the next `idx` for the next component
+                idx += 1
+        return inputs
 
     def make_single_type(self) -> KApply:
         """
@@ -195,20 +208,50 @@ class Input:
             return self.make_single_type()
 
     def flattened(self) -> list[Input]:
-        if len(self.components) > 0:
-            nest = [comp.flattened() for comp in self.components]
-            return [fcomp for fncomp in nest for fcomp in fncomp]
+        components = []
+
+        if self.type.endswith('[]'):
+            if self.array_lengths is None:
+                raise ValueError(f'Array length bounds missing for {self.name}')
+
+            base_type = self.type.rstrip('[]')
+            if base_type == 'tuple':
+                components = [
+                    Input(
+                        f'{_c.name}_{i}',
+                        _c.type,
+                        _c.components,
+                        _c.idx,
+                        _c.array_lengths,
+                        _c.dynamic_type_length,
+                    )
+                    for i in range(self.array_lengths[0])
+                    for _c in self.components
+                ]
+            else:
+                components = [Input(f'{self.name}_{i}', base_type, idx=self.idx) for i in range(self.array_lengths[0])]
+        elif self.type == 'tuple':
+            components = list(self.components)
         else:
             return [self]
 
+        nest = [comp.flattened() for comp in components]
+        return [fcomp for fncomp in nest for fcomp in fncomp]
+
 
 def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) -> list[Input]:
+    def count_components(input: Input) -> int:
+        if len(input.components) > 0:
+            return sum(count_components(component) for component in input.components)
+        else:
+            return 1
+
     inputs = []
     index = 0
     for input in abi_inputs:
         cur_input = Input.from_dict(input, index, natspec_lengths)
         inputs.append(cur_input)
-        index += len(cur_input.flattened())
+        index += count_components(cur_input)
     return inputs
 
 
@@ -449,13 +492,11 @@ class Contract:
         def arg_names(self) -> tuple[str, ...]:
             arg_names: list[str] = []
             for input in self.inputs:
-                if input.type.endswith('[]'):
+                if input.type.endswith('[]') and not input.type.startswith('tuple'):
                     if input.array_lengths is None:
                         raise ValueError(f'Array length bounds missing for {input.name}')
                     length = input.array_lengths[0]
-                    arg_names.extend(
-                        f'{sub_input.arg_name}_{i}' for i in range(length) for sub_input in input.flattened()
-                    )
+                    arg_names.extend(f'{input.arg_name}_{i}' for i in range(length))
                 else:
                     arg_names.extend([sub_input.arg_name for sub_input in input.flattened()])
             return tuple(arg_names)
@@ -470,7 +511,7 @@ class Contract:
                     length = input.array_lengths[0]
                     base_type = input.type.split('[')[0]
                     if base_type == 'tuple':
-                        arg_types.extend(f'{sub_input.type}' for _i in range(length) for sub_input in input.flattened())
+                        arg_types.extend([sub_input.type for sub_input in input.flattened()])
                     else:
                         arg_types.extend([base_type] * length)
 
