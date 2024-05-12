@@ -547,6 +547,12 @@ def _create_argument_parser() -> ArgumentParser:
         help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
     )
     prove_args.add_argument(
+        '--max-frontier-parallel',
+        default=None,
+        type=int,
+        help='Maximum worker threads to use on a single proof to explore separate branches in parallel.',
+    )
+    prove_args.add_argument(
         '--bmc-depth',
         dest='bmc_depth',
         default=None,
