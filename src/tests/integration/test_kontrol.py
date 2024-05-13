@@ -69,7 +69,7 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
     return Foundry(session_foundry_root)
 
 
-ALL_PROVE_TESTS: Final = set((TEST_DATA_DIR / 'end-to-end-prove-all').read_text().splitlines())
+ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'end-to-end-prove-all').read_text().splitlines())
 
 
 @pytest.mark.parametrize('test_id', ALL_PROVE_TESTS)
