@@ -70,6 +70,7 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
 
 
 ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'end-to-end-prove-all').read_text().splitlines())
+SKIPPED_PROVE_TESTS: Final = set((TEST_DATA_DIR / 'end-to-end-prove-skip').read_text().splitlines())
 
 
 @pytest.mark.parametrize('test_id', ALL_PROVE_TESTS)
@@ -81,6 +82,13 @@ def test_kontrol_end_to_end(
     bug_report: BugReport | None,
     server_end_to_end: KoreServer,
 ) -> None:
+
+    if (
+        test_id in SKIPPED_PROVE_TESTS
+        or (no_use_booster and test_id in SKIPPED_PROVE_TESTS)
+        or (update_expected_output)
+    ):
+        pytest.skip()
 
     if bug_report is not None:
         server_end_to_end._populate_bug_report(bug_report)
