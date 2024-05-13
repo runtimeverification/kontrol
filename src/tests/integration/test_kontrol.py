@@ -42,7 +42,7 @@ def foundry_project(foundry_root_dir: Path | None, tmp_path_factory: TempPathFac
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
             init_project(project_root=foundry_root, skip_forge=False)
-            copy_tree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'src'))
+            copy_tree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'))
 
             foundry_kompile(
                 BuildOptions({}),
@@ -74,7 +74,7 @@ def test_kontrol_end_to_end(
             {
                 'tests': [(test_id, None)],
                 'bug_report': bug_report,
-                'break_on_calls': True,
+                'break_on_calls': False,
                 'use_gas': False,
                 'port': server.port,
             }

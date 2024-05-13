@@ -172,7 +172,7 @@ jobs:
       - name: 'Run end-to-end tests'
         run: |
           TEST_ARGS='--numprocesses=8 -vv -k "test_kontrol_end_to_end"'
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov_integration TEST_ARGS="${TEST_ARGS}"
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
         run: |
