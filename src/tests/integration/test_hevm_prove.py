@@ -4,40 +4,22 @@ import sys
 from typing import TYPE_CHECKING
 
 import pytest
-from pyk.proof import APRProof
-from pyk.proof.reachability import APRFailureInfo
 from pyk.utils import single
 
 from kontrol.prove import ProveOptions, foundry_prove
+
+from .utils import assert_fail, assert_pass
 
 if TYPE_CHECKING:
     from typing import Final
 
     from pyk.kore.rpc import KoreServer
-    from pyk.proof.proof import Proof
     from pyk.utils import BugReport
 
     from kontrol.foundry import Foundry
 
 
 sys.setrecursionlimit(10**7)
-
-
-def assert_pass(test: str, proof: Proof) -> None:
-    if not proof.passed:
-        if isinstance(proof, APRProof):
-            assert proof.failure_info
-            assert isinstance(proof.failure_info, APRFailureInfo)
-            pytest.fail('\n'.join(proof.failure_info.print()))
-        else:
-            pytest.fail()
-
-
-def assert_fail(test: str, proof: Proof) -> None:
-    assert not proof.passed
-    if isinstance(proof, APRProof):
-        assert proof.failure_info
-
 
 ALL_HEVM_TESTS_PASSING: Final = (
     'HevmTests.prove_require_assert_true',

@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING
 import pytest
 from pyk.proof import APRProof
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRFailureInfo
 from pyk.utils import single
 
 from kontrol.foundry import (
@@ -34,7 +33,7 @@ from kontrol.foundry import (
 )
 from kontrol.prove import ProveOptions, foundry_prove
 
-from .utils import TEST_DATA_DIR, assert_or_update_show_output
+from .utils import TEST_DATA_DIR, assert_fail, assert_or_update_show_output, assert_pass
 
 if TYPE_CHECKING:
     from typing import Final
@@ -526,22 +525,6 @@ def test_foundry_remove_node(
         ),
     )
     assert_pass(test, single(prove_res))
-
-
-def assert_pass(test: str, proof: Proof) -> None:
-    if not proof.passed:
-        if isinstance(proof, APRProof):
-            assert proof.failure_info
-            assert isinstance(proof.failure_info, APRFailureInfo)
-            pytest.fail('\n'.join(proof.failure_info.print()))
-        else:
-            pytest.fail()
-
-
-def assert_fail(test: str, proof: Proof) -> None:
-    assert not proof.passed
-    if isinstance(proof, APRProof):
-        assert proof.failure_info
 
 
 def test_foundry_resume_proof(

@@ -5,7 +5,7 @@ import logging
 import sys
 from argparse import ArgumentParser
 from collections.abc import Iterable
-from os import chdir, getcwd
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
@@ -51,18 +51,17 @@ from .foundry import (
     foundry_step_node,
     foundry_to_dot,
     foundry_unrefute_node,
+    init_project,
     read_deployment_state,
 )
 from .hevm import Hevm
 from .kompile import BuildOptions, foundry_kompile
 from .prove import ProveOptions, foundry_prove, parse_test_version_tuple
 from .solc_to_k import SolcToKOptions, solc_compile, solc_to_k
-from .utils import empty_lemmas_file_contents, kontrol_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from argparse import Namespace
     from collections.abc import Callable
-    from pathlib import Path
     from typing import Any, Final, TypeVar
 
     from pyk.cterm import CTerm
@@ -383,35 +382,20 @@ def exec_clean(options: CleanOptions) -> None:
     run_process(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)
 
 
-class InitOptions(FoundryOptions, LoggingOptions):
+class InitOptions(LoggingOptions):
+    project_root: Path
     skip_forge: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
+            'project_root': Path.cwd(),
             'skip_forge': False,
         }
 
 
 def exec_init(options: InitOptions) -> None:
-    """
-    Wrapper around forge init that adds files required for kontrol compatibility.
-
-    TODO: --root does not work for forge install, so we're temporary using `chdir`.
-    """
-
-    if not options.skip_forge:
-        run_process(['forge', 'init', str(options.foundry_root)], logger=_LOGGER)
-
-    write_to_file(options.foundry_root / 'lemmas.k', empty_lemmas_file_contents())
-    write_to_file(options.foundry_root / 'KONTROL.md', kontrol_file_contents())
-    cwd = getcwd()
-    chdir(options.foundry_root)
-    run_process(
-        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
-        logger=_LOGGER,
-    )
-    chdir(cwd)
+    init_project(project_root=options.project_root, skip_forge=options.skip_forge)
 
 
 # Helpers
@@ -862,9 +846,16 @@ def _create_argument_parser() -> ArgumentParser:
         help='Create a new Forge project compatible with Kontrol',
         parents=[
             kontrol_cli_args.logging_args,
-            kontrol_cli_args.foundry_args,
         ],
     )
+    init.add_argument(
+        dest='project_root',
+        nargs='?',
+        default=None,
+        type=Path,
+        help='Name of the project to be initialized. If missing, the current directory is used.',
+    )
+
     init.add_argument(
         '--skip-forge',
         dest='skip_forge',

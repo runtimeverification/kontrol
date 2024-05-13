@@ -116,7 +116,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS='--numprocesses=8 -vv -k "not test_kontrol_cse and not test_foundry_minimize_proof"'
+          TEST_ARGS='--numprocesses=8 -vv -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)"'
           [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
@@ -128,10 +128,6 @@ jobs:
     needs: code-quality-checks
     name: 'CSE Tests'
     runs-on: [self-hosted, linux, normal, fast]
-    strategy:
-      fail-fast: false
-      matrix:
-        backend: ['booster']
     timeout-minutes: 120
     steps:
       - name: 'Check out code'
@@ -149,6 +145,33 @@ jobs:
       - name: 'Run CSE and Minimize tests'
         run: |
           TEST_ARGS='--numprocesses=8 -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
+      - name: 'Tear down Docker'
+        if: always()
+        run: |
+          docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
+
+  end-to-end-tests:
+    needs: code-quality-checks
+    name: 'End to End Sanity Tests'
+    runs-on: [self-hosted, linux, normal, fast]
+    timeout-minutes: 25
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 'Set up Docker'
+        uses: ./.github/actions/with-docker
+        with:
+          container-name: kontrol-ci-integration-${{ github.sha }}
+      - name: 'Build KEVM'
+        run: |
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'poetry install'
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
+      - name: 'Run end-to-end tests'
+        run: |
+          TEST_ARGS='--numprocesses=8 -vv -k "test_kontrol_end_to_end"'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
         if: always()
