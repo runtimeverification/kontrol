@@ -38,6 +38,7 @@ from . import VERSION
 from .cli import FoundryOptions, FoundryTestOptions, RpcOptions
 from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
+from .utils import empty_lemmas_file_contents, kontrol_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -1301,3 +1302,24 @@ def foundry_node_printer(
     if type(proof) is APRProof:
         return FoundryAPRNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
+
+
+def init_project(project_root: Path, *, skip_forge: bool) -> None:
+    """
+    Wrapper around `forge init` that creates new Foundry projects compatible with Kontrol.
+
+    :param skip_forge: Skip the `forge init` process, if there already exists a Foundry project.
+    :param project_root: Name of the new project that is created.
+    """
+
+    if not skip_forge:
+        run_process(['forge', 'init', str(project_root), '--no-git'], logger=_LOGGER)
+
+    root = ensure_dir_path(project_root)
+    write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
+    write_to_file(root / 'KONTROL.md', kontrol_file_contents())
+    run_process(
+        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+        logger=_LOGGER,
+        cwd=root,
+    )
