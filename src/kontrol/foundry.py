@@ -9,7 +9,7 @@ import sys
 import traceback
 import xml.etree.ElementTree as Et
 from functools import cached_property
-from os import chdir, listdir
+from os import listdir
 from pathlib import Path
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
@@ -1310,20 +1310,16 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
 
     :param skip_forge: Skip the `forge init` process, if there already exists a Foundry project.
     :param project_root: Name of the new project that is created.
-    TODO: --root does not work for forge install, so we're temporary using `chdir`.
     """
 
     if not skip_forge:
         run_process(['forge', 'init', str(project_root), '--no-git'], logger=_LOGGER)
 
     root = ensure_dir_path(project_root)
-    cwd = Path.cwd()
-    chdir(root)
-    write_to_file(Path('lemmas.k'), empty_lemmas_file_contents())
-    write_to_file(Path('KONTROL.md'), kontrol_file_contents())
-
+    write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
+    write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     run_process(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,
+        cwd=root,
     )
-    chdir(cwd)
