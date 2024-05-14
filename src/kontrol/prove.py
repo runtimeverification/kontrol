@@ -4,6 +4,7 @@ import logging
 import time
 from abc import abstractmethod
 from copy import copy
+from enum import Enum
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
@@ -96,10 +97,16 @@ class ProveOptions(
         }
 
 
+class ConfigType(Enum):
+    TEST_CONFIG = 'TEST_CONFIG'
+    SUMMARY_CONFIG = 'SUMMARY_CONFIG'
+
+
 def foundry_prove(
     options: ProveOptions,
     foundry: Foundry,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    config_type: ConfigType = ConfigType.TEST_CONFIG,
 ) -> list[APRProof]:
     if options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
@@ -144,7 +151,13 @@ def foundry_prove(
                 _LOGGER.info(f'For test {test.name}, found external calls: {test_version_tuples}')
                 new_prove_options = copy(options)
                 new_prove_options.tests = test_version_tuples
-                summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, deployment_state_entries))
+                new_prove_options.run_constructor = False
+                summary_ids.extend(
+                    p.id
+                    for p in foundry_prove(
+                        new_prove_options, foundry, deployment_state_entries, config_type=ConfigType.SUMMARY_CONFIG
+                    )
+                )
 
     test_suite = collect_tests(foundry, options.tests, reinit=options.reinit)
     test_names = [test.name for test in test_suite]
@@ -173,6 +186,7 @@ def foundry_prove(
             options=options,
             summary_ids=(summary_ids if include_summaries else []),
             deployment_state_entries=deployment_state_entries,
+            config_type=config_type,
         )
 
     if options.run_constructor:
@@ -328,6 +342,7 @@ def _run_cfg_group(
     foundry: Foundry,
     options: ProveOptions,
     summary_ids: Iterable[str],
+    config_type: ConfigType,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
@@ -403,6 +418,7 @@ def _run_cfg_group(
                     summary_ids=summary_ids,
                     active_symbolik=options.with_non_general_state,
                     hevm=options.hevm,
+                    config_type=config_type,
                     trace_options=TraceOptions(
                         {
                             'active_tracing': options.active_tracing,
@@ -477,6 +493,7 @@ def method_to_apr_proof(
     test: FoundryTest,
     foundry: Foundry,
     kcfg_explore: KCFGExplore,
+    config_type: ConfigType,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     use_gas: bool = False,
@@ -506,6 +523,7 @@ def method_to_apr_proof(
         active_symbolik=active_symbolik,
         hevm=hevm,
         trace_options=trace_options,
+        config_type=config_type,
     )
 
     apr_proof = APRProof(
@@ -541,6 +559,7 @@ def _method_to_initialized_cfg(
     foundry: Foundry,
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
+    config_type: ConfigType,
     *,
     setup_proof: APRProof | None = None,
     use_gas: bool = False,
@@ -560,8 +579,9 @@ def _method_to_initialized_cfg(
         use_gas,
         deployment_state_entries,
         active_symbolik,
-        hevm,
-        trace_options,
+        config_type=config_type,
+        hevm=hevm,
+        trace_options=trace_options,
     )
 
     for node_id in new_node_ids:
@@ -593,6 +613,7 @@ def _method_to_cfg(
     use_gas: bool,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None,
     active_symbolik: bool,
+    config_type: ConfigType,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int]:
@@ -612,13 +633,14 @@ def _method_to_cfg(
         program=program,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
-        is_test=method.is_test,
-        is_setup=method.is_setup,
+        #          is_test=method.is_test,
+        #          is_setup=method.is_setup,
         calldata=calldata,
         callvalue=callvalue,
-        is_constructor=isinstance(method, Contract.Constructor),
+        #          is_constructor=isinstance(method, Contract.Constructor),
         active_symbolik=active_symbolik,
         trace_options=trace_options,
+        config_type=config_type,
     )
     new_node_ids = []
 
@@ -657,7 +679,13 @@ def _method_to_cfg(
         init_node_id = init_node.id
 
     final_cterm = _final_cterm(
-        empty_config, program, failing=method.is_testfail, is_test=method.is_test, is_setup=method.is_setup, hevm=hevm
+        empty_config,
+        program,
+        failing=method.is_testfail,
+        config_type=(ConfigType.TEST_CONFIG if type(contract) is Contract.Method else ConfigType.SUMMARY_CONFIG),
+        #          is_test=method.is_test,
+        #          is_setup=method.is_setup,
+        hevm=hevm,
     )
     target_node = cfg.create_node(final_cterm)
 
@@ -772,10 +800,11 @@ def _init_cterm(
     empty_config: KInner,
     program: KInner,
     use_gas: bool,
-    is_test: bool,
-    is_setup: bool,
+    config_type: ConfigType,
+    #      is_test: bool,
+    #      is_setup: bool,
     active_symbolik: bool,
-    is_constructor: bool,
+    #      is_constructor: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -822,7 +851,7 @@ def _init_cterm(
         'TRACEDATA_CELL': KApply('.List'),
     }
 
-    if is_test or is_setup or is_constructor or active_symbolik:
+    if config_type == ConfigType.TEST_CONFIG or active_symbolik:
         init_account_list = _create_initial_account_list(program, deployment_state_entries)
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
@@ -871,7 +900,7 @@ def _init_cterm(
         )
 
     # The calling contract is assumed to be in the present accounts for non-tests
-    if not (is_test or is_setup or is_constructor or active_symbolik):
+    if not (config_type == ConfigType.TEST_CONFIG or active_symbolik):
         init_cterm.add_constraint(
             mlEqualsTrue(
                 KApply(
@@ -910,16 +939,23 @@ def _create_initial_account_list(
 def _final_cterm(
     empty_config: KInner,
     program: KInner,
+    config_type: ConfigType,
     *,
     failing: bool,
-    is_test: bool = True,
-    is_setup: bool = False,
+#      is_test: bool = True,
+#      is_setup: bool = False,
     hevm: bool = False,
 ) -> CTerm:
-    final_term = _final_term(empty_config, program, is_test=is_test, is_setup=is_setup)
+    final_term = _final_term(
+        empty_config,
+        program,
+        config_type=config_type,
+        #          is_test=is_test,
+        #          is_setup=is_setup
+    )
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     final_cterm = CTerm.from_kast(final_term)
-    if is_test:
+    if config_type == ConfigType.TEST_CONFIG:
         if not hevm:
             foundry_success = Foundry.success(
                 KVariable('STATUSCODE_FINAL'),
@@ -949,7 +985,13 @@ def _final_cterm(
     return final_cterm
 
 
-def _final_term(empty_config: KInner, program: KInner, is_test: bool, is_setup: bool) -> KInner:
+def _final_term(
+    empty_config: KInner,
+    program: KInner,
+    config_type: ConfigType,
+    #      is_test: bool,
+    #      is_setup: bool
+) -> KInner:
     post_account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
         KVariable('ACCT_BALANCE_FINAL'),
@@ -972,7 +1014,7 @@ def _final_term(empty_config: KInner, program: KInner, is_test: bool, is_setup: 
         'STORAGESLOTSET_CELL': KVariable('STORAGESLOTSET_FINAL'),
     }
 
-    if is_test or is_setup:
+    if config_type == ConfigType.TEST_CONFIG:
         final_subst_test = {
             'ID_CELL': Foundry.address_TEST_CONTRACT(),
             'ACCOUNTS_CELL': KEVM.accounts(

@@ -7,9 +7,10 @@ import "kontrol-cheatcodes/KontrolCheats.sol";
 contract Counter {
     uint256 public number;
 
-    function setNumber(uint256 newNumber) public {
-        number = newNumber;
+    constructor() {
+        number = 1234;
     }
+
 
     function increment() public {
         number++;
@@ -18,24 +19,17 @@ contract Counter {
 
 contract CounterTest is Test, KontrolCheats {
     Counter public counter;
-    
-    // function setUp() public {
-    //     counter = new Counter();
-    //     counter.setNumber(0);
-    // }
 
     function testIncrement() public {
         counter = new Counter();
-        counter.setNumber(0);
+
         counter.increment();
-        assertEq(counter.number(), 1);
+        counter.increment();
+        counter.increment();
+        counter.increment();
+        counter.increment();
+
+        assertEq(counter.number(), 1239);
     }
 
-    function testSetNumber(uint256 x) public {
-        //setUp();
-        counter = new Counter();
-        counter.setNumber(0);
-        counter.setNumber(x);
-        assertEq(counter.number(), x);
-    }
 }
