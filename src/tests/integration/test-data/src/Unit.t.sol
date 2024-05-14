@@ -63,6 +63,11 @@ contract UnitTest is Test {
         assertEq(int256(1), int256(0), err);
     }
 
+    function test_assertEq_error_string() public {
+        vm.expectRevert("assertion failed: 100 != 50");
+        assertEq(uint256(100), 50);
+    }
+
     function test_assertNotEq() public pure {
         assertNotEq(uint256(11), 100);
     }
