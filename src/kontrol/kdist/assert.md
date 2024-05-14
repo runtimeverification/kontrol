@@ -97,12 +97,26 @@ Capturing cheat code calls
 
     rule [cheatcode.call.assertGe]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_ge #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
-      requires SELECTOR ==Int selector ("assertGe(uint256,uint256)")
+      requires SELECTOR ==Int selector ("assertGe(int256,int256)")
+        orBool SELECTOR ==Int selector ("assertGe(uint256,uint256)")
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertGe.err]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_ge #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
+      requires SELECTOR ==Int selector ("assertGe(int256,int256,string)")
+        orBool SELECTOR ==Int selector ("assertGe(uint256,uint256,string)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertGt]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_gt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
-      requires SELECTOR ==Int selector ("assertGt(uint256,uint256)")
+      requires SELECTOR ==Int selector ("assertGt(int256,int256)")
+        orBool SELECTOR ==Int selector ("assertGt(uint256,uint256)")
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertGt.err]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_gt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
+      requires SELECTOR ==Int selector ("assertGt(int256,int256,string)")
+        orBool SELECTOR ==Int selector ("assertGt(uint256,uint256,string)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertLe]:
@@ -112,7 +126,7 @@ Capturing cheat code calls
     [preserves-definedness]
 
     rule [cheatcode.call.assertLe.err]:
-         <k> #cheatcode_call SELECTOR ARGS => #assert_lt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 64, #asWord(#range(ARGS, 32, 32))) ... </k>
+         <k> #cheatcode_call SELECTOR ARGS => #assert_le #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
       requires SELECTOR ==Int selector ("assertLe(int256,int256,string)")
         orBool SELECTOR ==Int selector ("assertLe(uint256,uint256,string)")
     [preserves-definedness]
@@ -124,7 +138,7 @@ Capturing cheat code calls
     [preserves-definedness]
 
     rule [cheatcode.call.assertLt.err]:
-         <k> #cheatcode_call SELECTOR ARGS => #assert_lt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 64, #asWord(#range(ARGS, 32, 32))) ... </k>
+         <k> #cheatcode_call SELECTOR ARGS => #assert_lt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
       requires SELECTOR ==Int selector ("assertLt(int256,int256,string)")
         orBool SELECTOR ==Int selector ("assertLt(uint256,uint256,string)")
     [preserves-definedness]
@@ -152,6 +166,14 @@ Function selectors
     rule selector ("assertFalse(bool,string)"          ) => 2074101769
 
     rule selector ( "assertGe(uint256,uint256)"        ) => 2832519641
+    rule selector ( "assertGe(uint256,uint256,string)" ) => 3797041856
+    rule selector ( "assertGe(int256,int256)"          ) => 170964849
+    rule selector ( "assertGe(int256,int256,string)"   ) => 2822973661
+
+    rule selector ( "assertGt(uint256,uint256)"        ) => 3674733778
+    rule selector ( "assertGt(uint256,uint256,string)" ) => 3651388626
+    rule selector ( "assertGt(int256,int256)"          ) => 1513499973
+    rule selector ( "assertGt(int256,int256,string)"   ) => 4174592923
 
     rule selector ( "assertLe(uint256,uint256)"        ) => 2221339669
     rule selector ( "assertLe(uint256,uint256,string)" ) => 3514649357
@@ -163,7 +185,6 @@ Function selectors
     rule selector ( "assertLt(int256,int256)"          ) => 1049706624
     rule selector ( "assertLt(int256,int256,string)"   ) => 2683646435
 
-    rule selector ( "assertGt(uint256,uint256)"        ) => 3674733778
     rule selector ( "assertNotEq(address,address)"     ) => 2972587668
 
 ```

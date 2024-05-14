@@ -90,6 +90,12 @@ contract UnitTest is Test {
         assertNotEq(a, b);
     }
 
+    function test_assertGt_assertGe(int256 a, int256 b) public pure {
+        vm.assume(a > b);
+        assertGt(a, b);
+        assertGe(a, b);
+    }
+
     function test_assertGt_assertGe(uint256 a, uint256 b) public pure {
         vm.assume(a > b);
         assertGt(a, b);
