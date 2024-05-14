@@ -80,6 +80,16 @@ Capturing cheat code calls
       requires SELECTOR ==Int selector ( "assertTrue(bool,string)" )
     [preserves-definedness]
 
+    rule [cheatcode.call.assertFalse]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) bool2Word(false) String2Bytes("assertion failed") ... </k>
+      requires SELECTOR ==Int selector ( "assertFalse(bool)" )
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertFalse.err]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) bool2Word(false) #range(ARGS, 64, #asWord(#range(ARGS, 32, 32))) ... </k>
+      requires SELECTOR ==Int selector ( "assertFalse(bool,string)" )
+    [preserves-definedness]
+
     rule [cheatcode.call.assertNotEq]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_not_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
       requires SELECTOR ==Int selector ("assertNotEq(address,address)")
@@ -123,6 +133,9 @@ Function selectors
 
     rule selector ( "assertTrue(bool)"                 ) => 211801473
     rule selector ( "assertTrue(bool,string)"          ) => 2739854339
+
+    rule selector ("assertFalse(bool)"                 ) => 2778212485
+    rule selector ("assertFalse(bool,string)"          ) => 2074101769
 
     rule selector ( "assertGe(uint256,uint256)"        ) => 2832519641
     rule selector ( "assertLe(uint256,uint256)"        ) => 2221339669

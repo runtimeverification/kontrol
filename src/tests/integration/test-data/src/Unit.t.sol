@@ -74,6 +74,17 @@ contract UnitTest is Test {
         assertTrue(false, err);
     }
 
+    function test_assertFalse(bool value) public pure {
+        vm.assume(value == false);
+        assertFalse(value);
+    }
+
+    function test_assertFalse_err() public {
+        string memory err = "throw test";
+        vm.expectRevert(bytes(err));
+        assertFalse(true, err);
+    }
+
     function test_assertNotEq(address a, address b) public pure {
         vm.assume(a != b);
         assertNotEq(a, b);
