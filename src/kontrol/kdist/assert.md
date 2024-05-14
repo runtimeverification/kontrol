@@ -97,50 +97,42 @@ Capturing cheat code calls
 
     rule [cheatcode.call.assertGe]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_ge #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
-      requires SELECTOR ==Int selector ("assertGe(int256,int256)")
-        orBool SELECTOR ==Int selector ("assertGe(uint256,uint256)")
+      requires SELECTOR ==Int selector ("assertGe(uint256,uint256)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertGe.err]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_ge #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
-      requires SELECTOR ==Int selector ("assertGe(int256,int256,string)")
-        orBool SELECTOR ==Int selector ("assertGe(uint256,uint256,string)")
+      requires SELECTOR ==Int selector ("assertGe(uint256,uint256,string)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertGt]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_gt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
-      requires SELECTOR ==Int selector ("assertGt(int256,int256)")
-        orBool SELECTOR ==Int selector ("assertGt(uint256,uint256)")
+      requires SELECTOR ==Int selector ("assertGt(uint256,uint256)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertGt.err]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_gt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
-      requires SELECTOR ==Int selector ("assertGt(int256,int256,string)")
-        orBool SELECTOR ==Int selector ("assertGt(uint256,uint256,string)")
+      requires SELECTOR ==Int selector ("assertGt(uint256,uint256,string)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertLe]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_le #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
-      requires SELECTOR ==Int selector ("assertLe(int256,int256)")
-        orBool SELECTOR ==Int selector ("assertLe(uint256,uint256)")
+      requires SELECTOR ==Int selector ("assertLe(uint256,uint256)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertLe.err]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_le #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
-      requires SELECTOR ==Int selector ("assertLe(int256,int256,string)")
-        orBool SELECTOR ==Int selector ("assertLe(uint256,uint256,string)")
+      requires SELECTOR ==Int selector ("assertLe(uint256,uint256,string)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertLt]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_lt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
-      requires SELECTOR ==Int selector ("assertLt(int256,int256)")
-        orBool SELECTOR ==Int selector ("assertLt(uint256,uint256)")
+      requires SELECTOR ==Int selector ("assertLt(uint256,uint256)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertLt.err]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_lt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
-      requires SELECTOR ==Int selector ("assertLt(int256,int256,string)")
-        orBool SELECTOR ==Int selector ("assertLt(uint256,uint256,string)")
+      requires SELECTOR ==Int selector ("assertLt(uint256,uint256,string)")
     [preserves-definedness]
 ```
 

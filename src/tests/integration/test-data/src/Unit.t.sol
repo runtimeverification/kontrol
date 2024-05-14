@@ -113,4 +113,10 @@ contract UnitTest is Test {
         assertLt(a, b);
         assertLe(a, b);
     }
+    function test_assertLt_assertLe_int_concrete() public pure {
+        int256 a = -11;
+        int256 b = 1;
+        assertLt(a, b);
+        assertLe(a, b);
+    }
 }
