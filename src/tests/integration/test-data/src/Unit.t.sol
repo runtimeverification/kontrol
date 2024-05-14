@@ -63,6 +63,65 @@ contract UnitTest is Test {
         assertEq(int256(1), int256(0), err);
     }
 
+    function test_assertNotEq() public pure {
+        assertNotEq(uint256(11), 100);
+    }
+
+    function test_assertNotEq(address a, address b) public pure {
+        vm.assume(a != b);
+        assertNotEq(a, b);
+    }
+
+    function test_assertNotEq(bool a, bool b) public pure {
+        vm.assume(a != b);
+        assertNotEq(a, b);
+    }
+
+    function test_assertNotEq(bytes32 a, bytes32 b) public pure {
+        vm.assume(a != b);
+        assertNotEq(a, b);
+    }
+
+    function test_assertNotEq(int256 a, int256 b) public pure {
+        vm.assume(a != b);
+        assertNotEq(a, b);
+    }
+
+    function test_assertNotEq_err() public {
+        string memory expected = "throw test: 121 == 121";
+        string memory err = "throw test";
+        vm.expectRevert(bytes(expected));
+        assertNotEq(uint256(121), 121, err);
+    }
+
+    function test_assertNotEq_address_err() public {
+        string memory expected = "throw test: 0x0000000000000000000000000000000000000001 == 0x0000000000000000000000000000000000000001";
+        string memory err = "throw test";
+        vm.expectRevert(bytes(expected));
+        assertNotEq(address(1), address(1), err);
+    }
+
+    function test_assertNotEq_bool_err() public {
+        string memory expected = "throw test: false == false";
+        string memory err = "throw test";
+        vm.expectRevert(bytes(expected));
+        assertNotEq(false, false, err);
+    }
+
+    function test_assertNotEq_bytes32_err() public {
+        string memory expected = "throw test: 0x0000000000000000000000000000000000000000000000000000000000000000 == 0x0000000000000000000000000000000000000000000000000000000000000000";
+        string memory err = "throw test";
+        vm.expectRevert(bytes(expected));
+        assertNotEq(bytes32(0), bytes32(0), err);
+    }
+
+    function test_assertNotEq_int256_err() public {
+        string memory expected = "throw test: 0 == 0";
+        string memory err = "throw test";
+        vm.expectRevert(bytes(expected));
+        assertNotEq(int256(0), int256(0), err);
+    }
+
     function test_assertTrue(bool value) public pure {
         vm.assume(value == true);
         assertTrue(value);
@@ -83,11 +142,6 @@ contract UnitTest is Test {
         string memory err = "throw test";
         vm.expectRevert(bytes(err));
         assertFalse(true, err);
-    }
-
-    function test_assertNotEq(address a, address b) public pure {
-        vm.assume(a != b);
-        assertNotEq(a, b);
     }
 
     function test_assertGt_assertGe(int256 a, int256 b) public pure {

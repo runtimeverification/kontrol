@@ -62,12 +62,30 @@ Capturing cheat code calls
     [preserves-definedness]
 
     rule [cheatcode.call.assertEq.err]:
-         <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 64, #asWord(#range(ARGS, 32, 32))) ... </k>
+         <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
       requires SELECTOR ==Int selector ( "assertEq(address,address,string)" )
         orBool SELECTOR ==Int selector ( "assertEq(bool,bool,string)"       )
         orBool SELECTOR ==Int selector ( "assertEq(bytes32,bytes32,string)" )
         orBool SELECTOR ==Int selector ( "assertEq(int256,int256,string)"   )
         orBool SELECTOR ==Int selector ( "assertEq(uint256,uint256,string)" )
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertNotEq]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_not_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
+      requires SELECTOR ==Int selector ( "assertNotEq(address,address)" )
+        orBool SELECTOR ==Int selector ( "assertNotEq(bool,bool)"       )
+        orBool SELECTOR ==Int selector ( "assertNotEq(bytes32,bytes32)" )
+        orBool SELECTOR ==Int selector ( "assertNotEq(int256,int256)"   )
+        orBool SELECTOR ==Int selector ( "assertNotEq(uint256,uint256)" )
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertNotEq.err]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_not_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
+      requires SELECTOR ==Int selector ( "assertNotEq(address,address,string)" )
+        orBool SELECTOR ==Int selector ( "assertNotEq(bool,bool,string)"       )
+        orBool SELECTOR ==Int selector ( "assertNotEq(bytes32,bytes32,string)" )
+        orBool SELECTOR ==Int selector ( "assertNotEq(int256,int256,string)"   )
+        orBool SELECTOR ==Int selector ( "assertNotEq(uint256,uint256,string)" )
     [preserves-definedness]
 
     rule [cheatcode.call.assertTrue]:
@@ -88,11 +106,6 @@ Capturing cheat code calls
     rule [cheatcode.call.assertFalse.err]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) bool2Word(false) #range(ARGS, 64, #asWord(#range(ARGS, 32, 32))) ... </k>
       requires SELECTOR ==Int selector ( "assertFalse(bool,string)" )
-    [preserves-definedness]
-
-    rule [cheatcode.call.assertNotEq]:
-         <k> #cheatcode_call SELECTOR ARGS => #assert_not_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
-      requires SELECTOR ==Int selector ("assertNotEq(address,address)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertGe]:
@@ -140,44 +153,53 @@ Function selectors
 ------------------
 
 ```k
-    rule selector ( "assertEq(address,address)"        ) => 1364419062
-    rule selector ( "assertEq(address,address,string)" ) => 791112145
-    rule selector ( "assertEq(bool,bool)"              ) => 4160631927
-    rule selector ( "assertEq(bool,bool,string)"       ) => 1303486078
-    rule selector ( "assertEq(bytes32,bytes32)"        ) => 2089076379
-    rule selector ( "assertEq(bytes32,bytes32,string)" ) => 3254394576
-    rule selector ( "assertEq(int256,int256)"          ) => 4269076571
-    rule selector ( "assertEq(int256,int256,string)"   ) => 1900687123
-    rule selector ( "assertEq(uint256,uint256)"        ) => 2552851540
-    rule selector ( "assertEq(uint256,uint256,string)" ) => 2293517445
+    rule selector ( "assertEq(address,address)"           ) => 1364419062
+    rule selector ( "assertEq(address,address,string)"    ) => 791112145
+    rule selector ( "assertEq(bool,bool)"                 ) => 4160631927
+    rule selector ( "assertEq(bool,bool,string)"          ) => 1303486078
+    rule selector ( "assertEq(bytes32,bytes32)"           ) => 2089076379
+    rule selector ( "assertEq(bytes32,bytes32,string)"    ) => 3254394576
+    rule selector ( "assertEq(int256,int256)"             ) => 4269076571
+    rule selector ( "assertEq(int256,int256,string)"      ) => 1900687123
+    rule selector ( "assertEq(uint256,uint256)"           ) => 2552851540
+    rule selector ( "assertEq(uint256,uint256,string)"    ) => 2293517445
 
-    rule selector ( "assertTrue(bool)"                 ) => 211801473
-    rule selector ( "assertTrue(bool,string)"          ) => 2739854339
+    rule selector ( "assertTrue(bool)"                    ) => 211801473
+    rule selector ( "assertTrue(bool,string)"             ) => 2739854339
 
-    rule selector ("assertFalse(bool)"                 ) => 2778212485
-    rule selector ("assertFalse(bool,string)"          ) => 2074101769
+    rule selector ("assertFalse(bool)"                    ) => 2778212485
+    rule selector ("assertFalse(bool,string)"             ) => 2074101769
 
-    rule selector ( "assertGe(uint256,uint256)"        ) => 2832519641
-    rule selector ( "assertGe(uint256,uint256,string)" ) => 3797041856
-    rule selector ( "assertGe(int256,int256)"          ) => 170964849
-    rule selector ( "assertGe(int256,int256,string)"   ) => 2822973661
+    rule selector ( "assertGe(uint256,uint256)"           ) => 2832519641
+    rule selector ( "assertGe(uint256,uint256,string)"    ) => 3797041856
+    rule selector ( "assertGe(int256,int256)"             ) => 170964849
+    rule selector ( "assertGe(int256,int256,string)"      ) => 2822973661
 
-    rule selector ( "assertGt(uint256,uint256)"        ) => 3674733778
-    rule selector ( "assertGt(uint256,uint256,string)" ) => 3651388626
-    rule selector ( "assertGt(int256,int256)"          ) => 1513499973
-    rule selector ( "assertGt(int256,int256,string)"   ) => 4174592923
+    rule selector ( "assertGt(uint256,uint256)"           ) => 3674733778
+    rule selector ( "assertGt(uint256,uint256,string)"    ) => 3651388626
+    rule selector ( "assertGt(int256,int256)"             ) => 1513499973
+    rule selector ( "assertGt(int256,int256,string)"      ) => 4174592923
 
-    rule selector ( "assertLe(uint256,uint256)"        ) => 2221339669
-    rule selector ( "assertLe(uint256,uint256,string)" ) => 3514649357
-    rule selector ( "assertLe(int256,int256)"          ) => 2516391246
-    rule selector ( "assertLe(int256,int256,string)"   ) => 1308518700
+    rule selector ( "assertLe(uint256,uint256)"           ) => 2221339669
+    rule selector ( "assertLe(uint256,uint256,string)"    ) => 3514649357
+    rule selector ( "assertLe(int256,int256)"             ) => 2516391246
+    rule selector ( "assertLe(int256,int256,string)"      ) => 1308518700
 
-    rule selector ( "assertLt(uint256,uint256)"        ) => 2972696581
-    rule selector ( "assertLt(uint256,uint256,string)" ) => 1708507445
-    rule selector ( "assertLt(int256,int256)"          ) => 1049706624
-    rule selector ( "assertLt(int256,int256,string)"   ) => 2683646435
+    rule selector ( "assertLt(uint256,uint256)"           ) => 2972696581
+    rule selector ( "assertLt(uint256,uint256,string)"    ) => 1708507445
+    rule selector ( "assertLt(int256,int256)"             ) => 1049706624
+    rule selector ( "assertLt(int256,int256,string)"      ) => 2683646435
 
-    rule selector ( "assertNotEq(address,address)"     ) => 2972587668
+    rule selector ( "assertNotEq(address,address)"        ) => 2972587668
+    rule selector ( "assertNotEq(address,address,string)" ) => 2272634257
+    rule selector ( "assertNotEq(bool,bool)"              ) => 594431334
+    rule selector ( "assertNotEq(bool,bool,string)"       ) => 277979745
+    rule selector ( "assertNotEq(bytes32,bytes32)"        ) => 2307818492
+    rule selector ( "assertNotEq(bytes32,bytes32,string)" ) => 2989698897
+    rule selector ( "assertNotEq(int256,int256)"          ) => 4106224867
+    rule selector ( "assertNotEq(int256,int256,string)"   ) => 1193592249
+    rule selector ( "assertNotEq(uint256,uint256)"        ) => 3079705376
+    rule selector ( "assertNotEq(uint256,uint256,string)" ) => 2566503869
 
 ```
 
