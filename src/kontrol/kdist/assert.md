@@ -107,12 +107,26 @@ Capturing cheat code calls
 
     rule [cheatcode.call.assertLe]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_le #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
-      requires SELECTOR ==Int selector ("assertLe(uint256,uint256)")
+      requires SELECTOR ==Int selector ("assertLe(int256,int256)")
+        orBool SELECTOR ==Int selector ("assertLe(uint256,uint256)")
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertLe.err]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_lt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 64, #asWord(#range(ARGS, 32, 32))) ... </k>
+      requires SELECTOR ==Int selector ("assertLe(int256,int256,string)")
+        orBool SELECTOR ==Int selector ("assertLe(uint256,uint256,string)")
     [preserves-definedness]
 
     rule [cheatcode.call.assertLt]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_lt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
-      requires SELECTOR ==Int selector ("assertLt(uint256,uint256)")
+      requires SELECTOR ==Int selector ("assertLt(int256,int256)")
+        orBool SELECTOR ==Int selector ("assertLt(uint256,uint256)")
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertLt.err]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_lt #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 64, #asWord(#range(ARGS, 32, 32))) ... </k>
+      requires SELECTOR ==Int selector ("assertLt(int256,int256,string)")
+        orBool SELECTOR ==Int selector ("assertLt(uint256,uint256,string)")
     [preserves-definedness]
 ```
 
@@ -138,10 +152,20 @@ Function selectors
     rule selector ("assertFalse(bool,string)"          ) => 2074101769
 
     rule selector ( "assertGe(uint256,uint256)"        ) => 2832519641
+
     rule selector ( "assertLe(uint256,uint256)"        ) => 2221339669
+    rule selector ( "assertLe(uint256,uint256,string)" ) => 3514649357
+    rule selector ( "assertLe(int256,int256)"          ) => 2516391246
+    rule selector ( "assertLe(int256,int256,string)"   ) => 1308518700
+
+    rule selector ( "assertLt(uint256,uint256)"        ) => 2972696581
+    rule selector ( "assertLt(uint256,uint256,string)" ) => 1708507445
+    rule selector ( "assertLt(int256,int256)"          ) => 1049706624
+    rule selector ( "assertLt(int256,int256,string)"   ) => 2683646435
+
     rule selector ( "assertGt(uint256,uint256)"        ) => 3674733778
     rule selector ( "assertNotEq(address,address)"     ) => 2972587668
-    rule selector ( "assertLt(uint256,uint256)"        ) => 2972696581
+
 ```
 
 ```k

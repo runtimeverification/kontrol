@@ -96,6 +96,12 @@ contract UnitTest is Test {
         assertGe(a, b);
     }
 
+    function test_assertLt_assertLe(int256 a, int256 b) public pure {
+        vm.assume(a < b);
+        assertLt(a, b);
+        assertLe(a, b);
+    }
+
     function test_assertLt_assertLe(uint256 a, uint256 b) public pure {
         vm.assume(a < b);
         assertLt(a, b);
