@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import pytest
 
 from kontrol.foundry import ShowOptions, foundry_show
-from kontrol.prove import ProveOptions, foundry_prove
+from kontrol.prove import ConfigType, ProveOptions, foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
@@ -57,6 +57,7 @@ def test_foundry_dependency_automated(
                 'workers': 2,
                 'port': server.port,
                 'tests': [(test_id, None)],
+                'config_type': ConfigType.SUMMARY_CONFIG,
             }
         ),
     )

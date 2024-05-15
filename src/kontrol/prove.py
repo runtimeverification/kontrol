@@ -75,6 +75,7 @@ class ProveOptions(
     hevm: bool
     minimize_proofs: bool
     max_frontier_parallel: int
+    config_type: ConfigType
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -94,6 +95,7 @@ class ProveOptions(
             'hevm': False,
             'minimize_proofs': False,
             'max_frontier_parallel': 1,
+            'config_type': ConfigType.TEST_CONFIG,
         }
 
 
@@ -106,7 +108,6 @@ def foundry_prove(
     options: ProveOptions,
     foundry: Foundry,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
-    config_type: ConfigType = ConfigType.TEST_CONFIG,
 ) -> list[APRProof]:
     if options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
@@ -152,12 +153,8 @@ def foundry_prove(
                 new_prove_options = copy(options)
                 new_prove_options.tests = test_version_tuples
                 new_prove_options.run_constructor = False
-                summary_ids.extend(
-                    p.id
-                    for p in foundry_prove(
-                        new_prove_options, foundry, deployment_state_entries, config_type=ConfigType.SUMMARY_CONFIG
-                    )
-                )
+                new_prove_options.config_type = ConfigType.SUMMARY_CONFIG
+                summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, deployment_state_entries))
 
     test_suite = collect_tests(foundry, options.tests, reinit=options.reinit)
     test_names = [test.name for test in test_suite]
@@ -186,7 +183,7 @@ def foundry_prove(
             options=options,
             summary_ids=(summary_ids if include_summaries else []),
             deployment_state_entries=deployment_state_entries,
-            config_type=config_type,
+            config_type=options.config_type,
         )
 
     if options.run_constructor:
@@ -682,7 +679,7 @@ def _method_to_cfg(
         empty_config,
         program,
         failing=method.is_testfail,
-        config_type=(ConfigType.TEST_CONFIG if type(contract) is Contract.Method else ConfigType.SUMMARY_CONFIG),
+        config_type=config_type,
         #          is_test=method.is_test,
         #          is_setup=method.is_setup,
         hevm=hevm,

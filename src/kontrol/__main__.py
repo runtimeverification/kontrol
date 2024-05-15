@@ -56,7 +56,7 @@ from .foundry import (
 )
 from .hevm import Hevm
 from .kompile import BuildOptions, foundry_kompile
-from .prove import ProveOptions, foundry_prove, parse_test_version_tuple
+from .prove import ConfigType, ProveOptions, foundry_prove, parse_test_version_tuple
 from .solc_to_k import SolcToKOptions, solc_compile, solc_to_k
 
 if TYPE_CHECKING:
@@ -551,6 +551,9 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         type=int,
         help='Maximum worker threads to use on a single proof to explore separate branches in parallel.',
+    )
+    prove_args.add_argument(
+        '--config-type', default=None, type=ConfigType, help='Config type', choices=list(ConfigType)
     )
     prove_args.add_argument(
         '--bmc-depth',
