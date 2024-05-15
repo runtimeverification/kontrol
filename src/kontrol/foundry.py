@@ -519,9 +519,11 @@ class Foundry:
         else:
             latest_test_version = self.latest_proof_version(test)
             effective_test_version = 0 if latest_test_version is None else latest_test_version
-            if user_specified_setup_version is not None and Proof.proof_data_exists(
-                f'{test}:{user_specified_setup_version}', self.proofs_dir
-            ) and method.up_to_date(self.digest_file):
+            if (
+                user_specified_setup_version is not None
+                and Proof.proof_data_exists(f'{test}:{user_specified_setup_version}', self.proofs_dir)
+                and method.up_to_date(self.digest_file)
+            ):
                 effective_test_version = user_specified_setup_version
             _LOGGER.info(f'Reusing version {effective_test_version} of setup proof')
 
