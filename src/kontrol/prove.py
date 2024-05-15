@@ -942,8 +942,8 @@ def _final_cterm(
     config_type: ConfigType,
     *,
     failing: bool,
-#      is_test: bool = True,
-#      is_setup: bool = False,
+    #      is_test: bool = True,
+    #      is_setup: bool = False,
     hevm: bool = False,
 ) -> CTerm:
     final_term = _final_term(
