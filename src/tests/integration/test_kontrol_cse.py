@@ -38,6 +38,9 @@ def test_foundry_dependency_automated(
     if no_use_booster:
         pytest.skip()
 
+    test_contract_name = test_id.split('.')[0]
+    config_type = ConfigType.TEST_CONFIG if test_contract_name.endswith('Test') else ConfigType.SUMMARY_CONFIG
+
     if test_id in SKIPPED_DEPENDENCY_TESTS:
         pytest.skip()
 
@@ -57,7 +60,7 @@ def test_foundry_dependency_automated(
                 'workers': 2,
                 'port': server.port,
                 'tests': [(test_id, None)],
-                'config_type': ConfigType.SUMMARY_CONFIG,
+                'config_type': config_type,
             }
         ),
     )
