@@ -932,7 +932,7 @@ The current implementation of the `mockCall` cheatcode has some limitations:
           ~> #etchAccountIfEmpty #asWord(#range(ARGS, 0, 32))
           ~> #setMockCall #asWord(#range(ARGS, 0, 32)) #range(ARGS, #asWord(#range(ARGS, 32, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32))) #range(ARGS, #asWord(#range(ARGS, 64, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 64, 32)), 32)))
          ...
-         </k> 
+         </k>
       requires SELECTOR ==Int selector ( "mockCall(address,bytes,bytes)" )
 ```
 
@@ -1039,6 +1039,7 @@ Utils
            <storage> STORAGE </storage>
            ...
          </account>
+         [preserves-definedness]
 ```
 
 - `#setStorage ACCTID LOC VALUE` sets a given value to a given location of an account.
@@ -1432,7 +1433,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
          </mockCalls>
 ```
 
-- `#execMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem`. In case the function did not end with `EVMC_SUCCESS` it will update the status code to `EVMC_SUCCESS`. 
+- `#execMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem`. In case the function did not end with `EVMC_SUCCESS` it will update the status code to `EVMC_SUCCESS`.
 
 ```k
     syntax KItem ::= "#execMockCall" Int Int Bytes [klabel(foundry_execMockCall)]
