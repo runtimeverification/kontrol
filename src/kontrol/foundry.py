@@ -503,11 +503,15 @@ class Foundry:
         if reinit:
             if user_specified_setup_version is None:
                 _LOGGER.info(
-                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is not specified.'
+                    f'Creating a new version of {test} because --reinit was specified and --setup-version is not specified.'
                 )
             elif not Proof.proof_data_exists(f'{test}:{user_specified_setup_version}', self.proofs_dir):
                 _LOGGER.info(
-                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is set to a non-existing version'
+                    f'Creating a new version of {test} because --reinit was specified and --setup-version is set to a non-existing version'
+                )
+            elif not method.up_to_date(self.digest_file):
+                _LOGGER.info(
+                    f'Creating a new version of {test} because --reinit was specified and --setup-version is set to a dirty version'
                 )
             else:
                 _LOGGER.info(f'Reusing version {user_specified_setup_version} of setup proof')
@@ -517,11 +521,11 @@ class Foundry:
             effective_test_version = 0 if latest_test_version is None else latest_test_version
             if user_specified_setup_version is not None and Proof.proof_data_exists(
                 f'{test}:{user_specified_setup_version}', self.proofs_dir
-            ):
+            ) and method.up_to_date(self.digest_file):
                 effective_test_version = user_specified_setup_version
             _LOGGER.info(f'Reusing version {effective_test_version} of setup proof')
 
-        return self.check_method_change(effective_test_version, test, method)
+        return effective_test_version
 
     def resolve_proof_version(
         self,
