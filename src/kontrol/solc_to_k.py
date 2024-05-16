@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import logging
-import pprint
 import re
 from dataclasses import dataclass
 from functools import cached_property
@@ -33,7 +32,6 @@ if TYPE_CHECKING:
     from pyk.kast.outer import KProductionItem, KSentence
 
 _LOGGER: Final = logging.getLogger(__name__)
-_PPRINT = pprint.PrettyPrinter(width=41, compact=True)
 
 
 class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
@@ -668,7 +666,6 @@ class Contract:
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
-    fields: tuple[StorageField, ...]
     constructor: Constructor | None
     PREFIX_CODE: Final = 'Z'
 
@@ -742,10 +739,6 @@ class Contract:
             _c = Contract.Constructor(empty_constructor, self._name, self.digest, self.storage_digest, self.sort_method)
             self.constructor = _c
 
-        self.fields = self.process_storage_fields()
-        # _PPRINT.pprint(contract_name)
-        # _PPRINT.pprint(self.fields)
-
     @cached_property
     def name_with_path(self) -> str:
         contract_path_without_filename = '%'.join(self.contract_path.split('/')[0:-1])
@@ -796,6 +789,28 @@ class Contract:
                 _srcmap[i] = (s, l, f, j, m)
 
         return _srcmap
+
+    @cached_property
+    def fields(self) -> tuple[StorageField, ...]:
+        storage_layout = self.contract_json.get('storageLayout', {})
+        storage = storage_layout.get('storage', [])
+        types = storage_layout.get('types', {})
+
+        fields_list: list[StorageField] = []
+        for field in storage:
+            try:
+                type_info = types.get(field['type'], {})
+                storage_field = StorageField(
+                    label=field['label'],
+                    data_type=type_info.get('label', field['type']),
+                    slot=int(field['slot']),
+                    offset=int(field['offset']),
+                )
+                fields_list.append(storage_field)
+            except (KeyError, ValueError) as e:
+                _LOGGER.error(f'Error processing field {field} in contract {self._name}: {e}')
+
+        return tuple(fields_list)
 
     @staticmethod
     def contract_to_module_name(c: str) -> str:
@@ -980,29 +995,6 @@ class Contract:
     @property
     def method_by_sig(self) -> dict[str, Contract.Method]:
         return {method.signature: method for method in self.methods}
-
-    def process_storage_fields(self) -> tuple[StorageField, ...]:
-        fields_list = []
-        storage_layout = self.contract_json.get('storageLayout', {})
-        storage = storage_layout.get('storage', [])
-        types = storage_layout.get('types', {})
-
-        for field in storage:
-            try:
-                label = field['label']
-                slot = int(field['slot'])
-                offset = int(field['offset'])
-                data_type = field['type']
-                type_info = types.get(data_type, {})
-                data_type_label = type_info.get('label', data_type)
-
-                storage_field = StorageField(label=label, data_type=data_type_label, slot=slot, offset=offset)
-                fields_list.append(storage_field)
-
-            except (KeyError, ValueError) as e:
-                _LOGGER.error(f'Error processing field {field} in contract {self._name}: {e}')
-
-        return tuple(fields_list)
 
 
 def solc_compile(contract_file: Path) -> dict[str, Any]:
