@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+import pprint
 import re
 from dataclasses import dataclass
 from functools import cached_property
@@ -19,7 +20,7 @@ from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.string import stringToken
-from pyk.utils import FrozenDict, hash_str, run_process, single
+from pyk.utils import hash_str, run_process, single
 
 from .cli import KGenOptions
 
@@ -32,6 +33,7 @@ if TYPE_CHECKING:
     from pyk.kast.outer import KProductionItem, KSentence
 
 _LOGGER: Final = logging.getLogger(__name__)
+_PPRINT = pprint.PrettyPrinter(width=41, compact=True)
 
 
 class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
@@ -327,6 +329,20 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
         except ValueError:
             _LOGGER.warning(f'Skipping invalid format {part} in {tag}')
     return natspecs
+
+
+@dataclass
+class StorageField:
+    label: str
+    data_type: str
+    slot: int
+    offset: int
+
+    def __init__(self, label: str, data_type: str, slot: int, offset: int) -> None:
+        self.label = label
+        self.data_type = data_type
+        self.slot = slot
+        self.offset = offset
 
 
 @dataclass
@@ -652,7 +668,7 @@ class Contract:
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
-    fields: FrozenDict
+    fields: tuple[StorageField, ...]
     constructor: Constructor | None
     PREFIX_CODE: Final = 'Z'
 
@@ -726,16 +742,9 @@ class Contract:
             _c = Contract.Constructor(empty_constructor, self._name, self.digest, self.storage_digest, self.sort_method)
             self.constructor = _c
 
-        self.fields = FrozenDict({})
-        if 'storageLayout' in self.contract_json and 'storage' in self.contract_json['storageLayout']:
-            _fields_list = [(_f['label'], int(_f['slot'])) for _f in self.contract_json['storageLayout']['storage']]
-            _fields = {}
-            for _l, _s in _fields_list:
-                if _l in _fields:
-                    _LOGGER.info(f'Found duplicate field access key on contract {self._name}: {_l}')
-                    continue
-                _fields[_l] = _s  # noqa: B909
-            self.fields = FrozenDict(_fields)
+        self.fields = self.process_storage_fields()
+        # _PPRINT.pprint(contract_name)
+        # _PPRINT.pprint(self.fields)
 
     @cached_property
     def name_with_path(self) -> str:
@@ -961,28 +970,8 @@ class Contract:
         return res if len(res) > 1 else []
 
     @property
-    def field_sentences(self) -> list[KSentence]:
-        prods: list[KSentence] = [self.subsort_field]
-        rules: list[KSentence] = []
-        for field, slot in self.fields.items():
-            klabel = KLabel(self.klabel_field.name + f'_{field}')
-            prods.append(
-                KProduction(self.sort_field, [KTerminal(field)], klabel=klabel, att=KAtt(entries=[Atts.SYMBOL('')]))
-            )
-            rule_lhs = KEVM.loc(KApply(KLabel('contract_access_field'), [KApply(self.klabel), KApply(klabel)]))
-            rule_rhs = intToken(slot)
-            rules.append(KRule(KRewrite(rule_lhs, rule_rhs)))
-        if len(prods) == 1 and not rules:
-            return []
-        return prods + rules
-
-    @property
     def sentences(self) -> list[KSentence]:
-        return (
-            [self.subsort, self.production, self.macro_bin_runtime, self.macro_init_bytecode]
-            + self.field_sentences
-            + self.method_sentences
-        )
+        return [self.subsort, self.production, self.macro_bin_runtime, self.macro_init_bytecode] + self.method_sentences
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -991,6 +980,29 @@ class Contract:
     @property
     def method_by_sig(self) -> dict[str, Contract.Method]:
         return {method.signature: method for method in self.methods}
+
+    def process_storage_fields(self) -> tuple[StorageField, ...]:
+        fields_list = []
+        storage_layout = self.contract_json.get('storageLayout', {})
+        storage = storage_layout.get('storage', [])
+        types = storage_layout.get('types', {})
+
+        for field in storage:
+            try:
+                label = field['label']
+                slot = int(field['slot'])
+                offset = int(field['offset'])
+                data_type = field['type']
+                type_info = types.get(data_type, {})
+                data_type_label = type_info.get('label', data_type)
+
+                storage_field = StorageField(label=label, data_type=data_type_label, slot=slot, offset=offset)
+                fields_list.append(storage_field)
+
+            except (KeyError, ValueError) as e:
+                _LOGGER.error(f'Error processing field {field} in contract {self._name}: {e}')
+
+        return tuple(fields_list)
 
 
 def solc_compile(contract_file: Path) -> dict[str, Any]:
