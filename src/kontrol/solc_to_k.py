@@ -785,25 +785,7 @@ class Contract:
 
     @cached_property
     def fields(self) -> tuple[StorageField, ...]:
-        storage_layout = self.contract_json.get('storageLayout', {})
-        storage = storage_layout.get('storage', [])
-        types = storage_layout.get('types', {})
-
-        fields_list: list[StorageField] = []
-        for field in storage:
-            try:
-                type_info = types.get(field['type'], {})
-                storage_field = StorageField(
-                    label=field['label'],
-                    data_type=type_info.get('label', field['type']),
-                    slot=int(field['slot']),
-                    offset=int(field['offset']),
-                )
-                fields_list.append(storage_field)
-            except (KeyError, ValueError) as e:
-                _LOGGER.error(f'Error processing field {field} in contract {self._name}: {e}')
-
-        return tuple(fields_list)
+        return process_storage_layout(self.contract_json.get('storageLayout', {}))
 
     @staticmethod
     def contract_to_module_name(c: str) -> str:
@@ -1292,3 +1274,24 @@ def find_function_calls(node: dict) -> list[str]:
 
     _find_function_calls(node)
     return function_calls
+
+
+def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
+    storage = storage_layout.get('storage', [])
+    types = storage_layout.get('types', {})
+
+    fields_list: list[StorageField] = []
+    for field in storage:
+        try:
+            type_info = types.get(field['type'], {})
+            storage_field = StorageField(
+                label=field['label'],
+                data_type=type_info.get('label', field['type']),
+                slot=int(field['slot']),
+                offset=int(field['offset']),
+            )
+            fields_list.append(storage_field)
+        except (KeyError, ValueError) as e:
+            _LOGGER.error(f'Error processing field {field}: {e}')
+
+    return tuple(fields_list)

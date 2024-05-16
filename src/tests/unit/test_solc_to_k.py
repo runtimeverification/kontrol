@@ -7,7 +7,15 @@ from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KVariable
 from pyk.prelude.kint import eqInt, intToken
 
-from kontrol.solc_to_k import Contract, Input, _range_predicates, find_function_calls, process_length_equals
+from kontrol.solc_to_k import (
+    Contract,
+    Input,
+    StorageField,
+    _range_predicates,
+    find_function_calls,
+    process_length_equals,
+    process_storage_layout,
+)
 
 from .utils import TEST_DATA_DIR
 
@@ -430,5 +438,61 @@ AST_DATA: list[tuple[str, dict, list[str]]] = [
 def test_find_function_calls(test_id: str, ast: dict, expected: list[str]) -> None:
     # When
     output = find_function_calls(ast)
+    # Then
+    assert output == expected
+
+
+LAYOUT_DATA: list[tuple[str, dict, tuple[StorageField, ...]]] = [
+    (
+        'static-types',
+        {
+            'storage': [
+                {
+                    'astId': 46782,
+                    'contract': 'src/Counter.sol:Counter',
+                    'label': 'x',
+                    'offset': 0,
+                    'slot': '0',
+                    'type': 't_bool',
+                },
+                {
+                    'astId': 46784,
+                    'contract': 'src/Counter.sol:Counter',
+                    'label': 'secondBoolean',
+                    'offset': 1,
+                    'slot': '0',
+                    'type': 't_bool',
+                },
+                {
+                    'astId': 46786,
+                    'contract': 'src/Counter.sol:Counter',
+                    'label': 'number',
+                    'offset': 0,
+                    'slot': '1',
+                    'type': 't_uint256',
+                },
+            ],
+            'types': {
+                't_bool': {'encoding': 'inplace', 'label': 'bool', 'numberOfBytes': '1'},
+                't_uint256': {'encoding': 'inplace', 'label': 'uint256', 'numberOfBytes': '32'},
+            },
+        },
+        (
+            StorageField(label='x', data_type='bool', slot=0, offset=0),
+            StorageField(label='secondBoolean', data_type='bool', slot=0, offset=1),
+            StorageField(label='number', data_type='uint256', slot=1, offset=0),
+        ),
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    'test_id,storage_layout,expected',
+    LAYOUT_DATA,
+    ids=[test_id for test_id, *_ in LAYOUT_DATA],
+)
+def test_storage_layout_fields(test_id: str, storage_layout: dict, expected: tuple[StorageField, ...]) -> None:
+    # When
+    output = process_storage_layout(storage_layout)
     # Then
     assert output == expected
