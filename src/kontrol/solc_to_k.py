@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass
 from functools import cached_property
 from subprocess import CalledProcessError
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.cli import KOptions
 from kevm_pyk.kevm import KEVM
@@ -19,7 +19,7 @@ from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.string import stringToken
-from pyk.utils import FrozenDict, hash_str, run_process, single
+from pyk.utils import hash_str, run_process, single
 
 from .cli import KGenOptions
 
@@ -327,6 +327,13 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
         except ValueError:
             _LOGGER.warning(f'Skipping invalid format {part} in {tag}')
     return natspecs
+
+
+class StorageField(NamedTuple):
+    label: str
+    data_type: str
+    slot: int
+    offset: int
 
 
 @dataclass
@@ -652,7 +659,6 @@ class Contract:
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
-    fields: FrozenDict
     constructor: Constructor | None
     PREFIX_CODE: Final = 'Z'
 
@@ -726,17 +732,6 @@ class Contract:
             _c = Contract.Constructor(empty_constructor, self._name, self.digest, self.storage_digest, self.sort_method)
             self.constructor = _c
 
-        self.fields = FrozenDict({})
-        if 'storageLayout' in self.contract_json and 'storage' in self.contract_json['storageLayout']:
-            _fields_list = [(_f['label'], int(_f['slot'])) for _f in self.contract_json['storageLayout']['storage']]
-            _fields = {}
-            for _l, _s in _fields_list:
-                if _l in _fields:
-                    _LOGGER.info(f'Found duplicate field access key on contract {self._name}: {_l}')
-                    continue
-                _fields[_l] = _s  # noqa: B909
-            self.fields = FrozenDict(_fields)
-
     @cached_property
     def name_with_path(self) -> str:
         contract_path_without_filename = '%'.join(self.contract_path.split('/')[0:-1])
@@ -787,6 +782,10 @@ class Contract:
                 _srcmap[i] = (s, l, f, j, m)
 
         return _srcmap
+
+    @cached_property
+    def fields(self) -> tuple[StorageField, ...]:
+        return process_storage_layout(self.contract_json.get('storageLayout', {}))
 
     @staticmethod
     def contract_to_module_name(c: str) -> str:
@@ -961,28 +960,8 @@ class Contract:
         return res if len(res) > 1 else []
 
     @property
-    def field_sentences(self) -> list[KSentence]:
-        prods: list[KSentence] = [self.subsort_field]
-        rules: list[KSentence] = []
-        for field, slot in self.fields.items():
-            klabel = KLabel(self.klabel_field.name + f'_{field}')
-            prods.append(
-                KProduction(self.sort_field, [KTerminal(field)], klabel=klabel, att=KAtt(entries=[Atts.SYMBOL('')]))
-            )
-            rule_lhs = KEVM.loc(KApply(KLabel('contract_access_field'), [KApply(self.klabel), KApply(klabel)]))
-            rule_rhs = intToken(slot)
-            rules.append(KRule(KRewrite(rule_lhs, rule_rhs)))
-        if len(prods) == 1 and not rules:
-            return []
-        return prods + rules
-
-    @property
     def sentences(self) -> list[KSentence]:
-        return (
-            [self.subsort, self.production, self.macro_bin_runtime, self.macro_init_bytecode]
-            + self.field_sentences
-            + self.method_sentences
-        )
+        return [self.subsort, self.production, self.macro_bin_runtime, self.macro_init_bytecode] + self.method_sentences
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -1295,3 +1274,24 @@ def find_function_calls(node: dict) -> list[str]:
 
     _find_function_calls(node)
     return function_calls
+
+
+def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
+    storage = storage_layout.get('storage', [])
+    types = storage_layout.get('types', {})
+
+    fields_list: list[StorageField] = []
+    for field in storage:
+        try:
+            type_info = types.get(field['type'], {})
+            storage_field = StorageField(
+                label=field['label'],
+                data_type=type_info.get('label', field['type']),
+                slot=int(field['slot']),
+                offset=int(field['offset']),
+            )
+            fields_list.append(storage_field)
+        except (KeyError, ValueError) as e:
+            _LOGGER.error(f'Error processing field {field}: {e}')
+
+    return tuple(fields_list)
