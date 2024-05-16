@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass
 from functools import cached_property
 from subprocess import CalledProcessError
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.cli import KOptions
 from kevm_pyk.kevm import KEVM
@@ -329,18 +329,11 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     return natspecs
 
 
-@dataclass
-class StorageField:
+class StorageField(NamedTuple):
     label: str
     data_type: str
     slot: int
     offset: int
-
-    def __init__(self, label: str, data_type: str, slot: int, offset: int) -> None:
-        self.label = label
-        self.data_type = data_type
-        self.slot = slot
-        self.offset = offset
 
 
 @dataclass
