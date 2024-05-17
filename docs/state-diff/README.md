@@ -1,4 +1,4 @@
-External Computation with Kontrol &#1F916; 	🤖
+External Computation with Kontrol 🤖
 =================================
 **Injecting Foundry Execution into Proofs**
 
@@ -29,6 +29,6 @@ test = 'test/kontrol/proofs'
 script = 'test/kontrol/proofs'
 ```
 
-### Special `out` directory
+### Special `out` directory 🚧💢
 
 Note that we're also setting a different `out` directory named `kout-proofs`. Because of this, any Kontrol related command will have to be executed in the context of the `kprove` profile. This can be achieved either by `export FOUNDRY_PROFILE=kprove` or by prepending any Kontrol command with that flag (e.g., `FOUNDRY_PROFILE=kprove kontrol list`).
