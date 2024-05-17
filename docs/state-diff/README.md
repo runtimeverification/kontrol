@@ -1,11 +1,11 @@
-External Computation with Kontrol
+External Computation with Kontrol &#1F916; 	🤖
 =================================
-***Injecting Foundry Execution into Proofs***
+**Injecting Foundry Execution into Proofs**
 
 This folder contains the first iteration for including external computation with Foundry into Kontrol proofs.
 To achieve this, there are several files involved and the process has several steps. If you encounter any problems while following what is described here, please reach out in [Discord](https://discord.gg/CurfmXNtbN), we'll be happy to assist!
 
-We use Foundry's [state-diff recording](https://book.getfoundry.sh/cheatcodes/stop-and-return-state-diff) cheatcodes to generate a JSON file that contains all the statte updates that occurred during the recording. We can also produce a JSON file containing the name of the deployed contracts under testing and their addresses.
+We use Foundry's [state-diff recording](https://book.getfoundry.sh/cheatcodes/stop-and-return-state-diff) cheatcodes to generate a JSON file that contains all the state updates that occurred during the recording. We can also produce a JSON file containing the name of the deployed contracts under testing and their addresses.
 Using these two JSON files we can (1) name the addresses of the deployed contracts in the Foundry tests and (2) directly add the recorded state updates as the initial state to run the Kontrol proofs.
 
 In short, the steps to add Foundry execution results to Kontrol proofs are the following:
@@ -16,7 +16,7 @@ In short, the steps to add Foundry execution results to Kontrol proofs are the f
 4. Write your symbolic property tests with the right dependencies.
 5. Execute Kontrol proofs with the right options to include the recorded computation with Foundry.
 
-# Fresh Foundry Profile
+## Fresh Foundry Profile
 
 The goal of this step is to create a minimal set of dependencies to run Kontrol proofs while including all the relevant bytecode. That is, we are separating verified bytecode and the sourcecode that produced it. This keeps what is executed by Kontrol to only the essentials, allowing for faster runtimes.
 
@@ -29,6 +29,6 @@ test = 'test/kontrol/proofs'
 script = 'test/kontrol/proofs'
 ```
 
-## Special `out` directory
+### Special `out` directory
 
 Note that we're also setting a different `out` directory named `kout-proofs`. Because of this, any Kontrol related command will have to be executed in the context of the `kprove` profile. This can be achieved either by `export FOUNDRY_PROFILE=kprove` or by prepending any Kontrol command with that flag (e.g., `FOUNDRY_PROFILE=kprove kontrol list`).
