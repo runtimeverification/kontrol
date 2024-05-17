@@ -61,6 +61,7 @@ def test_foundry_dependency_automated(
                 'port': server.port,
                 'tests': [(test_id, None)],
                 'config_type': config_type,
+                'run_constructor': True,
             }
         ),
     )

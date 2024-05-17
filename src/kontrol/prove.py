@@ -152,7 +152,6 @@ def foundry_prove(
                 _LOGGER.info(f'For test {test.name}, found external calls: {test_version_tuples}')
                 new_prove_options = copy(options)
                 new_prove_options.tests = test_version_tuples
-                new_prove_options.run_constructor = False
                 new_prove_options.config_type = ConfigType.SUMMARY_CONFIG
                 summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, deployment_state_entries))
 
@@ -705,20 +704,27 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -
     singlecall_cell = node.cterm.cell('SINGLECALL_CELL')
     gas_cell = node.cterm.cell('GAS_CELL')
     callgas_cell = node.cterm.cell('CALLGAS_CELL')
-    new_accounts = [CTerm(account, []) for account in flatten_label('_AccountCellMap_', new_accounts_cell)]
+
+    all_accounts = flatten_label('_AccountCellMap_', new_accounts_cell)
+
+    new_accounts = [CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)]
+    non_cell_accounts = [account for account in all_accounts if not (type(account) is KApply and account.is_cell)]
+
     new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
-    test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
 
-    new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
-        set_cell(
-            test_contract_account.config,
-            'CODE_CELL',
-            KEVM.bin_runtime(KApply(f'contract_{contract_name}')),
-        ),
-        [],
-    )
+    if Foundry.address_TEST_CONTRACT() in new_accounts_map:
+        test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
 
-    new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()])
+        new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
+            set_cell(
+                test_contract_account.config,
+                'CODE_CELL',
+                KEVM.bin_runtime(KApply(f'contract_{contract_name}')),
+            ),
+            [],
+        )
+
+    new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()] + non_cell_accounts)
 
     new_init_cterm = CTerm(set_cell(cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
     new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NUMBER_CELL', number_cell), [])
