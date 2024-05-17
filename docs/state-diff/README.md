@@ -1,4 +1,4 @@
-External Computation with Kontrol 🤖
+ 🤖 External Computation with Kontrol 🤖
 =================================
 **Injecting Foundry Execution into Proofs**
 
