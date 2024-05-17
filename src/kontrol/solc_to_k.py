@@ -334,6 +334,7 @@ class StorageField(NamedTuple):
     data_type: str
     slot: int
     offset: int
+    length: int
 
 
 @dataclass
@@ -1289,6 +1290,7 @@ def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
                 data_type=type_info.get('label', field['type']),
                 slot=int(field['slot']),
                 offset=int(field['offset']),
+                length=int(type_info.get('numberOfBytes', 32)),
             )
             fields_list.append(storage_field)
         except (KeyError, ValueError) as e:

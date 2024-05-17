@@ -478,9 +478,9 @@ LAYOUT_DATA: list[tuple[str, dict, tuple[StorageField, ...]]] = [
             },
         },
         (
-            StorageField(label='x', data_type='bool', slot=0, offset=0),
-            StorageField(label='secondBoolean', data_type='bool', slot=0, offset=1),
-            StorageField(label='number', data_type='uint256', slot=1, offset=0),
+            StorageField(label='x', data_type='bool', slot=0, offset=0, length=1),
+            StorageField(label='secondBoolean', data_type='bool', slot=0, offset=1, length=1),
+            StorageField(label='number', data_type='uint256', slot=1, offset=0, length=32),
         ),
     ),
 ]
