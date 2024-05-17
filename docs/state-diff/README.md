@@ -2,7 +2,7 @@
 =================================
 **Injecting Foundry Execution into Proofs**
 
-This folder contains the first iteration for including external computation with Foundry into Kontrol proofs.
+This folder is an example for including external computation with Foundry into Kontrol proofs.
 To achieve this, there are several files involved and the process has several steps. If you encounter any problems while following what is described here, please reach out in [Discord](https://discord.gg/CurfmXNtbN), we'll be happy to assist!
 
 We use Foundry's [state-diff recording](https://book.getfoundry.sh/cheatcodes/stop-and-return-state-diff) cheatcodes to generate a JSON file that contains all the state updates that occurred during the recording. We can also produce a JSON file containing the name of the deployed contracts under testing and their addresses.
@@ -32,3 +32,9 @@ script = 'test/kontrol/proofs'
 ### ⚠️  Special `out` directory ⚠️
 
 Note that we're also setting a different `out` directory named `kout-proofs`. Because of this, any Kontrol related command will have to be executed in the context of the `kprove` profile. This can be achieved either by `export FOUNDRY_PROFILE=kprove` or by prepending any Kontrol command with that flag (e.g., `FOUNDRY_PROFILE=kprove kontrol list`).
+
+## 🖋️ Record your execution 🖋️
+
+To record your execution and save it's output to a JSON file, simply use the modifier `recordStateDiff` in the [`test/kontrol/state-diff/record-state-diff/RecordStateDiff.sol`](./test/kontrol/state-diff/record-state-diff/RecordStateDiff.sol) file. That is, the initial set up of your proofs has to be run in a function with the `recordStateDiff` modifier. An example of this can be found in [`test/kontrol/state-diff/proof-initialization.sol`](test/kontrol/state-diff/proof-initialization.sol).
+
+Run `forge script state-diff/proof-initialization.sol:CounterBed --sig counterBed`
