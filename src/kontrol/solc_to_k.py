@@ -18,6 +18,7 @@ from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KPro
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken
+from pyk.prelude.ml import mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process, single
 
@@ -1297,3 +1298,18 @@ def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
             _LOGGER.error(f'Error processing field {field}: {e}')
 
     return tuple(fields_list)
+
+
+def type_constraint(data_type: str, symbolic_var: KVariable) -> KApply:
+    # TODO: fill with rest of the cases
+    data_type = data_type.lower()
+    if data_type.startswith('uint'):
+        return mlEqualsTrue(KEVM.range_uint(int(data_type[4:]), symbolic_var))
+
+    match data_type:
+        case 'address':
+            return mlEqualsTrue(KEVM.range_address(symbolic_var))
+        case 'bool':
+            return mlEqualsTrue(KEVM.range_bool(symbolic_var))
+        case _:
+            raise ValueError(f'Unimplemented: {data_type}')

@@ -32,7 +32,7 @@ from pyk.utils import run_process, unique
 from .cli import FoundryOptions, RpcOptions, TraceOptions
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
-from .solc_to_k import Contract, hex_string_to_int
+from .solc_to_k import Contract, hex_string_to_int, type_constraint
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -43,6 +43,7 @@ if TYPE_CHECKING:
     from pyk.kore.rpc import KoreServer
 
     from .deployment import DeploymentStateEntry
+    from .solc_to_k import StorageField
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -619,6 +620,7 @@ def _method_to_cfg(
         is_constructor=isinstance(method, Contract.Constructor),
         active_symbolik=active_symbolik,
         trace_options=trace_options,
+        storage_fields=contract.fields,
     )
     new_node_ids = []
 
@@ -781,6 +783,7 @@ def _init_cterm(
     callvalue: KInner | None = None,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     trace_options: TraceOptions | None = None,
+    storage_fields: tuple[StorageField, ...],
 ) -> CTerm:
     schedule = KApply('SHANGHAI_EVM')
 
@@ -822,6 +825,8 @@ def _init_cterm(
         'TRACEDATA_CELL': KApply('.List'),
     }
 
+    storage_map, storage_field_constraints = _create_initial_storage(storage_fields)
+
     if is_test or is_setup or is_constructor or active_symbolik:
         init_account_list = _create_initial_account_list(program, deployment_state_entries)
         init_subst_test = {
@@ -843,7 +848,7 @@ def _init_cterm(
         # Status: Currently, only the executing contract
         # TODO: Add all other accounts belonging to relevant contracts
         accounts: list[KInner] = [
-            Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), program),
+            Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), program, storage_map),
             KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')),
         ]
 
@@ -869,6 +874,8 @@ def _init_cterm(
         init_cterm = init_cterm.add_constraint(
             mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
         )
+    for c in storage_field_constraints:
+        init_cterm = init_cterm.add_constraint(c)
 
     # The calling contract is assumed to be in the present accounts for non-tests
     if not (is_test or is_setup or is_constructor or active_symbolik):
@@ -884,6 +891,67 @@ def _init_cterm(
     init_cterm = KEVM.add_invariant(init_cterm)
 
     return init_cterm
+
+
+def _create_initial_storage(storage_fields: tuple[StorageField, ...]) -> tuple[KInner, list[KApply]]:
+    """
+    Creates the KAst representation of the storage layout for a given set of storage fields.
+
+    Args:
+        storage_fields (tuple[StorageField, ...]): A tuple of StorageField objects representing the contract's storage fields.
+
+    Returns:
+        tuple[KInner, list[KApply]]:
+            - A mapping of storage slots (IntToken) to their corresponding values (Bytes).
+            - A list of constraints for the symbolic variables used for each storage field.
+    """
+
+    def buf(width: int, v: KInner) -> KApply:
+        # TODO: move in kevm-pyk
+        return KApply('#buf(_,_)_BUF-SYNTAX_Bytes_Int_Int', intToken(width), v)
+
+    storage_dict: dict[KInner, KInner] = {}
+    storage_constraints: list[KApply] = []
+    slot_data: KInner = intToken(0)
+    slot_length_left = 32
+    slot_index = None
+
+    for field in storage_fields:
+        if not (field.data_type in ['address', 'bool'] or field.data_type.startswith('uint')):
+            # skip not supported types
+            continue
+
+        symbolic_var = KVariable(f'SF_{field.label.upper()}', sort=KSort('Int'))
+        storage_constraints.append(type_constraint(field.data_type, symbolic_var))
+
+        if slot_index is None:
+            # initialize for the first field
+            slot_index = field.slot
+            slot_data = buf(field.length, symbolic_var)
+            slot_length_left -= field.length
+        elif slot_index == field.slot:
+            # handle fields in the same slot but with different offsets
+            slot_data = KEVM.bytes_append(slot_data, buf(field.length, symbolic_var))
+            slot_length_left -= field.length
+        else:
+            # when the slot value changes, save the previous data in the dict and compute the current one
+            if slot_length_left > 0:
+                slot_data = KEVM.bytes_append(slot_data, buf(slot_length_left, intToken(0)))
+
+            storage_dict[intToken(slot_index)] = slot_data
+
+            # Reset for the new slot
+            slot_index = field.slot
+            slot_data = buf(field.length, symbolic_var)
+            slot_length_left = 32 - field.length
+
+    # Ensure the last slot data is saved
+    if slot_index is not None:
+        if slot_length_left > 0:
+            slot_data = KEVM.bytes_append(slot_data, buf(slot_length_left, intToken(0)))
+        storage_dict[intToken(slot_index)] = slot_data
+
+    return map_of(storage_dict), storage_constraints
 
 
 def _create_initial_account_list(
