@@ -16,7 +16,7 @@ In short, the steps to add Foundry execution results to Kontrol proofs are the f
 4. Write your symbolic property tests with the right dependencies.
 5. Execute Kontrol proofs with the right options to include the recorded computation with Foundry.
 
-## ✨ Fresh Foundry Profile ✨
+## ✨ Fresh Foundry Profile ✨ 
 
 The goal of this step is to create a minimal set of dependencies to run Kontrol proofs while including all the relevant bytecode. That is, we are separating verified bytecode and the sourcecode that produced it. This keeps what is executed by Kontrol to only the essentials, allowing for faster runtimes.
 
@@ -29,6 +29,6 @@ test = 'test/kontrol/proofs'
 script = 'test/kontrol/proofs'
 ```
 
-### 🚧 Special `out` directory 🚧
+### ⚠️  Special `out` directory ⚠️
 
 Note that we're also setting a different `out` directory named `kout-proofs`. Because of this, any Kontrol related command will have to be executed in the context of the `kprove` profile. This can be achieved either by `export FOUNDRY_PROFILE=kprove` or by prepending any Kontrol command with that flag (e.g., `FOUNDRY_PROFILE=kprove kontrol list`).
