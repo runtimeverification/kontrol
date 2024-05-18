@@ -618,6 +618,8 @@ def _method_to_cfg(
 
     if isinstance(method, Contract.Constructor):
         program = KEVM.init_bytecode(KApply(f'contract_{contract.name_with_path}'))
+        callvalue = method.callvalue_cell
+        method.callvalue_cell
 
     elif isinstance(method, Contract.Method):
         calldata = method.calldata_cell(contract)
