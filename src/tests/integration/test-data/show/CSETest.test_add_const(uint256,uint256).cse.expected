@@ -350,22 +350,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( SF_IS_TEST:Int ==Int 0
-          orBool ( SF_IS_TEST:Int ==Int 1
-                 ))
-       andBool ( ( SF__FAILED:Int ==Int 0
-          orBool ( SF__FAILED:Int ==Int 1
-                 ))
-       andBool ( ( SF_GASMETERINGOFF:Int ==Int 0
-          orBool ( SF_GASMETERINGOFF:Int ==Int 1
-                 ))
-       andBool ( ( SF_STDCHAINSINITIALIZED:Int ==Int 0
-          orBool ( SF_STDCHAINSINITIALIZED:Int ==Int 1
-                 ))
-       andBool ( ( SF_FALLBACKTODEFAULTRPCURLS:Int ==Int 0
-          orBool ( SF_FALLBACKTODEFAULTRPCURLS:Int ==Int 1
-                 ))
-               ))))))))))))))))))
+               )))))))))))))
        ensures ( 0 <=Int ?VV0_x_114b9705
        andBool ( 0 <=Int ?VV1_y_114b9705
        andBool ( ?VV0_x_114b9705 <Int pow256
@@ -802,24 +787,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( ( SF_IS_TEST:Int ==Int 0
-          orBool ( SF_IS_TEST:Int ==Int 1
-                 ))
-       andBool ( ( SF__FAILED:Int ==Int 0
-          orBool ( SF__FAILED:Int ==Int 1
-                 ))
-       andBool ( ( SF_GASMETERINGOFF:Int ==Int 0
-          orBool ( SF_GASMETERINGOFF:Int ==Int 1
-                 ))
-       andBool ( ( SF_STDCHAINSINITIALIZED:Int ==Int 0
-          orBool ( SF_STDCHAINSINITIALIZED:Int ==Int 1
-                 ))
-       andBool ( ( SF_FALLBACKTODEFAULTRPCURLS:Int ==Int 0
-          orBool ( SF_FALLBACKTODEFAULTRPCURLS:Int ==Int 1
-                 ))
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))))))))
+               ))))))))))))))))))
        ensures #buf ( 32 , bool2Word ( VV0_x_114b9705:Int <Int pow64 ) ) +Bytes b"" ~> .K ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" ~> .K
       [priority(20), label(BASIC-BLOCK-10-TO-14)]
     
@@ -1105,24 +1075,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( ( SF_IS_TEST:Int ==Int 0
-          orBool ( SF_IS_TEST:Int ==Int 1
-                 ))
-       andBool ( ( SF__FAILED:Int ==Int 0
-          orBool ( SF__FAILED:Int ==Int 1
-                 ))
-       andBool ( ( SF_GASMETERINGOFF:Int ==Int 0
-          orBool ( SF_GASMETERINGOFF:Int ==Int 1
-                 ))
-       andBool ( ( SF_STDCHAINSINITIALIZED:Int ==Int 0
-          orBool ( SF_STDCHAINSINITIALIZED:Int ==Int 1
-                 ))
-       andBool ( ( SF_FALLBACKTODEFAULTRPCURLS:Int ==Int 0
-          orBool ( SF_FALLBACKTODEFAULTRPCURLS:Int ==Int 1
-                 ))
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))))))))
+               ))))))))))))))))))
        ensures ( VV1_y_114b9705:Int <Int pow64
        andBool ( VV1_y_114b9705:Int <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
        andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ==Int ( VV1_y_114b9705:Int +Int VV0_x_114b9705:Int )

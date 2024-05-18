@@ -874,8 +874,6 @@ def _init_cterm(
         init_cterm = init_cterm.add_constraint(
             mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
         )
-    for c in storage_field_constraints:
-        init_cterm = init_cterm.add_constraint(c)
 
     # The calling contract is assumed to be in the present accounts for non-tests
     if not (is_test or is_setup or is_constructor or active_symbolik):
@@ -887,6 +885,8 @@ def _init_cterm(
                 )
             )
         )
+        for c in storage_field_constraints:
+            init_cterm = init_cterm.add_constraint(c)
 
     init_cterm = KEVM.add_invariant(init_cterm)
 
