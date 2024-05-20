@@ -62,6 +62,6 @@ Run your function containing the initial set up of your proofs (`counterBed` or 
 
 ### 🧼 Clean the State Diff file 🧼
 
-Currently, the produced state diff JSON is escaped when generated. To unescape it, run the [`clean_json.py`](test/kontrol/scripts/json/clean_json.py) script on the generated state diff file. Example: `python3 test/kontrol/scripts/json/clean_json.py state-diff/StateDiff.json`
+Currently, the produced state diff JSON is escaped when generated. Run the [`clean_json.py`](test/kontrol/scripts/json/clean_json.py) script on the generated state diff file to unescape it. Example: `python3 test/kontrol/scripts/json/clean_json.py state-diff/StateDiff.json`
 
 
