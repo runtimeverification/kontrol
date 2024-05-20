@@ -39,7 +39,7 @@ To record your execution and save its output to a JSON file, simply use the modi
 
 On top of that, the `save_address` function allows to save the name of the deployed contract and their addresses into a separate JSON file. This will be crucial to easily write the symbolic property tests later on.
 
-### 🪪 Name the files 🪪
+### 🏷️ Name the files 🏷️
 
 There are two different JSON files that can be created, one containing the recorded state updates and another one with the saved names of important addresses. On top of that, we have to define in which directory do these files live. For simplicity, we've made it so that these parameters are set with environment variables:
 - `STATE_DIFF_NAME`: Name of the JSON containing the state updates. Example: `StateDiff.json`
@@ -59,4 +59,9 @@ Not adding this would result in a `the path state-diff/StateDiff.json is not all
 ### 🏃 Run the recording 🏃
 
 Run your function containing the initial set up of your proofs (`counterBed` or `counterBedNamed` in our [example](./test/kontrol/state-diff/proof-initialization.sol)) with `forge script state-diff/proof-initialization.sol:CounterBed --sig counterBed --ffi`. Running it with `forge test` will also work, but only if its name starts with `test`. Notice the `--ffi` flag: we use `mkdir` and `touch` to handle the cases where the state diff files don't yet exist.
+
+### 🧼 Clean the State Diff file 🧼
+
+Currently, the produced state diff JSON is escaped when generated. To unescape it, run the [`clean_json.py`](test/kontrol/scripts/json/clean_json.py) script on the generated state diff file. Example: `python3 test/kontrol/scripts/json/clean_json.py state-diff/StateDiff.json`
+
 
