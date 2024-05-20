@@ -37,13 +37,26 @@ Note that we're also setting a different `out` directory named `kout-proofs`. Be
 
 To record your execution and save its output to a JSON file, simply use the modifier `recordStateDiff` in the [`test/kontrol/state-diff/record-state-diff/RecordStateDiff.sol`](./test/kontrol/state-diff/record-state-diff/RecordStateDiff.sol) file. That is, the initial set up of your proofs has to be run in a function with the `recordStateDiff` modifier. An example of this can be found in [`test/kontrol/state-diff/proof-initialization.sol`](test/kontrol/state-diff/proof-initialization.sol).
 
-Before executing the state-recording function you'll need to give Foundry permissions to write the JSON files. By default the files are `state-diff/StateDiff.json`. To give Foundry write permissions for these files you can add the following to the Foundry profile:
+On top of that, the `save_address` function allows to save the name of the deployed contract and their addresses into a separate JSON file. This will be crucial to easily write the symbolic property tests later on.
+
+### 🪪 Name the files 🪪
+
+There are two different JSON files that can be created, one containing the recorded state updates and another one with the saved names of important addresses. On top of that, we have to define in which directory do these files live. For simplicity, we've made it so that these parameters are set with environment variables:
+- `STATE_DIFF_NAME`: Name of the JSON containing the state updates. Example: `StateDiff.json`
+- `ADDR_NAMES`: Name of the JSON containing the saved names of relevant addresses. Example: `AddressNames.json`
+- `STATE_DIFF_FOLDER`: Path relative to the foundry root dir where the files will be stored. Example: `state-diff`
+
+### ⭕ Additional permissions ⭕
+
+Before executing the state-recording function you'll need to give Foundry permissions to write the JSON files in the specified directory. To give Foundry write permissions for these files you can add the following to the Foundry profile. Note that the `path` assignment has to be the same as the value set for the `STATE_DIFF_NAME` variable:
 ```toml
 fs_permissions = [
-  { access='write, path='./state-diff' }
+  { access='read-write, path='state-diff' }
 ]
 ```
 Not adding this would result in a `the path state-diff/StateDiff.json is not allowed to be accessed for write operations` error.
 
-Run your function containing the initial set up of your proofs (`counterBed` in our example) with `forge script state-diff/proof-initialization.sol:CounterBed --sig counterBed --ffi`. Running it with `forge test` will also work, but only if its name starts with `test`. Notice the `--ffi` flag: we use `mkdir` and `touch` to handle the cases where the state diff files don't yet exist.
+### 🏃 Run the recording 🏃
+
+Run your function containing the initial set up of your proofs (`counterBed` or `counterBedNamed` in our [example](./test/kontrol/state-diff/proof-initialization.sol)) with `forge script state-diff/proof-initialization.sol:CounterBed --sig counterBed --ffi`. Running it with `forge test` will also work, but only if its name starts with `test`. Notice the `--ffi` flag: we use `mkdir` and `touch` to handle the cases where the state diff files don't yet exist.
 
