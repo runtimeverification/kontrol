@@ -43,7 +43,7 @@ abstract contract RecordStateDiff {
         string memory filename = string.concat(vm.projectRoot(), "/", dir_name, "/", file_name);
         if (vm.exists(filename)) return filename;
         if (!vm.isDir(dirname)) ffi_two_arg("mkdir", "-p", dirname); // Create directory if doesn't exist
-        ffi_one_arg("touch", filename); // Create file
+        ffi_one_arg("touch", filename); // Create file. Might be redundant, but better make sure
         return filename;
     }
 
