@@ -64,4 +64,13 @@ Run your function containing the initial set up of your proofs (`counterBed` or 
 
 Currently, the produced state diff JSON is escaped when generated. Run the [`clean_json.py`](test/kontrol/scripts/json/clean_json.py) script on the generated state diff file to unescape it. Example: `python3 test/kontrol/scripts/json/clean_json.py state-diff/StateDiff.json`
 
+### 📜 Scripting all of this 📜
+
+Phew! This is nothing short of a mouthful of steps! In case you don't want to generate the necessary scripts by manally repeating all that we have gone through, we provide the [`record-state-diff.sh`](test/kontrol/scripts/record-state-diff.sh) script automatically generate the JSON files.
+Note that all the relevant environment variables are also present in the script so it can be reused with your project.
+
+## 📝 Write Your Proofs 📝
+
+By now we have generated two files, one containing the recorded state updates of choice and another with the saved names of the relevant addresses. Now it's time to give both file to Kontrol as a previous step of writting the proofs. To this end we'll use the `kontrol load-state-diff` feature of Kontrol. To see a detailed description of it see the documentation. (TODO: actually add the documentation)
+
 
