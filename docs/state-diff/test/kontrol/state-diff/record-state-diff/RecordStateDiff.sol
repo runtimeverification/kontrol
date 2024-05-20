@@ -51,10 +51,9 @@ abstract contract RecordStateDiff {
     /// @dev    Will revert if the command returns any output
     /// TODO: abstract number of arguments per function
     function ffi_one_arg(string memory command, string memory arg) public {
-        string[] memory inputs = new string[](3);
+        string[] memory inputs = new string[](2);
         inputs[0] = command;
-        inputs[1] = " ";
-        inputs[2] = arg;
+        inputs[1] = arg;
         bytes memory res = vm.ffi(inputs);
         require(res.length == 0, "RecordStateDiff: Command execution failed");
     }
@@ -63,12 +62,10 @@ abstract contract RecordStateDiff {
     /// @dev    Will revert if the command returns any output
     /// TODO: abstract number of arguments per function
     function ffi_two_arg(string memory command, string memory arg1, string memory arg2) public {
-        string[] memory inputs = new string[](5);
+        string[] memory inputs = new string[](3);
         inputs[0] = command;
-        inputs[1] = " ";
-        inputs[2] = arg1;
-        inputs[3] = " ";
-        inputs[4] = arg2;
+        inputs[1] = arg1;
+        inputs[2] = arg2;
         bytes memory res = vm.ffi(inputs);
         require(res.length == 0, "RecordStateDiff: Command execution failed");
     }
