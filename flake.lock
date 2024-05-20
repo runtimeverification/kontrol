@@ -476,6 +476,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1716062047,
+        "narHash": "sha256-OhysviwHQz4p2HZL4g7XGMLoUbWMjkMr/ogaR3VUYNA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "02923630b89aa1ab36ef8e422501a6f4fd4b2016",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "poetry2nix": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -659,17 +675,15 @@
         "flake-utils": [
           "flake-utils"
         ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs_5",
         "solc-macos-amd64-list-json": "solc-macos-amd64-list-json"
       },
       "locked": {
-        "lastModified": 1716079664,
-        "narHash": "sha256-07y6nkvi06MiruzYFLxHpVtmL7LZqT1Q1UCqt9zK2PQ=",
+        "lastModified": 1716193544,
+        "narHash": "sha256-Dm1mpCEv+WjCBNMQ9xgjg2GKELflNDCGnIG1bFIrT7o=",
         "owner": "hellwolf",
         "repo": "solc.nix",
-        "rev": "894c323758fcd5373e41554bc446fa702070a518",
+        "rev": "156e7fe788c8bb3db7693d472cf54b83d9a89ff3",
         "type": "github"
       },
       "original": {
