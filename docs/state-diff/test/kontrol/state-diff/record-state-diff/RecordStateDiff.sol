@@ -17,11 +17,11 @@ abstract contract RecordStateDiff {
 
     /// @notice Executes a function recording its state updates and saves it to the
     ///      the file $STATE_DIFF_DIR/$STATE_DIFF_FILE
-    /// @dev STATE_DIFF_FOLDER env var with file folder relative to the foundry root dir
-    /// @dev STATE_DIFF_NAME   env var with state diff file name
+    /// @dev STATE_DIFF_DIR  env var with file folder relative to the foundry root dir
+    /// @dev STATE_DIFF_NAME env var with state diff file name
     modifier recordStateDiff() {
         // Check if the specified JSON file exists and create it if not
-        string memory statediffFile = check_file(vm.envString("STATE_DIFF_FOLDER"), vm.envString("STATE_DIFF_NAME"));
+        string memory statediffFile = check_file(vm.envString("STATE_DIFF_DIR"), vm.envString("STATE_DIFF_NAME"));
         vm.startStateDiffRecording();
         _;
         VmSafe.AccountAccess[] memory accesses = vm.stopAndReturnStateDiff();
@@ -30,12 +30,12 @@ abstract contract RecordStateDiff {
     }
 
     /// @notice Saves a an address with a name to $STATE_DIFF_DIR/$STATE_DIFF_NAMES
-    /// @dev STATE_DIFF_FOLDER env var with file folder relative to the foundry root dir
-    /// @dev ADDR_NAMES        env var with named addresses file name
+    /// @dev STATE_DIFF_DIR env var with file folder relative to the foundry root dir
+    /// @dev ADDR_NAMES     env var with named addresses file name
     /// TODO: Investigate/fix why the resulting order of the strings in the json seems to not preseve the order
     ///       in which `save_address` is called when saving multiple addresses
     function save_address(string memory name, address addr) public {
-        string memory address_names_file = check_file(vm.envString("STATE_DIFF_FOLDER"), vm.envString("ADDR_NAMES"));
+        string memory address_names_file = check_file(vm.envString("STATE_DIFF_DIR"), vm.envString("ADDR_NAMES"));
         vm.writeJson({json: vm.serializeString("", vm.toString(addr), name), path: address_names_file});
     }
 
