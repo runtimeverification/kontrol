@@ -21,7 +21,7 @@ from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
-from pyk.prelude.kint import intToken
+from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
@@ -803,7 +803,7 @@ def _init_cterm(
         'LOCALMEM_CELL': bytesToken(b''),
         'ACTIVE_CELL': FALSE,
         'MEMORYUSED_CELL': intToken(0),
-        'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
+        'WORDSTACK_CELL': KEVM.wordstack_empty(),
         'PC_CELL': intToken(0),
         'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
         'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),
@@ -822,7 +822,7 @@ def _init_cterm(
         'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
         'TRACEMEMORY_CELL': TRUE if trace_options.trace_memory else FALSE,
         'RECORDEDTRACE_CELL': FALSE,
-        'TRACEDATA_CELL': KApply('.List'),
+        'TRACEDATA_CELL': list_empty(),
     }
 
     storage_map, storage_field_constraints = _create_initial_storage(storage_fields)
@@ -872,7 +872,7 @@ def _init_cterm(
         # The address of the executing contract, the calling contract, and the origin contract
         # is always guaranteed to not be the address of the cheatcode contract
         init_cterm = init_cterm.add_constraint(
-            mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
+            mlEqualsFalse(eqInt(KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()))
         )
 
     # The calling contract is assumed to be in the present accounts for non-tests
@@ -906,10 +906,6 @@ def _create_initial_storage(storage_fields: tuple[StorageField, ...]) -> tuple[K
             - A list of constraints for the symbolic variables used for each storage field.
     """
 
-    def buf(width: int, v: KInner) -> KApply:
-        # TODO: move in kevm-pyk
-        return KApply('#buf(_,_)_BUF-SYNTAX_Bytes_Int_Int', intToken(width), v)
-
     storage_dict: dict[KInner, KInner] = {}
     storage_constraints: list[KApply] = []
     slot_data: KInner = intToken(0)
@@ -927,28 +923,28 @@ def _create_initial_storage(storage_fields: tuple[StorageField, ...]) -> tuple[K
         if slot_index is None:
             # initialize for the first field
             slot_index = field.slot
-            slot_data = buf(field.length, symbolic_var)
+            slot_data = KEVM.buf(field.length, symbolic_var)
             slot_length_left -= field.length
         elif slot_index == field.slot:
             # handle fields in the same slot but with different offsets
-            slot_data = KEVM.bytes_append(slot_data, buf(field.length, symbolic_var))
+            slot_data = KEVM.bytes_append(slot_data, KEVM.buf(field.length, symbolic_var))
             slot_length_left -= field.length
         else:
             # when the slot value changes, save the previous data in the dict and compute the current one
             if slot_length_left > 0:
-                slot_data = KEVM.bytes_append(slot_data, buf(slot_length_left, intToken(0)))
+                slot_data = KEVM.bytes_append(slot_data, KEVM.buf(slot_length_left, intToken(0)))
 
             storage_dict[intToken(slot_index)] = slot_data
 
             # Reset for the new slot
             slot_index = field.slot
-            slot_data = buf(field.length, symbolic_var)
+            slot_data = KEVM.buf(field.length, symbolic_var)
             slot_length_left = 32 - field.length
 
     # Ensure the last slot data is saved
     if slot_index is not None:
         if slot_length_left > 0:
-            slot_data = KEVM.bytes_append(slot_data, buf(slot_length_left, intToken(0)))
+            slot_data = KEVM.bytes_append(slot_data, KEVM.buf(slot_length_left, intToken(0)))
         storage_dict[intToken(slot_index)] = slot_data
 
     return map_of(storage_dict), storage_constraints
