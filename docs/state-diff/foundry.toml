@@ -2,5 +2,14 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+fs_permissions = [
+  { access="read-write", path="state-diff" }
+]
+
+[profile.kprove]
+src = "test/kontrol/proofs"
+out = "kout-proofs"
+test = "test/kontrol/proofs"
+script = "test/kontrol/proofs"
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
