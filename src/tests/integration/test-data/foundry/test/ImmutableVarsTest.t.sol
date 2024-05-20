@@ -14,7 +14,7 @@ contract ImmutableVarsContract {
 
 contract ImmutableVarsTest is Test {
     function test_run_deployment(uint256 x) public returns (bool) {
-        ImmutableContract c = new ImmutableContract(x);
+        ImmutableVarsContract c = new ImmutableVarsContract(x);
         assert(c.y() == 85);
     }
 }

@@ -12,9 +12,14 @@ module SYMBOLIC-BYTES-LEMMAS
       requires X <=Int lengthBytes(BA)
       [simplification(40)]
 
-    rule [bytes-concat-left-lookup]:
+    rule [bytes-concat-lookup-left]:
         (A:Bytes +Bytes B:Bytes) [I] => A [I]
       requires 0 <=Int I andBool I <Int lengthBytes(A)
-      [simplification]
+      [simplification, preserves-definedness]
+
+    rule [bytes-concat-lookup-right]:
+        (A:Bytes +Bytes B:Bytes) [I] => B [I -Int lengthBytes(A)]
+      requires lengthBytes(A) <=Int I
+      [simplification, preserves-definedness]
 
 endmodule
