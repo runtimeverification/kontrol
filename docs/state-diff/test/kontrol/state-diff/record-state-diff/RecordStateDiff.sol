@@ -34,7 +34,7 @@ abstract contract RecordStateDiff {
     /// @dev ADDR_NAMES        env var with named addresses file name
     function save_address(string memory name, address addr) public {
         string memory address_names_file = check_file(vm.envString("STATE_DIFF_FOLDER"), vm.envString("ADDR_NAMES"));
-        vm.writeJson({json: stdJson.serialize("", name, addr), path: address_names_file});
+        vm.writeJson({json: stdJson.serialize("", vm.toString(addr), name), path: address_names_file});
     }
 
     /// @notice Checks if dir_name/file_name exists and creates it if not
