@@ -34,7 +34,7 @@ GENERATED_CONTRACT_LICENSE=UNLICENSED
 ####################
 
 # Run the function with the recordStateDiff modifier
-forge script $RECORDING_CONTRACT_PATH --sig "$RECORDING_CONTRACT_FUNCTION" --ffi -vvvvv
+forge script $RECORDING_CONTRACT_PATH --sig "$RECORDING_CONTRACT_FUNCTION" --ffi -vv
 # state diff JSON comes out scaped from the last command
 # We execute this script to unscape it so that it can be fed to Kontrol
 python3 "$CLEAN_JSON_PATH" "$STATE_DIFF_DIR/$STATE_DIFF_NAME"
