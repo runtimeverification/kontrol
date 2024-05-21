@@ -670,17 +670,11 @@ def _method_to_cfg(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )
 
-        print('using setup proof for:')
-        print(method.id)
         for final_node in final_states:
             new_init_cterm = _update_cterm_from_node(init_cterm, final_node, contract.name_with_path)
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
-            print('final node')
-            print(final_node.id)
-            print('new node')
-            print(new_node.id)
     else:
         cfg = KCFG()
         init_node = cfg.create_node(init_cterm)
