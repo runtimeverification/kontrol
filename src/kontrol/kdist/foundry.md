@@ -15,6 +15,7 @@ requires "hashed-locations.md"
 requires "edsl.md"
 requires "trace.md"
 requires "assert.md"
+requires "vm.md"
 requires "lemmas/lemmas.k"
 
 module FOUNDRY
@@ -26,6 +27,7 @@ module FOUNDRY
     imports KONTROL-ASSERTIONS
     imports EDSL
     imports LEMMAS
+    imports KONTROL-VM
 
     configuration
       <foundry>

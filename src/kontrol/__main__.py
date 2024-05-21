@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+import pprint
 import sys
 from argparse import ArgumentParser
 from collections.abc import Iterable
@@ -14,12 +15,16 @@ from kevm_pyk.utils import arg_pair_of
 from pyk.cli.args import LoggingOptions
 from pyk.cli.utils import file_path
 from pyk.cterm.symbolic import CTermSMTError
+from pyk.kast.inner import KSort
 from pyk.kbuild.utils import KVersion, k_version
+from pyk.ktool.krun import KRun
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path, run_process
+from pyk.rpc.rpc import ServeRpcOptions
 
 from . import VERSION
+from .rpc import StatefulKJsonRpcServer
 from .cli import FoundryOptions, FoundryTestOptions, KontrolCLIArgs
 from .foundry import (
     Foundry,
@@ -73,7 +78,6 @@ if TYPE_CHECKING:
 _LOGGER: Final = logging.getLogger(__name__)
 _LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
 
-
 def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
     if arg in args:
         if args[arg] is not None:
@@ -106,6 +110,7 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'minimize-proof': MinimizeProofOptions(args),
         'clean': CleanOptions(args),
         'init': InitOptions(args),
+        'vm': VMOptions(args),
     }
     try:
         return options[command]
@@ -398,7 +403,24 @@ def exec_init(options: InitOptions) -> None:
     init_project(project_root=options.project_root, skip_forge=options.skip_forge)
 
 
-# Helpers
+class VMOptions(FoundryOptions, LoggingOptions):
+    host: str
+    port: int
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'host': '127.0.0.1',
+            'port': 9001,
+        }
+
+
+def exec_vm(options: VMOptions) -> None:
+    foundry = _load_foundry(options.foundry_root)
+    server = StatefulKJsonRpcServer(
+        ServeRpcOptions({'definition_dir': foundry.kompiled, 'port': int(options.port), 'host': options.host})
+    )
+    server.serve()
 
 
 def _create_argument_parser() -> ArgumentParser:
@@ -841,6 +863,27 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.foundry_args,
         ],
     )
+    vm = command_parser.add_parser(
+        'vm',
+        help='Start a json rpc server',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    vm.add_argument(
+        '--host',
+        dest='host',
+        default='127.0.0.1',
+        help='host address',
+    )
+    vm.add_argument(
+        '--port',
+        dest='port',
+        default=9001,
+        help='port number',
+    )
+
     init = command_parser.add_parser(
         'init',
         help='Create a new Forge project compatible with Kontrol',
