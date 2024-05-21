@@ -2,34 +2,32 @@
 ┌─ 1 (root, init)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
-│   callDepth: CALLDEPTH_CELL:Int
+│   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (412 steps)
-├─ 6 (terminal)
+│  (1119 steps)
+└─ 6 (leaf, pending)
+    k: #execute ~> CONTINUATION:K
+    pc: 0
+    callDepth: 0
+    statusCode: STATUSCODE:StatusCode
+
+
+┌─ 7 (root, leaf, target)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 87
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: EVMC_SUCCESS
-│
-┊  constraint: OMITTED CONSTRAINT
-┊  subst: OMITTED SUBST
-└─ 5 (leaf, target, terminal)
-    k: #halt ~> CONTINUATION:K
-    pc: PC_CELL_5d410f2a:Int
-    callDepth: CALLDEPTH_CELL_5d410f2a:Int
-    statusCode: STATUSCODE_FINAL:StatusCode
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
 
 
 
-
-module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
+module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
     
     
     rule [BASIC-BLOCK-1-TO-6]: <foundry>
            <kevm>
              <k>
-               ( #execute => #halt )
+               #execute
                ~> _CONTINUATION
              </k>
              <mode>
@@ -44,29 +42,35 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #buf ( 32 , ?VV0_x_114b9705 ) )
+                   b""
                  </output>
-                 <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
-                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( CALLDATA_CELL:Bytes => b"\xac7\xee\xbb" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) )
+                     ( CALLDATA_CELL:Bytes => b"'\\RV" )
                    </callData>
                    <callValue>
-                     0
+                     ( CALLVALUE_79cb2bc6:Int => 0 )
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( selector ( "identity(uint256)" ) : .WordStack ) )
+                     .WordStack
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) )
+                     b""
                    </localMem>
                    <memoryUsed>
                      0
@@ -74,12 +78,27 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
                    <callGas>
                      0
                    </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
                    ...
                  </callState>
                  <substate>
+                   <log>
+                     .List
+                   </log>
                    <refund>
                      0
                    </refund>
+                   <accessedAccounts>
+                     .Set
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
                    ...
                  </substate>
                  <origin>
@@ -100,17 +119,77 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       0
                      </balance>
+                     <storage>
+                       ( .Map => ( 0 |-> 4321 ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       ( 0 => 1 )
                      </nonce>
                      ...
                    </account>
-                   ACCOUNTS_REST:AccountCellMap )
+                   ( <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> => ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 125813996375599159817140963330240011258305308995329 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) ) )
                  </accounts>
                  ...
                </network>
@@ -189,32 +268,21 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( 0 <=Int CALLVALUE_79cb2bc6:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( CALLVALUE_79cb2bc6:Int <Int pow256
        andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-               ))))))))))))))))))))))
-       ensures ( 0 <=Int ?VV0_x_114b9705
-       andBool ( ?VV0_x_114b9705 <Int pow256
-               ))
+               ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-6)]
 
 endmodule

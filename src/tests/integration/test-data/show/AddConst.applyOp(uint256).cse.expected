@@ -1,21 +1,28 @@
 
-┌─ 1 (root, split, init)
+┌─ 1 (root, init)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│
+│  (405 steps)
+├─ 6 (split)
+│   k: JUMPI 180 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTR ...
+│   pc: 158
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
 ┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) )
 ┃  │
-┃  ├─ 8
-┃  │   k: #execute ~> CONTINUATION:K
-┃  │   pc: 0
+┃  ├─ 7
+┃  │   k: JUMPI 180 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTR ...
+┃  │   pc: 158
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (446 steps)
-┃  ├─ 6 (terminal)
+┃  │  (122 steps)
+┃  ├─ 9 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -23,7 +30,7 @@
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
 ┃  ┊  subst: OMITTED SUBST
-┃  └─ 2 (leaf, target, terminal)
+┃  └─ 5 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -31,14 +38,14 @@
 ┃
 ┗━━┓ constraint: ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) <Int VV0_x_114b9705:Int
    │
-   ├─ 9
-   │   k: #execute ~> CONTINUATION:K
-   │   pc: 0
+   ├─ 8
+   │   k: JUMPI 180 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTR ...
+   │   pc: 158
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (371 steps)
-   ├─ 7 (terminal)
+   │  (47 steps)
+   ├─ 10 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 179
    │   callDepth: CALLDEPTH_CELL:Int
@@ -46,7 +53,7 @@
    │
    ┊  constraint: OMITTED CONSTRAINT
    ┊  subst: OMITTED SUBST
-   └─ 2 (leaf, target, terminal)
+   └─ 5 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K
        pc: PC_CELL_5d410f2a:Int
        callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -58,10 +65,12 @@
 module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
     
     
-    rule [BASIC-BLOCK-8-TO-6]: <foundry>
+    rule [BASIC-BLOCK-7-TO-9]: <foundry>
            <kevm>
              <k>
-               ( #execute => #halt )
+               ( JUMPI 180 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) )
+               ~> #pc [ JUMPI ]
+               ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -95,10 +104,10 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( selector ( "applyOp(uint256)" ) : .WordStack ) )
+                     ( ( 0 => selector ( "applyOp(uint256)" ) ) : ( ( VV0_x_114b9705:Int : ( #lookup ( CONTRACT_STORAGE:Map , 0 ) : ( 118 : ( 0 : ( VV0_x_114b9705:Int : ( 70 : ( selector ( "applyOp(uint256)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( VV0_x_114b9705:Int +Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) ) )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( VV0_x_114b9705:Int +Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -231,12 +240,12 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
@@ -249,12 +258,14 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
        andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) )
                ))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-8-TO-6)]
+      [priority(20), label(BASIC-BLOCK-7-TO-9)]
     
-    rule [BASIC-BLOCK-9-TO-7]: <foundry>
+    rule [BASIC-BLOCK-8-TO-10]: <foundry>
            <kevm>
              <k>
-               ( #execute => #halt )
+               ( JUMPI 180 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) )
+               ~> #pc [ JUMPI ]
+               ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -288,10 +299,10 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( VV0_x_114b9705:Int : ( #lookup ( CONTRACT_STORAGE:Map , 0 ) : ( 118 : ( 0 : ( VV0_x_114b9705:Int : ( 70 : ( selector ( "applyOp(uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     ( 0 : ( VV0_x_114b9705:Int : ( #lookup ( CONTRACT_STORAGE:Map , 0 ) : ( 118 : ( 0 : ( VV0_x_114b9705:Int : ( 70 : ( selector ( "applyOp(uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -424,12 +435,12 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
@@ -442,6 +453,196 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
        andBool ( ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) <Int VV0_x_114b9705:Int
                ))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-7)]
+      [priority(20), label(BASIC-BLOCK-8-TO-10)]
+    
+    rule [BASIC-BLOCK-1-TO-6]: <foundry>
+           <kevm>
+             <k>
+               ( .K => JUMPI 180 bool2Word ( ?VV0_x_114b9705 <=Int ( maxUInt256 -Int #lookup ( CONTRACT_STORAGE:Map , 0 ) ) )
+               ~> #pc [ JUMPI ] )
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     CONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     ( CALLDATA_CELL:Bytes => b"i\xab\xff\xa1" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 0 : ( ?VV0_x_114b9705 : ( #lookup ( CONTRACT_STORAGE:Map , 0 ) : ( 118 : ( 0 : ( ?VV0_x_114b9705 : ( 70 : ( selector ( "applyOp(uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressSet>
+                 .Set
+               </addressSet>
+               <storageSlotSet>
+                 .Set
+               </storageSlotSet>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int CONTRACT_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int CONTRACT_BAL:Int
+       andBool ( 0 <=Int CONTRACT_NONCE:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( CONTRACT_BAL:Int <Int pow256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+               ))))))))))))))))))))))
+       ensures ( 0 <=Int ?VV0_x_114b9705
+       andBool ( ?VV0_x_114b9705 <Int pow256
+               ))
+      [priority(20), label(BASIC-BLOCK-1-TO-6)]
 
 endmodule

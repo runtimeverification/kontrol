@@ -618,6 +618,7 @@ def _method_to_cfg(
     calldata = None
     callvalue = None
 
+    contract_code = KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
     if isinstance(method, Contract.Constructor):
         program = KEVM.init_bytecode(KApply(f'contract_{contract.name_with_path}'))
         callvalue = method.callvalue_cell
@@ -626,12 +627,12 @@ def _method_to_cfg(
     elif isinstance(method, Contract.Method):
         calldata = method.calldata_cell(contract)
         callvalue = method.callvalue_cell
-        program = KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
+        program = contract_code
 
     init_cterm = _init_cterm(
         empty_config,
         program=program,
-        contract_code=KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}')),
+        contract_code=contract_code,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         #          is_test=method.is_test,
@@ -688,7 +689,7 @@ def _method_to_cfg(
 
     final_cterm = _final_cterm(
         empty_config,
-        program,
+        program=contract_code,
         failing=method.is_testfail,
         config_type=config_type,
         is_test=method.is_test,
@@ -760,6 +761,8 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -
     for constraint in cterm.constraints + node.cterm.constraints:
         new_init_cterm = new_init_cterm.add_constraint(constraint)
     new_init_cterm = KEVM.add_invariant(new_init_cterm)
+
+    new_init_cterm = new_init_cterm.remove_useless_constraints()
 
     return new_init_cterm
 
