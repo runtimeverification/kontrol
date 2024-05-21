@@ -511,7 +511,7 @@ class Foundry:
                 )
             elif not method.up_to_date(self.digest_file):
                 _LOGGER.info(
-                    f'Creating a new version of {test} because --reinit was specified and --setup-version is set to a dirty version'
+                    f'Creating a new version of {test} because --reinit was specified and --setup-version is set to an outdated version.'
                 )
             else:
                 _LOGGER.info(f'Reusing version {user_specified_setup_version} of setup proof')
