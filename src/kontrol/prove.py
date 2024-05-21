@@ -934,7 +934,7 @@ def _create_initial_storage(storage_fields: tuple[StorageField, ...]) -> tuple[K
             if slot_length_left > 0:
                 slot_data = KEVM.bytes_append(slot_data, KEVM.buf(slot_length_left, intToken(0)))
 
-            storage_dict[intToken(slot_index)] = slot_data
+            storage_dict[intToken(slot_index)] = KApply('#asWord(_)_EVM-TYPES_Int_Bytes', slot_data)
 
             # Reset for the new slot
             slot_index = field.slot
@@ -945,7 +945,7 @@ def _create_initial_storage(storage_fields: tuple[StorageField, ...]) -> tuple[K
     if slot_index is not None:
         if slot_length_left > 0:
             slot_data = KEVM.bytes_append(slot_data, KEVM.buf(slot_length_left, intToken(0)))
-        storage_dict[intToken(slot_index)] = slot_data
+        storage_dict[intToken(slot_index)] = KApply('#asWord(_)_EVM-TYPES_Int_Bytes', slot_data)
 
     return map_of(storage_dict), storage_constraints
 
