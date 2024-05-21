@@ -71,6 +71,113 @@ Note that all the relevant environment variables are also present in the script 
 
 ## 📝 Write Your Proofs 📝
 
-By now we have generated two files, one containing the recorded state updates of choice and another with the saved names of the relevant addresses. Now it's time to give both file to Kontrol as a previous step of writting the proofs. To this end we'll use the `kontrol load-state-diff` feature of Kontrol. To see a detailed description of it see the documentation. (TODO: actually add the documentation)
+By now we have generated two files, one containing the recorded state updates of choice and another with the saved names of the relevant addresses. Once we have written the proofs, the state diff JSON will be used by Kontrol to load all the recorded state updates as the initial configuration of the proofs. This means that if we have a test such as the following
+```solidity
+Counter[] public counters;
 
+function setUp() public {
+        for (uint256 i; i <= 9; ++i) {
+            counters.push(new Counter());
+            counters[i].setNumber(i);
+        }
+    }
 
+function test_multiple_counters() public {
+        for(uint256 i; i <= 9; ++i){
+            require(counters[i].number() == i, "Bad number");
+        }
+    }
+```
+we can offload the computation of the `setUp` function (of any function, really) to Foundry, and then provide to Kontrol the file containing what state updates occurred during the execution of `setUp`. Let's see how this transformation is done.
+
+First, we need to run this `setUp` function with the `recordStateDiff` modifier. You can find that function [here](./test/kontrol/state-diff/proof-initialization.sol#L18):
+```solidity
+    function counterBedNamed() public recordStateDiff {
+        for (uint256 i; i <= 9; ++i) {
+            counter = new Counter();
+            counter.setNumber(i);
+            save_address(address(counter), string.concat("counter", vm.toString(i)));
+        }
+    }
+```
+Notice that we're saving the addresses via `save_address`, not via the `Counter[]`. 
+
+The next step is to use Kontrol's `load-state-diff` command. An example on how to use it can be found in [the provided script](test/kontrol/scripts/record-state-diff.sh). For our running example it can be called as follows
+```
+kontrol load-state-diff InitialState state-diff/StateDiff.json --contract-names state-diff/AddressNames.json --output-dir test/kontrol/proofs/utils
+```
+This will
+- Create two contracts, [`InitialState.sol`](test/kontrol/proofs/utils/InitialState.sol) and [`InitialStateCode.sol`](test/kontrol/proofs/utils/InitialStateCode.sol)
+  - `InitialState.sol` will have the names of the addresses from `AddressNames.json` and a function `recreateDeployment` that uses `vm.etch` and `vm.store` to allow for state-recreation.
+  - `InitialStateCode.sol` contains the code for the relevant addresses used in `InitialState.sol`.
+- Save the two contracts in the directory indicated to the `--output-dir` flag.
+
+The relevant part for writing our tests is that `InitialState.sol` contains the following address names:
+```solidity
+address internal constant counter8Address = 0x03A6a84cD762D9707A21605b548aaaB891562aAb;
+address internal constant counter6Address = 0x1d1499e622D69689cdf9004d05Ec547d650Ff211;
+address internal constant counter1Address = 0x2e234DAe75C793f67A35089C9d99245E1C58470b;
+address internal constant counter0Address = 0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f;
+address internal constant counter3Address = 0x5991A2dF15A8F6A256D3Ec51E99254Cd3fb576A9;
+address internal constant counter7Address = 0xA4AD4f68d0b91CFD19687c881e50f3A00242828c;
+address internal constant counter9Address = 0xD6BbDE9174b1CdAa358d2Cf4D57D1a9F7178FBfF;
+address internal constant counter2Address = 0xF62849F9A0B5Bf2913b396098F7c7019b51A820a;
+address internal constant counter5Address = 0xa0Cb889707d426A7A386870A03bc70d1b0697598;
+address internal constant counter4Address = 0xc7183455a4C133Ae270771860664b6B7ec320bB1;
+```
+This means that for [our test](test/kontrol/proofs/Counter.k.sol) we'll inherit `InitialState.sol` and add the necessary interface to each address:
+```solidity
+Counter[] public counters;
+
+function setUp() public {
+    counters.push(Counter(address(counter0Address)));
+    counters.push(Counter(address(counter1Address)));
+    counters.push(Counter(address(counter2Address)));
+    counters.push(Counter(address(counter3Address)));
+    counters.push(Counter(address(counter4Address)));
+    counters.push(Counter(address(counter5Address)));
+    counters.push(Counter(address(counter6Address)));
+    counters.push(Counter(address(counter7Address)));
+    counters.push(Counter(address(counter8Address)));
+    counters.push(Counter(address(counter9Address)));
+}
+```
+Note that in the previous `setUp` we were deploying contracts + calling `setNumber` on each contract and storing them in the `Counters[]` array. Here we're only casting the addresses with the right interface and storing them to `counters`.
+
+**A note on interfaces**: One of the goals of this technique is to isolate the verified bytecode from the sourcecode producing it. Therefore `Counter` here is just an interface of the actual `Counter` contract. The interface can be found [here](test/kontrol/proofs/utils/Interfaces.sol). To see more clearly how this is brought together, see the test [here](test/kontrol/proofs/Counter.k.sol).
+
+Note that [our test](test/kontrol/proofs/Counter.k.sol) is named `prove_multiple_counters`. The reason for not using `test_` is that, since we're not including the `recreateDeployment` function in the `setUp`, running that test with `forge` will not be successful, since the state updates haven't been loaded.
+
+However, we don't need to run the `recreateDeployment` function in Kontrol! Let's see how we can execute `prove_multiple_counters`.
+
+## ⚙️ Run Your Proofs ⚙️
+
+At this point we have a test that says things about addresses, but no information about the addresses is actually present in the contract! That is, we have following `setUp` function that just stores a bunch of addresses:
+```solidity
+Counter[] public counters;
+
+function setUp() public {
+    counters.push(Counter(address(counter0Address)));
+    counters.push(Counter(address(counter1Address)));
+    counters.push(Counter(address(counter2Address)));
+    counters.push(Counter(address(counter3Address)));
+    counters.push(Counter(address(counter4Address)));
+    counters.push(Counter(address(counter5Address)));
+    counters.push(Counter(address(counter6Address)));
+    counters.push(Counter(address(counter7Address)));
+    counters.push(Counter(address(counter8Address)));
+    counters.push(Counter(address(counter9Address)));
+}
+```
+And the following tests that asserts some property for each of the stored addresses:
+```solidity
+function prove_multiple_counters() public {
+        for(uint256 i; i <= 9; ++i){
+            require(counters[i].number() == i, "Bad number");
+        }
+    }
+```
+All that is left is to tell Kontrol which state updates need to be loaded before executing `prove_multiple_counters`. This is done via the `--init-node-from` flag of the `kontrol prove` command. Hence, to successfully execute the above function in Kontrol we'll have to execute:
+1. `FOUNDRY_PROFILE=kprove kontrol build`
+2. `FOUNDRY_PROFILE=kprove kontrol prove --match-test prove_multiple_counters --init-node-from state-diff/StateDiff.json`
+Note that running this in the context of the `kprove` profile is crucial, since it points to the isolated folder that will contain all the necessary bytecode.
