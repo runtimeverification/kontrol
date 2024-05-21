@@ -21,10 +21,10 @@
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (1303 steps)
+┃  │  (979 steps)
 ┃  └─ 14 (vacuous, leaf)
-┃      k: JUMPI 180 bool2Word ( #asWord ( #buf ( 32 , VV1_y_114b9705:Int ) ) <=Int ( maxUI ...
-┃      pc: 158
+┃      k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+┃      pc: 0
 ┃      callDepth: 1
 ┃      statusCode: EVMC_SUCCESS
 ┃
@@ -36,8 +36,8 @@
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (1862 steps)
-   ├─ 16 (terminal)
+   │  (1417 steps)
+   ├─ 15 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 221
    │   callDepth: 0
@@ -362,9 +362,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
            <kevm>
              <k>
                ( JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int )
-               ~> #pc [ JUMPI ] => JUMPI 180 bool2Word ( #asWord ( #buf ( 32 , VV1_y_114b9705:Int ) ) <=Int ( maxUInt256 -Int #asWord ( #buf ( 32 , VV0_x_114b9705:Int ) ) ) )
-               ~> #pc [ JUMPI ]
-               ~> #execute
+               ~> #pc [ JUMPI ] => #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ] )
                ~> #execute
@@ -551,10 +549,10 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( VV0_x_114b9705:Int <Int pow64 ) => 0 ) : ( ( selector ( "assume(bool)" ) => #asWord ( #buf ( 32 , VV1_y_114b9705:Int ) ) ) : ( ( 645326474426547203313410069153905908525362434349 => #asWord ( #buf ( 32 , VV0_x_114b9705:Int ) ) ) : ( ( VV1_y_114b9705:Int => 118 ) : ( ( VV0_x_114b9705:Int => 0 ) : ( ( 220 => #asWord ( #buf ( 32 , VV1_y_114b9705:Int ) ) ) : ( ( selector ( "test_add_const(uint256,uint256)" ) => 70 ) : ( .WordStack => ( selector ( "applyOp(uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     ( ( bool2Word ( VV0_x_114b9705:Int <Int pow64 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -793,7 +791,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        ensures #buf ( 32 , bool2Word ( VV0_x_114b9705:Int <Int pow64 ) ) +Bytes b"" ~> .K ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" ~> .K
       [priority(20), label(BASIC-BLOCK-10-TO-14)]
     
-    rule [BASIC-BLOCK-11-TO-16]: <foundry>
+    rule [BASIC-BLOCK-11-TO-15]: <foundry>
            <kevm>
              <k>
                ( JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int )
@@ -1082,6 +1080,6 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( VV1_y_114b9705:Int <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
        andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ==Int ( VV1_y_114b9705:Int +Int VV0_x_114b9705:Int )
                )))
-      [priority(20), label(BASIC-BLOCK-11-TO-16)]
+      [priority(20), label(BASIC-BLOCK-11-TO-15)]
 
 endmodule
