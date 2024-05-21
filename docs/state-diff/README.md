@@ -92,13 +92,13 @@ we can offload the computation of the `setUp` function (of any function, really)
 
 First, we need to run this `setUp` function with the `recordStateDiff` modifier. You can find that function [here](./test/kontrol/state-diff/proof-initialization.sol#L18):
 ```solidity
-    function counterBedNamed() public recordStateDiff {
-        for (uint256 i; i <= 9; ++i) {
-            counter = new Counter();
-            counter.setNumber(i);
-            save_address(address(counter), string.concat("counter", vm.toString(i)));
-        }
+function counterBedNamed() public recordStateDiff {
+    for (uint256 i; i <= 9; ++i) {
+        counter = new Counter();
+        counter.setNumber(i);
+        save_address(address(counter), string.concat("counter", vm.toString(i)));
     }
+}
 ```
 Notice that we're saving the addresses via `save_address`, not via the `Counter[]`. 
 
