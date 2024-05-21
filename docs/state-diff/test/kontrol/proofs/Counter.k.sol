@@ -28,9 +28,8 @@ contract CounterKontrol is InitialState {
     }
 
     function prove_multiple_counters() public {
-        for(uint256 i; i <= 9; ++i){
+        for (uint256 i; i <= 9; ++i) {
             require(counters[i].number() == i, "Bad number");
         }
     }
-
 }
