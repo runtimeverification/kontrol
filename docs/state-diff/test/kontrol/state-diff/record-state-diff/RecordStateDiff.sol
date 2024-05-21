@@ -34,7 +34,7 @@ abstract contract RecordStateDiff {
     /// @dev ADDR_NAMES     env var with named addresses file name
     /// TODO: Investigate/fix why the resulting order of the strings in the json seems to not preseve the order
     ///       in which `save_address` is called when saving multiple addresses
-    function save_address(string memory name, address addr) public {
+    function save_address(address addr, string memory name) public {
         string memory address_names_file = check_file(vm.envString("STATE_DIFF_DIR"), vm.envString("ADDR_NAMES"));
         vm.writeJson({json: vm.serializeString("", vm.toString(addr), name), path: address_names_file});
     }
