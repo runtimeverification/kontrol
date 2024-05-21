@@ -566,6 +566,8 @@ def _method_to_initialized_cfg(
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
+    print(test.id)
+
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
         empty_config,
@@ -629,6 +631,7 @@ def _method_to_cfg(
     init_cterm = _init_cterm(
         empty_config,
         program=program,
+        contract_code=KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}')),
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         #          is_test=method.is_test,
@@ -665,11 +668,18 @@ def _method_to_cfg(
             _LOGGER.warning(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )
+
+        print('using setup proof for:')
+        print(method.id)
         for final_node in final_states:
             new_init_cterm = _update_cterm_from_node(init_cterm, final_node, contract.name_with_path)
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
+            print('final node')
+            print(final_node.id)
+            print('new node')
+            print(new_node.id)
     else:
         cfg = KCFG()
         init_node = cfg.create_node(init_cterm)
@@ -686,6 +696,8 @@ def _method_to_cfg(
         hevm=hevm,
     )
     target_node = cfg.create_node(final_cterm)
+
+    print(cfg.node(1).cterm)
 
     return cfg, new_node_ids, init_node_id, target_node.id
 
@@ -804,6 +816,7 @@ def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) 
 def _init_cterm(
     empty_config: KInner,
     program: KInner,
+    contract_code: KInner,
     use_gas: bool,
     config_type: ConfigType,
     #      is_test: bool,
@@ -857,7 +870,7 @@ def _init_cterm(
     }
 
     if config_type == ConfigType.TEST_CONFIG or active_symbolik:
-        init_account_list = _create_initial_account_list(program, deployment_state_entries)
+        init_account_list = _create_initial_account_list(contract_code, deployment_state_entries)
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
             'CALLSTACK_CELL': list_empty(),
@@ -877,7 +890,7 @@ def _init_cterm(
         # Status: Currently, only the executing contract
         # TODO: Add all other accounts belonging to relevant contracts
         accounts: list[KInner] = [
-            Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), program),
+            Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code),
             KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')),
         ]
 
