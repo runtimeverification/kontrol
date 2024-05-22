@@ -344,11 +344,10 @@ Node 20:
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
 #And ( { true #Equals ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
-#And ( { true #Equals CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
 #And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) )
+#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -1016,14 +1015,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1244,12 +1242,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
@@ -1478,12 +1475,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-10)]
     
     rule [BASIC-BLOCK-10-TO-11]: <foundry>
@@ -1711,12 +1707,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-11)]
     
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
@@ -2032,12 +2027,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
@@ -2351,12 +2345,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -2671,12 +2664,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
     rule [BASIC-BLOCK-14-TO-15]: <foundry>
@@ -2994,12 +2986,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-14-TO-15)]
     
     rule [BASIC-BLOCK-15-TO-16]: <foundry>
@@ -3317,12 +3308,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3643,12 +3633,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
     
     rule [BASIC-BLOCK-17-TO-18]: <foundry>
@@ -3969,12 +3958,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-17-TO-18)]
     
     rule [BASIC-BLOCK-18-TO-19]: <foundry>
@@ -4200,12 +4188,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-18-TO-19)]
     
     rule [BASIC-BLOCK-19-TO-20]: <foundry>
@@ -4431,12 +4418,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-19-TO-20)]
 
 endmodule
@@ -4454,7 +4440,6 @@ Failing nodes:
     #And { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
     #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
     #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And #Not ( { CONTRACT_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
     #And { true #Equals CALLER_ID:Int <Int pow160 }
     #And { true #Equals ORIGIN_ID:Int <Int pow160 }
     #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
@@ -4465,7 +4450,6 @@ Failing nodes:
     #Top
   Model:
     CALLER_ID = 10
-    CONTRACT_ID = 2
     NUMBER_CELL = 0
     ORIGIN_ID = 10
     TIMESTAMP_CELL = 0
