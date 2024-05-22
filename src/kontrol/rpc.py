@@ -8,8 +8,7 @@ from pyk.kast.manip import set_cell
 from pyk.cterm import CTerm
 from pyk.ktool.krun import KRun
 from pyk.rpc.rpc import JsonRpcServer, ServeRpcOptions
-from pyk.kast.inner import KSort
-from pyk.kast.inner import KToken
+from pyk.kast.inner import KSort, KApply, KToken, KSequence
 
 _PPRINT = pprint.PrettyPrinter(width=41, compact=True)
 
@@ -25,7 +24,8 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.register_method('eth_memoryUsed', self.exec_get_memory_used)
         self.register_method('eth_gasPrice', self.exec_get_gas_price)
         self.register_method('eth_blockNumber', self.exec_get_block_number)
-        self.register_method('eth_getBalance', self.exec_get_balance)
+        # self.register_method('eth_getBalance', self.exec_get_balance)
+        self.register_method('kontrol_addAccount', self.exec_add_account)
 
         if not options.definition_dir:
             raise ValueError('Must specify a definition dir with --definition')
@@ -51,9 +51,20 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         cell = self.cterm.cell('NUMBER_CELL')
         return int(cell.token)
 
-    def exec_get_balance (self) -> int:
-        cell = self.cterm.cell('NUMBER_CELL')
-        return int(cell.token)
+
+    def exec_add_account(self) -> int:
+        # x = self.cterm.cell('X_CELL')
+        # y = self.cterm.cell('Y_CELL')
+        # self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('_+Int_', [x, y])))
+        
+        # self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'RPC-REQUEST_CELL', KApply('#kontrol_addAccount', [])))
+        # pattern = self.krun.kast_to_kore(self.cterm.config, sort=KSort('GeneratedTopCell'))
+        # output_kore = self.krun.run_pattern(pattern)
+        # self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
+
+        rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
+        _PPRINT.pprint(rpc_response_cell)
+        return 0
 
 
     # _PPRINT.pprint(cell)

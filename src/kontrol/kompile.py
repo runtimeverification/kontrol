@@ -100,8 +100,9 @@ def foundry_kompile(
         bin_runtime_definition = _foundry_to_contract_def(
             empty_config=empty_config,
             contracts=foundry.contracts.values(),
-            requires=['foundry.md'],
+            requires=['vm.md'],
         )
+            # requires=['foundry.md'],
 
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
