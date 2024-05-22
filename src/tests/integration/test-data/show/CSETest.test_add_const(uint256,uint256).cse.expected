@@ -21,10 +21,10 @@
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (578 steps)
+┃  │  (729 steps)
 ┃  └─ 15 (vacuous, leaf)
-┃      k: JUMPI 55 bool2Word ( selector ( "applyOp(uint256)" ) ==Int #asWord ( b"\xe9\x19\ ...
-┃      pc: 39
+┃      k: #next [ SSTORE ] ~> #execute ~> #return 128 0 ~> #pc [ CALL ] ~> #execute ~> CON ...
+┃      pc: 102
 ┃      callDepth: 1
 ┃      statusCode: STATUSCODE:StatusCode
 ┃
@@ -61,8 +61,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
            <kevm>
              <k>
                ( JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int )
-               ~> #pc [ JUMPI ] => JUMPI 55 bool2Word ( selector ( "applyOp(uint256)" ) ==Int #asWord ( b"\xe9\x19\xcf\x83" +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 0 , 28 ) ) >>Int 224 )
-               ~> #pc [ JUMPI ]
+               ~> #pc [ JUMPI ] => #next [ SSTORE ]
                ~> #execute
                ~> #return 128 0
                ~> #pc [ CALL ] )
@@ -249,7 +248,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( VV0_x_114b9705:Int <Int pow64 ) => #asWord ( b"\xe9\x19\xcf\x83" +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 0 , 28 ) ) >>Int 224 ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) => .WordStack ) )
+                     ( ( bool2Word ( VV0_x_114b9705:Int <Int pow64 ) => 0 ) : ( ( selector ( "assume(bool)" ) => #asWord ( #buf ( 32 , VV0_x_114b9705:Int ) ) ) : ( ( 645326474426547203313410069153905908525362434349 => 104 ) : ( ( VV1_y_114b9705:Int => selector ( "setConst(uint256)" ) ) : ( ( VV0_x_114b9705:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) => .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"

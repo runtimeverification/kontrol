@@ -446,7 +446,7 @@ def _run_cfg_group(
                 fail_fast=options.fail_fast,
             )
 
-            if options.minimize_proofs:
+            if options.minimize_proofs or options.config_type == ConfigType.SUMMARY_CONFIG:
                 proof.minimize_kcfg()
 
             if start_time is not None:
