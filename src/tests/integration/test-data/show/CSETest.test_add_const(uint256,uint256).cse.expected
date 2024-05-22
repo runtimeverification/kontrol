@@ -5,8 +5,8 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (1721 steps)
-├─ 12 (split)
+│  (1550 steps)
+├─ 9 (split)
 │   k: JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
 │   pc: 669
 │   callDepth: 0
@@ -15,14 +15,14 @@
 ┃ (branch)
 ┣━━┓ constraint: pow64 <=Int VV0_x_114b9705:Int
 ┃  │
-┃  ├─ 13
+┃  ├─ 10
 ┃  │   k: JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
 ┃  │   pc: 669
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (729 steps)
-┃  └─ 15 (vacuous, leaf)
+┃  └─ 12 (vacuous, leaf)
 ┃      k: #next [ SSTORE ] ~> #execute ~> #return 128 0 ~> #pc [ CALL ] ~> #execute ~> CON ...
 ┃      pc: 102
 ┃      callDepth: 1
@@ -30,14 +30,14 @@
 ┃
 ┗━━┓ constraint: VV0_x_114b9705:Int <Int pow64
    │
-   ├─ 14
+   ├─ 11
    │   k: JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
    │   pc: 669
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │
    │  (1712 steps)
-   ├─ 16 (terminal)
+   ├─ 13 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 221
    │   callDepth: 0
@@ -45,7 +45,7 @@
    │
    ┊  constraint: true
    ┊  subst: OMITTED SUBST
-   └─ 11 (leaf, target, terminal)
+   └─ 8 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K
        pc: PC_CELL_5d410f2a:Int
        callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -57,7 +57,7 @@
 module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-13-TO-15]: <foundry>
+    rule [BASIC-BLOCK-10-TO-12]: <foundry>
            <kevm>
              <k>
                ( JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int )
@@ -199,11 +199,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                          0
                        </balance>
                        <storage>
-                         ( ( 11 |-> 1 )
                          ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
                          ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
-                         ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
-                         ( 7 |-> 1 ) ) ) ) )
+                         ( 29 |-> 1405310203571408291950365054053061012934685786634 ) ) )
                        </storage>
                        <origStorage>
                          .Map
@@ -380,11 +378,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
                        ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
                        ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
-                       ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
-                       ( 7 |-> 1 ) ) ) ) )
+                       ( 29 |-> 1405310203571408291950365054053061012934685786634 ) ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -489,9 +485,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
        ensures #buf ( 32 , bool2Word ( VV0_x_114b9705:Int <Int pow64 ) ) +Bytes b"" ~> .K ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" ~> .K
-      [priority(20), label(BASIC-BLOCK-13-TO-15)]
+      [priority(20), label(BASIC-BLOCK-10-TO-12)]
     
-    rule [BASIC-BLOCK-14-TO-16]: <foundry>
+    rule [BASIC-BLOCK-11-TO-13]: <foundry>
            <kevm>
              <k>
                ( JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int )
@@ -669,11 +665,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
                        ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
                        ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
-                       ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
-                       ( 7 |-> 1 ) ) ) ) )
+                       ( 29 |-> 1405310203571408291950365054053061012934685786634 ) ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -781,9 +775,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( VV1_y_114b9705:Int <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
        andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ==Int ( VV1_y_114b9705:Int +Int VV0_x_114b9705:Int )
                )))
-      [priority(20), label(BASIC-BLOCK-14-TO-16)]
+      [priority(20), label(BASIC-BLOCK-11-TO-13)]
     
-    rule [BASIC-BLOCK-1-TO-12]: <foundry>
+    rule [BASIC-BLOCK-1-TO-9]: <foundry>
            <kevm>
              <k>
                ( .K => JUMPI 678 bool2Word ( pow64 <=Int ?VV0_x_114b9705 )
@@ -822,7 +816,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( CALLDATA_CELL:Bytes => b"\x0f\xee)\xd1" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) +Bytes #buf ( 32 , ?VV1_y_114b9705 ) )
+                     ( b"\n\x92T\xe4" => b"\x0f\xee)\xd1" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) +Bytes #buf ( 32 , ?VV1_y_114b9705 ) )
                    </callData>
                    <callValue>
                      0
@@ -975,11 +969,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
                        ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
                        ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
-                       ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
-                       ( 7 |-> 1 ) ) ) ) )
+                       ( 29 |-> 1405310203571408291950365054053061012934685786634 ) ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -1049,13 +1041,13 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                false
              </activeTracing>
              <traceStorage>
-               false
+               ( true => false )
              </traceStorage>
              <traceWordStack>
-               false
+               ( true => false )
              </traceWordStack>
              <traceMemory>
-               false
+               ( true => false )
              </traceMemory>
              <recordedTrace>
                false
@@ -1076,15 +1068,14 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))
+               )))))))))))))
        ensures ( 0 <=Int ?VV0_x_114b9705
        andBool ( 0 <=Int ?VV1_y_114b9705
        andBool ( ?VV0_x_114b9705 <Int pow256
        andBool ( ?VV1_y_114b9705 <Int pow256
                ))))
-      [priority(20), label(BASIC-BLOCK-1-TO-12)]
+      [priority(20), label(BASIC-BLOCK-1-TO-9)]
 
 endmodule
