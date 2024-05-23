@@ -144,7 +144,7 @@ function setUp() public {
 ```
 Note that in the previous `setUp` we were deploying contracts + calling `setNumber` on each contract and storing them in the `Counters[]` array. Here we're only casting the addresses with the right interface and storing them in `counters`.
 
-**A note on interfaces**: One of the goals of this technique is to isolate the verified bytecode from the sourcecode producing it. Therefore `Counter` here is just an interface of the actual `Counter` contract. The interface can be found [here](test/kontrol/proofs/utils/Interfaces.sol). To see more clearly how this is brought together, see the test [here](test/kontrol/proofs/Counter.k.sol).
+**A note on interfaces**: One of the goals of this technique is to isolate the verified bytecode from the source code producing it. Therefore `Counter` here is just an interface of the actual `Counter` contract. The interface can be found [here](test/kontrol/proofs/utils/Interfaces.sol). To see more clearly how this is brought together, see the test [here](test/kontrol/proofs/Counter.k.sol).
 
 Note that [our test](test/kontrol/proofs/Counter.k.sol) is named `prove_multiple_counters`. The reason for not using `test_` is that, since we're not including the `recreateDeployment` function in the `setUp`, running that test with `forge` will not be successful, since the state updates haven't been loaded.
 
