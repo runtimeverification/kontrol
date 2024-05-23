@@ -2,16 +2,75 @@ from __future__ import annotations
 
 from argparse import ArgumentParser
 from functools import cached_property
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from kevm_pyk.cli import KEVMCLIArgs
 from kevm_pyk.kompile import KompileTarget
 from pyk.cli.utils import dir_path
 
+from .options import (
+    BuildOptions,
+    CleanOptions,
+    CompileOptions,
+    GetModelOptions,
+    InitOptions,
+    ListOptions,
+    LoadStateDiffOptions,
+    MergeNodesOptions,
+    MinimizeProofOptions,
+    ProveOptions,
+    RefuteNodeOptions,
+    RemoveNodeOptions,
+    SectionEdgeOptions,
+    ShowOptions,
+    SimplifyNodeOptions,
+    SolcToKOptions,
+    SplitNodeOptions,
+    StepNodeOptions,
+    ToDotOptions,
+    UnrefuteNodeOptions,
+    VersionOptions,
+    ViewKcfgOptions,
+)
+
 if TYPE_CHECKING:
     from typing import TypeVar
 
+    from .options import LoggingOptions
+
     T = TypeVar('T')
+
+
+def generate_options(args: dict[str, Any]) -> LoggingOptions:
+    command = args['command']
+    options = {
+        'load-state-diff': LoadStateDiffOptions(args),
+        'version': VersionOptions(args),
+        'compile': CompileOptions(args),
+        'solc-to-k': SolcToKOptions(args),
+        'build': BuildOptions(args),
+        'prove': ProveOptions(args),
+        'show': ShowOptions(args),
+        'refute-node': RefuteNodeOptions(args),
+        'unrefute-node': UnrefuteNodeOptions(args),
+        'split-node': SplitNodeOptions(args),
+        'to-dot': ToDotOptions(args),
+        'list': ListOptions(args),
+        'view-kcfg': ViewKcfgOptions(args),
+        'remove-node': RemoveNodeOptions(args),
+        'simplify-node': SimplifyNodeOptions(args),
+        'step-node': StepNodeOptions(args),
+        'merge-nodes': MergeNodesOptions(args),
+        'section-edge': SectionEdgeOptions(args),
+        'get-model': GetModelOptions(args),
+        'minimize-proof': MinimizeProofOptions(args),
+        'clean': CleanOptions(args),
+        'init': InitOptions(args),
+    }
+    try:
+        return options[command]
+    except KeyError as err:
+        raise ValueError(f'Unrecognized command: {command}') from err
 
 
 class KontrolCLIArgs(KEVMCLIArgs):

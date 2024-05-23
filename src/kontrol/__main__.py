@@ -19,22 +19,9 @@ from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path, run_process
 
 from . import VERSION
-from .cli import KontrolCLIArgs
+from .cli import KontrolCLIArgs, generate_options
 from .foundry import (
     Foundry,
-    GetModelOptions,
-    LoadStateDiffOptions,
-    MergeNodesOptions,
-    MinimizeProofOptions,
-    RefuteNodeOptions,
-    RemoveNodeOptions,
-    SectionEdgeOptions,
-    ShowOptions,
-    SimplifyNodeOptions,
-    SplitNodeOptions,
-    StepNodeOptions,
-    ToDotOptions,
-    UnrefuteNodeOptions,
     foundry_get_model,
     foundry_list,
     foundry_merge_nodes,
@@ -54,17 +41,7 @@ from .foundry import (
     read_deployment_state,
 )
 from .hevm import Hevm
-from .kompile import BuildOptions, foundry_kompile
-from .options import (
-    CleanOptions,
-    CompileOptions,
-    InitOptions,
-    ListOptions,
-    ProveOptions,
-    SolcToKOptions,
-    VersionOptions,
-    ViewKcfgOptions,
-)
+from .kompile import foundry_kompile
 from .prove import foundry_prove, parse_test_version_tuple
 from .solc_to_k import solc_compile, solc_to_k
 
@@ -73,10 +50,34 @@ if TYPE_CHECKING:
     from collections.abc import Callable
     from typing import Any, Final, TypeVar
 
-    from pyk.cli.args import LoggingOptions
     from pyk.cterm import CTerm
     from pyk.kcfg.tui import KCFGElem
     from pyk.utils import BugReport
+
+    from .options import (
+        BuildOptions,
+        CleanOptions,
+        CompileOptions,
+        GetModelOptions,
+        InitOptions,
+        ListOptions,
+        LoadStateDiffOptions,
+        MergeNodesOptions,
+        MinimizeProofOptions,
+        ProveOptions,
+        RefuteNodeOptions,
+        RemoveNodeOptions,
+        SectionEdgeOptions,
+        ShowOptions,
+        SimplifyNodeOptions,
+        SolcToKOptions,
+        SplitNodeOptions,
+        StepNodeOptions,
+        ToDotOptions,
+        UnrefuteNodeOptions,
+        VersionOptions,
+        ViewKcfgOptions,
+    )
 
     T = TypeVar('T')
 
@@ -89,38 +90,6 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         if args[arg] is not None:
             _LOGGER.warning(f'Ignoring command-line option: {cli_option}')
         args.pop(arg)
-
-
-def generate_options(args: dict[str, Any]) -> LoggingOptions:
-    command = args['command']
-    options = {
-        'load-state-diff': LoadStateDiffOptions(args),
-        'version': VersionOptions(args),
-        'compile': CompileOptions(args),
-        'solc-to-k': SolcToKOptions(args),
-        'build': BuildOptions(args),
-        'prove': ProveOptions(args),
-        'show': ShowOptions(args),
-        'refute-node': RefuteNodeOptions(args),
-        'unrefute-node': UnrefuteNodeOptions(args),
-        'split-node': SplitNodeOptions(args),
-        'to-dot': ToDotOptions(args),
-        'list': ListOptions(args),
-        'view-kcfg': ViewKcfgOptions(args),
-        'remove-node': RemoveNodeOptions(args),
-        'simplify-node': SimplifyNodeOptions(args),
-        'step-node': StepNodeOptions(args),
-        'merge-nodes': MergeNodesOptions(args),
-        'section-edge': SectionEdgeOptions(args),
-        'get-model': GetModelOptions(args),
-        'minimize-proof': MinimizeProofOptions(args),
-        'clean': CleanOptions(args),
-        'init': InitOptions(args),
-    }
-    try:
-        return options[command]
-    except KeyError as err:
-        raise ValueError(f'Unrecognized command: {command}') from err
 
 
 def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:

@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 
 from kevm_pyk.cli import DisplayOptions, ExploreOptions, KCFGShowOptions, KOptions, KProveOptions
 from kevm_pyk.kompile import KompileTarget
-from pyk.cli.args import BugReportOptions, LoggingOptions, Options, ParallelOptions, SMTOptions
+from pyk.cli.args import BugReportOptions, KompileOptions, LoggingOptions, Options, ParallelOptions, SMTOptions
 
 if TYPE_CHECKING:
     from pyk.kcfg.kcfg import NodeIdLike
@@ -298,3 +298,17 @@ class VersionOptions(LoggingOptions): ...
 
 
 class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+
+class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
+    regen: bool
+    rekompile: bool
+    no_forge_build: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'regen': False,
+            'rekompile': False,
+            'no_forge_build': False,
+        }
