@@ -102,7 +102,7 @@ function counterBedNamed() public recordStateDiff {
 ```
 Notice that we're saving the addresses via `save_address`, not via the `Counter[]`. 
 
-The next step is to use Kontrol's `load-state-diff` command. An example on how to use it can be found in [the provided script](test/kontrol/scripts/record-state-diff.sh). For our running example it can be called as follows
+The next step is to use Kontrol's `load-state-diff` command. An example on how to use it can be found in [the provided script](test/kontrol/scripts/record-state-diff.sh). For our running example it can be called as follows:
 ```
 kontrol load-state-diff InitialState state-diff/StateDiff.json --contract-names state-diff/AddressNames.json --output-dir test/kontrol/proofs/utils
 ```
