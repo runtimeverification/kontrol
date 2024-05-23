@@ -1,9 +1,10 @@
  🤖⚡ External Computation with Kontrol ⚡🤖
 =================================
-**Injecting Foundry Execution into Proofs for Performance and Usability**
+**Injecting Foundry Execution into Kontrol for Performance and Usability**
 
-This folder is an example for including external computation with Foundry into Kontrol proofs.
-To achieve this, there are several files involved and the process has several steps. If you encounter any problems while following what is described here, please reach out in [Discord](https://discord.gg/CurfmXNtbN), we'll be happy to assist!
+This folder is an example of including the results of Foundry execution into the initial state of any proof. This means that Kontrol's proofs will have as their initial state the results from executing any desired code with Foundry. Besides increasing the speed of execution, this considerably improves the user experience for writing proofs about complex protocols.
+
+This project contains all the files and a description of the steps needed to combine Foundry and Kontrol computation successfully. If you need any help with following these instructions, please reach out in [Discord](https://discord.gg/CurfmXNtbN), we'll be happy to assist!
 
 We use Foundry's [state-diff recording](https://book.getfoundry.sh/cheatcodes/stop-and-return-state-diff) cheatcodes to generate a JSON file that contains all the state updates that occurred during the recording. We can also produce a JSON file containing the name of the deployed contracts under testing and their addresses.
 Using these two JSON files we can (1) name the addresses of the deployed contracts in the Foundry tests and (2) directly add the recorded state updates as the initial state to run the Kontrol proofs.
