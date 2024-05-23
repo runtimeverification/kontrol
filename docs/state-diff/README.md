@@ -120,7 +120,9 @@ kontrol load-state-diff InitialState state-diff/StateDiff.json --contract-names 
 ```
 This will
 - Create two contracts, [`InitialState.sol`](test/kontrol/proofs/utils/InitialState.sol) and [`InitialStateCode.sol`](test/kontrol/proofs/utils/InitialStateCode.sol)
-  - `InitialState.sol` will have the names of the addresses from `AddressNames.json` and a function `recreateDeployment` that uses `vm.etch` and `vm.store` to allow for state-recreation.
+  - `InitialState.sol` consists of
+    - The names of the addresses from `AddressNames.json` stored as `internal constant`s.
+    - The function `recreateDeployment`, which uses `vm.etch` and `vm.store` to allow for state-recreation. Note that this function is only meant to be executed with Foundry.
   - `InitialStateCode.sol` contains the code for the relevant addresses used in `InitialState.sol`.
 - Save the two contracts in the directory indicated to the `--output-dir` flag.
 
