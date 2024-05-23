@@ -56,7 +56,7 @@ On top of that, we have to define in which directory do these files live. For si
 Before executing the state-recording function you'll need to give Foundry permissions to write the JSON files in the specified directory. To give Foundry write permissions for these files you can add the following to the Foundry profile. Note that the `path` assignment has to be the same as the value set for the `STATE_DIFF_NAME` variable:
 ```toml
 fs_permissions = [
-  { access='read-write, path='state-diff' }
+  { access='read-write', path='state-diff' }
 ]
 ```
 Not adding this would result in a `the path state-diff/StateDiff.json is not allowed to be accessed for write operations` error.
