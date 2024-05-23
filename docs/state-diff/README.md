@@ -155,7 +155,7 @@ However, we don't need to run the `recreateDeployment` function in Kontrol! Let'
 
 ## ⚙️ Run Your Proofs ⚙️
 
-At this point we have a test that says things about addresses, but no information about the addresses is actually present in the contract! That is, we have following `setUp` function that just stores the addresses to which `counterBedNamed` deployed bytecode to.
+At this point we have a test that says things about addresses, but no information about the addresses is actually present in the contract! That is, we have following `setUp` function that just stores the addresses to which `counterBedNamed` deployed bytecode to. Note that these addresses were saved through the `save_address` function to the `state-diff/AddressNames.json`, and that `kontrol load-state-diff` appends `Address` to the specified name. You can see the [automatically generated file](test/kontrol/proofs/utils/InitialState.sol) for more details.
 ```solidity
 Counter[] public counters;
 
