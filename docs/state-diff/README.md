@@ -123,7 +123,7 @@ This will
   - `InitialState.sol` consists of
     - The names of the addresses from `AddressNames.json` stored as `internal constant`s.
     - The function `recreateDeployment`, which uses `vm.etch` and `vm.store` to allow for state-recreation. Note that this function is only meant to be executed with Foundry.
-  - `InitialStateCode.sol` contains the code for the relevant addresses used in `InitialState.sol`. Note that this is only relevant if the `recreateDeployment` function is executed.
+  - `InitialStateCode.sol` contains the code for the relevant addresses used in `InitialState.sol`. Note that this code is only used by the `recreateDeployment` function.
 - Save the two contracts in the directory indicated to the `--output-dir` flag.
 
 The relevant part for writing our tests is that `InitialState.sol` contains the following address names:
