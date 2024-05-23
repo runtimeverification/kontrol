@@ -42,7 +42,7 @@ On top of that, the `save_address` function allows to save the name of the deplo
 
 ### 🏷️ Name the files 🏷️
 
-There are two different JSON files that can be created, one containing the recorded state updates and another one with the saved names of relevant addresses. Here, a relevant address is any address that will be referenced when writing the proofs. Typically, these addresses of deployed contracts or priviledged addresses.
+There are two different JSON files that can be created, one containing the recorded state updates and another one with the saved names of relevant addresses. Here, a relevant address is any address that will be referenced when writing the proofs. Typically, these are addresses of deployed contracts or priviledged addresses.
 
 On top of that, we have to define in which directory do these files live. For simplicity, we've made it so that these parameters are set with environment variables:
 - `STATE_DIFF_NAME`: Name of the JSON containing the state updates. Example: `StateDiff.json`
