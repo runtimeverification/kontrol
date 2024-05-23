@@ -203,9 +203,9 @@ Hence, to successfully execute the above function in Kontrol we'll have to:
    ```
    FOUNDRY_PROFILE=kprove kontrol prove --match-test prove_multiple_counters --init-node-from state-diff/StateDiff.json
    ```
-Note that running these steps in the context of the `kprove` profile is crucial, since it points to the isolated folder that will contain all the necessary bytecode.
+Note that running the Kontrol commands in the context of the `kprove` profile is crucial, since it points to the isolated folder that will contain all the necessary bytecode.
 
-By successfully follwoing all these steps, you should be greeted with the following message 🙂
+After successfully follwoing all these steps, you should be greeted with the following message 🙂
 
 ```
 PROOF PASSED: test%kontrol%proofs%CounterKontrol.prove_multiple_counters():0
