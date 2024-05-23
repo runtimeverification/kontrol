@@ -64,7 +64,9 @@ Not adding this would result in a `the path state-diff/StateDiff.json is not all
 ### 🏃 Run the recording 🏃
 
 Run your function containing the initial set up of your proofs (`counterBed` or `counterBedNamed` in our [example](./test/kontrol/state-diff/proof-initialization.sol)) with 
-```forge script state-diff/proof-initialization.sol:CounterBed --sig counterBed --ffi```
+```
+forge script state-diff/proof-initialization.sol:CounterBed --sig counterBed --ffi
+```
 Running it with `forge test` will also work, but only if its name starts with `test`. Notice the `--ffi` flag: we use `mkdir` and `touch` to handle the cases where the state diff files don't yet exist.
 
 ### 🧼 Clean the State Diff file 🧼
