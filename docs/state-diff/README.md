@@ -42,7 +42,9 @@ On top of that, the `save_address` function allows to save the name of the deplo
 
 ### 🏷️ Name the files 🏷️
 
-There are two different JSON files that can be created, one containing the recorded state updates and another one with the saved names of important addresses. On top of that, we have to define in which directory do these files live. For simplicity, we've made it so that these parameters are set with environment variables:
+There are two different JSON files that can be created, one containing the recorded state updates and another one with the saved names of relevant addresses. Here, a relevant address is any address that will be referenced when writing the proofs. Typically, these addresses of deployed contracts or priviledged addresses.
+
+On top of that, we have to define in which directory do these files live. For simplicity, we've made it so that these parameters are set with environment variables:
 - `STATE_DIFF_NAME`: Name of the JSON containing the state updates. Example: `StateDiff.json`
 - `ADDR_NAMES`: Name of the JSON containing the saved names of relevant addresses. Example: `AddressNames.json`
 - `STATE_DIFF_DIR`: Path relative to the Foundry root dir where the files will be stored. Example: `state-diff`
