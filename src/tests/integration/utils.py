@@ -3,12 +3,17 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import pytest
+from pyk.proof import APRProof
+from pyk.proof.reachability import APRFailureInfo
 from pyk.utils import check_dir_path
 
 from kontrol.solc_to_k import SolcToKOptions, solc_to_k
 
 if TYPE_CHECKING:
     from typing import Final
+
+    from pyk.proof.proof import Proof
 
 
 TEST_DATA_DIR: Final = (Path(__file__).parent / 'test-data').resolve(strict=True)
@@ -42,3 +47,19 @@ def assert_or_update_show_output(actual_text: str, expected_file: Path, *, updat
         assert expected_file.is_file()
         expected_text = expected_file.read_text()
         assert actual_text == expected_text
+
+
+def assert_pass(test: str, proof: Proof) -> None:
+    if not proof.passed:
+        if isinstance(proof, APRProof):
+            assert proof.failure_info
+            assert isinstance(proof.failure_info, APRFailureInfo)
+            pytest.fail('\n'.join(proof.failure_info.print()))
+        else:
+            pytest.fail()
+
+
+def assert_fail(test: str, proof: Proof) -> None:
+    assert not proof.passed
+    if isinstance(proof, APRProof):
+        assert proof.failure_info

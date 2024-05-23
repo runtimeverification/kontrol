@@ -35,7 +35,7 @@ jobs:
           git add -u && git commit -m "Sync Poetry files: kevm-pyk version ${KEVM_VERSION}" || true
       - name: 'Update K release file'
         run: |
-          K_VERSION=$(poetry run python3 -c 'import pyk; print(pyk.K_VERSION)')
+          K_VERSION=$(poetry run python3 -c 'import pyk; print(pyk.__version__)')
           echo ${K_VERSION} > deps/k_release
           git add deps/k_release && git commit -m "deps/k_release: sync release file version ${K_VERSION}" || true
       - name: 'Install Nix/Cachix'

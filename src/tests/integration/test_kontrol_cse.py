@@ -52,6 +52,7 @@ def test_foundry_dependency_automated(
                 'max_iterations': 100,
                 'bug_report': bug_report,
                 'cse': True,
+                'minimize_proofs': True,
                 'fail_fast': False,
                 'workers': 2,
                 'port': server.port,
@@ -65,7 +66,7 @@ def test_foundry_dependency_automated(
         options=ShowOptions(
             {
                 'test': test_id,
-                'to_module': False,
+                'to_module': True,
                 'sort_collections': True,
                 'omit_unstable_output': True,
                 'pending': False,

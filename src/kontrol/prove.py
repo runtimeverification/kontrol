@@ -2,17 +2,20 @@ from __future__ import annotations
 
 import logging
 import time
+from abc import abstractmethod
 from copy import copy
 from subprocess import CalledProcessError
-from typing import TYPE_CHECKING, NamedTuple
+from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics
-from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, legacy_explore, run_prover
+from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
-from pyk.cterm import CTerm
+from pyk.cli.args import BugReportOptions, LoggingOptions, ParallelOptions, SMTOptions
+from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
-from pyk.kcfg import KCFG
+from pyk.kcfg import KCFG, KCFGExplore
+from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
@@ -36,12 +39,61 @@ if TYPE_CHECKING:
     from typing import Final
 
     from pyk.kast.inner import KInner
-    from pyk.kcfg import KCFGExplore
+    from pyk.kore.rpc import KoreServer
 
     from .deployment import DeploymentStateEntry
     from .options import ProveOptions
 
 _LOGGER: Final = logging.getLogger(__name__)
+
+
+class ProveOptions(
+    LoggingOptions,
+    ParallelOptions,
+    KOptions,
+    KProveOptions,
+    SMTOptions,
+    RpcOptions,
+    BugReportOptions,
+    ExploreOptions,
+    FoundryOptions,
+    TraceOptions,
+):
+    tests: list[tuple[str, int | None]]
+    reinit: bool
+    bmc_depth: int | None
+    run_constructor: bool
+    use_gas: bool
+    setup_version: int | None
+    break_on_cheatcodes: bool
+    deployment_state_path: Path | None
+    include_summaries: list[tuple[str, int | None]]
+    with_non_general_state: bool
+    xml_test_report: bool
+    cse: bool
+    hevm: bool
+    minimize_proofs: bool
+    max_frontier_parallel: int
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'tests': [],
+            'reinit': False,
+            'bmc_depth': None,
+            'run_constructor': False,
+            'use_gas': False,
+            'break_on_cheatcodes': False,
+            'deployment_state_path': None,
+            'setup_version': None,
+            'include_summaries': [],
+            'with_non_general_state': False,
+            'xml_test_report': False,
+            'cse': False,
+            'hevm': False,
+            'minimize_proofs': False,
+            'max_frontier_parallel': 1,
+        }
 
 
 def foundry_prove(
@@ -227,6 +279,42 @@ def collect_constructors(
     return res
 
 
+class OptionalKoreServer(ContextManager['OptionalKoreServer']):
+    @abstractmethod
+    def port(self) -> int: ...
+
+
+class FreshKoreServer(OptionalKoreServer):
+    _server: KoreServer
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        self._server = kore_server(*args, **kwargs)
+
+    def __enter__(self) -> FreshKoreServer:
+        return self
+
+    def __exit__(self, *args: Any) -> None:
+        self._server.__exit__(*args)
+
+    def port(self) -> int:
+        return self._server.port
+
+
+class PreexistingKoreServer(OptionalKoreServer):
+    _port: int
+
+    def __init__(self, port: int) -> None:
+        self._port = port
+
+    def __enter__(self) -> PreexistingKoreServer:
+        return self
+
+    def __exit__(self, *args: Any) -> None: ...
+
+    def port(self) -> int:
+        return self._port
+
+
 def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
@@ -241,31 +329,65 @@ def _run_cfg_group(
             if proof.passed:
                 return None
         start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
-        start_server = options.port is None
 
         kore_rpc_command = None
         if isinstance(options.kore_rpc_command, str):
             kore_rpc_command = options.kore_rpc_command.split()
 
-        with legacy_explore(
-            foundry.kevm,
-            kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
-            id=test.id,
-            bug_report=options.bug_report,
-            kore_rpc_command=kore_rpc_command,
-            llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
-            smt_timeout=options.smt_timeout,
-            smt_retry_limit=options.smt_retry_limit,
-            trace_rewrites=options.trace_rewrites,
-            start_server=start_server,
-            port=options.port,
-            maude_port=options.maude_port,
-        ) as kcfg_explore:
+        def select_server() -> OptionalKoreServer:
+            if options.port is not None:
+                return PreexistingKoreServer(options.port)
+            else:
+                return FreshKoreServer(
+                    definition_dir=foundry.kevm.definition_dir,
+                    llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
+                    module_name=foundry.kevm.main_module,
+                    command=kore_rpc_command,
+                    bug_report=options.bug_report,
+                    smt_timeout=options.smt_timeout,
+                    smt_retry_limit=options.smt_retry_limit,
+                    smt_tactic=options.smt_tactic,
+                    haskell_threads=options.max_frontier_parallel,
+                )
+
+        with select_server() as server:
+
+            def create_kcfg_explore() -> KCFGExplore:
+                if options.maude_port is None:
+                    dispatch = None
+                else:
+                    dispatch = {
+                        'execute': [('localhost', options.maude_port, TransportType.HTTP)],
+                        'simplify': [('localhost', options.maude_port, TransportType.HTTP)],
+                        'add-module': [
+                            ('localhost', options.maude_port, TransportType.HTTP),
+                            ('localhost', server.port(), TransportType.SINGLE_SOCKET),
+                        ],
+                    }
+                client = KoreClient(
+                    'localhost',
+                    server.port(),
+                    bug_report=options.bug_report,
+                    bug_report_id=test.id,
+                    dispatch=dispatch,
+                )
+                cterm_symbolic = CTermSymbolic(
+                    client,
+                    foundry.kevm.definition,
+                    foundry.kevm.kompiled_kore,
+                    trace_rewrites=options.trace_rewrites,
+                )
+                return KCFGExplore(
+                    cterm_symbolic,
+                    kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                    id=test.id,
+                )
+
             if proof is None:
                 proof = method_to_apr_proof(
                     test=test,
                     foundry=foundry,
-                    kcfg_explore=kcfg_explore,
+                    kcfg_explore=create_kcfg_explore(),
                     bmc_depth=options.bmc_depth,
                     run_constructor=options.run_constructor,
                     use_gas=options.use_gas,
@@ -294,14 +416,19 @@ def _run_cfg_group(
                 )
             run_prover(
                 proof,
-                kcfg_explore,
+                create_kcfg_explore=create_kcfg_explore,
                 max_depth=options.max_depth,
                 max_iterations=options.max_iterations,
                 cut_point_rules=cut_point_rules,
                 terminal_rules=KEVMSemantics.terminal_rules(options.break_every_step),
                 counterexample_info=options.counterexample_info,
+                max_frontier_parallel=options.max_frontier_parallel,
                 fail_fast=options.fail_fast,
             )
+
+            if options.minimize_proofs:
+                proof.minimize_kcfg()
+
             if start_time is not None:
                 end_time = time.time()
                 proof.add_exec_time(end_time - start_time)

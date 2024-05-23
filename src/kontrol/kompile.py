@@ -32,12 +32,11 @@ def foundry_kompile(
     options: BuildOptions,
     foundry: Foundry,
 ) -> None:
-    syntax_module = 'FOUNDRY-CONTRACTS'
     foundry_requires_dir = foundry.kompiled / 'requires'
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
     main_module = 'FOUNDRY-MAIN'
-    includes = [include for include in options.includes if Path(include).exists()] + [str(KSRC_DIR)]
+    includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
     ensure_dir_path(foundry.kompiled)
     ensure_dir_path(foundry_requires_dir)
 
@@ -60,7 +59,7 @@ def foundry_kompile(
             raise ValueError(
                 f'Required K files have conflicting names: {r} and {requires_paths[req.name]}. Consider changing the name of one of these files.'
             )
-        requires_paths[req.name] = r
+        requires_paths[req.name] = r  # noqa: B909
         req_path = foundry_requires_dir / req.name
         if regen or not req_path.exists():
             _LOGGER.info(f'Copying requires path: {req} -> {req_path}')
@@ -136,7 +135,7 @@ def foundry_kompile(
             output_dir=output_dir,
             main_file=foundry.main_file,
             main_module=main_module,
-            syntax_module=syntax_module,
+            syntax_module=options.syntax_module,
             includes=includes,
             emit_json=True,
             ccopts=options.ccopts,

@@ -35,6 +35,7 @@ from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 from . import VERSION
 from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
+from .utils import empty_lemmas_file_contents, kontrol_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -164,7 +165,7 @@ class Foundry:
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
             contract = Contract(contract_name, contract_json, foundry=True)
 
-            _contracts[contract.name_with_path] = contract
+            _contracts[contract.name_with_path] = contract  # noqa: B909
 
         return _contracts
 
@@ -834,6 +835,20 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
     tree.write('kontrol_prove_report.xml')
 
 
+class MinimizeProofOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+
+def foundry_minimize_proof(foundry: Foundry, options: MinimizeProofOptions) -> None:
+    test_id = foundry.get_test_id(options.test, options.version)
+    apr_proof = foundry.get_apr_proof(test_id)
+    apr_proof.minimize_kcfg()
+    apr_proof.write_proof_data()
+
+
+class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    node: NodeIdLike
+
+
 def foundry_remove_node(foundry: Foundry, options: RemoveNodeOptions) -> None:
     test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
@@ -941,8 +956,10 @@ def foundry_merge_nodes(
     nodes = [apr_proof.kcfg.node(int(node_id)) for node_id in options.nodes]
     check_cells = ['K_CELL', 'PROGRAM_CELL', 'PC_CELL', 'CALLDEPTH_CELL']
     check_cells_ne = [check_cell for check_cell in check_cells if not check_cells_equal(check_cell, nodes)]
+
     if check_cells_ne:
-        raise ValueError(f'Nodes {options.nodes} cannot be merged because they differ in: {check_cells_ne}')
+        if not all(KEVMSemantics().same_loop(nodes[0].cterm, nd.cterm) for nd in nodes):
+            raise ValueError(f'Nodes {options.nodes} cannot be merged because they differ in: {check_cells_ne}')
 
     anti_unification = nodes[0].cterm
     for node in nodes[1:]:
@@ -1174,3 +1191,24 @@ def foundry_node_printer(
     if type(proof) is APRProof:
         return FoundryAPRNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
+
+
+def init_project(project_root: Path, *, skip_forge: bool) -> None:
+    """
+    Wrapper around `forge init` that creates new Foundry projects compatible with Kontrol.
+
+    :param skip_forge: Skip the `forge init` process, if there already exists a Foundry project.
+    :param project_root: Name of the new project that is created.
+    """
+
+    if not skip_forge:
+        run_process(['forge', 'init', str(project_root), '--no-git'], logger=_LOGGER)
+
+    root = ensure_dir_path(project_root)
+    write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
+    write_to_file(root / 'KONTROL.md', kontrol_file_contents())
+    run_process(
+        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+        logger=_LOGGER,
+        cwd=root,
+    )

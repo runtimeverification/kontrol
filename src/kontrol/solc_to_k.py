@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass
 from functools import cached_property
 from subprocess import CalledProcessError
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
@@ -17,7 +17,7 @@ from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken
 from pyk.prelude.string import stringToken
-from pyk.utils import FrozenDict, hash_str, run_process, single
+from pyk.utils import hash_str, run_process, single
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -140,16 +140,29 @@ class Input:
         :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
         :return: A list of Input instances for each component, including nested components
         """
-        return [
-            Input(
-                component['name'],
-                component['type'],
-                tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
-                idx,
-                *process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None),
+        inputs = []
+        for component in components:
+            lengths = process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None)
+            inputs.append(
+                Input(
+                    component['name'],
+                    component['type'],
+                    tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
+                    idx,
+                    *lengths,
+                )
             )
-            for idx, component in enumerate(components, start=idx)
-        ]
+            # If the component is of `tuple[n]` type, it will have `n` elements with different `idx`
+            if component['type'].endswith('[]') and component['type'].startswith('tuple'):
+                array_length, _ = lengths
+
+                if array_length is None:
+                    raise ValueError(f'Array length bounds missing for {component["name"]}')
+                idx += array_length[0]
+            else:
+                # Otherwise, use the next `idx` for the next component
+                idx += 1
+        return inputs
 
     def make_single_type(self) -> KApply:
         """
@@ -189,20 +202,50 @@ class Input:
             return self.make_single_type()
 
     def flattened(self) -> list[Input]:
-        if len(self.components) > 0:
-            nest = [comp.flattened() for comp in self.components]
-            return [fcomp for fncomp in nest for fcomp in fncomp]
+        components = []
+
+        if self.type.endswith('[]'):
+            if self.array_lengths is None:
+                raise ValueError(f'Array length bounds missing for {self.name}')
+
+            base_type = self.type.rstrip('[]')
+            if base_type == 'tuple':
+                components = [
+                    Input(
+                        f'{_c.name}_{i}',
+                        _c.type,
+                        _c.components,
+                        _c.idx,
+                        _c.array_lengths,
+                        _c.dynamic_type_length,
+                    )
+                    for i in range(self.array_lengths[0])
+                    for _c in self.components
+                ]
+            else:
+                components = [Input(f'{self.name}_{i}', base_type, idx=self.idx) for i in range(self.array_lengths[0])]
+        elif self.type == 'tuple':
+            components = list(self.components)
         else:
             return [self]
 
+        nest = [comp.flattened() for comp in components]
+        return [fcomp for fncomp in nest for fcomp in fncomp]
+
 
 def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) -> list[Input]:
+    def count_components(input: Input) -> int:
+        if len(input.components) > 0:
+            return sum(count_components(component) for component in input.components)
+        else:
+            return 1
+
     inputs = []
     index = 0
     for input in abi_inputs:
         cur_input = Input.from_dict(input, index, natspec_lengths)
         inputs.append(cur_input)
-        index += len(cur_input.flattened())
+        index += count_components(cur_input)
     return inputs
 
 
@@ -278,6 +321,13 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
         except ValueError:
             _LOGGER.warning(f'Skipping invalid format {part} in {tag}')
     return natspecs
+
+
+class StorageField(NamedTuple):
+    label: str
+    data_type: str
+    slot: int
+    offset: int
 
 
 @dataclass
@@ -443,13 +493,11 @@ class Contract:
         def arg_names(self) -> tuple[str, ...]:
             arg_names: list[str] = []
             for input in self.inputs:
-                if input.type.endswith('[]'):
+                if input.type.endswith('[]') and not input.type.startswith('tuple'):
                     if input.array_lengths is None:
                         raise ValueError(f'Array length bounds missing for {input.name}')
                     length = input.array_lengths[0]
-                    arg_names.extend(
-                        f'{sub_input.arg_name}_{i}' for i in range(length) for sub_input in input.flattened()
-                    )
+                    arg_names.extend(f'{input.arg_name}_{i}' for i in range(length))
                 else:
                     arg_names.extend([sub_input.arg_name for sub_input in input.flattened()])
             return tuple(arg_names)
@@ -464,7 +512,7 @@ class Contract:
                     length = input.array_lengths[0]
                     base_type = input.type.split('[')[0]
                     if base_type == 'tuple':
-                        arg_types.extend(f'{sub_input.type}' for _i in range(length) for sub_input in input.flattened())
+                        arg_types.extend([sub_input.type for sub_input in input.flattened()])
                     else:
                         arg_types.extend([base_type] * length)
 
@@ -605,7 +653,6 @@ class Contract:
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
-    fields: FrozenDict
     constructor: Constructor | None
     PREFIX_CODE: Final = 'Z'
 
@@ -679,17 +726,6 @@ class Contract:
             _c = Contract.Constructor(empty_constructor, self._name, self.digest, self.storage_digest, self.sort_method)
             self.constructor = _c
 
-        self.fields = FrozenDict({})
-        if 'storageLayout' in self.contract_json and 'storage' in self.contract_json['storageLayout']:
-            _fields_list = [(_f['label'], int(_f['slot'])) for _f in self.contract_json['storageLayout']['storage']]
-            _fields = {}
-            for _l, _s in _fields_list:
-                if _l in _fields:
-                    _LOGGER.info(f'Found duplicate field access key on contract {self._name}: {_l}')
-                    continue
-                _fields[_l] = _s
-            self.fields = FrozenDict(_fields)
-
     @cached_property
     def name_with_path(self) -> str:
         contract_path_without_filename = '%'.join(self.contract_path.split('/')[0:-1])
@@ -740,6 +776,10 @@ class Contract:
                 _srcmap[i] = (s, l, f, j, m)
 
         return _srcmap
+
+    @cached_property
+    def fields(self) -> tuple[StorageField, ...]:
+        return process_storage_layout(self.contract_json.get('storageLayout', {}))
 
     @staticmethod
     def contract_to_module_name(c: str) -> str:
@@ -914,28 +954,8 @@ class Contract:
         return res if len(res) > 1 else []
 
     @property
-    def field_sentences(self) -> list[KSentence]:
-        prods: list[KSentence] = [self.subsort_field]
-        rules: list[KSentence] = []
-        for field, slot in self.fields.items():
-            klabel = KLabel(self.klabel_field.name + f'_{field}')
-            prods.append(
-                KProduction(self.sort_field, [KTerminal(field)], klabel=klabel, att=KAtt(entries=[Atts.SYMBOL('')]))
-            )
-            rule_lhs = KEVM.loc(KApply(KLabel('contract_access_field'), [KApply(self.klabel), KApply(klabel)]))
-            rule_rhs = intToken(slot)
-            rules.append(KRule(KRewrite(rule_lhs, rule_rhs)))
-        if len(prods) == 1 and not rules:
-            return []
-        return prods + rules
-
-    @property
     def sentences(self) -> list[KSentence]:
-        return (
-            [self.subsort, self.production, self.macro_bin_runtime, self.macro_init_bytecode]
-            + self.field_sentences
-            + self.method_sentences
-        )
+        return [self.subsort, self.production, self.macro_bin_runtime, self.macro_init_bytecode] + self.method_sentences
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -1248,3 +1268,24 @@ def find_function_calls(node: dict) -> list[str]:
 
     _find_function_calls(node)
     return function_calls
+
+
+def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
+    storage = storage_layout.get('storage', [])
+    types = storage_layout.get('types', {})
+
+    fields_list: list[StorageField] = []
+    for field in storage:
+        try:
+            type_info = types.get(field['type'], {})
+            storage_field = StorageField(
+                label=field['label'],
+                data_type=type_info.get('label', field['type']),
+                slot=int(field['slot']),
+                offset=int(field['offset']),
+            )
+            fields_list.append(storage_field)
+        except (KeyError, ValueError) as e:
+            _LOGGER.error(f'Error processing field {field}: {e}')
+
+    return tuple(fields_list)

@@ -8,13 +8,13 @@ from typing import TYPE_CHECKING
 import pytest
 from pyk.proof import APRProof
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRFailureInfo
 from pyk.utils import single
 
 from kontrol.foundry import (
     Foundry,
     LoadStateDiffOptions,
     MergeNodesOptions,
+    MinimizeProofOptions,
     RefuteNodeOptions,
     RemoveNodeOptions,
     ShowOptions,
@@ -22,6 +22,7 @@ from kontrol.foundry import (
     StepNodeOptions,
     UnrefuteNodeOptions,
     foundry_merge_nodes,
+    foundry_minimize_proof,
     foundry_refute_node,
     foundry_remove_node,
     foundry_show,
@@ -32,7 +33,7 @@ from kontrol.foundry import (
 )
 from kontrol.prove import ProveOptions, foundry_prove
 
-from .utils import TEST_DATA_DIR, assert_or_update_show_output
+from .utils import TEST_DATA_DIR, assert_fail, assert_or_update_show_output, assert_pass
 
 if TYPE_CHECKING:
     from typing import Final
@@ -236,6 +237,61 @@ def test_foundry_bmc(
     assert_pass(test_id, single(prove_res))
 
 
+MINIMIZE_TESTS = tuple((TEST_DATA_DIR / 'foundry-minimize').read_text().splitlines())
+
+
+@pytest.mark.parametrize('test_id', MINIMIZE_TESTS)
+def test_foundry_minimize_proof(
+    test_id: str,
+    foundry: Foundry,
+    update_expected_output: bool,
+    no_use_booster: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    options = ProveOptions(
+        {
+            'tests': [(test_id, None)],
+            'break_on_calls': True,
+            'reinit': True,
+            'bug_report': bug_report,
+            'port': server.port,
+        }
+    )
+
+    # When
+    foundry_prove(foundry=foundry, options=options)
+
+    foundry_minimize_proof(foundry, options=MinimizeProofOptions({'test': test_id}))
+
+    show_res = foundry_show(
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
+    )
+
+    # Then
+    assert_or_update_show_output(
+        show_res, TEST_DATA_DIR / f'show/minimized/{test_id}.expected', update=update_expected_output
+    )
+
+
 def test_foundry_merge_nodes(
     foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
 ) -> None:
@@ -317,7 +373,7 @@ def test_foundry_merge_loop_heads(
         options=ProveOptions(
             {
                 'tests': [(test, None)],
-                'max_iterations': 20,
+                'max_iterations': 15,
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
@@ -325,7 +381,11 @@ def test_foundry_merge_loop_heads(
         ),
     )
 
-    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [15, 16], 'include_disjunct': True}))
+    check_pending(foundry, test, [17, 18, 19])
+
+    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [4, 9, 15], 'include_disjunct': True}))
+
+    check_pending(foundry, test, [19, 20])
 
     foundry_prove(
         foundry=foundry,
@@ -467,22 +527,6 @@ def test_foundry_remove_node(
     assert_pass(test, single(prove_res))
 
 
-def assert_pass(test: str, proof: Proof) -> None:
-    if not proof.passed:
-        if isinstance(proof, APRProof):
-            assert proof.failure_info
-            assert isinstance(proof.failure_info, APRFailureInfo)
-            pytest.fail('\n'.join(proof.failure_info.print()))
-        else:
-            pytest.fail()
-
-
-def assert_fail(test: str, proof: Proof) -> None:
-    assert not proof.passed
-    if isinstance(proof, APRProof):
-        assert proof.failure_info
-
-
 def test_foundry_resume_proof(
     foundry: Foundry,
     update_expected_output: bool,
@@ -507,6 +551,7 @@ def test_foundry_resume_proof(
                 'max_iterations': 4,
                 'bug_report': bug_report,
                 'break_on_calls': True,
+                'reinit': True,
                 'port': server.port,
             }
         ),
