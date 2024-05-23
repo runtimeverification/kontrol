@@ -55,6 +55,7 @@ def test_foundry_dependency_automated(
                 'max_iterations': 100,
                 'bug_report': bug_report,
                 'cse': True,
+                'minimize_proofs': True,
                 'fail_fast': False,
                 'workers': 2,
                 'port': server.port,

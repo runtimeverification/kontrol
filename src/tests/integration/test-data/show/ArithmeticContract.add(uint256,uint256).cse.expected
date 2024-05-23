@@ -7,16 +7,16 @@
 │
 │  (422 steps)
 ├─ 6 (split)
-│   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+│   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt ...
 │   pc: 562
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┣━━┓ constraint: VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256
 ┃  │
 ┃  ├─ 7
-┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt ...
 ┃  │   pc: 562
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -36,10 +36,10 @@
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+┗━━┓ constraint: VV1_y_114b9705:Int xorInt maxUInt256 <Int VV0_x_114b9705:Int
    │
    ├─ 8
-   │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705: ...
+   │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt ...
    │   pc: 562
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
@@ -68,7 +68,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
     rule [BASIC-BLOCK-7-TO-9]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+               ( JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
@@ -85,7 +85,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #buf ( 32 , ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) )
+                   ( _OUTPUT_CELL => #buf ( 32 , chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) )
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
@@ -107,7 +107,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
                      ( ( 0 => selector ( "add(uint256,uint256)" ) ) : ( ( VV0_x_114b9705:Int : ( VV1_y_114b9705:Int : ( 217 : ( 0 : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -212,13 +212,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
                false
              </activeTracing>
              <traceStorage>
-               false
+               true
              </traceStorage>
              <traceWordStack>
-               false
+               true
              </traceWordStack>
              <traceMemory>
-               false
+               true
              </traceMemory>
              <recordedTrace>
                false
@@ -252,7 +252,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+       andBool ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
@@ -262,7 +262,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
     rule [BASIC-BLOCK-8-TO-10]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int ) )
+               ( JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
@@ -406,13 +406,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
                false
              </activeTracing>
              <traceStorage>
-               false
+               true
              </traceStorage>
              <traceWordStack>
-               false
+               true
              </traceWordStack>
              <traceMemory>
-               false
+               true
              </traceMemory>
              <recordedTrace>
                false
@@ -446,7 +446,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+       andBool ( VV1_y_114b9705:Int xorInt maxUInt256 <Int VV0_x_114b9705:Int
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
@@ -456,7 +456,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
     rule [BASIC-BLOCK-1-TO-6]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 570 bool2Word ( ?VV0_x_114b9705 <=Int ( maxUInt256 -Int ?VV1_y_114b9705 ) )
+               ( .K => JUMPI 570 bool2Word ( ?VV0_x_114b9705 <=Int ?VV1_y_114b9705 xorInt maxUInt256 )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION
@@ -594,13 +594,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
                false
              </activeTracing>
              <traceStorage>
-               false
+               true
              </traceStorage>
              <traceWordStack>
-               false
+               true
              </traceWordStack>
              <traceMemory>
-               false
+               true
              </traceMemory>
              <recordedTrace>
                false

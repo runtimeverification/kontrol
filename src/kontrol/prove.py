@@ -500,7 +500,8 @@ def method_to_apr_proof(
     trace_options: TraceOptions | None = None,
 ) -> APRProof:
     setup_proof = None
-    if isinstance(test.method, Contract.Constructor):
+    is_constructor = isinstance(test.method, Contract.Constructor)
+    if is_constructor:
         _LOGGER.info(f'Creating proof from constructor for test: {test.id}')
     elif test.method.signature != 'setUp()' and 'setUp' in test.contract.method_by_name:
         _LOGGER.info(f'Using setUp method for test: {test.id}')
@@ -514,6 +515,7 @@ def method_to_apr_proof(
         test=test,
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
+        graft_setup_proof=((setup_proof is not None) and not is_constructor),
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         active_symbolik=active_symbolik,
@@ -558,6 +560,7 @@ def _method_to_initialized_cfg(
     config_type: ConfigType,
     *,
     setup_proof: APRProof | None = None,
+    graft_setup_proof: bool = False,
     use_gas: bool = False,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     active_symbolik: bool = False,
@@ -574,6 +577,7 @@ def _method_to_initialized_cfg(
         test.contract,
         test.method,
         setup_proof,
+        graft_setup_proof,
         use_gas,
         deployment_state_entries,
         active_symbolik,
@@ -608,6 +612,7 @@ def _method_to_cfg(
     contract: Contract,
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
+    graft_setup_proof: bool,
     use_gas: bool,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None,
     active_symbolik: bool,
@@ -661,10 +666,13 @@ def _method_to_cfg(
 
         init_node_id = setup_proof.init
         # Copy KCFG and minimize it
-        cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())
-        cfg.minimize()
-        final_states = [cover.source for cover in cfg.covers(target_id=setup_proof.target)]
-        cfg.remove_node(setup_proof.target)
+        if graft_setup_proof:
+            cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())
+            cfg.minimize()
+            cfg.remove_node(setup_proof.target)
+        else:
+            cfg = KCFG()
+        final_states = [cover.source for cover in setup_proof.kcfg.covers(target_id=setup_proof.target)]
         if not final_states:
             _LOGGER.warning(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} has no passing branches to build on. Method will not be executed.'
@@ -673,7 +681,12 @@ def _method_to_cfg(
         for final_node in final_states:
             new_init_cterm = _update_cterm_from_node(init_cterm, final_node, contract.name_with_path)
             new_node = cfg.create_node(new_init_cterm)
-            cfg.create_edge(final_node.id, new_node.id, depth=1)
+            if graft_setup_proof:
+                cfg.create_edge(final_node.id, new_node.id, depth=1)
+            elif len(final_states) != 1:
+                raise RuntimeError(
+                    f'KCFG grafting must be enabled for branching proofs. Proof {setup_proof.id} branched.'
+                )
             new_node_ids.append(new_node.id)
     else:
         cfg = KCFG()
