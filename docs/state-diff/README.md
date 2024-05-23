@@ -12,7 +12,7 @@ Using these two JSON files we can (1) name the addresses of the deployed contrac
 In short, the steps to add Foundry execution results to Kontrol proofs are the following:
 
 1. Create a fresh Foundry profile to isolate the `src` and `test` folder from the rest of the codebase.
-2. Write a contract that uses the provided Solidity files to record the desired execution and execute it with Foundry.
+2. Using the provided Solidity files, write the code that will be executed by Foundry and injected into Kontrol.
 3. Feed the JSON files from the last step to Kontrol to produce the necessary summary contracts for ease of proof writing.
 4. Write your symbolic property tests with the right dependencies.
 5. Execute Kontrol proofs with the right options to include the recorded computation with Foundry.
