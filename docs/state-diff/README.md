@@ -49,6 +49,8 @@ On top of that, we have to define in which directory do these files live. For si
 - `ADDR_NAMES`: Name of the JSON containing the saved names of relevant addresses. Example: `AddressNames.json`
 - `STATE_DIFF_DIR`: Path relative to the Foundry root dir where the files will be stored. Example: `state-diff`
 
+**Important:** These environment variables are read by the `recordStateDiff` modifier. They must be set prior to running any code containing `recordStateDiff`. `ADDR_NAMES` can be left unset if the `save_address` function is not used.
+
 ### ⭕ Additional permissions ⭕
 
 Before executing the state-recording function you'll need to give Foundry permissions to write the JSON files in the specified directory. To give Foundry write permissions for these files you can add the following to the Foundry profile. Note that the `path` assignment has to be the same as the value set for the `STATE_DIFF_NAME` variable:
