@@ -155,7 +155,7 @@ However, we don't need to run the `recreateDeployment` function in Kontrol! Let'
 
 ## ⚙️ Run Your Proofs ⚙️
 
-At this point we have a test that says things about addresses, but no information about the addresses is actually present in the contract! That is, we have following `setUp` function that just stores a bunch of addresses:
+At this point we have a test that says things about addresses, but no information about the addresses is actually present in the contract! That is, we have following `setUp` function that just stores the addresses to which `counterBedNamed` deployed bytecode to.
 ```solidity
 Counter[] public counters;
 
@@ -180,7 +180,8 @@ function prove_multiple_counters() public {
         }
     }
 ```
-All that is left is to tell Kontrol which state updates need to be loaded before executing `prove_multiple_counters`. This is done via the `--init-node-from` flag of the `kontrol prove` command. The `--init-node-from` flag expects a JSON file containing the state updates and will load them to the initial state of the proof. This will make Kontrol aware of all the changes that occurred during the execution of the original `setUp` function, with none of the computation.
+As mentioned above, from the code's perspective, these are empty addresses! So we need to tell Kontrol which state updates need to be loaded before executing `prove_multiple_counters`.
+This is done via the `--init-node-from` flag of the `kontrol prove` command. The `--init-node-from` flag expects a JSON file containing the state updates and will load them to the initial state of the proof. This will make Kontrol aware of all the changes that occurred during the execution of the original `setUp` function, with none of the computation.
 
 Hence, to successfully execute the above function in Kontrol we'll have to execute:
 1. `FOUNDRY_PROFILE=kprove kontrol build`
