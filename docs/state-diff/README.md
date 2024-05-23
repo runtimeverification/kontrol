@@ -1,6 +1,6 @@
  🤖⚡ External Computation with Kontrol ⚡🤖
 =================================
-**Injecting Foundry Execution into Proofs**
+**Injecting Foundry Execution into Proofs for Performance and Usability**
 
 This folder is an example for including external computation with Foundry into Kontrol proofs.
 To achieve this, there are several files involved and the process has several steps. If you encounter any problems while following what is described here, please reach out in [Discord](https://discord.gg/CurfmXNtbN), we'll be happy to assist!
