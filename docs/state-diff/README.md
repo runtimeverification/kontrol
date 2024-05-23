@@ -169,7 +169,7 @@ function setUp() public {
     counters.push(Counter(address(counter9Address)));
 }
 ```
-And the following tests that asserts some property for each of the stored addresses:
+And the following test that asserts some property of each of the stored addresses:
 ```solidity
 function prove_multiple_counters() public {
         for(uint256 i; i <= 9; ++i){
