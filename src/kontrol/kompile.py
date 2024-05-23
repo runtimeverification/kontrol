@@ -51,7 +51,7 @@ def foundry_kompile(
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
     main_module = 'FOUNDRY-MAIN'
-    includes = [include for include in options.includes if Path(include).exists()] + [str(KSRC_DIR)]
+    includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
     ensure_dir_path(foundry.kompiled)
     ensure_dir_path(foundry_requires_dir)
 
