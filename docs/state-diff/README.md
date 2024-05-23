@@ -63,7 +63,7 @@ Not adding this would result in a `the path state-diff/StateDiff.json is not all
 
 ### 🏃 Run the recording 🏃
 
-Run your function containing the initial set up of your proofs (`counterBed` or `counterBedNamed` in our [example](./test/kontrol/state-diff/proof-initialization.sol)) with 
+Run your function containing the initial set up of your proofs (`counterBed` or `counterBedNamed` in our [example](./test/kontrol/state-diff/proof-initialization.sol)) with the following command:
 ```
 forge script state-diff/proof-initialization.sol:CounterBed --sig counterBed --ffi
 ```
@@ -71,7 +71,10 @@ Running it with `forge test` will also work, but only if its name starts with `t
 
 ### 🧼 Clean the State Diff file 🧼
 
-Currently, the produced state diff JSON is escaped when generated. Run the [`clean_json.py`](test/kontrol/scripts/json/clean_json.py) script on the generated state diff file to unescape it. Example: `python3 test/kontrol/scripts/json/clean_json.py state-diff/StateDiff.json`
+Currently, the produced state diff JSON is escaped when generated. Run the [`clean_json.py`](test/kontrol/scripts/json/clean_json.py) script on the generated state diff file to unescape it. For our example:
+```
+python3 test/kontrol/scripts/json/clean_json.py state-diff/StateDiff.json
+```
 
 ### 📜 Scripting all of this 📜
 
