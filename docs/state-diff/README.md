@@ -194,10 +194,16 @@ function prove_multiple_counters() public {
 As mentioned above, from the code's perspective, these are empty addresses! So we need to tell Kontrol which state updates need to be loaded before executing `prove_multiple_counters`.
 This is done via the `--init-node-from` flag of the `kontrol prove` command. The `--init-node-from` flag expects a JSON file containing the state updates and will load them to the initial state of the proof. This will make Kontrol aware of all the changes that occurred during the execution of the original `setUp` function, with none of the computation.
 
-Hence, to successfully execute the above function in Kontrol we'll have to execute:
-1. `FOUNDRY_PROFILE=kprove kontrol build`
-2. `FOUNDRY_PROFILE=kprove kontrol prove --match-test prove_multiple_counters --init-node-from state-diff/StateDiff.json`
-Note that running this in the context of the `kprove` profile is crucial, since it points to the isolated folder that will contain all the necessary bytecode.
+Hence, to successfully execute the above function in Kontrol we'll have to:
+1. Build the Kontrol project
+   ```
+   FOUNDRY_PROFILE=kprove kontrol build
+   ```
+2. Run the test
+   ```
+   FOUNDRY_PROFILE=kprove kontrol prove --match-test prove_multiple_counters --init-node-from state-diff/StateDiff.json
+   ```
+Note that running these steps in the context of the `kprove` profile is crucial, since it points to the isolated folder that will contain all the necessary bytecode.
 
 By successfully follwoing all these steps, you should be greeted with the following message 🙂
 
