@@ -162,7 +162,7 @@ Note that in the previous `setUp` we were deploying contracts + calling `setNumb
 
 **Naming convention:** Note that [our test](test/kontrol/proofs/Counter.k.sol) is named `prove_multiple_counters`. The reason for not using `test_` is that, since we're not including the `recreateDeployment` function in the `setUp`, running that test with `forge` will not be successful, since the state updates haven't been loaded. You can also switch `prove` with `check`.
 
-However, we don't need to run the `recreateDeployment` function in Kontrol! Let's see how we can execute `prove_multiple_counters`.
+Since we are not running the `recreateDeployment` function in Kontrol, let's see how we can execute `prove_multiple_counters`!
 
 ## ⚙️ Run Your Proofs ⚙️
 
