@@ -153,6 +153,7 @@ def foundry_prove(
                 new_prove_options = copy(options)
                 new_prove_options.tests = test_version_tuples
                 new_prove_options.config_type = ConfigType.SUMMARY_CONFIG
+                new_prove_options.minimize_proofs = True
                 summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, deployment_state_entries))
 
     test_suite = collect_tests(foundry, options.tests, reinit=options.reinit)
