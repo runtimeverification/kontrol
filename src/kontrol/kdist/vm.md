@@ -4,11 +4,9 @@ requires "foundry.md"
 module KONTROL-VM
     imports FOUNDRY
 
-    
-
     syntax RPCRequest ::= ".RPCRequest" | Int 
     syntax RPCResponse ::= ".RPCResponse" | Int
-    syntax KItem ::= "#kontrol_addAccount" | "#kontrol_addAccountByAddress" String | "#kontrol_addAccountByKey" String
+    syntax KItem ::= "#eth_requestValue" | "#kontrol_addAccount" | "#kontrol_addAccountByAddress" String | "#kontrol_addAccountByKey" String 
 
 
     configuration <simbolikVM>
@@ -16,8 +14,10 @@ module KONTROL-VM
                     <rpcRequest> .RPCRequest </rpcRequest>
                     <rpcResponse> .RPCResponse </rpcResponse>
                   </simbolikVM>
-
     
+    rule <k> #eth_requestValue => . ... </k> 
+         <rpcResponse> _ => 3 </rpcResponse>
+
 endmodule
 
 ```

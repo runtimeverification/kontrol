@@ -411,7 +411,7 @@ class VMOptions(FoundryOptions, LoggingOptions):
     def default() -> dict[str, Any]:
         return {
             'host': '127.0.0.1',
-            'port': 9001,
+            'port': 8081,
         }
 
 
@@ -880,7 +880,7 @@ def _create_argument_parser() -> ArgumentParser:
     vm.add_argument(
         '--port',
         dest='port',
-        default=9001,
+        default=8081,
         help='port number',
     )
 

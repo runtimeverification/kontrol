@@ -96,7 +96,7 @@ def foundry_kompile(
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
         kevm = KEVM(kdist.get('kontrol.foundry'))
-        empty_config = kevm.definition.empty_config(Foundry.Sorts.FOUNDRY_CELL)
+        empty_config = kevm.definition.empty_config(Foundry.Sorts.SIMBOLIKVM_CELL)
         bin_runtime_definition = _foundry_to_contract_def(
             empty_config=empty_config,
             contracts=foundry.contracts.values(),
