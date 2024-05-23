@@ -160,7 +160,7 @@ Note that in the previous `setUp` we were deploying contracts + calling `setNumb
 
 **A note on interfaces**: One of the goals of this technique is to isolate the verified bytecode from the source code producing it. Therefore `Counter` here is just an interface of the actual `Counter` contract. The interface can be found [here](test/kontrol/proofs/utils/Interfaces.sol). To see more clearly how this is brought together, see the test [here](test/kontrol/proofs/Counter.k.sol).
 
-Note that [our test](test/kontrol/proofs/Counter.k.sol) is named `prove_multiple_counters`. The reason for not using `test_` is that, since we're not including the `recreateDeployment` function in the `setUp`, running that test with `forge` will not be successful, since the state updates haven't been loaded.
+**Naming convention:** Note that [our test](test/kontrol/proofs/Counter.k.sol) is named `prove_multiple_counters`. The reason for not using `test_` is that, since we're not including the `recreateDeployment` function in the `setUp`, running that test with `forge` will not be successful, since the state updates haven't been loaded. You can also switch `prove` with `check`.
 
 However, we don't need to run the `recreateDeployment` function in Kontrol! Let's see how we can execute `prove_multiple_counters`.
 
