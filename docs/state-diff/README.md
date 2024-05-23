@@ -88,7 +88,7 @@ function test_multiple_counters() public {
         }
     }
 ```
-we can offload the computation of the `setUp` function (of any function, really) to Foundry, and then provide to Kontrol the file containing what state updates occurred during the execution of `setUp`. Let's see how this transformation is done.
+we can offload the computation of the `setUp` function (of any function, really) to Foundry, and then provide Kontrol with the file containing the state updates that occurred during the execution of `setUp`. Let's see how this transformation is done.
 
 First, we need to run this `setUp` function with the `recordStateDiff` modifier. You can find that function [here](./test/kontrol/state-diff/proof-initialization.sol#L18):
 ```solidity
