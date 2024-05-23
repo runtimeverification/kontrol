@@ -125,7 +125,7 @@ address internal constant counter2Address = 0xF62849F9A0B5Bf2913b396098F7c7019b5
 address internal constant counter5Address = 0xa0Cb889707d426A7A386870A03bc70d1b0697598;
 address internal constant counter4Address = 0xc7183455a4C133Ae270771860664b6B7ec320bB1;
 ```
-This means that for [our test](test/kontrol/proofs/Counter.k.sol) we'll inherit `InitialState.sol` and add the necessary interface to each address:
+This means that we'll make [our test](test/kontrol/proofs/Counter.k.sol) inherit `InitialState.sol` and add the necessary interface to each address:
 ```solidity
 Counter[] public counters;
 
