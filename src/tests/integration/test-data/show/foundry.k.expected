@@ -53,15 +53,15 @@ module FOUNDRY-MAIN
     imports public S2KtestZModFilesTest-VERIFICATION
     imports public S2KtestZModForkTest-VERIFICATION
     imports public S2KtestZModFreshBytesTest-VERIFICATION
-    imports public S2KtestZModFreshIntTest-VERIFICATION
+    imports public S2KtestZModFreshCheatcodes-VERIFICATION
     imports public S2KtestZModGasTest-VERIFICATION
     imports public S2KtestZModGetCodeTest-VERIFICATION
     imports public S2KtestZModHevmTests-VERIFICATION
+    imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-VERIFICATION
     imports public S2KtestZModInitCodeTest-VERIFICATION
     imports public S2KtestZModInitCodeBranchTest-VERIFICATION
-    imports public S2KsrcZModKEVMCheats-VERIFICATION
-    imports public S2KsrcZModKEVMCheatsBase-VERIFICATION
+    imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheats-VERIFICATION
     imports public S2KtestZModLabelTest-VERIFICATION
     imports public S2KtestZModLoopsTest-VERIFICATION
     imports public S2KtestZModMergeTest-VERIFICATION
@@ -485,8 +485,8 @@ module S2KtestZModFreshBytesTest-VERIFICATION
 
 endmodule
 
-module S2KtestZModFreshIntTest-VERIFICATION
-    imports public S2KtestZModFreshIntTest-CONTRACT
+module S2KtestZModFreshCheatcodes-VERIFICATION
+    imports public S2KtestZModFreshCheatcodes-CONTRACT
     
     
 
@@ -513,6 +513,13 @@ module S2KtestZModHevmTests-VERIFICATION
 
 endmodule
 
+module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-VERIFICATION
+    imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
+    
+    
+
+endmodule
+
 module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     
@@ -534,15 +541,8 @@ module S2KtestZModInitCodeBranchTest-VERIFICATION
 
 endmodule
 
-module S2KsrcZModKEVMCheats-VERIFICATION
-    imports public S2KsrcZModKEVMCheats-CONTRACT
-    
-    
-
-endmodule
-
-module S2KsrcZModKEVMCheatsBase-VERIFICATION
-    imports public S2KsrcZModKEVMCheatsBase-CONTRACT
+module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheats-VERIFICATION
+    imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheats-CONTRACT
     
     
 

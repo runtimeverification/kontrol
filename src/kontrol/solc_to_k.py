@@ -27,34 +27,33 @@ if TYPE_CHECKING:
     from pyk.kast import KInner
     from pyk.kast.outer import KProductionItem, KSentence
 
+    from .options import SolcToKOptions
+
+
 _LOGGER: Final = logging.getLogger(__name__)
 
 
-def solc_to_k(
-    contract_file: Path,
-    contract_name: str,
-    main_module: str | None,
-    requires: Iterable[str] = (),
-    imports: Iterable[str] = (),
-) -> str:
+def solc_to_k(options: SolcToKOptions) -> str:
     definition_dir = kdist.get('evm-semantics.haskell')
     kevm = KEVM(definition_dir)
     empty_config = kevm.definition.empty_config(KEVM.Sorts.KEVM_CELL)
 
-    solc_json = solc_compile(contract_file)
-    contract_json = solc_json['contracts'][contract_file.name][contract_name]
-    if 'sources' in solc_json and contract_file.name in solc_json['sources']:
-        contract_source = solc_json['sources'][contract_file.name]
+    solc_json = solc_compile(options.contract_file)
+    contract_json = solc_json['contracts'][options.contract_file.name][options.contract_name]
+    if 'sources' in solc_json and options.contract_file.name in solc_json['sources']:
+        contract_source = solc_json['sources'][options.contract_file.name]
         for key in ['id', 'ast']:
             if key not in contract_json and key in contract_source:
                 contract_json[key] = contract_source[key]
-    contract = Contract(contract_name, contract_json, foundry=False)
+    contract = Contract(options.contract_name, contract_json, foundry=False)
 
-    imports = list(imports)
-    requires = list(requires)
+    imports = list(options.imports)
+    requires = list(options.requires)
     contract_module = contract_to_main_module(contract, empty_config, imports=['EDSL'] + imports)
     _main_module = KFlatModule(
-        main_module if main_module else 'MAIN', [], [KImport(mname) for mname in [contract_module.name] + imports]
+        options.main_module if options.main_module else 'MAIN',
+        [],
+        [KImport(mname) for mname in [contract_module.name] + imports],
     )
     modules = (contract_module, _main_module)
     bin_runtime_definition = KDefinition(
@@ -1212,7 +1211,7 @@ def find_function_calls(node: dict) -> list[str]:
     :return: A list of unique function signatures that are called inside the provided method AST.
     :rtype: list[str]
 
-    Functions that belong to contracts such as `Vm` and `KEVMCheatsBase` are ignored.
+    Functions that belong to contracts such as `Vm` and `KontrolCheatsBase` are ignored.
     Functions like `abi.encodePacked` that do not belong to a Contract are assigned to a `UnknownContractType` and are ignored.
     """
     function_calls: list[str] = []
@@ -1233,7 +1232,7 @@ def find_function_calls(node: dict) -> list[str]:
                 arg_types = expression['typeDescriptions'].get('typeString')
                 args = arg_types.split()[1] if arg_types is not None else '()'
 
-                if contract_type not in ['KEVMCheatsBase', 'Vm', 'UnknownContractType']:
+                if contract_type not in ['KontrolCheatsBase', 'Vm', 'UnknownContractType']:
                     value = f'{contract_type}.{function_name}{args}'
                     # Check if value is not already in the list
                     if value not in function_calls:

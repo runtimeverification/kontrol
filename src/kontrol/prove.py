@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import time
+from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
@@ -26,7 +27,9 @@ from pyk.utils import run_process, unique
 
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
+from .options import TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
+from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -36,27 +39,24 @@ if TYPE_CHECKING:
     from pyk.kcfg import KCFGExplore
 
     from .deployment import DeploymentStateEntry
-    from .options import ProveOptions, RPCOptions
+    from .options import ProveOptions
 
 _LOGGER: Final = logging.getLogger(__name__)
 
 
 def foundry_prove(
+    options: ProveOptions,
     foundry: Foundry,
-    prove_options: ProveOptions,
-    rpc_options: RPCOptions,
-    tests: Iterable[tuple[str, int | None]] = (),
-    include_summaries: Iterable[tuple[str, int | None]] = (),
-    xml_test_report: bool = False,
+    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
 ) -> list[APRProof]:
-    if prove_options.workers <= 0:
-        raise ValueError(f'Must have at least one worker, found: --workers {prove_options.workers}')
-    if prove_options.max_iterations is not None and prove_options.max_iterations < 0:
+    if options.workers <= 0:
+        raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
+    if options.max_iterations is not None and options.max_iterations < 0:
         raise ValueError(
-            f'Must have a non-negative number of iterations, found: --max-iterations {prove_options.max_iterations}'
+            f'Must have a non-negative number of iterations, found: --max-iterations {options.max_iterations}'
         )
 
-    if rpc_options.use_booster:
+    if options.use_booster:
         try:
             run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
         except CalledProcessError:
@@ -66,20 +66,20 @@ def foundry_prove(
 
     foundry.mk_proofs_dir()
 
-    if include_summaries and prove_options.cse:
+    if options.include_summaries and options.cse:
         raise AttributeError('Error! Cannot use both --cse and --include-summary.')
 
     summary_ids: list[str] = (
         [
             foundry.get_apr_proof(include_summary.id).id
-            for include_summary in collect_tests(foundry, include_summaries, reinit=False)
+            for include_summary in collect_tests(foundry, options.include_summaries, reinit=False)
         ]
-        if include_summaries
+        if options.include_summaries
         else []
     )
 
-    if prove_options.cse:
-        test_suite = collect_tests(foundry, tests, reinit=prove_options.reinit, return_empty=True)
+    if options.cse:
+        test_suite = collect_tests(foundry, options.tests, reinit=options.reinit, return_empty=True)
         for test in test_suite:
             if not isinstance(test.method, Contract.Method) or test.method.function_calls is None:
                 continue
@@ -90,16 +90,18 @@ def foundry_prove(
 
             if len(test_version_tuples) > 0:
                 _LOGGER.info(f'For test {test.name}, found external calls: {test_version_tuples}')
-                summary_ids.extend(
-                    p.id for p in foundry_prove(foundry, prove_options, rpc_options, test_version_tuples)
-                )
+                new_prove_options = copy(options)
+                new_prove_options.tests = test_version_tuples
+                summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, deployment_state_entries))
 
-    test_suite = collect_tests(foundry, tests, reinit=prove_options.reinit)
+    test_suite = collect_tests(foundry, options.tests, reinit=options.reinit)
     test_names = [test.name for test in test_suite]
     print(f'Running functions: {test_names}')
 
-    contracts = [test.contract for test in test_suite]
-    setup_method_tests = collect_setup_methods(foundry, contracts, reinit=prove_options.reinit)
+    contracts = [(test.contract, test.version) for test in test_suite]
+    setup_method_tests = collect_setup_methods(
+        foundry, contracts, reinit=options.reinit, setup_version=options.setup_version
+    )
     setup_method_names = [test.name for test in setup_method_tests]
 
     _LOGGER.info(f'Running tests: {test_names}')
@@ -116,13 +118,13 @@ def foundry_prove(
         return _run_cfg_group(
             tests=_test_suite,
             foundry=foundry,
-            prove_options=prove_options,
-            rpc_options=rpc_options,
+            options=options,
             summary_ids=(summary_ids if include_summaries else []),
+            deployment_state_entries=deployment_state_entries,
         )
 
-    if prove_options.run_constructor:
-        constructor_tests = collect_constructors(foundry, contracts, reinit=prove_options.reinit)
+    if options.run_constructor:
+        constructor_tests = collect_constructors(foundry, contracts, reinit=options.reinit)
         constructor_names = [test.name for test in constructor_tests]
 
         _LOGGER.info(f'Updating digests: {constructor_names}')
@@ -145,18 +147,10 @@ def foundry_prove(
     _LOGGER.info(f'Running test functions in parallel: {test_names}')
     results = _run_prover(test_suite, include_summaries=True)
 
-    if xml_test_report:
+    if options.xml_test_report:
         foundry_to_xml(foundry, results)
 
     return results
-
-
-def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
-    if ':' in value:
-        test, version = value.split(':')
-        return (test, int(version))
-    else:
-        return (value, None)
 
 
 class FoundryTest(NamedTuple):
@@ -195,10 +189,12 @@ def collect_tests(
     return res
 
 
-def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool) -> list[FoundryTest]:
+def collect_setup_methods(
+    foundry: Foundry, contracts: Iterable[tuple[Contract, int]] = (), *, reinit: bool, setup_version: int | None = None
+) -> list[FoundryTest]:
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
-    for contract in contracts:
+    for contract, test_version in contracts:
         if contract.name_with_path in contract_names:
             continue
         contract_names.add(contract.name_with_path)
@@ -206,15 +202,19 @@ def collect_setup_methods(foundry: Foundry, contracts: Iterable[Contract] = (), 
         method = contract.method_by_name.get('setUp')
         if not method:
             continue
-        version = foundry.resolve_proof_version(f'{contract.name_with_path}.setUp()', reinit, None)
+        version = foundry.resolve_setup_proof_version(
+            f'{contract.name_with_path}.setUp()', reinit, test_version, setup_version
+        )
         res.append(FoundryTest(contract, method, version))
     return res
 
 
-def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *, reinit: bool) -> list[FoundryTest]:
+def collect_constructors(
+    foundry: Foundry, contracts: Iterable[tuple[Contract, int]] = (), *, reinit: bool
+) -> list[FoundryTest]:
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
-    for contract in contracts:
+    for contract, _ in contracts:
         if contract.name_with_path in contract_names:
             continue
         contract_names.add(contract.name_with_path)
@@ -230,66 +230,81 @@ def collect_constructors(foundry: Foundry, contracts: Iterable[Contract] = (), *
 def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
-    prove_options: ProveOptions,
-    rpc_options: RPCOptions,
+    options: ProveOptions,
     summary_ids: Iterable[str],
+    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
+        proof = None
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
-            apr_proof = foundry.get_apr_proof(test.id)
-            if apr_proof.passed:
+            proof = foundry.get_apr_proof(test.id)
+            if proof.passed:
                 return None
-        start_time = time.time()
-        start_server = rpc_options.port is None
+        start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
+        start_server = options.port is None
+
+        kore_rpc_command = None
+        if isinstance(options.kore_rpc_command, str):
+            kore_rpc_command = options.kore_rpc_command.split()
+
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=KEVMSemantics(auto_abstract_gas=prove_options.auto_abstract_gas),
+            kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
             id=test.id,
-            bug_report=prove_options.bug_report,
-            kore_rpc_command=rpc_options.kore_rpc_command,
-            llvm_definition_dir=foundry.llvm_library if rpc_options.use_booster else None,
-            smt_timeout=rpc_options.smt_timeout,
-            smt_retry_limit=rpc_options.smt_retry_limit,
-            trace_rewrites=rpc_options.trace_rewrites,
+            bug_report=options.bug_report,
+            kore_rpc_command=kore_rpc_command,
+            llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
+            smt_timeout=options.smt_timeout,
+            smt_retry_limit=options.smt_retry_limit,
+            trace_rewrites=options.trace_rewrites,
             start_server=start_server,
-            port=rpc_options.port,
-            maude_port=rpc_options.maude_port,
+            port=options.port,
+            maude_port=options.maude_port,
         ) as kcfg_explore:
-            proof = method_to_apr_proof(
-                test=test,
-                foundry=foundry,
-                kcfg_explore=kcfg_explore,
-                bmc_depth=prove_options.bmc_depth,
-                run_constructor=prove_options.run_constructor,
-                use_gas=prove_options.use_gas,
-                deployment_state_entries=prove_options.deployment_state_entries,
-                summary_ids=summary_ids,
-                active_symbolik=prove_options.active_symbolik,
-                hevm=prove_options.hevm,
-            )
+            if proof is None:
+                proof = method_to_apr_proof(
+                    test=test,
+                    foundry=foundry,
+                    kcfg_explore=kcfg_explore,
+                    bmc_depth=options.bmc_depth,
+                    run_constructor=options.run_constructor,
+                    use_gas=options.use_gas,
+                    deployment_state_entries=deployment_state_entries,
+                    summary_ids=summary_ids,
+                    active_symbolik=options.with_non_general_state,
+                    hevm=options.hevm,
+                    trace_options=TraceOptions(
+                        {
+                            'active_tracing': options.active_tracing,
+                            'trace_memory': options.trace_memory,
+                            'trace_storage': options.trace_storage,
+                            'trace_wordstack': options.trace_wordstack,
+                        }
+                    ),
+                )
             cut_point_rules = KEVMSemantics.cut_point_rules(
-                prove_options.break_on_jumpi,
-                prove_options.break_on_calls,
-                prove_options.break_on_storage,
-                prove_options.break_on_basic_blocks,
+                options.break_on_jumpi,
+                options.break_on_calls,
+                options.break_on_storage,
+                options.break_on_basic_blocks,
             )
-            if prove_options.break_on_cheatcodes:
+            if options.break_on_cheatcodes:
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
                 )
             run_prover(
                 proof,
                 kcfg_explore,
-                max_depth=prove_options.max_depth,
-                max_iterations=prove_options.max_iterations,
+                max_depth=options.max_depth,
+                max_iterations=options.max_iterations,
                 cut_point_rules=cut_point_rules,
-                terminal_rules=KEVMSemantics.terminal_rules(prove_options.break_every_step),
-                counterexample_info=prove_options.counterexample_info,
-                fail_fast=prove_options.fail_fast,
+                terminal_rules=KEVMSemantics.terminal_rules(options.break_every_step),
+                counterexample_info=options.counterexample_info,
+                fail_fast=options.fail_fast,
             )
-
-            end_time = time.time()
-            proof.add_exec_time(end_time - start_time)
+            if start_time is not None:
+                end_time = time.time()
+                proof.add_exec_time(end_time - start_time)
             proof.write_proof_data()
 
             # Only return the failure info to avoid pickling the whole proof
@@ -301,8 +316,8 @@ def _run_cfg_group(
                 return proof.failure_info
 
     failure_infos: list[APRFailureInfo | Exception | None]
-    if prove_options.workers > 1:
-        with ProcessPool(ncpus=prove_options.workers) as process_pool:
+    if options.workers > 1:
+        with ProcessPool(ncpus=options.workers) as process_pool:
             failure_infos = process_pool.map(init_and_run_proof, tests)
     else:
         failure_infos = []
@@ -334,11 +349,8 @@ def method_to_apr_proof(
     summary_ids: Iterable[str] = (),
     active_symbolik: bool = False,
     hevm: bool = False,
+    trace_options: TraceOptions | None = None,
 ) -> APRProof:
-    if Proof.proof_data_exists(test.id, foundry.proofs_dir):
-        apr_proof = foundry.get_apr_proof(test.id)
-        return apr_proof
-
     setup_proof = None
     if isinstance(test.method, Contract.Constructor):
         _LOGGER.info(f'Creating proof from constructor for test: {test.id}')
@@ -358,6 +370,7 @@ def method_to_apr_proof(
         deployment_state_entries=deployment_state_entries,
         active_symbolik=active_symbolik,
         hevm=hevm,
+        trace_options=trace_options,
     )
 
     apr_proof = APRProof(
@@ -399,12 +412,21 @@ def _method_to_initialized_cfg(
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
     active_symbolik: bool = False,
     hevm: bool = False,
+    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
-        empty_config, test.contract, test.method, setup_proof, use_gas, deployment_state_entries, active_symbolik, hevm
+        empty_config,
+        test.contract,
+        test.method,
+        setup_proof,
+        use_gas,
+        deployment_state_entries,
+        active_symbolik,
+        hevm,
+        trace_options,
     )
 
     for node_id in new_node_ids:
@@ -414,13 +436,13 @@ def _method_to_initialized_cfg(
         init_cterm = CTerm.from_kast(init_term)
         _LOGGER.info(f'Computing definedness constraint for node {node_id} for test: {test.name}')
         init_cterm = kcfg_explore.cterm_symbolic.assume_defined(init_cterm)
-        kcfg.replace_node(node_id, init_cterm)
+        kcfg.let_node(node_id, cterm=init_cterm)
 
     _LOGGER.info(f'Expanding macros in target state for test: {test.name}')
     target_term = kcfg.node(target_node_id).cterm.kast
     target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
     target_cterm = CTerm.from_kast(target_term)
-    kcfg.replace_node(target_node_id, target_cterm)
+    kcfg.let_node(target_node_id, cterm=target_cterm)
 
     _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
     kcfg_explore.simplify(kcfg, {})
@@ -437,6 +459,7 @@ def _method_to_cfg(
     deployment_state_entries: Iterable[DeploymentStateEntry] | None,
     active_symbolik: bool,
     hevm: bool = False,
+    trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
@@ -460,6 +483,7 @@ def _method_to_cfg(
         callvalue=callvalue,
         is_constructor=isinstance(method, Contract.Constructor),
         active_symbolik=active_symbolik,
+        trace_options=trace_options,
     )
     new_node_ids = []
 
@@ -621,8 +645,12 @@ def _init_cterm(
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    trace_options: TraceOptions | None = None,
 ) -> CTerm:
     schedule = KApply('SHANGHAI_EVM')
+
+    if not trace_options:
+        trace_options = TraceOptions({})
 
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
@@ -651,6 +679,12 @@ def _init_cterm(
         'ADDRESSSET_CELL': set_empty(),
         'STORAGESLOTSET_CELL': set_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
+        'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
+        'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
+        'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
+        'TRACEMEMORY_CELL': TRUE if trace_options.trace_memory else FALSE,
+        'RECORDEDTRACE_CELL': FALSE,
+        'TRACEDATA_CELL': KApply('.List'),
     }
 
     if is_test or is_setup or is_constructor or active_symbolik:

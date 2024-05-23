@@ -2,7 +2,7 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
 // This experiment covers the basic behavior of the
 // test contract constructor and setup function.
@@ -16,7 +16,7 @@ import "../src/KEVMCheats.sol";
 //
 // Before each test the VM reverts to the post
 // setup state.
-contract SetUpTest is Test, KEVMCheats {
+contract SetUpTest is Test, KontrolCheats {
 
     uint256 counter = 0;
     uint256 data;
