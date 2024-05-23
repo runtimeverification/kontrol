@@ -142,7 +142,7 @@ function setUp() public {
     counters.push(Counter(address(counter9Address)));
 }
 ```
-Note that in the previous `setUp` we were deploying contracts + calling `setNumber` on each contract and storing them in the `Counters[]` array. Here we're only casting the addresses with the right interface and storing them to `counters`.
+Note that in the previous `setUp` we were deploying contracts + calling `setNumber` on each contract and storing them in the `Counters[]` array. Here we're only casting the addresses with the right interface and storing them in `counters`.
 
 **A note on interfaces**: One of the goals of this technique is to isolate the verified bytecode from the sourcecode producing it. Therefore `Counter` here is just an interface of the actual `Counter` contract. The interface can be found [here](test/kontrol/proofs/utils/Interfaces.sol). To see more clearly how this is brought together, see the test [here](test/kontrol/proofs/Counter.k.sol).
 
