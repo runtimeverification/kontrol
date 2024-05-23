@@ -2,95 +2,16 @@ from __future__ import annotations
 
 from argparse import ArgumentParser
 from functools import cached_property
-from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from kevm_pyk.cli import KEVMCLIArgs
 from kevm_pyk.kompile import KompileTarget
-from pyk.cli.args import Options
 from pyk.cli.utils import dir_path
 
 if TYPE_CHECKING:
     from typing import TypeVar
 
     T = TypeVar('T')
-
-
-class FoundryOptions(Options):
-    foundry_root: Path
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'foundry_root': Path('.'),
-        }
-
-
-class FoundryTestOptions(Options):
-    test: str
-    version: int | None
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'version': None,
-        }
-
-
-class KGenOptions(Options):
-    requires: list[str]
-    imports: list[str]
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'requires': [],
-            'imports': [],
-        }
-
-
-class KompileTargetOptions(Options):
-    target: KompileTarget
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'target': KompileTarget.HASKELL,
-        }
-
-
-class TraceOptions(Options):
-    active_tracing: bool
-    trace_storage: bool
-    trace_wordstack: bool
-    trace_memory: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'active_tracing': False,
-            'trace_storage': False,
-            'trace_wordstack': False,
-            'trace_memory': False,
-        }
-
-
-class RpcOptions(Options):
-    trace_rewrites: bool
-    kore_rpc_command: str | None
-    use_booster: bool
-    port: int | None
-    maude_port: int | None
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'trace_rewrites': False,
-            'kore_rpc_command': None,
-            'use_booster': True,
-            'port': None,
-            'maude_port': None,
-        }
 
 
 class KontrolCLIArgs(KEVMCLIArgs):

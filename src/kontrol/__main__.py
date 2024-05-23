@@ -9,9 +9,8 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
-from kevm_pyk.cli import KOptions, node_id_like
+from kevm_pyk.cli import node_id_like
 from kevm_pyk.utils import arg_pair_of
-from pyk.cli.args import LoggingOptions
 from pyk.cli.utils import file_path
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
@@ -20,7 +19,7 @@ from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path, run_process
 
 from . import VERSION
-from .cli import FoundryOptions, FoundryTestOptions, KontrolCLIArgs
+from .cli import KontrolCLIArgs
 from .foundry import (
     Foundry,
     GetModelOptions,
@@ -56,14 +55,25 @@ from .foundry import (
 )
 from .hevm import Hevm
 from .kompile import BuildOptions, foundry_kompile
-from .prove import ProveOptions, foundry_prove, parse_test_version_tuple
-from .solc_to_k import SolcToKOptions, solc_compile, solc_to_k
+from .options import (
+    CleanOptions,
+    CompileOptions,
+    InitOptions,
+    ListOptions,
+    ProveOptions,
+    SolcToKOptions,
+    VersionOptions,
+    ViewKcfgOptions,
+)
+from .prove import foundry_prove, parse_test_version_tuple
+from .solc_to_k import solc_compile, solc_to_k
 
 if TYPE_CHECKING:
     from argparse import Namespace
     from collections.abc import Callable
     from typing import Any, Final, TypeVar
 
+    from pyk.cli.args import LoggingOptions
     from pyk.cterm import CTerm
     from pyk.kcfg.tui import KCFGElem
     from pyk.utils import BugReport
@@ -181,15 +191,8 @@ def exec_load_state_diff(options: LoadStateDiffOptions) -> None:
     )
 
 
-class VersionOptions(LoggingOptions): ...
-
-
 def exec_version(options: VersionOptions) -> None:
     print(f'Kontrol version: {VERSION}')
-
-
-class CompileOptions(LoggingOptions):
-    contract_file: Path
 
 
 def exec_compile(options: CompileOptions) -> None:
@@ -296,15 +299,9 @@ def exec_to_dot(options: ToDotOptions) -> None:
     foundry_to_dot(foundry=_load_foundry(options.foundry_root), options=options)
 
 
-class ListOptions(LoggingOptions, KOptions, FoundryOptions): ...
-
-
 def exec_list(options: ListOptions) -> None:
     stats = foundry_list(foundry=_load_foundry(options.foundry_root))
     print('\n'.join(stats))
-
-
-class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
 
 
 def exec_view_kcfg(options: ViewKcfgOptions) -> None:
@@ -375,23 +372,8 @@ def exec_get_model(options: GetModelOptions) -> None:
     print(output)
 
 
-class CleanOptions(FoundryOptions, LoggingOptions): ...
-
-
 def exec_clean(options: CleanOptions) -> None:
     run_process(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)
-
-
-class InitOptions(LoggingOptions):
-    project_root: Path
-    skip_forge: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'project_root': Path.cwd(),
-            'skip_forge': False,
-        }
 
 
 def exec_init(options: InitOptions) -> None:

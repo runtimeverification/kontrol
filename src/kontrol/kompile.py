@@ -15,9 +15,9 @@ from pyk.kdist import kdist
 from pyk.kore.kompiled import KompiledKore
 from pyk.utils import ensure_dir_path, hash_str
 
-from .cli import FoundryOptions, KGenOptions, KompileTargetOptions
 from .foundry import Foundry
 from .kdist.utils import KSRC_DIR
+from .options import FoundryOptions, KGenOptions, KompileTargetOptions
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
 
 if TYPE_CHECKING:

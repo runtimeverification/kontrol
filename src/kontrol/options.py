@@ -1,152 +1,300 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
+
+from kevm_pyk.cli import DisplayOptions, ExploreOptions, KCFGShowOptions, KOptions, KProveOptions
+from kevm_pyk.kompile import KompileTarget
+from pyk.cli.args import BugReportOptions, LoggingOptions, Options, ParallelOptions, SMTOptions
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
-
-    from pyk.utils import BugReport
-
-    from .deployment import DeploymentStateEntry
+    from pyk.kcfg.kcfg import NodeIdLike
 
 
-@dataclass(frozen=True)
-class ProveOptions:
-    auto_abstract_gas: bool
-    bug_report: BugReport | None
-    bmc_depth: int | None
-    max_depth: int
-    break_every_step: bool
-    break_on_jumpi: bool
-    break_on_calls: bool
-    break_on_storage: bool
-    break_on_basic_blocks: bool
-    break_on_cheatcodes: bool
-    workers: int
-    counterexample_info: bool
-    max_iterations: int | None
-    run_constructor: bool
-    fail_fast: bool
-    reinit: bool
-    setup_version: int | None
-    use_gas: bool
-    deployment_state_entries: Iterable[DeploymentStateEntry] | None
-    active_symbolik: bool
-    cse: bool
-    hevm: bool
-    minimize_proofs: bool
-    trace_options: TraceOptions | None
+class FoundryOptions(Options):
+    foundry_root: Path
 
-    def __init__(
-        self,
-        *,
-        auto_abstract_gas: bool = False,
-        bug_report: BugReport | None = None,
-        bmc_depth: int | None = None,
-        max_depth: int = 1000,
-        break_every_step: bool = False,
-        break_on_jumpi: bool = False,
-        break_on_calls: bool = False,
-        break_on_storage: bool = False,
-        break_on_basic_blocks: bool = False,
-        break_on_cheatcodes: bool = False,
-        workers: int = 1,
-        counterexample_info: bool = True,
-        max_iterations: int | None = None,
-        run_constructor: bool = False,
-        fail_fast: bool = True,
-        reinit: bool = False,
-        setup_version: int | None = None,
-        use_gas: bool = False,
-        deployment_state_entries: list[DeploymentStateEntry] | None = None,
-        active_symbolik: bool = False,
-        cse: bool = False,
-        hevm: bool = False,
-        minimize_proofs: bool = False,
-        trace_options: TraceOptions | None = None,
-    ) -> None:
-        object.__setattr__(self, 'auto_abstract_gas', auto_abstract_gas)
-        object.__setattr__(self, 'bug_report', bug_report)
-        object.__setattr__(self, 'bmc_depth', bmc_depth)
-        object.__setattr__(self, 'max_depth', max_depth)
-        object.__setattr__(self, 'break_every_step', break_every_step)
-        object.__setattr__(self, 'break_on_jumpi', break_on_jumpi)
-        object.__setattr__(self, 'break_on_calls', break_on_calls)
-        object.__setattr__(self, 'break_on_storage', break_on_storage)
-        object.__setattr__(self, 'break_on_basic_blocks', break_on_basic_blocks)
-        object.__setattr__(self, 'break_on_cheatcodes', break_on_cheatcodes)
-        object.__setattr__(self, 'workers', workers)
-        object.__setattr__(self, 'counterexample_info', counterexample_info)
-        object.__setattr__(self, 'max_iterations', max_iterations)
-        object.__setattr__(self, 'run_constructor', run_constructor)
-        object.__setattr__(self, 'fail_fast', fail_fast)
-        object.__setattr__(self, 'reinit', reinit)
-        object.__setattr__(self, 'setup_version', setup_version)
-        object.__setattr__(self, 'use_gas', use_gas)
-        object.__setattr__(self, 'deployment_state_entries', deployment_state_entries)
-        object.__setattr__(self, 'active_symbolik', active_symbolik)
-        object.__setattr__(self, 'cse', cse)
-        object.__setattr__(self, 'hevm', hevm)
-        object.__setattr__(self, 'minimize_proofs', minimize_proofs)
-        object.__setattr__(self, 'trace_options', trace_options)
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'foundry_root': Path('.'),
+        }
 
 
-@dataclass(frozen=True)
-class RPCOptions:
-    use_booster: bool
-    kore_rpc_command: tuple[str, ...]
-    smt_timeout: int | None
-    smt_retry_limit: int | None
-    smt_tactic: str | None
+class RpcOptions(Options):
     trace_rewrites: bool
+    kore_rpc_command: str | None
+    use_booster: bool
     port: int | None
     maude_port: int | None
 
-    def __init__(
-        self,
-        *,
-        use_booster: bool = True,
-        kore_rpc_command: str | Iterable[str] | None = None,
-        smt_timeout: int | None = None,
-        smt_retry_limit: int | None = None,
-        smt_tactic: str | None = None,
-        trace_rewrites: bool = False,
-        port: int | None = None,
-        maude_port: int | None = None,
-    ) -> None:
-        if kore_rpc_command is None:
-            kore_rpc_command = ('kore-rpc-booster',) if use_booster else ('kore-rpc',)
-        elif isinstance(kore_rpc_command, str):
-            kore_rpc_command = (kore_rpc_command,)
-        else:
-            kore_rpc_command = tuple(kore_rpc_command)
-        object.__setattr__(self, 'use_booster', use_booster)
-        object.__setattr__(self, 'kore_rpc_command', kore_rpc_command)
-        object.__setattr__(self, 'smt_timeout', smt_timeout)
-        object.__setattr__(self, 'smt_retry_limit', smt_retry_limit)
-        object.__setattr__(self, 'smt_tactic', smt_tactic)
-        object.__setattr__(self, 'trace_rewrites', trace_rewrites)
-        object.__setattr__(self, 'port', port)
-        object.__setattr__(self, 'maude_port', maude_port)
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'trace_rewrites': False,
+            'kore_rpc_command': None,
+            'use_booster': True,
+            'port': None,
+            'maude_port': None,
+        }
 
 
-@dataclass(frozen=True)
-class TraceOptions:
+class TraceOptions(Options):
     active_tracing: bool
     trace_storage: bool
     trace_wordstack: bool
     trace_memory: bool
 
-    def __init__(
-        self,
-        *,
-        active_tracing: bool = False,
-        trace_storage: bool = False,
-        trace_wordstack: bool = False,
-        trace_memory: bool = False,
-    ) -> None:
-        object.__setattr__(self, 'active_tracing', active_tracing)
-        object.__setattr__(self, 'trace_storage', trace_storage)
-        object.__setattr__(self, 'trace_wordstack', trace_wordstack)
-        object.__setattr__(self, 'trace_memory', trace_memory)
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'active_tracing': False,
+            'trace_storage': False,
+            'trace_wordstack': False,
+            'trace_memory': False,
+        }
+
+
+class CleanOptions(FoundryOptions, LoggingOptions): ...
+
+
+class CompileOptions(LoggingOptions):
+    contract_file: Path
+
+
+class FoundryTestOptions(Options):
+    test: str
+    version: int | None
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'version': None,
+        }
+
+
+class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+    nodes: list[NodeIdLike]
+    pending: bool
+    failing: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'nodes': [],
+            'pending': False,
+            'failing': False,
+        }
+
+
+class InitOptions(LoggingOptions):
+    project_root: Path
+    skip_forge: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'project_root': Path.cwd(),
+            'skip_forge': False,
+        }
+
+
+class KGenOptions(Options):
+    requires: list[str]
+    imports: list[str]
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'requires': [],
+            'imports': [],
+        }
+
+
+class KompileTargetOptions(Options):
+    target: KompileTarget
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'target': KompileTarget.HASKELL,
+        }
+
+
+class ListOptions(LoggingOptions, KOptions, FoundryOptions): ...
+
+
+class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
+    name: str
+    accesses_file: Path
+    contract_names: Path | None
+    condense_state_diff: bool
+    output_dir_name: str | None
+    comment_generated_file: str
+    license: str
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'contract_names': None,
+            'condense_state_diff': False,
+            'output_dir_name': None,
+            'comment_generated_file': '// This file was autogenerated by running `kontrol load-state-diff`. Do not edit this file manually.\n',
+            'license': 'UNLICENSED',
+        }
+
+
+class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    nodes: list[NodeIdLike]
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'nodes': [],
+        }
+
+
+class MinimizeProofOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+
+class ProveOptions(
+    LoggingOptions,
+    ParallelOptions,
+    KOptions,
+    KProveOptions,
+    SMTOptions,
+    RpcOptions,
+    BugReportOptions,
+    ExploreOptions,
+    FoundryOptions,
+    TraceOptions,
+):
+    tests: list[tuple[str, int | None]]
+    reinit: bool
+    bmc_depth: int | None
+    run_constructor: bool
+    use_gas: bool
+    setup_version: int | None
+    break_on_cheatcodes: bool
+    deployment_state_path: Path | None
+    include_summaries: list[tuple[str, int | None]]
+    with_non_general_state: bool
+    xml_test_report: bool
+    cse: bool
+    hevm: bool
+    minimize_proofs: bool
+    max_frontier_parallel: int
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'tests': [],
+            'reinit': False,
+            'bmc_depth': None,
+            'run_constructor': False,
+            'use_gas': False,
+            'break_on_cheatcodes': False,
+            'deployment_state_path': None,
+            'setup_version': None,
+            'include_summaries': [],
+            'with_non_general_state': False,
+            'xml_test_report': False,
+            'cse': False,
+            'hevm': False,
+            'minimize_proofs': False,
+            'max_frontier_parallel': 1,
+        }
+
+
+class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
+    node: NodeIdLike
+
+
+class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    node: NodeIdLike
+
+
+class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+    edge: tuple[str, str]
+    sections: int
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'sections': 2,
+        }
+
+
+class SimplifyNodeOptions(
+    FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
+):
+    node: NodeIdLike
+    replace: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'replace': False,
+        }
+
+
+class ShowOptions(
+    FoundryTestOptions,
+    LoggingOptions,
+    KOptions,
+    KCFGShowOptions,
+    DisplayOptions,
+    FoundryOptions,
+    RpcOptions,
+    SMTOptions,
+):
+    omit_unstable_output: bool
+    to_kevm_claims: bool
+    kevm_claim_dir: Path | None
+    use_hex_encoding: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'omit_unstable_output': False,
+            'to_kevm_claims': False,
+            'kevm_claim_dir': None,
+            'use_hex_encoding': False,
+            'counterexample_info': True,
+        }
+
+
+class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
+    contract_file: Path
+    contract_name: str
+
+
+class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    node: NodeIdLike
+    branch_condition: str
+
+
+class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
+    node: NodeIdLike
+    repeat: int
+    depth: int
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'repeat': 1,
+            'depth': 1,
+        }
+
+
+class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+
+
+class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
+    node: NodeIdLike
+
+
+class VersionOptions(LoggingOptions): ...
+
+
+class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
