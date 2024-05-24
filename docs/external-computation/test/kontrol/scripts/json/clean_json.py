@@ -6,6 +6,9 @@ Usage:
     To unescape a state diff JSON with the recordStateDiff modifier
     run: python3 clean_json.py $path_to_state_diff_json
     The unescaped JSON will rewrite the input file
+
+License:
+    MIT License
 """
 
 import sys
