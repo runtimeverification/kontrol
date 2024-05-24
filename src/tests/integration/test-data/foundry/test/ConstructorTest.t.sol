@@ -7,7 +7,7 @@ pragma solidity =0.8.13;
 import "forge-std/Test.sol";
 
 contract ImportedContract {
-    int public count;
+    uint256 public count;
 
     constructor() payable {
         count = 5;
@@ -16,14 +16,14 @@ contract ImportedContract {
     // Compare ImportedContract.set KCFG and  ConstrucorTest.test_contract_call KCFG with and without
     // skipping constructors for summarized function contracts
 
-    function set(int x) public {
+    function set(uint256 x) public {
         if(count < 3){
             return;
         }
         count = x;
     }
 
-    function add(int x) public {
+    function add(uint256 x) public {
         count = count + x;
     }
 
