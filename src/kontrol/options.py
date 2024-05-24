@@ -20,6 +20,12 @@ class FoundryOptions(Options):
             'foundry_root': Path('.'),
         }
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return {
+            'foundry-project-root': 'foundry_root',
+        }
+
 
 class RpcOptions(Options):
     trace_rewrites: bool
@@ -86,6 +92,20 @@ class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
             'failing': False,
         }
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            LoggingOptions.from_option_string()
+            | FoundryOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | SMTOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | {
+                'node': 'nodes',
+            }
+        )
+
 
 class InitOptions(LoggingOptions):
     project_root: Path
@@ -108,6 +128,13 @@ class KGenOptions(Options):
         return {
             'requires': [],
             'imports': [],
+        }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return {
+            'require': 'requires',
+            'module-import': 'imports',
         }
 
 
@@ -143,6 +170,14 @@ class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
             'license': 'UNLICENSED',
         }
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            LoggingOptions.from_option_string()
+            | FoundryOptions.from_option_string()
+            | {'output-dir': 'output_dir_name', 'comment-generated-files': 'comment_generated_file'}
+        )
+
 
 class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     nodes: list[NodeIdLike]
@@ -152,6 +187,17 @@ class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
         return {
             'nodes': [],
         }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            LoggingOptions.from_option_string()
+            | FoundryOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | {
+                'node': 'nodes',
+            }
+        )
 
 
 class MinimizeProofOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
@@ -204,6 +250,22 @@ class ProveOptions(
             'minimize_proofs': False,
             'max_frontier_parallel': 1,
         }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            LoggingOptions.from_option_string()
+            | ParallelOptions.from_option_string()
+            | KOptions.from_option_string()
+            | KProveOptions.from_option_string()
+            | SMTOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | ExploreOptions.from_option_string()
+            | FoundryOptions.from_option_string()
+            | TraceOptions.from_option_string()
+            | {'match-test': 'tests', 'init-node-from': 'deployment_state_path', 'include-summary': 'include_summaries'}
+        )
 
 
 class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
