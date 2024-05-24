@@ -74,11 +74,22 @@ class TraceOptions(Options):
         }
 
 
-class CleanOptions(FoundryOptions, LoggingOptions): ...
+class CleanOptions(FoundryOptions, LoggingOptions):
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return FoundryOptions.from_option_string() | LoggingOptions.from_option_string()
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return FoundryOptions.get_argument_type() | LoggingOptions.get_argument_type()
 
 
 class CompileOptions(LoggingOptions):
     contract_file: Path
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return LoggingOptions.from_option_string()
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
@@ -152,6 +163,10 @@ class InitOptions(LoggingOptions):
         }
 
     @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return LoggingOptions.from_option_string()
+
+    @staticmethod
     def get_argument_type() -> dict[str, Callable]:
         return LoggingOptions.get_argument_type() | {
             'project_root': Path,
@@ -200,7 +215,14 @@ class KompileTargetOptions(Options):
         }
 
 
-class ListOptions(LoggingOptions, KOptions, FoundryOptions): ...
+class ListOptions(LoggingOptions, KOptions, FoundryOptions):
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return FoundryOptions.from_option_string() | LoggingOptions.from_option_string() | KOptions.from_option_string()
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return FoundryOptions.get_argument_type() | LoggingOptions.get_argument_type() | KOptions.get_argument_type()
 
 
 class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
@@ -274,7 +296,23 @@ class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
         )
 
 
-class MinimizeProofOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+class MinimizeProofOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            FoundryOptions.get_argument_type()
+            | LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+        )
 
 
 class ProveOptions(
@@ -366,6 +404,14 @@ class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
     node: NodeIdLike
 
     @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+        )
+
+    @staticmethod
     def get_argument_type() -> dict[str, Callable]:
         return (
             LoggingOptions.get_argument_type()
@@ -379,6 +425,14 @@ class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
 
 class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     node: NodeIdLike
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+        )
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
@@ -401,6 +455,17 @@ class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugRepo
         return {
             'sections': 2,
         }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | SMTOptions.from_option_string()
+        )
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
@@ -443,6 +508,19 @@ class ShowOptions(
         }
 
     @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | KOptions.from_option_string()
+            | KCFGShowOptions.from_option_string()
+            | DisplayOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | SMTOptions.from_option_string()
+        )
+
+    @staticmethod
     def get_argument_type() -> dict[str, Callable]:
         return (
             FoundryTestOptions.get_argument_type()
@@ -472,6 +550,18 @@ class SimplifyNodeOptions(
         }
 
     @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | SMTOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | DisplayOptions.from_option_string()
+        )
+
+    @staticmethod
     def get_argument_type() -> dict[str, Callable]:
         return (
             LoggingOptions.get_argument_type()
@@ -492,6 +582,10 @@ class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
     contract_name: str
 
     @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return KOptions.from_option_string() | LoggingOptions.from_option_string() | KGenOptions.from_option_string()
+
+    @staticmethod
     def get_argument_type() -> dict[str, Callable]:
         return (
             LoggingOptions.get_argument_type()
@@ -506,6 +600,14 @@ class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
 class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     node: NodeIdLike
     branch_condition: str
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+        )
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
@@ -532,6 +634,17 @@ class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
         }
 
     @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | SMTOptions.from_option_string()
+        )
+
+    @staticmethod
     def get_argument_type() -> dict[str, Callable]:
         return (
             LoggingOptions.get_argument_type()
@@ -545,11 +658,34 @@ class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
         )
 
 
-class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            FoundryOptions.get_argument_type()
+            | LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+        )
 
 
 class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
     node: NodeIdLike
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+        )
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
@@ -563,10 +699,32 @@ class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
         )
 
 
-class VersionOptions(LoggingOptions): ...
+class VersionOptions(LoggingOptions):
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return LoggingOptions.from_option_string()
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return LoggingOptions.get_argument_type()
 
 
-class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
+class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | FoundryTestOptions.from_option_string()
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            FoundryOptions.get_argument_type()
+            | LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+        )
 
 
 class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
@@ -581,3 +739,25 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             'rekompile': False,
             'no_forge_build': False,
         }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            FoundryOptions.from_option_string()
+            | LoggingOptions.from_option_string()
+            | KOptions.from_option_string()
+            | KGenOptions.from_option_string()
+            | KompileOptions.from_option_string()
+            | KompileTargetOptions.from_option_string()
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            FoundryOptions.get_argument_type()
+            | LoggingOptions.get_argument_type()
+            | KOptions.get_argument_type()
+            | KGenOptions.get_argument_type()
+            | KompileOptions.get_argument_type()
+            | KompileTargetOptions.get_argument_type()
+        )

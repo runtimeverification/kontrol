@@ -146,7 +146,7 @@ class ConfigArgs:
             '--config-file',
             dest='config_file',
             type=file_path,
-            default=Path('./kevm-pyk.toml'),
+            default=Path('./kontrol.toml'),
             help='Path to Pyk config file.',
         )
         args.add_argument(
