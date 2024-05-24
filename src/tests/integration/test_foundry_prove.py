@@ -31,7 +31,8 @@ from kontrol.foundry import (
     foundry_step_node,
     foundry_unrefute_node,
 )
-from kontrol.prove import ProveOptions, foundry_prove
+from kontrol.options import ProveOptions
+from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_fail, assert_or_update_show_output, assert_pass
 

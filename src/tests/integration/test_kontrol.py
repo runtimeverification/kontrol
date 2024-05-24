@@ -10,8 +10,9 @@ from pyk.kore.rpc import kore_server
 from pyk.utils import single
 
 from kontrol.foundry import Foundry, init_project
-from kontrol.kompile import BuildOptions, foundry_kompile
-from kontrol.prove import ProveOptions, foundry_prove
+from kontrol.kompile import foundry_kompile
+from kontrol.options import BuildOptions, ProveOptions
+from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_pass
 

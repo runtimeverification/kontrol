@@ -5,8 +5,9 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from kontrol.foundry import ShowOptions, foundry_show
-from kontrol.prove import ProveOptions, foundry_prove
+from kontrol.foundry import foundry_show
+from kontrol.options import ProveOptions, ShowOptions
+from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
