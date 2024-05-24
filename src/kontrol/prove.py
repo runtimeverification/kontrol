@@ -500,8 +500,8 @@ def method_to_apr_proof(
     trace_options: TraceOptions | None = None,
 ) -> APRProof:
     setup_proof = None
-    is_constructor = isinstance(test.method, Contract.Constructor)
-    if is_constructor:
+    setup_proof_is_constructor = False
+    if isinstance(test.method, Contract.Constructor):
         _LOGGER.info(f'Creating proof from constructor for test: {test.id}')
     elif test.method.signature != 'setUp()' and 'setUp' in test.contract.method_by_name:
         _LOGGER.info(f'Using setUp method for test: {test.id}')
@@ -509,13 +509,14 @@ def method_to_apr_proof(
     elif run_constructor:
         _LOGGER.info(f'Using constructor final state as initial state for test: {test.id}')
         setup_proof = _load_constructor_proof(foundry, test.contract)
+        setup_proof_is_constructor = True
 
     kcfg, init_node_id, target_node_id = _method_to_initialized_cfg(
         foundry=foundry,
         test=test,
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
-        graft_setup_proof=((setup_proof is not None) and not is_constructor),
+        graft_setup_proof=((setup_proof is not None) and not setup_proof_is_constructor),
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         active_symbolik=active_symbolik,
@@ -570,6 +571,7 @@ def _method_to_initialized_cfg(
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     print(test.id)
+    print(f'graft_setup_proof: {graft_setup_proof}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
@@ -644,7 +646,7 @@ def _method_to_cfg(
         #          is_setup=method.is_setup,
         calldata=calldata,
         callvalue=callvalue,
-        #          is_constructor=isinstance(method, Contract.Constructor),
+        is_constructor=isinstance(method, Contract.Constructor),
         active_symbolik=active_symbolik,
         trace_options=trace_options,
         config_type=config_type,
@@ -832,7 +834,7 @@ def _init_cterm(
     #      is_test: bool,
     #      is_setup: bool,
     active_symbolik: bool,
-    #      is_constructor: bool,
+    is_constructor: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -917,6 +919,10 @@ def _init_cterm(
         init_subst['GAS_CELL'] = intToken(0)
         init_subst['CALLGAS_CELL'] = intToken(0)
         init_subst['REFUND_CELL'] = intToken(0)
+
+    # constructor can not be called in a static context.
+    if is_constructor:
+        init_subst['STATIC_CELL'] = FALSE
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
