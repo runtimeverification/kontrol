@@ -31,6 +31,7 @@ from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
+from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -152,14 +153,6 @@ def foundry_prove(
         foundry_to_xml(foundry, results)
 
     return results
-
-
-def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
-    if ':' in value:
-        test, version = value.split(':')
-        return (test, int(version))
-    else:
-        return (value, None)
 
 
 class FoundryTest(NamedTuple):

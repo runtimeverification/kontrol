@@ -3,11 +3,18 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from kevm_pyk.cli import DisplayOptions, ExploreOptions, KCFGShowOptions, KOptions, KProveOptions
+from kevm_pyk.cli import DisplayOptions, ExploreOptions, KCFGShowOptions, KOptions, KProveOptions, list_of, node_id_like
 from kevm_pyk.kompile import KompileTarget
+from kevm_pyk.utils import arg_pair_of
 from pyk.cli.args import BugReportOptions, KompileOptions, LoggingOptions, Options, ParallelOptions, SMTOptions
+from pyk.cli.utils import dir_path, file_path
+from pyk.utils import ensure_dir_path
+
+from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from pyk.kcfg.kcfg import NodeIdLike
 
 
@@ -24,6 +31,12 @@ class FoundryOptions(Options):
     def from_option_string() -> dict[str, str]:
         return {
             'foundry-project-root': 'foundry_root',
+        }
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return {
+            'foundry-project-root': dir_path,
         }
 
 
@@ -67,6 +80,12 @@ class CleanOptions(FoundryOptions, LoggingOptions): ...
 class CompileOptions(LoggingOptions):
     contract_file: Path
 
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return LoggingOptions.get_argument_type() | {
+            'contract_file': file_path,
+        }
+
 
 class FoundryTestOptions(Options):
     test: str
@@ -106,6 +125,20 @@ class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
             }
         )
 
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            FoundryTestOptions.get_argument_type()
+            | LoggingOptions.get_argument_type()
+            | RpcOptions.get_argument_type()
+            | BugReportOptions.get_argument_type()
+            | SMTOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | {
+                'node': list_of(node_id_like),
+            }
+        )
+
 
 class InitOptions(LoggingOptions):
     project_root: Path
@@ -116,6 +149,12 @@ class InitOptions(LoggingOptions):
         return {
             'project_root': Path.cwd(),
             'skip_forge': False,
+        }
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return LoggingOptions.get_argument_type() | {
+            'project_root': Path,
         }
 
 
@@ -137,6 +176,13 @@ class KGenOptions(Options):
             'module-import': 'imports',
         }
 
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return {
+            'require': list_of(str),
+            'module-import': list_of(str),
+        }
+
 
 class KompileTargetOptions(Options):
     target: KompileTarget
@@ -145,6 +191,12 @@ class KompileTargetOptions(Options):
     def default() -> dict[str, Any]:
         return {
             'target': KompileTarget.HASKELL,
+        }
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return {
+            'target': KompileTarget,
         }
 
 
@@ -178,6 +230,17 @@ class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
             | {'output-dir': 'output_dir_name', 'comment-generated-files': 'comment_generated_file'}
         )
 
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | {
+                'accesses_file': file_path,
+                'contract-names': file_path,
+            }
+        )
+
 
 class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     nodes: list[NodeIdLike]
@@ -196,6 +259,17 @@ class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
             | FoundryTestOptions.from_option_string()
             | {
                 'node': 'nodes',
+            }
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | {
+                'node': list_of(node_id_like),
             }
         )
 
@@ -267,13 +341,55 @@ class ProveOptions(
             | {'match-test': 'tests', 'init-node-from': 'deployment_state_path', 'include-summary': 'include_summaries'}
         )
 
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | ParallelOptions.get_argument_type()
+            | KOptions.get_argument_type()
+            | KProveOptions.get_argument_type()
+            | SMTOptions.get_argument_type()
+            | RpcOptions.get_argument_type()
+            | BugReportOptions.get_argument_type()
+            | ExploreOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | TraceOptions.get_argument_type()
+            | {
+                'match-test': list_of(parse_test_version_tuple),
+                'init-node-from': file_path,
+                'include-summary': list_of(parse_test_version_tuple),
+            }
+        )
+
 
 class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
     node: NodeIdLike
 
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | {
+                'node': node_id_like,
+            }
+        )
+
 
 class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     node: NodeIdLike
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | {
+                'node': node_id_like,
+            }
+        )
 
 
 class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
@@ -286,18 +402,19 @@ class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugRepo
             'sections': 2,
         }
 
-
-class SimplifyNodeOptions(
-    FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
-):
-    node: NodeIdLike
-    replace: bool
-
     @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'replace': False,
-        }
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | BugReportOptions.get_argument_type()
+            | SMTOptions.get_argument_type()
+            | RpcOptions.get_argument_type()
+            | {
+                'edge': arg_pair_of(str, str),
+            }
+        )
 
 
 class ShowOptions(
@@ -325,15 +442,81 @@ class ShowOptions(
             'counterexample_info': True,
         }
 
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            FoundryTestOptions.get_argument_type()
+            | LoggingOptions.get_argument_type()
+            | KOptions.get_argument_type()
+            | KCFGShowOptions.get_argument_type()
+            | DisplayOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | RpcOptions.get_argument_type()
+            | SMTOptions.get_argument_type()
+            | {
+                'kevm-claim-dir': ensure_dir_path,
+            }
+        )
+
+
+class SimplifyNodeOptions(
+    FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
+):
+    node: NodeIdLike
+    replace: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'replace': False,
+        }
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | BugReportOptions.get_argument_type()
+            | SMTOptions.get_argument_type()
+            | DisplayOptions.get_argument_type()
+            | RpcOptions.get_argument_type()
+            | {
+                'node': node_id_like,
+            }
+        )
+
 
 class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
     contract_file: Path
     contract_name: str
 
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | KOptions.get_argument_type()
+            | KGenOptions.get_argument_type()
+            | {
+                'contract_file': file_path,
+            }
+        )
+
 
 class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     node: NodeIdLike
     branch_condition: str
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | {
+                'node': node_id_like,
+            }
+        )
 
 
 class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
@@ -348,12 +531,36 @@ class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
             'depth': 1,
         }
 
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | BugReportOptions.get_argument_type()
+            | SMTOptions.get_argument_type()
+            | {
+                'node': node_id_like,
+            }
+        )
+
 
 class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
 
 
 class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
     node: NodeIdLike
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | FoundryTestOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | {
+                'node': node_id_like,
+            }
+        )
 
 
 class VersionOptions(LoggingOptions): ...
