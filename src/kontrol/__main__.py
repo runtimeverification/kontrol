@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
+from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
@@ -14,7 +15,7 @@ from pyk.proof.tui import APRProofViewer
 from pyk.utils import run_process
 
 from . import VERSION
-from .cli import _create_argument_parser, generate_options
+from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
 from .foundry import (
     Foundry,
     foundry_get_model,
@@ -103,11 +104,12 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
+    toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
     logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
 
     _check_k_version()
 
-    stripped_args = {
+    stripped_args = toml_args | {
         key: val for (key, val) in vars(args).items() if val is not None and not (isinstance(val, Iterable) and not val)
     }
     options = generate_options(stripped_args)
