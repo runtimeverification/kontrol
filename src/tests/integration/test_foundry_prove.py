@@ -23,10 +23,10 @@ from kontrol.foundry import (
     foundry_unrefute_node,
 )
 from kontrol.options import (
-    ProveOptions,    
     LoadStateDiffOptions,
     MergeNodesOptions,
     MinimizeProofOptions,
+    ProveOptions,
     RefuteNodeOptions,
     RemoveNodeOptions,
     ShowOptions,
