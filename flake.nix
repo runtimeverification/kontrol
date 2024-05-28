@@ -17,7 +17,7 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     solc = {
-      url = "github:hellwolf/solc.nix/b49e5b975bba402d4fdbdaf4c6fd1817822f2b85";
+      url = "github:goodlyrottenapple/solc.nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
