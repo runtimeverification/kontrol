@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.8.13;
 
-// test with summary_config mode
-// add test that uses separate contract with constructor
-
 import "forge-std/Test.sol";
 
 contract ImportedContract {
@@ -12,9 +9,6 @@ contract ImportedContract {
     constructor() payable {
         count = 5;
     }
-
-    // Compare ImportedContract.set KCFG and  ConstrucorTest.test_contract_call KCFG with and without
-    // skipping constructors for summarized function contracts
 
     function set(uint256 x) public {
         if(count < 3){
