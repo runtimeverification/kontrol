@@ -178,4 +178,80 @@ contract UnitTest is Test {
         assertLt(a, b);
         assertLe(a, b);
     }
+
+    function test_assertApproxEqAbs_uint(uint256 a, uint256 b, uint256 maxDelta) public pure {
+        vm.assume(maxDelta >= max(a, b) - min(a, b));
+        string memory err = "throw test";
+        assertApproxEqAbs(a, b, maxDelta);
+        assertApproxEqAbs(a, b, maxDelta, err); 
+    }
+
+    function test_assertApproxEqAbs_int_same_sign(uint256 a, uint256 b, uint256 maxDelta) public pure {
+        vm.assume(a > 0);
+        vm.assume(b > 0);
+        vm.assume(a <= uint256(type(int256).max));
+        vm.assume(b <= uint256(type(int256).max));
+        vm.assume(maxDelta >= max(a, b) - min(a, b));
+        string memory err = "throw test";
+        int256 pos_a = int256(a);
+        int256 pos_b = int256(b); 
+        int256 neg_a = -pos_a;
+        int256 neg_b = -pos_b;              
+        assertApproxEqAbs(pos_a, pos_b, maxDelta);
+        assertApproxEqAbs(neg_a, neg_b, maxDelta);
+        assertApproxEqAbs(pos_a, pos_b, maxDelta, err);
+        assertApproxEqAbs(neg_a, neg_b, maxDelta, err);
+    }
+
+    function test_assertApproxEqAbs_int_opp_sign(uint256 a, uint256 b, uint256 maxDelta) public pure {
+        vm.assume(a > 0);
+        vm.assume(b > 0);
+        vm.assume(a <= uint256(type(int256).max));
+        vm.assume(b <= uint256(type(int256).max));
+        vm.assume(maxDelta >= a + b);
+        string memory err = "throw test";
+        int256 pos_a = int256(a);
+        int256 pos_b = int256(b); 
+        int256 neg_a = -pos_a;
+        int256 neg_b = -pos_b;              
+        assertApproxEqAbs(pos_a, neg_b, maxDelta);
+        assertApproxEqAbs(neg_a, pos_b, maxDelta);
+        assertApproxEqAbs(pos_a, neg_b, maxDelta, err);
+        assertApproxEqAbs(neg_a, pos_b, maxDelta, err);
+    }
+
+    function test_assertApproxEqAbs_int_zero_cases(uint256 a, uint256 maxDelta) public pure {
+        vm.assume(a > 0);
+        vm.assume(a <= uint256(type(int256).max));
+        vm.assume(maxDelta >= a);
+        string memory err = "throw test";
+        int256 pos_a = int256(a);
+        int256 neg_a = -pos_a;
+        int256 int_zero = int256(0);
+        assertApproxEqAbs(int_zero, int_zero, 0);
+        assertApproxEqAbs(int_zero, int_zero, maxDelta);
+        assertApproxEqAbs(pos_a, int_zero, maxDelta);
+        assertApproxEqAbs(int_zero, pos_a, maxDelta);
+        assertApproxEqAbs(neg_a, int_zero, maxDelta);
+        assertApproxEqAbs(int_zero, neg_a, maxDelta);
+        assertApproxEqAbs(int_zero, int_zero, 0, err);
+        assertApproxEqAbs(int_zero, int_zero, maxDelta, err);
+        assertApproxEqAbs(pos_a, int_zero, maxDelta, err);
+        assertApproxEqAbs(int_zero, pos_a, maxDelta, err);
+        assertApproxEqAbs(neg_a, int_zero, maxDelta, err);
+        assertApproxEqAbs(int_zero, neg_a, maxDelta, err);
+    }
+
+
+    /****************************
+    * Internal helper functions *
+    *****************************/
+
+    function max(uint256 a, uint256 b) internal pure returns (uint256) {
+        return a > b ? a : b;
+    }
+
+    function min(uint256 a, uint256 b) internal pure returns (uint256) {
+        return a > b ? b : a;
+    }
 }
