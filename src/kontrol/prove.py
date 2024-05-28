@@ -15,7 +15,7 @@ from pathos.pools import ProcessPool  # type: ignore
 from pyk.cli.args import BugReportOptions, LoggingOptions, ParallelOptions, SMTOptions
 from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
-from pyk.kast.manip import flatten_label, set_cell
+from pyk.kast.manip import abstract_term_safely, flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
@@ -681,7 +681,7 @@ def _method_to_cfg(
             )
 
         for final_node in final_states:
-            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, contract.name_with_path)
+            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, contract.name_with_path, config_type)
             new_node = cfg.create_node(new_init_cterm)
             if graft_setup_proof:
                 cfg.create_edge(final_node.id, new_node.id, depth=1)
@@ -712,7 +712,7 @@ def _method_to_cfg(
     return cfg, new_node_ids, init_node_id, target_node.id
 
 
-def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -> CTerm:
+def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str, config_type: ConfigType) -> CTerm:
     new_accounts_cell = node.cterm.cell('ACCOUNTS_CELL')
     number_cell = node.cterm.cell('NUMBER_CELL')
     timestamp_cell = node.cterm.cell('TIMESTAMP_CELL')
@@ -747,6 +747,18 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -
             ),
             [],
         )
+    if config_type == ConfigType.SUMMARY_CONFIG:
+        for account_id, account in new_accounts_map.items():
+            new_accounts_map[account_id] = CTerm(
+                set_cell(
+                    account.config,
+                    'STORAGE_CELL',
+                    abstract_term_safely(
+                        account.cell('STORAGE_CELL'), base_name=f'STORAGE_{account_id}', sort=KSort('Map')
+                    ),
+                ),
+                [],
+            )
 
     new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()] + non_cell_accounts)
 

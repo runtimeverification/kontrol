@@ -5,29 +5,31 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (1119 steps)
-└─ 6 (leaf, pending)
-    k: #execute ~> CONTINUATION:K
-    pc: 0
-    callDepth: 0
-    statusCode: STATUSCODE:StatusCode
-
-
-┌─ 7 (root, leaf, target)
+│  (2233 steps)
+├─ 4 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: PC_CELL_5d410f2a:Int
-│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
-│   statusCode: STATUSCODE_FINAL:StatusCode
+│   pc: 278
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│
+┊  constraint: true
+┊  subst: OMITTED SUBST
+└─ 2 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
+
 
 
 
 module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
     
     
-    rule [BASIC-BLOCK-1-TO-6]: <foundry>
+    rule [BASIC-BLOCK-1-TO-4]: <foundry>
            <kevm>
              <k>
-               #execute
+               ( #execute => #halt )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -44,6 +46,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                  <output>
                    b""
                  </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
                  <callStack>
                    .List
                  </callStack>
@@ -51,7 +56,7 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   .Set
+                   ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -61,16 +66,16 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( CALLDATA_CELL:Bytes => b"'\\RV" )
+                     b"'\\RV"
                    </callData>
                    <callValue>
-                     ( CALLVALUE_79cb2bc6:Int => 0 )
+                     0
                    </callValue>
                    <wordStack>
-                     .WordStack
+                     ( .WordStack => ( selector ( "test_contract_call()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     b""
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\xe4\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x15=\x00\x00\x00\x05\xe2\xd2\x14`[W\x80c`\xfeG\xb1\x14`lW[`\x00\x80\xfd[`I`\x00T\x81V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[`j`f6`\x04`\x9fV[`{V[\x00[`j`w6`\x04`\x9fV[`\x8dV[\x80`\x00T`\x87\x91\x90`\xb7V[`\x00UPV[`\x03`\x00T\x10\x15`\x9aWPV[`\x00UV[`\x00` \x82\x84\x03\x12\x15`\xb0W`\x00\x80\xfd[P5\x91\x90PV[`\x00\x82\x19\x82\x11\x15`\xd7WcNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[P\x01\x90V\xfe\xa2dipfsX\"\x12 \xfd)\xdf\xb3\xff\x8cH\x10*/\xc2\xd7\x01\xf8v\xb2aS\xbf\xf7\xef\xe9]\x05\x84\xf5x\x079\xa2B\x90dsolcC\x00\x08\r\x003" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -94,7 +99,7 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -119,13 +124,31 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                  <accounts>
                    ( <account>
                      <acctID>
+                       ( 491460923342184218035706888008750043977755113263 => 263400868551549723330807389252719309078400616203 )
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 0 |-> ( 4321 => 5437 ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
                        ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
                      </acctID>
                      <balance>
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 0 |-> 4321 ) )
+                       ( .Map => ( 0 |-> 4324 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -143,13 +166,15 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                        0
                      </balance>
                      <storage>
-                       .Map
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 125813996375599159817140963330240011258305308995329 )
+                       ( 7 |-> 1 ) ) )
                      </storage>
                      <origStorage>
                        .Map
                      </origStorage>
                      <nonce>
-                       1
+                       2
                      </nonce>
                      ...
                    </account> => ( <account>
@@ -186,10 +211,10 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                        .Map
                      </origStorage>
                      <nonce>
-                       2
+                       3
                      </nonce>
                      ...
-                   </account> ) ) )
+                   </account> ) ) ) )
                  </accounts>
                  ...
                </network>
@@ -270,19 +295,15 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int CALLVALUE_79cb2bc6:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( CALLVALUE_79cb2bc6:Int <Int pow256
-       andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-6)]
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-4)]
 
 endmodule

@@ -1,151 +1,106 @@
 
-┌─ 1 (root, init)
+┌─ 1 (root, split, init)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: STATUSCODE:StatusCode
-│
-│  (80 steps)
-├─ 3 (terminal)
-│   k: #halt ~> CONTINUATION:K
-│   pc: 30
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: EVMC_SUCCESS
-│
-│  (1 step)
-├─ 4
-│   k: #execute ~> CONTINUATION:K
-│   pc: 0
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: STATUSCODE:StatusCode
-│
-│  (463 steps)
-├─ 6 (split)
-│   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
-│   pc: 279
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: CALLDEPTH_CELL:Int <Int 1024
+┣━━┓ constraint: 1024 <=Int CALLDEPTH_CELL:Int
 ┃  │
-┃  ├─ 7
-┃  │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
-┃  │   pc: 279
+┃  ├─ 17
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (357 steps)
-┃  ├─ 9 (split)
-┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt ...
-┃  │   pc: 562
-┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃
-┃  ┃ (branch)
-┃  ┣━━┓ constraint: VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256
-┃  ┃  │
-┃  ┃  ├─ 11
-┃  ┃  │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt ...
-┃  ┃  │   pc: 562
-┃  ┃  │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │
-┃  ┃  │  (299 steps)
-┃  ┃  ├─ 13 (split)
-┃  ┃  │   k: JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int chop ( ( VV0_x_114b9705:Int +Int  ...
-┃  ┃  │   pc: 610
-┃  ┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  ┃  │   statusCode: EVMC_SUCCESS
-┃  ┃  ┃
-┃  ┃  ┃ (branch)
-┃  ┃  ┣━━┓ constraint: VV2_z_114b9705:Int <=Int chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) )
-┃  ┃  ┃  │
-┃  ┃  ┃  ├─ 15
-┃  ┃  ┃  │   k: JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int chop ( ( VV0_x_114b9705:Int +Int  ...
-┃  ┃  ┃  │   pc: 610
-┃  ┃  ┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
-┃  ┃  ┃  │
-┃  ┃  ┃  │  (143 steps)
-┃  ┃  ┃  ├─ 17 (terminal)
-┃  ┃  ┃  │   k: #halt ~> CONTINUATION:K
-┃  ┃  ┃  │   pc: 128
-┃  ┃  ┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  ┃  ┃  │   statusCode: EVMC_SUCCESS
-┃  ┃  ┃  │
-┃  ┃  ┃  ┊  constraint: OMITTED CONSTRAINT
-┃  ┃  ┃  ┊  subst: OMITTED SUBST
-┃  ┃  ┃  └─ 5 (leaf, target, terminal)
-┃  ┃  ┃      k: #halt ~> CONTINUATION:K
-┃  ┃  ┃      pc: PC_CELL_5d410f2a:Int
-┃  ┃  ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃  ┃  ┃      statusCode: STATUSCODE_FINAL:StatusCode
-┃  ┃  ┃
-┃  ┃  ┗━━┓ constraint: chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) <Int VV2_z_114b9705:Int
-┃  ┃     │
-┃  ┃     ├─ 16
-┃  ┃     │   k: JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int chop ( ( VV0_x_114b9705:Int +Int  ...
-┃  ┃     │   pc: 610
-┃  ┃     │   callDepth: CALLDEPTH_CELL:Int
-┃  ┃     │   statusCode: EVMC_SUCCESS
-┃  ┃     │
-┃  ┃     │  (66 steps)
-┃  ┃     ├─ 18 (terminal)
-┃  ┃     │   k: #halt ~> CONTINUATION:K
-┃  ┃     │   pc: 550
-┃  ┃     │   callDepth: CALLDEPTH_CELL:Int
-┃  ┃     │   statusCode: EVMC_REVERT
-┃  ┃     │
-┃  ┃     ┊  constraint: OMITTED CONSTRAINT
-┃  ┃     ┊  subst: OMITTED SUBST
-┃  ┃     └─ 5 (leaf, target, terminal)
-┃  ┃         k: #halt ~> CONTINUATION:K
-┃  ┃         pc: PC_CELL_5d410f2a:Int
-┃  ┃         callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃  ┃         statusCode: STATUSCODE_FINAL:StatusCode
-┃  ┃
-┃  ┗━━┓ constraint: VV1_y_114b9705:Int xorInt maxUInt256 <Int VV0_x_114b9705:Int
-┃     │
-┃     ├─ 12
-┃     │   k: JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt ...
-┃     │   pc: 562
-┃     │   callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-┃     │   statusCode: STATUSCODE:StatusCode
-┃     │
-┃     │  (73 steps)
-┃     ├─ 14 (terminal)
-┃     │   k: #halt ~> CONTINUATION:K
-┃     │   pc: 295
-┃     │   callDepth: CALLDEPTH_CELL:Int
-┃     │   statusCode: EVMC_REVERT
-┃     │
-┃     ┊  constraint: OMITTED CONSTRAINT
-┃     ┊  subst: OMITTED SUBST
-┃     └─ 5 (leaf, target, terminal)
-┃         k: #halt ~> CONTINUATION:K
-┃         pc: PC_CELL_5d410f2a:Int
-┃         callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃         statusCode: STATUSCODE_FINAL:StatusCode
+┃  │  (539 steps)
+┃  ├─ 7 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 295
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_REVERT
+┃  │
+┃  ┊  constraint: OMITTED CONSTRAINT
+┃  ┊  subst: OMITTED SUBST
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: 1024 <=Int CALLDEPTH_CELL:Int
+┣━━┓ constraints:
+┃  ┃     CALLDEPTH_CELL:Int <Int 1024
+┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+┃  │
+┃  ├─ 23
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (552 steps)
+┃  ├─ 11 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 295
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_REVERT
+┃  │
+┃  ┊  constraint: OMITTED CONSTRAINT
+┃  ┊  subst: OMITTED SUBST
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┣━━┓ constraints:
+┃  ┃     CALLDEPTH_CELL:Int <Int 1024
+┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
+┃  │
+┃  ├─ 26
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (921 steps)
+┃  ├─ 14 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 128
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_SUCCESS
+┃  │
+┃  ┊  constraint: OMITTED CONSTRAINT
+┃  ┊  subst: OMITTED SUBST
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┗━━┓ constraints:
+   ┃     CALLDEPTH_CELL:Int <Int 1024
+   ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
    │
-   ├─ 8
-   │   k: #checkDepthExceeded ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 ...
-   │   pc: 279
+   ├─ 27
+   │   k: #execute ~> CONTINUATION:K
+   │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (76 steps)
-   ├─ 10 (terminal)
+   │  (844 steps)
+   ├─ 15 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 295
+   │   pc: 550
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
    │
    ┊  constraint: OMITTED CONSTRAINT
    ┊  subst: OMITTED SUBST
-   └─ 5 (leaf, target, terminal)
+   └─ 2 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K
        pc: PC_CELL_5d410f2a:Int
        callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -157,7 +112,7 @@
 module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+    rule [BASIC-BLOCK-17-TO-7]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -175,392 +130,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00WW`\x005`\xe0\x1c\x80cw\x16\x02\xf7\x14a\x00\\W\x80c\x9c&\xe07\x14a\x00\x81W\x80c\xb6}w\xc5\x14a\x00\x94W\x80c\xd8 \xf0[\x14a\x00\xa7W\x80c\xf4\xfa\xc2q\x14a\x00\xbaW[`\x00\x80\xfd[a\x00oa\x00j6`\x04a\x01\x8dV[a\x00\xcdV[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[a\x00oa\x00\x8f6`\x04a\x01\xafV[a\x00\xe0V[a\x00oa\x00\xa26`\x04a\x01\x8dV[a\x01aV[a\x00oa\x00\xb56`\x04a\x01\xdbV[a\x01mV[a\x00oa\x00\xc86`\x04a\x01\xdbV[a\x01}V[`\x00a\x00\xd9\x82\x84a\x02'V[\x93\x92PPPV[`@Qcw\x16\x02\xf7`\xe0\x1b\x81R`\x04\x81\x01\x84\x90R`$\x81\x01\x83\x90R`\x00\x90\x81\x900\x90cw\x16\x02\xf7\x90`D\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x01(W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01L\x91\x90a\x02?V[\x90Pa\x01X\x83\x82a\x02XV[\x95\x94PPPPPV[`\x00a\x00\xd9\x82\x84a\x02XV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02oV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02\xaeV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xa0W`\x00\x80\xfd[PP\x805\x92` \x90\x91\x015\x91PV[`\x00\x80`\x00``\x84\x86\x03\x12\x15a\x01\xc4W`\x00\x80\xfd[PP\x815\x93` \x83\x015\x93P`@\x90\x92\x015\x91\x90PV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xeeW`\x00\x80\xfd[\x825\x91P` \x83\x015\x80`\x0f\x0b\x81\x14a\x02\x06W`\x00\x80\xfd[\x80\x91PP\x92P\x92\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x02:Wa\x02:a\x02\x11V[P\x01\x90V[`\x00` \x82\x84\x03\x12\x15a\x02QW`\x00\x80\xfd[PQ\x91\x90PV[`\x00\x82\x82\x10\x15a\x02jWa\x02ja\x02\x11V[P\x03\x90V[`\x00\x80\x83\x12\x80\x15`\x01`\xff\x1b\x85\x01\x84\x12\x16\x15a\x02\x8dWa\x02\x8da\x02\x11V[`\x01`\x01`\xff\x1b\x03\x84\x01\x83\x13\x81\x16\x15a\x02\xa8Wa\x02\xa8a\x02\x11V[PP\x03\x90V[`\x00\x80\x82\x12\x80\x15`\x01`\x01`\xff\x1b\x03\x84\x90\x03\x85\x13\x16\x15a\x02\xd0Wa\x02\xd0a\x02\x11V[`\x01`\xff\x1b\x83\x90\x03\x84\x12\x81\x16\x15a\x02\xe9Wa\x02\xe9a\x02\x11V[PP\x01\x90V\xfe\xa2dipfsX\"\x12 *\x16\xb2\xa9\xbb:\xb6\xe8;\xc2b\xb9\xe6\xa1\x8f$2I\xcfa\x9a\x87?\xc2e\xf6\xc1N`\xec\xf4\xfedsolcC\x00\x08\r\x003" )
+                   ( _OUTPUT_CELL => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE => EVMC_REVERT )
                  </statusCode>
-                 <callState>
-                   <id>
-                     CONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     CALLDATA_CELL:Bytes
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     .WordStack
-                   </wordStack>
-                   <localMem>
-                     ( b"" => b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00WW`\x005`\xe0\x1c\x80cw\x16\x02\xf7\x14a\x00\\W\x80c\x9c&\xe07\x14a\x00\x81W\x80c\xb6}w\xc5\x14a\x00\x94W\x80c\xd8 \xf0[\x14a\x00\xa7W\x80c\xf4\xfa\xc2q\x14a\x00\xbaW[`\x00\x80\xfd[a\x00oa\x00j6`\x04a\x01\x8dV[a\x00\xcdV[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[a\x00oa\x00\x8f6`\x04a\x01\xafV[a\x00\xe0V[a\x00oa\x00\xa26`\x04a\x01\x8dV[a\x01aV[a\x00oa\x00\xb56`\x04a\x01\xdbV[a\x01mV[a\x00oa\x00\xc86`\x04a\x01\xdbV[a\x01}V[`\x00a\x00\xd9\x82\x84a\x02'V[\x93\x92PPPV[`@Qcw\x16\x02\xf7`\xe0\x1b\x81R`\x04\x81\x01\x84\x90R`$\x81\x01\x83\x90R`\x00\x90\x81\x900\x90cw\x16\x02\xf7\x90`D\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x01(W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01L\x91\x90a\x02?V[\x90Pa\x01X\x83\x82a\x02XV[\x95\x94PPPPPV[`\x00a\x00\xd9\x82\x84a\x02XV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02oV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02\xaeV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xa0W`\x00\x80\xfd[PP\x805\x92` \x90\x91\x015\x91PV[`\x00\x80`\x00``\x84\x86\x03\x12\x15a\x01\xc4W`\x00\x80\xfd[PP\x815\x93` \x83\x015\x93P`@\x90\x92\x015\x91\x90PV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xeeW`\x00\x80\xfd[\x825\x91P` \x83\x015\x80`\x0f\x0b\x81\x14a\x02\x06W`\x00\x80\xfd[\x80\x91PP\x92P\x92\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x02:Wa\x02:a\x02\x11V[P\x01\x90V[`\x00` \x82\x84\x03\x12\x15a\x02QW`\x00\x80\xfd[PQ\x91\x90PV[`\x00\x82\x82\x10\x15a\x02jWa\x02ja\x02\x11V[P\x03\x90V[`\x00\x80\x83\x12\x80\x15`\x01`\xff\x1b\x85\x01\x84\x12\x16\x15a\x02\x8dWa\x02\x8da\x02\x11V[`\x01`\x01`\xff\x1b\x03\x84\x01\x83\x13\x81\x16\x15a\x02\xa8Wa\x02\xa8a\x02\x11V[PP\x03\x90V[`\x00\x80\x82\x12\x80\x15`\x01`\x01`\xff\x1b\x03\x84\x90\x03\x85\x13\x16\x15a\x02\xd0Wa\x02\xd0a\x02\x11V[`\x01`\xff\x1b\x83\x90\x03\x84\x12\x81\x16\x15a\x02\xe9Wa\x02\xe9a\x02\x11V[PP\x01\x90V\xfe\xa2dipfsX\"\x12 *\x16\xb2\xa9\xbb:\xb6\xe8;\xc2b\xb9\xe6\xa1\x8f$2I\xcfa\x9a\x87?\xc2e\xf6\xc1N`\xec\xf4\xfedsolcC\x00\x08\r\x003" )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       CONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       CONTRACT_BAL:Int
-                     </balance>
-                     <nonce>
-                       CONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               true
-             </traceStorage>
-             <traceWordStack>
-               true
-             </traceWordStack>
-             <traceMemory>
-               true
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-               ))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-3)]
-    
-    rule [BASIC-BLOCK-3-TO-4]: <foundry>
-           <kevm>
-             <k>
-               ( #halt => #execute )
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00WW`\x005`\xe0\x1c\x80cw\x16\x02\xf7\x14a\x00\\W\x80c\x9c&\xe07\x14a\x00\x81W\x80c\xb6}w\xc5\x14a\x00\x94W\x80c\xd8 \xf0[\x14a\x00\xa7W\x80c\xf4\xfa\xc2q\x14a\x00\xbaW[`\x00\x80\xfd[a\x00oa\x00j6`\x04a\x01\x8dV[a\x00\xcdV[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[a\x00oa\x00\x8f6`\x04a\x01\xafV[a\x00\xe0V[a\x00oa\x00\xa26`\x04a\x01\x8dV[a\x01aV[a\x00oa\x00\xb56`\x04a\x01\xdbV[a\x01mV[a\x00oa\x00\xc86`\x04a\x01\xdbV[a\x01}V[`\x00a\x00\xd9\x82\x84a\x02'V[\x93\x92PPPV[`@Qcw\x16\x02\xf7`\xe0\x1b\x81R`\x04\x81\x01\x84\x90R`$\x81\x01\x83\x90R`\x00\x90\x81\x900\x90cw\x16\x02\xf7\x90`D\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x01(W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01L\x91\x90a\x02?V[\x90Pa\x01X\x83\x82a\x02XV[\x95\x94PPPPPV[`\x00a\x00\xd9\x82\x84a\x02XV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02oV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02\xaeV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xa0W`\x00\x80\xfd[PP\x805\x92` \x90\x91\x015\x91PV[`\x00\x80`\x00``\x84\x86\x03\x12\x15a\x01\xc4W`\x00\x80\xfd[PP\x815\x93` \x83\x015\x93P`@\x90\x92\x015\x91\x90PV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xeeW`\x00\x80\xfd[\x825\x91P` \x83\x015\x80`\x0f\x0b\x81\x14a\x02\x06W`\x00\x80\xfd[\x80\x91PP\x92P\x92\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x02:Wa\x02:a\x02\x11V[P\x01\x90V[`\x00` \x82\x84\x03\x12\x15a\x02QW`\x00\x80\xfd[PQ\x91\x90PV[`\x00\x82\x82\x10\x15a\x02jWa\x02ja\x02\x11V[P\x03\x90V[`\x00\x80\x83\x12\x80\x15`\x01`\xff\x1b\x85\x01\x84\x12\x16\x15a\x02\x8dWa\x02\x8da\x02\x11V[`\x01`\x01`\xff\x1b\x03\x84\x01\x83\x13\x81\x16\x15a\x02\xa8Wa\x02\xa8a\x02\x11V[PP\x03\x90V[`\x00\x80\x82\x12\x80\x15`\x01`\x01`\xff\x1b\x03\x84\x90\x03\x85\x13\x16\x15a\x02\xd0Wa\x02\xd0a\x02\x11V[`\x01`\xff\x1b\x83\x90\x03\x84\x12\x81\x16\x15a\x02\xe9Wa\x02\xe9a\x02\x11V[PP\x01\x90V\xfe\xa2dipfsX\"\x12 *\x16\xb2\xa9\xbb:\xb6\xe8;\xc2b\xb9\xe6\xa1\x8f$2I\xcfa\x9a\x87?\xc2e\xf6\xc1N`\xec\xf4\xfedsolcC\x00\x08\r\x003" => ?_OUTPUT_CELL )
-                 </output>
-                 <statusCode>
-                   ( EVMC_SUCCESS => ?_STATUSCODE )
-                 </statusCode>
-                 <callState>
-                   <id>
-                     CONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     ( CALLDATA_CELL:Bytes => b"\x9c&\xe07" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) +Bytes #buf ( 32 , ?VV1_y_114b9705 ) +Bytes #buf ( 32 , ?VV2_z_114b9705 ) )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     .WordStack
-                   </wordStack>
-                   <localMem>
-                     ( b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00WW`\x005`\xe0\x1c\x80cw\x16\x02\xf7\x14a\x00\\W\x80c\x9c&\xe07\x14a\x00\x81W\x80c\xb6}w\xc5\x14a\x00\x94W\x80c\xd8 \xf0[\x14a\x00\xa7W\x80c\xf4\xfa\xc2q\x14a\x00\xbaW[`\x00\x80\xfd[a\x00oa\x00j6`\x04a\x01\x8dV[a\x00\xcdV[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[a\x00oa\x00\x8f6`\x04a\x01\xafV[a\x00\xe0V[a\x00oa\x00\xa26`\x04a\x01\x8dV[a\x01aV[a\x00oa\x00\xb56`\x04a\x01\xdbV[a\x01mV[a\x00oa\x00\xc86`\x04a\x01\xdbV[a\x01}V[`\x00a\x00\xd9\x82\x84a\x02'V[\x93\x92PPPV[`@Qcw\x16\x02\xf7`\xe0\x1b\x81R`\x04\x81\x01\x84\x90R`$\x81\x01\x83\x90R`\x00\x90\x81\x900\x90cw\x16\x02\xf7\x90`D\x01` `@Q\x80\x83\x03\x81\x86Z\xfa\x15\x80\x15a\x01(W=`\x00\x80>=`\x00\xfd[PPPP`@Q=`\x1f\x19`\x1f\x82\x01\x16\x82\x01\x80`@RP\x81\x01\x90a\x01L\x91\x90a\x02?V[\x90Pa\x01X\x83\x82a\x02XV[\x95\x94PPPPPV[`\x00a\x00\xd9\x82\x84a\x02XV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02oV[`\x00a\x00\xd9`\x0f\x83\x90\x0b\x84a\x02\xaeV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xa0W`\x00\x80\xfd[PP\x805\x92` \x90\x91\x015\x91PV[`\x00\x80`\x00``\x84\x86\x03\x12\x15a\x01\xc4W`\x00\x80\xfd[PP\x815\x93` \x83\x015\x93P`@\x90\x92\x015\x91\x90PV[`\x00\x80`@\x83\x85\x03\x12\x15a\x01\xeeW`\x00\x80\xfd[\x825\x91P` \x83\x015\x80`\x0f\x0b\x81\x14a\x02\x06W`\x00\x80\xfd[\x80\x91PP\x92P\x92\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x02:Wa\x02:a\x02\x11V[P\x01\x90V[`\x00` \x82\x84\x03\x12\x15a\x02QW`\x00\x80\xfd[PQ\x91\x90PV[`\x00\x82\x82\x10\x15a\x02jWa\x02ja\x02\x11V[P\x03\x90V[`\x00\x80\x83\x12\x80\x15`\x01`\xff\x1b\x85\x01\x84\x12\x16\x15a\x02\x8dWa\x02\x8da\x02\x11V[`\x01`\x01`\xff\x1b\x03\x84\x01\x83\x13\x81\x16\x15a\x02\xa8Wa\x02\xa8a\x02\x11V[PP\x03\x90V[`\x00\x80\x82\x12\x80\x15`\x01`\x01`\xff\x1b\x03\x84\x90\x03\x85\x13\x16\x15a\x02\xd0Wa\x02\xd0a\x02\x11V[`\x01`\xff\x1b\x83\x90\x03\x84\x12\x81\x16\x15a\x02\xe9Wa\x02\xe9a\x02\x11V[PP\x01\x90V\xfe\xa2dipfsX\"\x12 *\x16\xb2\xa9\xbb:\xb6\xe8;\xc2b\xb9\xe6\xa1\x8f$2I\xcfa\x9a\x87?\xc2e\xf6\xc1N`\xec\xf4\xfedsolcC\x00\x08\r\x003" => b"" )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       CONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       CONTRACT_BAL:Int
-                     </balance>
-                     <nonce>
-                       CONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               true
-             </traceStorage>
-             <traceWordStack>
-               true
-             </traceWordStack>
-             <traceMemory>
-               true
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-               ))))))))))))))))))))))
-       ensures ( 0 <=Int ?VV0_x_114b9705
-       andBool ( 0 <=Int ?VV1_y_114b9705
-       andBool ( 0 <=Int ?VV2_z_114b9705
-       andBool ( ?VV0_x_114b9705 <Int pow256
-       andBool ( ?VV1_y_114b9705 <Int pow256
-       andBool ( ?VV2_z_114b9705 <Int pow256
-               ))))))
-      [priority(20), label(BASIC-BLOCK-3-TO-4)]
-    
-    rule [BASIC-BLOCK-4-TO-6]: <foundry>
-           <kevm>
-             <k>
-               ( .K => #checkDepthExceeded
-               ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) true
-               ~> #return 128 32
-               ~> #pc [ STATICCALL ] )
-               ~> #execute
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
                  <callState>
                    <id>
                      CONTRACT_ID:Int
@@ -575,7 +149,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 196 : ( selector ( "add(uint256,uint256)" ) : ( CONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( CONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
@@ -586,6 +160,9 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    ...
                  </callState>
                  <substate>
@@ -686,513 +263,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                false
              </activeTracing>
              <traceStorage>
-               true
+               false
              </traceStorage>
              <traceWordStack>
-               true
+               false
              </traceWordStack>
              <traceMemory>
-               true
-             </traceMemory>
-             <recordedTrace>
                false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-               )))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-4-TO-6)]
-    
-    rule [BASIC-BLOCK-7-TO-9]: <foundry>
-           <kevm>
-             <k>
-               ( #checkDepthExceeded
-               ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) true => JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256 )
-               ~> #pc [ JUMPI ]
-               ~> #execute )
-               ~> #return 128 32
-               ~> #pc [ STATICCALL ]
-               ~> #execute
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( _OUTPUT_CELL => b"" )
-                 </output>
-                 <callStack>
-                   ( CALLSTACK_CELL:List => ListItem ( <callState>
-                     <id>
-                       CONTRACT_ID:Int
-                     </id>
-                     <caller>
-                       CALLER_ID:Int
-                     </caller>
-                     <callData>
-                       b"\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
-                     </callData>
-                     <callValue>
-                       0
-                     </callValue>
-                     <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( CONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) )
-                     </wordStack>
-                     <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-                     </localMem>
-                     <memoryUsed>
-                       0
-                     </memoryUsed>
-                     <callGas>
-                       0
-                     </callGas>
-                     <static>
-                       STATIC_CELL:Bool
-                     </static>
-                     <callDepth>
-                       CALLDEPTH_CELL:Int
-                     </callDepth>
-                     ...
-                   </callState> ) CALLSTACK_CELL:List )
-                 </callStack>
-                 <interimStates>
-                   ( INTERIMSTATES_CELL:List => ListItem ( { <accounts>
-                     ( <account>
-                       <acctID>
-                         CONTRACT_ID:Int
-                       </acctID>
-                       <balance>
-                         CONTRACT_BAL:Int
-                       </balance>
-                       <storage>
-                         CONTRACT_STORAGE:Map
-                       </storage>
-                       <origStorage>
-                         CONTRACT_ORIGSTORAGE:Map
-                       </origStorage>
-                       <nonce>
-                         CONTRACT_NONCE:Int
-                       </nonce>
-                       ...
-                     </account>
-                     ACCOUNTS_REST:AccountCellMap )
-                   </accounts> | <substate>
-                     <selfDestruct>
-                       SELFDESTRUCT_CELL:Set
-                     </selfDestruct>
-                     <log>
-                       LOG_CELL:List
-                     </log>
-                     <refund>
-                       0
-                     </refund>
-                     <accessedAccounts>
-                       ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int )
-                     </accessedAccounts>
-                     <accessedStorage>
-                       ACCESSEDSTORAGE_CELL:Map
-                     </accessedStorage>
-                   </substate> } ) INTERIMSTATES_CELL:List )
-                 </interimStates>
-                 <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     CONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     ( CALLER_ID:Int => CONTRACT_ID:Int )
-                   </caller>
-                   <callData>
-                     ( b"\x9c&\xe07" => b"w\x16\x02\xf7" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes ( #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int ) => #buf ( 32 , VV1_y_114b9705:Int ) )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( ( 196 => 0 ) : ( ( selector ( "add(uint256,uint256)" ) => VV0_x_114b9705:Int ) : ( ( CONTRACT_ID:Int => VV1_y_114b9705:Int ) : ( ( 0 => 217 ) : ( 0 : ( ( VV2_z_114b9705:Int => VV1_y_114b9705:Int ) : ( ( VV1_y_114b9705:Int => VV0_x_114b9705:Int ) : ( ( VV0_x_114b9705:Int => 111 ) : ( ( 111 => selector ( "add(uint256,uint256)" ) ) : ( ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) => .WordStack ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     ( STATIC_CELL:Bool => true )
-                   </static>
-                   <callDepth>
-                     ( CALLDEPTH_CELL:Int => ( CALLDEPTH_CELL:Int +Int 1 ) )
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct>
-                   <log>
-                     LOG_CELL:List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int )
-                   </accessedAccounts>
-                   <accessedStorage>
-                     ACCESSEDSTORAGE_CELL:Map
-                   </accessedStorage>
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       CONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       CONTRACT_BAL:Int
-                     </balance>
-                     <storage>
-                       CONTRACT_STORAGE:Map
-                     </storage>
-                     <origStorage>
-                       CONTRACT_ORIGSTORAGE:Map
-                     </origStorage>
-                     <nonce>
-                       CONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               true
-             </traceStorage>
-             <traceWordStack>
-               true
-             </traceWordStack>
-             <traceMemory>
-               true
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
-       andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-               ))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-7-TO-9)]
-    
-    rule [BASIC-BLOCK-8-TO-10]: <foundry>
-           <kevm>
-             <k>
-               ( #checkDepthExceeded
-               ~> #call CONTRACT_ID:Int CONTRACT_ID:Int CONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) true
-               ~> #return 128 32
-               ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( _OUTPUT_CELL => b"" )
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
-                 </statusCode>
-                 <callState>
-                   <id>
-                     CONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( ( 196 => 1 ) : ( ( selector ( "add(uint256,uint256)" ) => 196 ) : ( ( CONTRACT_ID:Int => selector ( "add(uint256,uint256)" ) ) : ( ( 0 => CONTRACT_ID:Int ) : ( 0 : ( ( VV2_z_114b9705:Int => 0 ) : ( ( VV1_y_114b9705:Int => VV2_z_114b9705:Int ) : ( ( VV0_x_114b9705:Int => VV1_y_114b9705:Int ) : ( ( 111 => VV0_x_114b9705:Int ) : ( ( selector ( "add_sub_external(uint256,uint256,uint256)" ) => 111 ) : ( .WordStack => ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <callDepth>
-                     CALLDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     _ACCESSEDACCOUNTS_CELL |Set SetItem ( CONTRACT_ID:Int )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       CONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       CONTRACT_BAL:Int
-                     </balance>
-                     <nonce>
-                       CONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               true
-             </traceStorage>
-             <traceWordStack>
-               true
-             </traceWordStack>
-             <traceMemory>
-               true
              </traceMemory>
              <recordedTrace>
                false
@@ -1214,12 +291,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( 1024 <=Int CALLDEPTH_CELL:Int
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
@@ -1233,18 +310,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-8-TO-10)]
+      [priority(20), label(BASIC-BLOCK-17-TO-7)]
     
-    rule [BASIC-BLOCK-11-TO-13]: <foundry>
+    rule [BASIC-BLOCK-23-TO-11]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256 )
-               ~> #pc [ JUMPI ]
-               ~> #execute
-               ~> #return 128 32
-               ~> #pc [ STATICCALL ] => JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) )
-               ~> #pc [ JUMPI ] )
-               ~> #execute
+               ( #execute => #halt )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -1259,406 +330,32 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <ethereum>
                <evm>
                  <output>
-                   ( b"" => #buf ( 32 , chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) )
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
-                 </statusCode>
-                 <callStack>
-                   ( ListItem ( <callState>
-                     <id>
-                       CONTRACT_ID:Int
-                     </id>
-                     <caller>
-                       CALLER_ID:Int
-                     </caller>
-                     <callData>
-                       b"\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
-                     </callData>
-                     <callValue>
-                       0
-                     </callValue>
-                     <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( CONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) )
-                     </wordStack>
-                     <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-                     </localMem>
-                     <memoryUsed>
-                       0
-                     </memoryUsed>
-                     <callGas>
-                       0
-                     </callGas>
-                     <static>
-                       STATIC_CELL:Bool
-                     </static>
-                     <callDepth>
-                       CALLDEPTH_CELL:Int
-                     </callDepth>
-                     ...
-                   </callState> ) CALLSTACK_CELL:List => CALLSTACK_CELL:List )
-                 </callStack>
-                 <interimStates>
-                   ( ListItem ( { <accounts>
-                     ( <account>
-                       <acctID>
-                         CONTRACT_ID:Int
-                       </acctID>
-                       <balance>
-                         CONTRACT_BAL:Int
-                       </balance>
-                       <storage>
-                         CONTRACT_STORAGE:Map
-                       </storage>
-                       <origStorage>
-                         CONTRACT_ORIGSTORAGE:Map
-                       </origStorage>
-                       <nonce>
-                         CONTRACT_NONCE:Int
-                       </nonce>
-                       ...
-                     </account>
-                     ACCOUNTS_REST:AccountCellMap )
-                   </accounts> | <substate>
-                     <selfDestruct>
-                       SELFDESTRUCT_CELL:Set
-                     </selfDestruct>
-                     <log>
-                       LOG_CELL:List
-                     </log>
-                     <refund>
-                       0
-                     </refund>
-                     <accessedAccounts>
-                       ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int )
-                     </accessedAccounts>
-                     <accessedStorage>
-                       ACCESSEDSTORAGE_CELL:Map
-                     </accessedStorage>
-                   </substate> } ) INTERIMSTATES_CELL:List => INTERIMSTATES_CELL:List )
-                 </interimStates>
-                 <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( CONTRACT_ID:Int )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     CONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     ( CONTRACT_ID:Int => CALLER_ID:Int )
-                   </caller>
-                   <callData>
-                     ( b"w\x16\x02\xf7" => b"\x9c&\xe07" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes ( #buf ( 32 , VV1_y_114b9705:Int ) => #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int ) )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( 0 : ( ( VV0_x_114b9705:Int => chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) : ( ( VV1_y_114b9705:Int => VV2_z_114b9705:Int ) : ( ( 217 => 344 ) : ( ( 0 => chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) : ( ( VV1_y_114b9705:Int => 0 ) : ( ( VV0_x_114b9705:Int => VV2_z_114b9705:Int ) : ( ( 111 => VV1_y_114b9705:Int ) : ( ( selector ( "add(uint256,uint256)" ) => VV0_x_114b9705:Int ) : ( .WordStack => ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     ( true => STATIC_CELL:Bool )
-                   </static>
-                   <callDepth>
-                     ( ( CALLDEPTH_CELL:Int +Int 1 ) => CALLDEPTH_CELL:Int )
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct>
-                   <log>
-                     LOG_CELL:List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int )
-                   </accessedAccounts>
-                   <accessedStorage>
-                     ACCESSEDSTORAGE_CELL:Map
-                   </accessedStorage>
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       CONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       CONTRACT_BAL:Int
-                     </balance>
-                     <storage>
-                       CONTRACT_STORAGE:Map
-                     </storage>
-                     <origStorage>
-                       CONTRACT_ORIGSTORAGE:Map
-                     </origStorage>
-                     <nonce>
-                       CONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               true
-             </traceStorage>
-             <traceWordStack>
-               true
-             </traceWordStack>
-             <traceMemory>
-               true
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
-       andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-               )))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-11-TO-13)]
-    
-    rule [BASIC-BLOCK-12-TO-14]: <foundry>
-           <kevm>
-             <k>
-               ( JUMPI 570 bool2Word ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256 )
-               ~> #pc [ JUMPI ]
-               ~> #execute
-               ~> #return 128 32
-               ~> #pc [ STATICCALL ]
-               ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
+                   ( _OUTPUT_CELL => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_REVERT )
                  </statusCode>
-                 <callStack>
-                   ( ListItem ( <callState>
-                     <id>
-                       CONTRACT_ID:Int
-                     </id>
-                     <caller>
-                       CALLER_ID:Int
-                     </caller>
-                     <callData>
-                       b"\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
-                     </callData>
-                     <callValue>
-                       0
-                     </callValue>
-                     <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( CONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) )
-                     </wordStack>
-                     <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-                     </localMem>
-                     <memoryUsed>
-                       0
-                     </memoryUsed>
-                     <callGas>
-                       0
-                     </callGas>
-                     <static>
-                       STATIC_CELL:Bool
-                     </static>
-                     <callDepth>
-                       CALLDEPTH_CELL:Int
-                     </callDepth>
-                     ...
-                   </callState> ) CALLSTACK_CELL:List => CALLSTACK_CELL:List )
-                 </callStack>
-                 <interimStates>
-                   ( ListItem ( { <accounts>
-                     ( <account>
-                       <acctID>
-                         CONTRACT_ID:Int
-                       </acctID>
-                       <balance>
-                         CONTRACT_BAL:Int
-                       </balance>
-                       <storage>
-                         CONTRACT_STORAGE:Map
-                       </storage>
-                       <origStorage>
-                         CONTRACT_ORIGSTORAGE:Map
-                       </origStorage>
-                       <nonce>
-                         CONTRACT_NONCE:Int
-                       </nonce>
-                       ...
-                     </account>
-                     ACCOUNTS_REST:AccountCellMap )
-                   </accounts> | <substate>
-                     <selfDestruct>
-                       SELFDESTRUCT_CELL:Set
-                     </selfDestruct>
-                     <log>
-                       LOG_CELL:List
-                     </log>
-                     <refund>
-                       0
-                     </refund>
-                     <accessedAccounts>
-                       ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int )
-                     </accessedAccounts>
-                     <accessedStorage>
-                       ACCESSEDSTORAGE_CELL:Map
-                     </accessedStorage>
-                   </substate> } ) INTERIMSTATES_CELL:List => INTERIMSTATES_CELL:List )
-                 </interimStates>
                  <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( CONTRACT_ID:Int )
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
                  </touchedAccounts>
                  <callState>
                    <id>
                      CONTRACT_ID:Int
                    </id>
                    <caller>
-                     ( CONTRACT_ID:Int => CALLER_ID:Int )
+                     CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"w\x16\x02\xf7" => b"\x9c&\xe07" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes ( #buf ( 32 , VV1_y_114b9705:Int ) => #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int ) )
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 1 ) : ( ( VV0_x_114b9705:Int => 196 ) : ( ( VV1_y_114b9705:Int => selector ( "add(uint256,uint256)" ) ) : ( ( 217 => CONTRACT_ID:Int ) : ( 0 : ( ( VV1_y_114b9705:Int => 0 ) : ( ( VV0_x_114b9705:Int => VV2_z_114b9705:Int ) : ( ( 111 => VV1_y_114b9705:Int ) : ( ( selector ( "add(uint256,uint256)" ) => VV0_x_114b9705:Int ) : ( .WordStack => ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( CONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -1666,30 +363,19 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                    <callGas>
                      0
                    </callGas>
-                   <static>
-                     ( true => STATIC_CELL:Bool )
-                   </static>
                    <callDepth>
-                     ( ( CALLDEPTH_CELL:Int +Int 1 ) => CALLDEPTH_CELL:Int )
+                     CALLDEPTH_CELL:Int
                    </callDepth>
                    ...
                  </callState>
                  <substate>
-                   <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct>
-                   <log>
-                     LOG_CELL:List
-                   </log>
                    <refund>
                      0
                    </refund>
                    <accessedAccounts>
-                     ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
                    </accessedAccounts>
-                   <accessedStorage>
-                     ACCESSEDSTORAGE_CELL:Map
-                   </accessedStorage>
+                   ...
                  </substate>
                  <origin>
                    ORIGIN_ID:Int
@@ -1714,12 +400,6 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      <balance>
                        CONTRACT_BAL:Int
                      </balance>
-                     <storage>
-                       CONTRACT_STORAGE:Map
-                     </storage>
-                     <origStorage>
-                       CONTRACT_ORIGSTORAGE:Map
-                     </origStorage>
                      <nonce>
                        CONTRACT_NONCE:Int
                      </nonce>
@@ -1786,13 +466,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                false
              </activeTracing>
              <traceStorage>
-               true
+               false
              </traceStorage>
              <traceWordStack>
-               true
+               false
              </traceWordStack>
              <traceMemory>
-               true
+               false
              </traceMemory>
              <recordedTrace>
                false
@@ -1814,12 +494,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
@@ -1829,19 +509,17 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( VV1_y_114b9705:Int xorInt maxUInt256 <Int VV0_x_114b9705:Int
+       andBool ( ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
                )))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-12-TO-14)]
+      [priority(20), label(BASIC-BLOCK-23-TO-11)]
     
-    rule [BASIC-BLOCK-15-TO-17]: <foundry>
+    rule [BASIC-BLOCK-26-TO-14]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) )
-               ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ( #execute => #halt )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -1856,13 +534,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <ethereum>
                <evm>
                  <output>
-                   #buf ( 32 , ( chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) => ( chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) -Int VV2_z_114b9705:Int ) ) )
+                   ( _OUTPUT_CELL => #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) )
                  </output>
                  <statusCode>
-                   EVMC_SUCCESS
+                   ( _STATUSCODE => EVMC_SUCCESS )
                  </statusCode>
                  <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( CONTRACT_ID:Int )
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -1878,10 +556,10 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => selector ( "add_sub_external(uint256,uint256,uint256)" ) ) : ( ( chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) : ( VV2_z_114b9705:Int : ( 344 : ( chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) => .WordStack ) )
+                     ( .WordStack => ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) +Bytes ( #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) => #buf ( 32 , ( chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) -Int VV2_z_114b9705:Int ) ) ) +Bytes ( #buf ( 32 , VV1_y_114b9705:Int ) => #range ( #buf ( 32 , VV1_y_114b9705:Int ) , 28 , 4 ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) +Bytes #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) +Bytes #range ( #buf ( 32 , VV1_y_114b9705:Int ) , 28 , 4 ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -1899,7 +577,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </refund>
                    <accessedAccounts>
-                     _ACCESSEDACCOUNTS_CELL |Set SetItem ( CONTRACT_ID:Int )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -1992,13 +670,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                false
              </activeTracing>
              <traceStorage>
-               true
+               false
              </traceStorage>
              <traceWordStack>
-               true
+               false
              </traceWordStack>
              <traceMemory>
-               true
+               false
              </traceMemory>
              <recordedTrace>
                false
@@ -2020,12 +698,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
@@ -2035,20 +713,18 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256
-       andBool ( VV2_z_114b9705:Int <=Int chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) )
+       andBool ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
+       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-15-TO-17)]
+      [priority(20), label(BASIC-BLOCK-26-TO-14)]
     
-    rule [BASIC-BLOCK-16-TO-18]: <foundry>
+    rule [BASIC-BLOCK-27-TO-15]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 618 bool2Word ( VV2_z_114b9705:Int <=Int chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) )
-               ~> #pc [ JUMPI ]
-               ~> #execute => #halt ~> .K )
+               ( #execute => #halt )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -2063,13 +739,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <ethereum>
                <evm>
                  <output>
-                   ( #buf ( 32 , chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
+                   ( _OUTPUT_CELL => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
                  </output>
                  <statusCode>
-                   ( EVMC_SUCCESS => EVMC_REVERT )
+                   ( _STATUSCODE => EVMC_REVERT )
                  </statusCode>
                  <touchedAccounts>
-                   _TOUCHEDACCOUNTS_CELL |Set SetItem ( CONTRACT_ID:Int )
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -2085,10 +761,10 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 618 ) : ( ( chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) => 0 ) : ( ( VV2_z_114b9705:Int => chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) : ( ( 344 => VV2_z_114b9705:Int ) : ( ( chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) => 344 ) : ( ( 0 => chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) : ( ( VV2_z_114b9705:Int => 0 ) : ( ( VV1_y_114b9705:Int => VV2_z_114b9705:Int ) : ( ( VV0_x_114b9705:Int => VV1_y_114b9705:Int ) : ( ( 111 => VV0_x_114b9705:Int ) : ( ( selector ( "add_sub_external(uint256,uint256,uint256)" ) => 111 ) : ( .WordStack => ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 618 : ( 0 : ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) : ( VV2_z_114b9705:Int : ( 344 : ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes #buf ( 32 , chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) ) +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -2106,7 +782,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </refund>
                    <accessedAccounts>
-                     _ACCESSEDACCOUNTS_CELL |Set SetItem ( CONTRACT_ID:Int )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -2199,13 +875,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                false
              </activeTracing>
              <traceStorage>
-               true
+               false
              </traceStorage>
              <traceWordStack>
-               true
+               false
              </traceWordStack>
              <traceMemory>
-               true
+               false
              </traceMemory>
              <recordedTrace>
                false
@@ -2227,12 +903,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
@@ -2242,12 +918,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( VV0_x_114b9705:Int <=Int VV1_y_114b9705:Int xorInt maxUInt256
-       andBool ( chop ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) <Int VV2_z_114b9705:Int
+       andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
+       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-16-TO-18)]
+      [priority(20), label(BASIC-BLOCK-27-TO-15)]
 
 endmodule
