@@ -754,7 +754,7 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str, c
                     account.config,
                     'STORAGE_CELL',
                     abstract_term_safely(
-                        account.cell('STORAGE_CELL'), base_name=f'STORAGE_{account_id}', sort=KSort('Map')
+                        account.cell('STORAGE_CELL'), base_name=f'STORAGE', sort=KSort('Map')
                     ),
                 ),
                 [],
