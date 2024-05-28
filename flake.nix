@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.567";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.575";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -17,7 +17,7 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     solc = {
-      url = "github:hellwolf/solc.nix";
+      url = "github:goodlyrottenapple/solc.nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
