@@ -570,9 +570,6 @@ def _method_to_initialized_cfg(
 ) -> tuple[KCFG, int, int]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
-    print(test.id)
-    print(f'graft_setup_proof: {graft_setup_proof}')
-
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
         empty_config,
@@ -642,8 +639,6 @@ def _method_to_cfg(
         contract_code=contract_code,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
-        #          is_test=method.is_test,
-        #          is_setup=method.is_setup,
         calldata=calldata,
         callvalue=callvalue,
         is_constructor=isinstance(method, Contract.Constructor),
@@ -702,12 +697,9 @@ def _method_to_cfg(
         failing=method.is_testfail,
         config_type=config_type,
         is_test=method.is_test,
-        #          is_setup=method.is_setup,
         hevm=hevm,
     )
     target_node = cfg.create_node(final_cterm)
-
-    print(cfg.node(1).cterm)
 
     return cfg, new_node_ids, init_node_id, target_node.id
 
@@ -841,8 +833,6 @@ def _init_cterm(
     contract_code: KInner,
     use_gas: bool,
     config_type: ConfigType,
-    #      is_test: bool,
-    #      is_setup: bool,
     active_symbolik: bool,
     is_constructor: bool,
     *,
@@ -987,15 +977,12 @@ def _final_cterm(
     *,
     failing: bool,
     is_test: bool = True,
-    #      is_setup: bool = False,
     hevm: bool = False,
 ) -> CTerm:
     final_term = _final_term(
         empty_config,
         program,
         config_type=config_type,
-        #          is_test=is_test,
-        #          is_setup=is_setup
     )
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     final_cterm = CTerm.from_kast(final_term)
@@ -1033,8 +1020,6 @@ def _final_term(
     empty_config: KInner,
     program: KInner,
     config_type: ConfigType,
-    #      is_test: bool,
-    #      is_setup: bool
 ) -> KInner:
     post_account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),

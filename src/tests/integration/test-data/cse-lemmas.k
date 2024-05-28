@@ -32,32 +32,15 @@ module CSE-LEMMAS
 
     rule (A ~> B) ==K (C ~> B) => (A ==K C) [simplification]
 
-    // Function selector comparison
+    // Function selector does not match
     rule { B:Bytes #Equals B1:Bytes +Bytes B2:Bytes } => #Bottom
       requires #range(B, 0, 4) =/=K #range (B1, 0, 4)
       [simplification(60), concrete(B, B1)]
 
-    // Function selector comparison
+    // Function selector matches
     rule { B:Bytes #Equals B1:Bytes +Bytes B2:Bytes } => {#range(B, 4, lengthBytes(B) -Int 4) #Equals B2}
       requires #range(B, 0, 4) ==K B1
       [simplification(60), concrete(B, B1)]
-
-    rule { M1:Map ( K:Int |-> V:Int ) #Equals M2:Map [ K <- V ] } => { M1 #Equals (M2 [ K <- undef]) }
-    [simplification(60)]
-
-    rule { ( K:Int |-> V:Int ) #Equals M2:Map [ K <- V ] } => { .Map #Equals (M2 [ K <- undef]) }
-    [simplification(60)]
-
-    rule M:Map [ K:Int <- V:Int ] => ( K |-> V ) requires .Map ==K M [ K <- undef ] [simplification(60)]
-
-    rule { .Map #Equals M:Map [ K:Int <- undef ] } => ({M #Equals .Map} #Or {M #Equals (K |-> #lookup(M, K))})
-    [simplification]
-
-
-//     // Function selector comparison
-//     rule { B:Bytes #Equals B1:Bytes +Bytes B2:Bytes } => { #range(B, minInt(lengthBytes(B), lengthBytes(B1)), lengthBytes(B)) #Equals B2 }
-//       requires #range(B, 0, minInt(lengthBytes(B), lengthBytes(B1))) =/=K #range (B1, 0, minInt(lengthBytes(B), lengthBytes(B1)))
-//       [simplification(60), concrete(B, B1)]
 
 
 endmodule
