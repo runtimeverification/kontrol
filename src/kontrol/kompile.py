@@ -139,7 +139,6 @@ def foundry_kompile(
             includes=includes,
             emit_json=True,
             ccopts=options.ccopts,
-            llvm_library=foundry.llvm_library,
             debug=options.debug,
             verbose=options.verbose,
         )
