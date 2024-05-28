@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING
 import logging
 import pprint
 
+from collections import deque
+
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty, list_empty, set_empty
@@ -22,7 +24,6 @@ from pyk.prelude.kint import intToken
 
 _PPRINT = pprint.PrettyPrinter(width=41, compact=True)
 
-# Helpers
 class StatefulKJsonRpcServer(JsonRpcServer):
     krun: KRun
     cterm: CTerm
@@ -34,57 +35,138 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.register_method('eth_memoryUsed', self.exec_get_memory_used)
         self.register_method('eth_gasPrice', self.exec_get_gas_price)
         self.register_method('eth_blockNumber', self.exec_get_block_number)
-        # self.register_method('eth_getBalance', self.exec_get_balance)
+        self.register_method('eth_accounts', self.exec_accounts)
+        self.register_method('eth_getBalance', self.exec_get_balance)
+        self.register_method('kontrol_requestValue', self.exec_request_value)
         self.register_method('kontrol_addAccount', self.exec_add_account)
 
         if not options.definition_dir:
             raise ValueError('Must specify a definition dir with --definition')
 
         dir_path = Path("/home/acassimiro/.cache/kdist-889f2ce/kontrol/foundry")
-        # self.krun = KRun(options.definition_dir)
         self.krun = KRun(dir_path)
-
+        # self.krun = KRun(options.definition_dir)
+        
         self._init_cterm()
-
 
     def exec_get_chain_id(self) -> int:
         cell = self.cterm.cell('CHAINID_CELL')
-        _PPRINT.pprint(cell)
         return int(cell.token)
     
     def exec_get_memory_used(self) -> int:
         cell = self.cterm.cell('MEMORYUSED_CELL')
-        _PPRINT.pprint(cell)
         return int(cell.token)
 
     def exec_get_gas_price(self) -> int:
         cell = self.cterm.cell('GASPRICE_CELL')
-        _PPRINT.pprint(cell)
         return int(cell.token)
     
     def exec_get_block_number(self) -> int:
         cell = self.cterm.cell('NUMBER_CELL')
-        _PPRINT.pprint(cell)
         return int(cell.token)
+    
+    def exec_get_balance(self, address: str) -> str:
+        acctID = _address_to_accID(address)
+        accounts_dict = self._get_all_accounts_dict()
+        return hex(int(accounts_dict[str(acctID)]['<balance>'])).lower()
 
+    def exec_accounts(self) -> list[str]:
+        accounts_list = []
+        
+        for key in self._get_all_accounts_dict():
+            accounts_list.append(_accID_to_address(int(key))) 
 
-    def exec_add_account(self) -> int:
-        self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('#eth_requestValue_KONTROL-VM_KItem', [])))
+        return accounts_list
+
+    def exec_add_account(self, address: str, balance_hex: str) -> None:
+        acct_ID = _address_to_accID(address)
+        balance = int(balance_hex, 16)
+        new_account = KEVM.account_cell(
+            intToken(acct_ID),
+            intToken(balance),
+            bytesToken(b""),
+            map_empty(),
+            map_empty(),
+            intToken(0),
+        )
+
+        accounts_cell = self.cterm.cell('ACCOUNTS_CELL')
+        new_accounts_cell = KApply('_AccountCellMap_', [accounts_cell, new_account])
+        self.cterm = CTerm.from_kast(
+            set_cell(self.cterm.config, 'ACCOUNTS_CELL', new_accounts_cell)
+        )
+
+    def exec_request_value(self) -> int:
+        self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('eth_requestValue', [])))
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=KSort('GeneratedTopCell'))
-        # pattern = self.krun.kast_to_kore(self.cterm.config, sort=Foundry.Sorts.SYMBOLIK_CELL)
-        output_kore = self.krun.run_pattern(pattern)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
-
         rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
-        _PPRINT.pprint(rpc_response_cell)
         return 0
     
+    def _create_initial_account_list(self) -> list[KInner]:
+        initial_account_address = 645326474426547203313410069153905908525362434350
+        init_account_list: list[KInner]= []
+        number_of_sample_accounts = 2
+
+        # Adding a zero address
+        init_account_list.append(KEVM.account_cell(
+            intToken(0),
+            intToken(0),
+            bytesToken(b""),
+            map_empty(),
+            map_empty(),
+            intToken(0),
+        ))
+
+        # Adding sample addresses on the network
+        for i in range(number_of_sample_accounts):
+            init_account_list.append(KEVM.account_cell(
+                intToken(initial_account_address + i),
+                intToken(10**10),
+                bytesToken(b""),
+                map_empty(),
+                map_empty(),
+                intToken(0),
+            ))
+
+        # Adding the Foundry cheatcode address
+        init_account_list.append(Foundry.account_CHEATCODE_ADDRESS(map_empty()))
+
+        return init_account_list
+
+
+    def _get_all_accounts_dict(self) -> dict:
+        cells = self.cterm.cells
+        cell = cells.get('ACCOUNTS_CELL', None)
+
+        accounts_dict = {}
+
+        queue: deque[KInner] = deque(cell.args)
+        while len(queue) > 0:
+            account_cell = queue.popleft()
+            if isinstance(account_cell, KApply):
+                if account_cell.label.name == "<account>":
+                    account_dict = {}
+                    for args in account_cell.args: 
+                        cell_name = args.label.name 
+                        print(args.args[0])
+                        if(isinstance(args.args[0], KToken)):
+                            account_dict[cell_name] = args.args[0].token
+
+                    accounts_dict[account_dict['<acctID>']] = account_dict
+                elif "AccountCellMap" in account_cell.label.name:
+                    queue.extend(account_cell.args)
+
+        return accounts_dict
+
 
     def _init_cterm(self) -> None:
-        kevm = KEVM(kdist.get('kontrol.foundry'))
         schedule = KApply('SHANGHAI_EVM')
-        empty_config = kevm.definition.empty_config(Foundry.Sorts.SYMBOLIK_CELL)
+        empty_config = self.krun.definition.empty_config(KSort('GeneratedTopCell'))
     
+        init_accounts_list = self._create_initial_account_list()
+
         init_subst = {
             "K_CELL": KSequence([KEVM.sharp_execute()]), #, KVariable("CONTINUATION")]),
             "EXIT_CODE_CELL": intToken(1),
@@ -92,14 +174,14 @@ class StatefulKJsonRpcServer(JsonRpcServer):
             "SCHEDULE_CELL": schedule,
             "USEGAS_CELL": FALSE,
             "OUTPUT_CELL": bytesToken(b""),
-            "STATUSCODE_CELL": KApply("EVMC_SUCCESS_NETWORK_EndStatusCode"), # KVariable("STATUSCODE"),
+            "STATUSCODE_CELL": KApply("EVMC_SUCCESS_NETWORK_EndStatusCode"),
             "CALLSTACK_CELL": list_empty(),
             "INTERIMSTATES_CELL": list_empty(),
             "TOUCHEDACCOUNTS_CELL": set_empty(), 
-            "PROGRAM_CELL": intToken(0), # program,
-            "JUMPDESTS_CELL": set_empty(), # KEVM.compute_valid_jumpdests(program),
+            "PROGRAM_CELL": intToken(0), 
+            "JUMPDESTS_CELL": set_empty(), 
             "ID_CELL": Foundry.address_TEST_CONTRACT(),
-            "CALLER_CELL": intToken(0), # KVariable("MSG_SENDER", sort=KSort("Int")),
+            "CALLER_CELL": intToken(0), 
             "CALLDATA_CELL": intToken(0),
             "CALLVALUE_CELL": intToken(0),
             "WORDSTACK_CELL": KApply(".WordStack_EVM-TYPES_WordStack"),
@@ -115,15 +197,11 @@ class StatefulKJsonRpcServer(JsonRpcServer):
             "REFUND_CELL": intToken(0),
             "ACCESSEDACCOUNTS_CELL": set_empty(),
             "ACCESSEDSTORAGE_CELL": map_empty(),
-            "GASPRICE_CELL": intToken(0), # KVariable("ORIGIN_ID", sort=KSort("Int")),
+            "GASPRICE_CELL": intToken(0),
             "ORIGIN_CELL": intToken(0),
             "BLOCKHASHES_CELL": list_empty(),
             "CHAINID_CELL": intToken(0),
-            "ACCOUNTS_CELL": list_empty(), #KEVM.accounts(init_account_list),
-            "PREV_CALLER": KApply(".Account"),
-            "PREV_ORIGIN": KApply(".Account"),
-            "NEW_CALLER": KApply(".Account"),
-            "NEW_ORIGIN": KApply(".Account"),
+            "ACCOUNTS_CELL": KEVM.accounts(init_accounts_list),
             "ACTIVE_CELL": FALSE,
             "DEPTH_CELL": intToken(0),
             "SINGLECALL_CELL": FALSE,
@@ -138,12 +216,75 @@ class StatefulKJsonRpcServer(JsonRpcServer):
             "MOCKCALLS_CELL": KApply(".MockCallCellMap"),
             "ACTIVETRACING_CELL": FALSE,
             "RECORDEDTRACE_CELL": FALSE,
+            "TRACESTORAGE_CELL": FALSE,
+            "TRACEWORDSTACK_CELL": FALSE,
+            "TRACEMEMORY_CELL": FALSE,
+            "TRACEDATA_CELL": FALSE,
+            "RPCREQUEST_CELL": intToken(0),
+            "GENERATEDCOUNTER_CELL": intToken(0),
+            "EXITCODE_CELL": intToken(0),
+            "PREVIOUSHASH_CELL": intToken(0),
+            "OMMERSHASH_CELL": intToken(0),
+            "COINBASE_CELL": intToken(0),
+            "STATEROOT_CELL": intToken(0),
+            "TRANSACTIONSROOT_CELL": intToken(0),
+            "RECEIPTSROOT_CELL": intToken(0),
+            "LOGSBLOOM_CELL": bytesToken(b""),
+            "DIFFICULTY_CELL": intToken(0),
+            "NUMBER_CELL": intToken(0),
+            "GASLIMIT_CELL": intToken(0),
+            "GASUSED_CELL": intToken(0),
+            "TIMESTAMP_CELL": intToken(0),
+            "EXTRADATA_CELL": bytesToken(b""),
+            "MIXHASH_CELL": intToken(0),
+            "BLOCKNONCE_CELL": intToken(0),
+            "BASEFEE_CELL": intToken(0),
+            "WITHDRAWALSROOT_CELL": intToken(0),
+            "OMMERBLOCKHEADERS_CELL": list_empty(),
+            "TXORDER_CELL": list_empty(),
+            "TXPENDING_CELL": list_empty(),
+            "MESSAGES_CELL": map_empty(),
+            "EXPECTEDREASON_CELL": bytesToken(b""),
+            "EXPECTEDDEPTH_CELL": intToken(0),
+            "EXPECTEDVALUE_CELL": intToken(0),
+            "EXPECTEDDATA_CELL": bytesToken(b""),
+            "CHECKEDTOPICS_CELL": list_empty(),
+            "CHECKEDDATA_CELL": FALSE,
+            "RPCRESPONSE_CELL": intToken(0),
+            "PREVCALLER_CELL": init_accounts_list[0],
+            "PREVORIGIN_CELL": init_accounts_list[0],
+            "NEWCALLER_CELL": init_accounts_list[0],
+            "NEWORIGIN_CELL": init_accounts_list[0],
+            "EXPECTEDADDRESS_CELL": init_accounts_list[0],
+            'OPCODETYPE_CELL': intToken(0),
+            "EXPECTEDEVENTADDRESS_CELL": init_accounts_list[0],
         }
 
         init_term = Subst(init_subst)(empty_config)
         self.cterm = CTerm.from_kast(init_term)
 
-    def _set_cell(self, cell: str, value: Any, sort: str) -> None:
-        self.cterm = CTerm.from_kast(
-            set_cell(self.cterm.config, cell, KToken(token=str(value), sort=KSort(name=sort)))
-        )
+
+
+# ------------------------------------------------------
+# Helpers
+# ------------------------------------------------------
+def _set_cell(cterm: CTerm, cell: str, value: Any, sort: str) -> None:
+    cterm = CTerm.from_kast(
+        set_cell(cterm.config, cell, KToken(token=str(value), sort=KSort(name=sort)))
+    )
+
+def _accID_to_address(accID: int) -> str:
+    hex_value = hex(accID).lower()[2:]
+    target_length = 40
+    padding_length = target_length - len(hex_value)
+    padded_address = "0" * padding_length + hex_value
+    return "0x" + padded_address
+
+
+def _address_to_accID(address: str) -> int:
+    try:
+        return int(address, 16)
+    except ValueError:
+        print(f"Invalid hexadecimal string: {address}")
+        return None
+
