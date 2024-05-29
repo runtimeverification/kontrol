@@ -30,8 +30,6 @@ module CSE-LEMMAS
       requires notBool ( lengthBytes(B1) ==Int lengthBytes(B2) )
       [simplification]
 
-    rule (A ~> B) ==K (C ~> B) => (A ==K C) [simplification]
-
     // Function selector does not match
     rule { B:Bytes #Equals B1:Bytes +Bytes B2:Bytes } => #Bottom
       requires #range(B, 0, 4) =/=K #range (B1, 0, 4)

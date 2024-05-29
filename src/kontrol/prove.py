@@ -662,17 +662,6 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str, c
 
     new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
 
-    if Foundry.address_TEST_CONTRACT() in new_accounts_map:
-        test_contract_account = new_accounts_map[Foundry.address_TEST_CONTRACT()]
-
-        new_accounts_map[Foundry.address_TEST_CONTRACT()] = CTerm(
-            set_cell(
-                test_contract_account.config,
-                'CODE_CELL',
-                KEVM.bin_runtime(KApply(f'contract_{contract_name}')),
-            ),
-            [],
-        )
     if config_type == ConfigType.SUMMARY_CONFIG:
         for account_id, account in new_accounts_map.items():
             new_accounts_map[account_id] = CTerm(
