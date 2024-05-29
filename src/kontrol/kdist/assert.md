@@ -40,7 +40,7 @@ These macros expand into the `#assert` production defined earlier, providing an 
                    | "#assert_lt" Int Int Bytes                [label(assert_lt),     macro]
                    | "#assert_not_eq" Int Int Bytes            [label(assert_not_eq), macro]
                    | "#assert_approx_eq_abs" Int Int Int Bytes [label(assert_approx_eq_abs), macro]
- // -----------------------------------------------------------------------------
+ // -----------------------------------------------------------------------------------------------
     rule #assert_eq W1 W2 ERR     => #assert (W1 ==Int W2)  ERR +Bytes String2Bytes(": " +String Int2String(W1) +String " != " +String Int2String(W2))
     rule #assert_ge W1 W2 ERR     => #assert (W1 >=Int W2)  ERR +Bytes String2Bytes(": " +String Int2String(W1) +String " < "  +String Int2String(W2))
     rule #assert_le W1 W2 ERR     => #assert (W1 <=Int W2)  ERR +Bytes String2Bytes(": " +String Int2String(W1) +String " > "  +String Int2String(W2))
