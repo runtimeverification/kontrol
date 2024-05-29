@@ -7,11 +7,9 @@ from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
-from kevm_pyk.cli import ExploreOptions, KOptions, KProveOptions
 from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
-from pyk.cli.args import BugReportOptions, LoggingOptions, ParallelOptions, SMTOptions
 from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
@@ -29,71 +27,23 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process, unique
 
-from .cli import FoundryOptions, RpcOptions, TraceOptions
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
+from .options import TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
+from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from pathlib import Path
     from typing import Final
 
     from pyk.kast.inner import KInner
     from pyk.kore.rpc import KoreServer
 
     from .deployment import DeploymentStateEntry
+    from .options import ProveOptions
 
 _LOGGER: Final = logging.getLogger(__name__)
-
-
-class ProveOptions(
-    LoggingOptions,
-    ParallelOptions,
-    KOptions,
-    KProveOptions,
-    SMTOptions,
-    RpcOptions,
-    BugReportOptions,
-    ExploreOptions,
-    FoundryOptions,
-    TraceOptions,
-):
-    tests: list[tuple[str, int | None]]
-    reinit: bool
-    bmc_depth: int | None
-    run_constructor: bool
-    use_gas: bool
-    setup_version: int | None
-    break_on_cheatcodes: bool
-    deployment_state_path: Path | None
-    include_summaries: list[tuple[str, int | None]]
-    with_non_general_state: bool
-    xml_test_report: bool
-    cse: bool
-    hevm: bool
-    minimize_proofs: bool
-    max_frontier_parallel: int
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'tests': [],
-            'reinit': False,
-            'bmc_depth': None,
-            'run_constructor': False,
-            'use_gas': False,
-            'break_on_cheatcodes': False,
-            'deployment_state_path': None,
-            'setup_version': None,
-            'include_summaries': [],
-            'with_non_general_state': False,
-            'xml_test_report': False,
-            'cse': False,
-            'hevm': False,
-            'minimize_proofs': False,
-            'max_frontier_parallel': 1,
-        }
 
 
 def foundry_prove(
@@ -203,14 +153,6 @@ def foundry_prove(
         foundry_to_xml(foundry, results)
 
     return results
-
-
-def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
-    if ':' in value:
-        test, version = value.split(':')
-        return (test, int(version))
-    else:
-        return (value, None)
 
 
 class FoundryTest(NamedTuple):

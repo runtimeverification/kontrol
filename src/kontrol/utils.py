@@ -9,6 +9,14 @@ import os
 import stat
 
 
+def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
+    if ':' in value:
+        test, version = value.split(':')
+        return (test, int(version))
+    else:
+        return (value, None)
+
+
 def write_to_file(file_path: Path, content: str, grant_exec_permission: bool = False) -> None:
     """
     Writes the given content to a file specified by the file path with or without execution rights.
