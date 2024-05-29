@@ -12,15 +12,6 @@ from pyk.utils import single
 
 from kontrol.foundry import (
     Foundry,
-    LoadStateDiffOptions,
-    MergeNodesOptions,
-    MinimizeProofOptions,
-    RefuteNodeOptions,
-    RemoveNodeOptions,
-    ShowOptions,
-    SplitNodeOptions,
-    StepNodeOptions,
-    UnrefuteNodeOptions,
     foundry_merge_nodes,
     foundry_minimize_proof,
     foundry_refute_node,
@@ -31,7 +22,19 @@ from kontrol.foundry import (
     foundry_step_node,
     foundry_unrefute_node,
 )
-from kontrol.prove import ProveOptions, foundry_prove
+from kontrol.options import (
+    LoadStateDiffOptions,
+    MergeNodesOptions,
+    MinimizeProofOptions,
+    ProveOptions,
+    RefuteNodeOptions,
+    RemoveNodeOptions,
+    ShowOptions,
+    SplitNodeOptions,
+    StepNodeOptions,
+    UnrefuteNodeOptions,
+)
+from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_fail, assert_or_update_show_output, assert_pass
 

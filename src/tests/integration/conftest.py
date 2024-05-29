@@ -10,7 +10,8 @@ from pyk.kore.rpc import kore_server
 from pyk.utils import run_process
 
 from kontrol.foundry import Foundry
-from kontrol.kompile import BuildOptions, foundry_kompile
+from kontrol.kompile import foundry_kompile
+from kontrol.options import BuildOptions
 
 from .utils import TEST_DATA_DIR, gen_bin_runtime
 
