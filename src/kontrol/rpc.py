@@ -40,12 +40,8 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.register_method('kontrol_requestValue', self.exec_request_value)
         self.register_method('kontrol_addAccount', self.exec_add_account)
 
-        if not options.definition_dir:
-            raise ValueError('Must specify a definition dir with --definition')
-
-        dir_path = Path("/home/acassimiro/.cache/kdist-889f2ce/kontrol/foundry")
+        dir_path = Path(f"{kdist.kdist_dir}/kontrol/foundry")
         self.krun = KRun(dir_path)
-        # self.krun = KRun(options.definition_dir)
         
         self._init_cterm()
 
@@ -256,7 +252,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
             "NEWCALLER_CELL": init_accounts_list[0],
             "NEWORIGIN_CELL": init_accounts_list[0],
             "EXPECTEDADDRESS_CELL": init_accounts_list[0],
-            'OPCODETYPE_CELL': intToken(0),
+            "OPCODETYPE_CELL": intToken(0),
             "EXPECTEDEVENTADDRESS_CELL": init_accounts_list[0],
         }
 

@@ -416,9 +416,8 @@ class VMOptions(FoundryOptions, LoggingOptions):
 
 
 def exec_vm(options: VMOptions) -> None:
-    foundry = _load_foundry(options.foundry_root)
     server = StatefulKJsonRpcServer(
-        ServeRpcOptions({'definition_dir': foundry.kompiled, 'port': int(options.port), 'host': options.host})
+        ServeRpcOptions({'definition_dir': None, 'port': int(options.port), 'host': options.host})
     )
     server.serve()
 
