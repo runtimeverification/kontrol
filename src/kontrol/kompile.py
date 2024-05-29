@@ -4,18 +4,15 @@ import json
 import logging
 import shutil
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
-from kevm_pyk.cli import KOptions
 from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import kevm_kompile
-from pyk.cli.args import KompileOptions, LoggingOptions
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
 from pyk.kore.kompiled import KompiledKore
 from pyk.utils import ensure_dir_path, hash_str
 
-from .cli import FoundryOptions, KGenOptions, KompileTargetOptions
 from .foundry import Foundry
 from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
@@ -26,21 +23,9 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
 
+    from .options import BuildOptions
+
 _LOGGER: Final = logging.getLogger(__name__)
-
-
-class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
-    regen: bool
-    rekompile: bool
-    no_forge_build: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'regen': False,
-            'rekompile': False,
-            'no_forge_build': False,
-        }
 
 
 def foundry_kompile(
