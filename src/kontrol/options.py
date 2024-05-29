@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -10,13 +11,17 @@ from pyk.cli.args import BugReportOptions, KompileOptions, LoggingOptions, Optio
 from pyk.cli.utils import dir_path, file_path
 from pyk.utils import ensure_dir_path
 
-from .prove import ConfigType
 from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
     from pyk.kcfg.kcfg import NodeIdLike
+
+
+class ConfigType(Enum):
+    TEST_CONFIG = 'TEST_CONFIG'
+    SUMMARY_CONFIG = 'SUMMARY_CONFIG'
 
 
 class FoundryOptions(Options):

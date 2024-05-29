@@ -4,7 +4,6 @@ import logging
 import time
 from abc import abstractmethod
 from copy import copy
-from enum import Enum
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
@@ -30,7 +29,7 @@ from pyk.utils import run_process, unique
 
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
-from .options import TraceOptions
+from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
 from .utils import parse_test_version_tuple
 
@@ -45,11 +44,6 @@ if TYPE_CHECKING:
     from .options import ProveOptions
 
 _LOGGER: Final = logging.getLogger(__name__)
-
-
-class ConfigType(Enum):
-    TEST_CONFIG = 'TEST_CONFIG'
-    SUMMARY_CONFIG = 'SUMMARY_CONFIG'
 
 
 def foundry_prove(
