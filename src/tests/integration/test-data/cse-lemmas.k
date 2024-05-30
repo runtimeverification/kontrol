@@ -37,7 +37,7 @@ module CSE-LEMMAS
 
     // Function selector matches
     rule { B:Bytes #Equals B1:Bytes +Bytes B2:Bytes } => {#range(B, 4, lengthBytes(B) -Int 4) #Equals B2}
-      requires #range(B, 0, 4) ==K B1
+      requires 4 <=Int lengthBytes(B) andBool #range(B, 0, 4) ==K B1
       [simplification(60), concrete(B, B1)]
 
 
