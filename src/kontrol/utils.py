@@ -124,7 +124,7 @@ max-depth                  = 25000
 reinit                     = false
 cse                        = false
 workers                    = 4
-failure-information        = false
+failure-information        = true
 counterexample-information = true
 minimize-proofs            = false
 fail-fast                  = true
@@ -135,6 +135,7 @@ break-on-calls             = false
 break-on-storage           = false
 break-on-basic-blocks      = false
 break-on-cheatcodes        = false
+run-constructor            = false
 
 [show.default]
 foundry-project-root       = '.'
