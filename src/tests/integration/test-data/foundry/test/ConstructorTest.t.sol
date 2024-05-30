@@ -6,7 +6,7 @@ import "forge-std/Test.sol";
 contract ImportedContract {
     uint256 public count;
 
-    constructor() payable {
+    constructor() {
         count = 5;
     }
 
@@ -27,7 +27,7 @@ contract ConstructorTest is Test {
     bool flag = true;
     ImportedContract member_contract;
 
-    constructor() payable {
+    constructor() {
         member_contract = new ImportedContract();
         member_contract.set(4321);
     }
