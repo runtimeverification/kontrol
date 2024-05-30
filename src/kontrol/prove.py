@@ -902,11 +902,7 @@ def _final_cterm(
     is_test: bool = True,
     hevm: bool = False,
 ) -> CTerm:
-    final_term = _final_term(
-        empty_config,
-        program,
-        config_type=config_type,
-    )
+    final_term = _final_term(empty_config, program, config_type=config_type)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     final_cterm = CTerm.from_kast(final_term)
     if is_test:
@@ -939,11 +935,7 @@ def _final_cterm(
     return final_cterm
 
 
-def _final_term(
-    empty_config: KInner,
-    program: KInner,
-    config_type: ConfigType,
-) -> KInner:
+def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) -> KInner:
     post_account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
         KVariable('ACCT_BALANCE_FINAL'),
