@@ -174,7 +174,7 @@ class KontrolCLIArgs(KEVMCLIArgs):
     def foundry_test_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
         args.add_argument('test', type=str, help='Test to run')
-        args.add_argument('--version', type=int, default=None, required=False, help='Version of the test to use')
+        args.add_argument('--version', type=int, required=False, help='Version of the test to use')
         return args
 
     @cached_property
@@ -183,14 +183,12 @@ class KontrolCLIArgs(KEVMCLIArgs):
         args.add_argument(
             '--require',
             dest='requires',
-            default=[],
             action='append',
             help='Extra K requires to include in generated output.',
         )
         args.add_argument(
             '--module-import',
             dest='imports',
-            default=[],
             action='append',
             help='Extra modules to import into generated main module.',
         )
@@ -213,7 +211,6 @@ class KontrolCLIArgs(KEVMCLIArgs):
         args.add_argument(
             '--trace-rewrites',
             dest='trace_rewrites',
-            default=None,
             action='store_true',
             help='Log traces of all simplification and rewrite rule applications.',
         )
@@ -226,14 +223,12 @@ class KontrolCLIArgs(KEVMCLIArgs):
         args.add_argument(
             '--use-booster',
             dest='use_booster',
-            default=None,
             action='store_true',
             help='Use the booster RPC server instead of kore-rpc (default).',
         )
         args.add_argument(
             '--no-use-booster',
             dest='use_booster',
-            default=None,
             action='store_false',
             help='Do not use the booster RPC server instead of kore-rpc.',
         )
@@ -299,21 +294,18 @@ def _create_argument_parser() -> ArgumentParser:
     build.add_argument(
         '--regen',
         dest='regen',
-        default=None,
         action='store_true',
         help='Regenerate foundry.k even if it already exists.',
     )
     build.add_argument(
         '--rekompile',
         dest='rekompile',
-        default=None,
         action='store_true',
         help='Rekompile foundry.k even if kompiled definition already exists.',
     )
     build.add_argument(
         '--no-forge-build',
         dest='no_forge_build',
-        default=None,
         action='store_true',
         help="Do not call 'forge build' during kompilation.",
     )
@@ -337,7 +329,6 @@ def _create_argument_parser() -> ArgumentParser:
     state_diff_args.add_argument(
         '--condense-state-diff',
         dest='condense_state_diff',
-        default=None,
         type=bool,
         help='Deploy state diff as a single file',
     )
@@ -380,7 +371,6 @@ def _create_argument_parser() -> ArgumentParser:
         '--match-test',
         type=parse_test_version_tuple,
         dest='tests',
-        default=[],
         action='append',
         help=(
             'Specify contract function(s) to test using a regular expression. This will match functions'
@@ -391,44 +381,36 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--reinit',
         dest='reinit',
-        default=None,
         action='store_true',
         help='Reinitialize CFGs even if they already exist.',
     )
     prove_args.add_argument(
         '--setup-version',
         dest='setup_version',
-        default=None,
         type=int,
         help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
     )
     prove_args.add_argument(
         '--max-frontier-parallel',
-        default=None,
         type=int,
         help='Maximum worker threads to use on a single proof to explore separate branches in parallel.',
     )
     prove_args.add_argument(
         '--bmc-depth',
         dest='bmc_depth',
-        default=None,
         type=int,
         help='Enables bounded model checking. Specifies the maximum depth to unroll all loops to.',
     )
     prove_args.add_argument(
         '--run-constructor',
         dest='run_constructor',
-        default=None,
         action='store_true',
         help='Include the contract constructor in the test execution.',
     )
-    prove_args.add_argument(
-        '--use-gas', dest='use_gas', default=None, action='store_true', help='Enables gas computation in KEVM.'
-    )
+    prove_args.add_argument('--use-gas', dest='use_gas', action='store_true', help='Enables gas computation in KEVM.')
     prove_args.add_argument(
         '--break-on-cheatcodes',
         dest='break_on_cheatcodes',
-        default=None,
         action='store_true',
         help='Break on all Foundry rules.',
     )
@@ -442,63 +424,53 @@ def _create_argument_parser() -> ArgumentParser:
         '--include-summary',
         type=parse_test_version_tuple,
         dest='include_summaries',
-        default=[],
         action='append',
         help='Specify a summary to include as a lemma.',
     )
     prove_args.add_argument(
         '--with-non-general-state',
         dest='with_non_general_state',
-        default=None,
         action='store_true',
         help='Flag used by Simbolik to initialise the state of a non test function as if it was a test function.',
     )
     prove_args.add_argument(
         '--xml-test-report',
         dest='xml_test_report',
-        default=None,
         action='store_true',
         help='Generate a JUnit XML report',
     )
-    prove_args.add_argument(
-        '--cse', dest='cse', default=None, action='store_true', help='Use Compositional Symbolic Execution'
-    )
+    prove_args.add_argument('--cse', dest='cse', action='store_true', help='Use Compositional Symbolic Execution')
     prove_args.add_argument(
         '--hevm',
         dest='hevm',
-        default=None,
         action='store_true',
         help='Use hevm success predicate instead of foundry to determine if a test is passing',
     )
     prove_args.add_argument(
-        '--minimize-proofs', dest='minimize_proofs', default=False, action='store_true', help='Minimize obtained KCFGs'
+        '--minimize-proofs', dest='minimize_proofs', action='store_true', help='Minimize obtained KCFGs'
     )
     prove_args.add_argument(
         '--evm-tracing',
         dest='evm_tracing',
         action='store_true',
-        default=False,
         help='Trace opcode execution and store it in the configuration',
     )
     prove_args.add_argument(
         '--no-trace-storage',
         dest='trace_storage',
         action='store_false',
-        default=True,
         help='If tracing is active, avoid storing storage information.',
     )
     prove_args.add_argument(
         '--no-trace-wordstack',
         dest='trace_wordstack',
         action='store_false',
-        default=True,
         help='If tracing is active, avoid storing wordstack information.',
     )
     prove_args.add_argument(
         '--no-trace-memory',
         dest='trace_memory',
         action='store_false',
-        default=True,
         help='If tracing is active, avoid storing memory information.',
     )
 
@@ -518,14 +490,12 @@ def _create_argument_parser() -> ArgumentParser:
     show_args.add_argument(
         '--omit-unstable-output',
         dest='omit_unstable_output',
-        default=None,
         action='store_true',
         help='Strip output that is likely to change without the contract logic changing',
     )
     show_args.add_argument(
         '--to-kevm-claims',
         dest='to_kevm_claims',
-        default=None,
         action='store_true',
         help='Generate a K module which can be run directly as KEVM claims for the given KCFG (best-effort).',
     )
@@ -538,7 +508,6 @@ def _create_argument_parser() -> ArgumentParser:
     show_args.add_argument(
         '--use-hex-encoding',
         dest='use_hex_encoding',
-        default=False,
         action='store_true',
         help='Print elements in hexadecimal encoding.',
     )
@@ -651,9 +620,7 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
     simplify_node.add_argument('node', type=node_id_like, help='Node to simplify in CFG.')
-    simplify_node.add_argument(
-        '--replace', default=None, help='Replace the original node with the simplified variant in the graph.'
-    )
+    simplify_node.add_argument('--replace', help='Replace the original node with the simplified variant in the graph.')
 
     step_node = command_parser.add_parser(
         'step-node',
@@ -687,7 +654,6 @@ def _create_argument_parser() -> ArgumentParser:
         '--node',
         type=node_id_like,
         dest='nodes',
-        default=[],
         action='append',
         help='One node to be merged.',
     )
@@ -725,15 +691,14 @@ def _create_argument_parser() -> ArgumentParser:
         '--node',
         type=node_id_like,
         dest='nodes',
-        default=[],
         action='append',
         help='List of nodes to display the models of.',
     )
     get_model.add_argument(
-        '--pending', dest='pending', default=None, action='store_true', help='Also display models of pending nodes'
+        '--pending', dest='pending', action='store_true', help='Also display models of pending nodes'
     )
     get_model.add_argument(
-        '--failing', dest='failing', default=None, action='store_true', help='Also display models of failing nodes'
+        '--failing', dest='failing', action='store_true', help='Also display models of failing nodes'
     )
     command_parser.add_parser(
         'clean',
@@ -755,7 +720,6 @@ def _create_argument_parser() -> ArgumentParser:
     init.add_argument(
         dest='project_root',
         nargs='?',
-        default=None,
         type=Path,
         help='Name of the project to be initialized. If missing, the current directory is used.',
     )
@@ -763,7 +727,6 @@ def _create_argument_parser() -> ArgumentParser:
     init.add_argument(
         '--skip-forge',
         dest='skip_forge',
-        default=False,
         action='store_true',
         help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',
     )
