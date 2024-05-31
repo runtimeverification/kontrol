@@ -7,7 +7,7 @@ from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 import pprint
-from kevm_pyk.kevm import KEVM, KEVMSemantics, process_jumpdests
+from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
@@ -735,7 +735,7 @@ def _init_cterm(
     if not trace_options:
         trace_options = TraceOptions({})
 
-    jumpdests = set_of(process_jumpdests(bytecode=bytecode, offset=0))
+    jumpdests = set_of(_process_jumpdests(bytecode=bytecode, offset=0))
     program = bytesToken(bytecode)
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
