@@ -434,7 +434,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.577"
+version = "1.0.579"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -443,14 +443,14 @@ develop = false
 
 [package.dependencies]
 pathos = "*"
-pyk = {git = "https://github.com/runtimeverification/k.git", tag = "v7.0.100", subdirectory = "pyk"}
+pyk = {git = "https://github.com/runtimeverification/k.git", tag = "v7.0.103", subdirectory = "pyk"}
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.577"
-resolved_reference = "c570e724550ecc472a8c6b2f5b01a6fcbb86a9a8"
+reference = "v1.0.579"
+resolved_reference = "97be05c231969628712e4564797dc7ff3cb8485a"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -809,7 +809,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyk"
-version = "7.0.100"
+version = "7.0.103"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -830,8 +830,8 @@ xdg-base-dirs = "^6.0.1"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/k.git"
-reference = "v7.0.100"
-resolved_reference = "ef7bb968de8c731c26d5d4235a781bb3fa1ac383"
+reference = "v7.0.103"
+resolved_reference = "49d9d0a01428fca998cef4cefefc3146aa787f94"
 subdirectory = "pyk"
 
 [[package]]
@@ -1111,4 +1111,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "61921ff660499fc0454bc7d85c5d75b4eb87e80ccf81f6682b0de86aa592bfaa"
+content-hash = "cad86a7c48506ce30acd95c6981b4ec226e073ec7753a06b69bab52ecc7a6871"
