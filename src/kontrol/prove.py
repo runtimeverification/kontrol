@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import logging
+import pprint
 import time
 from abc import abstractmethod
 from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
-import pprint
+
 from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
@@ -32,6 +33,7 @@ from .hevm import Hevm
 from .options import TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
 from .utils import parse_test_version_tuple
+
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Final
@@ -589,7 +591,7 @@ def _method_to_cfg(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )
         for final_node in final_states:
-            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, program )
+            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, program)
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
