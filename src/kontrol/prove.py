@@ -11,8 +11,8 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
-from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
-from pyk.kast.manip import abstract_term_safely, flatten_label, set_cell
+from pyk.kast.inner import KApply, KSequence, KSort, KToken, KVariable, Subst
+from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
@@ -663,11 +663,20 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str, c
 
     if config_type == ConfigType.SUMMARY_CONFIG:
         for account_id, account in new_accounts_map.items():
+            acct_id_cell = account.cell('ACCTID_CELL')
+            if type(acct_id_cell) is KVariable:
+                acct_id = acct_id_cell.name
+            elif type(acct_id_cell) is KToken:
+                acct_id = acct_id_cell.token
+            else:
+                raise RuntimeError(
+                    f'Failed to abstract storage. acctId cell is neither variable nor token: {acct_id_cell}'
+                )
             new_accounts_map[account_id] = CTerm(
                 set_cell(
                     account.config,
                     'STORAGE_CELL',
-                    abstract_term_safely(account.cell('STORAGE_CELL'), base_name='STORAGE', sort=KSort('Map')),
+                    KVariable(f'{acct_id}_STORAGE', sort=KSort('Map')),
                 ),
                 [],
             )
