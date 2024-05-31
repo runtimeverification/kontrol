@@ -35,7 +35,7 @@ from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 from . import VERSION
 from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
-from .utils import empty_lemmas_file_contents, kontrol_file_contents, write_to_file
+from .utils import empty_lemmas_file_contents, kontrol_file_contents, kontrol_toml_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -1207,6 +1207,7 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     root = ensure_dir_path(project_root)
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
+    write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
     run_process(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,
