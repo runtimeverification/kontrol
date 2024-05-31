@@ -6,8 +6,8 @@ from abc import abstractmethod
 from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
-
-from kevm_pyk.kevm import KEVM, KEVMSemantics
+import pprint
+from kevm_pyk.kevm import KEVM, KEVMSemantics, process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
@@ -16,7 +16,7 @@ from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
+from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty, set_of
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
@@ -32,7 +32,6 @@ from .hevm import Hevm
 from .options import TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
 from .utils import parse_test_version_tuple
-
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Final
@@ -43,6 +42,7 @@ if TYPE_CHECKING:
     from .deployment import DeploymentStateEntry
     from .options import ProveOptions
 
+_P = pprint.PrettyPrinter()
 _LOGGER: Final = logging.getLogger(__name__)
 
 
@@ -542,16 +542,16 @@ def _method_to_cfg(
     callvalue = None
 
     if isinstance(method, Contract.Constructor):
-        program = KEVM.init_bytecode(KApply(f'contract_{contract.name_with_path}'))
+        bytecode = bytes.fromhex(contract.bytecode)
 
     elif isinstance(method, Contract.Method):
         calldata = method.calldata_cell(contract)
         callvalue = method.callvalue_cell
-        program = KEVM.bin_runtime(KApply(f'contract_{contract.name_with_path}'))
+        bytecode = bytes.fromhex(contract.deployed_bytecode)
 
     init_cterm = _init_cterm(
         empty_config,
-        program=program,
+        bytecode=bytecode,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         is_test=method.is_test,
@@ -563,6 +563,7 @@ def _method_to_cfg(
         trace_options=trace_options,
     )
     new_node_ids = []
+    program = bytesToken(bytecode)
 
     if setup_proof:
         if setup_proof.pending:
@@ -588,7 +589,7 @@ def _method_to_cfg(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )
         for final_node in final_states:
-            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, contract.name_with_path)
+            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, program )
             new_node = cfg.create_node(new_init_cterm)
             cfg.create_edge(final_node.id, new_node.id, depth=1)
             new_node_ids.append(new_node.id)
@@ -599,14 +600,19 @@ def _method_to_cfg(
         init_node_id = init_node.id
 
     final_cterm = _final_cterm(
-        empty_config, program, failing=method.is_testfail, is_test=method.is_test, is_setup=method.is_setup, hevm=hevm
+        empty_config,
+        program,
+        failing=method.is_testfail,
+        is_test=method.is_test,
+        is_setup=method.is_setup,
+        hevm=hevm,
     )
     target_node = cfg.create_node(final_cterm)
 
     return cfg, new_node_ids, init_node_id, target_node.id
 
 
-def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -> CTerm:
+def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, program: KInner) -> CTerm:
     new_accounts_cell = node.cterm.cell('ACCOUNTS_CELL')
     number_cell = node.cterm.cell('NUMBER_CELL')
     timestamp_cell = node.cterm.cell('TIMESTAMP_CELL')
@@ -630,7 +636,7 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str) -
         set_cell(
             test_contract_account.config,
             'CODE_CELL',
-            KEVM.bin_runtime(KApply(f'contract_{contract_name}')),
+            program,
         ),
         [],
     )
@@ -712,7 +718,7 @@ def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) 
 
 def _init_cterm(
     empty_config: KInner,
-    program: KInner,
+    bytecode: bytes,
     use_gas: bool,
     is_test: bool,
     is_setup: bool,
@@ -729,13 +735,15 @@ def _init_cterm(
     if not trace_options:
         trace_options = TraceOptions({})
 
+    jumpdests = set_of(process_jumpdests(bytecode=bytecode, offset=0))
+    program = bytesToken(bytecode)
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'USEGAS_CELL': TRUE if use_gas else FALSE,
         'SCHEDULE_CELL': schedule,
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': program,
-        'JUMPDESTS_CELL': KEVM.compute_valid_jumpdests(program),
+        'JUMPDESTS_CELL': jumpdests,
         'ID_CELL': KVariable(Foundry.symbolic_contract_id(), sort=KSort('Int')),
         'ORIGIN_CELL': KVariable('ORIGIN_ID', sort=KSort('Int')),
         'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),

@@ -954,7 +954,7 @@ class Contract:
 
     @property
     def sentences(self) -> list[KSentence]:
-        return [self.subsort, self.production, self.macro_bin_runtime, self.macro_init_bytecode] + self.method_sentences
+        return [self.subsort, self.production] + self.method_sentences
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
