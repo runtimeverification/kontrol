@@ -676,7 +676,7 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, contract_name: str, c
                 set_cell(
                     account.config,
                     'STORAGE_CELL',
-                    KVariable(f'{acct_id}_STORAGE', sort=KSort('Map')),
+                    KVariable(f'STORAGE_{acct_id}', sort=KSort('Map')),
                 ),
                 [],
             )

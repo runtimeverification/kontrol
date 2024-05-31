@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: #lookup ( CONTRACT_ID_STORAGE:Map , 0 ) <Int 3
+┣━━┓ constraint: #lookup ( STORAGE_CONTRACT_ID:Map , 0 ) <Int 3
 ┃  │
 ┃  ├─ 13
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -30,7 +30,7 @@
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
 ┣━━┓ constraints:
-┃  ┃     3 <=Int #lookup ( CONTRACT_ID_STORAGE:Map , 0 )
+┃  ┃     3 <=Int #lookup ( STORAGE_CONTRACT_ID:Map , 0 )
 ┃  ┃     ( notBool STATIC_CELL:Bool )
 ┃  │
 ┃  ├─ 16
@@ -55,7 +55,7 @@
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
 ┗━━┓ constraints:
-   ┃     3 <=Int #lookup ( CONTRACT_ID_STORAGE:Map , 0 )
+   ┃     3 <=Int #lookup ( STORAGE_CONTRACT_ID:Map , 0 )
    ┃     STATIC_CELL:Bool
    │
    ├─ 17
@@ -165,7 +165,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                        CONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       CONTRACT_ID_STORAGE:Map
+                       STORAGE_CONTRACT_ID:Map
                      </storage>
                      <nonce>
                        CONTRACT_NONCE:Int
@@ -271,7 +271,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( CONTRACT_ID_STORAGE:Map , 0 ) <Int 3
+       andBool ( #lookup ( STORAGE_CONTRACT_ID:Map , 0 ) <Int 3
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
@@ -361,7 +361,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                        CONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       ( CONTRACT_ID_STORAGE:Map => CONTRACT_ID_STORAGE:Map [ 0 <- VV0_x_114b9705:Int ] )
+                       ( STORAGE_CONTRACT_ID:Map => STORAGE_CONTRACT_ID:Map [ 0 <- VV0_x_114b9705:Int ] )
                      </storage>
                      <nonce>
                        CONTRACT_NONCE:Int
@@ -468,7 +468,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( 3 <=Int #lookup ( CONTRACT_ID_STORAGE:Map , 0 )
+       andBool ( 3 <=Int #lookup ( STORAGE_CONTRACT_ID:Map , 0 )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
@@ -555,7 +555,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                        CONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       CONTRACT_ID_STORAGE:Map
+                       STORAGE_CONTRACT_ID:Map
                      </storage>
                      <nonce>
                        CONTRACT_NONCE:Int
@@ -662,7 +662,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( 3 <=Int #lookup ( CONTRACT_ID_STORAGE:Map , 0 )
+       andBool ( 3 <=Int #lookup ( STORAGE_CONTRACT_ID:Map , 0 )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
