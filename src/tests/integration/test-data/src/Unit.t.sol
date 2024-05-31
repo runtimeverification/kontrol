@@ -242,6 +242,59 @@ contract UnitTest is Test {
         assertApproxEqAbs(int_zero, neg_a, maxDelta, err);
     }
 
+    function test_assertApproxEqRel_uint_unit() public pure {
+        uint256 zero = 0;
+        uint256 a = 8;
+        uint256 b = 10;
+        uint256 percentDelta = 1e18;
+        string memory err = "throw test";
+        assertApproxEqRel(zero, zero, percentDelta);
+        assertApproxEqRel(zero, b, percentDelta);
+        assertApproxEqRel(a, b, percentDelta);
+        assertApproxEqRel(zero, zero, percentDelta, err);
+        assertApproxEqRel(zero, b, percentDelta, err);
+        assertApproxEqRel(a, b, percentDelta, err);
+    }
+
+    function test_assertApproxEqRel_int_same_sign_unit() public pure {
+        int256 pos_a = 8;
+        int256 pos_b = 10;
+        int256 neg_a = -8;
+        int256 neg_b = -10;
+        uint256 percentDelta = 1e18;
+        string memory err = "throw test";
+        assertApproxEqRel(pos_a, pos_b, percentDelta);
+        assertApproxEqRel(neg_a, neg_b, percentDelta);
+        assertApproxEqRel(pos_a, pos_b, percentDelta, err);
+        assertApproxEqRel(neg_a, neg_b, percentDelta, err);
+    }
+
+    function test_assertApproxEqRel_int_opp_sign_unit() public pure {
+        int256 pos_a = 2;
+        int256 pos_b = 3;
+        int256 neg_a = -2;
+        int256 neg_b = -3;
+        uint256 percentDelta = 2e18;
+        string memory err = "throw test";
+        assertApproxEqRel(pos_a, neg_b, percentDelta);
+        assertApproxEqRel(neg_a, pos_b, percentDelta);
+        assertApproxEqRel(pos_a, neg_b, percentDelta, err);
+        assertApproxEqRel(neg_a, pos_b, percentDelta, err);
+    }
+
+    function test_assertApproxEqRel_int_zero_cases_unit() public pure {
+        int256 zero = 0;
+        int256 pos_b = 3;
+        int256 neg_b = -3;
+        uint256 percentDelta = 1e18;
+        string memory err = "throw test";
+        assertApproxEqRel(zero, zero, percentDelta);
+        assertApproxEqRel(zero, pos_b, percentDelta);
+        assertApproxEqRel(zero, neg_b, percentDelta);
+        assertApproxEqRel(zero, zero, percentDelta, err);
+        assertApproxEqRel(zero, pos_b, percentDelta, err);
+        assertApproxEqRel(zero, neg_b, percentDelta, err);
+    }
 
     /****************************
     * Internal helper functions *
