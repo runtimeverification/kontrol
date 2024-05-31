@@ -14,10 +14,10 @@
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (392 steps)
+┃  │  (349 steps)
 ┃  ├─ 7 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 214
+┃  │   pc: 226
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_REVERT
 ┃  │
@@ -39,7 +39,7 @@
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (422 steps)
+┃  │  (379 steps)
 ┃  ├─ 10 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 107
@@ -64,10 +64,10 @@
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (388 steps)
+   │  (345 steps)
    ├─ 11 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 138
+   │   pc: 150
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_STATIC_MODE_VIOLATION
    │
@@ -119,10 +119,10 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                      b"\x10\x03\xe2\xd2" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
                    </callData>
                    <callValue>
-                     0
+                     CALLVALUE_79cb2bc6:Int
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( #lookup ( STORAGE_fb649d03:Map , 0 ) : ( VV0_x_114b9705:Int : ( 135 : ( VV0_x_114b9705:Int : ( 106 : ( selector ( "add(uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 0 : ( #lookup ( STORAGE_fb649d03:Map , 0 ) : ( VV0_x_114b9705:Int : ( 147 : ( VV0_x_114b9705:Int : ( 106 : ( selector ( "add(uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -257,6 +257,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( 0 <=Int CALLVALUE_79cb2bc6:Int
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -268,6 +269,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( CALLVALUE_79cb2bc6:Int <Int pow256
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -275,7 +277,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
        andBool ( ( maxUInt256 -Int VV0_x_114b9705:Int ) <Int #lookup ( STORAGE_fb649d03:Map , 0 )
-               ))))))))))))))))))))))))
+               ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-7)]
     
     rule [BASIC-BLOCK-16-TO-10]: <foundry>
@@ -312,7 +314,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                      b"\x10\x03\xe2\xd2" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
                    </callData>
                    <callValue>
-                     0
+                     CALLVALUE_79cb2bc6:Int
                    </callValue>
                    <wordStack>
                      ( .WordStack => ( selector ( "add(uint256)" ) : .WordStack ) )
@@ -454,6 +456,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( 0 <=Int CALLVALUE_79cb2bc6:Int
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -465,6 +468,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( CALLVALUE_79cb2bc6:Int <Int pow256
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -472,7 +476,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
        andBool ( #lookup ( STORAGE_fb649d03:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
-               )))))))))))))))))))))))))
+               )))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-10)]
     
     rule [BASIC-BLOCK-17-TO-11]: <foundry>
@@ -506,7 +510,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                      b"\x10\x03\xe2\xd2" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
                    </callData>
                    <callValue>
-                     0
+                     CALLVALUE_79cb2bc6:Int
                    </callValue>
                    <wordStack>
                      ( .WordStack => ( 0 : ( ( #lookup ( STORAGE_fb649d03:Map , 0 ) +Int VV0_x_114b9705:Int ) : ( VV0_x_114b9705:Int : ( 106 : ( selector ( "add(uint256)" ) : .WordStack ) ) ) ) ) )
@@ -648,6 +652,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( 0 <=Int CALLVALUE_79cb2bc6:Int
        andBool ( CONTRACT_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -659,6 +664,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( CALLVALUE_79cb2bc6:Int <Int pow256
        andBool ( ( notBool <acctID>
           CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -666,7 +672,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
        andBool ( #lookup ( STORAGE_fb649d03:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
-               )))))))))))))))))))))))))
+               )))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-17-TO-11)]
 
 endmodule

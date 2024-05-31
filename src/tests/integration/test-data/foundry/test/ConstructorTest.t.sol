@@ -6,7 +6,7 @@ import "forge-std/Test.sol";
 contract ImportedContract {
     uint256 public count;
 
-    constructor() {
+    constructor() payable {
         count = 5;
     }
 
@@ -17,7 +17,7 @@ contract ImportedContract {
         count = x;
     }
 
-    function add(uint256 x) public {
+    function add(uint256 x) public payable {
         count = count + x;
     }
 
