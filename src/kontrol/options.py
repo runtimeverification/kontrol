@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -16,6 +17,11 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from pyk.kcfg.kcfg import NodeIdLike
+
+
+class ConfigType(Enum):
+    TEST_CONFIG = 'TEST_CONFIG'
+    SUMMARY_CONFIG = 'SUMMARY_CONFIG'
 
 
 class FoundryOptions(Options):
@@ -342,6 +348,7 @@ class ProveOptions(
     hevm: bool
     minimize_proofs: bool
     max_frontier_parallel: int
+    config_type: ConfigType
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -361,6 +368,7 @@ class ProveOptions(
             'hevm': False,
             'minimize_proofs': False,
             'max_frontier_parallel': 1,
+            'config_type': ConfigType.TEST_CONFIG,
         }
 
     @staticmethod
