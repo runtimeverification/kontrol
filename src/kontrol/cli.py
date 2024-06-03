@@ -35,7 +35,7 @@ from .options import (
     VersionOptions,
     ViewKcfgOptions,
 )
-from .prove import parse_test_version_tuple
+from .prove import ConfigType, parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -424,6 +424,9 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--use-gas', dest='use_gas', default=None, action='store_true', help='Enables gas computation in KEVM.'
+    )
+    prove_args.add_argument(
+        '--config-type', default=None, type=ConfigType, help='Config type', choices=list(ConfigType)
     )
     prove_args.add_argument(
         '--break-on-cheatcodes',
