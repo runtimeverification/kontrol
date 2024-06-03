@@ -174,7 +174,7 @@ class KontrolCLIArgs(KEVMCLIArgs):
     def foundry_test_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
         args.add_argument('test', type=str, help='Test to run')
-        args.add_argument('--version', type=int, default=None, required=False, help='Version of the test to use')
+        args.add_argument('--version', type=int, required=False, help='Version of the test to use')
         return args
 
     @cached_property
@@ -183,14 +183,12 @@ class KontrolCLIArgs(KEVMCLIArgs):
         args.add_argument(
             '--require',
             dest='requires',
-            default=[],
             action='append',
             help='Extra K requires to include in generated output.',
         )
         args.add_argument(
             '--module-import',
             dest='imports',
-            default=[],
             action='append',
             help='Extra modules to import into generated main module.',
         )
@@ -337,7 +335,6 @@ def _create_argument_parser() -> ArgumentParser:
     state_diff_args.add_argument(
         '--condense-state-diff',
         dest='condense_state_diff',
-        default=None,
         type=bool,
         help='Deploy state diff as a single file',
     )
@@ -380,7 +377,6 @@ def _create_argument_parser() -> ArgumentParser:
         '--match-test',
         type=parse_test_version_tuple,
         dest='tests',
-        default=[],
         action='append',
         help=(
             'Specify contract function(s) to test using a regular expression. This will match functions'
@@ -398,20 +394,17 @@ def _create_argument_parser() -> ArgumentParser:
     prove_args.add_argument(
         '--setup-version',
         dest='setup_version',
-        default=None,
         type=int,
         help='Instead of reinitializing the test setup together with the test proof, select the setup version to be reused during the proof.',
     )
     prove_args.add_argument(
         '--max-frontier-parallel',
-        default=None,
         type=int,
         help='Maximum worker threads to use on a single proof to explore separate branches in parallel.',
     )
     prove_args.add_argument(
         '--bmc-depth',
         dest='bmc_depth',
-        default=None,
         type=int,
         help='Enables bounded model checking. Specifies the maximum depth to unroll all loops to.',
     )
@@ -445,7 +438,6 @@ def _create_argument_parser() -> ArgumentParser:
         '--include-summary',
         type=parse_test_version_tuple,
         dest='include_summaries',
-        default=[],
         action='append',
         help='Specify a summary to include as a lemma.',
     )
@@ -463,9 +455,7 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Generate a JUnit XML report',
     )
-    prove_args.add_argument(
-        '--cse', dest='cse', default=None, action='store_true', help='Use Compositional Symbolic Execution'
-    )
+    prove_args.add_argument('--cse', dest='cse', action='store_true', help='Use Compositional Symbolic Execution')
     prove_args.add_argument(
         '--hevm',
         dest='hevm',
@@ -474,34 +464,34 @@ def _create_argument_parser() -> ArgumentParser:
         help='Use hevm success predicate instead of foundry to determine if a test is passing',
     )
     prove_args.add_argument(
-        '--minimize-proofs', dest='minimize_proofs', default=False, action='store_true', help='Minimize obtained KCFGs'
+        '--minimize-proofs', dest='minimize_proofs', default=None, action='store_true', help='Minimize obtained KCFGs'
     )
     prove_args.add_argument(
         '--evm-tracing',
         dest='evm_tracing',
+        default=None,
         action='store_true',
-        default=False,
         help='Trace opcode execution and store it in the configuration',
     )
     prove_args.add_argument(
         '--no-trace-storage',
         dest='trace_storage',
+        default=None,
         action='store_false',
-        default=True,
         help='If tracing is active, avoid storing storage information.',
     )
     prove_args.add_argument(
         '--no-trace-wordstack',
         dest='trace_wordstack',
+        default=None,
         action='store_false',
-        default=True,
         help='If tracing is active, avoid storing wordstack information.',
     )
     prove_args.add_argument(
         '--no-trace-memory',
         dest='trace_memory',
+        default=None,
         action='store_false',
-        default=True,
         help='If tracing is active, avoid storing memory information.',
     )
 
@@ -541,7 +531,7 @@ def _create_argument_parser() -> ArgumentParser:
     show_args.add_argument(
         '--use-hex-encoding',
         dest='use_hex_encoding',
-        default=False,
+        default=None,
         action='store_true',
         help='Print elements in hexadecimal encoding.',
     )
@@ -654,9 +644,7 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
     simplify_node.add_argument('node', type=node_id_like, help='Node to simplify in CFG.')
-    simplify_node.add_argument(
-        '--replace', default=None, help='Replace the original node with the simplified variant in the graph.'
-    )
+    simplify_node.add_argument('--replace', help='Replace the original node with the simplified variant in the graph.')
 
     step_node = command_parser.add_parser(
         'step-node',
@@ -690,7 +678,6 @@ def _create_argument_parser() -> ArgumentParser:
         '--node',
         type=node_id_like,
         dest='nodes',
-        default=[],
         action='append',
         help='One node to be merged.',
     )
@@ -728,7 +715,6 @@ def _create_argument_parser() -> ArgumentParser:
         '--node',
         type=node_id_like,
         dest='nodes',
-        default=[],
         action='append',
         help='List of nodes to display the models of.',
     )
@@ -758,7 +744,6 @@ def _create_argument_parser() -> ArgumentParser:
     init.add_argument(
         dest='project_root',
         nargs='?',
-        default=None,
         type=Path,
         help='Name of the project to be initialized. If missing, the current directory is used.',
     )
@@ -766,7 +751,7 @@ def _create_argument_parser() -> ArgumentParser:
     init.add_argument(
         '--skip-forge',
         dest='skip_forge',
-        default=False,
+        default=None,
         action='store_true',
         help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',
     )
