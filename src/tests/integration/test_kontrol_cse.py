@@ -7,7 +7,7 @@ import pytest
 
 from kontrol.foundry import foundry_show
 from kontrol.options import ProveOptions, ShowOptions
-from kontrol.prove import foundry_prove
+from kontrol.prove import ConfigType, foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output
 
@@ -39,6 +39,9 @@ def test_foundry_dependency_automated(
     if no_use_booster:
         pytest.skip()
 
+    test_contract_name = test_id.split('.')[0]
+    config_type = ConfigType.TEST_CONFIG if test_contract_name.endswith('Test') else ConfigType.SUMMARY_CONFIG
+
     if test_id in SKIPPED_DEPENDENCY_TESTS:
         pytest.skip()
 
@@ -58,6 +61,8 @@ def test_foundry_dependency_automated(
                 'workers': 2,
                 'port': server.port,
                 'tests': [(test_id, None)],
+                'config_type': config_type,
+                'run_constructor': True,
             }
         ),
     )
