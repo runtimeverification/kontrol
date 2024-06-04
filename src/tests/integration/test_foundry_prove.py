@@ -837,49 +837,49 @@ def test_foundry_split_node(
     assert_pass(test, single(prove_res_1))
 
     # Remove node with non-deterministic branch
-    foundry_remove_node(foundry, RemoveNodeOptions({'test': test, 'node': 13}))
+    foundry_remove_node(foundry, RemoveNodeOptions({'test': test, 'node': 15}))
 
     split_nodes = foundry_split_node(
         foundry,
         SplitNodeOptions(
             {
                 'test': test,
-                'node': 12,
+                'node': 14,
                 'branch_condition': 'VV0_addr_114b9705 ==Int 491460923342184218035706888008750043977755113263',
             }
         ),
     )
-    assert split_nodes == [70, 71]
+    assert split_nodes == [80, 81]
 
     split_nodes = foundry_split_node(
         foundry,
         SplitNodeOptions(
             {
                 'test': test,
-                'node': 71,
+                'node': 81,
                 'branch_condition': 'VV0_addr_114b9705 ==Int 645326474426547203313410069153905908525362434349',
             }
         ),
     )
-    assert split_nodes == [72, 73]
+    assert split_nodes == [82, 83]
 
     split_nodes = foundry_split_node(
         foundry,
         options=SplitNodeOptions(
             {
                 'test': test,
-                'node': 73,
+                'node': 83,
                 'branch_condition': 'VV0_addr_114b9705 ==Int 728815563385977040452943777879061427756277306518',
             }
         ),
     )
-    assert split_nodes == [74, 75]
+    assert split_nodes == [84, 85]
 
-    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 70}))
-    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 72}))
-    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 74}))
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 80}))
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 82}))
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 84}))
 
-    check_pending(foundry, test, [75])
+    check_pending(foundry, test, [85])
 
     prove_res_2 = foundry_prove(
         foundry=foundry,
