@@ -51,12 +51,14 @@ These macros expand into the `#assert` production defined earlier, providing an 
     rule #assert_approx_eq_abs W1 W2 W3 ERR => #assert ((maxInt(W1, W2) -Int minInt(W1, W2)) <=Int W3) ERR 
       +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) +String " (max delta: " +String Int2String(W3) +String ", real delta: " +String Int2String(maxInt(W1, W2) -Int minInt(W1, W2)) +String ")")
     rule #assert_approx_eq_rel W1 W2 W3 ERR => #assert (W1 ==Int W2) ERR 
-      +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) 
-      +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16)) +String "% , real delta: undefined)") // displayed percentage in Kontrol does not include any decimal values
+                                        +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) 
+                                                                 +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16)) 
+                                                                 +String "% , real delta: undefined)")
       requires W2 ==Int 0
     rule #assert_approx_eq_rel W1 W2 W3 ERR => #assert ((((maxInt(W1, W2) -Int minInt(W1, W2)) *Int (10 ^Int 18)) divInt absInt(W2)) <=Int W3) ERR 
-      +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) 
-      +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16)) +String "% , real delta: " +String Int2String((((maxInt(W1, W2) -Int minInt(W1, W2)) *Int (10 ^Int 18)) divInt absInt(W2)) divInt (10 ^Int 16)) +String "%)") // displayed percentage in Kontrol does not include any decimal values
+                                        +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) 
+                                                                 +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16)) +String "% , real delta: " 
+                                                                 +String Int2String((((maxInt(W1, W2) -Int minInt(W1, W2)) *Int (10 ^Int 18)) divInt absInt(W2)) divInt (10 ^Int 16)) +String "%)")
       requires W2 =/=Int 0   
 ```
 
