@@ -344,8 +344,12 @@ def _run_cfg_group(
                 )
 
             if proof is None:
-                # With CSE, top-level proof should be a summary if it's not a test function
-                if options.cse and options.config_type == ConfigType.TEST_CONFIG and not (test.method.is_test or test.method.is_setup):
+                # With CSE, top-level proof should be a summary if it's not a test or setUp function
+                if (
+                    options.cse
+                    and options.config_type == ConfigType.TEST_CONFIG
+                    and not (test.method.is_test or test.method.is_setup)
+                ):
                     options.config_type = ConfigType.SUMMARY_CONFIG
 
                 proof = method_to_apr_proof(
