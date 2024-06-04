@@ -115,7 +115,7 @@ def test_foundry_prove(
             {
                 'tests': [(test_id, None)],
                 'bug_report': bug_report,
-                'break_on_calls': True,
+                'break_on_calls': test_id in SHOW_TESTS,
                 'use_gas': test_id in GAS_TESTS,
                 'port': server.port,
             }
@@ -173,7 +173,7 @@ def test_foundry_fail(
             {
                 'tests': [(test_id, None)],
                 'bug_report': bug_report,
-                'break_on_calls': True,
+                'break_on_calls': test_id in SHOW_TESTS,
                 'port': server.port,
             }
         ),
