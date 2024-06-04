@@ -81,7 +81,10 @@ def foundry_prove(
     )
 
     if options.cse:
-        test_suite = collect_tests(foundry, options.tests, reinit=options.reinit, return_empty=True)
+        exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
+        test_suite = collect_tests(
+            foundry, options.tests, reinit=options.reinit, return_empty=True, exact_match=exact_match
+        )
         for test in test_suite:
             if not isinstance(test.method, Contract.Method) or test.method.function_calls is None:
                 continue
@@ -97,7 +100,8 @@ def foundry_prove(
                 new_prove_options.config_type = ConfigType.SUMMARY_CONFIG
                 summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, deployment_state_entries))
 
-    test_suite = collect_tests(foundry, options.tests, reinit=options.reinit)
+    exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
+    test_suite = collect_tests(foundry, options.tests, reinit=options.reinit, exact_match=exact_match)
     test_names = [test.name for test in test_suite]
     print(f'Running functions: {test_names}')
 
@@ -175,13 +179,18 @@ class FoundryTest(NamedTuple):
 
 
 def collect_tests(
-    foundry: Foundry, tests: Iterable[tuple[str, int | None]] = (), *, reinit: bool, return_empty: bool = False
+    foundry: Foundry,
+    tests: Iterable[tuple[str, int | None]] = (),
+    *,
+    reinit: bool,
+    return_empty: bool = False,
+    exact_match: bool = False,
 ) -> list[FoundryTest]:
     if not tests and not return_empty:
         tests = [(test, None) for test in foundry.all_tests]
     matching_tests = []
     for test, version in tests:
-        matching_tests += [(sig, version) for sig in foundry.matching_sigs(test)]
+        matching_tests += [(sig, version) for sig in foundry.matching_sigs(test, exact_match=exact_match)]
     tests = list(unique(matching_tests))
 
     res: list[FoundryTest] = []
