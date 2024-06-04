@@ -124,7 +124,6 @@ def foundry_prove(
             options=options,
             summary_ids=(summary_ids if include_summaries else []),
             deployment_state_entries=deployment_state_entries,
-            config_type=options.config_type,
         )
 
     if options.run_constructor:
@@ -272,7 +271,6 @@ def _run_cfg_group(
     foundry: Foundry,
     options: ProveOptions,
     summary_ids: Iterable[str],
-    config_type: ConfigType,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
@@ -337,6 +335,10 @@ def _run_cfg_group(
                 )
 
             if proof is None:
+                # With CSE, top-level proof should be a summary if it's not a test function
+                if options.cse and options.config_type == ConfigType.TEST_CONFIG and not test.method.is_test:
+                    options.config_type = ConfigType.SUMMARY_CONFIG
+
                 proof = method_to_apr_proof(
                     test=test,
                     foundry=foundry,
@@ -348,7 +350,7 @@ def _run_cfg_group(
                     summary_ids=summary_ids,
                     active_symbolik=options.with_non_general_state,
                     hevm=options.hevm,
-                    config_type=config_type,
+                    config_type=options.config_type,
                     trace_options=TraceOptions(
                         {
                             'active_tracing': options.active_tracing,
