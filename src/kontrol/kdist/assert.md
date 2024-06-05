@@ -40,6 +40,7 @@ These macros expand into the `#assert` production defined earlier, providing an 
                    | "#assert_lt" Int Int Bytes                [label(assert_lt),     macro]
                    | "#assert_not_eq" Int Int Bytes            [label(assert_not_eq), macro]
                    | "#assert_approx_eq_abs" Int Int Int Bytes [label(assert_approx_eq_abs), macro]
+                   | "#assert_approx_eq_rel" Int Int Int Bytes [label(assert_approx_eq_rel)]
  // -----------------------------------------------------------------------------------------------
     rule #assert_eq W1 W2 ERR     => #assert (W1 ==Int W2)  ERR +Bytes String2Bytes(": " +String Int2String(W1) +String " != " +String Int2String(W2))
     rule #assert_ge W1 W2 ERR     => #assert (W1 >=Int W2)  ERR +Bytes String2Bytes(": " +String Int2String(W1) +String " < "  +String Int2String(W2))
@@ -49,6 +50,16 @@ These macros expand into the `#assert` production defined earlier, providing an 
     rule #assert_not_eq W1 W2 ERR => #assert (W1 =/=Int W2) ERR +Bytes String2Bytes(": " +String Int2String(W1) +String " == " +String Int2String(W2))
     rule #assert_approx_eq_abs W1 W2 W3 ERR => #assert ((maxInt(W1, W2) -Int minInt(W1, W2)) <=Int W3) ERR 
       +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) +String " (max delta: " +String Int2String(W3) +String ", real delta: " +String Int2String(maxInt(W1, W2) -Int minInt(W1, W2)) +String ")")
+    rule #assert_approx_eq_rel W1 W2 W3 ERR => #assert (W1 ==Int W2) ERR 
+                                        +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) 
+                                                                 +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16)) 
+                                                                 +String "% , real delta: undefined)")
+      requires W2 ==Int 0
+    rule #assert_approx_eq_rel W1 W2 W3 ERR => #assert ((((maxInt(W1, W2) -Int minInt(W1, W2)) *Int (10 ^Int 18)) divInt absInt(W2)) <=Int W3) ERR 
+                                        +Bytes String2Bytes(": " +String Int2String(W1) +String " !~= " +String Int2String(W2) 
+                                                                 +String " (max delta: " +String Int2String(W3 divInt (10 ^Int 16)) +String "% , real delta: " 
+                                                                 +String Int2String((((maxInt(W1, W2) -Int minInt(W1, W2)) *Int (10 ^Int 18)) divInt absInt(W2)) divInt (10 ^Int 16)) +String "%)")
+      requires W2 =/=Int 0   
 ```
 
 Capturing cheat code calls
@@ -162,6 +173,18 @@ Capturing cheat code calls
       requires SELECTOR ==Int selector ( "assertApproxEqAbs(uint256,uint256,uint256,string)" )
         orBool SELECTOR ==Int selector ( "assertApproxEqAbs(int256,int256,uint256,string)" )
     [preserves-definedness]
+
+    rule [cheatcode.call.assertApproxEqRel]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_approx_eq_rel #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #asWord(#range(ARGS, 64, 32)) String2Bytes("assertion failed") ... </k>
+      requires SELECTOR ==Int selector ( "assertApproxEqRel(uint256,uint256,uint256)" )
+        orBool SELECTOR ==Int selector ( "assertApproxEqRel(int256,int256,uint256)" )
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertApproxEqRel.err]:
+         <k> #cheatcode_call SELECTOR ARGS => #assert_approx_eq_rel #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #asWord(#range(ARGS, 64, 32)) #range(ARGS, 128, #asWord(#range(ARGS, 96, 32))) ... </k>
+      requires SELECTOR ==Int selector ( "assertApproxEqRel(uint256,uint256,uint256,string)" )
+        orBool SELECTOR ==Int selector ( "assertApproxEqRel(int256,int256,uint256,string)" )
+    [preserves-definedness]
 ```
 
 Function selectors
@@ -220,6 +243,11 @@ Function selectors
     rule selector ( "assertApproxEqAbs(uint256,uint256,uint256,string)" ) => 4145066082
     rule selector ( "assertApproxEqAbs(int256,int256,uint256)" )          => 604996509
     rule selector ( "assertApproxEqAbs(int256,int256,uint256,string)" )   => 2190075425
+
+    rule selector ( "assertApproxEqRel(uint256,uint256,uint256)" )        => 2364694260
+    rule selector ( "assertApproxEqRel(uint256,uint256,uint256,string)" ) => 516652339
+    rule selector ( "assertApproxEqRel(int256,int256,uint256)" )          => 4272083279
+    rule selector ( "assertApproxEqRel(int256,int256,uint256,string)" )   => 4012342642
 ```
 
 ```k
