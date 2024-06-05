@@ -181,9 +181,14 @@ contract UnitTest is Test {
 
     function test_assertApproxEqAbs_uint(uint256 a, uint256 b, uint256 maxDelta) public pure {
         vm.assume(maxDelta >= max(a, b) - min(a, b));
-        string memory err = "throw test";
         assertApproxEqAbs(a, b, maxDelta);
-        assertApproxEqAbs(a, b, maxDelta, err); 
+    }
+
+    function test_assertApproxEqAbs_uint_err() public {
+        string memory err = "throw test";
+        string memory err_lt = "throw test: 11 !~= 121 (max delta: 100, real delta: 110)";
+        vm.expectRevert(bytes(err_lt));
+        assertApproxEqAbs(uint256(11), uint(121), 100, err);
     }
 
     function test_assertApproxEqAbs_int_same_sign(uint256 a, uint256 b, uint256 maxDelta) public pure {
@@ -192,14 +197,21 @@ contract UnitTest is Test {
         vm.assume(a <= uint256(type(int256).max));
         vm.assume(b <= uint256(type(int256).max));
         vm.assume(maxDelta >= max(a, b) - min(a, b));
-        string memory err = "throw test";
         int256 pos_a = int256(a);
         int256 pos_b = int256(b); 
         int256 neg_a = -pos_a;
         int256 neg_b = -pos_b;              
         assertApproxEqAbs(pos_a, pos_b, maxDelta);
         assertApproxEqAbs(neg_a, neg_b, maxDelta);
-        assertApproxEqAbs(pos_a, pos_b, maxDelta, err);
+    }
+
+    function test_assertApproxEqAbs_int_same_sign_err() public {
+        int256 neg_a = -2;
+        int256 neg_b = -22;
+        uint256 maxDelta = 10;
+        string memory err = "throw test";
+        string memory err_neg = "throw test: -2 !~= -22 (max delta: 10, real delta: 20)";
+        vm.expectRevert(bytes(err_neg));
         assertApproxEqAbs(neg_a, neg_b, maxDelta, err);
     }
 
@@ -209,22 +221,28 @@ contract UnitTest is Test {
         vm.assume(a <= uint256(type(int256).max));
         vm.assume(b <= uint256(type(int256).max));
         vm.assume(maxDelta >= a + b);
-        string memory err = "throw test";
         int256 pos_a = int256(a);
         int256 pos_b = int256(b); 
         int256 neg_a = -pos_a;
         int256 neg_b = -pos_b;              
         assertApproxEqAbs(pos_a, neg_b, maxDelta);
         assertApproxEqAbs(neg_a, pos_b, maxDelta);
+    }
+
+    function test_assertApproxEqAbs_int_opp_sign_err() public {
+        int256 pos_a = 2;
+        int256 neg_b = -18; 
+        uint256 maxDelta = 10;
+        string memory err = "throw test";
+        string memory err_pos_a_neg_b = "throw test: 2 !~= -18 (max delta: 10, real delta: 20)";
+        vm.expectRevert(bytes(err_pos_a_neg_b));
         assertApproxEqAbs(pos_a, neg_b, maxDelta, err);
-        assertApproxEqAbs(neg_a, pos_b, maxDelta, err);
     }
 
     function test_assertApproxEqAbs_int_zero_cases(uint256 a, uint256 maxDelta) public pure {
         vm.assume(a > 0);
         vm.assume(a <= uint256(type(int256).max));
         vm.assume(maxDelta >= a);
-        string memory err = "throw test";
         int256 pos_a = int256(a);
         int256 neg_a = -pos_a;
         int256 int_zero = int256(0);
@@ -234,14 +252,97 @@ contract UnitTest is Test {
         assertApproxEqAbs(int_zero, pos_a, maxDelta);
         assertApproxEqAbs(neg_a, int_zero, maxDelta);
         assertApproxEqAbs(int_zero, neg_a, maxDelta);
-        assertApproxEqAbs(int_zero, int_zero, 0, err);
-        assertApproxEqAbs(int_zero, int_zero, maxDelta, err);
-        assertApproxEqAbs(pos_a, int_zero, maxDelta, err);
-        assertApproxEqAbs(int_zero, pos_a, maxDelta, err);
-        assertApproxEqAbs(neg_a, int_zero, maxDelta, err);
+    }
+
+    function test_assertApproxEqAbs_int_zero_cases_err() public {
+        int256 neg_a = -2;
+        int256 int_zero = int256(0);
+        uint256 maxDelta = 1;
+        string memory err = "throw test";
+        string memory err_zero_neg_a = "throw test: 0 !~= -2 (max delta: 1, real delta: 2)";
+        vm.expectRevert(bytes(err_zero_neg_a));
         assertApproxEqAbs(int_zero, neg_a, maxDelta, err);
     }
 
+    function test_assertApproxEqRel_uint_unit() public pure {
+        uint256 zero = 0;
+        uint256 a = 8;
+        uint256 b = 10;
+        uint256 percentDelta = 1e18;
+        assertApproxEqRel(zero, zero, percentDelta);
+        assertApproxEqRel(zero, b, percentDelta);
+        assertApproxEqRel(a, b, percentDelta);
+    }
+
+    function test_assertApproxEqRel_uint_err() public {
+        uint256 a = 4;
+        uint256 b = 2;
+        uint256 percentDelta = 5e17;
+        string memory err = "throw test";
+        string memory err_a_b = "throw test: 4 !~= 2 (max delta: 50.0000000000000000%, real delta: 100.0000000000000000%)";
+        vm.expectRevert(bytes(err_a_b));
+        assertApproxEqRel(a, b, percentDelta, err);
+    }
+
+    function test_assertApproxEqRel_int_same_sign_unit() public pure {
+        int256 pos_a = 8;
+        int256 pos_b = 10;
+        int256 neg_a = -8;
+        int256 neg_b = -10;
+        uint256 percentDelta = 1e18;
+        assertApproxEqRel(pos_a, pos_b, percentDelta);
+        assertApproxEqRel(neg_a, neg_b, percentDelta);
+    }
+
+    function test_assertApproxEqRel_int_same_sign_err() public {
+        int256 neg_a = -4;
+        int256 neg_b = -2;
+        uint256 percentDelta = 5e17;
+        string memory err = "throw test";
+        string memory err_neg_a_neg_b = "throw test: -4 !~= -2 (max delta: 50.0000000000000000%, real delta: 100.0000000000000000%)";
+        vm.expectRevert(bytes(err_neg_a_neg_b));
+        assertApproxEqRel(neg_a, neg_b, percentDelta, err);
+    }
+
+    function test_assertApproxEqRel_int_opp_sign_unit() public pure {
+        int256 pos_a = 2;
+        int256 pos_b = 3;
+        int256 neg_a = -2;
+        int256 neg_b = -3;
+        uint256 percentDelta = 2e18;
+        assertApproxEqRel(pos_a, neg_b, percentDelta);
+        assertApproxEqRel(neg_a, pos_b, percentDelta);
+    }
+
+    function test_assertApproxEqRel_int_opp_sign_err() public {
+        int256 pos_a = 4;
+        int256 neg_b = -2;
+        uint256 percentDelta = 1e18;
+        string memory err = "throw test";
+        string memory err_pos_a_neg_b = "throw test: 4 !~= -2 (max delta: 100.0000000000000000%, real delta: 300.0000000000000000%)";
+        vm.expectRevert(bytes(err_pos_a_neg_b));
+        assertApproxEqRel(pos_a, neg_b, percentDelta, err);
+    }
+
+    function test_assertApproxEqRel_int_zero_cases_unit() public pure {
+        int256 zero = 0;
+        int256 pos_b = 3;
+        int256 neg_b = -3;
+        uint256 percentDelta = 1e18;
+        assertApproxEqRel(zero, zero, percentDelta);
+        assertApproxEqRel(zero, pos_b, percentDelta);
+        assertApproxEqRel(zero, neg_b, percentDelta);
+    }
+
+    function test_assertApproxEqRel_int_zero_cases_err() public {
+        int256 zero = 0;
+        int256 neg_b = -2;
+        uint256 percentDelta = 5e17;
+        string memory err = "throw test";
+        string memory err_zero_neg_b = "throw test: 0 !~= -2 (max delta: 50.0000000000000000%, real delta: 100.0000000000000000%)";
+        vm.expectRevert(bytes(err_zero_neg_b));
+        assertApproxEqRel(zero, neg_b, percentDelta, err);
+    }
 
     /****************************
     * Internal helper functions *
