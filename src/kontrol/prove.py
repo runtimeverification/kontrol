@@ -30,7 +30,7 @@ from pyk.utils import run_process, unique
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
-from .solc_to_k import Contract, hex_string_to_int
+from .solc_to_k import Contract, StorageField, hex_string_to_int
 from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
@@ -506,6 +506,7 @@ def _method_to_initialized_cfg(
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
+        foundry,
         empty_config,
         test.contract,
         test.method,
@@ -541,6 +542,7 @@ def _method_to_initialized_cfg(
 
 
 def _method_to_cfg(
+    foundry: Foundry,
     empty_config: KInner,
     contract: Contract,
     method: Contract.Method | Contract.Constructor,
@@ -567,6 +569,8 @@ def _method_to_cfg(
         program = contract_code
 
     init_cterm = _init_cterm(
+        foundry,
+        contract,
         empty_config,
         program=program,
         contract_code=contract_code,
@@ -759,6 +763,8 @@ def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) 
 
 
 def _init_cterm(
+    foundry: Foundry,
+    contract: Contract,
     empty_config: KInner,
     program: KInner,
     contract_code: KInner,
@@ -812,6 +818,8 @@ def _init_cterm(
         'TRACEDATA_CELL': KApply('.List'),
     }
 
+    storage_constraints = []
+
     if config_type == ConfigType.TEST_CONFIG or active_symbolik:
         init_account_list = _create_initial_account_list(contract_code, deployment_state_entries)
         init_subst_test = {
@@ -831,11 +839,21 @@ def _init_cterm(
     else:
         # Symbolic accounts of all relevant contracts
         # Status: Currently, only the executing contract
-        # TODO: Add all other accounts belonging to relevant contracts
-        accounts: list[KInner] = [
-            Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code),
-            KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')),
-        ]
+        # TODO: Add all other accounts belonging to relevant contracts``
+        accounts: list[KInner] = []
+
+        # TODO(palina): executed contract's storage
+        storage_map = KVariable(Foundry.symbolic_contract_prefix() + '_STORAGE', sort=KSort('Map'))
+        # TODO(palina): executed contract's name
+        contract_name = Foundry.symbolic_contract_prefix() + '_ID'
+        new_accounts, storage_constraints, storage_map = _create_cse_accounts(
+            foundry, contract.fields, contract_name, storage_map
+        )
+
+        accounts.extend(new_accounts)
+
+        accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), program, storage_map))
+        accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
 
         init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
         init_subst.update(init_subst_accounts)
@@ -863,6 +881,10 @@ def _init_cterm(
         init_cterm = init_cterm.add_constraint(
             mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
         )
+
+    # TODO(palina): make sure these constraints are getting applied
+    for constraint in storage_constraints:
+        init_cterm.add_constraint(constraint)
 
     # The calling contract is assumed to be in the present accounts for non-tests
     if not (config_type == ConfigType.TEST_CONFIG or active_symbolik):
@@ -899,6 +921,60 @@ def _create_initial_account_list(
         init_account_list.extend(deployment_state_to_account_cells(deployment_state))
 
     return init_account_list
+
+
+def _create_cse_accounts(
+    foundry: Foundry, storage_fields: tuple[StorageField, ...], contract_name: str, contract_storage: KApply
+) -> tuple[list[KApply], list[KApply], KApply]:
+    # TODO: call this function recursively
+    new_accounts = []
+    new_account_constraints = []
+
+    for field in storage_fields:
+        if field.data_type.startswith('contract '):
+            contract_type = field.data_type.split(' ')[1]
+            for contract_name, contract_obj in foundry.contracts.items():
+                if contract_name.split('%')[-1] == contract_type:
+                    contract_code = KEVM.bin_runtime(KApply(f'contract_{contract_obj.name_with_path}'))
+                    contract_account_name = 'CONTRACT-' + field.label.upper()
+                    new_account = Foundry.symbolic_account(contract_account_name, contract_code)
+                    new_accounts.append(new_account)
+
+                    # TODO: handle the case where the field has a non-zero offset
+                    contract_storage = KApply(
+                        'Map:update',
+                        contract_storage,
+                        intToken(field.slot),
+                        KVariable(contract_account_name + '_ID'),
+                    )
+
+                    # New contract account is not the cheatcode contract
+                    new_account_constraints.append(
+                        mlEqualsFalse(
+                            KApply(
+                                '_==Int_',
+                                [
+                                    KVariable(contract_account_name + '_ID', sort=KSort('Int')),
+                                    Foundry.address_CHEATCODE(),
+                                ],
+                            )
+                        )
+                    )
+
+                    # New contract account is also not the symbolic contract account being executed
+                    new_account_constraints.append(
+                        mlEqualsFalse(
+                            KApply(
+                                '_==Int_',
+                                [
+                                    KVariable(contract_account_name + '_ID', sort=KSort('Int')),
+                                    KVariable(Foundry.symbolic_contract_prefix(), sort=KSort('Int')),
+                                ],
+                            )
+                        )
+                    )
+
+    return new_accounts, new_account_constraints, contract_storage
 
 
 def _final_cterm(
