@@ -77,12 +77,14 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                             str(TEST_DATA_DIR / 'lemmas.k'),
                             str(TEST_DATA_DIR / 'cse-lemmas.k'),
                             str(TEST_DATA_DIR / 'pausability-lemmas.k'),
+                            str(TEST_DATA_DIR / 'symbolic-bytes-lemmas.k'),
                         ],
                         'imports': [
                             'LoopsTest:SUM-TO-N-INVARIANT',
                             'ArithmeticCallTest:CSE-LEMMAS',
                             'CSETest:CSE-LEMMAS',
                             'PortalTest:PAUSABILITY-LEMMAS',
+                            'ImmutableVarsTest:SYMBOLIC-BYTES-LEMMAS',
                         ],
                     }
                 ),

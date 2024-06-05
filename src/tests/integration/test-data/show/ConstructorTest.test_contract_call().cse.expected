@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (2233 steps)
-├─ 4 (terminal)
+├─ 16 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 278
 │   callDepth: 0
@@ -26,7 +26,7 @@
 module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
     
     
-    rule [BASIC-BLOCK-1-TO-4]: <foundry>
+    rule [BASIC-BLOCK-1-TO-16]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -304,6 +304,6 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-4)]
+      [priority(20), label(BASIC-BLOCK-1-TO-16)]
 
 endmodule
