@@ -348,7 +348,7 @@ def _run_cfg_group(
                 if (
                     options.cse
                     and options.config_type == ConfigType.TEST_CONFIG
-                    and not (test.method.is_test or test.method.is_setup)
+                    and not test.method.contract_name.endswith('Test')
                 ):
                     options.config_type = ConfigType.SUMMARY_CONFIG
 
