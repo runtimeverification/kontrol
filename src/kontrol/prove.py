@@ -30,7 +30,7 @@ from pyk.utils import run_process, unique
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
-from .solc_to_k import Contract, StorageField, hex_string_to_int
+from .solc_to_k import Contract, hex_string_to_int
 from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
@@ -42,6 +42,7 @@ if TYPE_CHECKING:
 
     from .deployment import DeploymentStateEntry
     from .options import ProveOptions
+    from .solc_to_k import StorageField
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -767,7 +768,7 @@ def _init_cterm(
     empty_config: KInner,
     program: bytes,
     contract_code: KInner,
-    storage_fields: list[StorageField],
+    storage_fields: tuple[StorageField, ...],
     use_gas: bool,
     config_type: ConfigType,
     active_symbolik: bool,
