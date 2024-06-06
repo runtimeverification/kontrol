@@ -570,10 +570,10 @@ def _method_to_cfg(
 
     init_cterm = _init_cterm(
         foundry,
-        contract,
         empty_config,
         program=program,
         contract_code=bytesToken(contract_code),
+        storage_fields=contract.fields,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         calldata=calldata,
@@ -764,10 +764,10 @@ def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) 
 
 def _init_cterm(
     foundry: Foundry,
-    contract: Contract,
     empty_config: KInner,
     program: bytes,
     contract_code: KInner,
+    storage_fields: list[StorageField],
     use_gas: bool,
     config_type: ConfigType,
     active_symbolik: bool,
@@ -848,7 +848,7 @@ def _init_cterm(
         # TODO(palina): executed contract's name
         contract_name = Foundry.symbolic_contract_prefix() + '_ID'
         new_accounts, storage_constraints, storage_map = _create_cse_accounts(
-            foundry, contract.fields, contract_name, storage_map
+            foundry, storage_fields, contract_name, storage_map
         )
 
         accounts.extend(new_accounts)
@@ -942,11 +942,18 @@ def _create_cse_accounts(
                     new_accounts.append(new_account)
 
                     # TODO: handle the case where the field has a non-zero offset
-                    contract_storage = KApply(
-                        'Map:update',
-                        contract_storage,
-                        intToken(field.slot),
-                        KVariable(contract_account_name + '_ID'),
+                    # maxUInt160 &Int #lookup ( CONTRACT_STORAGE:Map , 0 )
+                    contract_storage_lookup = KApply(
+                        '_&Int_',
+                        [
+                            intToken(1461501637330902918203684832716283019655932542975),
+                            KEVM.lookup(contract_storage, intToken(field.slot)),
+                        ],
+                    )
+                    new_account_constraints.append(
+                        mlEqualsTrue(
+                            KApply('_==Int_', [contract_storage_lookup, KVariable(contract_account_name + '_ID')])
+                        )
                     )
 
                     # New contract account is not the cheatcode contract
