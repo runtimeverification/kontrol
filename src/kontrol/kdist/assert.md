@@ -75,6 +75,19 @@ Capturing cheat code calls
         orBool SELECTOR ==Int selector ( "assertEq(uint256,uint256)" )
     [preserves-definedness]
 
+    rule [cheatcode.call.assertEq.Darray]:
+         <k> #cheatcode_call SELECTOR ARGS => 
+               #let LEN_INPUT1 = #asWord(#range(ARGS, 0, 32)) #in
+               #let OFFSET_INPUT1 = 32 +Int LEN_INPUT1 *Int 32 #in
+               #let LEN_INPUT2 = #asWord(#range(ARGS, OFFSET_INPUT1, 32)) #in
+                  #assert_eq #asWord(#range(ARGS, 32, LEN_INPUT1 *Int 32)) #asWord(#range(ARGS, 32 +Int OFFSET_INPUT1, LEN_INPUT2 *Int 32)) String2Bytes("assertion failed") ... </k>
+      requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[])" )
+        orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[])"   )
+        orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[])"       )
+        orBool SELECTOR ==Int selector ( "assertEq(bytes32[],bytes32[])" )
+        orBool SELECTOR ==Int selector ( "assertEq(address[],address[])" )
+    [preserves-definedness]
+
     rule [cheatcode.call.assertEq.err]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
       requires SELECTOR ==Int selector ( "assertEq(address,address,string)" )
@@ -201,6 +214,12 @@ Function selectors
     rule selector ( "assertEq(int256,int256,string)"      ) => 1900687123
     rule selector ( "assertEq(uint256,uint256)"           ) => 2552851540
     rule selector ( "assertEq(uint256,uint256,string)"    ) => 2293517445
+    rule selector ( "assertEq(uint256[],uint256[])"       ) => 2539477522
+    rule selector ( "assertEq(int256[],int256[])"         ) => 1896891308
+    rule selector ( "assertEq(bool[],bool[])"             ) => 1887303557
+    rule selector ( "assertEq(bytes32[],bytes32[])"       ) => 214560388
+    rule selector ( "assertEq(address[],address[])"       ) => 946383924
+
 
     rule selector ( "assertTrue(bool)"                    ) => 211801473
     rule selector ( "assertTrue(bool,string)"             ) => 2739854339
