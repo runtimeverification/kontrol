@@ -309,10 +309,15 @@ class Foundry:
         regs = [reg.replace('(', '\\(') for reg in regs]
         return [reg.replace(')', '\\)') for reg in regs]
 
-    def matching_tests(self, tests: list[str]) -> list[str]:
+    @staticmethod
+    def _exact_match(regs: list[str]) -> list[str]:
+        return [f'(^|%)({reg})$' for reg in regs]
+
+    def matching_tests(self, tests: list[str], exact_match: bool = False) -> list[str]:
         all_tests = self.all_tests
         all_non_tests = self.all_non_tests
         tests = Foundry._escape_brackets(tests)
+        tests = Foundry._exact_match(tests) if exact_match else tests
         matched_tests = set()
         unfound_tests = set(tests)
         for test in tests:
@@ -326,8 +331,8 @@ class Foundry:
             raise ValueError('No test matched the predicates')
         return list(matched_tests)
 
-    def matching_sigs(self, test: str) -> list[str]:
-        test_sigs = self.matching_tests([test])
+    def matching_sigs(self, test: str, exact_match: bool = False) -> list[str]:
+        test_sigs = self.matching_tests([test], exact_match=exact_match)
         return test_sigs
 
     def get_test_id(self, test: str, version: int | None) -> str:
