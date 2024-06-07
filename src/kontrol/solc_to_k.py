@@ -788,6 +788,10 @@ class Contract:
     def fields(self) -> tuple[StorageField, ...]:
         return process_storage_layout(self.contract_json.get('storageLayout', {}))
 
+    @cached_property
+    def is_test_contract(self) -> bool:
+        return any(field.label == 'IS_TEST' for field in self.fields)
+
     @staticmethod
     def contract_to_module_name(c: str) -> str:
         return Contract.escaped(c, 'S2K') + '-CONTRACT'
