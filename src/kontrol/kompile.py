@@ -10,7 +10,6 @@ from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
-from pyk.kore.kompiled import KompiledKore
 from pyk.utils import ensure_dir_path, hash_str
 
 from .foundry import Foundry
@@ -142,7 +141,6 @@ def foundry_kompile(
             debug=options.debug,
             verbose=options.verbose,
         )
-        KompiledKore.load(output_dir).write(output_dir)
 
     update_kompilation_digest()
     foundry.update_digest()
