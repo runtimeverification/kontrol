@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.8.13;
+import {Test} from "forge-std/Test.sol";
 
 contract Token {
     uint256 public totalSupply;
@@ -19,7 +20,7 @@ contract Escrow {
     }
 }
 
-contract ContractFieldTest {
+contract ContractFieldTest is Test {
     Escrow escrow; 
 
     function setUp() public {
@@ -29,7 +30,7 @@ contract ContractFieldTest {
     /* Calling `getTokenTotalSupply` will summarize `totalSupply` and
        include `Token token` into the list of accounts in `getTokenTotalSupply`'s summary
     */
-    function getEscrowToken() public {
+    function testEscrowToken() public {
         escrow.getTokenTotalSupply();
     }
 }

@@ -831,7 +831,7 @@ def _init_cterm(
         'TRACEDATA_CELL': KApply('.List'),
     }
 
-    storage_constraints = []
+    storage_constraints: list[KApply] = []
 
     if config_type == ConfigType.TEST_CONFIG or active_symbolik:
         init_account_list = _create_initial_account_list(contract_code, deployment_state_entries)
@@ -865,7 +865,7 @@ def _init_cterm(
 
         accounts.extend(new_accounts)
 
-        accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), program, storage_map))
+        accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code, storage_map))
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
 
         init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
@@ -895,9 +895,8 @@ def _init_cterm(
             mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
         )
 
-    # TODO(palina): make sure these constraints are getting applied
     for constraint in storage_constraints:
-        init_cterm.add_constraint(constraint)
+        init_cterm = init_cterm.add_constraint(constraint)
 
     # The calling contract is assumed to be in the present accounts for non-tests
     if not (config_type == ConfigType.TEST_CONFIG or active_symbolik):
@@ -937,8 +936,8 @@ def _create_initial_account_list(
 
 
 def _create_cse_accounts(
-    foundry: Foundry, storage_fields: tuple[StorageField, ...], contract_name: str, contract_storage: KApply
-) -> tuple[list[KApply], list[KApply], KApply]:
+    foundry: Foundry, storage_fields: tuple[StorageField, ...], contract_name: str, contract_storage: KVariable
+) -> tuple[list[KApply], list[KApply], KVariable]:
     # TODO: call this function recursively
     new_accounts = []
     new_account_constraints = []
@@ -948,7 +947,7 @@ def _create_cse_accounts(
             contract_type = field.data_type.split(' ')[1]
             for contract_name, contract_obj in foundry.contracts.items():
                 if contract_name.split('%')[-1] == contract_type:
-                    contract_code = KEVM.bin_runtime(KApply(f'contract_{contract_obj.name_with_path}'))
+                    contract_code = bytesToken(bytes.fromhex(contract_obj.deployed_bytecode))
                     contract_account_name = 'CONTRACT-' + field.label.upper()
                     new_account = Foundry.symbolic_account(contract_account_name, contract_code)
                     new_accounts.append(new_account)
