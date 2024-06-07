@@ -7,6 +7,10 @@ module KONTROL-EVM-OPTIMIZATIONS
     rule #isValidJumpDest(PGM, I) => PGM [ I ] ==Int 91 requires 0 <=Int I andBool I <Int lengthBytes(PGM)
     rule #isValidJumpDest(  _, _) => false              [owise]
 
+    rule <k> #loadProgram BYTES => .K ... </k>
+         <program> _ => BYTES </program>
+         [priority(30)]
+
     rule <k> JUMP DEST => #endBasicBlock... </k>
          <pc> _ => DEST </pc>
          <program> PGM </program>
