@@ -7,7 +7,7 @@ from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
-from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
+from kevm_pyk.kevm import KEVM, KEVMSemantics
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
@@ -16,7 +16,7 @@ from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty, set_of
+from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
@@ -777,14 +777,13 @@ def _init_cterm(
     if not trace_options:
         trace_options = TraceOptions({})
 
-    jumpdests = set_of(_process_jumpdests(bytecode=program, offset=0))
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'USEGAS_CELL': TRUE if use_gas else FALSE,
         'SCHEDULE_CELL': schedule,
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': bytesToken(program),
-        'JUMPDESTS_CELL': jumpdests,
+        'JUMPDESTS_CELL': set_empty(),
         'ID_CELL': KVariable(Foundry.symbolic_contract_id(), sort=KSort('Int')),
         'ORIGIN_CELL': KVariable('ORIGIN_ID', sort=KSort('Int')),
         'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),

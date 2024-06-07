@@ -15,6 +15,7 @@ requires "hashed-locations.md"
 requires "edsl.md"
 requires "trace.md"
 requires "assert.md"
+requires "evm-optimizations.md"
 requires "lemmas/lemmas.k"
 
 module FOUNDRY
@@ -24,6 +25,7 @@ module FOUNDRY
     imports HEVM-SUCCESS
     imports EVM-TRACING
     imports KONTROL-ASSERTIONS
+    imports KONTROL-EVM-OPTIMIZATIONS
     imports EDSL
     imports LEMMAS
 

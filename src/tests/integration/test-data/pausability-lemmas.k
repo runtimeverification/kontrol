@@ -50,7 +50,7 @@ module PAUSABILITY-LEMMAS [symbolic]
 
     // Cancellativity #6
     rule (A -Int B) -Int (C -Int B) => A -Int C [simplification]
-  
+
     // Upper bound on (pow256 - 32) &Int lengthBytes(X)
     rule notMaxUInt5 &Int Y <=Int Y => true
       requires 0 <=Int Y
@@ -142,7 +142,6 @@ module PAUSABILITY-LEMMAS [symbolic]
       <k> #execute ... </k>
       <useGas> false </useGas>
       <schedule> SHANGHAI </schedule>
-      <jumpDests> JUMPDESTS </jumpDests>
       // The program and program counter are symbolic, focusing on the part we will be executing (CP)
       <program> PROGRAM </program>
       <pc> PCOUNT => PCOUNT +Int 44 </pc>
@@ -175,8 +174,10 @@ module PAUSABILITY-LEMMAS [symbolic]
        andBool SRC +Int LENGTH <=Int DEST // No overlap between source and destination
        andBool DEST <=Int lengthBytes(LM) // Destination starts within current memory
        // All JUMPDESTs in the program are valid
-       andBool (PCOUNT +Int 3) in JUMPDESTS andBool (PCOUNT +Int 27) in JUMPDESTS andBool (PCOUNT +Int 42) in JUMPDESTS
+       andBool #isValidJumpDest(PGM, PCOUNT +Int 3)
+       andBool #isValidJumpDest(PGM, PCOUNT +Int 27)
+       andBool #isValidJumpDest(PGM, PCOUNT +Int 42)
        andBool PCOUNT +Int 42 <Int 2 ^Int 16  // and fit into two bytes
-      [priority(30), concrete(JUMPDESTS, PROGRAM, PCOUNT), preserves-definedness]
+      [priority(30), concrete(PROGRAM, PCOUNT), preserves-definedness]
 
 endmodule
