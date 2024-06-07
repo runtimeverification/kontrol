@@ -97,6 +97,21 @@ Capturing cheat code calls
         orBool SELECTOR ==Int selector ( "assertEq(uint256,uint256,string)" )
     [preserves-definedness]
 
+    rule [cheatcode.call.assertEq.Darray.err]:
+         <k> #cheatcode_call SELECTOR ARGS => 
+               #let LEN_INPUT1 = #asWord(#range(ARGS, 0, 32)) #in
+               #let OFFSET_INPUT1 = 32 +Int LEN_INPUT1 *Int 32 #in
+               #let LEN_INPUT2 = #asWord(#range(ARGS, OFFSET_INPUT1, 32)) #in
+               #let OFFSET_INPUT2 = 32 +Int LEN_INPUT2 *Int 32 #in
+               #let OFFSET_TOTAL = OFFSET_INPUT1 +Int OFFSET_INPUT2 #in
+                  #assert_eq #asWord(#range(ARGS, 32, LEN_INPUT1 *Int 32)) #asWord(#range(ARGS, 32 +Int OFFSET_INPUT1, LEN_INPUT2 *Int 32)) #range(ARGS, 32 +Int OFFSET_TOTAL, #asWord(#range(ARGS, OFFSET_TOTAL, 32))) ... </k>
+      requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[],string)" )
+        orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[],string)"   )
+        orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[],string)"       )
+        orBool SELECTOR ==Int selector ( "assertEq(bytes32[],bytes32[],string)" )
+        orBool SELECTOR ==Int selector ( "assertEq(address[],address[],string)" )
+    [preserves-definedness]
+
     rule [cheatcode.call.assertNotEq]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_not_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) String2Bytes("assertion failed") ... </k>
       requires SELECTOR ==Int selector ( "assertNotEq(address,address)" )
@@ -204,21 +219,26 @@ Function selectors
 ------------------
 
 ```k
-    rule selector ( "assertEq(address,address)"           ) => 1364419062
-    rule selector ( "assertEq(address,address,string)"    ) => 791112145
-    rule selector ( "assertEq(bool,bool)"                 ) => 4160631927
-    rule selector ( "assertEq(bool,bool,string)"          ) => 1303486078
-    rule selector ( "assertEq(bytes32,bytes32)"           ) => 2089076379
-    rule selector ( "assertEq(bytes32,bytes32,string)"    ) => 3254394576
-    rule selector ( "assertEq(int256,int256)"             ) => 4269076571
-    rule selector ( "assertEq(int256,int256,string)"      ) => 1900687123
-    rule selector ( "assertEq(uint256,uint256)"           ) => 2552851540
-    rule selector ( "assertEq(uint256,uint256,string)"    ) => 2293517445
-    rule selector ( "assertEq(uint256[],uint256[])"       ) => 2539477522
-    rule selector ( "assertEq(int256[],int256[])"         ) => 1896891308
-    rule selector ( "assertEq(bool[],bool[])"             ) => 1887303557
-    rule selector ( "assertEq(bytes32[],bytes32[])"       ) => 214560388
-    rule selector ( "assertEq(address[],address[])"       ) => 946383924
+    rule selector ( "assertEq(address,address)"            ) => 1364419062
+    rule selector ( "assertEq(address,address,string)"     ) => 791112145
+    rule selector ( "assertEq(bool,bool)"                  ) => 4160631927
+    rule selector ( "assertEq(bool,bool,string)"           ) => 1303486078
+    rule selector ( "assertEq(bytes32,bytes32)"            ) => 2089076379
+    rule selector ( "assertEq(bytes32,bytes32,string)"     ) => 3254394576
+    rule selector ( "assertEq(int256,int256)"              ) => 4269076571
+    rule selector ( "assertEq(int256,int256,string)"       ) => 1900687123
+    rule selector ( "assertEq(uint256,uint256)"            ) => 2552851540
+    rule selector ( "assertEq(uint256,uint256,string)"     ) => 2293517445
+    rule selector ( "assertEq(uint256[],uint256[])"        ) => 2539477522
+    rule selector ( "assertEq(uint256[],uint256[],string)" ) => 1561904954
+    rule selector ( "assertEq(int256[],int256[])"          ) => 1896891308
+    rule selector ( "assertEq(int256[],int256[],string)"   ) => 421468976
+    rule selector ( "assertEq(bool[],bool[])"              ) => 1887303557
+    rule selector ( "assertEq(bool[],bool[],string)"       ) => 3834285965
+    rule selector ( "assertEq(bytes32[],bytes32[])"        ) => 214560388
+    rule selector ( "assertEq(bytes32[],bytes32[],string)" ) => 3762196855
+    rule selector ( "assertEq(address[],address[])"        ) => 946383924
+    rule selector ( "assertEq(address[],address[],string)" ) => 1049719749
 
 
     rule selector ( "assertTrue(bool)"                    ) => 211801473
