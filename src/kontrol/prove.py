@@ -945,6 +945,9 @@ def _create_cse_accounts(
         if field.data_type.startswith('contract '):
             contract_type = field.data_type.split(' ')[1]
             for contract_name, contract_obj in foundry.contracts.items():
+                suffix = contract_name.split('%')[-1]
+                # TODO: this is not enough, it is possible that the same contract comes with
+                # src% and test%, in which case we don't know automatically which one to choose
                 if contract_name.split('%')[-1] == contract_type:
                     contract_code = bytesToken(bytes.fromhex(contract_obj.deployed_bytecode))
                     contract_account_name = 'CONTRACT-' + field.label.upper()
@@ -974,19 +977,6 @@ def _create_cse_accounts(
                                 [
                                     KVariable(contract_account_name + '_ID', sort=KSort('Int')),
                                     Foundry.address_CHEATCODE(),
-                                ],
-                            )
-                        )
-                    )
-
-                    # New contract account is also not the symbolic contract account being executed
-                    new_account_constraints.append(
-                        mlEqualsFalse(
-                            KApply(
-                                '_==Int_',
-                                [
-                                    KVariable(contract_account_name + '_ID', sort=KSort('Int')),
-                                    KVariable(Foundry.symbolic_contract_prefix(), sort=KSort('Int')),
                                 ],
                             )
                         )
