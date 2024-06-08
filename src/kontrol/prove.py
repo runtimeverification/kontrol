@@ -335,7 +335,6 @@ def _run_cfg_group(
                 cterm_symbolic = CTermSymbolic(
                     client,
                     foundry.kevm.definition,
-                    foundry.kevm.kompiled_kore,
                     trace_rewrites=options.trace_rewrites,
                 )
                 return KCFGExplore(
