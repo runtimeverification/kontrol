@@ -12,7 +12,6 @@ contract TestToken {
 
 contract Escrow {
     TestToken token;
-    uint256 tokenTotalSupply;
 
     constructor(uint256 _totalSupply) {
         token = new TestToken(_totalSupply);
