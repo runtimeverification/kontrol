@@ -888,7 +888,7 @@ def _init_cterm(
             )
         )
 
-    if len(arg_constraints) > 0:
+    if isinstance(method, Contract.Constructor) and len(arg_constraints) > 0:
         for constraint in arg_constraints:
             init_cterm = init_cterm.add_constraint(mlEqualsTrue(constraint))
 
