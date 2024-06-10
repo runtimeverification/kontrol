@@ -355,7 +355,7 @@ class Contract:
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
-            # TODO(palina): missing NatSpec values
+            # TODO: support NatSpec comments for dynamic types 
             self.inputs = tuple(inputs_from_abi(abi['inputs'], None))
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
@@ -448,8 +448,7 @@ class Contract:
                     rps = _range_predicates(abi_type, input.dynamic_type_length)
                 for rp in rps:
                     if rp is None:
-                        _LOGGER.info(f'Unsupported ABI type for method {self.contract_name}.init')
-                        return None
+                        raise ValueError(f'Unsupported ABI type for method for {self.contract_name}.init')
                     type_constraints.append(rp)
             encoded_args = KApply('encodeArgs', [KEVM.typed_args(args)])
             return encoded_args, type_constraints
