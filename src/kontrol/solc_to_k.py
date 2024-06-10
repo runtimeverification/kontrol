@@ -350,12 +350,10 @@ class Contract:
             sort: KSort,
         ) -> None:
             self.signature = 'init'
-            self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
-            self.arg_types = tuple([input['type'] for input in abi['inputs']])
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
-            # TODO: support NatSpec comments for dynamic types 
+            # TODO: support NatSpec comments for dynamic types
             self.inputs = tuple(inputs_from_abi(abi['inputs'], None))
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
