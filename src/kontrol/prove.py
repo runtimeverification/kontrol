@@ -580,6 +580,7 @@ def _method_to_cfg(
         empty_config,
         program=program,
         contract_code=bytesToken(contract_code),
+        method=method,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         calldata=calldata,
@@ -772,6 +773,7 @@ def _init_cterm(
     empty_config: KInner,
     program: bytes,
     contract_code: KInner,
+    method: Contract.Method | Contract.Constructor,
     use_gas: bool,
     config_type: ConfigType,
     active_symbolik: bool,
@@ -865,6 +867,8 @@ def _init_cterm(
     # constructor can not be called in a static context.
     if is_constructor:
         init_subst['STATIC_CELL'] = FALSE
+        encoded_args, arg_constraints = method.encoded_args
+        init_subst['PROGRAM_CELL'] = KEVM.bytes_append(bytesToken(program), encoded_args)
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
@@ -885,6 +889,10 @@ def _init_cterm(
                 )
             )
         )
+
+    if is_constructor and len(arg_constraints) > 0:
+        for constraint in arg_constraints:
+            init_cterm = init_cterm.add_constraint(mlEqualsTrue(constraint))
 
     init_cterm = KEVM.add_invariant(init_cterm)
 
