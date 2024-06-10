@@ -2356,6 +2356,121 @@ module S2KtestZModCSETest-CONTRACT
 
 endmodule
 
+module S2KtestZModConstructorArgsTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModConstructorArgsTestContract
+    
+    syntax S2KtestZModConstructorArgsTestContract ::= "S2KtestZModConstructorArgsTest" [symbol(""), klabel(contract_test%ConstructorArgsTest)]
+    
+    syntax Bytes ::= S2KtestZModConstructorArgsTestContract "." S2KtestZModConstructorArgsTestMethod [function, symbol(""), klabel(method_test%ConstructorArgsTest)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2Kcount" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2Kcount_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2Kfailed" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2Kfailed_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2Kflag" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2Kflag_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KtargetContracts" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KtargetContracts_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KtargetSenders" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KtargetSenders_)]
+    
+    syntax S2KtestZModConstructorArgsTestMethod ::= "S2KtestZUndconstructorZUndargs" "(" ")" [symbol(""), klabel(method_test%ConstructorArgsTest_S2KtestZUndconstructorZUndargs_)]
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2Kcount ( ) => #abiCallData ( "count" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2Kflag ( ) => #abiCallData ( "flag" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModConstructorArgsTest . S2KtestZUndconstructorZUndargs ( ) => #abiCallData ( "test_constructor_args" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "count()" ) => 107354813 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "flag()" ) => 2299443816 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_constructor_args()" ) => 1402220961 )
+      
+
+endmodule
+
 module S2KtestZModConstructorTest-CONTRACT
     imports public FOUNDRY
     

@@ -334,8 +334,6 @@ class Contract:
     @dataclass
     class Constructor:
         sort: KSort
-        arg_names: tuple[str, ...]
-        arg_types: tuple[str, ...]
         inputs: tuple[Input, ...]
         contract_name: str
         contract_digest: str
