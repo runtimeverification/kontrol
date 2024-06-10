@@ -580,11 +580,11 @@ def _method_to_cfg(
         empty_config,
         program=program,
         contract_code=bytesToken(contract_code),
+        method=method,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         calldata=calldata,
         callvalue=callvalue,
-        is_constructor=isinstance(method, Contract.Constructor),
         active_symbolik=active_symbolik,
         trace_options=trace_options,
         config_type=config_type,
@@ -772,10 +772,10 @@ def _init_cterm(
     empty_config: KInner,
     program: bytes,
     contract_code: KInner,
+    method: Contract.Method | Contract.Constructor,
     use_gas: bool,
     config_type: ConfigType,
     active_symbolik: bool,
-    is_constructor: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -863,8 +863,10 @@ def _init_cterm(
         init_subst['REFUND_CELL'] = intToken(0)
 
     # constructor can not be called in a static context.
-    if is_constructor:
+    if isinstance(method, Contract.Constructor):
         init_subst['STATIC_CELL'] = FALSE
+        encoded_args, arg_constraints = method.encoded_args
+        init_subst['PROGRAM_CELL'] = KEVM.bytes_append(bytesToken(program), encoded_args)
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
@@ -885,6 +887,10 @@ def _init_cterm(
                 )
             )
         )
+
+    if isinstance(method, Contract.Constructor) and len(arg_constraints) > 0:
+        for constraint in arg_constraints:
+            init_cterm = init_cterm.add_constraint(mlEqualsTrue(constraint))
 
     init_cterm = KEVM.add_invariant(init_cterm)
 

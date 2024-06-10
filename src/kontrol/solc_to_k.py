@@ -334,8 +334,7 @@ class Contract:
     @dataclass
     class Constructor:
         sort: KSort
-        arg_names: tuple[str, ...]
-        arg_types: tuple[str, ...]
+        inputs: tuple[Input, ...]
         contract_name: str
         contract_digest: str
         contract_storage_digest: str
@@ -351,11 +350,11 @@ class Contract:
             sort: KSort,
         ) -> None:
             self.signature = 'init'
-            self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
-            self.arg_types = tuple([input['type'] for input in abi['inputs']])
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
+            # TODO: support NatSpec comments for dynamic types
+            self.inputs = tuple(inputs_from_abi(abi['inputs'], None))
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
@@ -410,6 +409,47 @@ class Contract:
                 if not self.payable
                 else abstract_term_safely(KVariable('_###CALLVALUE###_'), base_name='CALLVALUE')
             )
+
+        @cached_property
+        def encoded_args(self) -> tuple[KInner, list[KInner]]:
+            args: list[KInner] = []
+            type_constraints: list[KInner] = []
+            for input in self.inputs:
+                abi_type = input.to_abi()
+                args.append(abi_type)
+                rps = []
+                if input.type.startswith('tuple'):
+                    components = input.components
+
+                    if input.type.endswith('[]'):
+                        if input.array_lengths is None:
+                            raise ValueError(f'Array length bounds missing for {input.name}')
+
+                        tuple_array_components = [
+                            Input(
+                                f'{_c.name}_{i}',
+                                _c.type,
+                                _c.components,
+                                _c.idx,
+                                _c.array_lengths,
+                                _c.dynamic_type_length,
+                            )
+                            for i in range(input.array_lengths[0])
+                            for _c in components
+                        ]
+                        components = tuple(tuple_array_components)
+
+                    for sub_input in components:
+                        _abi_type = sub_input.to_abi()
+                        rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
+                else:
+                    rps = _range_predicates(abi_type, input.dynamic_type_length)
+                for rp in rps:
+                    if rp is None:
+                        raise ValueError(f'Unsupported ABI type for method for {self.contract_name}.init')
+                    type_constraints.append(rp)
+            encoded_args = KApply('encodeArgs', [KEVM.typed_args(args)])
+            return encoded_args, type_constraints
 
     @dataclass
     class Method:
