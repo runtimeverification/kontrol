@@ -1,10 +1,12 @@
 
-from pathlib import Path
-from typing import TYPE_CHECKING
 import logging
 import pprint
+import json
 
+from pathlib import Path
+from typing import TYPE_CHECKING
 from collections import deque
+from typing import Any
 
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.bytes import bytesToken
@@ -15,10 +17,10 @@ from pyk.ktool.krun import KRun
 from pyk.rpc.rpc import JsonRpcServer, ServeRpcOptions
 from pyk.kast.inner import KInner, KSort, KApply, KToken, KSequence, KVariable, Subst
 from pyk.kdist import kdist
-
-from typing import Any
 from kevm_pyk.kevm import KEVM
+
 from .foundry import Foundry
+
 
 from pyk.prelude.kint import intToken
 
@@ -37,6 +39,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.register_method('eth_blockNumber', self.exec_get_block_number)
         self.register_method('eth_accounts', self.exec_accounts)
         self.register_method('eth_getBalance', self.exec_get_balance)
+        self.register_method('eth_sendTransaction', self.exec_send_transaction)
         self.register_method('kontrol_requestValue', self.exec_request_value)
         self.register_method('kontrol_addAccount', self.exec_add_account)
 
@@ -93,13 +96,91 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         )
 
     def exec_request_value(self) -> int:
-        self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('eth_requestValue', [])))
+        self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('kontrol_requestValue', [])))
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=KSort('GeneratedTopCell'))
         output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
         rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
+        _PPRINT.pprint(rpc_response_cell)
         return 0
     
+
+    def exec_send_transaction(self, transaction_json: dict) -> int:
+
+        fromAcct = transaction_json['from'] if "from" in transaction_json else None
+        from_account_data = self._get_account_cell_by_address(fromAcct) 
+        if(from_account_data is None):
+            return -1
+
+        txType   = transaction_json['type'] if "type" in transaction_json else "Legacy"
+        toAcct   = transaction_json['to']   if "to" in transaction_json else "0x0"
+        nonce    = int(transaction_json['nonce'], 16) if "nonce" in transaction_json else int(from_account_data['<nonce>'])
+        gas      = int(transaction_json['gas'], 16) if "gas" in transaction_json else "0x15f90" #90000
+        gasPrice = int(transaction_json['gasPrice'], 16) if "gasPrice" in transaction_json else "0x0"
+        value    = int(transaction_json['value'], 16) if "value" in transaction_json else "0x0"
+        data     = transaction_json['data'] if "data" in transaction_json else "0x0"
+
+        if(toAcct is None):
+            pass #contract deployment
+    
+        # _PPRINT.pprint(intToken(_address_to_accID(fromAcct)))
+        self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', 
+                        KApply('eth_sendTransaction', 
+                        [
+                            KToken(token=txType, sort=KSort(name='TxType')),
+                            intToken(_address_to_accID(fromAcct)),
+                            intToken(_address_to_accID(toAcct)),
+                            intToken(gas),
+                            intToken(gasPrice),
+                            intToken(value),
+                            intToken(nonce),
+                            bytesToken(bytes.fromhex(data[2:]))
+                        ])))
+
+        pattern = self.krun.kast_to_kore(self.cterm.config, sort=KSort('GeneratedTopCell'))    
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
+        self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
+        rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
+        _PPRINT.pprint(rpc_response_cell)
+    
+    # ------------------------------------------------------
+    # VM data fetch helper functions
+    # ------------------------------------------------------
+
+    def _get_account_cell_by_address(self, address : str):
+        acctId = _address_to_accID(address)
+        accounts_dict = self._get_all_accounts_dict()
+        account_data = accounts_dict[str(acctId)] if str(acctId) in accounts_dict else None
+        return account_data
+
+    def _get_all_accounts_dict(self) -> dict:
+        cells = self.cterm.cells
+        cell = cells.get('ACCOUNTS_CELL', None)
+
+        accounts_dict = {}
+
+        queue: deque[KInner] = deque(cell.args)
+        while len(queue) > 0:
+            account_cell = queue.popleft()
+            if isinstance(account_cell, KApply):
+                if account_cell.label.name == "<account>":
+                    account_dict = {}
+                    for args in account_cell.args: 
+                        cell_name = args.label.name 
+                        if(isinstance(args.args[0], KToken)):
+                            account_dict[cell_name] = args.args[0].token
+
+                    accounts_dict[account_dict['<acctID>']] = account_dict
+                elif "AccountCellMap" in account_cell.label.name:
+                    queue.extend(account_cell.args)
+
+        return accounts_dict
+
+
+    # ------------------------------------------------------
+    # VM setup functions
+    # ------------------------------------------------------
+
     def _create_initial_account_list(self) -> list[KInner]:
         initial_account_address = 645326474426547203313410069153905908525362434350
         init_account_list: list[KInner]= []
@@ -131,32 +212,6 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
         return init_account_list
 
-
-    def _get_all_accounts_dict(self) -> dict:
-        cells = self.cterm.cells
-        cell = cells.get('ACCOUNTS_CELL', None)
-
-        accounts_dict = {}
-
-        queue: deque[KInner] = deque(cell.args)
-        while len(queue) > 0:
-            account_cell = queue.popleft()
-            if isinstance(account_cell, KApply):
-                if account_cell.label.name == "<account>":
-                    account_dict = {}
-                    for args in account_cell.args: 
-                        cell_name = args.label.name 
-                        print(args.args[0])
-                        if(isinstance(args.args[0], KToken)):
-                            account_dict[cell_name] = args.args[0].token
-
-                    accounts_dict[account_dict['<acctID>']] = account_dict
-                elif "AccountCellMap" in account_cell.label.name:
-                    queue.extend(account_cell.args)
-
-        return accounts_dict
-
-
     def _init_cterm(self) -> None:
         schedule = KApply('SHANGHAI_EVM')
         empty_config = self.krun.definition.empty_config(KSort('GeneratedTopCell'))
@@ -166,7 +221,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         init_subst = {
             "K_CELL": KSequence([KEVM.sharp_execute()]), #, KVariable("CONTINUATION")]),
             "EXIT_CODE_CELL": intToken(1),
-            "MODE_CELL": KApply("NORMAL"),
+            "MODE_CELL": KToken(token="NOGAS", sort=KSort(name="Mode")),
             "SCHEDULE_CELL": schedule,
             "USEGAS_CELL": FALSE,
             "OUTPUT_CELL": bytesToken(b""),
