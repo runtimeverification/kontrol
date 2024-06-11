@@ -856,7 +856,8 @@ def _init_cterm(
 
         if isinstance(method, Contract.Constructor):
             # Symbolic account for the contract being executed
-            accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code))
+            storage_map = KVariable(Foundry.symbolic_contract_prefix() + '_STORAGE_ID', sort=KSort('Map'))
+            accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code, storage_map))
         else:
             # Symbolic accounts of all relevant contracts
             accounts, storage_constraints = _create_cse_accounts(
