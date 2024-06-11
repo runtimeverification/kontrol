@@ -914,8 +914,8 @@ def _init_cterm(
         )
 
     if isinstance(method, Contract.Constructor) and len(arg_constraints) > 0:
-        for constraint in arg_constraints:
-            init_cterm = init_cterm.add_constraint(mlEqualsTrue(constraint))
+        for arg_constraint in arg_constraints:
+            init_cterm = init_cterm.add_constraint(mlEqualsTrue(arg_constraint))
 
     init_cterm = KEVM.add_invariant(init_cterm)
 
