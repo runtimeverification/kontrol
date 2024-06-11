@@ -13,7 +13,7 @@ module SYMBOLIC-BYTES-LEMMAS
       [simplification(40)]
 
     rule [bytes-concat-lookup-left]:
-        (A:Bytes +Bytes B:Bytes) [I] => A [I]
+        (A:Bytes +Bytes _:Bytes) [I] => A [I]
       requires 0 <=Int I andBool I <Int lengthBytes(A)
       [simplification, preserves-definedness]
 

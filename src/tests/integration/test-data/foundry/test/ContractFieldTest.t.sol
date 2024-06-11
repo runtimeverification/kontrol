@@ -3,15 +3,14 @@ pragma solidity =0.8.13;
 import {Test} from "forge-std/Test.sol";
 
 contract TToken {
-    uint128 public immutable baseSupply = 32;
-    uint128 public immutable additionalSupply;
+    uint128 private totalSupply;
 
-    constructor(uint128 _additionalSupply) {
-        additionalSupply = _additionalSupply;
+    constructor(uint128 _totalSupply) {
+        totalSupply = _totalSupply;
     }
 
-    function totalSupply() public returns (uint256) {
-      return uint256(baseSupply) + uint256(additionalSupply);
+    function getTotalSupply() public returns (uint256) {
+      return 32 + uint256(totalSupply);
     }
 }
 
@@ -23,7 +22,7 @@ contract TEscrow {
     }
 
     function getTokenTotalSupply() public returns (uint256) {
-        return token.totalSupply() + 23;
+        return token.getTotalSupply() + 13;
     }
 }
 
