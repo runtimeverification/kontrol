@@ -78,9 +78,10 @@ Capturing cheat code calls
     rule [cheatcode.call.assertEq.Darray]:
          <k> #cheatcode_call SELECTOR ARGS => 
                #let LEN_INPUT1 = #asWord(#range(ARGS, 0, 32)) #in
-               #let OFFSET_INPUT1 = 32 +Int LEN_INPUT1 *Int 32 #in
+               #let OFFSET_INPUT1 = 32 *Int ( 1 +Int LEN_INPUT1 ) #in
                #let LEN_INPUT2 = #asWord(#range(ARGS, OFFSET_INPUT1, 32)) #in
-                  #assert_eq #asWord(#range(ARGS, 32, LEN_INPUT1 *Int 32)) #asWord(#range(ARGS, 32 +Int OFFSET_INPUT1, LEN_INPUT2 *Int 32)) String2Bytes("assertion failed") ... </k>
+               #let OFFSET_INPUT2 = 32 *Int ( 1 +Int LEN_INPUT2 ) #in
+                  #assert_eq #asWord(#range(ARGS, 0, OFFSET_INPUT1)) #asWord(#range(ARGS, OFFSET_INPUT1, OFFSET_INPUT2)) String2Bytes("assertion failed") ... </k>
       requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[])" )
         orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[])"   )
         orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[])"       )
@@ -100,11 +101,12 @@ Capturing cheat code calls
     rule [cheatcode.call.assertEq.Darray.err]:
          <k> #cheatcode_call SELECTOR ARGS => 
                #let LEN_INPUT1 = #asWord(#range(ARGS, 0, 32)) #in
-               #let OFFSET_INPUT1 = 32 +Int LEN_INPUT1 *Int 32 #in
+               #let OFFSET_INPUT1 = 32 *Int ( 1 +Int LEN_INPUT1 ) #in
                #let LEN_INPUT2 = #asWord(#range(ARGS, OFFSET_INPUT1, 32)) #in
-               #let OFFSET_INPUT2 = 32 +Int LEN_INPUT2 *Int 32 #in
+               #let OFFSET_INPUT2 = 32 *Int ( 1 +Int LEN_INPUT2 ) #in
                #let OFFSET_TOTAL = OFFSET_INPUT1 +Int OFFSET_INPUT2 #in
-                  #assert_eq #asWord(#range(ARGS, 32, LEN_INPUT1 *Int 32)) #asWord(#range(ARGS, 32 +Int OFFSET_INPUT1, LEN_INPUT2 *Int 32)) #range(ARGS, 32 +Int OFFSET_TOTAL, #asWord(#range(ARGS, OFFSET_TOTAL, 32))) ... </k>
+               #let LEN_ERR_STRING = #asWord(#range(ARGS, OFFSET_TOTAL, 32)) #in
+                  #assert_eq #asWord(#range(ARGS, 0, OFFSET_INPUT1)) #asWord(#range(ARGS, OFFSET_INPUT1, OFFSET_INPUT2)) #range(ARGS, OFFSET_TOTAL, LEN_ERR_STRING) ... </k>
       requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[],string)" )
         orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[],string)"   )
         orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[],string)"       )
