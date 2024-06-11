@@ -379,6 +379,9 @@ def _run_cfg_group(
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
                 )
+                cut_point_rules.extend(
+                    rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
+                )
             run_prover(
                 proof,
                 create_kcfg_explore=create_kcfg_explore,
