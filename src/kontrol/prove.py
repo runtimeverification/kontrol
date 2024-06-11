@@ -853,21 +853,10 @@ def _init_cterm(
         init_subst.update(init_subst_test)
     else:
         # Symbolic accounts of all relevant contracts
-        # Status: Currently, only the executing contract
-        # TODO: Add all other accounts belonging to relevant contracts``
-        accounts: list[KInner] = []
-
-        # TODO(palina): executed contract's storage
-        storage_map = KVariable(Foundry.symbolic_contract_prefix() + '_STORAGE', sort=KSort('Map'))
-        # TODO(palina): executed contract's name
-        contract_name = Foundry.symbolic_contract_prefix() + '_ID'
-        new_accounts, storage_constraints, storage_map = _create_cse_accounts(
-            foundry, storage_fields, contract_name, storage_map
+        accounts, storage_constraints = _create_cse_accounts(
+            foundry, storage_fields, Foundry.symbolic_contract_prefix(), contract_code
         )
 
-        accounts.extend(new_accounts)
-
-        accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code, storage_map))
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
 
         init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
@@ -944,23 +933,23 @@ def _create_initial_account_list(
 
 
 def _create_cse_accounts(
-    foundry: Foundry, storage_fields: tuple[StorageField, ...], contract_name: str, contract_storage: KVariable
-) -> tuple[list[KApply], list[KApply], KVariable]:
-    # TODO: call this function recursively
+    foundry: Foundry, storage_fields: tuple[StorageField, ...], contract_name: str, contract_code: KInner
+) -> tuple[list[KApply], list[KApply]]:
     new_accounts = []
     new_account_constraints = []
+
+    storage_map = KVariable(contract_name + '_STORAGE', sort=KSort('Map'))
+    new_accounts.append(Foundry.symbolic_account(contract_name, contract_code, storage_map))
 
     for field in storage_fields:
         if field.data_type.startswith('contract '):
             contract_type = field.data_type.split(' ')[1]
-            for contract_name, contract_obj in foundry.contracts.items():
+            for full_contract_name, contract_obj in foundry.contracts.items():
                 # TODO: this is not enough, it is possible that the same contract comes with
                 # src% and test%, in which case we don't know automatically which one to choose
-                if contract_name.split('%')[-1] == contract_type:
-                    contract_code = bytesToken(bytes.fromhex(contract_obj.deployed_bytecode))
+                if full_contract_name.split('%')[-1] == contract_type:
+                    contract_account_code = bytesToken(bytes.fromhex(contract_obj.deployed_bytecode))
                     contract_account_name = 'CONTRACT-' + field.label.upper()
-                    new_account = Foundry.symbolic_account(contract_account_name, contract_code)
-                    new_accounts.append(new_account)
 
                     # TODO: handle the case where the field has a non-zero offset
                     # maxUInt160 &Int #lookup ( CONTRACT_STORAGE:Map , 0 )
@@ -968,7 +957,7 @@ def _create_cse_accounts(
                         '_&Int_',
                         [
                             intToken(1461501637330902918203684832716283019655932542975),
-                            KEVM.lookup(contract_storage, intToken(field.slot)),
+                            KEVM.lookup(storage_map, intToken(field.slot)),
                         ],
                     )
                     new_account_constraints.append(
@@ -990,7 +979,13 @@ def _create_cse_accounts(
                         )
                     )
 
-    return new_accounts, new_account_constraints, contract_storage
+                    contract_accounts, contract_constraints = _create_cse_accounts(
+                        foundry, contract_obj.fields, contract_account_name, contract_account_code
+                    )
+                    new_accounts.extend(contract_accounts)
+                    new_account_constraints.extend(contract_constraints)
+
+    return new_accounts, new_account_constraints
 
 
 def _final_cterm(
