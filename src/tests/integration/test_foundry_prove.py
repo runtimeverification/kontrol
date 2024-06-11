@@ -206,6 +206,60 @@ def test_foundry_fail(
     assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
 
 
+def test_constructor_with_symbolic_args(
+    foundry: Foundry,
+    update_expected_output: bool,
+    no_use_booster: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    test_id = 'ImmutableVarsTest.test_run_deployment(uint256)'
+    prove_res = foundry_prove(
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test_id, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'break_on_load_program': True,
+                'port': server.port,
+            }
+        ),
+    )
+
+    # then
+    assert_fail(test_id, single(prove_res))
+
+    if test_id not in SHOW_TESTS:
+        return
+
+    # and when
+    show_res = foundry_show(
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
+    )
+
+    # then
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
+
+
 all_bmc_tests: Final = tuple((TEST_DATA_DIR / 'foundry-bmc-all').read_text().splitlines())
 skipped_bmc_tests: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().splitlines())
 

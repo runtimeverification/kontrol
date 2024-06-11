@@ -16,7 +16,7 @@ from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty, set_of
+from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.kint import intToken
@@ -373,6 +373,7 @@ def _run_cfg_group(
                 options.break_on_calls,
                 options.break_on_storage,
                 options.break_on_basic_blocks,
+                options.break_on_load_program,
             )
             if options.break_on_cheatcodes:
                 cut_point_rules.extend(
@@ -790,7 +791,7 @@ def _init_cterm(
     if not trace_options:
         trace_options = TraceOptions({})
 
-    jumpdests = set_of(_process_jumpdests(bytecode=program, offset=0))
+    jumpdests = bytesToken(_process_jumpdests(bytecode=program))
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'USEGAS_CELL': TRUE if use_gas else FALSE,
