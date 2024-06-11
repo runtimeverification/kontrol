@@ -852,6 +852,7 @@ def _init_cterm(
         }
         init_subst.update(init_subst_test)
     else:
+        accounts: list[KInner] = []
         # Symbolic accounts of all relevant contracts
         accounts, storage_constraints = _create_cse_accounts(
             foundry, storage_fields, Foundry.symbolic_contract_prefix(), contract_code
@@ -934,9 +935,9 @@ def _create_initial_account_list(
 
 def _create_cse_accounts(
     foundry: Foundry, storage_fields: tuple[StorageField, ...], contract_name: str, contract_code: KInner
-) -> tuple[list[KApply], list[KApply]]:
-    new_accounts = []
-    new_account_constraints = []
+) -> tuple[list[KInner], list[KApply]]:
+    new_accounts: list[KInner] = []
+    new_account_constraints: list[KApply] = []
 
     storage_map = KVariable(contract_name + '_STORAGE', sort=KSort('Map'))
     new_accounts.append(Foundry.symbolic_account(contract_name, contract_code, storage_map))
