@@ -853,10 +853,15 @@ def _init_cterm(
         init_subst.update(init_subst_test)
     else:
         accounts: list[KInner] = []
-        # Symbolic accounts of all relevant contracts
-        accounts, storage_constraints = _create_cse_accounts(
-            foundry, storage_fields, Foundry.symbolic_contract_prefix(), contract_code
-        )
+
+        if isinstance(method, Contract.Constructor):
+            # Symbolic account for the contract being executed
+            accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code))
+        else:
+            # Symbolic accounts of all relevant contracts
+            accounts, storage_constraints = _create_cse_accounts(
+                foundry, storage_fields, Foundry.symbolic_contract_prefix(), contract_code
+            )
 
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
 

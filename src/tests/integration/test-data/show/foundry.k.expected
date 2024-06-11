@@ -8,6 +8,9 @@ module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
     imports public S2KtestZModAccountParamsTest-VERIFICATION
+    imports public S2KsrcZModcseZModCompositionalAccounts-VERIFICATION
+    imports public S2KsrcZModcseZModCompositionalEscrow-VERIFICATION
+    imports public S2KsrcZModcseZModCompositionalToken-VERIFICATION
     imports public S2KtestZModAddrTest-VERIFICATION
     imports public S2KtestZModAllowChangesTest-VERIFICATION
     imports public S2KtestZModValueStore-VERIFICATION
@@ -36,6 +39,9 @@ module FOUNDRY-MAIN
     imports public S2KtestZModImportedContract-VERIFICATION
     imports public S2KtestZModContractTest-VERIFICATION
     imports public S2KtestZModContractBTest-VERIFICATION
+    imports public S2KtestZModContractFieldTest-VERIFICATION
+    imports public S2KtestZModEscrow-VERIFICATION
+    imports public S2KtestZModTestToken-VERIFICATION
     imports public S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounterTest-VERIFICATION
     imports public S2KsrcZModDeploymentState-VERIFICATION
@@ -137,9 +143,9 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole2-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
-    imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
-    
-    
+    imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION    
+
+
 
 endmodule
 
@@ -159,6 +165,27 @@ endmodule
 
 module S2KtestZModAccountParamsTest-VERIFICATION
     imports public S2KtestZModAccountParamsTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModCompositionalAccounts-VERIFICATION
+    imports public S2KsrcZModcseZModCompositionalAccounts-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModCompositionalEscrow-VERIFICATION
+    imports public S2KsrcZModcseZModCompositionalEscrow-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModcseZModCompositionalToken-VERIFICATION
+    imports public S2KsrcZModcseZModCompositionalToken-CONTRACT
     
     
 
@@ -357,6 +384,27 @@ endmodule
 
 module S2KtestZModContractBTest-VERIFICATION
     imports public S2KtestZModContractBTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModContractFieldTest-VERIFICATION
+    imports public S2KtestZModContractFieldTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModEscrow-VERIFICATION
+    imports public S2KtestZModEscrow-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModTestToken-VERIFICATION
+    imports public S2KtestZModTestToken-CONTRACT
     
     
 

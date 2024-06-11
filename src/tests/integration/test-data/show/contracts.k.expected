@@ -229,6 +229,63 @@ module S2KtestZModAccountParamsTest-CONTRACT
 
 endmodule
 
+module S2KsrcZModcseZModCompositionalAccounts-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KsrcZModcseZModCompositionalAccountsContract
+    
+    syntax S2KsrcZModcseZModCompositionalAccountsContract ::= "S2KsrcZModcseZModCompositionalAccounts" [symbol(""), klabel(contract_src%cse%CompositionalAccounts)]
+    
+    syntax Bytes ::= S2KsrcZModcseZModCompositionalAccountsContract "." S2KsrcZModcseZModCompositionalAccountsMethod [function, symbol(""), klabel(method_src%cse%CompositionalAccounts)]
+    
+    syntax S2KsrcZModcseZModCompositionalAccountsMethod ::= "S2KgetEscrowToken" "(" ")" [symbol(""), klabel(method_src%cse%CompositionalAccounts_S2KgetEscrowToken_)]
+    
+    rule  ( S2KsrcZModcseZModCompositionalAccounts . S2KgetEscrowToken ( ) => #abiCallData ( "getEscrowToken" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "getEscrowToken()" ) => 1851159305 )
+      
+
+endmodule
+
+module S2KsrcZModcseZModCompositionalEscrow-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KsrcZModcseZModCompositionalEscrowContract
+    
+    syntax S2KsrcZModcseZModCompositionalEscrowContract ::= "S2KsrcZModcseZModCompositionalEscrow" [symbol(""), klabel(contract_src%cse%CompositionalEscrow)]
+    
+    syntax Bytes ::= S2KsrcZModcseZModCompositionalEscrowContract "." S2KsrcZModcseZModCompositionalEscrowMethod [function, symbol(""), klabel(method_src%cse%CompositionalEscrow)]
+    
+    syntax S2KsrcZModcseZModCompositionalEscrowMethod ::= "S2KgetTokenTotalSupply" "(" ")" [symbol(""), klabel(method_src%cse%CompositionalEscrow_S2KgetTokenTotalSupply_)]
+    
+    rule  ( S2KsrcZModcseZModCompositionalEscrow . S2KgetTokenTotalSupply ( ) => #abiCallData ( "getTokenTotalSupply" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "getTokenTotalSupply()" ) => 1474266187 )
+      
+
+endmodule
+
+module S2KsrcZModcseZModCompositionalToken-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KsrcZModcseZModCompositionalTokenContract
+    
+    syntax S2KsrcZModcseZModCompositionalTokenContract ::= "S2KsrcZModcseZModCompositionalToken" [symbol(""), klabel(contract_src%cse%CompositionalToken)]
+    
+    syntax Bytes ::= S2KsrcZModcseZModCompositionalTokenContract "." S2KsrcZModcseZModCompositionalTokenMethod [function, symbol(""), klabel(method_src%cse%CompositionalToken)]
+    
+    syntax S2KsrcZModcseZModCompositionalTokenMethod ::= "S2KtotalSupply" "(" ")" [symbol(""), klabel(method_src%cse%CompositionalToken_S2KtotalSupply_)]
+    
+    rule  ( S2KsrcZModcseZModCompositionalToken . S2KtotalSupply ( ) => #abiCallData ( "totalSupply" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "totalSupply()" ) => 404098525 )
+      
+
+endmodule
+
 module S2KtestZModAddrTest-CONTRACT
     imports public FOUNDRY
     
@@ -2849,6 +2906,151 @@ module S2KtestZModContractBTest-CONTRACT
       
     
     rule  ( selector ( "testNumberIs42()" ) => 795542700 )
+      
+
+endmodule
+
+module S2KtestZModContractFieldTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModContractFieldTestContract
+    
+    syntax S2KtestZModContractFieldTestContract ::= "S2KtestZModContractFieldTest" [symbol(""), klabel(contract_test%ContractFieldTest)]
+    
+    syntax Bytes ::= S2KtestZModContractFieldTestContract "." S2KtestZModContractFieldTestMethod [function, symbol(""), klabel(method_test%ContractFieldTest)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2Kfailed" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2Kfailed_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KsetUp" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KsetUp_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KtargetContracts" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KtargetContracts_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KtargetSenders" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KtargetSenders_)]
+    
+    syntax S2KtestZModContractFieldTestMethod ::= "S2KtestEscrowToken" "(" ")" [symbol(""), klabel(method_test%ContractFieldTest_S2KtestEscrowToken_)]
+    
+    rule  ( S2KtestZModContractFieldTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModContractFieldTest . S2KtestEscrowToken ( ) => #abiCallData ( "testEscrowToken" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "testEscrowToken()" ) => 892426400 )
+      
+
+endmodule
+
+module S2KtestZModEscrow-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModEscrowContract
+    
+    syntax S2KtestZModEscrowContract ::= "S2KtestZModEscrow" [symbol(""), klabel(contract_test%Escrow)]
+    
+    syntax Bytes ::= S2KtestZModEscrowContract "." S2KtestZModEscrowMethod [function, symbol(""), klabel(method_test%Escrow)]
+    
+    syntax S2KtestZModEscrowMethod ::= "S2KgetTokenTotalSupply" "(" ")" [symbol(""), klabel(method_test%Escrow_S2KgetTokenTotalSupply_)]
+    
+    rule  ( S2KtestZModEscrow . S2KgetTokenTotalSupply ( ) => #abiCallData ( "getTokenTotalSupply" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "getTokenTotalSupply()" ) => 1474266187 )
+      
+
+endmodule
+
+module S2KtestZModTestToken-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModTestTokenContract
+    
+    syntax S2KtestZModTestTokenContract ::= "S2KtestZModTestToken" [symbol(""), klabel(contract_test%TestToken)]
+    
+    syntax Bytes ::= S2KtestZModTestTokenContract "." S2KtestZModTestTokenMethod [function, symbol(""), klabel(method_test%TestToken)]
+    
+    syntax S2KtestZModTestTokenMethod ::= "S2KtotalSupply" "(" ")" [symbol(""), klabel(method_test%TestToken_S2KtotalSupply_)]
+    
+    rule  ( S2KtestZModTestToken . S2KtotalSupply ( ) => #abiCallData ( "totalSupply" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "totalSupply()" ) => 404098525 )
       
 
 endmodule
