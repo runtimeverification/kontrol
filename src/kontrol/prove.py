@@ -11,7 +11,7 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
-from pyk.kast.inner import KApply, KSequence, KSort, KToken, KVariable, Subst
+from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
@@ -656,66 +656,81 @@ def _method_to_cfg(
 
 
 def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigType) -> CTerm:
-    new_accounts_cell = node.cterm.cell('ACCOUNTS_CELL')
-    number_cell = node.cterm.cell('NUMBER_CELL')
-    timestamp_cell = node.cterm.cell('TIMESTAMP_CELL')
-    basefee_cell = node.cterm.cell('BASEFEE_CELL')
-    chainid_cell = node.cterm.cell('CHAINID_CELL')
-    coinbase_cell = node.cterm.cell('COINBASE_CELL')
-    prevcaller_cell = node.cterm.cell('PREVCALLER_CELL')
-    prevorigin_cell = node.cterm.cell('PREVORIGIN_CELL')
-    newcaller_cell = node.cterm.cell('NEWCALLER_CELL')
-    neworigin_cell = node.cterm.cell('NEWORIGIN_CELL')
-    active_cell = node.cterm.cell('ACTIVE_CELL')
-    depth_cell = node.cterm.cell('DEPTH_CELL')
-    singlecall_cell = node.cterm.cell('SINGLECALL_CELL')
-    gas_cell = node.cterm.cell('GAS_CELL')
-    callgas_cell = node.cterm.cell('CALLGAS_CELL')
+    if config_type == ConfigType.TEST_CONFIG:
+        new_accounts_cell = node.cterm.cell('ACCOUNTS_CELL')
+        number_cell = node.cterm.cell('NUMBER_CELL')
+        timestamp_cell = node.cterm.cell('TIMESTAMP_CELL')
+        basefee_cell = node.cterm.cell('BASEFEE_CELL')
+        chainid_cell = node.cterm.cell('CHAINID_CELL')
+        coinbase_cell = node.cterm.cell('COINBASE_CELL')
+        prevcaller_cell = node.cterm.cell('PREVCALLER_CELL')
+        prevorigin_cell = node.cterm.cell('PREVORIGIN_CELL')
+        newcaller_cell = node.cterm.cell('NEWCALLER_CELL')
+        neworigin_cell = node.cterm.cell('NEWORIGIN_CELL')
+        active_cell = node.cterm.cell('ACTIVE_CELL')
+        depth_cell = node.cterm.cell('DEPTH_CELL')
+        singlecall_cell = node.cterm.cell('SINGLECALL_CELL')
+        gas_cell = node.cterm.cell('GAS_CELL')
+        callgas_cell = node.cterm.cell('CALLGAS_CELL')
 
-    all_accounts = flatten_label('_AccountCellMap_', new_accounts_cell)
+        all_accounts = flatten_label('_AccountCellMap_', new_accounts_cell)
 
-    new_accounts = [CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)]
-    non_cell_accounts = [account for account in all_accounts if not (type(account) is KApply and account.is_cell)]
+        new_accounts = [CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)]
+        non_cell_accounts = [account for account in all_accounts if not (type(account) is KApply and account.is_cell)]
 
-    new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
+        new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
 
-    if config_type == ConfigType.SUMMARY_CONFIG:
-        for account_id, account in new_accounts_map.items():
-            acct_id_cell = account.cell('ACCTID_CELL')
-            if type(acct_id_cell) is KVariable:
-                acct_id = acct_id_cell.name
-            elif type(acct_id_cell) is KToken:
-                acct_id = acct_id_cell.token
-            else:
-                raise RuntimeError(
-                    f'Failed to abstract storage. acctId cell is neither variable nor token: {acct_id_cell}'
-                )
-            new_accounts_map[account_id] = CTerm(
-                set_cell(
-                    account.config,
-                    'STORAGE_CELL',
-                    KVariable(f'STORAGE_{acct_id}', sort=KSort('Map')),
-                ),
-                [],
-            )
+        new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()] + non_cell_accounts)
 
-    new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()] + non_cell_accounts)
+        new_init_cterm = CTerm(set_cell(cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NUMBER_CELL', number_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'TIMESTAMP_CELL', timestamp_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'BASEFEE_CELL', basefee_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CHAINID_CELL', chainid_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'COINBASE_CELL', coinbase_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVCALLER_CELL', prevcaller_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVORIGIN_CELL', prevorigin_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWCALLER_CELL', newcaller_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWORIGIN_CELL', neworigin_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACTIVE_CELL', active_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'DEPTH_CELL', depth_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'SINGLECALL_CELL', singlecall_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
+    # config_type == ConfigType.SUMMARY_CONFIG
+    # This means that a function is being run in isolation, that is, that the `node` we are
+    # taking information from has come from a constructor and not a setUp function.
+    # In this case, the <output> cell of the constructor execution becomes the program cell
+    # of the function execution and the constraints from the constructor are propagated.
+    else:
+        new_program_cell = node.cterm.cell('OUTPUT_CELL')
+        accounts_cell = cterm.cell('ACCOUNTS_CELL')
+        contract_id = cterm.cell('ID_CELL')
 
-    new_init_cterm = CTerm(set_cell(cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NUMBER_CELL', number_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'TIMESTAMP_CELL', timestamp_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'BASEFEE_CELL', basefee_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CHAINID_CELL', chainid_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'COINBASE_CELL', coinbase_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVCALLER_CELL', prevcaller_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVORIGIN_CELL', prevorigin_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWCALLER_CELL', newcaller_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWORIGIN_CELL', neworigin_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACTIVE_CELL', active_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'DEPTH_CELL', depth_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'SINGLECALL_CELL', singlecall_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
+        all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
+        # TODO: Understand why there are two possible KInner representations or accounts,
+        # one directly with `<acccount>` and the other with `AccountCellMapItem`.
+        cell_accounts = [
+            CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)
+        ] + [
+            CTerm(account.args[1], [])
+            for account in all_accounts
+            if (type(account) is KApply and account.label.name == 'AccountCellMapItem')
+        ]
+        other_accounts = [
+            account
+            for account in all_accounts
+            if not (type(account) is KApply and (account.is_cell or account.label.name == 'AccountCellMapItem'))
+        ]
+        cell_accounts_map = {account.cell('ACCTID_CELL'): account for account in cell_accounts}
+        # Set the code of the active contract to the one produced by the constructor
+        contract_account = cell_accounts_map[contract_id]
+        contract_account = CTerm(set_cell(contract_account.config, 'CODE_CELL', new_program_cell), [])
+        cell_accounts_map[contract_id] = contract_account
+        new_accounts_cell = KEVM.accounts([account.config for account in cell_accounts_map.values()] + other_accounts)
+
+        new_init_cterm = CTerm(set_cell(cterm.config, 'PROGRAM_CELL', new_program_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
 
     # Adding constraints from the initial cterm and initial node
     for constraint in cterm.constraints + node.cterm.constraints:

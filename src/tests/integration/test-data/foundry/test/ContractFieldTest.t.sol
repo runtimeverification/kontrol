@@ -2,31 +2,38 @@
 pragma solidity =0.8.13;
 import {Test} from "forge-std/Test.sol";
 
-contract TestToken {
-    uint256 public totalSupply;
+contract TToken {
+    uint128 public immutable baseSupply = 32;
+    uint128 public immutable additionalSupply;
 
-    constructor(uint256 _totalSupply) {
-        totalSupply = _totalSupply;
+    constructor(uint128 _additionalSupply) {
+        additionalSupply = _additionalSupply;
+    }
+
+    function totalSupply() public returns (uint256) {
+      return uint256(baseSupply) + uint256(additionalSupply);
     }
 }
 
-contract Escrow {
-    TestToken token;
+contract TEscrow {
+    TToken token;
 
-    constructor(uint256 _totalSupply) {
-        token = new TestToken(_totalSupply);
+    constructor(address _token) {
+        token = TToken(_token);
     }
 
     function getTokenTotalSupply() public returns (uint256) {
-        return token.totalSupply() + 15;
+        return token.totalSupply() + 23;
     }
 }
 
 contract ContractFieldTest is Test {
-    Escrow escrow;
+    TToken token;
+    TEscrow escrow;
 
     function setUp() public {
-        escrow = new Escrow(12330);
+        token = new TToken(12300);
+        escrow = new TEscrow(address(token));
     }
 
     /* Calling `getTokenTotalSupply` will summarize `totalSupply` and
