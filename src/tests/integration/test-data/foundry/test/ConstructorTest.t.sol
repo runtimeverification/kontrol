@@ -20,7 +20,6 @@ contract ImportedContract {
     function add(uint256 x) public payable {
         count = count + x;
     }
-
 }
 
 contract ConstructorTest is Test {
@@ -55,7 +54,22 @@ contract ConstructorTest is Test {
         local_contract.add(5);
         assertEq(local_contract.count(), 5437);
     }
-    
 }
 
+contract ConstructorArgsTest is Test {
+    bool public flag;
+    uint256 public count;
+
+    constructor(bool _flag, uint256 _count) {
+        flag = _flag;
+        count = _count;
+    }
+
+    function test_constructor_args() public {
+        // `flag` is assigned a symbolic value in constructor
+        vm.assume(flag);
+        // the node is not vacuous
+        assert(flag);
+    }
+}
 
