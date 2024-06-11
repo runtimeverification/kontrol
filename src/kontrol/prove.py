@@ -954,7 +954,6 @@ def _create_cse_accounts(
         if field.data_type.startswith('contract '):
             contract_type = field.data_type.split(' ')[1]
             for contract_name, contract_obj in foundry.contracts.items():
-                suffix = contract_name.split('%')[-1]
                 # TODO: this is not enough, it is possible that the same contract comes with
                 # src% and test%, in which case we don't know automatically which one to choose
                 if contract_name.split('%')[-1] == contract_type:
