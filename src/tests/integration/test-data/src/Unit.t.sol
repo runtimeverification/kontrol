@@ -344,50 +344,29 @@ contract UnitTest is Test {
         assertApproxEqRel(zero, neg_b, percentDelta, err);
     }
 
-    function test_assert_eq_bytes32_darray() public pure {
-        bytes32[] memory val1 = new bytes32[](1);
-        bytes32[] memory val2 = new bytes32[](1);
-        bytes32 test_bytes32 = bytes32(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D000000000000000000000000);
-        val1[0] = test_bytes32; val2[0] = test_bytes32;
-        assertEq(val1, val2);
+    /// @custom:kontrol-array-length-equals array: 1
+    function test_assert_eq_bytes32_darray(bytes32[] memory array) public pure {
+        assertEq(array, array);
     }
 
-    function test_assert_eq_bool_darray() public pure {
-        bool[] memory val1 = new bool[](2);
-        bool[] memory val2 = new bool[](2);
-        val1[0] = true; val2[0] = true;
-        val1[1] = false; val2[1] = false;
-        assertEq(val1, val2);
+    /// @custom:kontrol-array-length-equals array: 2
+    function test_assert_eq_bool_darray(bool[] memory array) public pure {
+        assertEq(array, array);
     }
 
-    function test_assert_eq_int256_darray() public pure {
-        int256[] memory val1 = new int256[](3);
-        int256[] memory val2 = new int256[](3);
-        val1[0] = -1; val2[0] = -1;
-        val1[1] = 2; val2[1] = 2;
-        val1[2] = 0; val2[2] = 0;
-        assertEq(val1, val2);
+    /// @custom:kontrol-array-length-equals array: 3
+    function test_assert_eq_int256_darray(int256[] memory array) public pure {
+        assertEq(array, array);
     }
 
-    function test_assert_eq_address_darray() public pure {
-        address[] memory val1 = new address[](4);
-        address[] memory val2 = new address[](4);
-        val1[0] = address(0x0); val2[0] = address(0x0);
-        val1[1] = address(0x1); val2[1] = address(0x1);
-        val1[2] = address(0x2); val2[2] = address(0x2);
-        val1[3] = address(0x3); val2[3] = address(0x3);
-        assertEq(val1, val2);
+    /// @custom:kontrol-array-length-equals array: 4
+    function test_assert_eq_address_darray(address[] memory array) public pure {
+        assertEq(array, array);
     }
 
-    function test_assert_eq_uint256_darray() public pure {
-        uint256[] memory val1 = new uint256[](5);
-        uint256[] memory val2 = new uint256[](5);
-        val1[0] = 0; val2[0] = 0;
-        val1[1] = 1; val2[1] = 1;
-        val1[2] = 2; val2[2] = 2;
-        val1[3] = 3; val2[3] = 3;
-        val1[4] = 4; val2[4] = 4;        
-        assertEq(val1, val2);
+    /// @custom:kontrol-array-length-equals array: 5
+    function test_assert_eq_uint256_darray(uint256[] memory array) public pure {
+        assertEq(array, array);
     }
 
     function test_assert_eq_bytes32_darray_err() public {
