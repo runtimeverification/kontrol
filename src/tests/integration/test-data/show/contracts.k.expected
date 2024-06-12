@@ -229,63 +229,6 @@ module S2KtestZModAccountParamsTest-CONTRACT
 
 endmodule
 
-module S2KsrcZModcseZModCompositionalAccounts-CONTRACT
-    imports public FOUNDRY
-    
-    syntax Contract ::= S2KsrcZModcseZModCompositionalAccountsContract
-    
-    syntax S2KsrcZModcseZModCompositionalAccountsContract ::= "S2KsrcZModcseZModCompositionalAccounts" [symbol(""), klabel(contract_src%cse%CompositionalAccounts)]
-    
-    syntax Bytes ::= S2KsrcZModcseZModCompositionalAccountsContract "." S2KsrcZModcseZModCompositionalAccountsMethod [function, symbol(""), klabel(method_src%cse%CompositionalAccounts)]
-    
-    syntax S2KsrcZModcseZModCompositionalAccountsMethod ::= "S2KgetEscrowToken" "(" ")" [symbol(""), klabel(method_src%cse%CompositionalAccounts_S2KgetEscrowToken_)]
-    
-    rule  ( S2KsrcZModcseZModCompositionalAccounts . S2KgetEscrowToken ( ) => #abiCallData ( "getEscrowToken" , .TypedArgs ) )
-      
-    
-    rule  ( selector ( "getEscrowToken()" ) => 1851159305 )
-      
-
-endmodule
-
-module S2KsrcZModcseZModCompositionalEscrow-CONTRACT
-    imports public FOUNDRY
-    
-    syntax Contract ::= S2KsrcZModcseZModCompositionalEscrowContract
-    
-    syntax S2KsrcZModcseZModCompositionalEscrowContract ::= "S2KsrcZModcseZModCompositionalEscrow" [symbol(""), klabel(contract_src%cse%CompositionalEscrow)]
-    
-    syntax Bytes ::= S2KsrcZModcseZModCompositionalEscrowContract "." S2KsrcZModcseZModCompositionalEscrowMethod [function, symbol(""), klabel(method_src%cse%CompositionalEscrow)]
-    
-    syntax S2KsrcZModcseZModCompositionalEscrowMethod ::= "S2KgetTokenTotalSupply" "(" ")" [symbol(""), klabel(method_src%cse%CompositionalEscrow_S2KgetTokenTotalSupply_)]
-    
-    rule  ( S2KsrcZModcseZModCompositionalEscrow . S2KgetTokenTotalSupply ( ) => #abiCallData ( "getTokenTotalSupply" , .TypedArgs ) )
-      
-    
-    rule  ( selector ( "getTokenTotalSupply()" ) => 1474266187 )
-      
-
-endmodule
-
-module S2KsrcZModcseZModCompositionalToken-CONTRACT
-    imports public FOUNDRY
-    
-    syntax Contract ::= S2KsrcZModcseZModCompositionalTokenContract
-    
-    syntax S2KsrcZModcseZModCompositionalTokenContract ::= "S2KsrcZModcseZModCompositionalToken" [symbol(""), klabel(contract_src%cse%CompositionalToken)]
-    
-    syntax Bytes ::= S2KsrcZModcseZModCompositionalTokenContract "." S2KsrcZModcseZModCompositionalTokenMethod [function, symbol(""), klabel(method_src%cse%CompositionalToken)]
-    
-    syntax S2KsrcZModcseZModCompositionalTokenMethod ::= "S2KtotalSupply" "(" ")" [symbol(""), klabel(method_src%cse%CompositionalToken_S2KtotalSupply_)]
-    
-    rule  ( S2KsrcZModcseZModCompositionalToken . S2KtotalSupply ( ) => #abiCallData ( "totalSupply" , .TypedArgs ) )
-      
-    
-    rule  ( selector ( "totalSupply()" ) => 404098525 )
-      
-
-endmodule
-
 module S2KtestZModAddrTest-CONTRACT
     imports public FOUNDRY
     

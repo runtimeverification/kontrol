@@ -8,9 +8,6 @@ module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
     imports public S2KtestZModAccountParamsTest-VERIFICATION
-    imports public S2KsrcZModcseZModCompositionalAccounts-VERIFICATION
-    imports public S2KsrcZModcseZModCompositionalEscrow-VERIFICATION
-    imports public S2KsrcZModcseZModCompositionalToken-VERIFICATION
     imports public S2KtestZModAddrTest-VERIFICATION
     imports public S2KtestZModAllowChangesTest-VERIFICATION
     imports public S2KtestZModValueStore-VERIFICATION
@@ -165,27 +162,6 @@ endmodule
 
 module S2KtestZModAccountParamsTest-VERIFICATION
     imports public S2KtestZModAccountParamsTest-CONTRACT
-    
-    
-
-endmodule
-
-module S2KsrcZModcseZModCompositionalAccounts-VERIFICATION
-    imports public S2KsrcZModcseZModCompositionalAccounts-CONTRACT
-    
-    
-
-endmodule
-
-module S2KsrcZModcseZModCompositionalEscrow-VERIFICATION
-    imports public S2KsrcZModcseZModCompositionalEscrow-CONTRACT
-    
-    
-
-endmodule
-
-module S2KsrcZModcseZModCompositionalToken-VERIFICATION
-    imports public S2KsrcZModcseZModCompositionalToken-CONTRACT
     
     
 
