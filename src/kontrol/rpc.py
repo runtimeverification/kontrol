@@ -10,6 +10,7 @@ from typing import Any
 
 from pyk.prelude.kbool import FALSE, TRUE, notBool
 from pyk.prelude.bytes import bytesToken
+from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.collections import map_empty, list_empty, set_empty
 from pyk.kast.manip import set_cell
 from pyk.cterm import CTerm
@@ -97,7 +98,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
     def exec_request_value(self) -> int:
         self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('kontrol_requestValue', [])))
-        pattern = self.krun.kast_to_kore(self.cterm.config, sort=KSort('GeneratedTopCell'))
+        pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
         output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
         rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
@@ -127,7 +128,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', 
                         KApply('eth_sendTransaction', 
                         [
-                            KToken(token=txType, sort=KSort(name='TxType')),
+                            KApply(txType + "_EVM-TYPES_TxType"),
                             intToken(_address_to_accID(fromAcct)),
                             intToken(_address_to_accID(toAcct)),
                             intToken(gas),
@@ -137,7 +138,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
                             bytesToken(bytes.fromhex(data[2:]))
                         ])))
 
-        pattern = self.krun.kast_to_kore(self.cterm.config, sort=KSort('GeneratedTopCell'))    
+        pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)    
         output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
         rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
@@ -214,104 +215,24 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
     def _init_cterm(self) -> None:
         schedule = KApply('SHANGHAI_EVM')
-        empty_config = self.krun.definition.empty_config(KSort('GeneratedTopCell'))
+        empty_config = self.krun.definition.empty_config(GENERATED_TOP_CELL)
     
         init_accounts_list = self._create_initial_account_list()
 
+        init_config = self.krun.definition.init_config(GENERATED_TOP_CELL)
+
         init_subst = {
-            "K_CELL": KSequence([KEVM.sharp_execute()]), #, KVariable("CONTINUATION")]),
-            "EXIT_CODE_CELL": intToken(1),
-            "MODE_CELL": KToken(token="NOGAS", sort=KSort(name="Mode")),
-            "SCHEDULE_CELL": schedule,
-            "USEGAS_CELL": FALSE,
-            "OUTPUT_CELL": bytesToken(b""),
-            "STATUSCODE_CELL": KApply("EVMC_SUCCESS_NETWORK_EndStatusCode"),
-            "CALLSTACK_CELL": list_empty(),
-            "INTERIMSTATES_CELL": list_empty(),
-            "TOUCHEDACCOUNTS_CELL": set_empty(), 
-            "PROGRAM_CELL": intToken(0), 
-            "JUMPDESTS_CELL": set_empty(), 
-            "ID_CELL": Foundry.address_TEST_CONTRACT(),
-            "CALLER_CELL": intToken(0), 
-            "CALLDATA_CELL": intToken(0),
-            "CALLVALUE_CELL": intToken(0),
-            "WORDSTACK_CELL": KApply(".WordStack_EVM-TYPES_WordStack"),
-            "LOCALMEM_CELL": bytesToken(b""),
-            "PC_CELL": intToken(0),
-            "GAS_CELL": intToken(0),
-            "MEMORYUSED_CELL": intToken(0),
-            "CALLGAS_CELL": intToken(0),
-            "STATIC_CELL": FALSE,
-            "CALLDEPTH_CELL": intToken(0),
-            "SELFDESTRUCT_CELL": set_empty(),
-            "LOG_CELL": list_empty(),
-            "REFUND_CELL": intToken(0),
-            "ACCESSEDACCOUNTS_CELL": set_empty(),
-            "ACCESSEDSTORAGE_CELL": map_empty(),
-            "GASPRICE_CELL": intToken(0),
-            "ORIGIN_CELL": intToken(0),
-            "BLOCKHASHES_CELL": list_empty(),
-            "CHAINID_CELL": intToken(0),
-            "ACCOUNTS_CELL": KEVM.accounts(init_accounts_list),
-            "ACTIVE_CELL": FALSE,
-            "DEPTH_CELL": intToken(0),
-            "SINGLECALL_CELL": FALSE,
-            "ISREVERTEXPECTED_CELL": FALSE,
-            "ISOPCODEEXPECTED_CELL": FALSE,
-            "RECORDEVENT_CELL": FALSE,
-            "ISEVENTEXPECTED_CELL": FALSE,
-            "ISCALLWHITELISTACTIVE_CELL": FALSE,
-            "ISSTORAGEWHITELISTACTIVE_CELL": FALSE,
-            "ADDRESSSET_CELL": set_empty(),
-            "STORAGESLOTSET_CELL": set_empty(),
-            "MOCKCALLS_CELL": KApply(".MockCallCellMap"),
-            "ACTIVETRACING_CELL": FALSE,
-            "RECORDEDTRACE_CELL": FALSE,
-            "TRACESTORAGE_CELL": FALSE,
-            "TRACEWORDSTACK_CELL": FALSE,
-            "TRACEMEMORY_CELL": FALSE,
-            "TRACEDATA_CELL": FALSE,
-            "RPCREQUEST_CELL": intToken(0),
-            "GENERATEDCOUNTER_CELL": intToken(0),
-            "EXITCODE_CELL": intToken(0),
-            "PREVIOUSHASH_CELL": intToken(0),
-            "OMMERSHASH_CELL": intToken(0),
-            "COINBASE_CELL": intToken(0),
-            "STATEROOT_CELL": intToken(0),
-            "TRANSACTIONSROOT_CELL": intToken(0),
-            "RECEIPTSROOT_CELL": intToken(0),
-            "LOGSBLOOM_CELL": bytesToken(b""),
-            "DIFFICULTY_CELL": intToken(0),
-            "NUMBER_CELL": intToken(0),
-            "GASLIMIT_CELL": intToken(0),
-            "GASUSED_CELL": intToken(0),
-            "TIMESTAMP_CELL": intToken(0),
-            "EXTRADATA_CELL": bytesToken(b""),
-            "MIXHASH_CELL": intToken(0),
-            "BLOCKNONCE_CELL": intToken(0),
-            "BASEFEE_CELL": intToken(0),
-            "WITHDRAWALSROOT_CELL": intToken(0),
-            "OMMERBLOCKHEADERS_CELL": list_empty(),
-            "TXORDER_CELL": list_empty(),
-            "TXPENDING_CELL": list_empty(),
-            "MESSAGES_CELL": map_empty(),
-            "EXPECTEDREASON_CELL": bytesToken(b""),
-            "EXPECTEDDEPTH_CELL": intToken(0),
-            "EXPECTEDVALUE_CELL": intToken(0),
-            "EXPECTEDDATA_CELL": bytesToken(b""),
-            "CHECKEDTOPICS_CELL": list_empty(),
-            "CHECKEDDATA_CELL": FALSE,
-            "RPCRESPONSE_CELL": intToken(0),
-            "PREVCALLER_CELL": init_accounts_list[0],
-            "PREVORIGIN_CELL": init_accounts_list[0],
-            "NEWCALLER_CELL": init_accounts_list[0],
-            "NEWORIGIN_CELL": init_accounts_list[0],
-            "EXPECTEDADDRESS_CELL": init_accounts_list[0],
-            "OPCODETYPE_CELL": intToken(0),
-            "EXPECTEDEVENTADDRESS_CELL": init_accounts_list[0],
+            '$PGM': KSequence([KEVM.sharp_execute()]),
+            '$MODE': KApply('NORMAL'),
+            '$SCHEDULE': KApply('SHANGHAI_EVM'),
+            '$USEGAS': TRUE,
+            '$CHAINID': intToken(0),
+
         }
 
-        init_term = Subst(init_subst)(empty_config)
+        init_config = set_cell(init_config, 'ACCOUNTS_CELL', KEVM.accounts(init_accounts_list))
+
+        init_term = Subst(init_subst)(init_config)
         self.cterm = CTerm.from_kast(init_term)
 
 

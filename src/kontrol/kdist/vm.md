@@ -4,33 +4,24 @@ requires "foundry.md"
 module KONTROL-VM
     imports FOUNDRY
 
+    syntax TxType ::= ".TxType"
+                    | "Test"
+
     syntax RPCRequest ::= ".RPCRequest"                 [symbol(EmptyRPCRequest)] 
                         | "#kontrol_requestValue"           [symbol(kontrol_requestValue)]
                         | "#eth_sendTransaction" TxType Int Int Int Int Int Int Bytes [symbol(eth_sendTransaction)]
                         | Int
-    syntax KItem ::= "#eth_sendTransaction_final"
 
     syntax RPCResponse ::= ".RPCResponse" | String | Int | Bytes
-
-    syntax Params ::= ".Params" | String | Int | Bytes
     
     configuration <simbolikVM>
                     <foundry/>
                     <rpcRequest> .RPCRequest </rpcRequest>
                     <rpcResponse> .RPCResponse </rpcResponse>
-                    <params>
-                      <p1> .Params </p1>
-                      <p2> .Params </p2>
-                      <p3> .Params </p3>
-                      <p4> .Params </p4>
-                      <p5> .Params </p5>
-                      <p6> .Params </p6>
-                    </params>
                   </simbolikVM>                       
 
     rule <k> #kontrol_requestValue => . ... </k> 
-         <rpcResponse> _ => VALUE </rpcResponse>
-         <p1> VALUE:Int </p1>
+         <rpcResponse> _ => 10 </rpcResponse>
 
     rule <k> #eth_sendTransaction 
                 TXTYPE
@@ -40,8 +31,8 @@ module KONTROL-VM
                 TXGASPRICE 
                 TXVALUE 
                 TXNONCE
-                TXDATA =>
-                .
+                TXDATA
+                 =>
               #loadTx 
                 TXTYPE
                 ACCTFROM 
@@ -51,23 +42,23 @@ module KONTROL-VM
                 TXVALUE 
                 TXNONCE
                 TXDATA  
-                 ~> #eth_sendTransaction_final 
                 ... 
               </k>
-
-    rule <k> #eth_sendTransaction_final => . ... </k> 
     
     syntax KItem ::= "#loadTx" TxType Int Int Int Int Int Int Bytes 
    // ---------------------------------------]
    // TODO: Replace the 0 with an index
     rule <k> #loadTx TXTYPE ACCTFROM ACCTTO TXGAS TXGASPRICE TXVALUE TXNONCE TXDATA
           => #makeTX 0
-          ~> #loadNonce ACCTFROM 0
+          ~> #loadNonce ACCTFROM TXNONCE
+          ~> #loadTransaction 0 TXTYPE ACCTFROM ACCTTO TXGAS TXGASPRICE TXVALUE TXNONCE TXDATA
           ...
          </k>
 
     syntax EthereumCommand ::= "#makeTX" Int
    // ---------------------------------------
+    // rule <k> #makeTX TXID => . ... </k>
+    //      <message> <msgID> TXID:Int </msgID> ... </message>
     rule <k> #makeTX TXID => . ... </k>
          <txOrder>   ... (.List => ListItem(TXID)) </txOrder>
          <txPending> ... (.List => ListItem(TXID)) </txPending>
@@ -85,7 +76,7 @@ module KONTROL-VM
               </message>
             )
           ...
-          </messages>
+          </messages> [owise, preserves-definedness]
 
   syntax KItem ::= "#loadNonce" Int Int
   // -------------------------------------
@@ -101,29 +92,35 @@ module KONTROL-VM
            ...
          </account>
 
-  syntax KItem ::= "loadTransaction" TxType Int Int Int Int Int Int Bytes
+  syntax KItem ::= "#loadTransaction" Int TxType Int Int Int Int Int Int Bytes
   
   //TODO: Retreive the proper value for txAccess cell 
-  rule <k> loadTransaction  
-                TXTYPE
-                ACCTFROM 
-                ACCTTO 
-                TXGAS 
-                TXGASPRICE 
-                TXVALUE 
-                TXNONCE
-                TXDATA => . ... </k>
+  rule <k> #loadTransaction  
+                TXID:Int
+                TXTYPE:TxType
+                ACCTFROM:Int 
+                ACCTTO:Int 
+                TXGAS:Int 
+                TXGASPRICE:Int 
+                TXVALUE:Int  
+                TXNONCE:Int 
+                TXDATA:Bytes => . ... </k>
         <chainID> CID </chainID>
-        <message> <msgID> TXID </msgID> <txNonce> _ => TXNONCE </txNonce> ... </message>
-        <message> <msgID> TXID </msgID> <txGasPrice> _ => TXGASPRICE </txGasPrice> ... </message>
-        <message> <msgID> TXID </msgID> <txGasLimit> _ => TXGAS </txGasLimit> ... </message>
-        <message> <msgID> TXID </msgID> <to> _ => ACCTTO </to> ... </message>
-        <message> <msgID> TXID </msgID> <value> _ => TXVALUE </value> ... </message>
-        <message> <msgID> TXID </msgID> <data> _ => TXDATA </data> ... </message>
-        <message> <msgID> TXID </msgID> <txType> _ => TXTYPE </txType> ... </message>
-        <message> <msgID> TXID </msgID> <txChainID> _ => CID </txChainID> ... </message>
-        <message> <msgID> TXID </msgID> <txAccess> _ => [ "null" ] </txAccess> ... </message>
+        <message> 
+          <msgID> TXID </msgID> 
+          <txChainID> _ => CID </txChainID>
+          <txNonce> _ => TXNONCE </txNonce> 
+          <txGasPrice> _ => TXGASPRICE </txGasPrice> 
+          <txGasLimit> _ => TXGAS </txGasLimit> 
+          <to> _ => ACCTTO </to> 
+          <value> _ => TXVALUE </value> 
+          <data> _ => TXDATA </data> 
+          <txType> _ => TXTYPE </txType> 
+          <txAccess> _ => [ "null" ] </txAccess> 
+          ...
+        </message>
         <rpcResponse> _ => 10 </rpcResponse>
+
 endmodule
 
 ```
