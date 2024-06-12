@@ -2979,6 +2979,25 @@ module S2KtestZModTEscrow-CONTRACT
 
 endmodule
 
+module S2KtestZModTGovernance-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModTGovernanceContract
+    
+    syntax S2KtestZModTGovernanceContract ::= "S2KtestZModTGovernance" [symbol(""), klabel(contract_test%TGovernance)]
+    
+    syntax Bytes ::= S2KtestZModTGovernanceContract "." S2KtestZModTGovernanceMethod [function, symbol(""), klabel(method_test%TGovernance)]
+    
+    syntax S2KtestZModTGovernanceMethod ::= "S2KgetEscrowTokenTotalSupply" "(" ")" [symbol(""), klabel(method_test%TGovernance_S2KgetEscrowTokenTotalSupply_)]
+    
+    rule  ( S2KtestZModTGovernance . S2KgetEscrowTokenTotalSupply ( ) => #abiCallData ( "getEscrowTokenTotalSupply" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "getEscrowTokenTotalSupply()" ) => 2061189261 )
+      
+
+endmodule
+
 module S2KtestZModTToken-CONTRACT
     imports public FOUNDRY
     
