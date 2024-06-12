@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (2219 steps)
-├─ 14 (terminal)
+├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 194
 │   callDepth: 0
@@ -14,7 +14,7 @@
 │
 ┊  constraint: true
 ┊  subst: OMITTED SUBST
-└─ 11 (leaf, target, terminal)
+└─ 7 (leaf, target, terminal)
     k: #halt ~> CONTINUATION:K
     pc: PC_CELL_5d410f2a:Int
     callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -26,7 +26,7 @@
 module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
     
     
-    rule [BASIC-BLOCK-1-TO-14]: <foundry>
+    rule [BASIC-BLOCK-1-TO-8]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -304,6 +304,6 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-14)]
+      [priority(20), label(BASIC-BLOCK-1-TO-8)]
 
 endmodule
