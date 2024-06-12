@@ -659,12 +659,23 @@ def _method_to_cfg(
 def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigType) -> CTerm:
     if config_type == ConfigType.TEST_CONFIG:
         cell_names = [
-            'ACCOUNTS_CELL', 'NUMBER_CELL', 'TIMESTAMP_CELL', 'BASEFEE_CELL', 
-            'CHAINID_CELL', 'COINBASE_CELL', 'PREVCALLER_CELL', 'PREVORIGIN_CELL',
-            'NEWCALLER_CELL', 'NEWORIGIN_CELL', 'ACTIVE_CELL', 'DEPTH_CELL', 
-            'SINGLECALL_CELL', 'GAS_CELL', 'CALLGAS_CELL'
+            'ACCOUNTS_CELL',
+            'NUMBER_CELL',
+            'TIMESTAMP_CELL',
+            'BASEFEE_CELL',
+            'CHAINID_CELL',
+            'COINBASE_CELL',
+            'PREVCALLER_CELL',
+            'PREVORIGIN_CELL',
+            'NEWCALLER_CELL',
+            'NEWORIGIN_CELL',
+            'ACTIVE_CELL',
+            'DEPTH_CELL',
+            'SINGLECALL_CELL',
+            'GAS_CELL',
+            'CALLGAS_CELL',
         ]
-        
+
         cells = {name: node.cterm.cell(name) for name in cell_names}
         all_accounts = flatten_label('_AccountCellMap_', cells['ACCOUNTS_CELL'])
 
@@ -673,10 +684,14 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
 
         new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
 
-        cells['ACCOUNTS_CELL'] = KEVM.accounts([account.config for account in new_accounts_map.values()] + non_cell_accounts)
+        cells['ACCOUNTS_CELL'] = KEVM.accounts(
+            [account.config for account in new_accounts_map.values()] + non_cell_accounts
+        )
 
         for cell_name, cell_value in cells.items():
             cterm = CTerm(set_cell(cterm.config, cell_name, cell_value), [])
+
+        new_init_cterm = cterm
     # config_type == ConfigType.SUMMARY_CONFIG
     # This means that a function is being run in isolation, that is, that the `node` we are
     # taking information from has come from a constructor and not a setUp function.
@@ -709,17 +724,17 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
         cell_accounts_map[contract_id] = contract_account
         new_accounts_cell = KEVM.accounts([account.config for account in cell_accounts_map.values()] + other_accounts)
 
-        cterm = CTerm(set_cell(cterm.config, 'PROGRAM_CELL', new_program_cell), [])
-        cterm = CTerm(set_cell(cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
+        new_init_cterm = CTerm(set_cell(cterm.config, 'PROGRAM_CELL', new_program_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
 
     # Adding constraints from the initial cterm and initial node
     for constraint in cterm.constraints + node.cterm.constraints:
-        cterm = cterm.add_constraint(constraint)
-    cterm = KEVM.add_invariant(cterm)
+        new_init_cterm = new_init_cterm.add_constraint(constraint)
+    new_init_cterm = KEVM.add_invariant(new_init_cterm)
 
-    cterm = cterm.remove_useless_constraints()
+    new_init_cterm = new_init_cterm.remove_useless_constraints()
 
-    return cterm
+    return new_init_cterm
 
 
 def deployment_state_to_account_cells(deployment_state_entries: Iterable[DeploymentStateEntry]) -> list[KApply]:
