@@ -26,6 +26,18 @@ contract TEscrow {
     }
 }
 
+contract TGovernance {
+    TEscrow escrow;
+
+    constructor(address _escrow) {
+        escrow = TEscrow(_escrow);
+    }
+
+    function getEscrowTokenTotalSupply() public returns (uint256) {
+        return escrow.getTokenTotalSupply();
+    }
+}
+
 contract ContractFieldTest is Test {
     TToken token;
     TEscrow escrow;
