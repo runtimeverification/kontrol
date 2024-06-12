@@ -580,6 +580,7 @@ def _method_to_cfg(
         program = contract_code
 
     init_cterm = _init_cterm(
+        contract,
         empty_config,
         program=program,
         contract_code=bytesToken(contract_code),
@@ -772,6 +773,7 @@ def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) 
 
 
 def _init_cterm(
+    contract: Contract,
     empty_config: KInner,
     program: bytes,
     contract_code: KInner,
@@ -826,6 +828,7 @@ def _init_cterm(
         'TRACEDATA_CELL': KApply('.List'),
     }
 
+    storage_constraints: list[KInner] = []
     if config_type == ConfigType.TEST_CONFIG or active_symbolik:
         init_account_list = _create_initial_account_list(contract_code, deployment_state_entries)
         init_subst_test = {
@@ -846,13 +849,17 @@ def _init_cterm(
         # Symbolic accounts of all relevant contracts
         # Status: Currently, only the executing contract
         # TODO: Add all other accounts belonging to relevant contracts
+        storage_var = KVariable(Foundry.symbolic_contract_prefix() + '_STORAGE', sort=KSort('Map'))
+
         accounts: list[KInner] = [
-            Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code),
+            Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code, storage=storage_var),
             KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')),
         ]
 
         init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
         init_subst.update(init_subst_accounts)
+
+        storage_constraints = contract.storage_constraints(storage_var=storage_var)
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
@@ -865,9 +872,10 @@ def _init_cterm(
         init_subst['CALLGAS_CELL'] = intToken(0)
         init_subst['REFUND_CELL'] = intToken(0)
 
-    # constructor can not be called in a static context.
     if isinstance(method, Contract.Constructor):
+        # constructor can not be called in a static context.
         init_subst['STATIC_CELL'] = FALSE
+
         encoded_args, arg_constraints = method.encoded_args
         init_subst['PROGRAM_CELL'] = KEVM.bytes_append(bytesToken(program), encoded_args)
 
@@ -890,6 +898,9 @@ def _init_cterm(
                 )
             )
         )
+
+    for constraint in storage_constraints:
+        init_cterm = init_cterm.add_constraint(constraint)
 
     if isinstance(method, Contract.Constructor) and len(arg_constraints) > 0:
         for constraint in arg_constraints:

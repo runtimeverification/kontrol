@@ -40,6 +40,18 @@ module CSE-LEMMAS
       requires 4 <=Int lengthBytes(B) andBool #range(B, 0, 4) ==K B1
       [simplification(60), concrete(B, B1)]
 
+    rule notBool ( 1 &Int N:Int ==Int 0) => 1 &Int N:Int ==Int 1 [simplification]
+
+    rule chop(1 -Int bool2Word(B:Bool)) ==Int 0 => B [simplification]
+    rule chop(0 -Int bool2Word(B:Bool)) ==Int 0 => notBool B [simplification]
+
+    rule chop ( ( N +Int maxUInt5 ) ) => ( N +Int maxUInt5 )
+      requires N <Int 32 [simplification]
+
+    rule (N +Int 31) /Int 32 => 1 requires N <Int 32 andBool notBool (N ==Int 0) [simplification]
+
+
+    rule 1 &Int X <=Int 1 => true [simplification, smt-lemma]
 
 endmodule
 
@@ -47,3 +59,4 @@ module CSE-LEMMAS-SPEC
     imports CSE-LEMMAS
 
 endmodule
+
