@@ -688,10 +688,11 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
             [account.config for account in new_accounts_map.values()] + non_cell_accounts
         )
 
-        for cell_name, cell_value in cells.items():
-            cterm = CTerm(set_cell(cterm.config, cell_name, cell_value), [])
+        new_init_cterm = CTerm(cterm.config, [])
 
-        new_init_cterm = cterm
+        for cell_name, cell_value in cells.items():
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, cell_name, cell_value), [])
+
     # config_type == ConfigType.SUMMARY_CONFIG
     # This means that a function is being run in isolation, that is, that the `node` we are
     # taking information from has come from a constructor and not a setUp function.
