@@ -109,7 +109,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.INIT:0
                        CONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       ( CONTRACT_STORAGE_ID:Map => CONTRACT_STORAGE_ID:Map [ 0 <- 5 ] )
+                       ( CONTRACT_STORAGE:Map => CONTRACT_STORAGE:Map [ 0 <- 5 ] )
                      </storage>
                      <nonce>
                        CONTRACT_NONCE:Int
