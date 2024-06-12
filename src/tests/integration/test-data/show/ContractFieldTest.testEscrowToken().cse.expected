@@ -2,19 +2,19 @@
 ┌─ 1 (root, init)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
-│   callDepth: CALLDEPTH_CELL:Int
+│   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (48 steps)
-├─ 3 (terminal)
+│  (2219 steps)
+├─ 14 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 22
-│   callDepth: CALLDEPTH_CELL:Int
+│   pc: 194
+│   callDepth: 0
 │   statusCode: EVMC_SUCCESS
 │
-┊  constraint: OMITTED CONSTRAINT
+┊  constraint: true
 ┊  subst: OMITTED SUBST
-└─ 2 (leaf, target, terminal)
+└─ 11 (leaf, target, terminal)
     k: #halt ~> CONTINUATION:K
     pc: PC_CELL_5d410f2a:Int
     callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -23,10 +23,10 @@
 
 
 
-module SUMMARY-TEST%IMPORTEDCONTRACT.INIT:0
+module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
     
     
-    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+    rule [BASIC-BLOCK-1-TO-14]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -44,29 +44,38 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.INIT:0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"`\x80`@R`\x046\x10`0W`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14`5W\x80c\x10\x03\xe2\xd2\x14`[W\x80c`\xfeG\xb1\x14`lW[`\x00\x80\xfd[4\x80\x15`@W`\x00\x80\xfd[P`I`\x00T\x81V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[`j`f6`\x04`\xabV[`\x87V[\x00[4\x80\x15`wW`\x00\x80\xfd[P`j`\x836`\x04`\xabV[`\x99V[\x80`\x00T`\x93\x91\x90`\xc3V[`\x00UPV[`\x03`\x00T\x10\x15`\xa6WPV[`\x00UV[`\x00` \x82\x84\x03\x12\x15`\xbcW`\x00\x80\xfd[P5\x91\x90PV[`\x00\x82\x19\x82\x11\x15`\xe3WcNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[P\x01\x90V\xfe\xa2dipfsX\"\x12 \xad9\xf5\xbeI\xa7\xc3\xadG#Z\\\x8e;\xab\x05\xf1T\xad\xe8\x0f\xa7\xfd\xe1-\xd5\xb3}H\xee\xd7\xdedsolcC\x00\x08\r\x003" )
+                   b""
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
                  </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                 </touchedAccounts>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     CALLDATA_CELL:Bytes
+                     ( b"\n\x92T\xe4" => b"51X\xa0" )
                    </callData>
                    <callValue>
-                     CALLVALUE_79cb2bc6:Int
+                     0
                    </callValue>
                    <wordStack>
-                     .WordStack
+                     ( .WordStack => ( selector ( "testEscrowToken()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"`\x80`@R`\x046\x10`0W`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14`5W\x80c\x10\x03\xe2\xd2\x14`[W\x80c`\xfeG\xb1\x14`lW[`\x00\x80\xfd[4\x80\x15`@W`\x00\x80\xfd[P`I`\x00T\x81V[`@Q\x90\x81R` \x01`@Q\x80\x91\x03\x90\xf3[`j`f6`\x04`\xabV[`\x87V[\x00[4\x80\x15`wW`\x00\x80\xfd[P`j`\x836`\x04`\xabV[`\x99V[\x80`\x00T`\x93\x91\x90`\xc3V[`\x00UPV[`\x03`\x00T\x10\x15`\xa6WPV[`\x00UV[`\x00` \x82\x84\x03\x12\x15`\xbcW`\x00\x80\xfd[P5\x91\x90PV[`\x00\x82\x19\x82\x11\x15`\xe3WcNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[P\x01\x90V\xfe\xa2dipfsX\"\x12 \xad9\xf5\xbeI\xa7\xc3\xadG#Z\\\x8e;\xab\x05\xf1T\xad\xe8\x0f\xa7\xfd\xe1-\xd5\xb3}H\xee\xd7\xdedsolcC\x00\x08\r\x003" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0009" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -77,12 +86,24 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.INIT:0
                    <static>
                      false
                    </static>
+                   <callDepth>
+                     0
+                   </callDepth>
                    ...
                  </callState>
                  <substate>
+                   <log>
+                     .List
+                   </log>
                    <refund>
                      0
                    </refund>
+                   <accessedAccounts>
+                     ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
                    ...
                  </substate>
                  <origin>
@@ -103,20 +124,97 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.INIT:0
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       ( 645326474426547203313410069153905908525362434349 => 263400868551549723330807389252719309078400616203 )
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       0
                      </balance>
                      <storage>
-                       ( CONTRACT_STORAGE_ID:Map => CONTRACT_STORAGE_ID:Map [ 0 <- 5 ] )
+                       ( .Map => ( 0 |-> 491460923342184218035706888008750043977755113263 ) )
                      </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       ( 0 => 1 )
                      </nonce>
                      ...
                    </account>
-                   ACCOUNTS_REST:AccountCellMap )
+                   ( <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( 7 |-> 1 ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> => ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 0 |-> 12300 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account> ) ) ) )
                  </accounts>
                  ...
                </network>
@@ -195,31 +293,17 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.INIT:0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int CALLVALUE_79cb2bc6:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( CALLVALUE_79cb2bc6:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( lengthBytes ( CALLDATA_CELL:Bytes ) <Int pow128
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-               ))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-14)]
 
 endmodule

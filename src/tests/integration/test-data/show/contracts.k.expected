@@ -3017,18 +3017,18 @@ module S2KtestZModContractFieldTest-CONTRACT
 
 endmodule
 
-module S2KtestZModEscrow-CONTRACT
+module S2KtestZModTEscrow-CONTRACT
     imports public FOUNDRY
     
-    syntax Contract ::= S2KtestZModEscrowContract
+    syntax Contract ::= S2KtestZModTEscrowContract
     
-    syntax S2KtestZModEscrowContract ::= "S2KtestZModEscrow" [symbol(""), klabel(contract_test%Escrow)]
+    syntax S2KtestZModTEscrowContract ::= "S2KtestZModTEscrow" [symbol(""), klabel(contract_test%TEscrow)]
     
-    syntax Bytes ::= S2KtestZModEscrowContract "." S2KtestZModEscrowMethod [function, symbol(""), klabel(method_test%Escrow)]
+    syntax Bytes ::= S2KtestZModTEscrowContract "." S2KtestZModTEscrowMethod [function, symbol(""), klabel(method_test%TEscrow)]
     
-    syntax S2KtestZModEscrowMethod ::= "S2KgetTokenTotalSupply" "(" ")" [symbol(""), klabel(method_test%Escrow_S2KgetTokenTotalSupply_)]
+    syntax S2KtestZModTEscrowMethod ::= "S2KgetTokenTotalSupply" "(" ")" [symbol(""), klabel(method_test%TEscrow_S2KgetTokenTotalSupply_)]
     
-    rule  ( S2KtestZModEscrow . S2KgetTokenTotalSupply ( ) => #abiCallData ( "getTokenTotalSupply" , .TypedArgs ) )
+    rule  ( S2KtestZModTEscrow . S2KgetTokenTotalSupply ( ) => #abiCallData ( "getTokenTotalSupply" , .TypedArgs ) )
       
     
     rule  ( selector ( "getTokenTotalSupply()" ) => 1474266187 )
@@ -3036,21 +3036,21 @@ module S2KtestZModEscrow-CONTRACT
 
 endmodule
 
-module S2KtestZModTestToken-CONTRACT
+module S2KtestZModTToken-CONTRACT
     imports public FOUNDRY
     
-    syntax Contract ::= S2KtestZModTestTokenContract
+    syntax Contract ::= S2KtestZModTTokenContract
     
-    syntax S2KtestZModTestTokenContract ::= "S2KtestZModTestToken" [symbol(""), klabel(contract_test%TestToken)]
+    syntax S2KtestZModTTokenContract ::= "S2KtestZModTToken" [symbol(""), klabel(contract_test%TToken)]
     
-    syntax Bytes ::= S2KtestZModTestTokenContract "." S2KtestZModTestTokenMethod [function, symbol(""), klabel(method_test%TestToken)]
+    syntax Bytes ::= S2KtestZModTTokenContract "." S2KtestZModTTokenMethod [function, symbol(""), klabel(method_test%TToken)]
     
-    syntax S2KtestZModTestTokenMethod ::= "S2KtotalSupply" "(" ")" [symbol(""), klabel(method_test%TestToken_S2KtotalSupply_)]
+    syntax S2KtestZModTTokenMethod ::= "S2KgetTotalSupply" "(" ")" [symbol(""), klabel(method_test%TToken_S2KgetTotalSupply_)]
     
-    rule  ( S2KtestZModTestToken . S2KtotalSupply ( ) => #abiCallData ( "totalSupply" , .TypedArgs ) )
+    rule  ( S2KtestZModTToken . S2KgetTotalSupply ( ) => #abiCallData ( "getTotalSupply" , .TypedArgs ) )
       
     
-    rule  ( selector ( "totalSupply()" ) => 404098525 )
+    rule  ( selector ( "getTotalSupply()" ) => 3303283490 )
       
 
 endmodule
