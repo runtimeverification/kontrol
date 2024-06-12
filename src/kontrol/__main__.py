@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import logging
-import pprint
 import sys
 from argparse import ArgumentParser
 from collections.abc import Iterable
@@ -15,16 +14,13 @@ from kevm_pyk.utils import arg_pair_of
 from pyk.cli.args import LoggingOptions
 from pyk.cli.utils import file_path
 from pyk.cterm.symbolic import CTermSMTError
-from pyk.kast.inner import KSort
 from pyk.kbuild.utils import KVersion, k_version
-from pyk.ktool.krun import KRun
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
-from pyk.utils import ensure_dir_path, run_process
 from pyk.rpc.rpc import ServeRpcOptions
+from pyk.utils import ensure_dir_path, run_process
 
 from . import VERSION
-from .rpc import StatefulKJsonRpcServer
 from .cli import FoundryOptions, FoundryTestOptions, KontrolCLIArgs
 from .foundry import (
     Foundry,
@@ -62,6 +58,7 @@ from .foundry import (
 from .hevm import Hevm
 from .kompile import BuildOptions, foundry_kompile
 from .prove import ProveOptions, foundry_prove, parse_test_version_tuple
+from .rpc import StatefulKJsonRpcServer
 from .solc_to_k import SolcToKOptions, solc_compile, solc_to_k
 
 if TYPE_CHECKING:
@@ -77,6 +74,7 @@ if TYPE_CHECKING:
 
 _LOGGER: Final = logging.getLogger(__name__)
 _LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
+
 
 def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
     if arg in args:
