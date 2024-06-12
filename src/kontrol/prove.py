@@ -957,6 +957,19 @@ def _create_initial_account_list(
 def _create_cse_accounts(
     foundry: Foundry, storage_fields: tuple[StorageField, ...], contract_name: str, contract_code: KInner
 ) -> tuple[list[KInner], list[KApply]]:
+    """
+    Recursively generates a list of new accounts corresponding to `contract` fields, each having <code> and <storage> cell (partially) set up.
+    Args:
+        foundry (Foundry): The Foundry object containing the information about contracts in the project.
+        storage_fields (tuple[StorageField, ...]): A tuple of StorageField objects representing the contract's storage fields.
+        contract_name (str): The name of the contract being executed to be used in the account-related symbolic variables.
+        contract_code (KInner): The KInner object representing the contract's runtime bytecode.
+    Returns:
+        tuple[list[KInner], list[KApply]]:
+            - A list of accounts to be included in the initial configuration.
+            - A list of constraints on symbolic account IDs.
+    """
+
     new_accounts: list[KInner] = []
     new_account_constraints: list[KApply] = []
 
