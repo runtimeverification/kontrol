@@ -16,7 +16,6 @@ from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KPro
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken
-from pyk.prelude.ml import mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process, single
 
@@ -1016,69 +1015,6 @@ class Contract:
     @property
     def method_by_sig(self) -> dict[str, Contract.Method]:
         return {method.signature: method for method in self.methods}
-
-    def storage_constraints(self, storage_var: KInner) -> list[KInner]:
-        constraints: list[KInner] = []
-        for field in self.fields:
-            if field.data_type == 'string':
-                lookup = KApply('lookup', [storage_var, intToken(field.slot)])
-                length_byte_lt32 = KApply(
-                    '_<Int_',
-                    [
-                        KApply(
-                            '_&Int_',
-                            [
-                                intToken(127),
-                                KApply(
-                                    '_>>Int_',
-                                    [
-                                        lookup,
-                                        intToken(1),
-                                    ],
-                                ),
-                            ],
-                        ),
-                        intToken(32),
-                    ],
-                )
-                length_byte_positive = KApply(
-                    '_>=Int_',
-                    [
-                        KApply(
-                            '_&Int_',
-                            [
-                                intToken(127),
-                                KApply(
-                                    '_>>Int_',
-                                    [
-                                        lookup,
-                                        intToken(1),
-                                    ],
-                                ),
-                            ],
-                        ),
-                        intToken(0),
-                    ],
-                )
-                lowest_bit_not_set = KApply(
-                    '_==Int_',
-                    [
-                        intToken(0),
-                        KApply(
-                            '_&Int_',
-                            [
-                                intToken(1),
-                                lookup,
-                            ],
-                        ),
-                    ],
-                )
-
-                constraints.append(mlEqualsTrue(lowest_bit_not_set))
-                constraints.append(mlEqualsTrue(length_byte_lt32))
-                constraints.append(mlEqualsTrue(length_byte_positive))
-
-        return constraints
 
 
 def solc_compile(contract_file: Path) -> dict[str, Any]:
