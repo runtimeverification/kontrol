@@ -16,6 +16,7 @@ from pyk.prelude.collections import map_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import intToken
+from pyk.prelude.string import stringToken
 from pyk.rpc.rpc import JsonRpcServer
 
 from .foundry import Foundry
@@ -48,6 +49,9 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.krun = KRun(dir_path)
 
         self._init_cterm()
+
+        print("Server initialization finished.")
+
 
     def exec_get_chain_id(self) -> int:
         cell = self.cterm.cell('CHAINID_CELL')
@@ -82,22 +86,13 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
         return accounts_list
 
-    def exec_add_account(self, address: str, balance_hex: str) -> None:
-        acct_id = _address_to_acct_id(address)
-
+    def exec_add_account(self, private_key: str, balance_hex: str) -> None:
         balance = int(balance_hex, 16)
-        new_account = KEVM.account_cell(
-            intToken(acct_id),
-            intToken(balance),
-            bytesToken(b''),
-            map_empty(),
-            map_empty(),
-            intToken(0),
-        )
-
-        accounts_cell = self.cterm.cell('ACCOUNTS_CELL')
-        new_accounts_cell = KApply('_AccountCellMap_', [accounts_cell, new_account])
-        self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'ACCOUNTS_CELL', new_accounts_cell))
+        self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('acctFromPrivateKey', [stringToken(private_key), intToken(balance)])))
+        pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
+        self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
+        return None
 
     def exec_request_value(self) -> int:
         self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('kontrol_requestValue', [])))
@@ -194,10 +189,25 @@ class StatefulKJsonRpcServer(JsonRpcServer):
     # VM setup functions
     # ------------------------------------------------------
 
+    def _add_initial_accounts(self) -> None:
+        balance = 10**10
+        
+        private_keys = ["0xcdeac0dd5ec7c04072af48f2a4451e102a80ca5bb441a7b4d72c176cea61866e", "0xafdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4f890"]
+        sequence_of_productions = []
+
+        for private_key in private_keys:
+            sequence_of_productions.append(KApply('acctFromPrivateKey', [stringToken(private_key), intToken(balance)]))
+
+        sequence_of_kapplies = KSequence(sequence_of_productions)
+        self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', sequence_of_kapplies))
+        pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
+        self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
+
+        return None
+
     def _create_initial_account_list(self) -> list[KInner]:
-        initial_account_address = 645326474426547203313410069153905908525362434350
         init_account_list: list[KInner] = []
-        number_of_sample_accounts = 2
 
         # Adding a zero address
         init_account_list.append(
@@ -210,19 +220,6 @@ class StatefulKJsonRpcServer(JsonRpcServer):
                 intToken(0),
             )
         )
-
-        # Adding sample addresses on the network
-        for i in range(number_of_sample_accounts):
-            init_account_list.append(
-                KEVM.account_cell(
-                    intToken(initial_account_address + i),
-                    intToken(10**10),
-                    bytesToken(b''),
-                    map_empty(),
-                    map_empty(),
-                    intToken(0),
-                )
-            )
 
         # Adding the Foundry cheatcode address
         init_account_list.append(Foundry.account_CHEATCODE_ADDRESS(map_empty()))
@@ -249,7 +246,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
         init_term = Subst(init_subst)(init_config)
         self.cterm = CTerm.from_kast(init_term)
-
+        self._add_initial_accounts()
 
 # ------------------------------------------------------
 # Helpers
