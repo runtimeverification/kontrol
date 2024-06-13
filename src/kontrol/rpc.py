@@ -18,7 +18,7 @@ from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import intToken
 from pyk.prelude.string import stringToken
 from pyk.rpc.rpc import JsonRpcServer
-
+from datetime import datetime
 from .foundry import Foundry
 
 if TYPE_CHECKING:
@@ -48,10 +48,13 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         dir_path = Path(f'{kdist.kdist_dir}/kontrol/foundry')
         self.krun = KRun(dir_path)
 
+        start_time = datetime.now() 
+        
         self._init_cterm()
 
-        print("Server initialization finished.")
+        end_time = datetime.now() 
 
+        print(f'Server initialization finished in {(end_time - start_time).total_seconds()} seconds.')
 
     def exec_get_chain_id(self) -> int:
         cell = self.cterm.cell('CHAINID_CELL')
@@ -192,7 +195,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
     def _add_initial_accounts(self) -> None:
         balance = 10**10
         
-        private_keys = ["0xcdeac0dd5ec7c04072af48f2a4451e102a80ca5bb441a7b4d72c176cea61866e", "0xafdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4f890"]
+        private_keys = ['0xcdeac0dd5ec7c04072af48f2a4451e102a80ca5bb441a7b4d72c176cea61866e', '0xafdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4f890']
         sequence_of_productions = []
 
         for private_key in private_keys:
