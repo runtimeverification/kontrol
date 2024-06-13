@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: ( maxUInt256 -Int VV0_x_114b9705:Int ) <Int #lookup ( STORAGE_CONTRACT_ID:Map , 0 )
+┣━━┓ constraint: ( maxUInt256 -Int VV0_x_114b9705:Int ) <Int #lookup ( CONTRACT_STORAGE:Map , 0 )
 ┃  │
 ┃  ├─ 13
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -30,7 +30,7 @@
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
 ┣━━┓ constraints:
-┃  ┃     #lookup ( STORAGE_CONTRACT_ID:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
+┃  ┃     #lookup ( CONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
 ┃  ┃     ( notBool STATIC_CELL:Bool )
 ┃  │
 ┃  ├─ 16
@@ -55,7 +55,7 @@
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
 ┗━━┓ constraints:
-   ┃     #lookup ( STORAGE_CONTRACT_ID:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
+   ┃     #lookup ( CONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
    ┃     STATIC_CELL:Bool
    │
    ├─ 17
@@ -122,7 +122,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                      CALLVALUE_79cb2bc6:Int
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( #lookup ( STORAGE_CONTRACT_ID:Map , 0 ) : ( VV0_x_114b9705:Int : ( 147 : ( VV0_x_114b9705:Int : ( 106 : ( selector ( "add(uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 0 : ( #lookup ( CONTRACT_STORAGE:Map , 0 ) : ( VV0_x_114b9705:Int : ( 147 : ( VV0_x_114b9705:Int : ( 106 : ( selector ( "add(uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -165,7 +165,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                        CONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       STORAGE_CONTRACT_ID:Map
+                       CONTRACT_STORAGE:Map
                      </storage>
                      <nonce>
                        CONTRACT_NONCE:Int
@@ -276,7 +276,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-       andBool ( ( maxUInt256 -Int VV0_x_114b9705:Int ) <Int #lookup ( STORAGE_CONTRACT_ID:Map , 0 )
+       andBool ( ( maxUInt256 -Int VV0_x_114b9705:Int ) <Int #lookup ( CONTRACT_STORAGE:Map , 0 )
                ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-7)]
     
@@ -363,7 +363,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                        CONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       ( STORAGE_CONTRACT_ID:Map => STORAGE_CONTRACT_ID:Map [ 0 <- ( #lookup ( STORAGE_CONTRACT_ID:Map , 0 ) +Int VV0_x_114b9705:Int ) ] )
+                       ( CONTRACT_STORAGE:Map => CONTRACT_STORAGE:Map [ 0 <- ( #lookup ( CONTRACT_STORAGE:Map , 0 ) +Int VV0_x_114b9705:Int ) ] )
                      </storage>
                      <nonce>
                        CONTRACT_NONCE:Int
@@ -475,7 +475,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-       andBool ( #lookup ( STORAGE_CONTRACT_ID:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
+       andBool ( #lookup ( CONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
                )))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-10)]
     
@@ -513,7 +513,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                      CALLVALUE_79cb2bc6:Int
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( ( #lookup ( STORAGE_CONTRACT_ID:Map , 0 ) +Int VV0_x_114b9705:Int ) : ( VV0_x_114b9705:Int : ( 106 : ( selector ( "add(uint256)" ) : .WordStack ) ) ) ) ) )
+                     ( .WordStack => ( 0 : ( ( #lookup ( CONTRACT_STORAGE:Map , 0 ) +Int VV0_x_114b9705:Int ) : ( VV0_x_114b9705:Int : ( 106 : ( selector ( "add(uint256)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -559,7 +559,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                        CONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       STORAGE_CONTRACT_ID:Map
+                       CONTRACT_STORAGE:Map
                      </storage>
                      <nonce>
                        CONTRACT_NONCE:Int
@@ -671,7 +671,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-       andBool ( #lookup ( STORAGE_CONTRACT_ID:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
+       andBool ( #lookup ( CONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
                )))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-17-TO-11)]
 
