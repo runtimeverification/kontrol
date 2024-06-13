@@ -26,7 +26,7 @@ contract CallableStorageTest is Test, KontrolCheats {
         member_contract = new CallableStorageContract("Test String");
     }
 
-    function test_str_callable() public {
+    function test_str() public {
         assertEq(member_contract.str(), "Test String");
     }
 }

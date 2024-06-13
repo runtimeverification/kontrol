@@ -1,0 +1,452 @@
+
+┌─ 1 (root, split, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+┃
+┃ (branch)
+┣━━┓ constraint: 0 ==Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
+┃  │
+┃  ├─ 8
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │
+┃  │  (888 steps)
+┃  ├─ 6 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 99
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_SUCCESS
+┃  │
+┃  ┊  constraint: OMITTED CONSTRAINT
+┃  ┊  subst: OMITTED SUBST
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┗━━┓ constraint: ( notBool ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ==Int 0 )
+   │
+   ├─ 9
+   │   k: #execute ~> CONTINUATION:K
+   │   pc: 0
+   │   callDepth: CALLDEPTH_CELL:Int
+   │   statusCode: STATUSCODE:StatusCode
+   │
+   │  (1054 steps)
+   ├─ 7 (terminal)
+   │   k: #halt ~> CONTINUATION:K
+   │   pc: 99
+   │   callDepth: CALLDEPTH_CELL:Int
+   │   statusCode: EVMC_SUCCESS
+   │
+   ┊  constraint: OMITTED CONSTRAINT
+   ┊  subst: OMITTED SUBST
+   └─ 2 (leaf, target, terminal)
+       k: #halt ~> CONTINUATION:K
+       pc: PC_CELL_5d410f2a:Int
+       callDepth: CALLDEPTH_CELL_5d410f2a:Int
+       statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
+
+module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():1
+    
+    
+    rule [BASIC-BLOCK-8-TO-6]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     CONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\xc1[\xae\x84"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 108 : ( selector ( "str()" ) : .WordStack ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressSet>
+                 .Set
+               </addressSet>
+               <storageSlotSet>
+                 .Set
+               </storageSlotSet>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int CONTRACT_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int CONTRACT_BAL:Int
+       andBool ( 0 <=Int CONTRACT_NONCE:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( CONTRACT_BAL:Int <Int pow256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( 0 ==Int ( 1 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) )
+       andBool ( ( notBool <acctID>
+          CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( 0 ==Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( 0 <=Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
+       andBool ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) <Int 32
+               )))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-8-TO-6)]
+    
+    rule [BASIC-BLOCK-9-TO-7]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => #range ( #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Bytes #buf ( 32 , ( ( #lookup ( CONTRACT_STORAGE:Map , 1 ) /Int 256 ) *Int 256 ) ) , ( 32 -Int ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) , ( ( ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Int 32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , 0 , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) ) +Int ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int 224 ) ) -Int ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int -160 ) ) ) )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     CONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\xc1[\xae\x84"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 108 : ( selector ( "str()" ) : .WordStack ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Bytes #buf ( 32 , ( ( #lookup ( CONTRACT_STORAGE:Map , 1 ) /Int 256 ) *Int 256 ) ) +Bytes #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Bytes #buf ( 32 , ( ( #lookup ( CONTRACT_STORAGE:Map , 1 ) /Int 256 ) *Int 256 ) ) , ( 32 -Int ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) , ( ( ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Int 32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressSet>
+                 .Set
+               </addressSet>
+               <storageSlotSet>
+                 .Set
+               </storageSlotSet>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int CONTRACT_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int CONTRACT_BAL:Int
+       andBool ( 0 <=Int CONTRACT_NONCE:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( CONTRACT_BAL:Int <Int pow256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( 0 ==Int ( 1 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) )
+       andBool ( ( notBool <acctID>
+          CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) =/=Int 0
+       andBool ( 0 <=Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
+       andBool ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) <Int 32
+               )))))))))))))))))))))))))
+       ensures ( 0 <Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
+       andBool ( 0 =/=Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
+               ))
+      [priority(20), label(BASIC-BLOCK-9-TO-7)]
+
+endmodule
