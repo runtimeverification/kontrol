@@ -19,7 +19,7 @@ from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
-from pyk.prelude.kint import intToken
+from pyk.prelude.kint import eqInt, geInt, intToken, ltInt
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
@@ -980,56 +980,47 @@ def _create_cse_accounts(
     for field in storage_fields:
         if field.data_type == 'string':
             lookup = KEVM.lookup(storage_map, intToken(field.slot))
-            length_byte_lt32 = KApply(
-                '_<Int_',
-                [
-                    KApply(
-                        '_&Int_',
-                        [
-                            intToken(127),
-                            KApply(
-                                '_>>Int_',
-                                [
-                                    lookup,
-                                    intToken(1),
-                                ],
-                            ),
-                        ],
-                    ),
-                    intToken(32),
-                ],
+            length_byte_lt32 = ltInt(
+                KApply(
+                    '_&Int_',
+                    [
+                        intToken(127),
+                        KApply(
+                            '_>>Int_',
+                            [
+                                lookup,
+                                intToken(1),
+                            ],
+                        ),
+                    ],
+                ),
+                intToken(32),
             )
-            length_byte_positive = KApply(
-                '_>=Int_',
-                [
-                    KApply(
-                        '_&Int_',
-                        [
-                            intToken(127),
-                            KApply(
-                                '_>>Int_',
-                                [
-                                    lookup,
-                                    intToken(1),
-                                ],
-                            ),
-                        ],
-                    ),
-                    intToken(0),
-                ],
+            length_byte_positive = geInt(
+                KApply(
+                    '_&Int_',
+                    [
+                        intToken(127),
+                        KApply(
+                            '_>>Int_',
+                            [
+                                lookup,
+                                intToken(1),
+                            ],
+                        ),
+                    ],
+                ),
+                intToken(0),
             )
-            lowest_bit_not_set = KApply(
-                '_==Int_',
-                [
-                    intToken(0),
-                    KApply(
-                        '_&Int_',
-                        [
-                            intToken(1),
-                            lookup,
-                        ],
-                    ),
-                ],
+            lowest_bit_not_set = eqInt(
+                intToken(0),
+                KApply(
+                    '_&Int_',
+                    [
+                        intToken(1),
+                        lookup,
+                    ],
+                ),
             )
 
             new_account_constraints.append(mlEqualsTrue(lowest_bit_not_set))
