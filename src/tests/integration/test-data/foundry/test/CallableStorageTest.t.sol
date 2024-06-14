@@ -7,15 +7,9 @@ import "kontrol-cheatcodes/KontrolCheats.sol";
 contract CallableStorageContract {
     uint public num;
     string public str;
-    uint immutable imm;
 
     constructor(string memory a) payable {
         str = a;
-        imm = 2;
-    }
-
-    function doNothing() public {
-        return;
     }
 }
 

@@ -2365,22 +2365,14 @@ module S2KtestZModCallableStorageContract-CONTRACT
     
     syntax Bytes ::= S2KtestZModCallableStorageContractContract "." S2KtestZModCallableStorageContractMethod [function, symbol(""), klabel(method_test%CallableStorageContract)]
     
-    syntax S2KtestZModCallableStorageContractMethod ::= "S2KdoNothing" "(" ")" [symbol(""), klabel(method_test%CallableStorageContract_S2KdoNothing_)]
-    
     syntax S2KtestZModCallableStorageContractMethod ::= "S2Knum" "(" ")" [symbol(""), klabel(method_test%CallableStorageContract_S2Knum_)]
     
     syntax S2KtestZModCallableStorageContractMethod ::= "S2Kstr" "(" ")" [symbol(""), klabel(method_test%CallableStorageContract_S2Kstr_)]
-    
-    rule  ( S2KtestZModCallableStorageContract . S2KdoNothing ( ) => #abiCallData ( "doNothing" , .TypedArgs ) )
-      
     
     rule  ( S2KtestZModCallableStorageContract . S2Knum ( ) => #abiCallData ( "num" , .TypedArgs ) )
       
     
     rule  ( S2KtestZModCallableStorageContract . S2Kstr ( ) => #abiCallData ( "str" , .TypedArgs ) )
-      
-    
-    rule  ( selector ( "doNothing()" ) => 794259232 )
       
     
     rule  ( selector ( "num()" ) => 1316008412 )

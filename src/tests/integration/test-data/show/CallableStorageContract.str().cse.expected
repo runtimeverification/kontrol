@@ -14,10 +14,10 @@
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (888 steps)
+┃  │  (867 steps)
 ┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 99
+┃  │   pc: 86
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
@@ -37,10 +37,10 @@
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (1054 steps)
+   │  (1033 steps)
    ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 99
+   │   pc: 86
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_SUCCESS
    │
@@ -95,7 +95,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 108 : ( selector ( "str()" ) : .WordStack ) ) )
+                     ( .WordStack => ( 95 : ( selector ( "str()" ) : .WordStack ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -289,7 +289,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 108 : ( selector ( "str()" ) : .WordStack ) ) )
+                     ( .WordStack => ( 95 : ( selector ( "str()" ) : .WordStack ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Bytes #buf ( 32 , ( ( #lookup ( CONTRACT_STORAGE:Map , 1 ) /Int 256 ) *Int 256 ) ) +Bytes #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Bytes #buf ( 32 , ( ( #lookup ( CONTRACT_STORAGE:Map , 1 ) /Int 256 ) *Int 256 ) ) , ( 32 -Int ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) , ( ( ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Int 32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
