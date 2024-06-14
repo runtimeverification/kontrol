@@ -327,6 +327,7 @@ class StorageField(NamedTuple):
     data_type: str
     slot: int
     offset: int
+    interface_for: str | None
 
 
 @dataclass
@@ -701,6 +702,7 @@ class Contract:
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
     constructor: Constructor | None
+    interface_annotations: dict[str, str]
     PREFIX_CODE: Final = 'Z'
 
     def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
@@ -740,6 +742,14 @@ class Contract:
         _methods = []
         metadata = self.contract_json.get('metadata', {})
         devdoc = metadata.get('output', {}).get('devdoc', {}).get('methods', {})
+
+        self.interface_annotations = {
+            node['name']: node.get('documentation', {}).get('text', '').split()[1]
+            for node in contract_ast['nodes']
+            if node['nodeType'] == 'VariableDeclaration'
+            and 'stateVariable' in node
+            and node.get('documentation', {}).get('text', '').startswith('@custom:kontrol-instantiate-interface')
+        }
 
         for method in contract_json['abi']:
             if method['type'] == 'function':
@@ -826,7 +836,7 @@ class Contract:
 
     @cached_property
     def fields(self) -> tuple[StorageField, ...]:
-        return process_storage_layout(self.contract_json.get('storageLayout', {}))
+        return process_storage_layout(self.contract_json.get('storageLayout', {}), self.interface_annotations)
 
     @cached_property
     def is_test_contract(self) -> bool:
@@ -1321,7 +1331,7 @@ def find_function_calls(node: dict) -> list[str]:
     return function_calls
 
 
-def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
+def process_storage_layout(storage_layout: dict, interface_annotations: dict) -> tuple[StorageField, ...]:
     storage = storage_layout.get('storage', [])
     types = storage_layout.get('types', {})
 
@@ -1334,6 +1344,7 @@ def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
                 data_type=type_info.get('label', field['type']),
                 slot=int(field['slot']),
                 offset=int(field['offset']),
+                interface_for=interface_annotations.get(field['label'], None),
             )
             fields_list.append(storage_field)
         except (KeyError, ValueError) as e:
