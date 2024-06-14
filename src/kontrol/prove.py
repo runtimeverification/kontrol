@@ -979,7 +979,7 @@ def _create_cse_accounts(
 
     for field in storage_fields:
         if field.data_type == 'string':
-            lookup = KApply('lookup', [storage_map, intToken(field.slot)])
+            lookup = KEVM.lookup(storage_map, intToken(field.slot))
             length_byte_lt32 = KApply(
                 '_<Int_',
                 [
