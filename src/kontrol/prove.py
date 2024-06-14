@@ -869,10 +869,9 @@ def _init_cterm(
             # Symbolic account for the contract being executed
             accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code))
         else:
-            storage_map = KVariable(Foundry.symbolic_contract_prefix() + '_STORAGE', sort=KSort('Map'))
             # Symbolic accounts of all relevant contracts
             accounts, storage_constraints = _create_cse_accounts(
-                foundry, storage_fields, Foundry.symbolic_contract_prefix(), contract_code, storage_map
+                foundry, storage_fields, Foundry.symbolic_contract_prefix(), contract_code
             )
 
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
@@ -956,7 +955,6 @@ def _create_cse_accounts(
     storage_fields: tuple[StorageField, ...],
     contract_name: str,
     contract_code: KInner,
-    storage_map: KInner,
 ) -> tuple[list[KInner], list[KApply]]:
     """
     Recursively generates a list of new accounts corresponding to `contract` fields, each having <code> and <storage> cell (partially) set up.
@@ -1064,7 +1062,7 @@ def _create_cse_accounts(
                     )
 
                     contract_accounts, contract_constraints = _create_cse_accounts(
-                        foundry, contract_obj.fields, contract_account_name, contract_account_code, storage_map
+                        foundry, contract_obj.fields, contract_account_name, contract_account_code
                     )
                     new_accounts.extend(contract_accounts)
                     new_account_constraints.extend(contract_constraints)
