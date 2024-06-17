@@ -48,6 +48,10 @@ def test_foundry_dependency_automated(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
+    run_constructor = True
+    if test_id in ['CallableStorageTest.test_str()', 'CallableStorageContract.str()']:
+        run_constructor = False
+
     foundry_prove(
         foundry=foundry,
         options=ProveOptions(
@@ -62,7 +66,7 @@ def test_foundry_dependency_automated(
                 'port': server.port,
                 'tests': [(test_id, None)],
                 'config_type': config_type,
-                'run_constructor': True,
+                'run_constructor': run_constructor,
             }
         ),
     )
