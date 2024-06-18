@@ -879,6 +879,12 @@ def _init_cterm(
         init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
         init_subst.update(init_subst_accounts)
 
+        # For purposes of summarization, assume we will call in a static context when the method isn't
+        # explicitly marked as method or view. If it is called in a static context, the summary simply won't
+        # apply.
+        if not isinstance(method, Contract.Constructor) and not (method.view or method.pure):
+            init_subst['STATIC_CELL'] = FALSE
+
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
 

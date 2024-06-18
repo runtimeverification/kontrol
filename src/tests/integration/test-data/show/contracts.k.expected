@@ -2356,6 +2356,26 @@ module S2KtestZModCSETest-CONTRACT
 
 endmodule
 
+module S2KtestZModStaticCallContract-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModStaticCallContractContract
+    
+    syntax S2KtestZModStaticCallContractContract ::= "S2KtestZModStaticCallContract" [symbol(""), klabel(contract_test%StaticCallContract)]
+    
+    syntax Bytes ::= S2KtestZModStaticCallContractContract "." S2KtestZModStaticCallContractMethod [function, symbol(""), klabel(method_test%StaticCallContract)]
+    
+    syntax S2KtestZModStaticCallContractMethod ::= "S2Kset" "(" Int ":" "uint256" ")" [symbol(""), klabel(method_test%StaticCallContract_S2Kset_uint256)]
+    
+    rule  ( S2KtestZModStaticCallContract . S2Kset ( V0_y : uint256 ) => #abiCallData ( "set" , ( #uint256 ( V0_y ) , .TypedArgs ) ) )
+       ensures #rangeUInt ( 256 , V0_y )
+      
+    
+    rule  ( selector ( "set(uint256)" ) => 1627277233 )
+      
+
+endmodule
+
 module S2KtestZModCallableStorageContract-CONTRACT
     imports public FOUNDRY
     
