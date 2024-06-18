@@ -2356,6 +2356,148 @@ module S2KtestZModCSETest-CONTRACT
 
 endmodule
 
+module S2KtestZModCallableStorageContract-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModCallableStorageContractContract
+    
+    syntax S2KtestZModCallableStorageContractContract ::= "S2KtestZModCallableStorageContract" [symbol(""), klabel(contract_test%CallableStorageContract)]
+    
+    syntax Bytes ::= S2KtestZModCallableStorageContractContract "." S2KtestZModCallableStorageContractMethod [function, symbol(""), klabel(method_test%CallableStorageContract)]
+    
+    syntax S2KtestZModCallableStorageContractMethod ::= "S2Knum" "(" ")" [symbol(""), klabel(method_test%CallableStorageContract_S2Knum_)]
+    
+    syntax S2KtestZModCallableStorageContractMethod ::= "S2Kstr" "(" ")" [symbol(""), klabel(method_test%CallableStorageContract_S2Kstr_)]
+    
+    rule  ( S2KtestZModCallableStorageContract . S2Knum ( ) => #abiCallData ( "num" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageContract . S2Kstr ( ) => #abiCallData ( "str" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "num()" ) => 1316008412 )
+      
+    
+    rule  ( selector ( "str()" ) => 3244011140 )
+      
+
+endmodule
+
+module S2KtestZModCallableStorageTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModCallableStorageTestContract
+    
+    syntax S2KtestZModCallableStorageTestContract ::= "S2KtestZModCallableStorageTest" [symbol(""), klabel(contract_test%CallableStorageTest)]
+    
+    syntax Bytes ::= S2KtestZModCallableStorageTestContract "." S2KtestZModCallableStorageTestMethod [function, symbol(""), klabel(method_test%CallableStorageTest)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2Kfailed" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2Kfailed_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2Kkevm" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2Kkevm_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KsetUp" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KsetUp_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KtargetContracts" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KtargetContracts_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KtargetSenders" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KtargetSenders_)]
+    
+    syntax S2KtestZModCallableStorageTestMethod ::= "S2KtestZUndstr" "(" ")" [symbol(""), klabel(method_test%CallableStorageTest_S2KtestZUndstr_)]
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2Kkevm ( ) => #abiCallData ( "kevm" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCallableStorageTest . S2KtestZUndstr ( ) => #abiCallData ( "test_str" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "kevm()" ) => 3601001590 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_str()" ) => 245500490 )
+      
+
+endmodule
+
 module S2KtestZModConstructorArgsTest-CONTRACT
     imports public FOUNDRY
     
