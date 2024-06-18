@@ -462,6 +462,8 @@ class Contract:
         contract_digest: str
         contract_storage_digest: str
         payable: bool
+        pure: bool
+        view: bool
         signature: str
         ast: dict | None
         natspec_values: dict | None
@@ -490,6 +492,8 @@ class Contract:
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
+            self.pure = abi['stateMutability'] == 'pure'
+            self.view = abi['stateMutability'] == 'view'
             self.ast = ast
             natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
             self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}

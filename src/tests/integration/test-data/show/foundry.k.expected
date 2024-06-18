@@ -31,6 +31,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModWarpTest-VERIFICATION
     imports public S2KtestZModBroadcastTest-VERIFICATION
     imports public S2KtestZModCSETest-VERIFICATION
+    imports public S2KtestZModStaticCallContract-VERIFICATION
     imports public S2KtestZModCallableStorageContract-VERIFICATION
     imports public S2KtestZModCallableStorageTest-VERIFICATION
     imports public S2KtestZModConstructorArgsTest-VERIFICATION
@@ -328,6 +329,13 @@ endmodule
 module S2KtestZModCSETest-VERIFICATION
     imports public S2KtestZModCSETest-CONTRACT
     imports public CSE-LEMMAS
+    
+    
+
+endmodule
+
+module S2KtestZModStaticCallContract-VERIFICATION
+    imports public S2KtestZModStaticCallContract-CONTRACT
     
     
 
