@@ -139,59 +139,107 @@ module KONTROL-VM
         <rpcResponse> _ => 10 </rpcResponse>
 
 
+    syntax TxData ::= #getTxData( Int ) [klabel(#getTxData), function]
+    // ------------------------------------------------------------------
+    rule [[ #getTxData( TXID ) => LegacyTxData(TN, TP, TG, TT, TV, DATA) ]]
+         <message>
+           <msgID>      TXID </msgID>
+           <txNonce>    TN   </txNonce>
+           <txGasPrice> TP   </txGasPrice>
+           <txGasLimit> TG   </txGasLimit>
+           <to>         TT   </to>
+           <value>      TV   </value>
+           <sigV>       TW   </sigV>
+           <data>       DATA </data>
+           <txType> Legacy </txType>
+           ...
+         </message>
+      requires TW ==Int 0 orBool TW ==Int 1 orBool TW ==Int 27 orBool TW ==Int 28
+
+    rule [[ #getTxData( TXID ) => LegacyProtectedTxData(TN, TP, TG, TT, TV, DATA, CID) ]]
+         <message>
+           <msgID>      TXID </msgID>
+           <txNonce>    TN   </txNonce>
+           <txGasPrice> TP   </txGasPrice>
+           <txGasLimit> TG   </txGasLimit>
+           <to>         TT   </to>
+           <value>      TV   </value>
+           <sigV>       TW   </sigV>
+           <data>       DATA </data>
+           <txChainID>  CID  </txChainID>
+           <txType> Legacy </txType>
+           ...
+         </message>
+      requires notBool (TW ==Int 0 orBool TW ==Int 1 orBool TW ==Int 27 orBool TW ==Int 28)
+
+    rule [[ #getTxData( TXID ) => AccessListTxData(TN, TP, TG, TT, TV, DATA, CID, TA) ]]
+         <message>
+           <msgID>      TXID </msgID>
+           <txNonce>    TN   </txNonce>
+           <txGasPrice> TP   </txGasPrice>
+           <txGasLimit> TG   </txGasLimit>
+           <to>         TT   </to>
+           <value>      TV   </value>
+           <data>       DATA </data>
+           <txChainID>  CID  </txChainID>
+           <txAccess>   TA   </txAccess>
+           <txType> AccessList </txType>
+           ...
+         </message>
+
+    rule [[ #getTxData( TXID ) => DynamicFeeTxData(TN, TPF, TM, TG, TT, TV, DATA, CID, TA) ]]
+         <message>
+           <msgID>         TXID </msgID>
+           <txNonce>       TN   </txNonce>
+           <txGasLimit>    TG   </txGasLimit>
+           <to>            TT   </to>
+           <value>         TV   </value>
+           <data>          DATA </data>
+           <txChainID>     CID  </txChainID>
+           <txAccess>      TA   </txAccess>
+           <txPriorityFee> TPF  </txPriorityFee>
+           <txMaxFee>      TM   </txMaxFee>
+           <txType> DynamicFee </txType>
+           ...
+         </message>
+
+    syntax String ::= #unparseByteStack ( Bytes ) [function, klabel(unparseByteStack), symbol]
+    rule #unparseByteStack(WS) => Bytes2String(WS)
+
+    syntax String  ::=
+        "Hex2Raw" "(" String ")" [function, klabel(Hex2Raw)]
+      | "Raw2Hex" "(" String ")" [function, klabel(Raw2Hex)]
+
+    rule Hex2Raw ( S ) => #unparseByteStack( #parseByteStack ( S ) )
   
-    // syntax KItem ::= "signTX" Int Int
-    //                | "signTX" Int String 
-    // // --------------------------------------------------------
-    // rule <k> signTX TXID ACCTFROM:Int => signTX TXID ECDSASign( Hex2Raw ( #hashUnsignedTx(TXTYPE, TN, TP, TG, TT, TV, TD, CID, TA ) ), #unparseByteStack( #padToWidth( 32, #asByteStack( KEY ) ) ) ) ... </k>
-    //      <accountKeys> ... ACCTFROM |-> KEY ... </accountKeys>
-    //      <mode> NORMAL </mode>
-    //      <message>
-    //        <msgID> TXID </msgID>
-    //        <txNonce>    TN     </txNonce>
-    //        <txGasPrice> TP     </txGasPrice>
-    //        <txGasLimit> TG     </txGasLimit>
-    //        <to>         TT     </to>
-    //        <value>      TV     </value>
-    //        <data>       TD     </data>
-    //        <txType>     TXTYPE </txType>
-    //        <txAccess>   TA     </txAccess>
-    //        <txChainID>  CID    </txChainID>
-    //        ...
-    //      </message>
+    syntax KItem ::= "signTX" Int Int
+                   | "signTX" Int String 
+    // --------------------------------------------------------
 
-    // rule <k> signTX TXID ACCTFROM:Int => signTX TXID ECDSASign( Hex2Raw( #hashUnsignedTx(TXTYPE, TN, TP, TG, TT, TV, TD, CID, TA) ), #unparseByteStack( ( #padToWidth( 20, #asByteStack( ACCTFROM ) ) ++ #padToWidth( 20, #asByteStack( ACCTFROM ) ) )[0 .. 32] ) ) ... </k>
-    //      <mode> NOGAS </mode>
-    //      <message>
-    //        <msgID> TXID </msgID>
-    //        <txNonce>    TN     </txNonce>
-    //        <txGasPrice> TP     </txGasPrice>
-    //        <txGasLimit> TG     </txGasLimit>
-    //        <to>         TT     </to>
-    //        <value>      TV     </value>
-    //        <data>       TD     </data>
-    //        <txType>     TXTYPE </txType>
-    //        <txAccess>   TA     </txAccess>
-    //        <txChainID>  CID    </txChainID>
-    //        ...
-    //      </message>
+    rule <k> signTX TXID ACCTFROM:Int => ECDSASign ( #hashTxData( #getTxData (TXID) ), #padToWidth( 32, #asByteStack( KEY ) ) )  ... </k>
+        <accountKeys> ... ACCTFROM |-> KEY ... </accountKeys>
+        <mode> NORMAL </mode>
 
-    // rule <k> signTX TXID SIG:String => . ... </k>
-    //      <message>
-    //        <msgID> TXID </msgID>
-    //        <sigR> _ => #parseHexBytes( substrString( SIG, 0, 64 ) )           </sigR>
-    //        <sigS> _ => #parseHexBytes( substrString( SIG, 64, 128 ) )         </sigS>
-    //        <sigV> _ => #parseHexWord( substrString( SIG, 128, 130 ) ) +Int 27 </sigV>
-    //        ...
-    //      </message>
+    rule <k> signTX TXID ACCTFROM:Int => ECDSASign ( #hashTxData( #getTxData (TXID) ), #padToWidth( 32, #asByteStack( KEY ) ) )  ... </k>
+        <accountKeys> ... ACCTFROM |-> KEY ... </accountKeys>
+        <mode> NOGAS </mode>
 
-    // rule <k> signTX TXID ACCTFROM:Int => . ... </k>
-    //      <accountKeys> KEYMAP                      </accountKeys>
-    //      <mode>        NORMAL                      </mode>
-    //      <txPending>   ListItem(TXID) => .List ... </txPending>
-    //      <txOrder>     ListItem(TXID) => .List ... </txOrder>
-    //     <rpcResponse> _ => 11 </rpcResponse>
-    //   requires notBool ACCTFROM in_keys(KEYMAP)
+    rule <k> signTX TXID SIG:String => . ... </k>
+         <message>
+           <msgID> TXID </msgID>
+           <sigR> _ => #parseHexBytes( substrString( SIG, 0, 64 ) )           </sigR>
+           <sigS> _ => #parseHexBytes( substrString( SIG, 64, 128 ) )         </sigS>
+           <sigV> _ => #parseHexWord( substrString( SIG, 128, 130 ) ) +Int 27 </sigV>
+           ...
+         </message>
+
+    rule <k> signTX TXID ACCTFROM:Int => . ... </k>
+         <accountKeys> KEYMAP                      </accountKeys>
+         <mode>        NORMAL                      </mode>
+         <txPending>   ListItem(TXID) => .List ... </txPending>
+         <txOrder>     ListItem(TXID) => .List ... </txOrder>
+         <rpcResponse> _ => -1 </rpcResponse>
+      requires notBool ACCTFROM in_keys(KEYMAP)
 
 endmodule
 
