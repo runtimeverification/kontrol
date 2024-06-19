@@ -322,11 +322,75 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     return natspecs
 
 
-class StorageField(NamedTuple):
+@dataclass
+class StorageFieldType:
+    name: str
+
+@dataclass
+class StorageFieldArrayType(StorageFieldType):
+    base_type: StorageFieldType
+
+@dataclass
+class StorageFieldMappingType(StorageFieldType):
+    key_type: StorageFieldType
+    val_type: StorageFieldType
+
+@dataclass
+class StorageFieldStructType(StorageFieldType):
+    members: tuple[StorageField, ...]
+
+@dataclass
+class StorageField():
     label: str
-    data_type: str
+    data_type: StorageFieldType
     slot: int
     offset: int
+
+
+def process_data_type(dct: dict, types_dct: dict) -> StorageFieldType:
+    if 'key' in dct:
+        # Mapping
+        return StorageFieldMappingType(
+            name=dct['label'], 
+            key_type=process_data_type(types_dct[dct['key']], types_dct),
+            val_type=process_data_type(types_dct[dct['value']], types_dct),
+        )
+    elif 'members' in dct:
+        # Struct
+        return StorageFieldStructType(
+            name=dct['label'],
+            members=tuple(storage_field_from_dict(member, types_dct) for member in dct['members']),
+        )
+    elif 'base' in dct:
+        # Array
+        return StorageFieldArrayType(
+            name=dct['label'],
+            base_type=process_data_type(types_dct[dct['base']], types_dct),
+        )
+    else:
+        # Other
+        return StorageFieldType(name=dct['label'])
+
+def storage_field_from_dict(dct: dict, types_dct: dict) -> StorageField:
+    label= dct['label']
+    slot = dct['slot']
+    offset = dct['offset']
+    data_type = process_data_type(types_dct[dct['type']], types_dct)
+    return StorageField(label, data_type, slot, offset)
+
+
+def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
+    storage = storage_layout.get('storage', [])
+    types = storage_layout.get('types', {})
+
+    fields_list: list[StorageField] = []
+    for field in storage:
+        storage_field = storage_field_from_dict(field, types)
+        fields_list.append(storage_field)
+        print(storage_field)
+
+    return tuple(fields_list)
+
 
 
 @dataclass
@@ -1325,22 +1389,3 @@ def find_function_calls(node: dict) -> list[str]:
     return function_calls
 
 
-def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
-    storage = storage_layout.get('storage', [])
-    types = storage_layout.get('types', {})
-
-    fields_list: list[StorageField] = []
-    for field in storage:
-        try:
-            type_info = types.get(field['type'], {})
-            storage_field = StorageField(
-                label=field['label'],
-                data_type=type_info.get('label', field['type']),
-                slot=int(field['slot']),
-                offset=int(field['offset']),
-            )
-            fields_list.append(storage_field)
-        except (KeyError, ValueError) as e:
-            _LOGGER.error(f'Error processing field {field}: {e}')
-
-    return tuple(fields_list)
