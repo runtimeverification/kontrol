@@ -3538,8 +3538,15 @@ module S2KtestZModDynamicTypesTest-CONTRACT
                ))))))
       
     
-    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUndnestedZUndstructZUndarray ( V0_id_0 : uint256 , V1_content_0 : bytes , V0_id_1 : uint256 , V1_content_1 : bytes ) => #abiCallData ( "test_nested_struct_array" , ( #array ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , 2 , ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_1 ) , ( #bytes ( V1_content_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+       ensures ( #rangeUInt ( 256 , V0_id_0 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_0 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_1 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_1 ) )
+               ))))
       
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
     
     rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
       
