@@ -3408,6 +3408,8 @@ module S2KtestZModDynamicTypesTest-CONTRACT
     
     syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUnddynamicZUndstructZUndnestedZUndarray" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "bool" ")" [symbol(""), klabel(method_test%DynamicTypesTest_S2KtestZUnddynamicZUndstructZUndnestedZUndarray_address_address_uint256_uint256_bytes_bool)]
     
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUndnestedZUndstructZUndarray" "(" Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol(""), klabel(method_test%DynamicTypesTest_S2KtestZUndnestedZUndstructZUndarray_uint256_bytes_uint256_bytes)]
+    
     rule  ( S2KtestZModDynamicTypesTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
     
@@ -3538,6 +3540,14 @@ module S2KtestZModDynamicTypesTest-CONTRACT
                ))))))
       
     
+    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUndnestedZUndstructZUndarray ( V0_id_0 : uint256 , V1_content_0 : bytes , V0_id_1 : uint256 , V1_content_1 : bytes ) => #abiCallData ( "test_nested_struct_array" , ( #array ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , 2 , ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_1 ) , ( #bytes ( V1_content_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+       ensures ( #rangeUInt ( 256 , V0_id_0 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_0 ) )
+       andBool ( #rangeUInt ( 256 , V0_id_1 )
+       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_1 ) )
+               ))))
+      
+    
     rule  ( selector ( "IS_TEST()" ) => 4202047188 )
       
     
@@ -3584,6 +3594,9 @@ module S2KtestZModDynamicTypesTest-CONTRACT
       
     
     rule  ( selector ( "test_dynamic_struct_nested_array((address[],uint256[],bytes,bool))" ) => 1544336286 )
+      
+    
+    rule  ( selector ( "test_nested_struct_array((uint256,bytes)[][])" ) => 2108146763 )
       
 
 endmodule
