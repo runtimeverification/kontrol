@@ -325,6 +325,21 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
 @dataclass
 class StorageFieldType:
     name: str
+    slot: KInner
+
+    def compute_slots(self, base_slot: KInner) -> None:
+        self.slot = base_slot
+
+    def slots(self) -> list[tuple[KInner, str]]:
+        return [(self.slot, self.name)]
+
+    def compute_constraints(self, storage_map: KInner) -> list[KInner]:
+        constraints = []
+        for slot, slot_type in self.slots():
+            constraint = _range_predicate(term=KEVM.lookup(storage_map, slot), type_label=slot_type)
+            if constraint is not None:
+                constraints.append(constraint)
+        return constraints
 
 @dataclass
 class StorageFieldArrayType(StorageFieldType):
@@ -334,6 +349,20 @@ class StorageFieldArrayType(StorageFieldType):
 class StorageFieldMappingType(StorageFieldType):
     key_type: StorageFieldType
     val_type: StorageFieldType
+
+    def compute_slots(self, base_slot: KInner) -> None:
+        self.slot = base_slot
+        self.val_type.compute_slots(
+            KApply('keccak', [
+                KApply('_+Bytes_', [
+                    KVariable('FRESH_VAR'),
+                    base_slot,
+                ])
+            ])
+        )
+
+    def slots(self) -> list[tuple[KInner, str]]:
+        return [(self.slot, self.name)] + self.val_type.slots()
 
 @dataclass
 class StorageFieldStructType(StorageFieldType):
@@ -347,6 +376,14 @@ class StorageField():
     offset: int
 
 
+
+#  def constraints_for_storage_field(sf: StorageField, storage_map: KInner) -> list[KInner]:
+#      lookup = KEVM.lookup(storage_map, sf.data_type.get_slot(intToken(sf.slot)))
+#      term = sf.data_type.get_slot(KApply('asWord', [sf.slot]))
+#      print(term)
+#      range_pred = _range_predicate(type_label=sf.data_type.name, term=term)
+    
+
 def process_data_type(dct: dict, types_dct: dict) -> StorageFieldType:
     if 'key' in dct:
         # Mapping
@@ -354,22 +391,25 @@ def process_data_type(dct: dict, types_dct: dict) -> StorageFieldType:
             name=dct['label'], 
             key_type=process_data_type(types_dct[dct['key']], types_dct),
             val_type=process_data_type(types_dct[dct['value']], types_dct),
+            slot=None,
         )
     elif 'members' in dct:
         # Struct
         return StorageFieldStructType(
             name=dct['label'],
             members=tuple(storage_field_from_dict(member, types_dct) for member in dct['members']),
+            slot=None,
         )
     elif 'base' in dct:
         # Array
         return StorageFieldArrayType(
             name=dct['label'],
             base_type=process_data_type(types_dct[dct['base']], types_dct),
+            slot=None,
         )
     else:
         # Other
-        return StorageFieldType(name=dct['label'])
+        return StorageFieldType(name=dct['label'], slot=None)
 
 def storage_field_from_dict(dct: dict, types_dct: dict) -> StorageField:
     label= dct['label']
@@ -387,7 +427,9 @@ def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
     for field in storage:
         storage_field = storage_field_from_dict(field, types)
         fields_list.append(storage_field)
-        print(storage_field)
+        storage_field.data_type.compute_slots(intToken(storage_field.slot))
+        print(storage_field.data_type.compute_constraints(KVariable('STORAGE_MAP')))
+
 
     return tuple(fields_list)
 
