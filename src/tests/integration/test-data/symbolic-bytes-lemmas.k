@@ -80,7 +80,8 @@ module SYMBOLIC-BYTES-LEMMAS
     // Arithmetic
     //
     rule ( A:Int *Int B:Int ) >>Int C:Int => ( A /Int ( 2 ^Int C ) ) *Int B
-      requires A modInt ( 2 ^Int C ) ==Int 0
+      requires 0 <=Int A andBool 0 <=Int B andBool 0 <=Int C
+       andBool A modInt ( 2 ^Int C ) ==Int 0
       [simplification, concrete(A, C)]
 
 endmodule
