@@ -30,8 +30,10 @@ from pyk.utils import run_process, unique
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
-from .solc_to_k import Contract, hex_string_to_int
+from .solc_to_k import Contract, hex_string_to_int, _range_predicate
 from .utils import parse_test_version_tuple
+
+from .solc_to_k import StorageFieldMappingType
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -982,6 +984,8 @@ def _create_cse_accounts(
     new_accounts.append(Foundry.symbolic_account(contract_name, contract_code, storage_map))
 
     for field in storage_fields:
+        if isinstance(field.data_type, StorageFieldMappingType):
+            ...
         if field.data_type == 'string':
             lookup = KEVM.lookup(storage_map, intToken(field.slot))
             length_byte_lt32 = ltInt(
@@ -1030,8 +1034,8 @@ def _create_cse_accounts(
             new_account_constraints.append(mlEqualsTrue(lowest_bit_not_set))
             new_account_constraints.append(mlEqualsTrue(length_byte_lt32))
             new_account_constraints.append(mlEqualsTrue(length_byte_positive))
-        if field.data_type.startswith('contract '):
-            contract_type = field.data_type.split(' ')[1]
+        if field.data_type.name.startswith('contract '):
+            contract_type = field.data_type.name.split(' ')[1]
             for full_contract_name, contract_obj in foundry.contracts.items():
                 # TODO: this is not enough, it is possible that the same contract comes with
                 # src% and test%, in which case we don't know automatically which one to choose
