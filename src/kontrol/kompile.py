@@ -45,6 +45,9 @@ def foundry_kompile(
     if not options.no_forge_build:
         foundry.build()
 
+    if not options.no_silence_warnings:
+        options.ignore_warnings = _silenced_warnings()
+
     regen = options.regen
 
     if not foundry.up_to_date():
@@ -141,6 +144,7 @@ def foundry_kompile(
             ccopts=options.ccopts,
             debug=options.debug,
             verbose=options.verbose,
+            ignore_warnings=options.ignore_warnings,
         )
         KompiledKore.load(output_dir).write(output_dir)
 
@@ -186,3 +190,7 @@ def _foundry_to_main_def(
         [_main_module] + modules,
         requires=(KRequire(req) for req in list(requires)),
     )
+
+
+def _silenced_warnings() -> list[str]:
+    return ['non-exhaustive-match', 'missing-syntax-module']

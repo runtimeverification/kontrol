@@ -315,6 +315,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help="Do not call 'forge build' during kompilation.",
     )
+    build.add_argument(
+        '--no-silence-warnings',
+        dest='no_silence_warnings',
+        default=None,
+        action='store_true',
+        help='Do not silence K compiler warnings',
+    )
 
     state_diff_args = command_parser.add_parser(
         'load-state-diff',
