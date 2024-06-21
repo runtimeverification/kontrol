@@ -75,6 +75,22 @@ Capturing cheat code calls
         orBool SELECTOR ==Int selector ( "assertEq(uint256,uint256)" )
     [preserves-definedness]
 
+    rule [cheatcode.call.assertEq.Darray]:
+         <k> #cheatcode_call SELECTOR ARGS => 
+               #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
+               #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
+               #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
+               #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
+               #let ARG1_VALUE = #asWord(#range(ARGS, ARG1_START, 32 *Int (1 +Int ARG1_LEN))) #in
+               #let ARG2_VALUE = #asWord(#range(ARGS, ARG2_START, 32 *Int (1 +Int ARG2_LEN))) #in
+                 #assert_eq ARG1_VALUE ARG2_VALUE String2Bytes("assertion failed") ... </k>
+      requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[])" )
+        orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[])"   )
+        orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[])"       )
+        orBool SELECTOR ==Int selector ( "assertEq(bytes32[],bytes32[])" )
+        orBool SELECTOR ==Int selector ( "assertEq(address[],address[])" )
+    [preserves-definedness]
+
     rule [cheatcode.call.assertEq.err]:
          <k> #cheatcode_call SELECTOR ARGS => #assert_eq #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 96, #asWord(#range(ARGS, 64, 32))) ... </k>
       requires SELECTOR ==Int selector ( "assertEq(address,address,string)" )
@@ -82,6 +98,25 @@ Capturing cheat code calls
         orBool SELECTOR ==Int selector ( "assertEq(bytes32,bytes32,string)" )
         orBool SELECTOR ==Int selector ( "assertEq(int256,int256,string)"   )
         orBool SELECTOR ==Int selector ( "assertEq(uint256,uint256,string)" )
+    [preserves-definedness]
+
+    rule [cheatcode.call.assertEq.Darray.err]:
+         <k> #cheatcode_call SELECTOR ARGS => 
+               #let ARG1_START = #asWord(#range(ARGS,  0, 32)) #in
+               #let ARG2_START = #asWord(#range(ARGS, 32, 32)) #in
+               #let ERR_START  = #asWord(#range(ARGS, 64, 32)) #in
+               #let ARG1_LEN   = #asWord(#range(ARGS, ARG1_START, 32)) #in
+               #let ARG2_LEN   = #asWord(#range(ARGS, ARG2_START, 32)) #in
+               #let ERR_LEN    = #asWord(#range(ARGS,  ERR_START, 32)) #in
+               #let ARG1_VALUE = #asWord(#range(ARGS, ARG1_START, 32 *Int (1 +Int ARG1_LEN))) #in
+               #let ARG2_VALUE = #asWord(#range(ARGS, ARG2_START, 32 *Int (1 +Int ARG2_LEN))) #in
+               #let ERR_BYTES  = #range(ARGS, 32 +Int ERR_START, ERR_LEN) #in
+                  #assert_eq ARG1_VALUE ARG2_VALUE ERR_BYTES ... </k>
+      requires SELECTOR ==Int selector ( "assertEq(uint256[],uint256[],string)" )
+        orBool SELECTOR ==Int selector ( "assertEq(int256[],int256[],string)"   )
+        orBool SELECTOR ==Int selector ( "assertEq(bool[],bool[],string)"       )
+        orBool SELECTOR ==Int selector ( "assertEq(bytes32[],bytes32[],string)" )
+        orBool SELECTOR ==Int selector ( "assertEq(address[],address[],string)" )
     [preserves-definedness]
 
     rule [cheatcode.call.assertNotEq]:
@@ -191,16 +226,27 @@ Function selectors
 ------------------
 
 ```k
-    rule selector ( "assertEq(address,address)"           ) => 1364419062
-    rule selector ( "assertEq(address,address,string)"    ) => 791112145
-    rule selector ( "assertEq(bool,bool)"                 ) => 4160631927
-    rule selector ( "assertEq(bool,bool,string)"          ) => 1303486078
-    rule selector ( "assertEq(bytes32,bytes32)"           ) => 2089076379
-    rule selector ( "assertEq(bytes32,bytes32,string)"    ) => 3254394576
-    rule selector ( "assertEq(int256,int256)"             ) => 4269076571
-    rule selector ( "assertEq(int256,int256,string)"      ) => 1900687123
-    rule selector ( "assertEq(uint256,uint256)"           ) => 2552851540
-    rule selector ( "assertEq(uint256,uint256,string)"    ) => 2293517445
+    rule selector ( "assertEq(address,address)"            ) => 1364419062
+    rule selector ( "assertEq(address,address,string)"     ) => 791112145
+    rule selector ( "assertEq(bool,bool)"                  ) => 4160631927
+    rule selector ( "assertEq(bool,bool,string)"           ) => 1303486078
+    rule selector ( "assertEq(bytes32,bytes32)"            ) => 2089076379
+    rule selector ( "assertEq(bytes32,bytes32,string)"     ) => 3254394576
+    rule selector ( "assertEq(int256,int256)"              ) => 4269076571
+    rule selector ( "assertEq(int256,int256,string)"       ) => 1900687123
+    rule selector ( "assertEq(uint256,uint256)"            ) => 2552851540
+    rule selector ( "assertEq(uint256,uint256,string)"     ) => 2293517445
+    rule selector ( "assertEq(uint256[],uint256[])"        ) => 2539477522
+    rule selector ( "assertEq(uint256[],uint256[],string)" ) => 1561904954
+    rule selector ( "assertEq(int256[],int256[])"          ) => 1896891308
+    rule selector ( "assertEq(int256[],int256[],string)"   ) => 421468976
+    rule selector ( "assertEq(bool[],bool[])"              ) => 1887303557
+    rule selector ( "assertEq(bool[],bool[],string)"       ) => 3834285965
+    rule selector ( "assertEq(bytes32[],bytes32[])"        ) => 214560388
+    rule selector ( "assertEq(bytes32[],bytes32[],string)" ) => 3762196855
+    rule selector ( "assertEq(address[],address[])"        ) => 946383924
+    rule selector ( "assertEq(address[],address[],string)" ) => 1049719749
+
 
     rule selector ( "assertTrue(bool)"                    ) => 211801473
     rule selector ( "assertTrue(bool,string)"             ) => 2739854339
