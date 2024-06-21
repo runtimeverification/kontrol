@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1272 steps)
-└─ 22 (leaf, terminal)
+└─ 20 (leaf, terminal)
     k: #halt ~> CONTINUATION:K
     pc: 328
     callDepth: 0
@@ -20,7 +20,7 @@
 │   statusCode: STATUSCODE_FINAL:StatusCode
 
 
-Node 22:
+Node 20:
 
 ( <generatedTop>
   <foundry>
@@ -256,7 +256,7 @@ Node 22:
 module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
     
     
-    rule [BASIC-BLOCK-1-TO-22]: <foundry>
+    rule [BASIC-BLOCK-1-TO-20]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -483,14 +483,14 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-22)]
+      [priority(20), label(BASIC-BLOCK-1-TO-20)]
 
 endmodule
 1 Failure nodes. (0 pending and 1 failing)
 
 Failing nodes:
 
-  Node id: 22
+  Node id: 20
   Failure reason:
     Matching failed.
     The remaining implication is:

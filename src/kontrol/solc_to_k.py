@@ -334,8 +334,7 @@ class Contract:
     @dataclass
     class Constructor:
         sort: KSort
-        arg_names: tuple[str, ...]
-        arg_types: tuple[str, ...]
+        inputs: tuple[Input, ...]
         contract_name: str
         contract_digest: str
         contract_storage_digest: str
@@ -351,11 +350,11 @@ class Contract:
             sort: KSort,
         ) -> None:
             self.signature = 'init'
-            self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
-            self.arg_types = tuple([input['type'] for input in abi['inputs']])
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
+            # TODO: support NatSpec comments for dynamic types
+            self.inputs = tuple(inputs_from_abi(abi['inputs'], None))
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
@@ -411,6 +410,47 @@ class Contract:
                 else abstract_term_safely(KVariable('_###CALLVALUE###_'), base_name='CALLVALUE')
             )
 
+        @cached_property
+        def encoded_args(self) -> tuple[KInner, list[KInner]]:
+            args: list[KInner] = []
+            type_constraints: list[KInner] = []
+            for input in self.inputs:
+                abi_type = input.to_abi()
+                args.append(abi_type)
+                rps = []
+                if input.type.startswith('tuple'):
+                    components = input.components
+
+                    if input.type.endswith('[]'):
+                        if input.array_lengths is None:
+                            raise ValueError(f'Array length bounds missing for {input.name}')
+
+                        tuple_array_components = [
+                            Input(
+                                f'{_c.name}_{i}',
+                                _c.type,
+                                _c.components,
+                                _c.idx,
+                                _c.array_lengths,
+                                _c.dynamic_type_length,
+                            )
+                            for i in range(input.array_lengths[0])
+                            for _c in components
+                        ]
+                        components = tuple(tuple_array_components)
+
+                    for sub_input in components:
+                        _abi_type = sub_input.to_abi()
+                        rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
+                else:
+                    rps = _range_predicates(abi_type, input.dynamic_type_length)
+                for rp in rps:
+                    if rp is None:
+                        raise ValueError(f'Unsupported ABI type for method for {self.contract_name}.init')
+                    type_constraints.append(rp)
+            encoded_args = KApply('encodeArgs', [KEVM.typed_args(args)])
+            return encoded_args, type_constraints
+
     @dataclass
     class Method:
         name: str
@@ -422,6 +462,8 @@ class Contract:
         contract_digest: str
         contract_storage_digest: str
         payable: bool
+        pure: bool
+        view: bool
         signature: str
         ast: dict | None
         natspec_values: dict | None
@@ -450,6 +492,8 @@ class Contract:
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
+            self.pure = abi['stateMutability'] == 'pure'
+            self.view = abi['stateMutability'] == 'view'
             self.ast = ast
             natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
             self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
@@ -787,6 +831,10 @@ class Contract:
     @cached_property
     def fields(self) -> tuple[StorageField, ...]:
         return process_storage_layout(self.contract_json.get('storageLayout', {}))
+
+    @cached_property
+    def is_test_contract(self) -> bool:
+        return any(field.label == 'IS_TEST' for field in self.fields)
 
     @staticmethod
     def contract_to_module_name(c: str) -> str:
@@ -1188,17 +1236,12 @@ def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KApply 
 
 def method_sig_from_abi(method_json: dict) -> str:
     def unparse_input(input_json: dict) -> str:
-        is_array = False
-        is_sized = False
-        array_size = 0
+        array_sizes = []
         base_type = input_json['type']
-        if re.match(r'.+\[.*\]', base_type):
-            is_array = True
+        while re.match(r'.+\[.*\]', base_type):
             array_size_str = base_type.split('[')[1][:-1]
-            if array_size_str != '':
-                is_sized = True
-                array_size = int(array_size_str)
-            base_type = base_type.split('[')[0]
+            array_sizes.append(array_size_str if array_size_str != '' else '')
+            base_type = base_type.rpartition('[')[0]
         if base_type == 'tuple':
             input_type = '('
             for i, component in enumerate(input_json['components']):
@@ -1206,13 +1249,11 @@ def method_sig_from_abi(method_json: dict) -> str:
                     input_type += ','
                 input_type += unparse_input(component)
             input_type += ')'
-            if is_array and not (is_sized):
-                input_type += '[]'
-            elif is_array and is_sized:
-                input_type += f'[{array_size}]'
-            return input_type
         else:
-            return input_json['type']
+            input_type = base_type
+        for array_size in reversed(array_sizes):
+            input_type += f'[{array_size}]' if array_size else '[]'
+        return input_type
 
     method_name = method_json['name']
     method_args = ''

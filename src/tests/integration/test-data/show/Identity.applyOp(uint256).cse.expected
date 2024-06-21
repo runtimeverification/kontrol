@@ -8,14 +8,14 @@
 ┃ (branch)
 ┣━━┓ constraint: CALLDEPTH_CELL:Int <Int 1024
 ┃  │
-┃  ├─ 10
+┃  ├─ 8
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (712 steps)
-┃  ├─ 9 (terminal)
+┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -31,7 +31,7 @@
 ┃
 ┗━━┓ constraint: 1024 <=Int CALLDEPTH_CELL:Int
    │
-   ├─ 11
+   ├─ 9
    │   k: #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
@@ -58,7 +58,7 @@
 module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
     
     
-    rule [BASIC-BLOCK-10-TO-9]: <foundry>
+    rule [BASIC-BLOCK-8-TO-6]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -255,9 +255,9 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-10-TO-9)]
+      [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
-    rule [BASIC-BLOCK-11-TO-7]: <foundry>
+    rule [BASIC-BLOCK-9-TO-7]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -451,6 +451,6 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-11-TO-7)]
+      [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule

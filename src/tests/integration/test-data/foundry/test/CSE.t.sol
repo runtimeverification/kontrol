@@ -32,3 +32,12 @@ contract CSETest is Test {
         assert(z == x + y);
     }
 }
+
+contract StaticCallContract {
+    uint x;
+
+    function set(uint y) public {
+        x = y;
+    }
+
+}

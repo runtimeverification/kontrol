@@ -11,15 +11,15 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
-from pyk.kast.inner import KApply, KSequence, KSort, KToken, KVariable, Subst
+from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty, set_of
+from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
-from pyk.prelude.kint import intToken
+from pyk.prelude.kint import eqInt, geInt, intToken, ltInt
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
@@ -42,6 +42,7 @@ if TYPE_CHECKING:
 
     from .deployment import DeploymentStateEntry
     from .options import ProveOptions
+    from .solc_to_k import StorageField
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -81,7 +82,10 @@ def foundry_prove(
     )
 
     if options.cse:
-        test_suite = collect_tests(foundry, options.tests, reinit=options.reinit, return_empty=True)
+        exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
+        test_suite = collect_tests(
+            foundry, options.tests, reinit=options.reinit, return_empty=True, exact_match=exact_match
+        )
         for test in test_suite:
             if not isinstance(test.method, Contract.Method) or test.method.function_calls is None:
                 continue
@@ -97,7 +101,8 @@ def foundry_prove(
                 new_prove_options.config_type = ConfigType.SUMMARY_CONFIG
                 summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, deployment_state_entries))
 
-    test_suite = collect_tests(foundry, options.tests, reinit=options.reinit)
+    exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
+    test_suite = collect_tests(foundry, options.tests, reinit=options.reinit, exact_match=exact_match)
     test_names = [test.name for test in test_suite]
     print(f'Running functions: {test_names}')
 
@@ -124,7 +129,6 @@ def foundry_prove(
             options=options,
             summary_ids=(summary_ids if include_summaries else []),
             deployment_state_entries=deployment_state_entries,
-            config_type=options.config_type,
         )
 
     if options.run_constructor:
@@ -176,13 +180,18 @@ class FoundryTest(NamedTuple):
 
 
 def collect_tests(
-    foundry: Foundry, tests: Iterable[tuple[str, int | None]] = (), *, reinit: bool, return_empty: bool = False
+    foundry: Foundry,
+    tests: Iterable[tuple[str, int | None]] = (),
+    *,
+    reinit: bool,
+    return_empty: bool = False,
+    exact_match: bool = False,
 ) -> list[FoundryTest]:
     if not tests and not return_empty:
         tests = [(test, None) for test in foundry.all_tests]
     matching_tests = []
     for test, version in tests:
-        matching_tests += [(sig, version) for sig in foundry.matching_sigs(test)]
+        matching_tests += [(sig, version) for sig in foundry.matching_sigs(test, exact_match=exact_match)]
     tests = list(unique(matching_tests))
 
     res: list[FoundryTest] = []
@@ -272,7 +281,6 @@ def _run_cfg_group(
     foundry: Foundry,
     options: ProveOptions,
     summary_ids: Iterable[str],
-    config_type: ConfigType,
     deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
@@ -327,7 +335,6 @@ def _run_cfg_group(
                 cterm_symbolic = CTermSymbolic(
                     client,
                     foundry.kevm.definition,
-                    foundry.kevm.kompiled_kore,
                     trace_rewrites=options.trace_rewrites,
                 )
                 return KCFGExplore(
@@ -337,6 +344,10 @@ def _run_cfg_group(
                 )
 
             if proof is None:
+                # With CSE, top-level proof should be a summary if it's not a test or setUp function
+                if options.cse and options.config_type == ConfigType.TEST_CONFIG and not test.contract.is_test_contract:
+                    options.config_type = ConfigType.SUMMARY_CONFIG
+
                 proof = method_to_apr_proof(
                     test=test,
                     foundry=foundry,
@@ -348,7 +359,7 @@ def _run_cfg_group(
                     summary_ids=summary_ids,
                     active_symbolik=options.with_non_general_state,
                     hevm=options.hevm,
-                    config_type=config_type,
+                    config_type=options.config_type,
                     trace_options=TraceOptions(
                         {
                             'active_tracing': options.active_tracing,
@@ -363,10 +374,14 @@ def _run_cfg_group(
                 options.break_on_calls,
                 options.break_on_storage,
                 options.break_on_basic_blocks,
+                options.break_on_load_program,
             )
             if options.break_on_cheatcodes:
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
+                )
+                cut_point_rules.extend(
+                    rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
             run_prover(
                 proof,
@@ -506,6 +521,7 @@ def _method_to_initialized_cfg(
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
     kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
+        foundry,
         empty_config,
         test.contract,
         test.method,
@@ -541,6 +557,7 @@ def _method_to_initialized_cfg(
 
 
 def _method_to_cfg(
+    foundry: Foundry,
     empty_config: KInner,
     contract: Contract,
     method: Contract.Method | Contract.Constructor,
@@ -567,14 +584,16 @@ def _method_to_cfg(
         program = contract_code
 
     init_cterm = _init_cterm(
+        foundry,
         empty_config,
         program=program,
         contract_code=bytesToken(contract_code),
+        storage_fields=contract.fields,
+        method=method,
         use_gas=use_gas,
         deployment_state_entries=deployment_state_entries,
         calldata=calldata,
         callvalue=callvalue,
-        is_constructor=isinstance(method, Contract.Constructor),
         active_symbolik=active_symbolik,
         trace_options=trace_options,
         config_type=config_type,
@@ -638,66 +657,76 @@ def _method_to_cfg(
 
 
 def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigType) -> CTerm:
-    new_accounts_cell = node.cterm.cell('ACCOUNTS_CELL')
-    number_cell = node.cterm.cell('NUMBER_CELL')
-    timestamp_cell = node.cterm.cell('TIMESTAMP_CELL')
-    basefee_cell = node.cterm.cell('BASEFEE_CELL')
-    chainid_cell = node.cterm.cell('CHAINID_CELL')
-    coinbase_cell = node.cterm.cell('COINBASE_CELL')
-    prevcaller_cell = node.cterm.cell('PREVCALLER_CELL')
-    prevorigin_cell = node.cterm.cell('PREVORIGIN_CELL')
-    newcaller_cell = node.cterm.cell('NEWCALLER_CELL')
-    neworigin_cell = node.cterm.cell('NEWORIGIN_CELL')
-    active_cell = node.cterm.cell('ACTIVE_CELL')
-    depth_cell = node.cterm.cell('DEPTH_CELL')
-    singlecall_cell = node.cterm.cell('SINGLECALL_CELL')
-    gas_cell = node.cterm.cell('GAS_CELL')
-    callgas_cell = node.cterm.cell('CALLGAS_CELL')
+    if config_type == ConfigType.TEST_CONFIG:
+        cell_names = [
+            'ACCOUNTS_CELL',
+            'NUMBER_CELL',
+            'TIMESTAMP_CELL',
+            'BASEFEE_CELL',
+            'CHAINID_CELL',
+            'COINBASE_CELL',
+            'PREVCALLER_CELL',
+            'PREVORIGIN_CELL',
+            'NEWCALLER_CELL',
+            'NEWORIGIN_CELL',
+            'ACTIVE_CELL',
+            'DEPTH_CELL',
+            'SINGLECALL_CELL',
+            'GAS_CELL',
+            'CALLGAS_CELL',
+        ]
 
-    all_accounts = flatten_label('_AccountCellMap_', new_accounts_cell)
+        cells = {name: node.cterm.cell(name) for name in cell_names}
+        all_accounts = flatten_label('_AccountCellMap_', cells['ACCOUNTS_CELL'])
 
-    new_accounts = [CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)]
-    non_cell_accounts = [account for account in all_accounts if not (type(account) is KApply and account.is_cell)]
+        new_accounts = [CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)]
+        non_cell_accounts = [account for account in all_accounts if not (type(account) is KApply and account.is_cell)]
 
-    new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
+        new_accounts_map = {account.cell('ACCTID_CELL'): account for account in new_accounts}
 
-    if config_type == ConfigType.SUMMARY_CONFIG:
-        for account_id, account in new_accounts_map.items():
-            acct_id_cell = account.cell('ACCTID_CELL')
-            if type(acct_id_cell) is KVariable:
-                acct_id = acct_id_cell.name
-            elif type(acct_id_cell) is KToken:
-                acct_id = acct_id_cell.token
-            else:
-                raise RuntimeError(
-                    f'Failed to abstract storage. acctId cell is neither variable nor token: {acct_id_cell}'
-                )
-            new_accounts_map[account_id] = CTerm(
-                set_cell(
-                    account.config,
-                    'STORAGE_CELL',
-                    KVariable(f'STORAGE_{acct_id}', sort=KSort('Map')),
-                ),
-                [],
-            )
+        cells['ACCOUNTS_CELL'] = KEVM.accounts(
+            [account.config for account in new_accounts_map.values()] + non_cell_accounts
+        )
 
-    new_accounts_cell = KEVM.accounts([account.config for account in new_accounts_map.values()] + non_cell_accounts)
+        new_init_cterm = CTerm(cterm.config, [])
 
-    new_init_cterm = CTerm(set_cell(cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NUMBER_CELL', number_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'TIMESTAMP_CELL', timestamp_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'BASEFEE_CELL', basefee_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CHAINID_CELL', chainid_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'COINBASE_CELL', coinbase_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVCALLER_CELL', prevcaller_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'PREVORIGIN_CELL', prevorigin_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWCALLER_CELL', newcaller_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'NEWORIGIN_CELL', neworigin_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACTIVE_CELL', active_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'DEPTH_CELL', depth_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'SINGLECALL_CELL', singlecall_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'GAS_CELL', gas_cell), [])
-    new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'CALLGAS_CELL', callgas_cell), [])
+        for cell_name, cell_value in cells.items():
+            new_init_cterm = CTerm(set_cell(new_init_cterm.config, cell_name, cell_value), [])
+
+    # config_type == ConfigType.SUMMARY_CONFIG
+    # This means that a function is being run in isolation, that is, that the `node` we are
+    # taking information from has come from a constructor and not a setUp function.
+    # In this case, the <output> cell of the constructor execution becomes the program cell
+    # of the function execution and the constraints from the constructor are propagated.
+    else:
+        new_program_cell = node.cterm.cell('OUTPUT_CELL')
+        accounts_cell = cterm.cell('ACCOUNTS_CELL')
+        contract_id = cterm.cell('ID_CELL')
+
+        all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
+        # TODO: Understand why there are two possible KInner representations or accounts,
+        # one directly with `<acccount>` and the other with `AccountCellMapItem`.
+        cell_accounts = [
+            CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)
+        ] + [
+            CTerm(account.args[1], [])
+            for account in all_accounts
+            if (type(account) is KApply and account.label.name == 'AccountCellMapItem')
+        ]
+        other_accounts = [
+            account
+            for account in all_accounts
+            if not (type(account) is KApply and (account.is_cell or account.label.name == 'AccountCellMapItem'))
+        ]
+        cell_accounts_map = {account.cell('ACCTID_CELL'): account for account in cell_accounts}
+        # Set the code of the active contract to the one produced by the constructor
+        contract_account = cell_accounts_map[contract_id]
+        contract_account = CTerm(set_cell(contract_account.config, 'CODE_CELL', new_program_cell), [])
+        cell_accounts_map[contract_id] = contract_account
+        new_accounts_cell = KEVM.accounts([account.config for account in cell_accounts_map.values()] + other_accounts)
+
+        new_init_cterm = CTerm(set_cell(cterm.config, 'PROGRAM_CELL', new_program_cell), [])
+        new_init_cterm = CTerm(set_cell(new_init_cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), [])
 
     # Adding constraints from the initial cterm and initial node
     for constraint in cterm.constraints + node.cterm.constraints:
@@ -759,13 +788,15 @@ def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) 
 
 
 def _init_cterm(
+    foundry: Foundry,
     empty_config: KInner,
     program: bytes,
     contract_code: KInner,
+    storage_fields: tuple[StorageField, ...],
+    method: Contract.Method | Contract.Constructor,
     use_gas: bool,
     config_type: ConfigType,
     active_symbolik: bool,
-    is_constructor: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -777,7 +808,7 @@ def _init_cterm(
     if not trace_options:
         trace_options = TraceOptions({})
 
-    jumpdests = set_of(_process_jumpdests(bytecode=program, offset=0))
+    jumpdests = bytesToken(_process_jumpdests(bytecode=program))
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'USEGAS_CELL': TRUE if use_gas else FALSE,
@@ -813,6 +844,8 @@ def _init_cterm(
         'TRACEDATA_CELL': KApply('.List'),
     }
 
+    storage_constraints: list[KApply] = []
+
     if config_type == ConfigType.TEST_CONFIG or active_symbolik:
         init_account_list = _create_initial_account_list(contract_code, deployment_state_entries)
         init_subst_test = {
@@ -830,16 +863,27 @@ def _init_cterm(
         }
         init_subst.update(init_subst_test)
     else:
-        # Symbolic accounts of all relevant contracts
-        # Status: Currently, only the executing contract
-        # TODO: Add all other accounts belonging to relevant contracts
-        accounts: list[KInner] = [
-            Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code),
-            KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')),
-        ]
+        accounts: list[KInner] = []
+
+        if isinstance(method, Contract.Constructor):
+            # Symbolic account for the contract being executed
+            accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code))
+        else:
+            # Symbolic accounts of all relevant contracts
+            accounts, storage_constraints = _create_cse_accounts(
+                foundry, storage_fields, Foundry.symbolic_contract_prefix(), contract_code
+            )
+
+        accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
 
         init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
         init_subst.update(init_subst_accounts)
+
+        # For purposes of summarization, assume we will call in a static context when the method isn't
+        # explicitly marked as method or view. If it is called in a static context, the summary simply won't
+        # apply.
+        if not isinstance(method, Contract.Constructor) and not (method.view or method.pure):
+            init_subst['STATIC_CELL'] = FALSE
 
     if calldata is not None:
         init_subst['CALLDATA_CELL'] = calldata
@@ -852,9 +896,12 @@ def _init_cterm(
         init_subst['CALLGAS_CELL'] = intToken(0)
         init_subst['REFUND_CELL'] = intToken(0)
 
-    # constructor can not be called in a static context.
-    if is_constructor:
+    if isinstance(method, Contract.Constructor):
+        # constructor can not be called in a static context.
         init_subst['STATIC_CELL'] = FALSE
+
+        encoded_args, arg_constraints = method.encoded_args
+        init_subst['PROGRAM_CELL'] = KEVM.bytes_append(bytesToken(program), encoded_args)
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
@@ -864,6 +911,9 @@ def _init_cterm(
         init_cterm = init_cterm.add_constraint(
             mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
         )
+
+    for constraint in storage_constraints:
+        init_cterm = init_cterm.add_constraint(constraint)
 
     # The calling contract is assumed to be in the present accounts for non-tests
     if not (config_type == ConfigType.TEST_CONFIG or active_symbolik):
@@ -875,6 +925,10 @@ def _init_cterm(
                 )
             )
         )
+
+    if isinstance(method, Contract.Constructor) and len(arg_constraints) > 0:
+        for arg_constraint in arg_constraints:
+            init_cterm = init_cterm.add_constraint(mlEqualsTrue(arg_constraint))
 
     init_cterm = KEVM.add_invariant(init_cterm)
 
@@ -900,6 +954,126 @@ def _create_initial_account_list(
         init_account_list.extend(deployment_state_to_account_cells(deployment_state))
 
     return init_account_list
+
+
+def _create_cse_accounts(
+    foundry: Foundry,
+    storage_fields: tuple[StorageField, ...],
+    contract_name: str,
+    contract_code: KInner,
+) -> tuple[list[KInner], list[KApply]]:
+    """
+    Recursively generates a list of new accounts corresponding to `contract` fields, each having <code> and <storage> cell (partially) set up.
+    Args:
+        foundry (Foundry): The Foundry object containing the information about contracts in the project.
+        storage_fields (tuple[StorageField, ...]): A tuple of StorageField objects representing the contract's storage fields.
+        contract_name (str): The name of the contract being executed to be used in the account-related symbolic variables.
+        contract_code (KInner): The KInner object representing the contract's runtime bytecode.
+    Returns:
+        tuple[list[KInner], list[KApply]]:
+            - A list of accounts to be included in the initial configuration.
+            - A list of constraints on symbolic account IDs.
+    """
+
+    new_accounts: list[KInner] = []
+    new_account_constraints: list[KApply] = []
+
+    storage_map = KVariable(contract_name + '_STORAGE', sort=KSort('Map'))
+    new_accounts.append(Foundry.symbolic_account(contract_name, contract_code, storage_map))
+
+    for field in storage_fields:
+        if field.data_type == 'string':
+            lookup = KEVM.lookup(storage_map, intToken(field.slot))
+            length_byte_lt32 = ltInt(
+                KApply(
+                    '_&Int_',
+                    [
+                        intToken(127),
+                        KApply(
+                            '_>>Int_',
+                            [
+                                lookup,
+                                intToken(1),
+                            ],
+                        ),
+                    ],
+                ),
+                intToken(32),
+            )
+            length_byte_positive = geInt(
+                KApply(
+                    '_&Int_',
+                    [
+                        intToken(127),
+                        KApply(
+                            '_>>Int_',
+                            [
+                                lookup,
+                                intToken(1),
+                            ],
+                        ),
+                    ],
+                ),
+                intToken(0),
+            )
+            lowest_bit_not_set = eqInt(
+                intToken(0),
+                KApply(
+                    '_&Int_',
+                    [
+                        intToken(1),
+                        lookup,
+                    ],
+                ),
+            )
+
+            new_account_constraints.append(mlEqualsTrue(lowest_bit_not_set))
+            new_account_constraints.append(mlEqualsTrue(length_byte_lt32))
+            new_account_constraints.append(mlEqualsTrue(length_byte_positive))
+        if field.data_type.startswith('contract '):
+            contract_type = field.data_type.split(' ')[1]
+            for full_contract_name, contract_obj in foundry.contracts.items():
+                # TODO: this is not enough, it is possible that the same contract comes with
+                # src% and test%, in which case we don't know automatically which one to choose
+                if full_contract_name.split('%')[-1] == contract_type:
+                    contract_account_code = bytesToken(bytes.fromhex(contract_obj.deployed_bytecode))
+                    contract_account_name = 'CONTRACT-' + field.label.upper()
+
+                    # TODO: handle the case where the field has a non-zero offset
+                    # maxUInt160 &Int #lookup ( CONTRACT_STORAGE:Map , 0 )
+                    contract_storage_lookup = KApply(
+                        '_&Int_',
+                        [
+                            intToken(1461501637330902918203684832716283019655932542975),
+                            KEVM.lookup(storage_map, intToken(field.slot)),
+                        ],
+                    )
+                    new_account_constraints.append(
+                        mlEqualsTrue(
+                            KApply('_==Int_', [contract_storage_lookup, KVariable(contract_account_name + '_ID')])
+                        )
+                    )
+
+                    # New contract account is not the cheatcode contract
+                    new_account_constraints.append(
+                        mlEqualsFalse(
+                            KApply(
+                                '_==Int_',
+                                [
+                                    KVariable(contract_account_name + '_ID', sort=KSort('Int')),
+                                    Foundry.address_CHEATCODE(),
+                                ],
+                            )
+                        )
+                    )
+
+                    contract_accounts, contract_constraints = _create_cse_accounts(
+                        foundry, contract_obj.fields, contract_account_name, contract_account_code
+                    )
+                    new_accounts.extend(contract_accounts)
+                    new_account_constraints.extend(contract_constraints)
+
+    return new_accounts, new_account_constraints
 
 
 def _final_cterm(

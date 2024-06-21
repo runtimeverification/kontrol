@@ -31,10 +31,18 @@ module FOUNDRY-MAIN
     imports public S2KtestZModWarpTest-VERIFICATION
     imports public S2KtestZModBroadcastTest-VERIFICATION
     imports public S2KtestZModCSETest-VERIFICATION
+    imports public S2KtestZModStaticCallContract-VERIFICATION
+    imports public S2KtestZModCallableStorageContract-VERIFICATION
+    imports public S2KtestZModCallableStorageTest-VERIFICATION
+    imports public S2KtestZModConstructorArgsTest-VERIFICATION
     imports public S2KtestZModConstructorTest-VERIFICATION
     imports public S2KtestZModImportedContract-VERIFICATION
     imports public S2KtestZModContractTest-VERIFICATION
     imports public S2KtestZModContractBTest-VERIFICATION
+    imports public S2KtestZModContractFieldTest-VERIFICATION
+    imports public S2KtestZModTEscrow-VERIFICATION
+    imports public S2KtestZModTGovernance-VERIFICATION
+    imports public S2KtestZModTToken-VERIFICATION
     imports public S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounterTest-VERIFICATION
     imports public S2KsrcZModDeploymentState-VERIFICATION
@@ -326,6 +334,34 @@ module S2KtestZModCSETest-VERIFICATION
 
 endmodule
 
+module S2KtestZModStaticCallContract-VERIFICATION
+    imports public S2KtestZModStaticCallContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModCallableStorageContract-VERIFICATION
+    imports public S2KtestZModCallableStorageContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModCallableStorageTest-VERIFICATION
+    imports public S2KtestZModCallableStorageTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModConstructorArgsTest-VERIFICATION
+    imports public S2KtestZModConstructorArgsTest-CONTRACT
+    
+    
+
+endmodule
+
 module S2KtestZModConstructorTest-VERIFICATION
     imports public S2KtestZModConstructorTest-CONTRACT
     
@@ -349,6 +385,34 @@ endmodule
 
 module S2KtestZModContractBTest-VERIFICATION
     imports public S2KtestZModContractBTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModContractFieldTest-VERIFICATION
+    imports public S2KtestZModContractFieldTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModTEscrow-VERIFICATION
+    imports public S2KtestZModTEscrow-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModTGovernance-VERIFICATION
+    imports public S2KtestZModTGovernance-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModTToken-VERIFICATION
+    imports public S2KtestZModTToken-CONTRACT
     
     
 

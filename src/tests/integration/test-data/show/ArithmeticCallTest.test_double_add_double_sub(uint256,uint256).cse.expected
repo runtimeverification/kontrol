@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 │
 │  (1045 steps)
-├─ 11 (split)
+├─ 7 (split)
 │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 1
@@ -15,14 +15,14 @@
 ┃ (branch)
 ┣━━┓ constraint: ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
 ┃  │
-┃  ├─ 13
+┃  ├─ 9
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (73 steps)
-┃  └─ 15 (leaf, terminal)
+┃  └─ 11 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2613
 ┃      callDepth: 0
@@ -32,14 +32,14 @@
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
 ┃  │
-┃  ├─ 39
+┃  ├─ 29
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (486 steps)
-┃  └─ 21 (leaf, terminal)
+┃  └─ 15 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2730
 ┃      callDepth: 0
@@ -50,14 +50,14 @@
 ┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
 ┃  │
-┃  ├─ 47
+┃  ├─ 37
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (907 steps)
-┃  └─ 27 (leaf, terminal)
+┃  └─ 19 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2852
 ┃      callDepth: 0
@@ -69,14 +69,14 @@
 ┃  ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
 ┃  ┃     ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) <Int VV1_y_114b9705:Int
 ┃  │
-┃  ├─ 53
+┃  ├─ 43
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (1320 steps)
-┃  └─ 33 (leaf, terminal)
+┃  └─ 23 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2969
 ┃      callDepth: 0
@@ -89,14 +89,14 @@
 ┃  ┃     VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
 ┃  ┃     ( notBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) ) ==Int 0 )
 ┃  │
-┃  ├─ 56
+┃  ├─ 46
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
 ┃  │  (1576 steps)
-┃  ├─ 36 (terminal)
+┃  ├─ 26 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 248
 ┃  │   callDepth: 0
@@ -104,7 +104,7 @@
 ┃  │
 ┃  ┊  constraint: true
 ┃  ┊  subst: OMITTED SUBST
-┃  └─ 8 (leaf, target, terminal)
+┃  └─ 6 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -117,14 +117,14 @@
    ┃     VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
    ┃     0 ==Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
    │
-   ├─ 57
+   ├─ 47
    │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: 1
    │   statusCode: STATUSCODE:StatusCode
    │
    │  (1579 steps)
-   └─ 37 (leaf, terminal)
+   └─ 27 (leaf, terminal)
        k: #halt ~> CONTINUATION:K
        pc: 3736
        callDepth: 0
@@ -136,7 +136,7 @@
 module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-13-TO-15]: <foundry>
+    rule [BASIC-BLOCK-9-TO-11]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -492,9 +492,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-13-TO-15)]
+      [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
-    rule [BASIC-BLOCK-1-TO-11]: <foundry>
+    rule [BASIC-BLOCK-1-TO-7]: <foundry>
            <kevm>
              <k>
                #execute
@@ -865,9 +865,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ?VV0_x_114b9705 <Int pow256
        andBool ( ?VV1_y_114b9705 <Int pow256
                ))))
-      [priority(20), label(BASIC-BLOCK-1-TO-11)]
+      [priority(20), label(BASIC-BLOCK-1-TO-7)]
     
-    rule [BASIC-BLOCK-39-TO-21]: <foundry>
+    rule [BASIC-BLOCK-29-TO-15]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -1225,9 +1225,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
                ))))))))))))))))))
        ensures ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int pow256
-      [priority(20), label(BASIC-BLOCK-39-TO-21)]
+      [priority(20), label(BASIC-BLOCK-29-TO-15)]
     
-    rule [BASIC-BLOCK-47-TO-27]: <foundry>
+    rule [BASIC-BLOCK-37-TO-19]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -1586,9 +1586,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
                )))))))))))))))))))
        ensures ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int pow256
-      [priority(20), label(BASIC-BLOCK-47-TO-27)]
+      [priority(20), label(BASIC-BLOCK-37-TO-19)]
     
-    rule [BASIC-BLOCK-53-TO-33]: <foundry>
+    rule [BASIC-BLOCK-43-TO-23]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -1951,9 +1951,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int pow256
        andBool ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) <Int pow256
                )))
-      [priority(20), label(BASIC-BLOCK-53-TO-33)]
+      [priority(20), label(BASIC-BLOCK-43-TO-23)]
     
-    rule [BASIC-BLOCK-56-TO-36]: <foundry>
+    rule [BASIC-BLOCK-46-TO-26]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -2318,9 +2318,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) <Int pow256
        andBool ( 0 =/=Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
                ))))
-      [priority(20), label(BASIC-BLOCK-56-TO-36)]
+      [priority(20), label(BASIC-BLOCK-46-TO-26)]
     
-    rule [BASIC-BLOCK-57-TO-37]: <foundry>
+    rule [BASIC-BLOCK-47-TO-27]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -2684,6 +2684,6 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int pow256
        andBool ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) <Int pow256
                )))
-      [priority(20), label(BASIC-BLOCK-57-TO-37)]
+      [priority(20), label(BASIC-BLOCK-47-TO-27)]
 
 endmodule
