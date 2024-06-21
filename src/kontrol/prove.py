@@ -20,7 +20,7 @@ from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_item, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
-from pyk.prelude.kint import eqInt, intToken, ltInt
+from pyk.prelude.kint import eqInt, intToken, leInt, ltInt
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
@@ -1013,11 +1013,13 @@ def _create_cse_accounts(
                 ],
             )
             string_contents_length = eqInt(KEVM.size_bytes(string_contents), intToken(31))
-            string_length_constraint = ltInt(string_length, intToken(32))
+            string_length_lb = leInt(intToken(0), string_length)
+            string_length_ub = ltInt(string_length, intToken(32))
 
             storage_map = KApply('_Map_', [map_item(intToken(field.slot), string_structure), storage_map])
             new_account_constraints.append(mlEqualsTrue(string_contents_length))
-            new_account_constraints.append(mlEqualsTrue(string_length_constraint))
+            new_account_constraints.append(mlEqualsTrue(string_length_lb))
+            new_account_constraints.append(mlEqualsTrue(string_length_ub))
         # Processing of addresses
         if field.data_type == 'address':
             if field.slot in singly_occupied_slots:
