@@ -478,9 +478,9 @@ LAYOUT_DATA: list[tuple[str, dict, tuple[StorageField, ...]]] = [
             },
         },
         (
-            StorageField(label='x', data_type='bool', slot=0, offset=0),
-            StorageField(label='secondBoolean', data_type='bool', slot=0, offset=1),
-            StorageField(label='number', data_type='uint256', slot=1, offset=0),
+            StorageField(label='x', data_type='bool', slot=0, offset=0, interface_for=None),
+            StorageField(label='secondBoolean', data_type='bool', slot=0, offset=1, interface_for=None),
+            StorageField(label='number', data_type='uint256', slot=1, offset=0, interface_for=None),
         ),
     ),
 ]
@@ -493,6 +493,6 @@ LAYOUT_DATA: list[tuple[str, dict, tuple[StorageField, ...]]] = [
 )
 def test_storage_layout_fields(test_id: str, storage_layout: dict, expected: tuple[StorageField, ...]) -> None:
     # When
-    output = process_storage_layout(storage_layout)
+    output = process_storage_layout(storage_layout, {})
     # Then
     assert output == expected
