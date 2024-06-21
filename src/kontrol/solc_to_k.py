@@ -463,6 +463,8 @@ class Contract:
         contract_digest: str
         contract_storage_digest: str
         payable: bool
+        pure: bool
+        view: bool
         signature: str
         ast: dict | None
         natspec_values: dict | None
@@ -491,6 +493,8 @@ class Contract:
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
+            self.pure = abi['stateMutability'] == 'pure'
+            self.view = abi['stateMutability'] == 'view'
             self.ast = ast
             natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
             self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
@@ -1242,17 +1246,12 @@ def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KApply 
 
 def method_sig_from_abi(method_json: dict) -> str:
     def unparse_input(input_json: dict) -> str:
-        is_array = False
-        is_sized = False
-        array_size = 0
+        array_sizes = []
         base_type = input_json['type']
-        if re.match(r'.+\[.*\]', base_type):
-            is_array = True
+        while re.match(r'.+\[.*\]', base_type):
             array_size_str = base_type.split('[')[1][:-1]
-            if array_size_str != '':
-                is_sized = True
-                array_size = int(array_size_str)
-            base_type = base_type.split('[')[0]
+            array_sizes.append(array_size_str if array_size_str != '' else '')
+            base_type = base_type.rpartition('[')[0]
         if base_type == 'tuple':
             input_type = '('
             for i, component in enumerate(input_json['components']):
@@ -1260,13 +1259,11 @@ def method_sig_from_abi(method_json: dict) -> str:
                     input_type += ','
                 input_type += unparse_input(component)
             input_type += ')'
-            if is_array and not (is_sized):
-                input_type += '[]'
-            elif is_array and is_sized:
-                input_type += f'[{array_size}]'
-            return input_type
         else:
-            return input_json['type']
+            input_type = base_type
+        for array_size in reversed(array_sizes):
+            input_type += f'[{array_size}]' if array_size else '[]'
+        return input_type
 
     method_name = method_json['name']
     method_args = ''

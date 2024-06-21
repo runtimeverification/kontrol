@@ -50,6 +50,10 @@ contract DynamicTypesTest is Test {
         assert(ctValues[8].content.length == 10000);
     }
 
+    function test_nested_struct_array(ComplexType[][] memory ctValues) public {
+        require(ctValues[0].length == 2, "DynamicTypes: invalid default lengths for two-dimensional ComplexType[][]");
+    }
+
     function test_dynamic_nested_struct_array(ComplexNestedType memory cntValues) public {
         require(cntValues.values.length == 2, "DynamicTypes: invalid default length for ComplexType[] in ComplexNestedType");
     }
