@@ -12,6 +12,13 @@ module KONTROL-VM
                         | "#eth_sendTransaction" TxType Int Int Int Int Int Int Bytes [symbol(eth_sendTransaction)]
                         | Int
 
+    syntax KItem ::= "#eth_sendTransaction_final"
+
+    rule <k> TXID:Int ~> #eth_sendTransaction_final ... </k>
+         <txPending> ListItem(TXID) => .List ... </txPending>
+         <txOrder>   ListItem(TXID) => .List ... </txOrder>
+
+
     syntax RPCResponse ::= ".RPCResponse" | String | Int | Bytes
     
     configuration <simbolikVM>
@@ -61,6 +68,7 @@ module KONTROL-VM
                 TXVALUE 
                 TXNONCE
                 TXDATA  
+                ~> #eth_sendTransaction_final 
                 ... 
               </k>
     
