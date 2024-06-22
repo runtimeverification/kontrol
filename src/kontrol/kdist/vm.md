@@ -19,6 +19,8 @@ module KONTROL-VM
                     <rpcRequest> .RPCRequest </rpcRequest>
                     <rpcResponse> .RPCResponse </rpcResponse>
                     <accountKeys> .Map </accountKeys>
+                    <timeFreeze> true </timeFreeze>
+                    <timeDiff> 0 </timeDiff>
                   </simbolikVM>                       
 
     rule <k> #kontrol_requestValue => . ... </k> 
@@ -69,6 +71,8 @@ module KONTROL-VM
           => #makeTX 0
           ~> #loadNonce ACCTFROM TXNONCE
           ~> #loadTransaction 0 TXTYPE ACCTFROM ACCTTO TXGAS TXGASPRICE TXVALUE TXNONCE TXDATA
+          ~> #prepareTx 0 ACCTFROM
+          ~> 0
           ...
          </k>
 
@@ -136,7 +140,6 @@ module KONTROL-VM
           <txAccess> _ => [ "null" ] </txAccess> 
           ...
         </message>
-        <rpcResponse> _ => 10 </rpcResponse>
 
 
     syntax TxData ::= #getTxData( Int ) [klabel(#getTxData), function]
@@ -238,8 +241,203 @@ module KONTROL-VM
          <mode>        NORMAL                      </mode>
          <txPending>   ListItem(TXID) => .List ... </txPending>
          <txOrder>     ListItem(TXID) => .List ... </txOrder>
-         <rpcResponse> _ => -1 </rpcResponse>
+         <rpcResponse> _ => -1 </rpcResponse> // TODO: Come up with error code values for this cell
       requires notBool ACCTFROM in_keys(KEYMAP)
+
+    syntax KItem ::= "#prepareTx" Int Account
+
+    rule <k> #prepareTx TXID:Int ACCTFROM
+          => #setup_G0 TXID 
+          ~> #validateTx TXID 
+          ~> #updateTimestamp
+          // ~> #executeTx TXID
+          ... 
+          </k>
+         <origin> _ => ACCTFROM </origin>
+
+    syntax KItem ::= "#setup_G0" Int
+   // --------------------------------
+    rule <k> #setup_G0 TXID => . ... </k>
+         <schedule> SCHED </schedule>
+         <callGas> _ => G0(SCHED, DATA, (ACCTTO ==K .Account) ) </callGas>
+         <message>
+           <msgID> TXID   </msgID>
+           <data>  DATA   </data>
+           <to>    ACCTTO </to>
+           ...
+         </message>
+
+    syntax KItem ::= "#validateTx" Int
+   // --------------------------------
+    rule <k> #validateTx TXID => #end #if BAL <Int GLIMIT *Int GPRICE #then EVMC_BALANCE_UNDERFLOW #else EVMC_OUT_OF_GAS #fi ... </k>
+         <callGas> G0_INIT </callGas>
+         <origin> ACCTFROM </origin>
+         <account>
+           <acctID> ACCTFROM </acctID>
+           <balance> BAL </balance>
+           ...
+         </account>
+         <message>
+           <msgID>      TXID   </msgID>
+           <txGasPrice> GPRICE </txGasPrice>
+           <txGasLimit> GLIMIT </txGasLimit>
+           ...
+         </message>
+      requires GLIMIT <Int G0_INIT
+        orBool BAL <Int GLIMIT *Int GPRICE
+
+    rule <k> #validateTx TXID => . ... </k>
+         <origin> ACCTFROM </origin>
+         <callGas> G0_INIT => GLIMIT -Int G0_INIT </callGas>
+         <account>
+           <acctID> ACCTFROM </acctID>
+           <balance> BAL </balance>
+           ...
+         </account>
+         <message>
+           <msgID>      TXID   </msgID>
+           <txGasPrice> GPRICE </txGasPrice>
+           <txGasLimit> GLIMIT </txGasLimit>
+           ...
+         </message>
+      requires GLIMIT >=Int G0_INIT
+       andBool BAL >=Int GLIMIT *Int GPRICE
+
+    syntax KItem ::= "#updateTimestamp"
+    // -----------------------------------
+    rule <k> #updateTimestamp => . ... </k>
+         <timestamp> _ => #time(TIMEFREEZE) +Int TIMEDIFF </timestamp>
+         <timeFreeze> TIMEFREEZE </timeFreeze>
+         <timeDiff>   TIMEDIFF   </timeDiff>
+
+    syntax Int ::= #time( Bool ) [function]
+    // ---------------------------------------
+    rule #time(false) => 0 // Originally this was #time. Should represent the current time of the VM.
+    rule #time(true)  => 0
+
+    syntax EthereumCommand ::= "#finishTx"
+    // ---------------------------------------
+    rule <statusCode> _:ExceptionalStatusCode </statusCode> <k> #halt ~> #finishTx => #popCallStack ~> #popWorldState                   ... </k>
+    rule <statusCode> EVMC_REVERT             </statusCode> <k> #halt ~> #finishTx => #popCallStack ~> #popWorldState ~> #refund GAVAIL ... </k> <gas> GAVAIL </gas>
+
+    rule <statusCode> EVMC_SUCCESS </statusCode>
+         <k> #halt ~> #finishTx => #mkCodeDeposit ACCT ... </k>
+         <id> ACCT </id>
+         <txPending> ListItem(TXID:Int) ... </txPending>
+         <message>
+           <msgID> TXID     </msgID>
+           <to>    .Account </to>
+           ...
+         </message>
+
+    rule <statusCode> EVMC_SUCCESS </statusCode>
+         <k> #halt ~> #finishTx => #popCallStack ~> #dropWorldState ~> #refund GAVAIL ... </k>
+         <gas> GAVAIL </gas>
+         <txPending> ListItem(TXID:Int) ... </txPending>
+         <message>
+           <msgID> TXID </msgID>
+           <to>    TT   </to>
+           ...
+         </message>
+      requires TT =/=K .Account
+
+    
+    syntax EthereumCommand ::= #loadAccessList ( JSON )              [klabel(#loadAccessList)]
+                             | #loadAccessListAux ( Account , List ) [klabel(#loadAccessListAux)]
+ 
+    // ---------------------------------------------------------------------------------------------
+    rule <k> #loadAccessList ([ .JSONs ]) => .K ... </k>
+         <schedule> SCHED </schedule>
+      requires Ghasaccesslist << SCHED >>
+
+    rule <k> #loadAccessList ([ _ ]) => .K ... </k>
+         <schedule> SCHED </schedule>
+      requires notBool Ghasaccesslist << SCHED >>
+
+    rule <k> #loadAccessList ([[ACCT, [STRG:JSONs]], REST])
+          => #loadAccessListAux (#asAccount(ACCT), #parseAccessListStorageKeys([STRG]))
+          ~> #loadAccessList ([REST])
+         ...
+         </k>
+         <schedule> SCHED </schedule>
+      requires Ghasaccesslist << SCHED >>
+
+    rule <k> #loadAccessListAux (ACCT, (ListItem(STRGK) STRGKS))
+          => #accessStorage ACCT STRGK:Int
+          ~> #loadAccessListAux (ACCT, STRGKS)
+         ...
+         </k>
+         <schedule> SCHED </schedule>
+         <callGas> GLIMIT => GLIMIT -Int Gaccessliststoragekey < SCHED > </callGas>
+
+    rule <k> #loadAccessListAux (ACCT, .List) => #accessAccounts ACCT ... </k>
+         <schedule> SCHED </schedule>
+         <callGas> GLIMIT => GLIMIT -Int Gaccesslistaddress < SCHED > </callGas>
+
+    // ---------------------------------------------------------------------------------------------
+  
+    syntax KItem ::= "#executeTx" Int
+   // ---------------------------------
+    rule <k> #executeTx TXID:Int
+          => #accessAccounts ACCTFROM #newAddr(ACCTFROM, NONCE) #precompiledAccountsSet(SCHED) 
+          ~> #loadAccessList(TA)  
+          ~> #create ACCTFROM #newAddr(ACCTFROM, NONCE) VALUE CODE 
+          ~> #finishTx 
+          ~> #finalizeTx(false)
+         ...
+         </k>
+         <schedule> SCHED </schedule>
+         <gasPrice> _ => GPRICE </gasPrice>
+         <origin> ACCTFROM </origin>
+         <callDepth> _ => -1 </callDepth>
+         <txPending> ListItem(TXID:Int) ... </txPending>
+         <message>
+           <msgID>      TXID     </msgID>
+           <txGasPrice> GPRICE   </txGasPrice>
+           <txGasLimit> GLIMIT   </txGasLimit>
+           <to>         .Account </to>
+           <value>      VALUE    </value>
+           <data>       CODE     </data>
+           <txAccess>   TA       </txAccess>
+           ...
+         </message>
+         <account>
+           <acctID> ACCTFROM </acctID>
+           <balance> BAL => BAL -Int (GLIMIT *Int GPRICE) </balance>
+           <nonce> NONCE </nonce>
+           ...
+         </account>
+
+    rule <k> #executeTx TXID:Int
+          => #accessAccounts ACCTFROM ACCTTO #precompiledAccountsSet(SCHED)
+          ~> #loadAccessList(TA)
+          ~> #call ACCTFROM ACCTTO ACCTTO VALUE VALUE DATA false
+          ~> #finishTx
+          ~> #finalizeTx(false)
+         ...
+         </k>
+         <schedule> SCHED </schedule>
+         <origin> ACCTFROM </origin>
+         <gasPrice> _ => GPRICE </gasPrice>
+         <txPending> ListItem(TXID) ... </txPending>
+         <callDepth> _ => -1 </callDepth>
+         <message>
+           <msgID>      TXID   </msgID>
+           <txGasPrice> GPRICE </txGasPrice>
+           <txGasLimit> GLIMIT </txGasLimit>
+           <to>         ACCTTO </to>
+           <value>      VALUE  </value>
+           <data>       DATA   </data>
+           <txAccess>   TA     </txAccess>
+           ...
+         </message>
+         <account>
+           <acctID> ACCTFROM </acctID>
+           <balance> BAL => BAL -Int (GLIMIT *Int GPRICE) </balance>
+           <nonce> NONCE => NONCE +Int 1 </nonce>
+           ...
+         </account>
+      requires ACCTTO =/=K .Account
 
 endmodule
 
