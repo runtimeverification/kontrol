@@ -1029,6 +1029,10 @@ def _create_cse_accounts(
                 field_variable = KVariable(field_name + '_ID', sort=KSort('Int'))
                 # Update storage map accordingly: ( field.slot |-> contract_account_variable ) STORAGE_MAP
                 storage_map = KApply('_Map_', [map_item(intToken(field.slot), field_variable), storage_map])
+                address_range_lb = leInt(intToken(0), field_variable)
+                address_range_ub = ltInt(field_variable, intToken(1461501637330902918203684832716283019655932542976))
+                new_account_constraints.append(mlEqualsTrue(address_range_lb))
+                new_account_constraints.append(mlEqualsTrue(address_range_ub))
         # Processing of contracts
         if field.data_type.startswith('contract '):
             contract_type = field.data_type.split(' ')[1]
