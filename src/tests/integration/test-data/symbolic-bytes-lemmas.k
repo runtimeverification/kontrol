@@ -31,25 +31,36 @@ module SYMBOLIC-BYTES-LEMMAS
            { #range ( B, 0, lengthBytes(B1) ) #Equals B1 } #And
            { #range ( B, lengthBytes(B1), lengthBytes(B) -Int lengthBytes(B1) ) #Equals B2 }
       requires lengthBytes(B1) <=Int lengthBytes(B)
-      [simplification(60), concrete(B, B1)]
+      [simplification(60), concrete(B)]
 
     rule { B1:Bytes +Bytes B2:Bytes #Equals B } =>
            { #range ( B, 0, lengthBytes(B1) ) #Equals B1 } #And
            { #range ( B, lengthBytes(B1), lengthBytes(B) -Int lengthBytes(B1) ) #Equals B2 }
       requires lengthBytes(B1) <=Int lengthBytes(B)
-      [simplification(60), concrete(B, B1)]
+      [simplification(60), concrete(B)]
 
     rule { B:Bytes #Equals #buf( N, X:Int ) +Bytes B2:Bytes } =>
            { X #Equals #asWord ( #range ( B, 0, N ) ) } #And
            { #range ( B, N, lengthBytes(B) -Int N ) #Equals B2 }
       requires N <=Int lengthBytes(B)
-      [simplification(60), concrete(B, N)]
+      [simplification(60), concrete(B, N), preserves-definedness]
 
     rule { #buf( N, X:Int ) +Bytes B2:Bytes #Equals B } =>
            { X #Equals #asWord ( #range ( B, 0, N ) ) } #And
            { #range ( B, N, lengthBytes(B) -Int N ) #Equals B2 }
       requires N <=Int lengthBytes(B)
-      [simplification(60), concrete(B, N)]
+      [simplification(60), concrete(B, N), preserves-definedness]
+
+    rule { B #Equals #buf( N, X:Int ) } => { #asInteger ( B ) #Equals X modInt (2 ^Int (8 &Int N)) }
+      requires lengthBytes(B) ==Int N
+      [simplification]
+
+    //
+    // Equality of #asWord
+    //
+    rule { X:Int #Equals #asWord ( B:Bytes ) } => { #buf ( 32, X ) #Equals B }
+      requires #rangeUInt(256, X) andBool lengthBytes( B ) ==Int 32
+      [simplification, concrete(X), preserves-definedness]
 
     //
     // String-related manipulation
