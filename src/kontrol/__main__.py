@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
+import rich
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
@@ -172,10 +173,17 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 
 
 def exec_build(options: BuildOptions) -> None:
-    foundry_kompile(
-        options=options,
-        foundry=_load_foundry(options.foundry_root),
-    )
+    initial_message = ':hammer: [bold]Building Kontrol project[/bold] :hammer:'
+    rich.print(initial_message)
+    try:
+        foundry_kompile(
+            options=options,
+            foundry=_load_foundry(options.foundry_root),
+        )
+        success_message = ':tada: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
+        rich.print(success_message)
+    except Exception as e:
+        rich.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] {e}')
 
 
 def exec_prove(options: ProveOptions) -> None:
