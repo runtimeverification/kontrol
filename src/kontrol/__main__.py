@@ -211,12 +211,16 @@ def exec_prove(options: ProveOptions) -> None:
                 f"{signature} is not prefixed with 'test', 'prove', or 'check', therefore, it is not reported as failing in the presence of reverts or assertion violations."
             )
         if proof.passed:
-            print(f'PROOF PASSED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}')
+            rich.print(f':sparkles: [bold green]PROOF PASSED[/bold green] :sparkles: {proof.id}')
+            rich.print(
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+            )
         else:
             failed += 1
-            print(f'PROOF FAILED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}')
+            rich.print(f':cross_mark: [bold red]PROOF FAILED[/bold red] :cross_mark: {proof.id}')
+            rich.print(
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+            )
             failure_log = None
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
