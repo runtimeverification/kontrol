@@ -14,6 +14,7 @@ from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from pyk.utils import run_process
+from rich.console import Console
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -80,6 +81,8 @@ if TYPE_CHECKING:
 
 _LOGGER: Final = logging.getLogger(__name__)
 _LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
+
+console = Console()
 
 
 def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
@@ -173,17 +176,21 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 
 
 def exec_build(options: BuildOptions) -> None:
-    initial_message = ':hammer: [bold]Building Kontrol project[/bold] :hammer:'
-    rich.print(initial_message)
-    try:
-        foundry_kompile(
-            options=options,
-            foundry=_load_foundry(options.foundry_root),
-        )
-        success_message = ':tada: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
-        rich.print(success_message)
-    except Exception as e:
-        rich.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] {e}')
+    rv_yellow = '#ffcc07'
+    rv_blue = '#0097cb'
+    with console.status(
+        f'[{rv_blue}]:hammer: [bold]Building Kontrol project[/bold] :hammer: \n Add --verbose to `kontrol build` for more detailed output![/{rv_blue}]',
+        spinner='dots',
+        spinner_style=rv_yellow,
+    ):
+        try:
+            foundry_kompile(
+                options=options,
+                foundry=_load_foundry(options.foundry_root),
+            )
+            console.print(':tada: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:')
+        except Exception as e:
+            console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] {e}')
 
 
 def exec_prove(options: ProveOptions) -> None:
