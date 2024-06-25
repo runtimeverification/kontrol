@@ -178,8 +178,12 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 def exec_build(options: BuildOptions) -> None:
     rv_yellow = '#ffcc07'
     rv_blue = '#0097cb'
+    if options.verbose:
+        building_message = f'[{rv_blue}]:hammer: [bold]Building Kontrol project[/bold] :hammer:[/{rv_blue}]'
+    else:
+        building_message = f'[{rv_blue}]:hammer: [bold]Building Kontrol project[/bold] :hammer: \n Add --verbose to `kontrol build` for more detailed output![/{rv_blue}]'
     with console.status(
-        f'[{rv_blue}]:hammer: [bold]Building Kontrol project[/bold] :hammer: \n Add --verbose to `kontrol build` for more detailed output![/{rv_blue}]',
+        building_message,
         spinner='dots',
         spinner_style=rv_yellow,
     ):
