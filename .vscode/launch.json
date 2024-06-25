@@ -1,0 +1,75 @@
+{
+    "version": "0.2.0",
+    "configurations": [     
+        {
+            "name": "Debug kontrol prove",
+            "type": "debugpy",
+            "request": "launch",
+            "pythonPath": "${workspaceFolder}/.venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "module": "kontrol",
+            "justMyCode": false,
+            "args": [
+                "prove",
+                "--foundry-project-root", "/home/ovatman/kontrolexample", 
+                "--match-test",
+                "CounterTest.testSetNumber",
+                //"--run-constructor",
+                //"--reinit"
+            ],
+        },
+        {
+            "name": "Debug kontrol build",
+            "type": "debugpy",
+            "request": "launch",
+            "pythonPath": "${workspaceFolder}/.venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "module": "kontrol",
+            "justMyCode": false,
+            "args": [
+                "build", 
+                "--foundry-project-root", "/home/ovatman/kontrolexample",
+                //"--regen", "--rekompile",
+                //"--require", "/home/ovatman/rvdev/test_lemmas/test_lemmas/lemmas/immutability-lemmas.k",
+                //"--require", "/home/ovatman/rvdev/test_lemmas/test_lemmas/lemmas/sum-to-n-lemmas.k",
+                //"--require", "/home/ovatman/rvdev/test_lemmas/test_lemmas/lemmas/pausability-lemmas.k",
+                //"--module-import", "LoopsTest:SUM-TO-N-INVARIANT",
+                //"--module-import", "PortalTest:PAUSABILITY-LEMMAS",
+                //"--module-import", "ImmutablesTest:IMMUTABILITY-LEMMAS",
+            ]
+        },
+        {
+            "name": "Debug kontrol list",
+            "type": "debugpy",
+            "request": "launch",
+            "pythonPath": "${workspaceFolder}/.venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "module": "kontrol",
+            "justMyCode": false,
+            "args": [
+                "list", 
+                "--foundry-project-root", "/home/ovatman/kontrolexample",
+            ]
+        },
+        {
+        "name": "Debug kontrol show",
+            "type": "debugpy",
+            "request": "launch",
+            "pythonPath": "${workspaceFolder}/.venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "module": "kontrol",
+            "justMyCode": false,
+            //"env": {"Path": "${env:Path};/home/ovatman/rvdev/ksrc/k-distribution/target/release/k/bin/"},
+            "args": [
+                "show", 
+                "--config-file", "/home/ovatman/rvdev/kontrol/src/tests/unit/test-data/kontrol_test.toml", "some_test"
+                //"--require", "/home/ovatman/rvdev/test_lemmas/test_lemmas/lemmas/immutability-lemmas.k",
+                //"--require", "/home/ovatman/rvdev/test_lemmas/test_lemmas/lemmas/sum-to-n-lemmas.k",
+                //"--require", "/home/ovatman/rvdev/test_lemmas/test_lemmas/lemmas/pausability-lemmas.k",
+                //"--module-import", "LoopsTest:SUM-TO-N-INVARIANT",
+                //"--module-import", "PortalTest:PAUSABILITY-LEMMAS",
+                //"--module-import", "ImmutablesTest:IMMUTABILITY-LEMMAS",
+            ]
+        }
+    ]
+}

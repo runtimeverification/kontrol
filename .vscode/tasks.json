@@ -1,0 +1,93 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "time kontrol build",
+            "command": "time",
+            "args": [
+                "/usr/bin/env",
+                "${workspaceFolder}/.venv/bin/python",
+                "-m",
+                "kontrol",
+                "build",
+                "--foundry-project-root",
+                "/home/ovatman/rvdev/evm-semantics-dap/sampleWorkspace/Counter"
+            ],
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "time kontrol prove",
+            "command": "time",
+            "args": [
+                "/usr/bin/env",
+                "${workspaceFolder}/.venv/bin/python",
+                "-m",
+                "kontrol",
+                "prove",
+                "--foundry-project-root",
+                "/home/ovatman/rvdev/evm-semantics-dap/sampleWorkspace/WETHNoSetup",
+                "--match-test",
+                "ContractTest.testApprove",
+                "--reinit",
+            ],
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "profile kontrol prove",
+            "command": "/usr/bin/env",
+            "args": [
+                "${workspaceFolder}/.venv/bin/python",
+                "-m",
+                "cProfile",
+                "-o", 
+                "output.pstats",
+                "-m",
+                "kontrol",
+                "prove",
+                "--foundry-project-root",
+                "/home/ovatman/rvdev/evm-semantics-dap/sampleWorkspace/WETH",
+                "--match-test",
+                "ContractTest.testApprove",
+                "--reinit",
+            ],
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+            {
+                "label": "build image from profile output",
+                "command": "gprof2dot",
+                "args": [
+                    "--colour-nodes-by-selftime",
+                    "-f",
+                    "pstats",
+                    "output.pstats", 
+                    "|",
+                    "dot",
+                    "-Tpng",
+                    "-o",
+                    "YesSetupWETH.png",
+                ],
+                "type": "shell",
+                "problemMatcher": [],
+                "group": {
+                    "kind": "test",
+                    "isDefault": true
+                }
+            }
+        }
+    ]
+}
