@@ -14,10 +14,10 @@ module KONTROL-VM
 
     syntax KItem ::= "#eth_sendTransaction_final"
 
-    rule <k> TXID:Int ~> #eth_sendTransaction_final ... </k>
-         <txPending> ListItem(TXID) => .List ... </txPending>
+    rule <k> TXID:Int ~> #eth_sendTransaction_final => . ... </k>
+        //  <txPending> ListItem(TXID) => .List ... </txPending>
          <txOrder>   ListItem(TXID) => .List ... </txOrder>
-
+         <currentTxID> TXID => TXID +Int 1 </currentTxID>
 
     syntax RPCResponse ::= ".RPCResponse" | String | Int | Bytes
     
@@ -28,6 +28,7 @@ module KONTROL-VM
                     <accountKeys> .Map </accountKeys>
                     <timeFreeze> true </timeFreeze>
                     <timeDiff> 0 </timeDiff>
+                    <currentTxID> 0 </currentTxID>
                   </simbolikVM>                       
 
     rule <k> #kontrol_requestValue => . ... </k> 
@@ -68,7 +69,7 @@ module KONTROL-VM
                 TXVALUE 
                 TXNONCE
                 TXDATA  
-                // ~> #eth_sendTransaction_final 
+                ~> #eth_sendTransaction_final 
                 ... 
               </k>
     
@@ -76,13 +77,14 @@ module KONTROL-VM
    // ---------------------------------------]
    // TODO: Replace the 0 with an index
     rule <k> #loadTx TXTYPE ACCTFROM ACCTTO TXGAS TXGASPRICE TXVALUE TXNONCE TXDATA
-          => #makeTX 0
+          => #makeTX TXID
           ~> #loadNonce ACCTFROM TXNONCE
-          ~> #loadTransaction 0 TXTYPE ACCTFROM ACCTTO TXGAS TXGASPRICE TXVALUE TXNONCE TXDATA
-          ~> #prepareTx 0 ACCTFROM
-          ~> 0
+          ~> #loadTransaction TXID TXTYPE ACCTFROM ACCTTO TXGAS TXGASPRICE TXVALUE TXNONCE TXDATA
+          ~> #prepareTx TXID ACCTFROM
+          ~> TXID
           ...
          </k>
+         <currentTxID> TXID </currentTxID>
          <rpcResponse> _ => 9 </rpcResponse>
 
     syntax EthereumCommand ::= "#makeTX" Int

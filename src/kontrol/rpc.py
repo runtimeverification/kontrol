@@ -144,10 +144,11 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
         output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
-        # k_cell = self.cterm.cell('K_CELL')
-        # _PPRINT.pprint(k_cell)
-        # rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
-        # _PPRINT.pprint(rpc_response_cell)
+
+        print("RPCRESPONSE----------------------------------------------")
+        rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
+        _PPRINT.pprint(rpc_response_cell)
+
         assert type(rpc_response_cell) is KToken
         return int(rpc_response_cell.token)
 
