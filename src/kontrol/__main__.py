@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
+import rich
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
