@@ -375,6 +375,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--match-test',
+        '--mt',
         type=parse_test_version_tuple,
         dest='tests',
         action='append',
@@ -468,7 +469,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--evm-tracing',
-        dest='evm_tracing',
+        dest='active_tracing',
         default=None,
         action='store_true',
         help='Trace opcode execution and store it in the configuration',
