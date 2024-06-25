@@ -872,15 +872,15 @@ def _init_cterm(
         init_subst.update(init_subst_test)
     else:
         accounts: list[KInner] = []
-        contract_account_id = Foundry.symbolic_contract_prefix() + '_' + contract_name
+        contract_account_name = Foundry.symbolic_contract_name(contract_name)
 
         if isinstance(method, Contract.Constructor):
             # Symbolic account for the contract being executed
-            accounts.append(Foundry.symbolic_account(contract_account_id, contract_code))
+            accounts.append(Foundry.symbolic_account(contract_account_name, contract_code))
         else:
             # Symbolic accounts of all relevant contracts
             accounts, storage_constraints = _create_cse_accounts(
-                foundry, storage_fields, contract_account_id, contract_code
+                foundry, storage_fields, contract_account_name, contract_code
             )
 
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
@@ -984,13 +984,16 @@ def _create_cse_accounts(
             - A list of constraints on symbolic account IDs.
     """
 
+    def extend_storage(map: KInner, slot: int, value: KInner) -> KInner:
+        return KApply('_Map_', [map_item(intToken(slot), value), map])
+
     new_accounts: list[KInner] = []
     new_account_constraints: list[KApply] = []
 
     storage_map: KInner = KVariable(contract_name + '_STORAGE', sort=KSort('Map'))
 
     singly_occupied_slots = [
-        slot for (slot, count) in Counter([field.slot for field in storage_fields]).items() if count == 1
+        slot for (slot, count) in Counter(field.slot for field in storage_fields).items() if count == 1
     ]
 
     for field in storage_fields:
@@ -999,29 +1002,23 @@ def _create_cse_accounts(
         if field.data_type == 'string':
             string_contents = KVariable(field_name + '_S_CONTENTS', sort=KSort('Bytes'))
             string_length = KVariable(field_name + '_S_LENGTH', sort=KSort('Int'))
-            string_structure = KApply(
-                'asWord',
-                [
-                    KApply(
-                        '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                        [
-                            string_contents,
-                            KApply(
-                                'buf',
-                                [
-                                    intToken(1),
-                                    KApply('_*Int_', [intToken(2), string_length]),
-                                ],
-                            ),
-                        ],
-                    )
-                ],
+            string_structure = KEVM.as_word(
+                KApply(
+                    '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                    [
+                        string_contents,
+                        KEVM.buf(
+                            intToken(1),
+                            KApply('_*Int_', [intToken(2), string_length]),
+                        ),
+                    ],
+                )
             )
             string_contents_length = eqInt(KEVM.size_bytes(string_contents), intToken(31))
             string_length_lb = leInt(intToken(0), string_length)
             string_length_ub = ltInt(string_length, intToken(32))
 
-            storage_map = KApply('_Map_', [map_item(intToken(field.slot), string_structure), storage_map])
+            storage_map = extend_storage(storage_map, field.slot, string_structure)
             new_account_constraints.append(mlEqualsTrue(string_contents_length))
             new_account_constraints.append(mlEqualsTrue(string_length_lb))
             new_account_constraints.append(mlEqualsTrue(string_length_ub))
@@ -1033,7 +1030,7 @@ def _create_cse_accounts(
                 # Create appropriate symbolic variable
                 field_variable = KVariable(field_name + '_ID', sort=KSort('Int'))
                 # Update storage map accordingly: ( field.slot |-> contract_account_variable ) STORAGE_MAP
-                storage_map = KApply('_Map_', [map_item(intToken(field.slot), field_variable), storage_map])
+                storage_map = extend_storage(storage_map, field.slot, field_variable)
                 address_range_lb = leInt(intToken(0), field_variable)
                 address_range_ub = ltInt(field_variable, intToken(1461501637330902918203684832716283019655932542976))
                 new_account_constraints.append(mlEqualsTrue(address_range_lb))

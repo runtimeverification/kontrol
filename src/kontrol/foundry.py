@@ -403,8 +403,12 @@ class Foundry:
         return 'C'
 
     @staticmethod
+    def symbolic_contract_name(contract_name: str) -> str:
+        return Foundry.symbolic_contract_prefix() + '_' + contract_name.upper()
+
+    @staticmethod
     def symbolic_contract_id(contract_name: str) -> str:
-        return Foundry.symbolic_contract_prefix() + '_' + contract_name.upper() + '_ID'
+        return Foundry.symbolic_contract_name(contract_name) + '_ID'
 
     @staticmethod
     def address_TEST_CONTRACT() -> KToken:  # noqa: N802
