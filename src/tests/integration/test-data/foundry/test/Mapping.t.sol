@@ -26,9 +26,12 @@ contract MappingTest is Test {
       c = new MappingContract();
   }
 
+  function my_internal() internal { }
+
   function test_mapping(address a) public {
       val = c.get_mapping_val(a);
       val2 = c.get_mapping_val2(a);
+      my_internal();
       assert(val < 256);
       assert(val2 < 256);
   }

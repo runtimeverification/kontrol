@@ -553,7 +553,8 @@ def _method_to_initialized_cfg(
     kcfg.let_node(target_node_id, cterm=target_cterm)
 
     _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
-    kcfg_explore.simplify(kcfg, {})
+#      kcfg_explore.simplify(kcfg, {})
+    print(kcfg.node(1).cterm)
 
     return kcfg, init_node_id, target_node_id
 
@@ -916,6 +917,7 @@ def _init_cterm(
 
     for constraint in storage_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
+        print(constraint)
 
     # The calling contract is assumed to be in the present accounts for non-tests
     if not (config_type == ConfigType.TEST_CONFIG or active_symbolik):
@@ -984,6 +986,11 @@ def _create_cse_accounts(
     new_accounts.append(Foundry.symbolic_account(contract_name, contract_code, storage_map))
 
     for field in storage_fields:
+
+        for constraint in field.data_type.compute_constraints(storage_map):
+            new_account_constraints.append(constraint)
+            print(field.data_type.slot_vars())
+
         if isinstance(field.data_type, StorageFieldMappingType):
             ...
         if field.data_type == 'string':

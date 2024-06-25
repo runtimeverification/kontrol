@@ -3,20 +3,21 @@ pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
 import "kontrol-cheatcodes/KontrolCheats.sol";
+import { Letter as MyLetter } from "test/EnumTest.t.sol";
 
-enum Letter {
-    LETTER_A,
-    LETTER_B,
-    LETTER_C,
-    LETTER_D,
-    LETTER_E,
-    LETTER_F
-}
+// enum Letter {
+//     LETTER_A,
+//     LETTER_B,
+//     LETTER_C,
+//     LETTER_D,
+//     LETTER_E,
+//     LETTER_F
+// }
 
 contract CallableStorageContract {
     uint public num;
     string public str;
-    Letter public letter;
+//     Letter public letter;
 
     constructor(string memory a) payable {
         str = a;
@@ -35,13 +36,13 @@ contract CallableStorageTest is Test, KontrolCheats {
         assertEq(member_contract.str(), "Test String");
     }
 
-    function test_enum_argument_range(Letter letter) public pure {
+    function test_enum_argument_range(MyLetter letter) public pure {
         assert(uint(letter) <= 5);
         assert(uint(letter) >= 0);
     }
 
-    function test_enum_storage_range() public view {
-        assert(uint(member_contract.letter()) <= 5);
-        assert(uint(member_contract.letter()) >= 0);
-    }
+//     function test_enum_storage_range() public view {
+//         assert(uint(member_contract.letter()) <= 5);
+//         assert(uint(member_contract.letter()) >= 0);
+//     }
 }

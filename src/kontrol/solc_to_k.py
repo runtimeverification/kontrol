@@ -7,6 +7,8 @@ from dataclasses import dataclass
 from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
+from pyk.prelude.k import K_ITEM, GENERATED_TOP_CELL
+from pyk.prelude.ml import mlEqualsTrue
 
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
@@ -333,11 +335,18 @@ class StorageFieldType:
     def slots(self) -> list[tuple[KInner, str]]:
         return [(self.slot, self.name)]
 
+    def slot_vars(self) -> list[KInner]:
+        return []
+
     def compute_constraints(self, storage_map: KInner) -> list[KInner]:
+
         constraints = []
         for slot, slot_type in self.slots():
-            constraint = _range_predicate(term=KEVM.lookup(storage_map, slot), type_label=slot_type)
+            constraint = _range_predicate(term=KEVM.lookup(storage_map, slot.args[1]), type_label=slot_type)
             if constraint is not None:
+                constraint = mlEqualsTrue(constraint)
+                for slot_var in self.slot_vars():
+                    constraint = KLabel('#Forall', K_ITEM, GENERATED_TOP_CELL)(slot_var, constraint)
                 constraints.append(constraint)
         return constraints
 
@@ -345,20 +354,31 @@ class StorageFieldType:
 class StorageFieldArrayType(StorageFieldType):
     base_type: StorageFieldType
 
+
 @dataclass
 class StorageFieldMappingType(StorageFieldType):
     key_type: StorageFieldType
     val_type: StorageFieldType
+    slot_var: list[KInner] = ()
+
+    def slot_vars(self) -> list[KInner]:
+        return list(self.slot_var) + self.val_type.slot_vars()
 
     def compute_slots(self, base_slot: KInner) -> None:
+        variable = KVariable('V_' + hash_str(base_slot)[0:8])
+        self.slot_var = (variable,)
         self.slot = base_slot
         self.val_type.compute_slots(
-            KApply('keccak', [
-                KApply('_+Bytes_', [
-                    KVariable('FRESH_VAR'),
-                    base_slot,
+#              KLabel('#Forall', K_ITEM, GENERATED_TOP_CELL)(variable,
+                KApply('buf', [intToken(32),
+                KApply('keccak(_)_SERIALIZATION_Int_Bytes', [
+                    KEVM.bytes_append(
+                        variable,
+                        base_slot,
+                    )
                 ])
-            ])
+                ])
+#              )
         )
 
     def slots(self) -> list[tuple[KInner, str]]:
@@ -427,8 +447,7 @@ def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
     for field in storage:
         storage_field = storage_field_from_dict(field, types)
         fields_list.append(storage_field)
-        storage_field.data_type.compute_slots(intToken(storage_field.slot))
-        print(storage_field.data_type.compute_constraints(KVariable('STORAGE_MAP')))
+        storage_field.data_type.compute_slots(KApply('buf', [intToken(32), intToken(storage_field.slot)]))
 
 
     return tuple(fields_list)
@@ -813,7 +832,12 @@ class Contract:
     constructor: Constructor | None
     PREFIX_CODE: Final = 'Z'
 
-    def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
+#      importedSymbols: dict[str, int] | None = None
+#  
+#      enums: dict[str, list[str]] | None = None
+
+
+    def __init__(self, contract_name: str, contract_json: dict, exported_symbols, foundry: bool = False) -> None:
         self._name = contract_name
         self.contract_json = contract_json
 
@@ -826,6 +850,29 @@ class Contract:
             ) from None
 
         evm = self.contract_json['evm'] if not foundry else self.contract_json
+
+
+#          def parse_node(dct: dict):
+#  
+#              if dct['nodeType'] == 'ImportDirective':
+#                  for key, val in exported_symbols[dct['absolutePath']][0].items():
+#                      assert len(val) == 1
+#                      self.importedSymbols[key] = val[0]
+#  
+#  #  
+#  #              if dct['nodeType'] == 'EnumDefinition':
+#  #                  self.enums[dct['canonicalName']] = {member['name'] for member in dct['members']}
+#              for node in dct['nodes']:
+#                  parse_node(node)
+#  
+#  
+#          self.enums = {}
+#          self.importedSymbols = {}
+#          parse_node(contract_json['ast'])
+#          print(self._name)
+#          print(self.importedSymbols)
+#          print(self.enums)
+
 
         deployed_bytecode = evm['deployedBytecode']
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')

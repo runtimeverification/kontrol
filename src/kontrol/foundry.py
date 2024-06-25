@@ -159,12 +159,33 @@ class Foundry:
         json_paths = sorted(json_paths)  # Must sort to get consistent output order on different platforms
         _LOGGER.info(f'Processing contract files: {json_paths}')
         _contracts: dict[str, Contract] = {}
+        exported_symbols: dict[str, list[str]] = {}
+        enums: dict[str, int] = {}
+        for json_path in json_paths:
+
+            contract_name = json_path.split('/')[-1]
+            contract_json = json.loads(Path(json_path).read_text())
+            contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
+
+            exported_symbols[contract_json['ast']['absolutePath']] = [contract_json['ast']['exportedSymbols']]
+
+            def find_enums(dct: dict):
+                if dct['nodeType'] == 'EnumDefinition':
+                    enums[dct['canonicalName']] = len([member['name'] for member in dct['members']])
+                for node in dct['nodes']:
+                    find_enums(node)
+
+            find_enums(contract_json['ast'])
+
+        print(enums)
+
         for json_path in json_paths:
             _LOGGER.debug(f'Processing contract file: {json_path}')
             contract_name = json_path.split('/')[-1]
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
-            contract = Contract(contract_name, contract_json, foundry=True)
+
+            contract = Contract(contract_name, contract_json, exported_symbols, foundry=True)
 
             _contracts[contract.name_with_path] = contract  # noqa: B909
 
