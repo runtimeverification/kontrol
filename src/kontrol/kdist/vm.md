@@ -68,7 +68,7 @@ module KONTROL-VM
                 TXVALUE 
                 TXNONCE
                 TXDATA  
-                ~> #eth_sendTransaction_final 
+                // ~> #eth_sendTransaction_final 
                 ... 
               </k>
     
@@ -83,6 +83,7 @@ module KONTROL-VM
           ~> 0
           ...
          </k>
+         <rpcResponse> _ => 9 </rpcResponse>
 
     syntax EthereumCommand ::= "#makeTX" Int
    // ---------------------------------------
@@ -145,7 +146,7 @@ module KONTROL-VM
           <value> _ => TXVALUE </value> 
           <data> _ => TXDATA </data> 
           <txType> _ => TXTYPE </txType> 
-          <txAccess> _ => [ "null" ] </txAccess> 
+          // <txAccess> _ => [ null:JSON ] </txAccess> 
           ...
         </message>
 
@@ -258,10 +259,11 @@ module KONTROL-VM
           => #setup_G0 TXID 
           ~> #validateTx TXID 
           ~> #updateTimestamp
-          // ~> #executeTx TXID
+          ~> #executeTx TXID
           ... 
           </k>
          <origin> _ => ACCTFROM </origin>
+         <rpcResponse> _ => 11 </rpcResponse>
 
     syntax KItem ::= "#setup_G0" Int
    // --------------------------------
@@ -291,8 +293,10 @@ module KONTROL-VM
            <txGasLimit> GLIMIT </txGasLimit>
            ...
          </message>
+         <rpcResponse> _ => -2 </rpcResponse>
       requires GLIMIT <Int G0_INIT
         orBool BAL <Int GLIMIT *Int GPRICE
+      
 
     rule <k> #validateTx TXID => . ... </k>
          <origin> ACCTFROM </origin>
@@ -415,6 +419,7 @@ module KONTROL-VM
            <nonce> NONCE </nonce>
            ...
          </account>
+         <rpcResponse> _ => 12 </rpcResponse>
 
     rule <k> #executeTx TXID:Int
           => #accessAccounts ACCTFROM ACCTTO #precompiledAccountsSet(SCHED)
@@ -445,6 +450,7 @@ module KONTROL-VM
            <nonce> NONCE => NONCE +Int 1 </nonce>
            ...
          </account>
+         <rpcResponse> _ => 12 </rpcResponse>
       requires ACCTTO =/=K .Account
 
 endmodule

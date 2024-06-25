@@ -93,14 +93,14 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         balance = int(balance_hex, 16)
         self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('acctFromPrivateKey', [stringToken(private_key), intToken(balance)])))
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
-        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
         return None
 
     def exec_request_value(self) -> int:
         self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('kontrol_requestValue', [])))
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
-        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
         rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
         _PPRINT.pprint(rpc_response_cell)
@@ -121,10 +121,6 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         value = int(transaction_json['value'], 16) if 'value' in transaction_json else 0  #'0x0'
         data = transaction_json['data'] if 'data' in transaction_json else '0x0'
 
-        if to_acct is None:
-            pass  # contract deployment
-
-        # _PPRINT.pprint(intToken(_address_to_acct_id(from_acct)))
         self.cterm = CTerm.from_kast(
             set_cell(
                 self.cterm.config,
@@ -146,10 +142,12 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         )
 
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
-        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
-        rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
-        _PPRINT.pprint(rpc_response_cell)
+        # k_cell = self.cterm.cell('K_CELL')
+        # _PPRINT.pprint(k_cell)
+        # rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
+        # _PPRINT.pprint(rpc_response_cell)
         assert type(rpc_response_cell) is KToken
         return int(rpc_response_cell.token)
 
@@ -193,7 +191,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
     # ------------------------------------------------------
 
     def _add_initial_accounts(self) -> None:
-        balance = 10**10
+        balance = 10**20
         
         private_keys = ['0xcdeac0dd5ec7c04072af48f2a4451e102a80ca5bb441a7b4d72c176cea61866e', '0xafdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4f890']
         sequence_of_productions = []
@@ -204,7 +202,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         sequence_of_kapplies = KSequence(sequence_of_productions)
         self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', sequence_of_kapplies))
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
-        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
 
         return None
