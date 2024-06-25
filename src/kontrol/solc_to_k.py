@@ -762,7 +762,7 @@ class Contract:
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 method_devdoc = devdoc.get(msig)
-                method_calls = find_function_calls(method_ast)
+                method_calls = find_function_calls(method_ast, self.fields)
                 _m = Contract.Method(
                     msig,
                     mid,
@@ -1281,7 +1281,7 @@ def hex_string_to_int(hex: str) -> int:
         raise ValueError('Invalid hex format')
 
 
-def find_function_calls(node: dict) -> list[str]:
+def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[str]:
     """Recursive function that takes a method AST and returns all the functions that are called in the given method.
 
     :param node: AST of a Solidity Method
@@ -1301,10 +1301,16 @@ def find_function_calls(node: dict) -> list[str]:
         if node.get('nodeType') == 'FunctionCall':
             expression = node.get('expression', {})
             if expression.get('nodeType') == 'MemberAccess':
+                contract_name = expression['expression'].get('name', '')
                 contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
                 contract_type = (
                     contract_type_string.split()[-1] if 'contract' in contract_type_string else 'UnknownContractType'
                 )
+
+                for field in fields:
+                    if field.label == contract_name and field.interface_for is not None:
+                        contract_type = field.interface_for
+                        break
 
                 function_name = expression.get('memberName')
                 arg_types = expression['typeDescriptions'].get('typeString')
