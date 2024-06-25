@@ -375,6 +375,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--match-test',
+        '--mt',
         type=parse_test_version_tuple,
         dest='tests',
         action='append',
