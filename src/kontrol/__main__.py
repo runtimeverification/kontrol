@@ -188,7 +188,9 @@ def exec_build(options: BuildOptions) -> None:
                 options=options,
                 foundry=_load_foundry(options.foundry_root),
             )
-            console.print(':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:')
+            console.print(
+                ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
+            )
         except Exception as e:
             console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] {e}')
 
