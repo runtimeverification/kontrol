@@ -7,7 +7,6 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
-import rich
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
@@ -81,8 +80,6 @@ if TYPE_CHECKING:
 
 _LOGGER: Final = logging.getLogger(__name__)
 _LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
-
-console = Console()
 
 
 def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
@@ -180,6 +177,7 @@ def exec_build(options: BuildOptions) -> None:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer:[/{_rv_blue()}]'
     else:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer: \n Add --verbose to `kontrol build` for more details![/{_rv_blue()}]'
+    console = Console()
     with console.status(
         building_message,
         spinner='dots',
