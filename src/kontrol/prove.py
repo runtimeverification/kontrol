@@ -984,6 +984,17 @@ def _create_cse_accounts(
     new_accounts.append(Foundry.symbolic_account(contract_name, contract_code, storage_map))
 
     for field in storage_fields:
+        #          if field.data_type.startswith('enum'):
+        #              enum_name = field.data_type.split(' ')[1]
+        #              enum_max = foundry.enums[enum_name]
+        #              new_account_constraints.append(
+        #                  mlEqualsTrue(
+        #                      ltInt(
+        #                          KEVM.lookup(storage_map, intToken(field.slot)),
+        #                          intToken(enum_max),
+        #                      )
+        #                  )
+        #              )
         if field.data_type == 'string':
             lookup = KEVM.lookup(storage_map, intToken(field.slot))
             length_byte_lt32 = ltInt(
