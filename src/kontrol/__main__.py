@@ -179,7 +179,7 @@ def exec_build(options: BuildOptions) -> None:
     if options.verbose:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer:[/{_rv_blue()}]'
     else:
-        building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer: \n Add --verbose to `kontrol build` for more detailed output![/{_rv_blue()}]'
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer: \n Add --verbose to `kontrol build` for more details![/{_rv_blue()}]'
     with console.status(
         building_message,
         spinner='dots',
