@@ -390,13 +390,13 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.104.0"
+version = "6.104.1"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "hypothesis-6.104.0-py3-none-any.whl", hash = "sha256:4aaa38b57625abae0d377b2460b80a5847504dcce22985e3381e4373079d45d0"},
-    {file = "hypothesis-6.104.0.tar.gz", hash = "sha256:f3f376491380aab841d706c562034c0118616dca7ce23e07b1a744c99f38d26b"},
+    {file = "hypothesis-6.104.1-py3-none-any.whl", hash = "sha256:a0a898fa78ecaefe76ad248901dc274e598f29198c6015b3053f7f7827670e0e"},
+    {file = "hypothesis-6.104.1.tar.gz", hash = "sha256:4033898019a6149823d2feeb8d214921b4ac2d342a05d6b02e40a3ca4be07eea"},
 ]
 
 [package.dependencies]
@@ -423,13 +423,13 @@ zoneinfo = ["backports.zoneinfo (>=0.2.1)", "tzdata (>=2024.1)"]
 
 [[package]]
 name = "importlib-metadata"
-version = "7.2.1"
+version = "8.0.0"
 description = "Read metadata from Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "importlib_metadata-7.2.1-py3-none-any.whl", hash = "sha256:ffef94b0b66046dd8ea2d619b701fe978d9264d38f3998bc4c27ec3b146a87c8"},
-    {file = "importlib_metadata-7.2.1.tar.gz", hash = "sha256:509ecb2ab77071db5137c655e24ceb3eee66e7bbc6574165d0d114d9fc4bbe68"},
+    {file = "importlib_metadata-8.0.0-py3-none-any.whl", hash = "sha256:15584cf2b1bf449d98ff8a6ff1abef57bf20f3ac6454f431736cd3e660921b2f"},
+    {file = "importlib_metadata-8.0.0.tar.gz", hash = "sha256:188bd24e4c346d3f0a933f275c2fec67050326a856b9a359881d7c2a697e8812"},
 ]
 
 [package.dependencies]
@@ -467,7 +467,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.616"
+version = "1.0.617"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -482,8 +482,8 @@ tomlkit = "^0.11.6"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.616"
-resolved_reference = "7f808b03ff1523ce414944c41db3f8983f642cff"
+reference = "v1.0.617"
+resolved_reference = "33a3d4f84c0ca4ca577afb66603351b454e3bff4"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -1152,4 +1152,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "dc0dde12af32d36caecc9feccc58097c9e6e1527c47a9096c869cfa2c380b1cb"
+content-hash = "2eee44e53fe586376c6206bf755c953d7b746bcdaaf459152bb53cd142ece0cc"
