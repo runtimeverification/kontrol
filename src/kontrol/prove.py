@@ -1031,7 +1031,6 @@ def _create_cse_accounts(
             new_account_constraints.append(mlEqualsTrue(length_byte_lt32))
             new_account_constraints.append(mlEqualsTrue(length_byte_positive))
         if field.data_type.startswith('contract '):
-            # TODO:
             if field.interface_for:
                 contract_type = field.interface_for
             else:

@@ -437,7 +437,7 @@ AST_DATA: list[tuple[str, dict, list[str]]] = [
 )
 def test_find_function_calls(test_id: str, ast: dict, expected: list[str]) -> None:
     # When
-    output = find_function_calls(ast)
+    output = find_function_calls(ast, ())
     # Then
     assert output == expected
 
