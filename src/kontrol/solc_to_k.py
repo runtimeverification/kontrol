@@ -1282,13 +1282,16 @@ def hex_string_to_int(hex: str) -> int:
 
 
 def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[str]:
-    """Recursive function that takes a method AST and returns all the functions that are called in the given method.
+    """Recursive function that takes a method AST and a set of storage fields and returns all the functions that are called in the given method.
 
     :param node: AST of a Solidity Method
     :type node: dict
+    :param fields: A tuple of contract's fields, including those with interface and contract types.
+    :type fields: tuple[StorageField, ...]
     :return: A list of unique function signatures that are called inside the provided method AST.
     :rtype: list[str]
 
+    If a function call is made to an interface which has a user-supplied contract annotation, the function call is considered to belong to this contract.
     Functions that belong to contracts such as `Vm` and `KontrolCheatsBase` are ignored.
     Functions like `abi.encodePacked` that do not belong to a Contract are assigned to a `UnknownContractType` and are ignored.
     """
