@@ -7,12 +7,14 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
+import rich
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from pyk.utils import run_process
+from rich.console import Console
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -172,10 +174,26 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 
 
 def exec_build(options: BuildOptions) -> None:
-    foundry_kompile(
-        options=options,
-        foundry=_load_foundry(options.foundry_root),
-    )
+    if options.verbose:
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer:[/{_rv_blue()}]'
+    else:
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer: \n Add --verbose to `kontrol build` for more details![/{_rv_blue()}]'
+    console = Console()
+    with console.status(
+        building_message,
+        spinner='dots',
+        spinner_style=_rv_yellow(),
+    ):
+        try:
+            foundry_kompile(
+                options=options,
+                foundry=_load_foundry(options.foundry_root),
+            )
+            console.print(
+                ' :white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
+            )
+        except Exception as e:
+            console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] {e}')
 
 
 def exec_prove(options: ProveOptions) -> None:
@@ -203,12 +221,16 @@ def exec_prove(options: ProveOptions) -> None:
                 f"{signature} is not prefixed with 'test', 'prove', or 'check', therefore, it is not reported as failing in the presence of reverts or assertion violations."
             )
         if proof.passed:
-            print(f'PROOF PASSED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}')
+            rich.print(f' :sparkles: [bold green]PROOF PASSED[/bold green] :sparkles: {proof.id}')
+            rich.print(
+                f' :hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+            )
         else:
             failed += 1
-            print(f'PROOF FAILED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}')
+            rich.print(f' :cross_mark: [bold red]PROOF FAILED[/bold red] :cross_mark: {proof.id}')
+            rich.print(
+                f' :hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+            )
             failure_log = None
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
@@ -355,6 +377,14 @@ def _loglevel(args: Namespace) -> int:
         return logging.INFO
 
     return logging.WARNING
+
+
+def _rv_yellow() -> str:
+    return '#ffcc07'
+
+
+def _rv_blue() -> str:
+    return '#0097cb'
 
 
 if __name__ == '__main__':
