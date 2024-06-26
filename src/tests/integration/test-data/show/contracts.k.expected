@@ -3743,6 +3743,52 @@ module S2KtestZModEmitContractTest-CONTRACT
 
 endmodule
 
+module S2KtestZModEnum-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModEnumContract
+    
+    syntax S2KtestZModEnumContract ::= "S2KtestZModEnum" [symbol(""), klabel(contract_test%Enum)]
+    
+    syntax Bytes ::= S2KtestZModEnumContract "." S2KtestZModEnumMethod [function, symbol(""), klabel(method_test%Enum)]
+    
+    syntax S2KtestZModEnumMethod ::= "S2KenumZUndstorageZUndrange" "(" ")" [symbol(""), klabel(method_test%Enum_S2KenumZUndstorageZUndrange_)]
+    
+    rule  ( S2KtestZModEnum . S2KenumZUndstorageZUndrange ( ) => #abiCallData ( "enum_storage_range" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "enum_storage_range()" ) => 1664546334 )
+      
+
+endmodule
+
+module S2KtestZModEnumContract-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModEnumContractContract
+    
+    syntax S2KtestZModEnumContractContract ::= "S2KtestZModEnumContract" [symbol(""), klabel(contract_test%EnumContract)]
+    
+    syntax Bytes ::= S2KtestZModEnumContractContract "." S2KtestZModEnumContractMethod [function, symbol(""), klabel(method_test%EnumContract)]
+    
+    syntax S2KtestZModEnumContractMethod ::= "S2Kcount" "(" ")" [symbol(""), klabel(method_test%EnumContract_S2Kcount_)]
+    
+    syntax S2KtestZModEnumContractMethod ::= "S2Kletter" "(" ")" [symbol(""), klabel(method_test%EnumContract_S2Kletter_)]
+    
+    rule  ( S2KtestZModEnumContract . S2Kcount ( ) => #abiCallData ( "count" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModEnumContract . S2Kletter ( ) => #abiCallData ( "letter" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "count()" ) => 107354813 )
+      
+    
+    rule  ( selector ( "letter()" ) => 1756313567 )
+      
+
+endmodule
+
 module S2KtestZModEnvTest-CONTRACT
     imports public FOUNDRY
     

@@ -2,7 +2,6 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "kontrol-cheatcodes/KontrolCheats.sol";
 
 enum Letter {
     LETTER_A,
@@ -13,10 +12,13 @@ enum Letter {
     LETTER_F
 }
 
-
 contract EnumContract {
-    uint public num;
+    uint256 public count;
     Letter public letter;
+
+    constructor() payable {
+        count = 5;
+    }
 }
 
 contract Enum {
