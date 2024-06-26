@@ -71,6 +71,10 @@ module FOUNDRY-MAIN
     imports public S2KtestZModImmutableVarsTest-VERIFICATION
     imports public S2KtestZModInitCodeTest-VERIFICATION
     imports public S2KtestZModInitCodeBranchTest-VERIFICATION
+    imports public S2KtestZModERC20-VERIFICATION
+    imports public S2KtestZModIERC20-VERIFICATION
+    imports public S2KtestZModInterfaceContract-VERIFICATION
+    imports public S2KtestZModInterfaceTagTest-VERIFICATION
     imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheats-VERIFICATION
     imports public S2KtestZModLabelTest-VERIFICATION
     imports public S2KtestZModLoopsTest-VERIFICATION
@@ -610,6 +614,34 @@ endmodule
 
 module S2KtestZModInitCodeBranchTest-VERIFICATION
     imports public S2KtestZModInitCodeBranchTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModERC20-VERIFICATION
+    imports public S2KtestZModERC20-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModIERC20-VERIFICATION
+    imports public S2KtestZModIERC20-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModInterfaceContract-VERIFICATION
+    imports public S2KtestZModInterfaceContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModInterfaceTagTest-VERIFICATION
+    imports public S2KtestZModInterfaceTagTest-CONTRACT
     
     
 

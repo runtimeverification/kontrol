@@ -5,8 +5,8 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (3775 steps)
-├─ 7 (terminal)
+│  (4807 steps)
+├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 240
 │   callDepth: 0
@@ -26,7 +26,7 @@
 module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
     
     
-    rule [BASIC-BLOCK-1-TO-7]: <foundry>
+    rule [BASIC-BLOCK-1-TO-8]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -275,7 +275,7 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_CALLABLESTORAGETEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -283,6 +283,6 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-7)]
+      [priority(20), label(BASIC-BLOCK-1-TO-8)]
 
 endmodule

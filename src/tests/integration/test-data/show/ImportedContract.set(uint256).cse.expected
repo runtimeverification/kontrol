@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: 3 <=Int #lookup ( CONTRACT_STORAGE:Map , 0 )
+┣━━┓ constraint: 3 <=Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
 ┃  │
 ┃  ├─ 8
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -29,7 +29,7 @@
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: #lookup ( CONTRACT_STORAGE:Map , 0 ) <Int 3
+┗━━┓ constraint: #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <Int 3
    │
    ├─ 9
    │   k: #execute ~> CONTINUATION:K
@@ -83,7 +83,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                  </statusCode>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_IMPORTEDCONTRACT_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -135,16 +135,16 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_IMPORTEDCONTRACT_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_IMPORTEDCONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       ( CONTRACT_STORAGE:Map => CONTRACT_STORAGE:Map [ 0 <- VV0_x_114b9705:Int ] )
+                       ( C_IMPORTEDCONTRACT_STORAGE:Map => C_IMPORTEDCONTRACT_STORAGE:Map [ 0 <- VV0_x_114b9705:Int ] )
                      </storage>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_IMPORTEDCONTRACT_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -227,30 +227,30 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( 0 <=Int C_IMPORTEDCONTRACT_ID:Int
+       andBool ( 0 <=Int C_IMPORTEDCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_IMPORTEDCONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_IMPORTEDCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( C_IMPORTEDCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_IMPORTEDCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( 3 <=Int #lookup ( CONTRACT_STORAGE:Map , 0 )
+       andBool ( 3 <=Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
@@ -279,7 +279,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                  </statusCode>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_IMPORTEDCONTRACT_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -331,16 +331,16 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_IMPORTEDCONTRACT_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_IMPORTEDCONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       CONTRACT_STORAGE:Map
+                       C_IMPORTEDCONTRACT_STORAGE:Map
                      </storage>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_IMPORTEDCONTRACT_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -423,30 +423,30 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( 0 <=Int C_IMPORTEDCONTRACT_ID:Int
+       andBool ( 0 <=Int C_IMPORTEDCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_IMPORTEDCONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_IMPORTEDCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( C_IMPORTEDCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_IMPORTEDCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( CONTRACT_STORAGE:Map , 0 ) <Int 3
+       andBool ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <Int 3
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
