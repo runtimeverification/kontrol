@@ -372,7 +372,7 @@ AST_DATA: list[tuple[str, dict, tuple[StorageField, ...], list[str]]] = [
                 ],
             },
         },
-        [],
+        tuple(),
         ['Counter.setNumber(uint256,bool)', 'Counter.number()'],
     ),
     (
@@ -426,7 +426,7 @@ AST_DATA: list[tuple[str, dict, tuple[StorageField, ...], list[str]]] = [
                 ],
             },
         },
-        [],
+        tuple(),
         ['ArithmeticContract.add(uint256,uint256)'],
     ),
     (
@@ -458,7 +458,7 @@ AST_DATA: list[tuple[str, dict, tuple[StorageField, ...], list[str]]] = [
                 ],
             },
         },
-        [StorageField(label='token', data_type='contract IERC20', slot=0, offset=0, interface_for='ERC20')],
+        (StorageField(label='token', data_type='contract IERC20', slot=0, offset=0, interface_for='ERC20'),),
         ['ERC20.totalSupply()'],
     ),
 ]
