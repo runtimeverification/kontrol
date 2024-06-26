@@ -372,7 +372,7 @@ AST_DATA: list[tuple[str, dict, tuple[StorageField, ...], list[str]]] = [
                 ],
             },
         },
-        tuple(),
+        (),
         ['Counter.setNumber(uint256,bool)', 'Counter.number()'],
     ),
     (
@@ -426,7 +426,7 @@ AST_DATA: list[tuple[str, dict, tuple[StorageField, ...], list[str]]] = [
                 ],
             },
         },
-        tuple(),
+        (),
         ['ArithmeticContract.add(uint256,uint256)'],
     ),
     (
