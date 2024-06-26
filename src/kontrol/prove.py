@@ -7,6 +7,7 @@ from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
+import rich
 from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
@@ -104,7 +105,8 @@ def foundry_prove(
     exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
     test_suite = collect_tests(foundry, options.tests, reinit=options.reinit, exact_match=exact_match)
     test_names = [test.name for test in test_suite]
-    print(f'Running functions: {test_names}')
+    separator = '\n\t\t   '  # ad-hoc separator for the string "Running functions: " below
+    rich.print(f'[bold]Running functions:[/bold] {separator.join(test_names)}')
 
     contracts = [(test.contract, test.version) for test in test_suite]
     setup_method_tests = collect_setup_methods(
