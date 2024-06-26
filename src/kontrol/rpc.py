@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pprint
 from collections import deque
+from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -18,7 +19,7 @@ from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import intToken
 from pyk.prelude.string import stringToken
 from pyk.rpc.rpc import JsonRpcServer
-from datetime import datetime
+
 from .foundry import Foundry
 
 if TYPE_CHECKING:
@@ -48,11 +49,11 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         dir_path = Path(f'{kdist.kdist_dir}/kontrol/foundry')
         self.krun = KRun(dir_path)
 
-        start_time = datetime.now() 
-        
+        start_time = datetime.now()
+
         self._init_cterm()
 
-        end_time = datetime.now() 
+        end_time = datetime.now()
 
         print(f'Server initialization finished in {(end_time - start_time).total_seconds()} seconds.')
 
@@ -91,7 +92,11 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
     def exec_add_account(self, private_key: str, balance_hex: str) -> None:
         balance = int(balance_hex, 16)
-        self.cterm = CTerm.from_kast(set_cell(self.cterm.config, 'K_CELL', KApply('acctFromPrivateKey', [stringToken(private_key), intToken(balance)])))
+        self.cterm = CTerm.from_kast(
+            set_cell(
+                self.cterm.config, 'K_CELL', KApply('acctFromPrivateKey', [stringToken(private_key), intToken(balance)])
+            )
+        )
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
         output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
@@ -106,7 +111,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         _PPRINT.pprint(rpc_response_cell)
         return 0
 
-    def exec_send_transaction(self, transaction_json: dict) -> int:
+    def exec_send_transaction(self, transaction_json: dict) -> str:
 
         from_acct = transaction_json['from'] if 'from' in transaction_json else None
         from_account_data = self._get_account_cell_by_address(from_acct)
@@ -145,12 +150,12 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
 
-        print("RPCRESPONSE----------------------------------------------")
-        rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
-        _PPRINT.pprint(rpc_response_cell)
+        # print("RPCRESPONSE----------------------------------------------")
+        # rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
+        # _PPRINT.pprint(rpc_response_cell)
+        # assert type(rpc_response_cell) is KToken
 
-        assert type(rpc_response_cell) is KToken
-        return int(rpc_response_cell.token)
+        return self._get_last_message_tx_hash()
 
     # ------------------------------------------------------
     # VM data fetch helper functions
@@ -187,14 +192,97 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
         return accounts_dict
 
+    def _get_last_message_tx_hash(self) -> str:
+
+        cell = self.cterm.cell('CURRENTTXID_CELL')
+        assert type(cell) is KToken
+        last_tx_id = int(cell.token) - 1
+
+        last_tx_hash = _msg_id_to_tx_hash(last_tx_id)
+
+        return last_tx_hash
+        # messages_dict = self._get_all_messages_dict()
+
+    def _get_all_messages_dict(self) -> dict:
+        messages_dict: dict[str, dict] = {}
+
+        cells = self.cterm.cells
+        cell = cells.get('MESSAGES_CELL', None)
+
+        if cell is None:
+            # For the first transaction, the cells of the message will be scattered in the model, and if there is only this transaction in the messages map, this dictionary entry must be built manually.
+            cell = self.cterm.cell('MSGID_CELL')
+            assert type(cell) is KToken
+            msg_id = cell.token
+            messages_dict[msg_id] = {}
+
+            cell = self.cterm.cell('TXNONCE_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<txNonce>'] = cell.token
+            cell = self.cterm.cell('TXGASPRICE_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<txGasPrice>'] = cell.token
+            cell = self.cterm.cell('TXGASLIMIT_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<txGasLimit>'] = cell.token
+            cell = self.cterm.cell('TO_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<to>'] = cell.token
+            cell = self.cterm.cell('VALUE_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<value>'] = cell.token
+            cell = self.cterm.cell('SIGV_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<sigV>'] = cell.token
+            cell = self.cterm.cell('SIGR_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<sigR>'] = cell.token
+            cell = self.cterm.cell('SIGS_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<sigS>'] = cell.token
+            cell = self.cterm.cell('DATA_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<data>'] = cell.token
+            cell = self.cterm.cell('TXCHAINID_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<txChainID>'] = cell.token
+            cell = self.cterm.cell('TXPRIORITYFEE_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<txPriorityFee>'] = cell.token
+            cell = self.cterm.cell('TXMAXFEE_CELL')
+            assert type(cell) is KToken
+            messages_dict[msg_id]['<txMaxFee>'] = cell.token
+        else:
+            assert type(cell) is KApply
+            queue: deque[KInner] = deque(cell.args)
+            while len(queue) > 0:
+                message_cell = queue.popleft()
+                if isinstance(message_cell, KApply):
+                    if message_cell.label.name == '<message>':
+                        message_dict = {}
+                        for args in message_cell.args:
+                            assert type(args) is KApply
+                            cell_name = args.label.name
+                            if isinstance(args.args[0], KToken):
+                                message_dict[cell_name] = args.args[0].token
+
+                        messages_dict[message_dict['<msgID>']] = message_dict
+                    elif 'MessageCellMap' in message_cell.label.name:
+                        queue.extend(message_cell.args)
+
+        return messages_dict
+
     # ------------------------------------------------------
     # VM setup functions
     # ------------------------------------------------------
 
     def _add_initial_accounts(self) -> None:
         balance = 10**20
-        
-        private_keys = ['0xcdeac0dd5ec7c04072af48f2a4451e102a80ca5bb441a7b4d72c176cea61866e', '0xafdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4f890']
+
+        private_keys = [
+            '0xcdeac0dd5ec7c04072af48f2a4451e102a80ca5bb441a7b4d72c176cea61866e',
+            '0xafdfd9c3d2095ef696594f6cedcae59e72dcd697e2a7521b1578140422a4f890',
+        ]
         sequence_of_productions = []
 
         for private_key in private_keys:
@@ -250,6 +338,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.cterm = CTerm.from_kast(init_term)
         self._add_initial_accounts()
 
+
 # ------------------------------------------------------
 # Helpers
 # ------------------------------------------------------
@@ -270,4 +359,20 @@ def _address_to_acct_id(address: str) -> int:
         return int(address, 16)
     except ValueError:
         print(f'Invalid hexadecimal string: {address}')
+        return -1  # TODO: Trigger error instead of returning value
+
+
+def _msg_id_to_tx_hash(msg_id: int) -> str:
+    hex_value = hex(msg_id).lower()[2:]
+    target_length = 66
+    padding_length = target_length - len(hex_value)
+    padded_hash = '0' * padding_length + hex_value
+    return '0x' + padded_hash
+
+
+def _tx_hash_to_msg_id(hash: str) -> int:
+    try:
+        return int(hash, 16)
+    except ValueError:
+        print(f'Invalid hexadecimal string: {hash}')
         return -1  # TODO: Trigger error instead of returning value

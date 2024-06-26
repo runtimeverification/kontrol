@@ -18,6 +18,7 @@ module KONTROL-VM
         //  <txPending> ListItem(TXID) => .List ... </txPending>
          <txOrder>   ListItem(TXID) => .List ... </txOrder>
          <currentTxID> TXID => TXID +Int 1 </currentTxID>
+         <rpcResponse> _ => 200 </rpcResponse>
 
     syntax RPCResponse ::= ".RPCResponse" | String | Int | Bytes
     
@@ -32,7 +33,6 @@ module KONTROL-VM
                   </simbolikVM>                       
 
     rule <k> #kontrol_requestValue => . ... </k> 
-         <rpcResponse> _ => 10 </rpcResponse>
 
     syntax KItem ::= "#acctFromPrivateKey" String Int [symbol(acctFromPrivateKey)] 
     syntax KItem ::= "#setAcctBalance" Int Int 
@@ -74,8 +74,7 @@ module KONTROL-VM
               </k>
     
     syntax KItem ::= "#loadTx" TxType Int Int Int Int Int Int Bytes 
-   // ---------------------------------------]
-   // TODO: Replace the 0 with an index
+    // ---------------------------------------
     rule <k> #loadTx TXTYPE ACCTFROM ACCTTO TXGAS TXGASPRICE TXVALUE TXNONCE TXDATA
           => #makeTX TXID
           ~> #loadNonce ACCTFROM TXNONCE
@@ -85,12 +84,9 @@ module KONTROL-VM
           ...
          </k>
          <currentTxID> TXID </currentTxID>
-         <rpcResponse> _ => 9 </rpcResponse>
 
     syntax EthereumCommand ::= "#makeTX" Int
-   // ---------------------------------------
-    // rule <k> #makeTX TXID => . ... </k>
-    //      <message> <msgID> TXID:Int </msgID> ... </message>
+    // ---------------------------------------
     rule <k> #makeTX TXID => . ... </k>
          <txOrder>   ... (.List => ListItem(TXID)) </txOrder>
          <txPending> ... (.List => ListItem(TXID)) </txPending>
@@ -265,7 +261,6 @@ module KONTROL-VM
           ... 
           </k>
          <origin> _ => ACCTFROM </origin>
-         <rpcResponse> _ => 11 </rpcResponse>
 
     syntax KItem ::= "#setup_G0" Int
    // --------------------------------
@@ -326,7 +321,7 @@ module KONTROL-VM
 
     syntax Int ::= #time( Bool ) [function]
     // ---------------------------------------
-    rule #time(false) => 0 // Originally this was #time. Should represent the current time of the VM.
+    rule #time(false) => 0 // TODO: Originally this was #time. Should represent the current time of the VM.
     rule #time(true)  => 0
 
     syntax EthereumCommand ::= "#finishTx"
@@ -421,7 +416,6 @@ module KONTROL-VM
            <nonce> NONCE </nonce>
            ...
          </account>
-         <rpcResponse> _ => 12 </rpcResponse>
 
     rule <k> #executeTx TXID:Int
           => #accessAccounts ACCTFROM ACCTTO #precompiledAccountsSet(SCHED)
@@ -452,7 +446,6 @@ module KONTROL-VM
            <nonce> NONCE => NONCE +Int 1 </nonce>
            ...
          </account>
-         <rpcResponse> _ => 12 </rpcResponse>
       requires ACCTTO =/=K .Account
 
 endmodule
