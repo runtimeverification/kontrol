@@ -43,6 +43,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.register_method('eth_accounts', self.exec_accounts)
         self.register_method('eth_getBalance', self.exec_get_balance)
         self.register_method('eth_sendTransaction', self.exec_send_transaction)
+        self.register_method('eth_getTransactionByHash', self.exec_get_transaction_by_hash)
         self.register_method('kontrol_requestValue', self.exec_request_value)
         self.register_method('kontrol_addAccount', self.exec_add_account)
 
@@ -157,6 +158,11 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
         return self._get_last_message_tx_hash()
 
+    def exec_get_transaction_by_hash(self, tx_hash: str) -> dict:
+        msg_id = _tx_hash_to_msg_id(tx_hash)
+        messages_dict = self._get_all_messages_dict()
+        return messages_dict[str(msg_id)]
+
     # ------------------------------------------------------
     # VM data fetch helper functions
     # ------------------------------------------------------
@@ -201,7 +207,6 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         last_tx_hash = _msg_id_to_tx_hash(last_tx_id)
 
         return last_tx_hash
-        # messages_dict = self._get_all_messages_dict()
 
     def _get_all_messages_dict(self) -> dict:
         messages_dict: dict[str, dict] = {}
