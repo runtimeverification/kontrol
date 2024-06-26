@@ -1039,7 +1039,10 @@ def _create_cse_accounts(
                 new_account_constraints.append(mlEqualsTrue(address_range_ub))
         # Processing of contracts
         if field.data_type.startswith('contract '):
-            contract_type = field.data_type.split(' ')[1]
+            if field.linked_interface:
+                contract_type = field.linked_interface
+            else:
+                contract_type = field.data_type.split(' ')[1]
             for full_contract_name, contract_obj in foundry.contracts.items():
                 # TODO: this is not enough, it is possible that the same contract comes with
                 # src% and test%, in which case we don't know automatically which one to choose
