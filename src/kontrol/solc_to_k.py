@@ -832,12 +832,7 @@ class Contract:
     constructor: Constructor | None
     PREFIX_CODE: Final = 'Z'
 
-#      importedSymbols: dict[str, int] | None = None
-#  
-#      enums: dict[str, list[str]] | None = None
-
-
-    def __init__(self, contract_name: str, contract_json: dict, exported_symbols, foundry: bool = False) -> None:
+    def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
         self._name = contract_name
         self.contract_json = contract_json
 
@@ -850,29 +845,6 @@ class Contract:
             ) from None
 
         evm = self.contract_json['evm'] if not foundry else self.contract_json
-
-
-#          def parse_node(dct: dict):
-#  
-#              if dct['nodeType'] == 'ImportDirective':
-#                  for key, val in exported_symbols[dct['absolutePath']][0].items():
-#                      assert len(val) == 1
-#                      self.importedSymbols[key] = val[0]
-#  
-#  #  
-#  #              if dct['nodeType'] == 'EnumDefinition':
-#  #                  self.enums[dct['canonicalName']] = {member['name'] for member in dct['members']}
-#              for node in dct['nodes']:
-#                  parse_node(node)
-#  
-#  
-#          self.enums = {}
-#          self.importedSymbols = {}
-#          parse_node(contract_json['ast'])
-#          print(self._name)
-#          print(self.importedSymbols)
-#          print(self.enums)
-
 
         deployed_bytecode = evm['deployedBytecode']
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
