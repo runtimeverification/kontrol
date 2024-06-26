@@ -127,7 +127,7 @@ def foundry_kompile(
 
         _LOGGER.info('Updated Kompilation digest')
 
-    if not kompilation_up_to_date() or options.rekompile or not kompiled_timestamp.exists():
+    if not foundry.up_to_date() or not kompilation_up_to_date() or options.rekompile or not kompiled_timestamp.exists():
         output_dir = foundry.kompiled
         kevm_kompile(
             target=options.target,
