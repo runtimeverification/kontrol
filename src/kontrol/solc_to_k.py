@@ -327,7 +327,7 @@ class StorageField(NamedTuple):
     data_type: str
     slot: int
     offset: int
-    interface_for: str | None
+    linked_interface: str | None
 
 
 @dataclass
@@ -1311,8 +1311,8 @@ def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[st
                 )
 
                 for field in fields:
-                    if field.label == contract_name and field.interface_for is not None:
-                        contract_type = field.interface_for
+                    if field.label == contract_name and field.linked_interface is not None:
+                        contract_type = field.linked_interface
                         break
 
                 function_name = expression.get('memberName')
@@ -1350,7 +1350,7 @@ def process_storage_layout(storage_layout: dict, interface_annotations: dict) ->
                 data_type=type_info.get('label', field['type']),
                 slot=int(field['slot']),
                 offset=int(field['offset']),
-                interface_for=interface_annotations.get(field['label'], None),
+                linked_interface=interface_annotations.get(field['label'], None),
             )
             fields_list.append(storage_field)
         except (KeyError, ValueError) as e:

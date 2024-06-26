@@ -458,7 +458,7 @@ AST_DATA: list[tuple[str, dict, tuple[StorageField, ...], list[str]]] = [
                 ],
             },
         },
-        (StorageField(label='token', data_type='contract IERC20', slot=0, offset=0, interface_for='ERC20'),),
+        (StorageField(label='token', data_type='contract IERC20', slot=0, offset=0, linked_interface='ERC20'),),
         ['ERC20.totalSupply()'],
     ),
 ]
@@ -513,9 +513,9 @@ LAYOUT_DATA: list[tuple[str, dict, dict, tuple[StorageField, ...]]] = [
         },
         {},
         (
-            StorageField(label='x', data_type='bool', slot=0, offset=0, interface_for=None),
-            StorageField(label='secondBoolean', data_type='bool', slot=0, offset=1, interface_for=None),
-            StorageField(label='number', data_type='uint256', slot=1, offset=0, interface_for=None),
+            StorageField(label='x', data_type='bool', slot=0, offset=0, linked_interface=None),
+            StorageField(label='secondBoolean', data_type='bool', slot=0, offset=1, linked_interface=None),
+            StorageField(label='number', data_type='uint256', slot=1, offset=0, linked_interface=None),
         ),
     ),
     (
@@ -538,7 +538,7 @@ LAYOUT_DATA: list[tuple[str, dict, dict, tuple[StorageField, ...]]] = [
         {
             'token': 'ERC20',
         },
-        (StorageField(label='token', data_type='contract IERC20', slot=0, offset=0, interface_for='ERC20'),),
+        (StorageField(label='token', data_type='contract IERC20', slot=0, offset=0, linked_interface='ERC20'),),
     ),
 ]
 

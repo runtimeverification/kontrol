@@ -1033,8 +1033,8 @@ def _create_cse_accounts(
             new_account_constraints.append(mlEqualsTrue(length_byte_lt32))
             new_account_constraints.append(mlEqualsTrue(length_byte_positive))
         if field.data_type.startswith('contract '):
-            if field.interface_for:
-                contract_type = field.interface_for
+            if field.linked_interface:
+                contract_type = field.linked_interface
             else:
                 contract_type = field.data_type.split(' ')[1]
             for full_contract_name, contract_obj in foundry.contracts.items():
