@@ -82,11 +82,11 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                    ( _STATUSCODE => EVMC_SUCCESS )
                  </statusCode>
                  <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_IDENTITY_ID:Int ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_IDENTITY_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -119,7 +119,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_IDENTITY_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -141,13 +141,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_IDENTITY_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_IDENTITY_BAL:Int
                      </balance>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_IDENTITY_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -230,30 +230,30 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
+       andBool ( 0 <=Int C_IDENTITY_ID:Int
+       andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( 0 <=Int C_IDENTITY_NONCE:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_IDENTITY_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_IDENTITY_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
+       andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 9 ) )
                ))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
@@ -282,7 +282,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  </statusCode>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_IDENTITY_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -294,7 +294,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 164 : ( selector ( "identity(uint256)" ) : ( CONTRACT_ID:Int : ( 0 : ( VV0_x_114b9705:Int : ( 70 : ( selector ( "applyOp(uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 164 : ( selector ( "identity(uint256)" ) : ( C_IDENTITY_ID:Int : ( 0 : ( VV0_x_114b9705:Int : ( 70 : ( selector ( "applyOp(uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xac7\xee\xbb" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) )
@@ -315,7 +315,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_IDENTITY_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -337,13 +337,13 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_IDENTITY_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_IDENTITY_BAL:Int
                      </balance>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_IDENTITY_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -426,30 +426,30 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
+       andBool ( 0 <=Int C_IDENTITY_ID:Int
+       andBool ( 0 <=Int C_IDENTITY_BAL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
+       andBool ( 0 <=Int C_IDENTITY_NONCE:Int
        andBool ( 1024 <=Int CALLDEPTH_CELL:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_IDENTITY_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_IDENTITY_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_IDENTITY_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
+       andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 9 ) )
                ))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
