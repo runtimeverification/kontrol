@@ -175,9 +175,9 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 
 def exec_build(options: BuildOptions) -> None:
     if options.verbose:
-        building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer:[/{_rv_blue()}]'
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer: [/{_rv_blue()}]'
     else:
-        building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer: \n Add --verbose to `kontrol build` for more details![/{_rv_blue()}]'
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building Kontrol project[/bold] :hammer:\nAdd --verbose to `kontrol build` for more details![/{_rv_blue()}]'
     console = Console()
     with console.status(
         building_message,
@@ -190,7 +190,7 @@ def exec_build(options: BuildOptions) -> None:
                 foundry=_load_foundry(options.foundry_root),
             )
             console.print(
-                ' :white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
+                ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
             )
         except Exception as e:
             console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] {e}')
@@ -221,15 +221,15 @@ def exec_prove(options: ProveOptions) -> None:
                 f"{signature} is not prefixed with 'test', 'prove', or 'check', therefore, it is not reported as failing in the presence of reverts or assertion violations."
             )
         if proof.passed:
-            rich.print(f' :sparkles: [bold green]PROOF PASSED[/bold green] :sparkles: {proof.id}')
+            rich.print(f':sparkles: [bold green]PROOF PASSED[/bold green] :sparkles: {proof.id}')
             rich.print(
-                f' :hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
             )
         else:
             failed += 1
-            rich.print(f' :cross_mark: [bold red]PROOF FAILED[/bold red] :cross_mark: {proof.id}')
+            rich.print(f':cross_mark: [bold red]PROOF FAILED[/bold red] :cross_mark: {proof.id}')
             rich.print(
-                f' :hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
             )
             failure_log = None
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
