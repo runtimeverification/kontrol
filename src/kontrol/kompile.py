@@ -15,6 +15,7 @@ from pyk.utils import ensure_dir_path, hash_str
 from .foundry import Foundry
 from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
+from .utils import _rv_blue, console
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -45,10 +46,12 @@ def foundry_kompile(
         foundry.build()
 
     regen = options.regen
+    foundry_up_to_date = True
 
     if not foundry.up_to_date():
         _LOGGER.info('Detected updates to contracts, regenerating K definition.')
         regen = True
+        foundry_up_to_date = False
 
     for r in options.requires:
         req = Path(r)
@@ -77,6 +80,11 @@ def foundry_kompile(
             raise ValueError(f'Could not find contract: {full_import_name}')
 
     if regen or not foundry_contracts_file.exists() or not foundry.main_file.exists():
+        if regen and foundry_up_to_date:
+            console.print(
+                f'[{_rv_blue()}][bold]--regen[/bold] option provied. Rebuilding Kontrol Project.[/{_rv_blue()}]'
+            )
+
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
         kevm = KEVM(kdist.get('kontrol.foundry'))
