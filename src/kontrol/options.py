@@ -342,7 +342,8 @@ class ProveOptions(
     use_gas: bool
     setup_version: int | None
     break_on_cheatcodes: bool
-    deployment_state_path: Path | None
+    recorded_diff_state_path: Path | None
+    recorded_dump_state_path: Path | None
     include_summaries: list[tuple[str, int | None]]
     with_non_general_state: bool
     xml_test_report: bool
@@ -361,7 +362,8 @@ class ProveOptions(
             'run_constructor': False,
             'use_gas': False,
             'break_on_cheatcodes': False,
-            'deployment_state_path': None,
+            'recorded_diff_state_path': None,
+            'recorded_dump_state_path': None,
             'setup_version': None,
             'include_summaries': [],
             'with_non_general_state': False,
@@ -386,7 +388,12 @@ class ProveOptions(
             | ExploreOptions.from_option_string()
             | FoundryOptions.from_option_string()
             | TraceOptions.from_option_string()
-            | {'match-test': 'tests', 'init-node-from': 'deployment_state_path', 'include-summary': 'include_summaries'}
+            | {
+                'match-test': 'tests',
+                'init-node-from-diff': 'recorded_diff_state_path',
+                'init-node-from-dump': 'recorded_dump_state_path',
+                'include-summary': 'include_summaries',
+            }
         )
 
     @staticmethod

@@ -430,10 +430,16 @@ def _create_argument_parser() -> ArgumentParser:
         help='Break on all Foundry rules.',
     )
     prove_args.add_argument(
-        '--init-node-from',
-        dest='deployment_state_path',
+        '--init-node-from-diff',
+        dest='recorded_diff_state_path',
         type=file_path,
-        help='Path to JSON file containing the deployment state of the deployment process used for the project.',
+        help='Path to JSON file produced by vm.stopAndReturnStateDiff.',
+    )
+    prove_args.add_argument(
+        '--init-node-from-dump',
+        dest='recorded_dump_state_path',
+        type=file_path,
+        help='Path to JSON file produced by vm.dumpState.',
     )
     prove_args.add_argument(
         '--include-summary',
