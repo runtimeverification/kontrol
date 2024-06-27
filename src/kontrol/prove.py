@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import time
 from abc import abstractmethod
+from collections import Counter
 from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
@@ -16,10 +17,10 @@ from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import list_empty, map_empty, map_of, set_empty
+from pyk.prelude.collections import list_empty, map_empty, map_item, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, notBool
-from pyk.prelude.kint import eqInt, geInt, intToken, ltInt
+from pyk.prelude.kint import eqInt, intToken, leInt, ltInt
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
@@ -358,7 +359,11 @@ def _run_cfg_group(
 
             if proof is None:
                 # With CSE, top-level proof should be a summary if it's not a test or setUp function
-                if options.cse and options.config_type == ConfigType.TEST_CONFIG and not test.contract.is_test_contract:
+                if (
+                    (options.cse or options.include_summaries)
+                    and options.config_type == ConfigType.TEST_CONFIG
+                    and not test.contract.is_test_contract
+                ):
                     options.config_type = ConfigType.SUMMARY_CONFIG
 
                 proof = method_to_apr_proof(
@@ -599,6 +604,7 @@ def _method_to_cfg(
     init_cterm = _init_cterm(
         foundry,
         empty_config,
+        contract_name=contract._name,
         program=program,
         contract_code=bytesToken(contract_code),
         storage_fields=contract.fields,
@@ -803,6 +809,7 @@ def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) 
 def _init_cterm(
     foundry: Foundry,
     empty_config: KInner,
+    contract_name: str,
     program: bytes,
     contract_code: KInner,
     storage_fields: tuple[StorageField, ...],
@@ -817,6 +824,7 @@ def _init_cterm(
     trace_options: TraceOptions | None = None,
 ) -> CTerm:
     schedule = KApply('SHANGHAI_EVM')
+    contract_name = contract_name.upper()
 
     if not trace_options:
         trace_options = TraceOptions({})
@@ -829,7 +837,7 @@ def _init_cterm(
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': bytesToken(program),
         'JUMPDESTS_CELL': jumpdests,
-        'ID_CELL': KVariable(Foundry.symbolic_contract_id(), sort=KSort('Int')),
+        'ID_CELL': KVariable(Foundry.symbolic_contract_id(contract_name), sort=KSort('Int')),
         'ORIGIN_CELL': KVariable('ORIGIN_ID', sort=KSort('Int')),
         'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),
         'LOCALMEM_CELL': bytesToken(b''),
@@ -877,14 +885,15 @@ def _init_cterm(
         init_subst.update(init_subst_test)
     else:
         accounts: list[KInner] = []
+        contract_account_name = Foundry.symbolic_contract_name(contract_name)
 
         if isinstance(method, Contract.Constructor):
             # Symbolic account for the contract being executed
-            accounts.append(Foundry.symbolic_account(Foundry.symbolic_contract_prefix(), contract_code))
+            accounts.append(Foundry.symbolic_account(contract_account_name, contract_code))
         else:
             # Symbolic accounts of all relevant contracts
             accounts, storage_constraints = _create_cse_accounts(
-                foundry, storage_fields, Foundry.symbolic_contract_prefix(), contract_code
+                foundry, storage_fields, contract_account_name, contract_code
             )
 
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
@@ -918,7 +927,7 @@ def _init_cterm(
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
-    for contract_id in [Foundry.symbolic_contract_id(), 'CALLER_ID', 'ORIGIN_ID']:
+    for contract_id in [Foundry.symbolic_contract_id(contract_name), 'CALLER_ID', 'ORIGIN_ID']:
         # The address of the executing contract, the calling contract, and the origin contract
         # is always guaranteed to not be the address of the cheatcode contract
         init_cterm = init_cterm.add_constraint(
@@ -988,84 +997,69 @@ def _create_cse_accounts(
             - A list of constraints on symbolic account IDs.
     """
 
+    def extend_storage(map: KInner, slot: int, value: KInner) -> KInner:
+        return KApply('_Map_', [map_item(intToken(slot), value), map])
+
     new_accounts: list[KInner] = []
     new_account_constraints: list[KApply] = []
 
-    storage_map = KVariable(contract_name + '_STORAGE', sort=KSort('Map'))
-    new_accounts.append(Foundry.symbolic_account(contract_name, contract_code, storage_map))
+    storage_map: KInner = KVariable(contract_name + '_STORAGE', sort=KSort('Map'))
+
+    singly_occupied_slots = [
+        slot for (slot, count) in Counter(field.slot for field in storage_fields).items() if count == 1
+    ]
 
     for field in storage_fields:
+        field_name = contract_name + '_' + field.label.upper()
+        # Processing of strings
         if field.data_type == 'string':
-            lookup = KEVM.lookup(storage_map, intToken(field.slot))
-            length_byte_lt32 = ltInt(
+            string_contents = KVariable(field_name + '_S_CONTENTS', sort=KSort('Bytes'))
+            string_length = KVariable(field_name + '_S_LENGTH', sort=KSort('Int'))
+            string_structure = KEVM.as_word(
                 KApply(
-                    '_&Int_',
+                    '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
                     [
-                        intToken(127),
-                        KApply(
-                            '_>>Int_',
-                            [
-                                lookup,
-                                intToken(1),
-                            ],
+                        string_contents,
+                        KEVM.buf(
+                            intToken(1),
+                            KApply('_*Int_', [intToken(2), string_length]),
                         ),
                     ],
-                ),
-                intToken(32),
+                )
             )
-            length_byte_positive = geInt(
-                KApply(
-                    '_&Int_',
-                    [
-                        intToken(127),
-                        KApply(
-                            '_>>Int_',
-                            [
-                                lookup,
-                                intToken(1),
-                            ],
-                        ),
-                    ],
-                ),
-                intToken(0),
-            )
-            lowest_bit_not_set = eqInt(
-                intToken(0),
-                KApply(
-                    '_&Int_',
-                    [
-                        intToken(1),
-                        lookup,
-                    ],
-                ),
-            )
+            string_contents_length = eqInt(KEVM.size_bytes(string_contents), intToken(31))
+            string_length_lb = leInt(intToken(0), string_length)
+            string_length_ub = ltInt(string_length, intToken(32))
 
-            new_account_constraints.append(mlEqualsTrue(lowest_bit_not_set))
-            new_account_constraints.append(mlEqualsTrue(length_byte_lt32))
-            new_account_constraints.append(mlEqualsTrue(length_byte_positive))
+            storage_map = extend_storage(storage_map, field.slot, string_structure)
+            new_account_constraints.append(mlEqualsTrue(string_contents_length))
+            new_account_constraints.append(mlEqualsTrue(string_length_lb))
+            new_account_constraints.append(mlEqualsTrue(string_length_ub))
+        # Processing of addresses
+        if field.data_type == 'address':
+            if field.slot in singly_occupied_slots:
+                # The offset must equal zero
+                assert field.offset == 0
+                # Create appropriate symbolic variable
+                field_variable = KVariable(field_name + '_ID', sort=KSort('Int'))
+                # Update storage map accordingly: ( field.slot |-> contract_account_variable ) STORAGE_MAP
+                storage_map = extend_storage(storage_map, field.slot, field_variable)
+                address_range_lb = leInt(intToken(0), field_variable)
+                address_range_ub = ltInt(field_variable, intToken(1461501637330902918203684832716283019655932542976))
+                new_account_constraints.append(mlEqualsTrue(address_range_lb))
+                new_account_constraints.append(mlEqualsTrue(address_range_ub))
+        # Processing of contracts
         if field.data_type.startswith('contract '):
-            contract_type = field.data_type.split(' ')[1]
+            if field.linked_interface:
+                contract_type = field.linked_interface
+            else:
+                contract_type = field.data_type.split(' ')[1]
             for full_contract_name, contract_obj in foundry.contracts.items():
                 # TODO: this is not enough, it is possible that the same contract comes with
                 # src% and test%, in which case we don't know automatically which one to choose
                 if full_contract_name.split('%')[-1] == contract_type:
                     contract_account_code = bytesToken(bytes.fromhex(contract_obj.deployed_bytecode))
-                    contract_account_name = 'CONTRACT-' + field.label.upper()
-
-                    # TODO: handle the case where the field has a non-zero offset
-                    # maxUInt160 &Int #lookup ( CONTRACT_STORAGE:Map , 0 )
-                    contract_storage_lookup = KApply(
-                        '_&Int_',
-                        [
-                            intToken(1461501637330902918203684832716283019655932542975),
-                            KEVM.lookup(storage_map, intToken(field.slot)),
-                        ],
-                    )
-                    new_account_constraints.append(
-                        mlEqualsTrue(
-                            KApply('_==Int_', [contract_storage_lookup, KVariable(contract_account_name + '_ID')])
-                        )
-                    )
+                    contract_account_variable = KVariable(field_name + '_ID', sort=KSort('Int'))
 
                     # New contract account is not the cheatcode contract
                     new_account_constraints.append(
@@ -1073,18 +1067,36 @@ def _create_cse_accounts(
                             KApply(
                                 '_==Int_',
                                 [
-                                    KVariable(contract_account_name + '_ID', sort=KSort('Int')),
+                                    contract_account_variable,
                                     Foundry.address_CHEATCODE(),
                                 ],
                             )
                         )
                     )
+                    # The contract address must occupy the entire slot
+                    if field.slot in singly_occupied_slots:
+                        # The offset must equal zero
+                        assert field.offset == 0
+                        # Update storage map accordingly: ( field.slot |-> contract_account_variable ) STORAGE_MAP
+                        storage_map = KApply(
+                            '_Map_', [map_item(intToken(field.slot), contract_account_variable), storage_map]
+                        )
+                    else:
+                        # TODO: Support shared slots for contract variables
+                        raise (
+                            ValueError(
+                                'Unsupported: CSE for contracts with contract or interface fields in shared slots.'
+                            )
+                        )
 
                     contract_accounts, contract_constraints = _create_cse_accounts(
-                        foundry, contract_obj.fields, contract_account_name, contract_account_code
+                        foundry, contract_obj.fields, field_name, contract_account_code
                     )
                     new_accounts.extend(contract_accounts)
                     new_account_constraints.extend(contract_constraints)
+
+    # In this way, we propagate the storage updates from the iterations
+    new_accounts.append(Foundry.symbolic_account(contract_name, contract_code, storage_map))
 
     return new_accounts, new_account_constraints
 
