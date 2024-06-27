@@ -184,7 +184,7 @@ def exec_build(options: BuildOptions) -> None:
             foundry=_load_foundry(options.foundry_root),
         )
         console.print(
-            ' :white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
+            ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
         )
     except Exception as e:
         console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] [black]{e}[/black]')
@@ -220,15 +220,15 @@ def exec_prove(options: ProveOptions) -> None:
                 f"{signature} is not prefixed with 'test', 'prove', or 'check', therefore, it is not reported as failing in the presence of reverts or assertion violations."
             )
         if proof.passed:
-            console.print(f' :sparkles: [bold green]PROOF PASSED[/bold green] :sparkles: {proof.id}')
+            console.print(f':sparkles: [bold green]PROOF PASSED[/bold green] :sparkles: {proof.id}')
             console.print(
-                f' :hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
             )
         else:
             failed += 1
-            console.print(f' :cross_mark: [bold red]PROOF FAILED[/bold red] :cross_mark: {proof.id}')
+            console.print(f':cross_mark: [bold red]PROOF FAILED[/bold red] :cross_mark: {proof.id}')
             console.print(
-                f' :hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
             )
             failure_log = None
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
