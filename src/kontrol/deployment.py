@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import NamedTuple
 
+from web3 import Web3
 
 class StorageUpdate(NamedTuple):
     address: str
