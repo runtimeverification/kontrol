@@ -58,7 +58,7 @@ if TYPE_CHECKING:
         GetModelOptions,
         InitOptions,
         ListOptions,
-        LoadStateDiffOptions,
+        LoadStateOptions,
         MergeNodesOptions,
         MinimizeProofOptions,
         ProveOptions,

@@ -18,7 +18,7 @@ from .options import (
     GetModelOptions,
     InitOptions,
     ListOptions,
-    LoadStateDiffOptions,
+    LoadStateOptions,
     MergeNodesOptions,
     MinimizeProofOptions,
     ProveOptions,
@@ -49,7 +49,7 @@ if TYPE_CHECKING:
 def generate_options(args: dict[str, Any]) -> LoggingOptions:
     command = args['command']
     options = {
-        'load-state-diff': LoadStateDiffOptions(args),
+        'load-state-diff': LoadStateOptions(args),
         'version': VersionOptions(args),
         'compile': CompileOptions(args),
         'solc-to-k': SolcToKOptions(args),
@@ -81,7 +81,7 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
 def get_option_string_destination(command: str, option_string: str) -> str:
     option_string_destinations = {}
     options = {
-        'load-state-diff': LoadStateDiffOptions.from_option_string(),
+        'load-state-diff': LoadStateOptions.from_option_string(),
         'version': VersionOptions.from_option_string(),
         'compile': CompileOptions.from_option_string(),
         'solc-to-k': SolcToKOptions.from_option_string(),
@@ -111,7 +111,7 @@ def get_option_string_destination(command: str, option_string: str) -> str:
 def get_argument_type_setter(command: str, option_string: str) -> Callable[[str], Any]:
     option_types = {}
     options = {
-        'load-state-diff': LoadStateDiffOptions.get_argument_type(),
+        'load-state-diff': LoadStateOptions.get_argument_type(),
         'version': VersionOptions.get_argument_type(),
         'compile': CompileOptions.get_argument_type(),
         'solc-to-k': SolcToKOptions.get_argument_type(),

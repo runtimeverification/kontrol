@@ -50,7 +50,7 @@ if TYPE_CHECKING:
 
     from .options import (
         GetModelOptions,
-        LoadStateDiffOptions,
+        LoadStateOptions,
         MergeNodesOptions,
         MinimizeProofOptions,
         RefuteNodeOptions,
