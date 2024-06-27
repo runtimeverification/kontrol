@@ -231,7 +231,7 @@ class ListOptions(LoggingOptions, KOptions, FoundryOptions):
         return FoundryOptions.get_argument_type() | LoggingOptions.get_argument_type() | KOptions.get_argument_type()
 
 
-class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
+class LoadStateOptions(LoggingOptions, FoundryOptions):
     name: str
     accesses_file: Path
     contract_names: Path | None
