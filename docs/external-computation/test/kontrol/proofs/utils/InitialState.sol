@@ -23,34 +23,29 @@ contract InitialState is InitialStateCode {
     address internal constant counter5Address = 0xa0Cb889707d426A7A386870A03bc70d1b0697598;
     address internal constant counter4Address = 0xc7183455a4C133Ae270771860664b6B7ec320bB1;
 
-    function recreateDeployment() public {
+    function recreateState() public {
         bytes32 slot;
         bytes32 value;
-        vm.etch(counter0Address, counter0Code);
-        vm.etch(counter1Address, counter1Code);
-        slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
-        value = hex"0000000000000000000000000000000000000000000000000000000000000001";
-        vm.store(counter1Address, slot, value);
-        vm.etch(counter2Address, counter2Code);
-        slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
-        value = hex"0000000000000000000000000000000000000000000000000000000000000002";
-        vm.store(counter2Address, slot, value);
-        vm.etch(counter3Address, counter3Code);
-        slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
-        value = hex"0000000000000000000000000000000000000000000000000000000000000003";
-        vm.store(counter3Address, slot, value);
-        vm.etch(counter4Address, counter4Code);
-        slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
-        value = hex"0000000000000000000000000000000000000000000000000000000000000004";
-        vm.store(counter4Address, slot, value);
         vm.etch(counter5Address, counter5Code);
         slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
         value = hex"0000000000000000000000000000000000000000000000000000000000000005";
         vm.store(counter5Address, slot, value);
+        vm.etch(counter0Address, counter0Code);
+        slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
+        value = hex"0000000000000000000000000000000000000000000000000000000000000000";
+        vm.store(counter0Address, slot, value);
         vm.etch(counter6Address, counter6Code);
         slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
         value = hex"0000000000000000000000000000000000000000000000000000000000000006";
         vm.store(counter6Address, slot, value);
+        vm.etch(counter4Address, counter4Code);
+        slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
+        value = hex"0000000000000000000000000000000000000000000000000000000000000004";
+        vm.store(counter4Address, slot, value);
+        vm.etch(counter9Address, counter9Code);
+        slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
+        value = hex"0000000000000000000000000000000000000000000000000000000000000009";
+        vm.store(counter9Address, slot, value);
         vm.etch(counter7Address, counter7Code);
         slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
         value = hex"0000000000000000000000000000000000000000000000000000000000000007";
@@ -59,9 +54,17 @@ contract InitialState is InitialStateCode {
         slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
         value = hex"0000000000000000000000000000000000000000000000000000000000000008";
         vm.store(counter8Address, slot, value);
-        vm.etch(counter9Address, counter9Code);
+        vm.etch(counter2Address, counter2Code);
         slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
-        value = hex"0000000000000000000000000000000000000000000000000000000000000009";
-        vm.store(counter9Address, slot, value);
+        value = hex"0000000000000000000000000000000000000000000000000000000000000002";
+        vm.store(counter2Address, slot, value);
+        vm.etch(counter3Address, counter3Code);
+        slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
+        value = hex"0000000000000000000000000000000000000000000000000000000000000003";
+        vm.store(counter3Address, slot, value);
+        vm.etch(counter1Address, counter1Code);
+        slot = hex"0000000000000000000000000000000000000000000000000000000000000000";
+        value = hex"0000000000000000000000000000000000000000000000000000000000000001";
+        vm.store(counter1Address, slot, value);
     }
 }
