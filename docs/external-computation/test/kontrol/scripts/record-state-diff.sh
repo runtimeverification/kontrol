@@ -12,7 +12,7 @@ set -euo pipefail
 
 # JSON-related variables
 export STATE_DIFF_DIR=state-diff # Relative to the Foundry root directory
-export STATE_DIFF_NAME=StateDiff.json
+export STATE_DIFF_NAME=StateDump.json
 export ADDR_NAMES=AddressNames.json
 CLEAN_JSON_PATH=test/kontrol/scripts/json/clean_json.py
 
@@ -20,7 +20,7 @@ CLEAN_JSON_PATH=test/kontrol/scripts/json/clean_json.py
 RECORDING_CONTRACT_DIR=test/kontrol/state-diff # Relative to the Foundry root directory
 RECORDING_CONTRACT_FILE=proof-initialization.sol # Name of the Solidity file
 RECORDING_CONTRACT_NAME=CounterBed # Name of the actual contract
-RECORDING_CONTRACT_FUNCTION=counterBedNamed # Name of the function with the recordStateDiff modifier
+RECORDING_CONTRACT_FUNCTION=counterBedDump # Name of the function with the recordStateDiff modifier
 
 RECORDING_CONTRACT_PATH="$RECORDING_CONTRACT_DIR/$RECORDING_CONTRACT_FILE:$RECORDING_CONTRACT_NAME"
 
@@ -37,17 +37,20 @@ GENERATED_CONTRACT_LICENSE=UNLICENSED
 forge script $RECORDING_CONTRACT_PATH --sig "$RECORDING_CONTRACT_FUNCTION" --ffi -vv
 # state diff JSON comes out scaped from the last command
 # We execute this script to unscape it so that it can be fed to Kontrol
-python3 "$CLEAN_JSON_PATH" "$STATE_DIFF_DIR/$STATE_DIFF_NAME"
+#python3 "$CLEAN_JSON_PATH" "$STATE_DIFF_DIR/$STATE_DIFF_NAME"
+# Prettify state updates json
+jq . "$STATE_DIFF_DIR/$STATE_DIFF_NAME" > temp && mv temp "$STATE_DIFF_DIR/$STATE_DIFF_NAME"
 
 ###############################
 # GENERATE SOLIDITY CONTRACTS #
 ###############################
 
 # Give the appropriate files to Kontrol to create the contracts
-kontrol load-state-diff "$GENERATED_CONTRACT_NAME" "$STATE_DIFF_DIR/$STATE_DIFF_NAME" \
+poetry run kontrol load-state-diff "$GENERATED_CONTRACT_NAME" "$STATE_DIFF_DIR/$STATE_DIFF_NAME" \
         --contract-names "$STATE_DIFF_DIR/$ADDR_NAMES" \
         --output-dir "$GENERATED_CONTRACT_DIR" \
         --license "$GENERATED_CONTRACT_LICENSE"
+
 
 # Format the code to ensure compatibility with any CI checks
 forge fmt "$GENERATED_CONTRACT_DIR/$GENERATED_CONTRACT_NAME.sol"
