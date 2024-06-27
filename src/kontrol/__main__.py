@@ -7,14 +7,12 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 import pyk
-import rich
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from pyk.utils import run_process
-from rich.console import Console
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -42,6 +40,7 @@ from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
+from .utils import _rv_blue, _rv_yellow, console
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -377,14 +376,6 @@ def _loglevel(args: Namespace) -> int:
         return logging.INFO
 
     return logging.WARNING
-
-
-def _rv_yellow() -> str:
-    return '#ffcc07'
-
-
-def _rv_blue() -> str:
-    return '#0097cb'
 
 
 if __name__ == '__main__':

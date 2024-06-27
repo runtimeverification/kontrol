@@ -8,6 +8,10 @@ if TYPE_CHECKING:
 import os
 import stat
 
+from rich.console import Console
+
+console = Console()
+
 
 def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
     if ':' in value:
@@ -142,3 +146,11 @@ foundry-project-root       = '.'
 verbose                    = true
 debug                      = false
 """
+
+
+def _rv_yellow() -> str:
+    return '#ffcc07'
+
+
+def _rv_blue() -> str:
+    return '#0097cb'
