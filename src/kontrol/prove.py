@@ -28,6 +28,7 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process, unique
 
+from .deployment import StateDiffEntry, StateDumpEntry
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
@@ -41,7 +42,6 @@ if TYPE_CHECKING:
     from pyk.kast.inner import KInner
     from pyk.kore.rpc import KoreServer
 
-    from .deployment import DeploymentStateEntry
     from .options import ProveOptions
     from .solc_to_k import StorageField
 

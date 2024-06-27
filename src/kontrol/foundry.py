@@ -33,7 +33,7 @@ from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
 from . import VERSION
-from .deployment import DeploymentState, DeploymentStateEntry
+from .deployment import RecreateState, StateDiffEntry, StateDumpEntry
 from .solc_to_k import Contract
 from .utils import empty_lemmas_file_contents, kontrol_file_contents, kontrol_toml_file_contents, write_to_file
 
