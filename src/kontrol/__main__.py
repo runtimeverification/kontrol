@@ -29,12 +29,13 @@ from .foundry import (
     foundry_show,
     foundry_simplify_node,
     foundry_split_node,
-    foundry_state_diff,
+    foundry_state_load,
     foundry_step_node,
     foundry_to_dot,
     foundry_unrefute_node,
     init_project,
-    read_deployment_state,
+    read_recorded_state_diff,
+    read_recorded_state_dump,
 )
 from .hevm import Hevm
 from .kompile import foundry_kompile
@@ -151,8 +152,8 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 # Command implementation
 
 
-def exec_load_state_diff(options: LoadStateDiffOptions) -> None:
-    foundry_state_diff(
+def exec_load_state_diff(options: LoadStateOptions) -> None:
+    foundry_state_load(
         options=options,
         foundry=_load_foundry(options.foundry_root),
     )
@@ -191,8 +192,14 @@ def exec_build(options: BuildOptions) -> None:
 
 
 def exec_prove(options: ProveOptions) -> None:
-    deployment_state_entries = (
-        read_deployment_state(options.deployment_state_path) if options.deployment_state_path else None
+    if options.recorded_diff_state_path and options.recorded_dump_state_path:
+        raise AssertionError('Provide only one file for recorded state updates')
+
+    recorded_diff_entries = (
+        read_recorded_state_diff(options.recorded_diff_state_path) if options.recorded_diff_state_path else None
+    )
+    recorded_dump_entries = (
+        read_recorded_state_dump(options.recorded_dump_state_path) if options.recorded_dump_state_path else None
     )
 
     if options.verbose:
@@ -204,7 +211,7 @@ def exec_prove(options: ProveOptions) -> None:
         results = foundry_prove(
             foundry=_load_foundry(options.foundry_root, options.bug_report),
             options=options,
-            deployment_state_entries=deployment_state_entries,
+            recorded_state_entries=recorded_dump_entries if recorded_dump_entries else recorded_diff_entries,
         )
     except CTermSMTError as err:
         raise RuntimeError(
