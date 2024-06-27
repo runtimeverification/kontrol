@@ -195,7 +195,12 @@ def exec_prove(options: ProveOptions) -> None:
         read_deployment_state(options.deployment_state_path) if options.deployment_state_path else None
     )
 
+    if options.verbose:
+        proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
+    else:
+        proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running: \n Add `--verbose` to `kontrol prove` for more details![/{_rv_blue()}]'
     try:
+        console.print(proving_message)
         results = foundry_prove(
             foundry=_load_foundry(options.foundry_root, options.bug_report),
             options=options,
