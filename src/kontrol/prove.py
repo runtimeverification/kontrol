@@ -8,7 +8,6 @@ from copy import copy
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
-import rich
 from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
@@ -33,7 +32,7 @@ from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
-from .utils import parse_test_version_tuple
+from .utils import console, parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -106,8 +105,8 @@ def foundry_prove(
     exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
     test_suite = collect_tests(foundry, options.tests, reinit=options.reinit, exact_match=exact_match)
     test_names = [test.name for test in test_suite]
-    separator = '\n\t\t   '  # ad-hoc separator for the string "Running functions: " below
-    rich.print(f'[bold]Running functions:[/bold] {separator.join(test_names)}')
+    separator = '\n\t\t    '  # ad-hoc separator for the string "Selected functions: " below
+    console.print(f'[bold]Selected functions:[/bold] {separator.join(test_names)}')
 
     contracts = [(test.contract, test.version) for test in test_suite]
     setup_method_tests = collect_setup_methods(
@@ -142,20 +141,32 @@ def foundry_prove(
         for test in constructor_tests:
             test.method.update_digest(foundry.digest_file)
 
-        _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
+        if options.verbose:
+            _LOGGER.info(f'Running initialization code for contracts in parallel: {constructor_names}')
+        else:
+            console.print(f'[bold]Running initialization code for contracts in parallel:[/bold] {constructor_names}')
+
         results = _run_prover(constructor_tests, include_summaries=False)
         failed = [proof for proof in results if not proof.passed]
         if failed:
             raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
 
-    _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
+    if options.verbose:
+        _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
+    else:
+        separator = '\n\t\t\t\t     '  # ad-hoc separator for the string "Running setup functions in parallel: " below
+        console.print(f'[bold]Running setup functions in parallel:[/bold] {separator.join(setup_method_names)}')
     results = _run_prover(setup_method_tests, include_summaries=False)
 
     failed = [proof for proof in results if not proof.passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
-    _LOGGER.info(f'Running test functions in parallel: {test_names}')
+    if options.verbose:
+        _LOGGER.info(f'Running test functions in parallel: {test_names}')
+    else:
+        separator = '\n\t\t\t\t    '  # ad-hoc separator for the string "Running test functions in parallel: " below
+        console.print(f'[bold]Running test functions in parallel:[/bold] {separator.join(test_names)}')
     results = _run_prover(test_suite, include_summaries=True)
 
     if options.xml_test_report:
