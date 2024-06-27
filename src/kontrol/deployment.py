@@ -3,10 +3,20 @@ from typing import NamedTuple
 
 from web3 import Web3
 
-class StorageUpdate(NamedTuple):
+class SlotUpdate(NamedTuple):
     address: str
     slot: str
     value: str
+
+
+class StorageUpdate(NamedTuple):
+    slot: str
+    value: str
+
+
+class AccountUpdate(NamedTuple):
+    address: str
+    storage: list[StorageUpdate]
 
 
 @dataclass
