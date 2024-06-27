@@ -176,7 +176,7 @@ def exec_build(options: BuildOptions) -> None:
     if options.verbose:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer:[/{_rv_blue()}]'
     else:
-        building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer: \n Add --verbose to `kontrol build` for more details![/{_rv_blue()}]'
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer: \n Add `--verbose` to `kontrol build` for more details![/{_rv_blue()}]'
     try:
         console.print(building_message)
         foundry_kompile(
