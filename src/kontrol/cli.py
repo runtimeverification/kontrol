@@ -356,6 +356,13 @@ def _create_argument_parser() -> ArgumentParser:
         type=str,
         help='License for the auto generated contracts',
     )
+    state_diff_args.add_argument(
+        '--from-state-diff',
+        dest='from_state_diff',
+        default=None,
+        action='store_true',
+        help='Indicate if the JSON comes from vm.stopAndReturnStateDiff and not vm.dumpState',
+    )
 
     prove_args = command_parser.add_parser(
         'prove',
