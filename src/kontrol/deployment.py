@@ -3,6 +3,7 @@ from typing import NamedTuple
 
 from web3 import Web3
 
+
 class SlotUpdate(NamedTuple):
     address: str
     slot: str
