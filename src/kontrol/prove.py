@@ -37,7 +37,7 @@ from .utils import console, parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from typing import Final
+    from typing import Final, TypeGuard
 
     from pyk.kast.inner import KInner
     from pyk.kore.rpc import KoreServer
@@ -760,9 +760,19 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
 def recorded_state_to_account_cells(
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
 ) -> list[KApply]:
-    if isinstance(list(recorded_state_entries)[0], StateDiffEntry):
+    def _is_iterable_statediffentry(
+        val: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
+    ) -> TypeGuard[Iterable[StateDiffEntry]]:
+        return all(isinstance(entry, StateDiffEntry) for entry in val)
+
+    def _is_iterable_statedumpentry(
+        val: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
+    ) -> TypeGuard[Iterable[StateDumpEntry]]:
+        return all(isinstance(entry, StateDumpEntry) for entry in val)
+
+    if _is_iterable_statediffentry(recorded_state_entries):
         accounts = _process_state_diff(recorded_state_entries)
-    if isinstance(list(recorded_state_entries)[0], StateDumpEntry):
+    if _is_iterable_statedumpentry(recorded_state_entries):
         accounts = _process_state_dump(recorded_state_entries)
     address_list = list(accounts)
     k_accounts = []
