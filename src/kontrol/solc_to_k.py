@@ -97,8 +97,9 @@ class Input:
             return Input(
                 name,
                 type,
-                tuple(Input._unwrap_components(input['components'], idx, natspec_lengths)),
-                idx,
+                internal_type=internal_type,
+                components=tuple(Input._unwrap_components(input['components'], idx, natspec_lengths)),
+                idx=idx,
                 array_lengths=array_lengths,
                 dynamic_type_length=dynamic_type_length,
             )
