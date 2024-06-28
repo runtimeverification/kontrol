@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from typing import NamedTuple
-from .solc_to_k import hex_string_to_int
 
 from eth_utils import to_checksum_address
+
+from .solc_to_k import hex_string_to_int
 
 
 class SlotUpdate(NamedTuple):
