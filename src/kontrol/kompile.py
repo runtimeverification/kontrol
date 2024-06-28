@@ -93,6 +93,7 @@ def foundry_kompile(
             empty_config=empty_config,
             contracts=foundry.contracts.values(),
             requires=['foundry.md'],
+            enums=foundry.enums,
         )
 
         contract_main_definition = _foundry_to_main_def(
@@ -158,8 +159,11 @@ def _foundry_to_contract_def(
     empty_config: KInner,
     contracts: Iterable[Contract],
     requires: Iterable[str],
+    enums: dict[str, int],
 ) -> KDefinition:
-    modules = [contract_to_main_module(contract, empty_config, imports=['FOUNDRY']) for contract in contracts]
+    modules = [
+        contract_to_main_module(contract, empty_config, imports=['FOUNDRY'], enums=enums) for contract in contracts
+    ]
     # First module is chosen as main module arbitrarily, since the contract definition is just a set of
     # contract modules.
     main_module = Contract.contract_to_module_name(list(contracts)[0].name_with_path)

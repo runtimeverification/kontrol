@@ -922,7 +922,7 @@ def _init_cterm(
         # constructor can not be called in a static context.
         init_subst['STATIC_CELL'] = FALSE
 
-        encoded_args, arg_constraints = method.encoded_args
+        encoded_args, arg_constraints = method.encoded_args(foundry.enums)
         init_subst['PROGRAM_CELL'] = KEVM.bytes_append(bytesToken(program), encoded_args)
 
     init_term = Subst(init_subst)(empty_config)
