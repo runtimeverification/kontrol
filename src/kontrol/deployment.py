@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import NamedTuple
+from .solc_to_k import hex_string_to_int
 
 from web3 import Web3
 
@@ -78,7 +79,7 @@ class StateDumpEntry:
 
     def __init__(self, acc: str, e: dict) -> None:
         self.account = Web3.to_checksum_address(acc)
-        self.balance = Web3.to_int(hexstr=e['balance'])
+        self.balance = hex_string_to_int(e['balance'])
         self.code = e['code']
         self.storage = self._get_storage_updates(e['storage'])
 
