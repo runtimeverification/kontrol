@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import NamedTuple
 from .solc_to_k import hex_string_to_int
 
-from web3 import Web3
+from eth_utils import to_checksum_address
 
 
 class SlotUpdate(NamedTuple):
@@ -78,7 +78,7 @@ class StateDumpEntry:
     storage: tuple[StorageUpdate, ...]
 
     def __init__(self, acc: str, e: dict) -> None:
-        self.account = Web3.to_checksum_address(acc)
+        self.account = to_checksum_address(acc)
         self.balance = hex_string_to_int(e['balance'])
         self.code = e['code']
         self.storage = self._get_storage_updates(e['storage'])
