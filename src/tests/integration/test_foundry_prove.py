@@ -18,12 +18,12 @@ from kontrol.foundry import (
     foundry_remove_node,
     foundry_show,
     foundry_split_node,
-    foundry_state_diff,
+    foundry_state_load,
     foundry_step_node,
     foundry_unrefute_node,
 )
 from kontrol.options import (
-    LoadStateDiffOptions,
+    LoadStateOptions,
     MergeNodesOptions,
     MinimizeProofOptions,
     ProveOptions,
@@ -690,8 +690,8 @@ def test_deployment_summary(
         foundry_root_dir = root_tmp_dir / 'foundry'
     foundry = Foundry(foundry_root=foundry_root_dir)
 
-    foundry_state_diff(
-        LoadStateDiffOptions(
+    foundry_state_load(
+        LoadStateOptions(
             {
                 'name': 'DeploymentState',
                 'accesses_file': TEST_DATA_DIR / 'accesses.json',
