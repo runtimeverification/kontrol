@@ -6265,6 +6265,170 @@ module S2KtestZModInitCodeBranchTest-CONTRACT
 
 endmodule
 
+module S2KtestZModERC20-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModERC20Contract
+    
+    syntax S2KtestZModERC20Contract ::= "S2KtestZModERC20" [symbol(""), klabel(contract_test%ERC20)]
+    
+    syntax Bytes ::= S2KtestZModERC20Contract "." S2KtestZModERC20Method [function, symbol(""), klabel(method_test%ERC20)]
+    
+    syntax S2KtestZModERC20Method ::= "S2KtotalSupply" "(" ")" [symbol(""), klabel(method_test%ERC20_S2KtotalSupply_)]
+    
+    rule  ( S2KtestZModERC20 . S2KtotalSupply ( ) => #abiCallData ( "totalSupply" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "totalSupply()" ) => 404098525 )
+      
+
+endmodule
+
+module S2KtestZModIERC20-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModIERC20Contract
+    
+    syntax S2KtestZModIERC20Contract ::= "S2KtestZModIERC20" [symbol(""), klabel(contract_test%IERC20)]
+    
+    syntax Bytes ::= S2KtestZModIERC20Contract "." S2KtestZModIERC20Method [function, symbol(""), klabel(method_test%IERC20)]
+    
+    syntax S2KtestZModIERC20Method ::= "S2KtotalSupply" "(" ")" [symbol(""), klabel(method_test%IERC20_S2KtotalSupply_)]
+    
+    rule  ( S2KtestZModIERC20 . S2KtotalSupply ( ) => #abiCallData ( "totalSupply" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "totalSupply()" ) => 404098525 )
+      
+
+endmodule
+
+module S2KtestZModInterfaceContract-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModInterfaceContractContract
+    
+    syntax S2KtestZModInterfaceContractContract ::= "S2KtestZModInterfaceContract" [symbol(""), klabel(contract_test%InterfaceContract)]
+    
+    syntax Bytes ::= S2KtestZModInterfaceContractContract "." S2KtestZModInterfaceContractMethod [function, symbol(""), klabel(method_test%InterfaceContract)]
+    
+    syntax S2KtestZModInterfaceContractMethod ::= "S2KcallToken" "(" ")" [symbol(""), klabel(method_test%InterfaceContract_S2KcallToken_)]
+    
+    rule  ( S2KtestZModInterfaceContract . S2KcallToken ( ) => #abiCallData ( "callToken" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "callToken()" ) => 3734181474 )
+      
+
+endmodule
+
+module S2KtestZModInterfaceTagTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModInterfaceTagTestContract
+    
+    syntax S2KtestZModInterfaceTagTestContract ::= "S2KtestZModInterfaceTagTest" [symbol(""), klabel(contract_test%InterfaceTagTest)]
+    
+    syntax Bytes ::= S2KtestZModInterfaceTagTestContract "." S2KtestZModInterfaceTagTestMethod [function, symbol(""), klabel(method_test%InterfaceTagTest)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KISZUndTEST_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KexcludeArtifacts_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KexcludeContracts_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KexcludeSenders_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2Kfailed" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2Kfailed_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KsetUp" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KsetUp_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KtargetArtifactSelectors_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KtargetArtifacts_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KtargetContracts" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KtargetContracts_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KtargetSelectors_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KtargetSenders" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KtargetSenders_)]
+    
+    syntax S2KtestZModInterfaceTagTestMethod ::= "S2KtestInterface" "(" ")" [symbol(""), klabel(method_test%InterfaceTagTest_S2KtestInterface_)]
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModInterfaceTagTest . S2KtestInterface ( ) => #abiCallData ( "testInterface" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "testInterface()" ) => 98428163 )
+      
+
+endmodule
+
 module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheats-CONTRACT
     imports public FOUNDRY
     

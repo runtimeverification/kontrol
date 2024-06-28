@@ -40,6 +40,7 @@ from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
+from .utils import _rv_blue, _rv_yellow, console
 
 if TYPE_CHECKING:
     from argparse import Namespace
@@ -172,10 +173,21 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 
 
 def exec_build(options: BuildOptions) -> None:
-    foundry_kompile(
-        options=options,
-        foundry=_load_foundry(options.foundry_root),
-    )
+    if options.verbose:
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer:[/{_rv_blue()}]'
+    else:
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer: \n Add `--verbose` to `kontrol build` for more details![/{_rv_blue()}]'
+    try:
+        console.print(building_message)
+        foundry_kompile(
+            options=options,
+            foundry=_load_foundry(options.foundry_root),
+        )
+        console.print(
+            ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
+        )
+    except Exception as e:
+        console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] [black]{e}[/black]')
 
 
 def exec_prove(options: ProveOptions) -> None:
@@ -183,7 +195,12 @@ def exec_prove(options: ProveOptions) -> None:
         read_deployment_state(options.deployment_state_path) if options.deployment_state_path else None
     )
 
+    if options.verbose:
+        proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
+    else:
+        proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running: \n Add `--verbose` to `kontrol prove` for more details![/{_rv_blue()}]'
     try:
+        console.print(proving_message)
         results = foundry_prove(
             foundry=_load_foundry(options.foundry_root, options.bug_report),
             options=options,
@@ -203,12 +220,16 @@ def exec_prove(options: ProveOptions) -> None:
                 f"{signature} is not prefixed with 'test', 'prove', or 'check', therefore, it is not reported as failing in the presence of reverts or assertion violations."
             )
         if proof.passed:
-            print(f'PROOF PASSED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}')
+            console.print(f':sparkles: [bold green]PROOF PASSED[/bold green] :sparkles: {proof.id}')
+            console.print(
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+            )
         else:
             failed += 1
-            print(f'PROOF FAILED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}')
+            console.print(f':cross_mark: [bold red]PROOF FAILED[/bold red] :cross_mark: {proof.id}')
+            console.print(
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+            )
             failure_log = None
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info

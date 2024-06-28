@@ -2,19 +2,19 @@
 ┌─ 1 (root, init)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
-│   callDepth: CALLDEPTH_CELL:Int
+│   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (274 steps)
-├─ 3 (terminal)
+│  (1795 steps)
+├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 62
-│   callDepth: CALLDEPTH_CELL:Int
+│   pc: 194
+│   callDepth: 0
 │   statusCode: EVMC_SUCCESS
 │
-┊  constraint: OMITTED CONSTRAINT
+┊  constraint: true
 ┊  subst: OMITTED SUBST
-└─ 2 (leaf, target, terminal)
+└─ 7 (leaf, target, terminal)
     k: #halt ~> CONTINUATION:K
     pc: PC_CELL_5d410f2a:Int
     callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -23,10 +23,10 @@
 
 
 
-module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
+module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
     
     
-    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+    rule [BASIC-BLOCK-1-TO-8]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -44,29 +44,38 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   b""
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
                  </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                 </touchedAccounts>
                  <callState>
                    <id>
-                     C_STATICCALLCONTRACT_ID:Int
+                     728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"`\xfeG\xb1" +Bytes #buf ( 32 , VV0_y_114b9705:Int )
+                     ( b"\n\x92T\xe4" => b"\x05\xdd\xe5\x03" )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( selector ( "set(uint256)" ) : .WordStack ) )
+                     ( .WordStack => ( selector ( "testInterface()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0f" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -77,12 +86,24 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
                    <static>
                      false
                    </static>
+                   <callDepth>
+                     0
+                   </callDepth>
                    ...
                  </callState>
                  <substate>
+                   <log>
+                     .List
+                   </log>
                    <refund>
                      0
                    </refund>
+                   <accessedAccounts>
+                     ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
                    ...
                  </substate>
                  <origin>
@@ -103,20 +124,96 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       C_STATICCALLCONTRACT_ID:Int
+                       ( 645326474426547203313410069153905908525362434349 => 263400868551549723330807389252719309078400616203 )
                      </acctID>
                      <balance>
-                       C_STATICCALLCONTRACT_BAL:Int
+                       0
                      </balance>
                      <storage>
-                       ( C_STATICCALLCONTRACT_STORAGE:Map => C_STATICCALLCONTRACT_STORAGE:Map [ 0 <- VV0_y_114b9705:Int ] )
+                       ( .Map => ( 0 |-> 491460923342184218035706888008750043977755113263 ) )
                      </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
                      <nonce>
-                       C_STATICCALLCONTRACT_NONCE:Int
+                       ( 0 => 1 )
                      </nonce>
                      ...
                    </account>
-                   ACCOUNTS_REST:AccountCellMap )
+                   ( <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( 7 |-> 1 ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> => ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( ( 11 |-> 1 )
+                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
+                       ( 7 |-> 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <nonce>
+                       3
+                     </nonce>
+                     ...
+                   </account> ) ) ) )
                  </accounts>
                  ...
                </network>
@@ -197,28 +294,15 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_y_114b9705:Int
-       andBool ( 0 <=Int C_STATICCALLCONTRACT_ID:Int
-       andBool ( 0 <=Int C_STATICCALLCONTRACT_BAL:Int
-       andBool ( 0 <=Int C_STATICCALLCONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_STATICCALLCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_STATICCALLCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_STATICCALLCONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_y_114b9705:Int <Int pow256
-       andBool ( C_STATICCALLCONTRACT_BAL:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          C_STATICCALLCONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < C_STATICCALLCONTRACT_ID:Int <= 9 ) )
-               )))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+               ))))))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-8)]
 
 endmodule

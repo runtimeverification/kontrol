@@ -327,6 +327,7 @@ class StorageField(NamedTuple):
     data_type: str
     slot: int
     offset: int
+    linked_interface: str | None
 
 
 @dataclass
@@ -705,6 +706,7 @@ class Contract:
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
     constructor: Constructor | None
+    interface_annotations: dict[str, str]
     PREFIX_CODE: Final = 'Z'
 
     def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
@@ -745,6 +747,14 @@ class Contract:
         metadata = self.contract_json.get('metadata', {})
         devdoc = metadata.get('output', {}).get('devdoc', {}).get('methods', {})
 
+        self.interface_annotations = {
+            node['name']: node.get('documentation', {}).get('text', '').split()[1]
+            for node in contract_ast['nodes']
+            if node['nodeType'] == 'VariableDeclaration'
+            and 'stateVariable' in node
+            and node.get('documentation', {}).get('text', '').startswith('@custom:kontrol-instantiate-interface')
+        }
+
         for method in contract_json['abi']:
             if method['type'] == 'function':
                 msig = method_sig_from_abi(method)
@@ -752,7 +762,7 @@ class Contract:
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 method_devdoc = devdoc.get(msig)
-                method_calls = find_function_calls(method_ast)
+                method_calls = find_function_calls(method_ast, self.fields)
                 _m = Contract.Method(
                     msig,
                     mid,
@@ -830,7 +840,7 @@ class Contract:
 
     @cached_property
     def fields(self) -> tuple[StorageField, ...]:
-        return process_storage_layout(self.contract_json.get('storageLayout', {}))
+        return process_storage_layout(self.contract_json.get('storageLayout', {}), self.interface_annotations)
 
     @cached_property
     def is_test_contract(self) -> bool:
@@ -1271,14 +1281,17 @@ def hex_string_to_int(hex: str) -> int:
         raise ValueError('Invalid hex format')
 
 
-def find_function_calls(node: dict) -> list[str]:
-    """Recursive function that takes a method AST and returns all the functions that are called in the given method.
+def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[str]:
+    """Recursive function that takes a method AST and a set of storage fields and returns all the functions that are called in the given method.
 
     :param node: AST of a Solidity Method
     :type node: dict
+    :param fields: A tuple of contract's fields, including those with interface and contract types.
+    :type fields: tuple[StorageField, ...]
     :return: A list of unique function signatures that are called inside the provided method AST.
     :rtype: list[str]
 
+    If a function call is made to an interface which has a user-supplied contract annotation, the function call is considered to belong to this contract.
     Functions that belong to contracts such as `Vm` and `KontrolCheatsBase` are ignored.
     Functions like `abi.encodePacked` that do not belong to a Contract are assigned to a `UnknownContractType` and are ignored.
     """
@@ -1291,10 +1304,16 @@ def find_function_calls(node: dict) -> list[str]:
         if node.get('nodeType') == 'FunctionCall':
             expression = node.get('expression', {})
             if expression.get('nodeType') == 'MemberAccess':
+                contract_name = expression['expression'].get('name', '')
                 contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
                 contract_type = (
                     contract_type_string.split()[-1] if 'contract' in contract_type_string else 'UnknownContractType'
                 )
+
+                for field in fields:
+                    if field.label == contract_name and field.linked_interface is not None:
+                        contract_type = field.linked_interface
+                        break
 
                 function_name = expression.get('memberName')
                 arg_types = expression['typeDescriptions'].get('typeString')
@@ -1318,7 +1337,7 @@ def find_function_calls(node: dict) -> list[str]:
     return function_calls
 
 
-def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
+def process_storage_layout(storage_layout: dict, interface_annotations: dict) -> tuple[StorageField, ...]:
     storage = storage_layout.get('storage', [])
     types = storage_layout.get('types', {})
 
@@ -1331,6 +1350,7 @@ def process_storage_layout(storage_layout: dict) -> tuple[StorageField, ...]:
                 data_type=type_info.get('label', field['type']),
                 slot=int(field['slot']),
                 offset=int(field['offset']),
+                linked_interface=interface_annotations.get(field['label'], None),
             )
             fields_list.append(storage_field)
         except (KeyError, ValueError) as e:
