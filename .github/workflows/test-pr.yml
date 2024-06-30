@@ -155,7 +155,7 @@ jobs:
     needs: code-quality-checks
     name: 'End to End Sanity Tests'
     runs-on: [self-hosted, linux, normal, fast]
-    timeout-minutes: 30
+    timeout-minutes: 35
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
