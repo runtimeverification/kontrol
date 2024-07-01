@@ -16,7 +16,7 @@ contract Counter {
     }
 }
 
-// To produce the test file run from the foundry root the following command:
+// To produce the test file run from the foundry root the following command (after uncommenting vm.dumpState below):
 // forge script src/ContractToRecordState.sol:RecordedCounter --sig recordExecutionWithDumpState
 // And then run, from the foundry root dir:
 // kontrol load-state LoadStateDump ../dumpState.json --output-dir src
@@ -34,6 +34,7 @@ contract RecordedCounter is Test {
         counter2.setNumber(2);
         vm.deal(address(counter1), 1 ether);
         vm.deal(address(counter2), 2 ether);
-        vm.dumpState(dumpStateFile);
+        // Comented since we're running an old forge-std version (v1.6.0)
+        // vm.dumpState(dumpStateFile);
     }
 }
