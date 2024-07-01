@@ -49,7 +49,7 @@ if TYPE_CHECKING:
 def generate_options(args: dict[str, Any]) -> LoggingOptions:
     command = args['command']
     options = {
-        'load-state-diff': LoadStateOptions(args),
+        'load-state': LoadStateOptions(args),
         'version': VersionOptions(args),
         'compile': CompileOptions(args),
         'solc-to-k': SolcToKOptions(args),
@@ -81,7 +81,7 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
 def get_option_string_destination(command: str, option_string: str) -> str:
     option_string_destinations = {}
     options = {
-        'load-state-diff': LoadStateOptions.from_option_string(),
+        'load-state': LoadStateOptions.from_option_string(),
         'version': VersionOptions.from_option_string(),
         'compile': CompileOptions.from_option_string(),
         'solc-to-k': SolcToKOptions.from_option_string(),
@@ -111,7 +111,7 @@ def get_option_string_destination(command: str, option_string: str) -> str:
 def get_argument_type_setter(command: str, option_string: str) -> Callable[[str], Any]:
     option_types = {}
     options = {
-        'load-state-diff': LoadStateOptions.get_argument_type(),
+        'load-state': LoadStateOptions.get_argument_type(),
         'version': VersionOptions.get_argument_type(),
         'compile': CompileOptions.get_argument_type(),
         'solc-to-k': SolcToKOptions.get_argument_type(),
@@ -324,7 +324,7 @@ def _create_argument_parser() -> ArgumentParser:
     )
 
     state_diff_args = command_parser.add_parser(
-        'load-state-diff',
+        'load-state',
         help='Generate a state diff summary from an account access dict',
         parents=[
             kontrol_cli_args.foundry_args,
@@ -332,7 +332,7 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
     state_diff_args.add_argument('name', type=str, help='Generated contract name')
-    state_diff_args.add_argument('accesses_file', type=file_path, help='Path to accesses file')
+    state_diff_args.add_argument('accesses_file', type=file_path, help='Path to state file')
     state_diff_args.add_argument(
         '--contract-names',
         dest='contract_names',
@@ -340,22 +340,22 @@ def _create_argument_parser() -> ArgumentParser:
         help='Path to JSON containing deployment addresses and its respective contract names',
     )
     state_diff_args.add_argument(
-        '--condense-state-diff',
-        dest='condense_state_diff',
+        '--condense-state',
+        dest='condense_state',
         type=bool,
-        help='Deploy state diff as a single file',
+        help='Recreate state as a single file',
     )
     state_diff_args.add_argument(
         '--output-dir',
         dest='output_dir_name',
         type=str,
-        help='Path to write state diff .sol files, relative to foundry root',
+        help='Path to write state .sol files, relative to foundry root',
     )
     state_diff_args.add_argument(
         '--comment-generated-files',
         dest='comment_generated_file',
         type=str,
-        help='Comment to write at the top of the auto generated state diff files',
+        help='Comment to write at the top of the auto generated state files',
     )
     state_diff_args.add_argument(
         '--license',

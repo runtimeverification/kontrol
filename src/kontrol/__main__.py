@@ -152,7 +152,7 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 # Command implementation
 
 
-def exec_load_state_diff(options: LoadStateOptions) -> None:
+def exec_load_state(options: LoadStateOptions) -> None:
     foundry_state_load(
         options=options,
         foundry=_load_foundry(options.foundry_root),
