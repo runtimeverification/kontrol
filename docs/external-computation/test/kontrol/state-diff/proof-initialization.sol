@@ -22,14 +22,4 @@ contract CounterBed is Test, RecordStateDiff {
             save_address(address(counter), string.concat("counter", vm.toString(i)));
         }
     }
-
-    function counterBedDump() public {
-        for (uint256 i; i <= 9; ++i) {
-            counter = new Counter();
-            counter.setNumber(i);
-            save_address(address(counter), string.concat("counter", vm.toString(i)));
-        }
-        vm.dumpState("state-diff/StateDump.json");
-        
-    }
 }
