@@ -45,6 +45,9 @@ def foundry_kompile(
     if not options.no_forge_build:
         foundry.build()
 
+    if not options.no_silence_warnings:
+        options.ignore_warnings = _silenced_warnings()
+
     regen = options.regen
     foundry_up_to_date = True
 
@@ -148,6 +151,7 @@ def foundry_kompile(
             ccopts=options.ccopts,
             debug=options.debug,
             verbose=options.verbose,
+            ignore_warnings=options.ignore_warnings,
         )
 
     update_kompilation_digest()
@@ -192,3 +196,7 @@ def _foundry_to_main_def(
         [_main_module] + modules,
         requires=(KRequire(req) for req in list(requires)),
     )
+
+
+def _silenced_warnings() -> list[str]:
+    return ['non-exhaustive-match', 'missing-syntax-module']
