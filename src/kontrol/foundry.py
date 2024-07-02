@@ -73,6 +73,7 @@ class Foundry:
     _toml: dict[str, Any]
     _bug_report: BugReport | None
     _use_hex_encoding: bool
+    enums: dict[str, int]
 
     class Sorts:
         FOUNDRY_CELL: Final = KSort('FoundryCell')
@@ -88,6 +89,7 @@ class Foundry:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
         self._use_hex_encoding = use_hex_encoding
+        self.enums = {}
 
     def lookup_full_contract_name(self, contract_name: str) -> str:
         contracts = [
@@ -159,12 +161,27 @@ class Foundry:
         json_paths = sorted(json_paths)  # Must sort to get consistent output order on different platforms
         _LOGGER.info(f'Processing contract files: {json_paths}')
         _contracts: dict[str, Contract] = {}
+
         for json_path in json_paths:
+
+            def find_enums(dct: dict) -> None:
+                if dct['nodeType'] == 'EnumDefinition':
+                    enum_name = dct['canonicalName']
+                    enum_max = len([member['name'] for member in dct['members']])
+                    if enum_name in self.enums and enum_max != self.enums[enum_name]:
+                        raise ValueError(
+                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported.'
+                        )
+                    self.enums[enum_name] = len([member['name'] for member in dct['members']])
+                for node in dct['nodes']:
+                    find_enums(node)
+
             _LOGGER.debug(f'Processing contract file: {json_path}')
             contract_name = json_path.split('/')[-1]
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
             contract = Contract(contract_name, contract_json, foundry=True)
+            find_enums(contract_json['ast'])
 
             _contracts[contract.name_with_path] = contract  # noqa: B909
 
