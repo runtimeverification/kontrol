@@ -17,11 +17,6 @@ class StorageUpdate(NamedTuple):
     value: str
 
 
-class AccountUpdate(NamedTuple):
-    address: str
-    storage: list[StorageUpdate]
-
-
 @dataclass
 class StateDiffEntry:
     kind: str

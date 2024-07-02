@@ -28,11 +28,11 @@ from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process, unique
 
-from .deployment import StateDiffEntry, StateDumpEntry
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
+from .state_record import StateDiffEntry, StateDumpEntry
 from .utils import console, parse_test_version_tuple
 
 if TYPE_CHECKING:
