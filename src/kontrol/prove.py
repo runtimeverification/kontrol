@@ -92,7 +92,7 @@ def foundry_prove(
                 continue
             if not test.contract.has_storage_layout:
                 raise RuntimeError(
-                    "Couldn't locate 'storageLayout' in the compiled SOLC output. Please add `extra_output = ['storageLayout']` to your foundry.toml file."
+                    "Couldn't locate 'storageLayout' in the compiled solc output. Please add `extra_output = ['storageLayout']` to your foundry.toml file."
                 )
 
             test_version_tuples = [
