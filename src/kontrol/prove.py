@@ -1136,11 +1136,28 @@ def _create_cse_accounts(
                             '_Map_', [map_item(intToken(field.slot), contract_account_variable), storage_map]
                         )
                     else:
-                        # TODO: Support shared slots for contract variables
-                        raise (
-                            ValueError(
-                                'Unsupported: CSE for contracts with contract or interface fields in shared slots.'
-                            )
+                        slot_var_before = KVariable(f'{field_name}_SLOT_BEFORE', sort=KSort('Int'))
+                        slot_var_after = KVariable(f'{field_name}_SLOT_AFTER', sort=KSort('Int'))
+                        masked_contract_account_var = KApply(
+                            'asWord',
+                            [
+                                KApply(
+                                    '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                    [
+                                        KApply(
+                                            '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                            [
+                                                KEVM.buf(intToken(32 - 20 - field.offset), slot_var_after),
+                                                KEVM.buf(intToken(20), contract_account_variable),
+                                            ],
+                                        ),
+                                        KEVM.buf(intToken(field.offset), slot_var_before),
+                                    ],
+                                )
+                            ],
+                        )
+                        storage_map = KApply(
+                            '_Map_', [map_item(intToken(field.slot), masked_contract_account_var), storage_map]
                         )
 
                     contract_accounts, contract_constraints = _create_cse_accounts(
