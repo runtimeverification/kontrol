@@ -843,6 +843,10 @@ class Contract:
         return process_storage_layout(self.contract_json.get('storageLayout', {}), self.interface_annotations)
 
     @cached_property
+    def has_storage_layout(self) -> bool:
+        return 'storageLayout' in self.contract_json
+
+    @cached_property
     def is_test_contract(self) -> bool:
         return any(field.label == 'IS_TEST' for field in self.fields)
 
