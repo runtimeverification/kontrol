@@ -34,7 +34,7 @@ contract RecordedCounter is Test {
         counter2.setNumber(2);
         vm.deal(address(counter1), 1 ether);
         vm.deal(address(counter2), 2 ether);
-        // Comented since we're running an old forge-std version (v1.6.0)
+        // Commented since we're running an old forge-std version (v1.6.0)
         // vm.dumpState(dumpStateFile);
     }
 }
