@@ -90,6 +90,10 @@ def foundry_prove(
         for test in test_suite:
             if not isinstance(test.method, Contract.Method) or test.method.function_calls is None:
                 continue
+            if not test.contract.has_storage_layout:
+                raise RuntimeError(
+                    "Couldn't locate 'storageLayout' in the compiled solc output. Please add `extra_output = ['storageLayout']` to your foundry.toml file."
+                )
 
             test_version_tuples = [
                 parse_test_version_tuple(t) for t in test.method.function_calls if t not in summary_ids
@@ -339,11 +343,12 @@ def _run_cfg_group(
                             ('localhost', server.port(), TransportType.SINGLE_SOCKET),
                         ],
                     }
+                bug_report_id = None if options.bug_report is None else test.id
                 client = KoreClient(
                     'localhost',
                     server.port(),
                     bug_report=options.bug_report,
-                    bug_report_id=test.id,
+                    bug_report_id=bug_report_id,
                     dispatch=dispatch,
                 )
                 cterm_symbolic = CTermSymbolic(
