@@ -90,6 +90,10 @@ def foundry_prove(
         for test in test_suite:
             if not isinstance(test.method, Contract.Method) or test.method.function_calls is None:
                 continue
+            if not test.contract.has_storage_layout:
+                raise RuntimeError(
+                    "Couldn't locate 'storageLayout' in the compiled SOLC output. Please add `extra_output = ['storageLayout']` to your foundry.toml file."
+                )
 
             test_version_tuples = [
                 parse_test_version_tuple(t) for t in test.method.function_calls if t not in summary_ids
