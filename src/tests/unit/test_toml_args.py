@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from pyk.cli.pyk import parse_toml_args
@@ -23,12 +24,13 @@ def test_optionless_command() -> None:
     assert args.command == 'version'
 
 
-def test_continue_when_default_toml_absent() -> None:
+def test_continue_when_toml_absent() -> None:
     parser = _create_argument_parser()
     cmd_args = ['build', '--foundry-project-root', '.']
     args = parser.parse_args(cmd_args)
     assert hasattr(args, 'config_file')
-    assert str(args.config_file) == 'kontrol.toml'
+    assert args.config_file == None
+    args.config_file = Path('kontrol.toml')
     assert hasattr(args, 'config_profile')
     assert str(args.config_profile) == 'default'
     args_dict = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
