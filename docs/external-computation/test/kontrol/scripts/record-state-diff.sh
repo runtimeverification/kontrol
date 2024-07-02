@@ -44,10 +44,11 @@ python3 "$CLEAN_JSON_PATH" "$STATE_DIFF_DIR/$STATE_DIFF_NAME"
 ###############################
 
 # Give the appropriate files to Kontrol to create the contracts
-kontrol load-state-diff "$GENERATED_CONTRACT_NAME" "$STATE_DIFF_DIR/$STATE_DIFF_NAME" \
+kontrol load-state "$GENERATED_CONTRACT_NAME" "$STATE_DIFF_DIR/$STATE_DIFF_NAME" \
         --contract-names "$STATE_DIFF_DIR/$ADDR_NAMES" \
         --output-dir "$GENERATED_CONTRACT_DIR" \
-        --license "$GENERATED_CONTRACT_LICENSE"
+        --license "$GENERATED_CONTRACT_LICENSE" \
+        --from-state-diff
 
 # Format the code to ensure compatibility with any CI checks
 forge fmt "$GENERATED_CONTRACT_DIR/$GENERATED_CONTRACT_NAME.sol"
