@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 from collections.abc import Iterable
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
@@ -44,7 +45,6 @@ from .utils import _rv_blue, _rv_yellow, console
 
 if TYPE_CHECKING:
     from argparse import Namespace
-    from pathlib import Path
     from typing import Any, Final, TypeVar
 
     from pyk.cterm import CTerm
@@ -105,8 +105,11 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
+    args.config_file = (
+        Path.joinpath(args.foundry_root, 'kontrol.toml') if args.config_file is None else args.config_file
+    )
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
-    logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
+    logging.basicConfig(level=_loglevel(args, toml_args), format=_LOG_FORMAT)
 
     _check_k_version()
 
@@ -368,11 +371,15 @@ def exec_init(options: InitOptions) -> None:
 
 
 # Helpers
-def _loglevel(args: Namespace) -> int:
-    if hasattr(args, 'debug') and args.debug:
+def _loglevel(args: Namespace, toml_args: dict) -> int:
+    if (not hasattr(args, 'debug') or args.debug is None) and ('debug' in toml_args and toml_args['debug']):
+        return logging.DEBUG
+    elif hasattr(args, 'debug') and args.debug:
         return logging.DEBUG
 
-    if hasattr(args, 'verbose') and args.verbose:
+    if (not hasattr(args, 'verbose') or args.verbose is None) and ('verbose' in toml_args and toml_args['verbose']):
+        return logging.INFO
+    elif hasattr(args, 'verbose') and args.verbose:
         return logging.INFO
 
     return logging.WARNING
