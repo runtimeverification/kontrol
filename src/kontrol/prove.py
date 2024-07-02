@@ -965,7 +965,7 @@ def _init_cterm(
         # constructor can not be called in a static context.
         init_subst['STATIC_CELL'] = FALSE
 
-        encoded_args, arg_constraints = method.encoded_args
+        encoded_args, arg_constraints = method.encoded_args(foundry.enums)
         init_subst['PROGRAM_CELL'] = KEVM.bytes_append(bytesToken(program), encoded_args)
 
     init_term = Subst(init_subst)(empty_config)
@@ -1054,6 +1054,17 @@ def _create_cse_accounts(
 
     for field in storage_fields:
         field_name = contract_name + '_' + field.label.upper()
+        if field.data_type.startswith('enum'):
+            enum_name = field.data_type.split(' ')[1]
+            enum_max = foundry.enums[enum_name]
+            new_account_constraints.append(
+                mlEqualsTrue(
+                    ltInt(
+                        KEVM.lookup(storage_map, intToken(field.slot)),
+                        intToken(enum_max),
+                    )
+                )
+            )
         # Processing of strings
         if field.data_type == 'string':
             string_contents = KVariable(field_name + '_S_CONTENTS', sort=KSort('Bytes'))
