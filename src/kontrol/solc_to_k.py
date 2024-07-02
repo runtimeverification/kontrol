@@ -322,12 +322,123 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     return natspecs
 
 
+def parse_preconditions(devdoc: str | None, method: Contract.Method | Contract.Constructor) -> tuple[str, ...]:
+    """
+    Parse developer documentation (devdoc) to extract user-provided preconditions.
+
+    Returns a tuple of Precondition objects, each representing a single precondition.
+    This function currently supports a simple grammar allowing expressions of the form 'LHS operator RHS'.
+    The following operators are supported: '==', '!=', '<=', '>=', '<', '>'.
+    RHS and LHS can include input or storage variables, as well as int constants.
+
+    Example:
+        If devdoc for the function contains { '@custom:kontrol-precondition': ' x <= 14,x >= 2,'}, it would return:
+        [Precondition(operator='<=', rhs=14, lhs='x'), Precondition(operator='>=', rhs=2, lhs='x')]
+    """
+
+    if devdoc is None:
+        return None
+
+    preconditions: list[Precondition] = []
+    for precondition in devdoc.split(','):
+        # Trim whitespace and skip if empty
+        precondition = precondition.strip()
+        if not precondition:
+            continue
+
+        parts = precondition.split()
+        if len(parts) != 3:
+            raise ValueError(f"Invalid precondition expression format: {precondition}, please use 'LHS operator RHS'")
+
+        lhs, operator, rhs = parts
+
+        # Convert lhs and rhs to int if they represent numbers, otherwise keep as string
+        lhs = int(lhs) if lhs.isdigit() else lhs
+        rhs = int(rhs) if rhs.isdigit() else rhs
+
+        # Create a Precondition object and add it to the list
+        precondition = Precondition(operator, lhs, rhs, method)
+        preconditions.append(precondition)
+
+    return tuple(preconditions)
+
+
 class StorageField(NamedTuple):
     label: str
     data_type: str
     slot: int
     offset: int
     linked_interface: str | None
+
+
+@dataclass
+class Precondition:
+    operator: str
+    rhs: str | int
+    lhs: str | int
+    method: Contract.Method | Contract.Constructor
+
+    def __init__(self, operator, lhs, rhs, method):
+        """
+        Initializes a new instance of the Precondition class.
+
+        :param operator: The boolean operator as a string (e.g., '==', '!=', '<=', '>=', '<', '>').
+        :param lhs: The left-hand side operand, which can be an input or storage variable (str) or a constant (int).
+        :param rhs: The left-hand side operand, which can be an input or storage variable (str) or a constant (int).
+        """
+        self.operator = operator
+        self.lhs = lhs
+        self.rhs = rhs
+        self.method = method
+
+    @cached_property
+    def to_kapply(self) -> KApply:
+        """
+        Converts the precondition to a KApply term.
+
+        - Constants are translated into `intToken` terms
+        - Variables should be searched in method's inputs or in the contract's storage fields
+        - Operators are translated into the corresponding KLabel application, e.g., `leInt`, `eqInt`, etc.
+        """
+
+        # Helper function to determine if a term is a constant or a variable and convert accordingly
+        def convert_term(term):
+            if isinstance(term, int):
+                return intToken(term)
+            else:
+                for input in self.method.inputs:
+                    if input.name == term:
+                        # TODO(palina): add support for complex types
+                        return abstract_term_safely(
+                            KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{input.arg_name}'
+                        )
+                else:
+                    for field in self.method.contract.storage_fields:
+                        if field.name == term:
+                            # Perform the necessary action for a matching storage field
+                            break  # Exit the loop once the matching field is found
+                    else:
+                        raise ValueError(f"Unknown term: {term}")
+
+        # Map operators to KLabel applications
+        operator_mapping = {
+            '<=': '_<=Int_',
+            '>=': '_>=Int_',
+            '==': '_==Int_',
+            '!=': '_=/=Int_',
+            '<': '_<Int_',
+            '>': '_>Int_',
+        }
+
+        if self.operator in operator_mapping:
+            operator_label = operator_mapping[self.operator]
+        else:
+            raise ValueError(f"Unsupported operator in a precondition: {self.operator}")
+
+        lhs_converted = convert_term(self.lhs)
+        rhs_converted = convert_term(self.rhs)
+
+        return KApply(operator_label, lhs_converted, rhs_converted)
 
 
 @dataclass
@@ -469,6 +580,7 @@ class Contract:
         ast: dict | None
         natspec_values: dict | None
         function_calls: tuple[str, ...] | None
+        preconditions: tuple[Precondition, ...] | None
 
         def __init__(
             self,
@@ -499,6 +611,11 @@ class Contract:
             natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
             self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
+            self.preconditions = (
+                parse_preconditions(devdoc.get('custom:kontrol-precondition', None), self)
+                if devdoc is not None
+                else None
+            )
             self.function_calls = tuple(function_calls) if function_calls is not None else None
 
         @property

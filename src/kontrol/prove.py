@@ -941,6 +941,11 @@ def _init_cterm(
     for constraint in storage_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
 
+    # TODO(palina): add constraints corresponding to the user-provided preconditions
+    if method.preconditions is not None:
+        for precondition in method.preconditions:
+            init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition.to_kapply))
+
     # The calling contract is assumed to be in the present accounts for non-tests
     if not (config_type == ConfigType.TEST_CONFIG or active_symbolik):
         init_cterm.add_constraint(
