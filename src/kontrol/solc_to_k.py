@@ -322,7 +322,7 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     return natspecs
 
 
-def parse_preconditions(devdoc: str | None, method: Contract.Method | Contract.Constructor) -> tuple[str, ...]:
+def parse_preconditions(devdoc: str | None, method: Contract.Method | Contract.Constructor) -> tuple[Precondition, ...] | None:
     """
     Parse developer documentation (devdoc) to extract user-provided preconditions.
 
@@ -353,12 +353,12 @@ def parse_preconditions(devdoc: str | None, method: Contract.Method | Contract.C
         lhs, operator, rhs = parts
 
         # Convert lhs and rhs to int if they represent numbers, otherwise keep as string
-        lhs = int(lhs) if lhs.isdigit() else lhs
-        rhs = int(rhs) if rhs.isdigit() else rhs
+        lhs = int(lhs) if lhs.isdigit() else str(lhs)
+        rhs = int(rhs) if rhs.isdigit() else str(lhs)
 
         # Create a Precondition object and add it to the list
-        precondition = Precondition(operator, lhs, rhs, method)
-        preconditions.append(precondition)
+        new_precondition = Precondition(operator, lhs, rhs, method)
+        preconditions.append(new_precondition)
 
     return tuple(preconditions)
 
@@ -378,7 +378,7 @@ class Precondition:
     lhs: str | int
     method: Contract.Method | Contract.Constructor
 
-    def __init__(self, operator, lhs, rhs, method):
+    def __init__(self, operator: str, lhs: str | int, rhs: str | int, method: Contract.Method | Contract.Constructor):
         """
         Initializes a new instance of the Precondition class.
 
@@ -402,7 +402,7 @@ class Precondition:
         """
 
         # Helper function to determine if a term is a constant or a variable and convert accordingly
-        def convert_term(term):
+        def convert_term(term: str | int) -> KInner:
             if isinstance(term, int):
                 return intToken(term)
             else:
@@ -417,8 +417,8 @@ class Precondition:
                         if field.name == term:
                             # Perform the necessary action for a matching storage field
                             break  # Exit the loop once the matching field is found
-                    else:
-                        raise ValueError(f"Unknown term: {term}")
+
+            raise ValueError(f"Unknown term: {term}")
 
         # Map operators to KLabel applications
         operator_mapping = {
@@ -452,6 +452,7 @@ class Contract:
         contract_storage_digest: str
         payable: bool
         signature: str
+        preconditions: tuple[Precondition, ...] | None
 
         def __init__(
             self,
@@ -465,7 +466,7 @@ class Contract:
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
-            # TODO: support NatSpec comments for dynamic types
+            # TODO: support NatSpec comments for dynamic types, including preconditions
             self.inputs = tuple(inputs_from_abi(abi['inputs'], None))
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
