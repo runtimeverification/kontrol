@@ -55,6 +55,14 @@ module CSE-LEMMAS
        andBool X +Int 1 <=Int A
        [concrete(X), simplification, preserves-definedness]
 
+    rule { true #Equals #asWord( #buf(N, A1 ) +Bytes #buf(M, B1) +Bytes #buf(O, C1) ) ==Int #asWord(#buf(N, A2) +Bytes #buf(M, B2) +Bytes #buf(O, C2)) }
+    => { A1 #Equals A2 } #And { B1 #Equals B2 } #And { C1 #Equals C2 }
+    [simplification]
+
+    rule { #asWord( #buf(N, A1 ) +Bytes #buf(M, B1) +Bytes #buf(O, C1) ) #Equals #asWord(#buf(N, A2) +Bytes #buf(M, B2) +Bytes #buf(O, C2)) }
+    => { A1 #Equals A2 } #And { B1 #Equals B2 } #And { C1 #Equals C2 }
+    [simplification]
+
 endmodule
 
 module CSE-LEMMAS-SPEC
