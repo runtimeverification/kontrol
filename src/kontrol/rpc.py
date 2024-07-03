@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pprint
+import ast
 from collections import deque
 from datetime import datetime
 from pathlib import Path
@@ -148,20 +149,26 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         )
 
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
-        output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
 
+        # print("K----------------------------------------------")
+        # k_cell = self.cterm.cell('K_CELL')
+        # _PPRINT.pprint(k_cell)
+        # assert type(k_cell) is KToken
         # print("RPCRESPONSE----------------------------------------------")
-        # rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
+        rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
         # _PPRINT.pprint(rpc_response_cell)
-        # assert type(rpc_response_cell) is KToken
+        assert type(rpc_response_cell) is KToken
 
         return self._get_last_message_tx_hash()
 
     def exec_get_transaction_by_hash(self, tx_hash: str) -> dict:
         msg_id = _tx_hash_to_msg_id(tx_hash)
         messages_dict = self._get_all_messages_dict()
-        return messages_dict[str(msg_id)]
+        formatted_messages_dict = _apply_format_to_json_dict(messages_dict[str(msg_id)])
+        formatted_messages_dict['hash'] = tx_hash
+        return formatted_messages_dict
 
     # ------------------------------------------------------
     # VM data fetch helper functions
@@ -381,3 +388,31 @@ def _tx_hash_to_msg_id(hash: str) -> int:
     except ValueError:
         print(f'Invalid hexadecimal string: {hash}')
         return -1  # TODO: Trigger error instead of returning value
+
+def _apply_format_to_json_dict(message_dict: dict) -> dict:
+    formatted_message_dict = {}
+    
+    for key in message_dict:
+        new_key = key.replace('<', '').replace('>', '').replace('sig', '').replace('tx', '')
+
+        new_key = new_key[0].lower() + new_key[1:]
+        
+        if (new_key == 'gasLimit'):
+            new_key = 'gas'
+        elif(new_key == 'data'):
+            new_key = 'input'
+        
+
+        if (new_key == 'to'):
+            formatted_message_dict[new_key] = _acct_id_to_address(int(message_dict[key]))
+        else:
+            value = message_dict[key]
+
+            if message_dict[key].isdecimal():
+                value = hex(int(message_dict[key]))
+            else:
+                value = "0x" + ast.literal_eval(message_dict[key]).hex()
+
+            formatted_message_dict[new_key] = value 
+
+    return formatted_message_dict   
