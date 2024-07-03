@@ -107,7 +107,7 @@ def main() -> None:
     args = parser.parse_args()
     args.config_file = (
         Path.joinpath(Path('.') if args.foundry_root is None else args.foundry_root, 'kontrol.toml')
-        if args.config_file is None
+        if not hasattr(args, 'config_file') or args.config_file is None
         else args.config_file
     )
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
