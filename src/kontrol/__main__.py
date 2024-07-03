@@ -106,11 +106,7 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
-    args.config_file = (
-        Path.joinpath(Path('.') if args.foundry_root is None else args.foundry_root, 'kontrol.toml')
-        if not hasattr(args, 'config_file') or args.config_file is None
-        else args.config_file
-    )
+    args.config_file = _config_file_path(args)
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
     logging.basicConfig(level=_loglevel(args, toml_args), format=_LOG_FORMAT)
 
@@ -392,6 +388,17 @@ def _loglevel(args: Namespace, toml_args: dict) -> int:
         return logging.INFO
 
     return logging.WARNING
+
+
+def _config_file_path(args: Namespace) -> Path:
+    return (
+        Path.joinpath(
+            Path('.') if not hasattr(args, 'foundry_root') or args.foundry_root is None else args.foundry_root,
+            'kontrol.toml',
+        )
+        if not hasattr(args, 'config_file') or args.config_file is None
+        else args.config_file
+    )
 
 
 if __name__ == '__main__':
