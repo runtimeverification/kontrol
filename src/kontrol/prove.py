@@ -32,16 +32,16 @@ from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
+from .state_record import StateDiffEntry, StateDumpEntry
 from .utils import console, parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from typing import Final
+    from typing import Final, TypeGuard
 
     from pyk.kast.inner import KInner
     from pyk.kore.rpc import KoreServer
 
-    from .deployment import DeploymentStateEntry
     from .options import ProveOptions
     from .solc_to_k import StorageField
 
@@ -51,7 +51,7 @@ _LOGGER: Final = logging.getLogger(__name__)
 def foundry_prove(
     options: ProveOptions,
     foundry: Foundry,
-    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
 ) -> list[APRProof]:
     if options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
@@ -104,7 +104,7 @@ def foundry_prove(
                 new_prove_options = copy(options)
                 new_prove_options.tests = test_version_tuples
                 new_prove_options.config_type = ConfigType.SUMMARY_CONFIG
-                summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, deployment_state_entries))
+                summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, recorded_state_entries))
 
     exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
     test_suite = collect_tests(foundry, options.tests, reinit=options.reinit, exact_match=exact_match)
@@ -134,7 +134,7 @@ def foundry_prove(
             foundry=foundry,
             options=options,
             summary_ids=(summary_ids if include_summaries else []),
-            deployment_state_entries=deployment_state_entries,
+            recorded_state_entries=recorded_state_entries,
         )
 
     if options.run_constructor:
@@ -299,7 +299,7 @@ def _run_cfg_group(
     foundry: Foundry,
     options: ProveOptions,
     summary_ids: Iterable[str],
-    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
         proof = None
@@ -378,7 +378,7 @@ def _run_cfg_group(
                     bmc_depth=options.bmc_depth,
                     run_constructor=options.run_constructor,
                     use_gas=options.use_gas,
-                    deployment_state_entries=deployment_state_entries,
+                    recorded_state_entries=recorded_state_entries,
                     summary_ids=summary_ids,
                     active_symbolik=options.with_non_general_state,
                     hevm=options.hevm,
@@ -465,7 +465,7 @@ def method_to_apr_proof(
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     use_gas: bool = False,
-    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     summary_ids: Iterable[str] = (),
     active_symbolik: bool = False,
     hevm: bool = False,
@@ -490,7 +490,7 @@ def method_to_apr_proof(
         setup_proof=setup_proof,
         graft_setup_proof=((setup_proof is not None) and not setup_proof_is_constructor),
         use_gas=use_gas,
-        deployment_state_entries=deployment_state_entries,
+        recorded_state_entries=recorded_state_entries,
         active_symbolik=active_symbolik,
         hevm=hevm,
         trace_options=trace_options,
@@ -535,7 +535,7 @@ def _method_to_initialized_cfg(
     setup_proof: APRProof | None = None,
     graft_setup_proof: bool = False,
     use_gas: bool = False,
-    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     active_symbolik: bool = False,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
@@ -551,7 +551,7 @@ def _method_to_initialized_cfg(
         setup_proof,
         graft_setup_proof,
         use_gas,
-        deployment_state_entries,
+        recorded_state_entries,
         active_symbolik,
         config_type=config_type,
         hevm=hevm,
@@ -587,7 +587,7 @@ def _method_to_cfg(
     setup_proof: APRProof | None,
     graft_setup_proof: bool,
     use_gas: bool,
-    deployment_state_entries: Iterable[DeploymentStateEntry] | None,
+    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
     active_symbolik: bool,
     config_type: ConfigType,
     hevm: bool = False,
@@ -615,7 +615,7 @@ def _method_to_cfg(
         storage_fields=contract.fields,
         method=method,
         use_gas=use_gas,
-        deployment_state_entries=deployment_state_entries,
+        recorded_state_entries=recorded_state_entries,
         calldata=calldata,
         callvalue=callvalue,
         active_symbolik=active_symbolik,
@@ -762,9 +762,24 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
     return new_init_cterm
 
 
-def deployment_state_to_account_cells(deployment_state_entries: Iterable[DeploymentStateEntry]) -> list[KApply]:
-    accounts = _process_deployment_state(deployment_state_entries)
-    address_list = accounts.keys()
+def recorded_state_to_account_cells(
+    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
+) -> list[KApply]:
+    def _is_iterable_statediffentry(
+        val: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
+    ) -> TypeGuard[Iterable[StateDiffEntry]]:
+        return all(isinstance(entry, StateDiffEntry) for entry in val)
+
+    def _is_iterable_statedumpentry(
+        val: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
+    ) -> TypeGuard[Iterable[StateDumpEntry]]:
+        return all(isinstance(entry, StateDumpEntry) for entry in val)
+
+    if _is_iterable_statediffentry(recorded_state_entries):
+        accounts = _process_state_diff(recorded_state_entries)
+    if _is_iterable_statedumpentry(recorded_state_entries):
+        accounts = _process_state_dump(recorded_state_entries)
+    address_list = list(accounts)
     k_accounts = []
     for addr in address_list:
         k_accounts.append(
@@ -780,14 +795,14 @@ def deployment_state_to_account_cells(deployment_state_entries: Iterable[Deploym
     return k_accounts
 
 
-def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) -> dict:
+def _process_state_diff(recorded_state: Iterable[StateDiffEntry]) -> dict:
     accounts: dict[int, dict] = {}
 
     def _init_account(address: int) -> None:
         if address not in accounts.keys():
             accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
 
-    for entry in deployment_state:
+    for entry in recorded_state:
         if entry.has_ignored_kind or entry.reverted:
             continue
 
@@ -807,7 +822,30 @@ def _process_deployment_state(deployment_state: Iterable[DeploymentStateEntry]) 
             accounts[_int_address]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
                 hex_string_to_int(update.value)
             )
+    return accounts
 
+
+def _process_state_dump(recorded_state: Iterable[StateDumpEntry]) -> dict:
+    accounts: dict[int, dict] = {}
+
+    def _init_account(address: int) -> None:
+        if address not in accounts.keys():
+            accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
+
+    for entry in recorded_state:
+        _addr = hex_string_to_int(entry.account)
+        _init_account(_addr)
+
+        if entry.code:
+            accounts[_addr]['code'] = entry.code
+
+        if entry.balance:
+            accounts[_addr]['balance'] = entry.balance
+
+        for update in entry.storage:
+            accounts[_addr]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
+                hex_string_to_int(update.value)
+            )
     return accounts
 
 
@@ -825,7 +863,7 @@ def _init_cterm(
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
-    deployment_state_entries: Iterable[DeploymentStateEntry] | None = None,
+    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     trace_options: TraceOptions | None = None,
 ) -> CTerm:
     schedule = KApply('SHANGHAI_EVM')
@@ -873,7 +911,7 @@ def _init_cterm(
     storage_constraints: list[KApply] = []
 
     if config_type == ConfigType.TEST_CONFIG or active_symbolik:
-        init_account_list = _create_initial_account_list(contract_code, deployment_state_entries)
+        init_account_list = _create_initial_account_list(contract_code, recorded_state_entries)
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
             'CALLSTACK_CELL': list_empty(),
@@ -927,7 +965,7 @@ def _init_cterm(
         # constructor can not be called in a static context.
         init_subst['STATIC_CELL'] = FALSE
 
-        encoded_args, arg_constraints = method.encoded_args
+        encoded_args, arg_constraints = method.encoded_args(foundry.enums)
         init_subst['PROGRAM_CELL'] = KEVM.bytes_append(bytesToken(program), encoded_args)
 
     init_term = Subst(init_subst)(empty_config)
@@ -968,7 +1006,7 @@ def _init_cterm(
 
 
 def _create_initial_account_list(
-    program: KInner, deployment_state: Iterable[DeploymentStateEntry] | None
+    program: KInner, recorded_state: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None
 ) -> list[KInner]:
     _contract = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
@@ -982,8 +1020,8 @@ def _create_initial_account_list(
         _contract,
         Foundry.account_CHEATCODE_ADDRESS(map_empty()),
     ]
-    if deployment_state is not None:
-        init_account_list.extend(deployment_state_to_account_cells(deployment_state))
+    if recorded_state is not None:
+        init_account_list.extend(recorded_state_to_account_cells(recorded_state))
 
     return init_account_list
 
@@ -1021,6 +1059,17 @@ def _create_cse_accounts(
 
     for field in storage_fields:
         field_name = contract_name + '_' + field.label.upper()
+        if field.data_type.startswith('enum'):
+            enum_name = field.data_type.split(' ')[1]
+            enum_max = foundry.enums[enum_name]
+            new_account_constraints.append(
+                mlEqualsTrue(
+                    ltInt(
+                        KEVM.lookup(storage_map, intToken(field.slot)),
+                        intToken(enum_max),
+                    )
+                )
+            )
         # Processing of strings
         if field.data_type == 'string':
             string_contents = KVariable(field_name + '_S_CONTENTS', sort=KSort('Bytes'))

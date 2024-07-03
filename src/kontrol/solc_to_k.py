@@ -15,7 +15,7 @@ from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
-from pyk.prelude.kint import eqInt, intToken
+from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process, single
 
@@ -48,7 +48,7 @@ def solc_to_k(options: SolcToKOptions) -> str:
 
     imports = list(options.imports)
     requires = list(options.requires)
-    contract_module = contract_to_main_module(contract, empty_config, imports=['EDSL'] + imports)
+    contract_module = contract_to_main_module(contract, empty_config, enums={}, imports=['EDSL'] + imports)
     _main_module = KFlatModule(
         options.main_module if options.main_module else 'MAIN',
         [],
@@ -69,6 +69,7 @@ class Input:
     type: str
     components: tuple[Input, ...] = ()
     idx: int = 0
+    internal_type: str | None = None
     array_lengths: tuple[int, ...] | None = None
     dynamic_type_length: int | None = None
 
@@ -86,6 +87,7 @@ class Input:
         """
         name = input.get('name')
         type = input.get('type')
+        internal_type = input.get('internalType')
         if name is None or type is None:
             raise ValueError("ABI dictionary must contain 'name' and 'type' keys.", input)
         array_lengths, dynamic_type_length = (
@@ -95,13 +97,21 @@ class Input:
             return Input(
                 name,
                 type,
-                tuple(Input._unwrap_components(input['components'], idx, natspec_lengths)),
-                idx,
-                array_lengths,
-                dynamic_type_length,
+                internal_type=internal_type,
+                components=tuple(Input._unwrap_components(input['components'], idx, natspec_lengths)),
+                idx=idx,
+                array_lengths=array_lengths,
+                dynamic_type_length=dynamic_type_length,
             )
         else:
-            return Input(name, type, idx=idx, array_lengths=array_lengths, dynamic_type_length=dynamic_type_length)
+            return Input(
+                name,
+                type,
+                internal_type=internal_type,
+                idx=idx,
+                array_lengths=array_lengths,
+                dynamic_type_length=dynamic_type_length,
+            )
 
     @staticmethod
     def _make_tuple_type(components: Iterable[Input], array_index: int | None = None) -> KApply:
@@ -118,6 +128,7 @@ class Input:
                     _c.type,
                     _c.components,
                     _c.idx,
+                    _c.internal_type,
                     _c.array_lengths,
                     _c.dynamic_type_length,
                 )
@@ -146,9 +157,11 @@ class Input:
                 Input(
                     component['name'],
                     component['type'],
-                    tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
-                    idx,
-                    *lengths,
+                    internal_type=component['internalType'],
+                    components=tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
+                    idx=idx,
+                    array_lengths=lengths[0],
+                    dynamic_type_length=lengths[1],
                 )
             )
             # If the component is of `tuple[n]` type, it will have `n` elements with different `idx`
@@ -215,8 +228,8 @@ class Input:
                         _c.type,
                         _c.components,
                         _c.idx,
-                        _c.array_lengths,
-                        _c.dynamic_type_length,
+                        array_lengths=_c.array_lengths,
+                        dynamic_type_length=_c.dynamic_type_length,
                     )
                     for i in range(self.array_lengths[0])
                     for _c in self.components
@@ -523,8 +536,7 @@ class Contract:
                 else abstract_term_safely(KVariable('_###CALLVALUE###_'), base_name='CALLVALUE')
             )
 
-        @cached_property
-        def encoded_args(self) -> tuple[KInner, list[KInner]]:
+        def encoded_args(self, enums: dict[str, int]) -> tuple[KInner, list[KInner]]:
             args: list[KInner] = []
             type_constraints: list[KInner] = []
             for input in self.inputs:
@@ -544,6 +556,7 @@ class Contract:
                                 _c.type,
                                 _c.components,
                                 _c.idx,
+                                _c.internal_type,
                                 _c.array_lengths,
                                 _c.dynamic_type_length,
                             )
@@ -561,6 +574,15 @@ class Contract:
                     if rp is None:
                         raise ValueError(f'Unsupported ABI type for method for {self.contract_name}.init')
                     type_constraints.append(rp)
+                if input.internal_type is not None and input.internal_type.startswith('enum '):
+                    enum_name = input.internal_type.split(' ')[1]
+                    enum_max = enums[enum_name]
+                    type_constraints.append(
+                        ltInt(
+                            KVariable(input.arg_name),
+                            intToken(enum_max),
+                        )
+                    )
             encoded_args = KApply('encodeArgs', [KEVM.typed_args(args)])
             return encoded_args, type_constraints
 
@@ -747,7 +769,9 @@ class Contract:
                 att=KAtt(entries=[Atts.SYMBOL('')]),
             )
 
-        def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
+        def rule(
+            self, contract: KInner, application_label: KLabel, contract_name: str, enums: dict[str, int]
+        ) -> KRule | None:
             prod_klabel = self.unique_klabel
             arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
@@ -769,6 +793,7 @@ class Contract:
                                 _c.type,
                                 _c.components,
                                 _c.idx,
+                                _c.internal_type,
                                 _c.array_lengths,
                                 _c.dynamic_type_length,
                             )
@@ -789,6 +814,15 @@ class Contract:
                         )
                         return None
                     conjuncts.append(rp)
+                if input.internal_type is not None and input.internal_type.startswith('enum '):
+                    enum_name = input.internal_type.split(' ')[1]
+                    enum_max = enums[enum_name]
+                    conjuncts.append(
+                        ltInt(
+                            KVariable(input.arg_name),
+                            intToken(enum_max),
+                        )
+                    )
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
             ensures = andBool(conjuncts)
@@ -1123,8 +1157,7 @@ class Contract:
     def has_unlinked(self) -> bool:
         return 0 <= self.deployed_bytecode.find('__')
 
-    @property
-    def method_sentences(self) -> list[KSentence]:
+    def method_sentences(self, enums: dict[str, int]) -> list[KSentence]:
         method_application_production: KSentence = KProduction(
             KSort('Bytes'),
             [KNonTerminal(self.sort), KTerminal('.'), KNonTerminal(self.sort_method)],
@@ -1134,15 +1167,15 @@ class Contract:
         res: list[KSentence] = [method_application_production]
         res.extend(method.production for method in self.methods)
         method_rules = (
-            method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path) for method in self.methods
+            method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path, enums=enums)
+            for method in self.methods
         )
         res.extend(rule for rule in method_rules if rule)
         res.extend(method.selector_alias_rule for method in self.methods)
         return res if len(res) > 1 else []
 
-    @property
-    def sentences(self) -> list[KSentence]:
-        return [self.subsort, self.production] + self.method_sentences
+    def sentences(self, enums: dict[str, int]) -> list[KSentence]:
+        return [self.subsort, self.production] + self.method_sentences(enums)
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -1207,9 +1240,11 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     return result
 
 
-def contract_to_main_module(contract: Contract, empty_config: KInner, imports: Iterable[str] = ()) -> KFlatModule:
+def contract_to_main_module(
+    contract: Contract, empty_config: KInner, enums: dict[str, int], imports: Iterable[str] = ()
+) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
-    return KFlatModule(module_name, contract.sentences, [KImport(i) for i in list(imports)])
+    return KFlatModule(module_name, contract.sentences(enums), [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, empty_config: KInner, imports: Iterable[str]) -> KFlatModule:
