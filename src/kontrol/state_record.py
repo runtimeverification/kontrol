@@ -1,22 +1,31 @@
 from dataclasses import dataclass
 from typing import NamedTuple
 
+from eth_utils import to_checksum_address
 
-class StorageUpdate(NamedTuple):
+from .solc_to_k import hex_string_to_int
+
+
+class SlotUpdate(NamedTuple):
     address: str
     slot: str
     value: str
 
 
+class StorageUpdate(NamedTuple):
+    slot: str
+    value: str
+
+
 @dataclass
-class DeploymentStateEntry:
+class StateDiffEntry:
     kind: str
     account: str
     old_balance: int
     new_balance: int
     deployed_code: str
     reverted: bool
-    storage_updates: tuple[StorageUpdate, ...]
+    storage_updates: tuple[SlotUpdate, ...]
 
     def __init__(self, e: dict) -> None:
         self.kind = e['kind']
@@ -40,7 +49,7 @@ class DeploymentStateEntry:
         return self.new_balance != self.old_balance
 
     @staticmethod
-    def _get_storage_updates(storage_access: list[dict]) -> tuple[StorageUpdate, ...]:
+    def _get_storage_updates(storage_access: list[dict]) -> tuple[SlotUpdate, ...]:
         storage_updates = []
         for _a in storage_access:
             account_storage = _a['account']
@@ -53,11 +62,32 @@ class DeploymentStateEntry:
             if reverted or not is_write or new_value == previous_value:
                 continue
 
-            storage_updates.append(StorageUpdate(account_storage, slot, new_value))
+            storage_updates.append(SlotUpdate(account_storage, slot, new_value))
         return tuple(storage_updates)
 
 
-class DeploymentState:
+@dataclass
+class StateDumpEntry:
+    account: str
+    balance: int
+    code: str
+    storage: tuple[StorageUpdate, ...]
+
+    def __init__(self, acc: str, e: dict) -> None:
+        self.account = to_checksum_address(acc)
+        self.balance = hex_string_to_int(e['balance'])
+        self.code = e['code']
+        self.storage = self._get_storage_updates(e['storage'])
+
+    @staticmethod
+    def _get_storage_updates(storage_dump: dict) -> tuple[StorageUpdate, ...]:
+        storage_updates = []
+        for slot in storage_dump:
+            storage_updates.append(StorageUpdate(slot, storage_dump[slot]))
+        return tuple(storage_updates)
+
+
+class RecreateState:
     SOLIDITY_VERSION = '^0.8.13'
 
     name: str
@@ -104,7 +134,7 @@ class DeploymentState:
 
         lines.append('\n')
 
-        lines.append('\tfunction recreateDeployment() public {')
+        lines.append('\tfunction recreateState() public {')
 
         lines.append('\t\tbytes32 slot;')
         lines.append('\t\tbytes32 value;')
@@ -142,7 +172,7 @@ class DeploymentState:
             acc_name = 'acc' + str(len(list(self.accounts)))
             self.accounts[addr] = acc_name
 
-    def extend(self, e: DeploymentStateEntry) -> None:
+    def extend_with_state_diff(self, e: StateDiffEntry) -> None:
         if e.has_ignored_kind or e.reverted:
             return
 
@@ -162,4 +192,20 @@ class DeploymentState:
             acc_name = self.accounts[update.address]
             self.commands.append(f'slot = hex{update.slot[2:]!r}')
             self.commands.append(f'value = hex{update.value[2:]!r}')
+            self.commands.append(f'vm.store({acc_name}Address, slot, value)')
+
+    def extend_with_state_dump(self, e: StateDumpEntry) -> None:
+        self.add_account(e.account)
+        acc_name = self.accounts[e.account]
+
+        if e.code:
+            self.code[acc_name] = e.code[2:]
+            self.commands.append(f'vm.etch({acc_name}Address, {acc_name}Code)')
+
+        if e.balance:
+            self.commands.append(f'vm.deal({acc_name}Address, {e.balance})')
+
+        for pair in e.storage:
+            self.commands.append(f'slot = hex{pair.slot[2:]!r}')
+            self.commands.append(f'value = hex{pair.value[2:]!r}')
             self.commands.append(f'vm.store({acc_name}Address, slot, value)')
