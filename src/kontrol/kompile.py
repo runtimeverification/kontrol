@@ -102,7 +102,7 @@ def foundry_kompile(
             contracts=foundry.contracts.values(),
             requires=['vm.md'],
         )
-            # requires=['foundry.md'],
+        # requires=['foundry.md'],
 
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,

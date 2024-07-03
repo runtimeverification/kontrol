@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import pprint
 import ast
+import pprint
 from collections import deque
 from datetime import datetime
 from pathlib import Path
@@ -380,21 +380,21 @@ def _tx_hash_to_msg_id(hash: str) -> int:
         print(f'Invalid hexadecimal string: {hash}')
         return -1  # TODO: Trigger error instead of returning value
 
+
 def _apply_format_to_json_dict(message_dict: dict) -> dict:
     formatted_message_dict = {}
-    
+
     for key in message_dict:
         new_key = key.replace('<', '').replace('>', '').replace('sig', '').replace('tx', '')
 
         new_key = new_key[0].lower() + new_key[1:]
-        
-        if (new_key == 'gasLimit'):
-            new_key = 'gas'
-        elif(new_key == 'data'):
-            new_key = 'input'
-        
 
-        if (new_key == 'to'):
+        if new_key == 'gasLimit':
+            new_key = 'gas'
+        elif new_key == 'data':
+            new_key = 'input'
+
+        if new_key == 'to':
             formatted_message_dict[new_key] = _acct_id_to_address(int(message_dict[key]))
         else:
             value = message_dict[key]
@@ -404,6 +404,6 @@ def _apply_format_to_json_dict(message_dict: dict) -> dict:
             else:
                 value = '0x' + ast.literal_eval(message_dict[key]).hex()
 
-            formatted_message_dict[new_key] = value 
+            formatted_message_dict[new_key] = value
 
-    return formatted_message_dict   
+    return formatted_message_dict
