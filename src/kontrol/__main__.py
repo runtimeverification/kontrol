@@ -106,7 +106,7 @@ def main() -> None:
     parser = _create_argument_parser()
     args = parser.parse_args()
     args.config_file = (
-        Path.joinpath(args.foundry_root, 'kontrol.toml') if args.config_file is None else args.config_file
+        Path.joinpath(Path('.') if args.foundry_root is None else args.foundry_root, 'kontrol.toml') if args.config_file is None else args.config_file
     )
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
     logging.basicConfig(level=_loglevel(args, toml_args), format=_LOG_FORMAT)
