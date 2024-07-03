@@ -79,6 +79,7 @@ module KONTROL-VM
           => #makeTX TXID
           ~> #loadNonce ACCTFROM TXNONCE
           ~> #loadTransaction TXID TXTYPE ACCTFROM ACCTTO TXGAS TXGASPRICE TXVALUE TXNONCE TXDATA
+          ~> #signTX TXID ACCTFROM
           ~> #prepareTx TXID ACCTFROM
           ~> TXID
           ...
@@ -222,19 +223,19 @@ module KONTROL-VM
 
     rule Hex2Raw ( S ) => #unparseByteStack( #parseByteStack ( S ) )
   
-    syntax KItem ::= "signTX" Int Int
-                   | "signTX" Int String 
+    syntax KItem ::= "#signTX" Int Int
+                   | "#signTX" Int String 
     // --------------------------------------------------------
 
-    rule <k> signTX TXID ACCTFROM:Int => ECDSASign ( #hashTxData( #getTxData (TXID) ), #padToWidth( 32, #asByteStack( KEY ) ) )  ... </k>
+    rule <k> #signTX TXID ACCTFROM:Int => #signTX TXID ECDSASign ( #hashTxData( #getTxData (TXID) ), #padToWidth( 32, #asByteStack( KEY ) ) )  ... </k>
         <accountKeys> ... ACCTFROM |-> KEY ... </accountKeys>
         <mode> NORMAL </mode>
 
-    rule <k> signTX TXID ACCTFROM:Int => ECDSASign ( #hashTxData( #getTxData (TXID) ), #padToWidth( 32, #asByteStack( KEY ) ) )  ... </k>
+    rule <k> #signTX TXID ACCTFROM:Int => #signTX TXID ECDSASign ( #hashTxData( #getTxData (TXID) ), #padToWidth( 32, #asByteStack( KEY ) ) )  ... </k>
         <accountKeys> ... ACCTFROM |-> KEY ... </accountKeys>
         <mode> NOGAS </mode>
 
-    rule <k> signTX TXID SIG:String => . ... </k>
+    rule <k> #signTX TXID SIG:String => . ... </k>
          <message>
            <msgID> TXID </msgID>
            <sigR> _ => #parseHexBytes( substrString( SIG, 0, 64 ) )           </sigR>
@@ -243,7 +244,7 @@ module KONTROL-VM
            ...
          </message>
 
-    rule <k> signTX TXID ACCTFROM:Int => . ... </k>
+    rule <k> #signTX TXID ACCTFROM:Int => . ... </k>
          <accountKeys> KEYMAP                      </accountKeys>
          <mode>        NORMAL                      </mode>
          <txPending>   ListItem(TXID) => .List ... </txPending>
@@ -290,7 +291,6 @@ module KONTROL-VM
            <txGasLimit> GLIMIT </txGasLimit>
            ...
          </message>
-         <rpcResponse> _ => -2 </rpcResponse>
       requires GLIMIT <Int G0_INIT
         orBool BAL <Int GLIMIT *Int GPRICE
       

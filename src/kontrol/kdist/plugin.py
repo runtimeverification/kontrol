@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 __TARGETS__: Final = {
     'foundry': KEVMTarget(
         {
-            'target': KompileTarget.HASKELL,
+            'target': KompileTarget.LLVM,
             'main_file': KSRC_DIR / 'vm.md',
             'main_module': 'KONTROL-VM',
             'syntax_module': 'KONTROL-VM',

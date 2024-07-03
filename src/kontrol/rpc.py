@@ -149,17 +149,8 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         )
 
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
-        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
-
-        # print("K----------------------------------------------")
-        # k_cell = self.cterm.cell('K_CELL')
-        # _PPRINT.pprint(k_cell)
-        # assert type(k_cell) is KToken
-        # print("RPCRESPONSE----------------------------------------------")
-        rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
-        # _PPRINT.pprint(rpc_response_cell)
-        assert type(rpc_response_cell) is KToken
 
         return self._get_last_message_tx_hash()
 
@@ -411,7 +402,7 @@ def _apply_format_to_json_dict(message_dict: dict) -> dict:
             if message_dict[key].isdecimal():
                 value = hex(int(message_dict[key]))
             else:
-                value = "0x" + ast.literal_eval(message_dict[key]).hex()
+                value = '0x' + ast.literal_eval(message_dict[key]).hex()
 
             formatted_message_dict[new_key] = value 
 
