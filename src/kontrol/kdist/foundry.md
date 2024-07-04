@@ -48,13 +48,13 @@ module FOUNDRY-ACCOUNTS
     syntax Int             ::= #address ( Contract ) [macro]
     syntax Contract        ::= FoundryContract
     syntax Field           ::= FoundryField
-    syntax FoundryContract ::= "FoundryTest"  [klabel(contract_FoundryTest)]
-                             | "FoundryCheat" [klabel(contract_FoundryCheat)]
+    syntax FoundryContract ::= "FoundryTest"  [symbol(contract_FoundryTest)]
+                             | "FoundryCheat" [symbol(contract_FoundryCheat)]
  // -------------------------------------------------------------------------
     rule #address(FoundryTest)  => 728815563385977040452943777879061427756277306518  // 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496
     rule #address(FoundryCheat) => 645326474426547203313410069153905908525362434349  // 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D
 
-    syntax FoundryField ::= "Failed" [klabel(slot_failed)]
+    syntax FoundryField ::= "Failed" [symbol(slot_failed)]
  // ------------------------------------------------------
     rule #loc(FoundryCheat . Failed) => 46308022326495007027972728677917914892729792999299745830475596687180801507328 // 0x6661696c65640000000000000000000000000000000000000000000000000000
 ```
@@ -65,11 +65,11 @@ Then, we define helpers in K which can:
 -   Set the `FoundryCheat . Failed` location to `True`.
 
 ```k
-    syntax KItem ::= #assume ( Bool ) [klabel(cheatcode_assume), symbol]
- // --------------------------------------------------------------------
+    syntax KItem ::= #assume ( Bool ) [symbol(cheatcode_assume)]
+ // ------------------------------------------------------------
     rule <k> #assume(B) => .K ... </k> ensures B
 
-     syntax KItem ::= "#markAsFailed" [klabel(foundry_markAsFailed)]
+     syntax KItem ::= "#markAsFailed" [symbol(foundry_markAsFailed)]
   // ---------------------------------------------------------------
      rule <k> #markAsFailed => .K ... </k>
           <account>
@@ -104,9 +104,9 @@ We define two productions named `#cheatcode_return` and `#cheatcode_call`, which
 The rule `cheatcode.return` will rewrite the `#cheatcode_return` production into other productions that will place the output of the execution into the local memory, refund the gas value of the call and push the value `1` on the call stack.
 
 ```k
-    syntax KItem ::= "#cheatcode_return" Int Int  [klabel(cheatcode_return)]
-                   | "#cheatcode_call" Int Bytes  [klabel(cheatcode_call)  ]
-                   | "#cheatcode_error" Int Bytes [klabel(cheatcode_error) ]
+    syntax KItem ::= "#cheatcode_return" Int Int  [symbol(cheatcode_return)]
+                   | "#cheatcode_call" Int Bytes  [symbol(cheatcode_call)  ]
+                   | "#cheatcode_error" Int Bytes [symbol(cheatcode_error) ]
  // ------------------------------------------------------------------------
     rule [cheatcode.return]:
          <k> #cheatcode_return RETSTART RETWIDTH
@@ -155,8 +155,8 @@ module FOUNDRY-SUCCESS
         opcodeExpected: Bool ","
         recordEventExpected: Bool ","
         eventExpected: Bool
-      ")" [function, klabel(foundry_success), symbol]
- // -------------------------------------------------
+      ")" [function, symbol(foundry_success)]
+ // -----------------------------------------
     rule foundry_success(EVMC_SUCCESS, 0, false, false, false, false) => true
     rule foundry_success(_, _, _, _, _, _)                            => false [owise]
 
