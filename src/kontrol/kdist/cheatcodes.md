@@ -1091,7 +1091,7 @@ Here we set them manually to constant values.
 
 ```k
     syntax KItem ::= "#setExpectRevertBytes4" Bytes [symbol(foundry_setExpectRevertBytes4)]
- // ---------------------------------------------------------------------------------
+ // ---------------------------------------------------------------------------------------
     rule <k> #setExpectRevertBytes4 EXPECTED => .K ... </k>
          <callDepth> CD </callDepth>
          <expectedRevert>
