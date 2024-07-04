@@ -18,7 +18,7 @@ module HEVM-SUCCESS
         statusCode: StatusCode ","
         failed: Int ","
         output: Bytes
-      ")" [function, klabel(hevm_success), symbol]
+      ")" [function, symbol(hevm_success)]
  // ----------------------------------------------
     rule hevm_success(EVMC_SUCCESS, 0, _)  => true
     rule hevm_success(EVMC_REVERT, _, OUT) => true
@@ -40,7 +40,7 @@ In order to support `proveFail` we also defined the hevm fail predicate. This pr
       "hevm_fail" "("
         statusCode: StatusCode ","
         failed: Int
-      ")" [function, klabel(hevm_fail), symbol]
+      ")" [function, symbol(hevm_fail)]
  // -------------------------------------------
     rule hevm_fail(EVMC_SUCCESS, 0) => false
     rule hevm_fail(_, _)            => true [owise]
