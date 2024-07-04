@@ -377,14 +377,13 @@ def exec_init(options: InitOptions) -> None:
 
 # Helpers
 def _loglevel(args: Namespace, toml_args: dict) -> int:
-    if (not hasattr(args, 'debug') or args.debug is None) and ('debug' in toml_args and toml_args['debug']):
-        return logging.DEBUG
-    elif hasattr(args, 'debug') and args.debug:
+    def is_attr_used(attr_name: str) -> bool | None:
+        return getattr(args, attr_name, None) or toml_args.get(attr_name)
+
+    if is_attr_used('debug'):
         return logging.DEBUG
 
-    if (not hasattr(args, 'verbose') or args.verbose is None) and ('verbose' in toml_args and toml_args['verbose']):
-        return logging.INFO
-    elif hasattr(args, 'verbose') and args.verbose:
+    if is_attr_used('verbose'):
         return logging.INFO
 
     return logging.WARNING
@@ -393,10 +392,10 @@ def _loglevel(args: Namespace, toml_args: dict) -> int:
 def _config_file_path(args: Namespace) -> Path:
     return (
         Path.joinpath(
-            Path('.') if not hasattr(args, 'foundry_root') or args.foundry_root is None else args.foundry_root,
+            Path('.') if not getattr(args, 'foundry_root', None) else args.foundry_root,
             'kontrol.toml',
         )
-        if not hasattr(args, 'config_file') or args.config_file is None
+        if not getattr(args, 'config_file', None)
         else args.config_file
     )
 
