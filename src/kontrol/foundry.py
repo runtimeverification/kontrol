@@ -409,8 +409,8 @@ class Foundry:
             KApply(
                 'contract_access_field',
                 [
-                    KApply('FoundryCheat_FOUNDRY-ACCOUNTS_FoundryContract'),
-                    KApply('Failed_FOUNDRY-ACCOUNTS_FoundryField'),
+                    KApply('contract_FoundryCheat'),
+                    KApply('slot_failed'),
                 ],
             )
         )
