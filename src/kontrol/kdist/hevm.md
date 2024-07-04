@@ -41,7 +41,7 @@ In order to support `proveFail` we also defined the hevm fail predicate. This pr
         statusCode: StatusCode ","
         failed: Int
       ")" [function, symbol(hevm_fail)]
- // -------------------------------------------
+ // -----------------------------------
     rule hevm_fail(EVMC_SUCCESS, 0) => false
     rule hevm_fail(_, _)            => true [owise]
 
