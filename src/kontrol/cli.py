@@ -146,7 +146,7 @@ class ConfigArgs:
             '--config-file',
             dest='config_file',
             type=file_path,
-            default=Path('./kontrol.toml'),
+            default=None,
             help='Path to Pyk config file.',
         )
         args.add_argument(
@@ -476,7 +476,9 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Generate a JUnit XML report',
     )
-    prove_args.add_argument('--cse', dest='cse', action='store_true', help='Use Compositional Symbolic Execution')
+    prove_args.add_argument(
+        '--cse', dest='cse', action='store_true', default=None, help='Use Compositional Symbolic Execution'
+    )
     prove_args.add_argument(
         '--hevm',
         dest='hevm',
