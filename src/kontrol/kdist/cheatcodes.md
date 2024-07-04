@@ -1074,7 +1074,7 @@ Utils
 - `#setExpectRevert` sets the `<expectedRevert>` subconfiguration with the current call depth and the expected message from `expectRevert`.
 
 ```k
-    syntax KItem ::= "#setExpectRevert" Bytes [symbol(foundry_setExpectRevert)]
+    syntax KItem ::= "#setExpectRevert" Bytes [overload(foundry_setExpectRevert)]
  // ---------------------------------------------------------------------------
     rule <k> #setExpectRevert EXPECTED => .K ... </k>
          <callDepth> CD </callDepth>
@@ -1090,7 +1090,7 @@ When `bytes4` type parameter is used some of the information is not directly inc
 Here we set them manually to constant values.
 
 ```k
-    syntax KItem ::= "#setExpectRevertBytes4" Bytes [symbol(foundry_setExpectRevert)]
+    syntax KItem ::= "#setExpectRevertBytes4" Bytes [overload(foundry_setExpectRevert)]
  // ---------------------------------------------------------------------------------
     rule <k> #setExpectRevertBytes4 EXPECTED => .K ... </k>
          <callDepth> CD </callDepth>
