@@ -1336,13 +1336,16 @@ def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[st
     """
     function_calls: list[str] = []
 
+    def _is_event(expression: dict) -> bool:
+        return expression['typeDescriptions'].get('typeIdentifier', '').startswith('t_function_event')
+
     def _find_function_calls(node: dict) -> None:
         if not node:
             return
 
         if node.get('nodeType') == 'FunctionCall':
             expression = node.get('expression', {})
-            if expression.get('nodeType') == 'MemberAccess':
+            if expression.get('nodeType', '') == 'MemberAccess' and not _is_event(expression):
                 contract_name = expression['expression'].get('name', '')
                 contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
                 contract_type = (
