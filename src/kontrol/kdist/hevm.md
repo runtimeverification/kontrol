@@ -19,7 +19,7 @@ module HEVM-SUCCESS
         failed: Int ","
         output: Bytes
       ")" [function, symbol(hevm_success)]
- // ----------------------------------------------
+ // --------------------------------------
     rule hevm_success(EVMC_SUCCESS, 0, _)  => true
     rule hevm_success(EVMC_REVERT, _, OUT) => true
       requires notBool( #range(OUT, 0, 4)  ==K Int2Bytes(4, selector ("Panic(uint256)"), BE)
