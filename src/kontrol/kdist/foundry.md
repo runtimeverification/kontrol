@@ -66,7 +66,7 @@ Then, we define helpers in K which can:
 
 ```k
     syntax KItem ::= #assume ( Bool ) [symbol(cheatcode_assume)]
- // --------------------------------------------------------------------
+ // ------------------------------------------------------------
     rule <k> #assume(B) => .K ... </k> ensures B
 
      syntax KItem ::= "#markAsFailed" [symbol(foundry_markAsFailed)]
