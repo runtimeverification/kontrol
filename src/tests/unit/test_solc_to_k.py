@@ -489,6 +489,37 @@ AST_DATA: list[tuple[str, dict, tuple[StorageField, ...], list[str]]] = [
         (StorageField(label='token', data_type='contract IERC20', slot=0, offset=0, linked_interface='ERC20'),),
         ['ERC20.totalSupply()'],
     ),
+    (
+        'emit_event',
+        {
+            'eventCall': {
+                'arguments': [],
+                'expression': {
+                    'argumentTypes': [],
+                    'expression': {
+                        'typeDescriptions': {
+                            'typeIdentifier': 't_type$_t_contract$_IERC20_$40681_$',
+                            'typeString': 'type(contract IERC20)',
+                        }
+                    },
+                    'memberName': 'Transfer',
+                    'nodeType': 'MemberAccess',
+                    'typeDescriptions': {
+                        'typeIdentifier': 't_function_event_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$__$',
+                        'typeString': 'function (address,address,uint256)',
+                    },
+                },
+                'kind': 'functionCall',
+                'nameLocations': [],
+                'names': [],
+                'nodeType': 'FunctionCall',
+                'src': '3625:37:33',
+                'typeDescriptions': {'typeIdentifier': 't_tuple$__$', 'typeString': 'tuple()'},
+            }
+        },
+        (),
+        [],
+    ),
 ]
 
 
