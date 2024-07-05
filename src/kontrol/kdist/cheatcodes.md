@@ -969,6 +969,28 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
 ```
 
 ```k
+    syntax KItem ::= "#setMockFunction" Account Account Bytes [symbol(foundry_setMockFunction)]
+ // ---------------------------------------------------------------------------------
+    rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
+         <mockFunction>
+            <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
+            <mockFunctionValues>  MOCKVALUES => MOCKVALUES [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
+         </mockFunction>
+
+   rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
+         <mockFunctions>
+           ( .Bag
+            => <mockFunction>
+                  <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
+                  <mockFunctionValues> .Map [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
+               </mockFunction>
+           )
+           ...
+         </mockFunctions>
+```
+
+
+```k
     rule [cheatcode.call.mockFunction]:
          <k> #cheatcode_call SELECTOR ARGS
           => #loadAccount #asWord(#range(ARGS, 0, 32))
@@ -979,30 +1001,11 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
       requires SELECTOR ==Int selector ( "mockFunction(address,address,bytes)" )
 ```
 
-```k
-    syntax KItem ::= "#setMockFunction" Account Account Bytes [symbol(foundry_setMockFunction)]
- // ---------------------------------------------------------------------------------
-    rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
-         <mockFunction>
-            <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
-            <mockFunctionValues>  MOCKVALUES => MOCKVALUES [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
-         </mockFunction>
 
-   rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
-         <mockFunction>
-           ( .Bag
-            => <mockFunction>
-                  <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
-                  <mockFunctionValues> .Map [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
-               </mockFunction>
-           )
-           ...
-         </mockFunction>
-```
 
 ```k
     rule [foundry.set.mockFunction]:
-    rule <k> #call ACCTFROM ACCTTO ACCTCODE VALUE APPVALUE CALLDATA STATIC
+         <k> #call ACCTFROM ACCTTO ACCTCODE VALUE APPVALUE CALLDATA STATIC
           => #callWithCode ACCTFROM ACCTTO ACCTCODE CODE VALUE APPVALUE CALLDATA STATIC
          ...
          </k>
@@ -1016,14 +1019,6 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
            <mockFunctionValues>...  CALLDATA |-> MOCKTARGET ...</mockFunctionValues>
          </mockFunction>
       [priority(30)]
-```
-
-```k
-    syntax KItem ::= "#execMockFunction" Int Int Bytes [symbol(foundry_execMockFunction)]
- // -----------------------------------------------------------------------------
-    rule <k> #execMockFunction RETSTART RETWIDTH MOCKTARGET => #next [DELEGATECALL] ... </k>
-         <output> _ => RETURNDATA </output>
-         <wordStack> _ : WS => 1 : WS </wordStack>
 ```
 
 Utils
@@ -1550,6 +1545,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "infiniteGas()" )                            => 3986649939 )
     rule ( selector ( "setGas(uint256)" )                          => 3713137314 )
     rule ( selector ( "mockCall(address,bytes,bytes)" )            => 3110212580 )
+    rule ( selector ( "mockFunction(address,address,bytes)" )            => 2918731041 )
 ```
 
 - selectors for unimplemented cheat code functions.
