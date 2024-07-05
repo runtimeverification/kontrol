@@ -155,13 +155,13 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         return self._get_last_message_tx_hash()
 
     def exec_get_transaction_by_hash(self, tx_hash: str) -> dict | str:
-        msg_id = _tx_hash_to_msg_id(tx_hash)
+        msg_id = str(_tx_hash_to_msg_id(tx_hash))
         messages_dict = self._get_all_messages_dict()
 
         if msg_id not in messages_dict:
             return 'Transaction not found.'
 
-        formatted_messages_dict = _apply_format_to_json_dict(messages_dict[str(msg_id)])
+        formatted_messages_dict = _apply_format_to_json_dict(messages_dict[msg_id])
         formatted_messages_dict['hash'] = tx_hash
         return formatted_messages_dict
 
