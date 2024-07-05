@@ -86,6 +86,12 @@ module FOUNDRY-CHEAT-CODES
                <mockValues>  .Map </mockValues>
             </mockCall>
          </mockCalls>
+        <mockFunctions>
+            <mockFunction multiplicity="*" type="Map">
+               <mockFunctionAddress> .Account </mockFunctionAddress>
+               <mockFunctionValues>  .Map </mockFunctionValues>
+            </mockFunction>
+         </mockFunctions>
       </cheatcodes>
 ```
 
@@ -960,6 +966,64 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
          </mockCall>
          requires #range(LM, ARGSTART, lengthBytes(CALLDATA)) ==K CALLDATA
       [priority(30)]
+```
+
+```k
+    rule [cheatcode.call.mockFunction]:
+         <k> #cheatcode_call SELECTOR ARGS
+          => #loadAccount #asWord(#range(ARGS, 0, 32))
+          ~> #etchAccountIfEmpty #asWord(#range(ARGS, 0, 32))
+          ~> #setMockFunction #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) #range(ARGS, 128, #asWord(#range(ARGS, 96, 32)))
+         ...
+         </k>
+      requires SELECTOR ==Int selector ( "mockFunction(address,address,bytes)" )
+```
+
+```k
+    syntax KItem ::= "#setMockFunction" Account Account Bytes [symbol(foundry_setMockFunction)]
+ // ---------------------------------------------------------------------------------
+    rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
+         <mockFunction>
+            <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
+            <mockFunctionValues>  MOCKVALUES => MOCKVALUES [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
+         </mockFunction>
+
+   rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
+         <mockFunction>
+           ( .Bag
+            => <mockFunction>
+                  <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
+                  <mockFunctionValues> .Map [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
+               </mockFunction>
+           )
+           ...
+         </mockFunction>
+```
+
+```k
+    rule [foundry.set.mockFunction]:
+    rule <k> #call ACCTFROM ACCTTO ACCTCODE VALUE APPVALUE CALLDATA STATIC
+          => #callWithCode ACCTFROM ACCTTO ACCTCODE CODE VALUE APPVALUE CALLDATA STATIC
+         ...
+         </k>
+         <account>
+           <acctID> MOCKTARGET </acctID>
+           <code> CODE </code>
+           ...
+         </account>
+         <mockFunction>
+           <mockFunctionAddress> ACCTCODE </mockFunctionAddress>
+           <mockFunctionValues>...  CALLDATA |-> MOCKTARGET ...</mockFunctionValues>
+         </mockFunction>
+      [priority(30)]
+```
+
+```k
+    syntax KItem ::= "#execMockFunction" Int Int Bytes [symbol(foundry_execMockFunction)]
+ // -----------------------------------------------------------------------------
+    rule <k> #execMockFunction RETSTART RETWIDTH MOCKTARGET => #next [DELEGATECALL] ... </k>
+         <output> _ => RETURNDATA </output>
+         <wordStack> _ : WS => 1 : WS </wordStack>
 ```
 
 Utils
