@@ -13,6 +13,8 @@ from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
+from pyk.rpc.rpc import ServeRpcOptions
+from pyk.utils import ensure_dir_path, run_process
 from pyk.utils import run_process
 
 from . import VERSION

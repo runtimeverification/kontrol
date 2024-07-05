@@ -77,6 +77,7 @@ class Foundry:
 
     class Sorts:
         FOUNDRY_CELL: Final = KSort('FoundryCell')
+        SIMBOLIKVM_CELL: Final = KSort('SimbolikVMCell')
 
     def __init__(
         self,

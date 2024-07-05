@@ -14,10 +14,12 @@ if TYPE_CHECKING:
 __TARGETS__: Final = {
     'foundry': KEVMTarget(
         {
-            'target': KompileTarget.HASKELL,
-            'main_file': KSRC_DIR / 'foundry.md',
-            'main_module': 'FOUNDRY',
-            'syntax_module': 'FOUNDRY',
+            'target': KompileTarget.LLVM,
+            'main_file': KSRC_DIR / 'vm.md',
+            'main_module': 'KONTROL-VM',
+            'syntax_module': 'KONTROL-VM',
         },
     ),
 }
+
+# 'main_file': KSRC_DIR / 'foundry.md',
