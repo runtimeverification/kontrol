@@ -10,7 +10,8 @@ from pyk.kore.rpc import kore_server
 from pyk.utils import run_process
 
 from kontrol.foundry import Foundry
-from kontrol.kompile import BuildOptions, foundry_kompile
+from kontrol.kompile import foundry_kompile
+from kontrol.options import BuildOptions
 
 from .utils import TEST_DATA_DIR, gen_bin_runtime
 
@@ -76,12 +77,14 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                             str(TEST_DATA_DIR / 'lemmas.k'),
                             str(TEST_DATA_DIR / 'cse-lemmas.k'),
                             str(TEST_DATA_DIR / 'pausability-lemmas.k'),
+                            str(TEST_DATA_DIR / 'symbolic-bytes-lemmas.k'),
                         ],
                         'imports': [
                             'LoopsTest:SUM-TO-N-INVARIANT',
                             'ArithmeticCallTest:CSE-LEMMAS',
                             'CSETest:CSE-LEMMAS',
                             'PortalTest:PAUSABILITY-LEMMAS',
+                            'ImmutableVarsTest:SYMBOLIC-BYTES-LEMMAS',
                         ],
                     }
                 ),

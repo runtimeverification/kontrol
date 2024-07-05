@@ -15,10 +15,8 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
-from kevm_pyk.cli import DisplayOptions, KCFGShowOptions, KOptions
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
-from pyk.cli.args import BugReportOptions, LoggingOptions, SMTOptions
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KSort, KToken, KVariable
 from pyk.kast.manip import collect, extract_lhs, minimize_term
@@ -35,10 +33,9 @@ from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
 from . import VERSION
-from .cli import FoundryOptions, FoundryTestOptions, RpcOptions
-from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
-from .utils import empty_lemmas_file_contents, kontrol_file_contents, write_to_file
+from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
+from .utils import empty_lemmas_file_contents, kontrol_file_contents, kontrol_toml_file_contents, write_to_file
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -51,6 +48,22 @@ if TYPE_CHECKING:
     from pyk.proof.show import NodePrinter
     from pyk.utils import BugReport
 
+    from .options import (
+        GetModelOptions,
+        LoadStateOptions,
+        MergeNodesOptions,
+        MinimizeProofOptions,
+        RefuteNodeOptions,
+        RemoveNodeOptions,
+        SectionEdgeOptions,
+        ShowOptions,
+        SimplifyNodeOptions,
+        SplitNodeOptions,
+        StepNodeOptions,
+        ToDotOptions,
+        UnrefuteNodeOptions,
+    )
+
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -60,6 +73,7 @@ class Foundry:
     _toml: dict[str, Any]
     _bug_report: BugReport | None
     _use_hex_encoding: bool
+    enums: dict[str, int]
 
     class Sorts:
         FOUNDRY_CELL: Final = KSort('FoundryCell')
@@ -76,6 +90,7 @@ class Foundry:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
         self._use_hex_encoding = use_hex_encoding
+        self.enums = {}
 
     def lookup_full_contract_name(self, contract_name: str) -> str:
         contracts = [
@@ -147,12 +162,27 @@ class Foundry:
         json_paths = sorted(json_paths)  # Must sort to get consistent output order on different platforms
         _LOGGER.info(f'Processing contract files: {json_paths}')
         _contracts: dict[str, Contract] = {}
+
         for json_path in json_paths:
+
+            def find_enums(dct: dict) -> None:
+                if dct['nodeType'] == 'EnumDefinition':
+                    enum_name = dct['canonicalName']
+                    enum_max = len([member['name'] for member in dct['members']])
+                    if enum_name in self.enums and enum_max != self.enums[enum_name]:
+                        raise ValueError(
+                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported.'
+                        )
+                    self.enums[enum_name] = len([member['name'] for member in dct['members']])
+                for node in dct['nodes']:
+                    find_enums(node)
+
             _LOGGER.debug(f'Processing contract file: {json_path}')
             contract_name = json_path.split('/')[-1]
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
             contract = Contract(contract_name, contract_json, foundry=True)
+            find_enums(contract_json['ast'])
 
             _contracts[contract.name_with_path] = contract  # noqa: B909
 
@@ -297,10 +327,15 @@ class Foundry:
         regs = [reg.replace('(', '\\(') for reg in regs]
         return [reg.replace(')', '\\)') for reg in regs]
 
-    def matching_tests(self, tests: list[str]) -> list[str]:
+    @staticmethod
+    def _exact_match(regs: list[str]) -> list[str]:
+        return [f'(^|%)({reg})$' for reg in regs]
+
+    def matching_tests(self, tests: list[str], exact_match: bool = False) -> list[str]:
         all_tests = self.all_tests
         all_non_tests = self.all_non_tests
         tests = Foundry._escape_brackets(tests)
+        tests = Foundry._exact_match(tests) if exact_match else tests
         matched_tests = set()
         unfound_tests = set(tests)
         for test in tests:
@@ -314,8 +349,8 @@ class Foundry:
             raise ValueError('No test matched the predicates')
         return list(matched_tests)
 
-    def matching_sigs(self, test: str) -> list[str]:
-        test_sigs = self.matching_tests([test])
+    def matching_sigs(self, test: str, exact_match: bool = False) -> list[str]:
+        test_sigs = self.matching_tests([test], exact_match=exact_match)
         return test_sigs
 
     def get_test_id(self, test: str, version: int | None) -> str:
@@ -383,11 +418,15 @@ class Foundry:
 
     @staticmethod
     def symbolic_contract_prefix() -> str:
-        return 'CONTRACT'
+        return 'C'
 
     @staticmethod
-    def symbolic_contract_id() -> str:
-        return Foundry.symbolic_contract_prefix() + '_ID'
+    def symbolic_contract_name(contract_name: str) -> str:
+        return Foundry.symbolic_contract_prefix() + '_' + contract_name.upper()
+
+    @staticmethod
+    def symbolic_contract_id(contract_name: str) -> str:
+        return Foundry.symbolic_contract_name(contract_name) + '_ID'
 
     @staticmethod
     def address_TEST_CONTRACT() -> KToken:  # noqa: N802
@@ -501,17 +540,21 @@ class Foundry:
         _, method = self.get_contract_and_method(test)
         effective_test_version = 0 if test_version is None else self.free_proof_version(test)
 
+        if not method.up_to_date(self.digest_file):
+            _LOGGER.info(f'Creating a new version of {test} because it was updated.')
+            return self.free_proof_version(test)
+
         if reinit:
             if user_specified_setup_version is None:
                 _LOGGER.info(
-                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is not specified.'
+                    f'Creating a new version of {test} because --reinit was specified and --setup-version is not specified.'
                 )
             elif not Proof.proof_data_exists(f'{test}:{user_specified_setup_version}', self.proofs_dir):
                 _LOGGER.info(
-                    f'Creating a new version of test {test} because --reinit was specified and --setup-version is set to a non-existing version'
+                    f'Creating a new version of {test} because --reinit was specified and --setup-version is set to a non-existing version'
                 )
             else:
-                _LOGGER.info(f'Reusing version {user_specified_setup_version} of setup proof')
+                _LOGGER.info(f'Reusing version {user_specified_setup_version} of {test}')
                 effective_test_version = user_specified_setup_version
         else:
             latest_test_version = self.latest_proof_version(test)
@@ -520,9 +563,9 @@ class Foundry:
                 f'{test}:{user_specified_setup_version}', self.proofs_dir
             ):
                 effective_test_version = user_specified_setup_version
-            _LOGGER.info(f'Reusing version {effective_test_version} of setup proof')
+            _LOGGER.info(f'Using version {effective_test_version} of {test}')
 
-        return self.check_method_change(effective_test_version, test, method)
+        return effective_test_version
 
     def resolve_proof_version(
         self,
@@ -594,32 +637,6 @@ class Foundry:
         """
         latest_version = self.latest_proof_version(test)
         return latest_version + 1 if latest_version is not None else 0
-
-
-class ShowOptions(
-    FoundryTestOptions,
-    LoggingOptions,
-    KOptions,
-    KCFGShowOptions,
-    DisplayOptions,
-    FoundryOptions,
-    RpcOptions,
-    SMTOptions,
-):
-    omit_unstable_output: bool
-    to_kevm_claims: bool
-    kevm_claim_dir: Path | None
-    use_hex_encoding: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'omit_unstable_output': False,
-            'to_kevm_claims': False,
-            'kevm_claim_dir': None,
-            'use_hex_encoding': False,
-            'counterexample_info': True,
-        }
 
 
 def foundry_show(
@@ -738,9 +755,6 @@ def foundry_show(
     return '\n'.join([line.rstrip() for line in res_lines])
 
 
-class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
-
-
 def foundry_to_dot(foundry: Foundry, options: ToDotOptions) -> None:
     dump_dir = foundry.proofs_dir / 'dump'
     test_id = foundry.get_test_id(options.test, options.version)
@@ -853,18 +867,11 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
     tree.write('kontrol_prove_report.xml')
 
 
-class MinimizeProofOptions(FoundryTestOptions, LoggingOptions, FoundryOptions): ...
-
-
 def foundry_minimize_proof(foundry: Foundry, options: MinimizeProofOptions) -> None:
     test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
     apr_proof.minimize_kcfg()
     apr_proof.write_proof_data()
-
-
-class RemoveNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    node: NodeIdLike
 
 
 def foundry_remove_node(foundry: Foundry, options: RemoveNodeOptions) -> None:
@@ -873,10 +880,6 @@ def foundry_remove_node(foundry: Foundry, options: RemoveNodeOptions) -> None:
     node_ids = apr_proof.prune(options.node)
     _LOGGER.info(f'Pruned nodes: {node_ids}')
     apr_proof.write_proof_data()
-
-
-class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
-    node: NodeIdLike
 
 
 def foundry_refute_node(
@@ -889,20 +892,11 @@ def foundry_refute_node(
     return proof.refute_node(proof.kcfg.node(options.node))
 
 
-class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
-    node: NodeIdLike
-
-
 def foundry_unrefute_node(foundry: Foundry, options: UnrefuteNodeOptions) -> None:
     test_id = foundry.get_test_id(options.test, options.version)
     proof = foundry.get_apr_proof(test_id)
 
     proof.unrefute_node(proof.kcfg.node(options.node))
-
-
-class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    node: NodeIdLike
-    branch_condition: str
 
 
 def foundry_split_node(
@@ -924,19 +918,6 @@ def foundry_split_node(
     proof.write_proof_data()
 
     return split_nodes
-
-
-class SimplifyNodeOptions(
-    FoundryTestOptions, LoggingOptions, SMTOptions, RpcOptions, BugReportOptions, DisplayOptions, FoundryOptions
-):
-    node: NodeIdLike
-    replace: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'replace': False,
-        }
 
 
 def foundry_simplify_node(
@@ -973,16 +954,6 @@ def foundry_simplify_node(
         apr_proof.write_proof_data()
     res_term = minimize_term(new_term.kast) if options.minimize else new_term.kast
     return foundry.kevm.pretty_print(res_term, unalias=False, sort_collections=options.sort_collections)
-
-
-class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    nodes: list[NodeIdLike]
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'nodes': [],
-        }
 
 
 def foundry_merge_nodes(
@@ -1033,19 +1004,6 @@ def foundry_merge_nodes(
     print(foundry.kevm.pretty_print(new_node.cterm.kast))
 
 
-class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    node: NodeIdLike
-    repeat: int
-    depth: int
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'repeat': 1,
-            'depth': 1,
-        }
-
-
 def foundry_step_node(
     foundry: Foundry,
     options: StepNodeOptions,
@@ -1084,32 +1042,17 @@ def foundry_step_node(
             apr_proof.write_proof_data()
 
 
-class LoadStateDiffOptions(LoggingOptions, FoundryOptions):
-    name: str
-    accesses_file: Path
-    contract_names: Path | None
-    condense_state_diff: bool
-    output_dir_name: str | None
-    comment_generated_file: str
-    license: str
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'contract_names': None,
-            'condense_state_diff': False,
-            'output_dir_name': None,
-            'comment_generated_file': '// This file was autogenerated by running `kontrol load-state-diff`. Do not edit this file manually.\n',
-            'license': 'UNLICENSED',
-        }
-
-
-def foundry_state_diff(options: LoadStateDiffOptions, foundry: Foundry) -> None:
-    access_entries = read_deployment_state(options.accesses_file)
+def foundry_state_load(options: LoadStateOptions, foundry: Foundry) -> None:
     accounts = read_contract_names(options.contract_names) if options.contract_names else {}
-    deployment_state_contract = DeploymentState(name=options.name, accounts=accounts)
-    for access in access_entries:
-        deployment_state_contract.extend(access)
+    recreate_state_contract = RecreateState(name=options.name, accounts=accounts)
+    if options.from_state_diff:
+        access_entries = read_recorded_state_diff(options.accesses_file)
+        for access in access_entries:
+            recreate_state_contract.extend_with_state_diff(access)
+    else:
+        recorded_accounts = read_recorded_state_dump(options.accesses_file)
+        for account in recorded_accounts:
+            recreate_state_contract.extend_with_state_dump(account)
 
     output_dir_name = options.output_dir_name
     if output_dir_name is None:
@@ -1125,33 +1068,20 @@ def foundry_state_diff(options: LoadStateDiffOptions, foundry: Foundry) -> None:
 
     if options.condense_state_diff:
         main_file.write_text(
-            '\n'.join(
-                deployment_state_contract.generate_condensed_file(options.comment_generated_file, options.license)
-            )
+            '\n'.join(recreate_state_contract.generate_condensed_file(options.comment_generated_file, options.license))
         )
     else:
         code_file = output_dir / Path(options.name + 'Code.sol')
         main_file.write_text(
             '\n'.join(
-                deployment_state_contract.generate_main_contract_file(options.comment_generated_file, options.license)
+                recreate_state_contract.generate_main_contract_file(options.comment_generated_file, options.license)
             )
         )
         code_file.write_text(
             '\n'.join(
-                deployment_state_contract.generate_code_contract_file(options.comment_generated_file, options.license)
+                recreate_state_contract.generate_code_contract_file(options.comment_generated_file, options.license)
             )
         )
-
-
-class SectionEdgeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    edge: tuple[str, str]
-    sections: int
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'sections': 2,
-        }
 
 
 def foundry_section_edge(
@@ -1190,20 +1120,6 @@ def foundry_section_edge(
             sections=options.sections,
         )
     apr_proof.write_proof_data()
-
-
-class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportOptions, SMTOptions, FoundryOptions):
-    nodes: list[NodeIdLike]
-    pending: bool
-    failing: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'nodes': [],
-            'pending': False,
-            'failing': False,
-        }
 
 
 def foundry_get_model(
@@ -1256,11 +1172,18 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def read_deployment_state(accesses_file: Path) -> list[DeploymentStateEntry]:
-    if not accesses_file.exists():
-        raise FileNotFoundError(f'Account accesses dictionary file not found: {accesses_file}')
-    accesses = json.loads(accesses_file.read_text())['accountAccesses']
-    return [DeploymentStateEntry(_a) for _a in accesses]
+def read_recorded_state_diff(state_file: Path) -> list[StateDiffEntry]:
+    if not state_file.exists():
+        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
+    accesses = json.loads(state_file.read_text())['accountAccesses']
+    return [StateDiffEntry(_a) for _a in accesses]
+
+
+def read_recorded_state_dump(state_file: Path) -> list[StateDumpEntry]:
+    if not state_file.exists():
+        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
+    accounts = json.loads(state_file.read_text())
+    return [StateDumpEntry(account, accounts[account]) for account in list(accounts)]
 
 
 def read_contract_names(contract_names: Path) -> dict[str, str]:
@@ -1319,6 +1242,7 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     root = ensure_dir_path(project_root)
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
+    write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
     run_process(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,

@@ -4,21 +4,18 @@ import json
 import logging
 import shutil
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
-from kevm_pyk.cli import KOptions
 from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import kevm_kompile
-from pyk.cli.args import KompileOptions, LoggingOptions
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
-from pyk.kore.kompiled import KompiledKore
 from pyk.utils import ensure_dir_path, hash_str
 
-from .cli import FoundryOptions, KGenOptions, KompileTargetOptions
 from .foundry import Foundry
 from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
+from .utils import _rv_blue, console
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -26,21 +23,9 @@ if TYPE_CHECKING:
 
     from pyk.kast.inner import KInner
 
+    from .options import BuildOptions
+
 _LOGGER: Final = logging.getLogger(__name__)
-
-
-class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
-    regen: bool
-    rekompile: bool
-    no_forge_build: bool
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'regen': False,
-            'rekompile': False,
-            'no_forge_build': False,
-        }
 
 
 def foundry_kompile(
@@ -51,7 +36,7 @@ def foundry_kompile(
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
     main_module = 'FOUNDRY-MAIN'
-    includes = [include for include in options.includes if Path(include).exists()] + [str(KSRC_DIR)]
+    includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
     ensure_dir_path(foundry.kompiled)
     ensure_dir_path(foundry_requires_dir)
 
@@ -60,11 +45,16 @@ def foundry_kompile(
     if not options.no_forge_build:
         foundry.build()
 
+    if not options.no_silence_warnings:
+        options.ignore_warnings = _silenced_warnings()
+
     regen = options.regen
+    foundry_up_to_date = True
 
     if not foundry.up_to_date():
         _LOGGER.info('Detected updates to contracts, regenerating K definition.')
         regen = True
+        foundry_up_to_date = False
 
     for r in options.requires:
         req = Path(r)
@@ -93,6 +83,11 @@ def foundry_kompile(
             raise ValueError(f'Could not find contract: {full_import_name}')
 
     if regen or not foundry_contracts_file.exists() or not foundry.main_file.exists():
+        if regen and foundry_up_to_date:
+            console.print(
+                f'[{_rv_blue()}][bold]--regen[/bold] option provied. Rebuilding Kontrol Project.[/{_rv_blue()}]'
+            )
+
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
         kevm = KEVM(kdist.get('kontrol.foundry'))
@@ -144,7 +139,7 @@ def foundry_kompile(
 
         _LOGGER.info('Updated Kompilation digest')
 
-    if not kompilation_up_to_date() or options.rekompile or not kompiled_timestamp.exists():
+    if not foundry.up_to_date() or not kompilation_up_to_date() or options.rekompile or not kompiled_timestamp.exists():
         output_dir = foundry.kompiled
         kevm_kompile(
             target=options.target,
@@ -155,11 +150,10 @@ def foundry_kompile(
             includes=includes,
             emit_json=True,
             ccopts=options.ccopts,
-            llvm_library=foundry.llvm_library,
             debug=options.debug,
             verbose=options.verbose,
+            ignore_warnings=options.ignore_warnings,
         )
-        KompiledKore.load(output_dir).write(output_dir)
 
     update_kompilation_digest()
     foundry.update_digest()
@@ -169,8 +163,11 @@ def _foundry_to_contract_def(
     empty_config: KInner,
     contracts: Iterable[Contract],
     requires: Iterable[str],
+    enums: dict[str, int],
 ) -> KDefinition:
-    modules = [contract_to_main_module(contract, empty_config, imports=['FOUNDRY']) for contract in contracts]
+    modules = [
+        contract_to_main_module(contract, empty_config, imports=['FOUNDRY'], enums=enums) for contract in contracts
+    ]
     # First module is chosen as main module arbitrarily, since the contract definition is just a set of
     # contract modules.
     main_module = Contract.contract_to_module_name(list(contracts)[0].name_with_path)
@@ -203,3 +200,7 @@ def _foundry_to_main_def(
         [_main_module] + modules,
         requires=(KRequire(req) for req in list(requires)),
     )
+
+
+def _silenced_warnings() -> list[str]:
+    return ['non-exhaustive-match', 'missing-syntax-module']

@@ -2,6 +2,7 @@ requires "contracts.k"
 requires "requires/lemmas.k"
 requires "requires/cse-lemmas.k"
 requires "requires/pausability-lemmas.k"
+requires "requires/symbolic-bytes-lemmas.k"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
@@ -30,16 +31,27 @@ module FOUNDRY-MAIN
     imports public S2KtestZModWarpTest-VERIFICATION
     imports public S2KtestZModBroadcastTest-VERIFICATION
     imports public S2KtestZModCSETest-VERIFICATION
+    imports public S2KtestZModStaticCallContract-VERIFICATION
+    imports public S2KtestZModCallableStorageContract-VERIFICATION
+    imports public S2KtestZModCallableStorageTest-VERIFICATION
+    imports public S2KtestZModConstructorArgsTest-VERIFICATION
     imports public S2KtestZModConstructorTest-VERIFICATION
+    imports public S2KtestZModImportedContract-VERIFICATION
     imports public S2KtestZModContractTest-VERIFICATION
     imports public S2KtestZModContractBTest-VERIFICATION
+    imports public S2KtestZModContractFieldTest-VERIFICATION
+    imports public S2KtestZModTEscrow-VERIFICATION
+    imports public S2KtestZModTGovernance-VERIFICATION
+    imports public S2KtestZModTToken-VERIFICATION
+    imports public S2KsrcZModCounter-VERIFICATION
+    imports public S2KsrcZModRecordedCounter-VERIFICATION
     imports public S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounterTest-VERIFICATION
-    imports public S2KsrcZModDeploymentState-VERIFICATION
-    imports public S2KsrcZModDeploymentStateCode-VERIFICATION
     imports public S2KtestZModDynamicTypesTest-VERIFICATION
     imports public S2KsrcZModExpectEmit-VERIFICATION
     imports public S2KtestZModEmitContractTest-VERIFICATION
+    imports public S2KtestZModEnum-VERIFICATION
+    imports public S2KtestZModEnumContract-VERIFICATION
     imports public S2KtestZModEnvTest-VERIFICATION
     imports public S2KtestZModDummy-VERIFICATION
     imports public S2KtestZModExpectCallTest-VERIFICATION
@@ -57,10 +69,20 @@ module FOUNDRY-MAIN
     imports public S2KtestZModHevmTests-VERIFICATION
     imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-VERIFICATION
+    imports public S2KtestZModImmutableVarsContract-VERIFICATION
+    imports public S2KtestZModImmutableVarsTest-VERIFICATION
     imports public S2KtestZModInitCodeTest-VERIFICATION
     imports public S2KtestZModInitCodeBranchTest-VERIFICATION
+    imports public S2KtestZModERC20-VERIFICATION
+    imports public S2KtestZModIERC20-VERIFICATION
+    imports public S2KtestZModInterfaceContract-VERIFICATION
+    imports public S2KtestZModInterfaceTagTest-VERIFICATION
     imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheats-VERIFICATION
     imports public S2KtestZModLabelTest-VERIFICATION
+    imports public S2KsrcZModLoadStateDiff-VERIFICATION
+    imports public S2KsrcZModLoadStateDiffCode-VERIFICATION
+    imports public S2KsrcZModLoadStateDump-VERIFICATION
+    imports public S2KsrcZModLoadStateDumpCode-VERIFICATION
     imports public S2KtestZModLoopsTest-VERIFICATION
     imports public S2KtestZModMergeTest-VERIFICATION
     imports public S2KtestZModMethodDisambiguateTest-VERIFICATION
@@ -322,8 +344,43 @@ module S2KtestZModCSETest-VERIFICATION
 
 endmodule
 
+module S2KtestZModStaticCallContract-VERIFICATION
+    imports public S2KtestZModStaticCallContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModCallableStorageContract-VERIFICATION
+    imports public S2KtestZModCallableStorageContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModCallableStorageTest-VERIFICATION
+    imports public S2KtestZModCallableStorageTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModConstructorArgsTest-VERIFICATION
+    imports public S2KtestZModConstructorArgsTest-CONTRACT
+    
+    
+
+endmodule
+
 module S2KtestZModConstructorTest-VERIFICATION
     imports public S2KtestZModConstructorTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModImportedContract-VERIFICATION
+    imports public S2KtestZModImportedContract-CONTRACT
     
     
 
@@ -343,6 +400,48 @@ module S2KtestZModContractBTest-VERIFICATION
 
 endmodule
 
+module S2KtestZModContractFieldTest-VERIFICATION
+    imports public S2KtestZModContractFieldTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModTEscrow-VERIFICATION
+    imports public S2KtestZModTEscrow-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModTGovernance-VERIFICATION
+    imports public S2KtestZModTGovernance-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModTToken-VERIFICATION
+    imports public S2KtestZModTToken-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModCounter-VERIFICATION
+    imports public S2KsrcZModCounter-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModRecordedCounter-VERIFICATION
+    imports public S2KsrcZModRecordedCounter-CONTRACT
+    
+    
+
+endmodule
+
 module S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounter-CONTRACT
     
@@ -352,20 +451,6 @@ endmodule
 
 module S2KtestZModCounterTest-VERIFICATION
     imports public S2KtestZModCounterTest-CONTRACT
-    
-    
-
-endmodule
-
-module S2KsrcZModDeploymentState-VERIFICATION
-    imports public S2KsrcZModDeploymentState-CONTRACT
-    
-    
-
-endmodule
-
-module S2KsrcZModDeploymentStateCode-VERIFICATION
-    imports public S2KsrcZModDeploymentStateCode-CONTRACT
     
     
 
@@ -387,6 +472,20 @@ endmodule
 
 module S2KtestZModEmitContractTest-VERIFICATION
     imports public S2KtestZModEmitContractTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModEnum-VERIFICATION
+    imports public S2KtestZModEnum-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModEnumContract-VERIFICATION
+    imports public S2KtestZModEnumContract-CONTRACT
     
     
 
@@ -511,6 +610,21 @@ module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-VERIFICATION
 
 endmodule
 
+module S2KtestZModImmutableVarsContract-VERIFICATION
+    imports public S2KtestZModImmutableVarsContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModImmutableVarsTest-VERIFICATION
+    imports public S2KtestZModImmutableVarsTest-CONTRACT
+    imports public SYMBOLIC-BYTES-LEMMAS
+    
+    
+
+endmodule
+
 module S2KtestZModInitCodeTest-VERIFICATION
     imports public S2KtestZModInitCodeTest-CONTRACT
     
@@ -525,6 +639,34 @@ module S2KtestZModInitCodeBranchTest-VERIFICATION
 
 endmodule
 
+module S2KtestZModERC20-VERIFICATION
+    imports public S2KtestZModERC20-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModIERC20-VERIFICATION
+    imports public S2KtestZModIERC20-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModInterfaceContract-VERIFICATION
+    imports public S2KtestZModInterfaceContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModInterfaceTagTest-VERIFICATION
+    imports public S2KtestZModInterfaceTagTest-CONTRACT
+    
+    
+
+endmodule
+
 module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheats-VERIFICATION
     imports public S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheats-CONTRACT
     
@@ -534,6 +676,34 @@ endmodule
 
 module S2KtestZModLabelTest-VERIFICATION
     imports public S2KtestZModLabelTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModLoadStateDiff-VERIFICATION
+    imports public S2KsrcZModLoadStateDiff-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModLoadStateDiffCode-VERIFICATION
+    imports public S2KsrcZModLoadStateDiffCode-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModLoadStateDump-VERIFICATION
+    imports public S2KsrcZModLoadStateDump-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModLoadStateDumpCode-VERIFICATION
+    imports public S2KsrcZModLoadStateDumpCode-CONTRACT
     
     
 

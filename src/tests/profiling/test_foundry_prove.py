@@ -3,8 +3,9 @@ from __future__ import annotations
 import sys
 from typing import TYPE_CHECKING
 
-from kontrol.kompile import BuildOptions, foundry_kompile
-from kontrol.prove import ProveOptions, foundry_prove
+from kontrol.kompile import foundry_kompile
+from kontrol.options import BuildOptions, ProveOptions
+from kontrol.prove import foundry_prove
 
 from ..utils import forge_build
 from .utils import TEST_DATA_DIR

@@ -438,7 +438,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_PRANKTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -680,7 +680,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_PRANKTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
@@ -925,7 +925,6 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int <Int pow160
@@ -933,7 +932,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
@@ -1171,15 +1170,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-75-TO-76]: <foundry>
@@ -1468,18 +1466,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-75-TO-76)]
     
     rule [BASIC-BLOCK-76-TO-77]: <foundry>
@@ -1750,18 +1747,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-76-TO-77)]
     
     rule [BASIC-BLOCK-77-TO-78]: <foundry>
@@ -2156,18 +2152,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-77-TO-78)]
     
     rule [BASIC-BLOCK-78-TO-79]: <foundry>
@@ -2560,18 +2555,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-78-TO-79)]
     
     rule [BASIC-BLOCK-79-TO-80]: <foundry>
@@ -2965,18 +2959,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-79-TO-80)]
     
     rule [BASIC-BLOCK-80-TO-81]: <foundry>
@@ -3373,18 +3366,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-80-TO-81)]
     
     rule [BASIC-BLOCK-81-TO-82]: <foundry>
@@ -3781,18 +3773,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-81-TO-82)]
     
     rule [BASIC-BLOCK-82-TO-83]: <foundry>
@@ -4192,18 +4183,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-82-TO-83)]
     
     rule [BASIC-BLOCK-83-TO-84]: <foundry>
@@ -4603,18 +4593,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-83-TO-84)]
     
     rule [BASIC-BLOCK-84-TO-85]: <foundry>
@@ -4887,18 +4876,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-84-TO-85)]
     
     rule [BASIC-BLOCK-85-TO-86]: <foundry>
@@ -5172,18 +5160,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-85-TO-86)]
     
     rule [BASIC-BLOCK-86-TO-87]: <foundry>
@@ -5453,18 +5440,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-86-TO-87)]
     
     rule [BASIC-BLOCK-87-TO-88]: <foundry>
@@ -5734,18 +5720,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-87-TO-88)]
 
 endmodule

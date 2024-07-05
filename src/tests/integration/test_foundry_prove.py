@@ -12,26 +12,29 @@ from pyk.utils import single
 
 from kontrol.foundry import (
     Foundry,
-    LoadStateDiffOptions,
-    MergeNodesOptions,
-    MinimizeProofOptions,
-    RefuteNodeOptions,
-    RemoveNodeOptions,
-    ShowOptions,
-    SplitNodeOptions,
-    StepNodeOptions,
-    UnrefuteNodeOptions,
     foundry_merge_nodes,
     foundry_minimize_proof,
     foundry_refute_node,
     foundry_remove_node,
     foundry_show,
     foundry_split_node,
-    foundry_state_diff,
+    foundry_state_load,
     foundry_step_node,
     foundry_unrefute_node,
 )
-from kontrol.prove import ProveOptions, foundry_prove
+from kontrol.options import (
+    LoadStateOptions,
+    MergeNodesOptions,
+    MinimizeProofOptions,
+    ProveOptions,
+    RefuteNodeOptions,
+    RemoveNodeOptions,
+    ShowOptions,
+    SplitNodeOptions,
+    StepNodeOptions,
+    UnrefuteNodeOptions,
+)
+from kontrol.prove import foundry_prove
 
 from .utils import TEST_DATA_DIR, assert_fail, assert_or_update_show_output, assert_pass
 
@@ -112,7 +115,7 @@ def test_foundry_prove(
             {
                 'tests': [(test_id, None)],
                 'bug_report': bug_report,
-                'break_on_calls': True,
+                'break_on_calls': test_id in SHOW_TESTS,
                 'use_gas': test_id in GAS_TESTS,
                 'port': server.port,
             }
@@ -170,7 +173,61 @@ def test_foundry_fail(
             {
                 'tests': [(test_id, None)],
                 'bug_report': bug_report,
+                'break_on_calls': test_id in SHOW_TESTS,
+                'port': server.port,
+            }
+        ),
+    )
+
+    # then
+    assert_fail(test_id, single(prove_res))
+
+    if test_id not in SHOW_TESTS:
+        return
+
+    # and when
+    show_res = foundry_show(
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
+    )
+
+    # then
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
+
+
+def test_constructor_with_symbolic_args(
+    foundry: Foundry,
+    update_expected_output: bool,
+    no_use_booster: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    test_id = 'ImmutableVarsTest.test_run_deployment(uint256)'
+    prove_res = foundry_prove(
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test_id, None)],
+                'bug_report': bug_report,
                 'break_on_calls': True,
+                'break_on_load_program': True,
                 'port': server.port,
             }
         ),
@@ -616,7 +673,7 @@ def test_foundry_duplicate_contract_names(foundry: Foundry) -> None:
     assert 'src%duplicates%2%DuplicateName' in foundry.contracts.keys()
 
 
-def test_deployment_summary(
+def test_load_state_diff(
     foundry_root_dir: Path | None,
     server: KoreServer,
     bug_report: BugReport,
@@ -633,28 +690,72 @@ def test_deployment_summary(
         foundry_root_dir = root_tmp_dir / 'foundry'
     foundry = Foundry(foundry_root=foundry_root_dir)
 
-    foundry_state_diff(
-        LoadStateDiffOptions(
+    foundry_state_load(
+        LoadStateOptions(
             {
-                'name': 'DeploymentState',
+                'name': 'LoadStateDiff',
                 'accesses_file': TEST_DATA_DIR / 'accesses.json',
+                'output_dir_name': 'src',
+                'from_state_diff': 'True',
+            }
+        ),
+        foundry=foundry,
+    )
+
+    generated_main_file = foundry_root_dir / 'src' / 'LoadStateDiff.sol'
+    generated_code_file = foundry_root_dir / 'src' / 'LoadStateDiffCode.sol'
+
+    assert_or_update_show_output(
+        generated_main_file.read_text(),
+        TEST_DATA_DIR / 'foundry' / 'src' / 'LoadStateDiff.sol',
+        update=update_expected_output,
+    )
+    assert_or_update_show_output(
+        generated_code_file.read_text(),
+        TEST_DATA_DIR / 'foundry' / 'src' / 'LoadStateDiffCode.sol',
+        update=update_expected_output,
+    )
+
+
+def test_load_state_dump(
+    foundry_root_dir: Path | None,
+    server: KoreServer,
+    bug_report: BugReport,
+    worker_id: str,
+    tmp_path_factory: TempPathFactory,
+    update_expected_output: bool,
+) -> None:
+    if not foundry_root_dir:
+        if worker_id == 'master':
+            root_tmp_dir = tmp_path_factory.getbasetemp()
+        else:
+            root_tmp_dir = tmp_path_factory.getbasetemp().parent
+
+        foundry_root_dir = root_tmp_dir / 'foundry'
+    foundry = Foundry(foundry_root=foundry_root_dir)
+
+    foundry_state_load(
+        LoadStateOptions(
+            {
+                'name': 'LoadStateDump',
+                'accesses_file': TEST_DATA_DIR / 'dumpState.json',
                 'output_dir_name': 'src',
             }
         ),
         foundry=foundry,
     )
 
-    generated_main_file = foundry_root_dir / 'src' / 'DeploymentState.sol'
-    generated_code_file = foundry_root_dir / 'src' / 'DeploymentStateCode.sol'
+    generated_main_file = foundry_root_dir / 'src' / 'LoadStateDump.sol'
+    generated_code_file = foundry_root_dir / 'src' / 'LoadStateDumpCode.sol'
 
     assert_or_update_show_output(
         generated_main_file.read_text(),
-        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentState.sol',
+        TEST_DATA_DIR / 'foundry' / 'src' / 'LoadStateDump.sol',
         update=update_expected_output,
     )
     assert_or_update_show_output(
         generated_code_file.read_text(),
-        TEST_DATA_DIR / 'foundry' / 'src' / 'DeploymentStateCode.sol',
+        TEST_DATA_DIR / 'foundry' / 'src' / 'LoadStateDumpCode.sol',
         update=update_expected_output,
     )
 

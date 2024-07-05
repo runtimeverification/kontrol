@@ -175,7 +175,9 @@ module PAUSABILITY-LEMMAS [symbolic]
        andBool SRC +Int LENGTH <=Int DEST // No overlap between source and destination
        andBool DEST <=Int lengthBytes(LM) // Destination starts within current memory
        // All JUMPDESTs in the program are valid
-       andBool (PCOUNT +Int 3) in JUMPDESTS andBool (PCOUNT +Int 27) in JUMPDESTS andBool (PCOUNT +Int 42) in JUMPDESTS
+       andBool ((PCOUNT +Int 3)  <=Int lengthBytes(JUMPDESTS) andBool JUMPDESTS[PCOUNT +Int 3]  ==Int 1)
+       andBool ((PCOUNT +Int 27) <=Int lengthBytes(JUMPDESTS) andBool JUMPDESTS[PCOUNT +Int 27] ==Int 1)
+       andBool ((PCOUNT +Int 42) <=Int lengthBytes(JUMPDESTS) andBool JUMPDESTS[PCOUNT +Int 42] ==Int 1)
        andBool PCOUNT +Int 42 <Int 2 ^Int 16  // and fit into two bytes
       [priority(30), concrete(JUMPDESTS, PROGRAM, PCOUNT), preserves-definedness]
 

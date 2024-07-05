@@ -6,7 +6,8 @@ from typing import TYPE_CHECKING
 import pytest
 from pyk.utils import single
 
-from kontrol.prove import ProveOptions, foundry_prove
+from kontrol.options import ProveOptions
+from kontrol.prove import foundry_prove
 
 from .utils import assert_fail, assert_pass
 

@@ -8,6 +8,18 @@ if TYPE_CHECKING:
 import os
 import stat
 
+from rich.console import Console
+
+console = Console()
+
+
+def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
+    if ':' in value:
+        test, version = value.split(':')
+        return (test, int(version))
+    else:
+        return (value, None)
+
 
 def write_to_file(file_path: Path, content: str, grant_exec_permission: bool = False) -> None:
     """
@@ -31,15 +43,7 @@ def write_to_file(file_path: Path, content: str, grant_exec_permission: bool = F
 
 
 def empty_lemmas_file_contents() -> str:
-    return """
-requires "evm.md"
-requires "foundry.md"
-
-module KONTROL-LEMMAS
-    imports BOOL
-    imports FOUNDRY
-    imports INFINITE-GAS
-    imports INT-SYMBOLIC
+    return """module KONTROL-LEMMAS
 
 // Your lemmas go here
 // Not sure what to do next? Try checking the documentation for writing lemmas: https://docs.runtimeverification.com/kontrol/guides/advancing-proofs/kevm-lemmas
@@ -104,3 +108,49 @@ $ kontrol --help
 $ kontrol command --help
 ```
 """
+
+
+def kontrol_toml_file_contents() -> str:
+    return """[build.default]
+foundry-project-root       = '.'
+regen                      = true
+rekompile                  = true
+verbose                    = true
+debug                      = false
+require                    = 'lemmas.k'
+module-import              = 'TestBase:KONTROL-LEMMAS'
+
+[prove.default]
+foundry-project-root       = '.'
+verbose                    = true
+debug                      = false
+max-depth                  = 25000
+reinit                     = false
+cse                        = false
+workers                    = 4
+failure-information        = true
+counterexample-information = true
+minimize-proofs            = false
+fail-fast                  = true
+smt-timeout                = 1000
+break-every-step           = false
+break-on-jumpi             = false
+break-on-calls             = false
+break-on-storage           = false
+break-on-basic-blocks      = false
+break-on-cheatcodes        = false
+run-constructor            = false
+
+[show.default]
+foundry-project-root       = '.'
+verbose                    = true
+debug                      = false
+"""
+
+
+def _rv_yellow() -> str:
+    return '#ffcc07'
+
+
+def _rv_blue() -> str:
+    return '#0097cb'

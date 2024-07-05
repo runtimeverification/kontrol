@@ -8,7 +8,8 @@ from pyk.proof import APRProof
 from pyk.proof.reachability import APRFailureInfo
 from pyk.utils import check_dir_path
 
-from kontrol.solc_to_k import SolcToKOptions, solc_to_k
+from kontrol.options import SolcToKOptions
+from kontrol.solc_to_k import solc_to_k
 
 if TYPE_CHECKING:
     from typing import Final

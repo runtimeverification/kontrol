@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.563";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.625";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -17,7 +17,7 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     solc = {
-      url = "github:hellwolf/solc.nix";
+      url = "github:goodlyrottenapple/solc.nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
@@ -74,16 +74,8 @@
                 autoconf
                 automake
                 cmake
-                # This is somewhat hacky but it's only a build time dependency.
-                # We basically override kevm-pyk to add kontrol as a runtime dependency
-                # so that kdist finds the foundry target.
-                (prev.kevm-pyk.overridePythonAttrs (old: {
-                  propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
-                    ++ [
-                      ((kontrol-pyk { inherit solc_version; }).overrideAttrs
-                        (oldAttrs: { propagatedBuildInputs = [ ]; }))
-                    ];
-                }))
+                prev.kevm-pyk
+                (kontrol-pyk { inherit solc_version; })
                 k-framework.packages.${prev.system}.k
                 libtool
                 openssl.dev

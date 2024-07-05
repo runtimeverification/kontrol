@@ -30,6 +30,31 @@ module CSE-LEMMAS
       requires notBool ( lengthBytes(B1) ==Int lengthBytes(B2) )
       [simplification]
 
+    // Function selector does not match
+    rule { B:Bytes #Equals B1:Bytes +Bytes _:Bytes } => #Bottom
+      requires #range(B, 0, 4) =/=K #range (B1, 0, 4)
+      [simplification(60), concrete(B, B1)]
+
+    // Function selector matches
+    rule { B:Bytes #Equals B1:Bytes +Bytes B2:Bytes } => {#range(B, 4, lengthBytes(B) -Int 4) #Equals B2}
+      requires 4 <=Int lengthBytes(B) andBool #range(B, 0, 4) ==K B1
+      [simplification(60), concrete(B, B1)]
+
+    // Bitwise inequalities
+    rule [bitwise-and-maxUInt-lt-l]:
+      A <Int X &Int Y => false
+      requires 0 <=Int X andBool 0 <=Int Y
+       andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
+       andBool X +Int 1 <=Int A
+       [concrete(X), simplification, preserves-definedness]
+
+    rule [bitwise-and-maxUInt-le-r]:
+      X &Int Y <=Int A => true
+      requires 0 <=Int X andBool 0 <=Int Y
+       andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
+       andBool X +Int 1 <=Int A
+       [concrete(X), simplification, preserves-definedness]
+
 endmodule
 
 module CSE-LEMMAS-SPEC
