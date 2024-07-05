@@ -42,6 +42,7 @@ from .foundry import (
 from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
+from .rpc import StatefulKJsonRpcServer
 from .solc_to_k import solc_compile, solc_to_k
 from .utils import _rv_blue, _rv_yellow, console
 
@@ -59,6 +60,7 @@ if TYPE_CHECKING:
         CleanOptions,
         CompileOptions,
         GetModelOptions,
+        VMOptions,
         InitOptions,
         ListOptions,
         LoadStateOptions,
@@ -371,6 +373,11 @@ def exec_get_model(options: GetModelOptions) -> None:
 def exec_clean(options: CleanOptions) -> None:
     run_process(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)
 
+def exec_vm(options: VMOptions) -> None:
+    server = StatefulKJsonRpcServer(
+        ServeRpcOptions({'definition_dir': None, 'port': int(options.port), 'host': options.host})
+    )
+    server.serve()
 
 def exec_init(options: InitOptions) -> None:
     init_project(project_root=options.project_root, skip_forge=options.skip_forge)

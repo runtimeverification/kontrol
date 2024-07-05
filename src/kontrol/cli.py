@@ -16,6 +16,7 @@ from .options import (
     CleanOptions,
     CompileOptions,
     GetModelOptions,
+    VMOptions,
     InitOptions,
     ListOptions,
     LoadStateOptions,
@@ -71,6 +72,7 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'minimize-proof': MinimizeProofOptions(args),
         'clean': CleanOptions(args),
         'init': InitOptions(args),
+        'vm': VMOptions(args),
     }
     try:
         return options[command]
@@ -103,6 +105,7 @@ def get_option_string_destination(command: str, option_string: str) -> str:
         'minimize-proof': MinimizeProofOptions.from_option_string(),
         'clean': CleanOptions.from_option_string(),
         'init': InitOptions.from_option_string(),
+        'vm': VMOptions.from_option_string(),
     }
     option_string_destinations = options[command]
     return option_string_destinations.get(option_string, option_string.replace('-', '_'))
@@ -776,5 +779,24 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',
     )
-
+    vm = command_parser.add_parser(
+        'vm',
+        help='Start a json rpc server',
+        parents=[
+            kontrol_cli_args.logging_args,
+            kontrol_cli_args.foundry_args,
+        ],
+    )
+    vm.add_argument(
+        '--host',
+        dest='host',
+        default='127.0.0.1',
+        help='host address',
+    )
+    vm.add_argument(
+        '--port',
+        dest='port',
+        default=8081,
+        help='port number',
+    )
     return parser

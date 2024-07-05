@@ -62,8 +62,7 @@ module KONTROL-VM
                 TXNONCE
                 TXDATA
                  =>
-                #startBlock 
-                ~> #loadTx 
+                #loadTx 
                   TXTYPE
                   ACCTFROM 
                   ACCTTO 
@@ -73,7 +72,6 @@ module KONTROL-VM
                   TXNONCE
                   TXDATA  
                 ~> #eth_sendTransaction_final 
-                ~> #finalizeBlock
                 ... 
               </k>
     
