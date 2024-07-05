@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 from collections.abc import Iterable
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
@@ -45,7 +46,6 @@ from .utils import _rv_blue, _rv_yellow, console
 
 if TYPE_CHECKING:
     from argparse import Namespace
-    from pathlib import Path
     from typing import Any, Final, TypeVar
 
     from pyk.cterm import CTerm
@@ -106,8 +106,9 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
+    args.config_file = _config_file_path(args)
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
-    logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
+    logging.basicConfig(level=_loglevel(args, toml_args), format=_LOG_FORMAT)
 
     _check_k_version()
 
@@ -375,14 +376,28 @@ def exec_init(options: InitOptions) -> None:
 
 
 # Helpers
-def _loglevel(args: Namespace) -> int:
-    if hasattr(args, 'debug') and args.debug:
+def _loglevel(args: Namespace, toml_args: dict) -> int:
+    def is_attr_used(attr_name: str) -> bool | None:
+        return getattr(args, attr_name, None) or toml_args.get(attr_name)
+
+    if is_attr_used('debug'):
         return logging.DEBUG
 
-    if hasattr(args, 'verbose') and args.verbose:
+    if is_attr_used('verbose'):
         return logging.INFO
 
     return logging.WARNING
+
+
+def _config_file_path(args: Namespace) -> Path:
+    return (
+        Path.joinpath(
+            Path('.') if not getattr(args, 'foundry_root', None) else args.foundry_root,
+            'kontrol.toml',
+        )
+        if not getattr(args, 'config_file', None)
+        else args.config_file
+    )
 
 
 if __name__ == '__main__':
