@@ -42,6 +42,15 @@ def write_to_file(file_path: Path, content: str, grant_exec_permission: bool = F
         print(f'An error occurred while writing to the file: {e}')
 
 
+def append_to_file(file_path: Path, content: str) -> None:
+    """Appends the given content to a file specified by the file path."""
+    try:
+        with file_path.open('a', encoding='utf-8') as file:
+            file.write(content)
+    except Exception as e:
+        print(f'An error occurred while writing to the file: {e}')
+
+
 def empty_lemmas_file_contents() -> str:
     return """module KONTROL-LEMMAS
 
@@ -145,6 +154,12 @@ run-constructor            = false
 foundry-project-root       = '.'
 verbose                    = true
 debug                      = false
+"""
+
+
+def foundry_toml_extra_contents() -> str:
+    return """
+extra_output = ['storageLayout']
 """
 
 
