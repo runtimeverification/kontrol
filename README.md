@@ -4,7 +4,7 @@ Kontrol combines [KEVM](https://github.com/runtimeverification/evm-semantics) an
 ## Documentation & Support
 Documentation for Kontrol can be found in [Kontrol book](https://docs.runtimeverification.com/kontrol).
 
-Join our [Discord server](https://discord.com/invite/CurfmXNtbN) if you have any questions or require support.
+Join our [Kontrol Telegram Group](https://t.me/rv_kontrol) or [Discord server](https://discord.com/invite/CurfmXNtbN) if you have any questions or require support.
 
 ## Fast Installation
 

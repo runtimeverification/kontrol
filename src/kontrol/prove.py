@@ -84,8 +84,9 @@ def foundry_prove(
 
     if options.cse:
         exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
+        return_empty = options.config_type == ConfigType.SUMMARY_CONFIG
         test_suite = collect_tests(
-            foundry, options.tests, reinit=options.reinit, return_empty=True, exact_match=exact_match
+            foundry, options.tests, reinit=options.reinit, return_empty=return_empty, exact_match=exact_match
         )
         for test in test_suite:
             if not isinstance(test.method, Contract.Method) or test.method.function_calls is None:

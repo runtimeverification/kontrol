@@ -113,16 +113,16 @@ $ kontrol command --help
 def kontrol_toml_file_contents() -> str:
     return """[build.default]
 foundry-project-root       = '.'
-regen                      = true
-rekompile                  = true
-verbose                    = true
+regen                      = false
+rekompile                  = false
+verbose                    = false
 debug                      = false
 require                    = 'lemmas.k'
 module-import              = 'TestBase:KONTROL-LEMMAS'
 
 [prove.default]
 foundry-project-root       = '.'
-verbose                    = true
+verbose                    = false
 debug                      = false
 max-depth                  = 25000
 reinit                     = false
