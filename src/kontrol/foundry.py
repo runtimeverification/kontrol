@@ -35,7 +35,14 @@ from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 from . import VERSION
 from .solc_to_k import Contract
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
-from .utils import empty_lemmas_file_contents, kontrol_file_contents, kontrol_toml_file_contents, write_to_file
+from .utils import (
+    append_to_file,
+    empty_lemmas_file_contents,
+    foundry_toml_extra_contents,
+    kontrol_file_contents,
+    kontrol_toml_file_contents,
+    write_to_file,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -1242,6 +1249,7 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
+    append_to_file(root / 'foundry.toml', foundry_toml_extra_contents())
     run_process(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,
