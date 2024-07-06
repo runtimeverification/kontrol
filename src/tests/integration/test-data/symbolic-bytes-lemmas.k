@@ -51,7 +51,7 @@ module SYMBOLIC-BYTES-LEMMAS
       requires N <=Int lengthBytes(B)
       [simplification(60), concrete(B, N), preserves-definedness]
 
-    rule { B #Equals #buf( N, X:Int ) } => { #asInteger ( B ) #Equals X modInt (2 ^Int (8 &Int N)) }
+    rule { B #Equals #buf( N, X:Int ) } => { #asInteger ( B ) #Equals X modInt (2 ^Int (8 *Int N)) }
       requires lengthBytes(B) ==Int N
       [simplification]
 
