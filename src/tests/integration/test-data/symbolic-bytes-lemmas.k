@@ -96,4 +96,8 @@ module SYMBOLIC-BYTES-LEMMAS
        andBool A modInt ( 2 ^Int C ) ==Int 0
       [simplification, concrete(A, C)]
 
+    rule A ==Int B *Int C => C ==Int A /Int B
+      requires 0 <Int B andBool A modInt B ==Int 0
+      [simplification, concrete(A, B), comm, preserves-definedness]
+
 endmodule
