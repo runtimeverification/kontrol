@@ -928,6 +928,13 @@ def _init_cterm(
         }
         init_subst.update(init_subst_test)
     else:
+        # CSE needs to be agnostic of the following Kontrol cells
+        del init_subst['ACTIVE_CELL']
+        del init_subst['ISEVENTEXPECTED_CELL']
+        del init_subst['ISREVERTEXPECTED_CELL']
+        del init_subst['RECORDEVENT_CELL']
+        del init_subst['SINGLECALL_CELL']
+
         accounts: list[KInner] = []
         contract_account_name = Foundry.symbolic_contract_name(contract_name)
 
