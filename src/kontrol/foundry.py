@@ -187,7 +187,11 @@ class Foundry:
             contract_name = json_path.split('/')[-1]
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
-            contract = Contract(contract_name, contract_json, foundry=True)
+            try:
+                contract = Contract(contract_name, contract_json, foundry=True)
+            except KeyError:
+                _LOGGER.warning(f'Skipping non-compatible JSON file for contract: {contract_name} at {json_path}.')
+                continue
             find_enums(contract_json['ast'])
 
             _contracts[contract.name_with_path] = contract  # noqa: B909
