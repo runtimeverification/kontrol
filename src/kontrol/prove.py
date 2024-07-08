@@ -1144,8 +1144,8 @@ def _create_cse_accounts(
                             '_Map_', [map_item(intToken(field.slot), contract_account_variable), storage_map]
                         )
                     else:
-                        slot_var_before = KVariable(f'{field_name}_SLOT_BEFORE', sort=KSort('Int'))
-                        slot_var_after = KVariable(f'{field_name}_SLOT_AFTER', sort=KSort('Int'))
+                        slot_var_before = KVariable(f'{field_name}_SLOT_BEFORE', sort=KSort('Bytes'))
+                        slot_var_after = KVariable(f'{field_name}_SLOT_AFTER', sort=KSort('Bytes'))
                         masked_contract_account_var = KApply(
                             'asWord',
                             [
@@ -1155,17 +1155,45 @@ def _create_cse_accounts(
                                         KApply(
                                             '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
                                             [
-                                                KEVM.buf(intToken(32 - 20 - field.offset), slot_var_after),
+                                                slot_var_after,
                                                 KEVM.buf(intToken(20), contract_account_variable),
                                             ],
                                         ),
-                                        KEVM.buf(intToken(field.offset), slot_var_before),
+                                        slot_var_before,
                                     ],
                                 )
                             ],
                         )
                         storage_map = KApply(
                             '_Map_', [map_item(intToken(field.slot), masked_contract_account_var), storage_map]
+                        )
+                        new_account_constraints.append(
+                            mlEqualsTrue(
+                                KApply(
+                                    '_==K_',
+                                    [
+                                        KApply(
+                                            'lengthBytes(_)_BYTES-HOOKED_Int_Bytes',
+                                            [slot_var_before],
+                                        ),
+                                        intToken(field.offset),
+                                    ],
+                                )
+                            )
+                        )
+                        new_account_constraints.append(
+                            mlEqualsTrue(
+                                KApply(
+                                    '_==K_',
+                                    [
+                                        KApply(
+                                            'lengthBytes(_)_BYTES-HOOKED_Int_Bytes',
+                                            [slot_var_after],
+                                        ),
+                                        intToken(32 - 20 - field.offset),
+                                    ],
+                                )
+                            )
                         )
 
                     contract_accounts, contract_constraints = _create_cse_accounts(
