@@ -203,4 +203,4 @@ def _foundry_to_main_def(
 
 
 def _silenced_warnings() -> list[str]:
-    return ['non-exhaustive-match', 'missing-syntax-module', 'future-error']
+    return ['non-exhaustive-match', 'missing-syntax-module']
