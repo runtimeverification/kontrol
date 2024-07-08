@@ -4,7 +4,7 @@
 
 This folder is an example of including the results of Foundry execution into the initial state of any proof. This means that Kontrol's proofs will have as their initial state the results from executing any desired code with Foundry. Besides increasing the speed of execution, this considerably improves the user experience for writing proofs about complex protocols.
 
-This project contains all the files and a description of the steps needed to combine Foundry and Kontrol computation successfully. If you need any help with following these instructions, please reach out in [Discord](https://discord.gg/CurfmXNtbN), we'll be happy to assist!
+This project contains all the files and a description of the steps needed to combine Foundry and Kontrol computation successfully. If you need any help with following these instructions, please reach out in [Telegram](https://t.me/rv_kontrol) or [Discord](https://discord.gg/CurfmXNtbN), we'll be happy to assist!
 
 We use Foundry's [state-diff recording](https://book.getfoundry.sh/cheatcodes/stop-and-return-state-diff) cheatcodes to generate a JSON file that contains all the state updates that occurred during the recording. We can also produce a JSON file containing the name of the deployed contracts under testing and their addresses.
 Using these two JSON files we can (1) name the addresses of the deployed contracts in the Foundry tests and (2) directly add the recorded state updates as the initial state to run the Kontrol proofs.
@@ -112,11 +112,11 @@ function counterBedNamed() public recordStateDiff {
     }
 }
 ```
-Notice that we're saving the addresses via `save_address`, not via the `Counter[]`. 
+Notice that we're saving the addresses via `save_address`, not via the `Counter[]`.
 
-The next step is to use Kontrol's `load-state-diff` command. An example on how to use it can be found in [the provided script](test/kontrol/scripts/record-state-diff.sh). For our running example it can be called as follows:
+The next step is to use Kontrol's `load-state` command. An example on how to use it can be found in [the provided script](test/kontrol/scripts/record-state-diff.sh). For our running example it can be called as shown below. Note the `--from-state-diff` flag. This indicates that the JSON file is produced from the `vm.stopAndReturnStateDiff` cheatcode, not from the `vm.dumpState` cheatcode.
 ```
-kontrol load-state-diff InitialState state-diff/StateDiff.json --contract-names state-diff/AddressNames.json --output-dir test/kontrol/proofs/utils
+kontrol load-state InitialState state-diff/StateDiff.json --contract-names state-diff/AddressNames.json --output-dir test/kontrol/proofs/utils --from-state-diff
 ```
 This will
 - Create two contracts, [`InitialState.sol`](test/kontrol/proofs/utils/InitialState.sol) and [`InitialStateCode.sol`](test/kontrol/proofs/utils/InitialStateCode.sol)
@@ -166,7 +166,7 @@ Since we are not running the `recreateDeployment` function in Kontrol, let's see
 
 ## ⚙️ Run Your Proofs ⚙️
 
-At this point we have a test that says things about addresses, but no information about the addresses is actually present in the contract! That is, we have following `setUp` function that just stores the addresses to which `counterBedNamed` deployed bytecode to. Note that these addresses were saved through the `save_address` function to the `state-diff/AddressNames.json`, and that `kontrol load-state-diff` appends `Address` to the specified name. You can see the [automatically generated file](test/kontrol/proofs/utils/InitialState.sol) for more details.
+At this point we have a test that says things about addresses, but no information about the addresses is actually present in the contract! That is, we have following `setUp` function that just stores the addresses to which `counterBedNamed` deployed bytecode to. Note that these addresses were saved through the `save_address` function to the `state-diff/AddressNames.json`, and that `kontrol load-state` appends `Address` to the specified name. You can see the [automatically generated file](test/kontrol/proofs/utils/InitialState.sol) for more details.
 ```solidity
 Counter[] public counters;
 
@@ -192,7 +192,7 @@ function prove_multiple_counters() public {
     }
 ```
 As mentioned above, from the code's perspective, these are empty addresses! So we need to tell Kontrol which state updates need to be loaded before executing `prove_multiple_counters`.
-This is done via the `--init-node-from` flag of the `kontrol prove` command. The `--init-node-from` flag expects a JSON file containing the state updates and will load them to the initial state of the proof. This will make Kontrol aware of all the changes that occurred during the execution of the original `setUp` function, with none of the computation.
+This is done via the `--init-node-from-diff` flag of the `kontrol prove` command. The `--init-node-from-diff` flag expects a JSON file produced by the `vm.stopAndReturnStateDiff` containing the state updates and will load them to the initial state of the proof. This will make Kontrol aware of all the changes that occurred during the execution of the original `setUp` function, with none of the computation.
 
 Hence, to successfully execute the above function in Kontrol we'll have to:
 1. Build the Kontrol project
@@ -201,7 +201,7 @@ Hence, to successfully execute the above function in Kontrol we'll have to:
    ```
 2. Run the test
    ```
-   FOUNDRY_PROFILE=kprove kontrol prove --match-test prove_multiple_counters --init-node-from state-diff/StateDiff.json
+   FOUNDRY_PROFILE=kprove kontrol prove --match-test prove_multiple_counters --init-node-from-diff state-diff/StateDiff.json
    ```
 Note that running the Kontrol commands in the context of the `kprove` profile is crucial, since it points to the isolated folder that will contain all the necessary bytecode.
 

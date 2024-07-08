@@ -33,9 +33,16 @@ from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
 
 from . import VERSION
-from .deployment import DeploymentState, DeploymentStateEntry
 from .solc_to_k import Contract
-from .utils import empty_lemmas_file_contents, kontrol_file_contents, kontrol_toml_file_contents, write_to_file
+from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
+from .utils import (
+    append_to_file,
+    empty_lemmas_file_contents,
+    foundry_toml_extra_contents,
+    kontrol_file_contents,
+    kontrol_toml_file_contents,
+    write_to_file,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -50,7 +57,7 @@ if TYPE_CHECKING:
 
     from .options import (
         GetModelOptions,
-        LoadStateDiffOptions,
+        LoadStateOptions,
         MergeNodesOptions,
         MinimizeProofOptions,
         RefuteNodeOptions,
@@ -73,6 +80,7 @@ class Foundry:
     _toml: dict[str, Any]
     _bug_report: BugReport | None
     _use_hex_encoding: bool
+    enums: dict[str, int]
 
     class Sorts:
         FOUNDRY_CELL: Final = KSort('FoundryCell')
@@ -88,6 +96,7 @@ class Foundry:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
         self._use_hex_encoding = use_hex_encoding
+        self.enums = {}
 
     def lookup_full_contract_name(self, contract_name: str) -> str:
         contracts = [
@@ -159,12 +168,27 @@ class Foundry:
         json_paths = sorted(json_paths)  # Must sort to get consistent output order on different platforms
         _LOGGER.info(f'Processing contract files: {json_paths}')
         _contracts: dict[str, Contract] = {}
+
         for json_path in json_paths:
+
+            def find_enums(dct: dict) -> None:
+                if dct['nodeType'] == 'EnumDefinition':
+                    enum_name = dct['canonicalName']
+                    enum_max = len([member['name'] for member in dct['members']])
+                    if enum_name in self.enums and enum_max != self.enums[enum_name]:
+                        raise ValueError(
+                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported.'
+                        )
+                    self.enums[enum_name] = len([member['name'] for member in dct['members']])
+                for node in dct['nodes']:
+                    find_enums(node)
+
             _LOGGER.debug(f'Processing contract file: {json_path}')
             contract_name = json_path.split('/')[-1]
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
             contract = Contract(contract_name, contract_json, foundry=True)
+            find_enums(contract_json['ast'])
 
             _contracts[contract.name_with_path] = contract  # noqa: B909
 
@@ -392,19 +416,23 @@ class Foundry:
             KApply(
                 'contract_access_field',
                 [
-                    KApply('FoundryCheat_FOUNDRY-ACCOUNTS_FoundryContract'),
-                    KApply('Failed_FOUNDRY-ACCOUNTS_FoundryField'),
+                    KApply('contract_FoundryCheat'),
+                    KApply('slot_failed'),
                 ],
             )
         )
 
     @staticmethod
     def symbolic_contract_prefix() -> str:
-        return 'CONTRACT'
+        return 'C'
 
     @staticmethod
-    def symbolic_contract_id() -> str:
-        return Foundry.symbolic_contract_prefix() + '_ID'
+    def symbolic_contract_name(contract_name: str) -> str:
+        return Foundry.symbolic_contract_prefix() + '_' + contract_name.upper()
+
+    @staticmethod
+    def symbolic_contract_id(contract_name: str) -> str:
+        return Foundry.symbolic_contract_name(contract_name) + '_ID'
 
     @staticmethod
     def address_TEST_CONTRACT() -> KToken:  # noqa: N802
@@ -518,6 +546,10 @@ class Foundry:
         _, method = self.get_contract_and_method(test)
         effective_test_version = 0 if test_version is None else self.free_proof_version(test)
 
+        if not method.up_to_date(self.digest_file):
+            _LOGGER.info(f'Creating a new version of {test} because it was updated.')
+            return self.free_proof_version(test)
+
         if reinit:
             if user_specified_setup_version is None:
                 _LOGGER.info(
@@ -527,23 +559,17 @@ class Foundry:
                 _LOGGER.info(
                     f'Creating a new version of {test} because --reinit was specified and --setup-version is set to a non-existing version'
                 )
-            elif not method.up_to_date(self.digest_file):
-                _LOGGER.info(
-                    f'Creating a new version of {test} because --reinit was specified and --setup-version is set to an outdated version.'
-                )
             else:
-                _LOGGER.info(f'Reusing version {user_specified_setup_version} of setup proof')
+                _LOGGER.info(f'Reusing version {user_specified_setup_version} of {test}')
                 effective_test_version = user_specified_setup_version
         else:
             latest_test_version = self.latest_proof_version(test)
             effective_test_version = 0 if latest_test_version is None else latest_test_version
-            if (
-                user_specified_setup_version is not None
-                and Proof.proof_data_exists(f'{test}:{user_specified_setup_version}', self.proofs_dir)
-                and method.up_to_date(self.digest_file)
+            if user_specified_setup_version is not None and Proof.proof_data_exists(
+                f'{test}:{user_specified_setup_version}', self.proofs_dir
             ):
                 effective_test_version = user_specified_setup_version
-            _LOGGER.info(f'Reusing version {effective_test_version} of setup proof')
+            _LOGGER.info(f'Using version {effective_test_version} of {test}')
 
         return effective_test_version
 
@@ -1022,12 +1048,17 @@ def foundry_step_node(
             apr_proof.write_proof_data()
 
 
-def foundry_state_diff(options: LoadStateDiffOptions, foundry: Foundry) -> None:
-    access_entries = read_deployment_state(options.accesses_file)
+def foundry_state_load(options: LoadStateOptions, foundry: Foundry) -> None:
     accounts = read_contract_names(options.contract_names) if options.contract_names else {}
-    deployment_state_contract = DeploymentState(name=options.name, accounts=accounts)
-    for access in access_entries:
-        deployment_state_contract.extend(access)
+    recreate_state_contract = RecreateState(name=options.name, accounts=accounts)
+    if options.from_state_diff:
+        access_entries = read_recorded_state_diff(options.accesses_file)
+        for access in access_entries:
+            recreate_state_contract.extend_with_state_diff(access)
+    else:
+        recorded_accounts = read_recorded_state_dump(options.accesses_file)
+        for account in recorded_accounts:
+            recreate_state_contract.extend_with_state_dump(account)
 
     output_dir_name = options.output_dir_name
     if output_dir_name is None:
@@ -1043,20 +1074,18 @@ def foundry_state_diff(options: LoadStateDiffOptions, foundry: Foundry) -> None:
 
     if options.condense_state_diff:
         main_file.write_text(
-            '\n'.join(
-                deployment_state_contract.generate_condensed_file(options.comment_generated_file, options.license)
-            )
+            '\n'.join(recreate_state_contract.generate_condensed_file(options.comment_generated_file, options.license))
         )
     else:
         code_file = output_dir / Path(options.name + 'Code.sol')
         main_file.write_text(
             '\n'.join(
-                deployment_state_contract.generate_main_contract_file(options.comment_generated_file, options.license)
+                recreate_state_contract.generate_main_contract_file(options.comment_generated_file, options.license)
             )
         )
         code_file.write_text(
             '\n'.join(
-                deployment_state_contract.generate_code_contract_file(options.comment_generated_file, options.license)
+                recreate_state_contract.generate_code_contract_file(options.comment_generated_file, options.license)
             )
         )
 
@@ -1149,11 +1178,18 @@ def foundry_get_model(
     return '\n'.join(res_lines)
 
 
-def read_deployment_state(accesses_file: Path) -> list[DeploymentStateEntry]:
-    if not accesses_file.exists():
-        raise FileNotFoundError(f'Account accesses dictionary file not found: {accesses_file}')
-    accesses = json.loads(accesses_file.read_text())['accountAccesses']
-    return [DeploymentStateEntry(_a) for _a in accesses]
+def read_recorded_state_diff(state_file: Path) -> list[StateDiffEntry]:
+    if not state_file.exists():
+        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
+    accesses = json.loads(state_file.read_text())['accountAccesses']
+    return [StateDiffEntry(_a) for _a in accesses]
+
+
+def read_recorded_state_dump(state_file: Path) -> list[StateDumpEntry]:
+    if not state_file.exists():
+        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
+    accounts = json.loads(state_file.read_text())
+    return [StateDumpEntry(account, accounts[account]) for account in list(accounts)]
 
 
 def read_contract_names(contract_names: Path) -> dict[str, str]:
@@ -1213,6 +1249,7 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
+    append_to_file(root / 'foundry.toml', foundry_toml_extra_contents())
     run_process(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,

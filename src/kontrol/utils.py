@@ -8,6 +8,10 @@ if TYPE_CHECKING:
 import os
 import stat
 
+from rich.console import Console
+
+console = Console()
+
 
 def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
     if ':' in value:
@@ -34,6 +38,15 @@ def write_to_file(file_path: Path, content: str, grant_exec_permission: bool = F
                 current_permissions = os.stat(file_path).st_mode
                 # Add execute permissions
                 os.chmod(file_path, current_permissions | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+    except Exception as e:
+        print(f'An error occurred while writing to the file: {e}')
+
+
+def append_to_file(file_path: Path, content: str) -> None:
+    """Appends the given content to a file specified by the file path."""
+    try:
+        with file_path.open('a', encoding='utf-8') as file:
+            file.write(content)
     except Exception as e:
         print(f'An error occurred while writing to the file: {e}')
 
@@ -109,16 +122,16 @@ $ kontrol command --help
 def kontrol_toml_file_contents() -> str:
     return """[build.default]
 foundry-project-root       = '.'
-regen                      = true
-rekompile                  = true
-verbose                    = true
+regen                      = false
+rekompile                  = false
+verbose                    = false
 debug                      = false
 require                    = 'lemmas.k'
 module-import              = 'TestBase:KONTROL-LEMMAS'
 
 [prove.default]
 foundry-project-root       = '.'
-verbose                    = true
+verbose                    = false
 debug                      = false
 max-depth                  = 25000
 reinit                     = false
@@ -142,3 +155,17 @@ foundry-project-root       = '.'
 verbose                    = true
 debug                      = false
 """
+
+
+def foundry_toml_extra_contents() -> str:
+    return """
+extra_output = ['storageLayout']
+"""
+
+
+def _rv_yellow() -> str:
+    return '#ffcc07'
+
+
+def _rv_blue() -> str:
+    return '#0097cb'

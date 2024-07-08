@@ -6,7 +6,7 @@
 │   statusCode: STATUSCODE:StatusCode
 ┃
 ┃ (branch)
-┣━━┓ constraint: 0 ==Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
+┣━━┓ constraint: C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
 ┃  │
 ┃  ├─ 8
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -29,7 +29,7 @@
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: ( notBool ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ==Int 0 )
+┗━━┓ constraint: ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
    │
    ├─ 9
    │   k: #execute ~> CONTINUATION:K
@@ -83,7 +83,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                  </statusCode>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_CALLABLESTORAGECONTRACT_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -132,16 +132,17 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_CALLABLESTORAGECONTRACT_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_CALLABLESTORAGECONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       CONTRACT_STORAGE:Map
+                       ( ( 1 |-> #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes ( #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) => b"\x00" ) ) )
+                       C_CALLABLESTORAGECONTRACT_STORAGE:Map )
                      </storage>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_CALLABLESTORAGECONTRACT_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -153,36 +154,12 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              ...
            </kevm>
            <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
                ...
              </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
              <whitelist>
                <isCallWhitelistActive>
                  false
@@ -200,6 +177,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             ...
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -222,34 +200,35 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
+       andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int <Int 32
+       andBool ( C_CALLABLESTORAGECONTRACT_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( 0 ==Int ( 1 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) )
+       andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_CALLABLESTORAGECONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( 0 ==Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-       andBool ( 0 <=Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
-       andBool ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) <Int 32
-               )))))))))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 9 ) )
+               ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -270,14 +249,14 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #range ( #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Bytes #buf ( 32 , ( ( #lookup ( CONTRACT_STORAGE:Map , 1 ) /Int 256 ) *Int 256 ) ) , ( 32 -Int ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) , ( ( ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Int 32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , 0 , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) ) +Int ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int 224 ) ) -Int ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int -160 ) ) ) )
+                   ( _OUTPUT_CELL => #range ( #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) , ( 32 -Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) , ( ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int 32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , 0 , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int 224 ) ) -Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int -160 ) ) ) )
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
                  </statusCode>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_CALLABLESTORAGECONTRACT_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -292,7 +271,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                      ( .WordStack => ( 95 : ( selector ( "str()" ) : .WordStack ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Bytes #buf ( 32 , ( ( #lookup ( CONTRACT_STORAGE:Map , 1 ) /Int 256 ) *Int 256 ) ) +Bytes #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Bytes #buf ( 32 , ( ( #lookup ( CONTRACT_STORAGE:Map , 1 ) /Int 256 ) *Int 256 ) ) , ( 32 -Int ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) , ( ( ( ( ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) ) +Int 32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) +Bytes #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) , ( 32 -Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) , ( ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int 32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -326,16 +305,17 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_CALLABLESTORAGECONTRACT_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_CALLABLESTORAGECONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       CONTRACT_STORAGE:Map
+                       ( ( 1 |-> #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) )
+                       C_CALLABLESTORAGECONTRACT_STORAGE:Map )
                      </storage>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_CALLABLESTORAGECONTRACT_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -347,36 +327,12 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              ...
            </kevm>
            <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
                ...
              </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
              <whitelist>
                <isCallWhitelistActive>
                  false
@@ -394,6 +350,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             ...
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -418,35 +375,34 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int =/=Int 0
+       andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
+       andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int <Int 32
+       andBool ( C_CALLABLESTORAGECONTRACT_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( 0 ==Int ( 1 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) )
+       andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_CALLABLESTORAGECONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
-       andBool ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) =/=Int 0
-       andBool ( 0 <=Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
-       andBool ( ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 ) <Int 32
-               )))))))))))))))))))))))))
-       ensures ( 0 <Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
-       andBool ( 0 =/=Int ( maxSInt8 &Int #lookup ( CONTRACT_STORAGE:Map , 1 ) >>Int 1 )
-               ))
+       andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 9 ) )
+               ))))))))))))))))))))))))))
+       ensures 0 <Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule

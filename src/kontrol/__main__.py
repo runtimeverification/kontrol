@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 from collections.abc import Iterable
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
@@ -29,21 +30,22 @@ from .foundry import (
     foundry_show,
     foundry_simplify_node,
     foundry_split_node,
-    foundry_state_diff,
+    foundry_state_load,
     foundry_step_node,
     foundry_to_dot,
     foundry_unrefute_node,
     init_project,
-    read_deployment_state,
+    read_recorded_state_diff,
+    read_recorded_state_dump,
 )
 from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
+from .utils import _rv_blue, _rv_yellow, console
 
 if TYPE_CHECKING:
     from argparse import Namespace
-    from pathlib import Path
     from typing import Any, Final, TypeVar
 
     from pyk.cterm import CTerm
@@ -57,7 +59,7 @@ if TYPE_CHECKING:
         GetModelOptions,
         InitOptions,
         ListOptions,
-        LoadStateDiffOptions,
+        LoadStateOptions,
         MergeNodesOptions,
         MinimizeProofOptions,
         ProveOptions,
@@ -104,8 +106,9 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
+    args.config_file = _config_file_path(args)
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
-    logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
+    logging.basicConfig(level=_loglevel(args, toml_args), format=_LOG_FORMAT)
 
     _check_k_version()
 
@@ -150,8 +153,8 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 # Command implementation
 
 
-def exec_load_state_diff(options: LoadStateDiffOptions) -> None:
-    foundry_state_diff(
+def exec_load_state(options: LoadStateOptions) -> None:
+    foundry_state_load(
         options=options,
         foundry=_load_foundry(options.foundry_root),
     )
@@ -172,22 +175,44 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 
 
 def exec_build(options: BuildOptions) -> None:
-    foundry_kompile(
-        options=options,
-        foundry=_load_foundry(options.foundry_root),
-    )
+    if options.verbose:
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer:[/{_rv_blue()}]'
+    else:
+        building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer: \n Add `--verbose` to `kontrol build` for more details![/{_rv_blue()}]'
+    try:
+        console.print(building_message)
+        foundry_kompile(
+            options=options,
+            foundry=_load_foundry(options.foundry_root),
+        )
+        console.print(
+            ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
+        )
+    except Exception as e:
+        console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] [black]{e}[/black]')
 
 
 def exec_prove(options: ProveOptions) -> None:
-    deployment_state_entries = (
-        read_deployment_state(options.deployment_state_path) if options.deployment_state_path else None
+    if options.recorded_diff_state_path and options.recorded_dump_state_path:
+        raise AssertionError('Provide only one file for recorded state updates')
+
+    recorded_diff_entries = (
+        read_recorded_state_diff(options.recorded_diff_state_path) if options.recorded_diff_state_path else None
+    )
+    recorded_dump_entries = (
+        read_recorded_state_dump(options.recorded_dump_state_path) if options.recorded_dump_state_path else None
     )
 
+    if options.verbose:
+        proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
+    else:
+        proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running: \n Add `--verbose` to `kontrol prove` for more details![/{_rv_blue()}]'
     try:
+        console.print(proving_message)
         results = foundry_prove(
             foundry=_load_foundry(options.foundry_root, options.bug_report),
             options=options,
-            deployment_state_entries=deployment_state_entries,
+            recorded_state_entries=recorded_dump_entries if recorded_dump_entries else recorded_diff_entries,
         )
     except CTermSMTError as err:
         raise RuntimeError(
@@ -203,12 +228,16 @@ def exec_prove(options: ProveOptions) -> None:
                 f"{signature} is not prefixed with 'test', 'prove', or 'check', therefore, it is not reported as failing in the presence of reverts or assertion violations."
             )
         if proof.passed:
-            print(f'PROOF PASSED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}')
+            console.print(f':sparkles: [bold green]PROOF PASSED[/bold green] :sparkles: {proof.id}')
+            console.print(
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+            )
         else:
             failed += 1
-            print(f'PROOF FAILED: {proof.id}')
-            print(f'time: {proof.formatted_exec_time()}')
+            console.print(f':cross_mark: [bold red]PROOF FAILED[/bold red] :cross_mark: {proof.id}')
+            console.print(
+                f':hourglass_not_done: [bold blue]Time: {proof.formatted_exec_time()}[/bold blue] :hourglass_not_done:'
+            )
             failure_log = None
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
@@ -347,14 +376,28 @@ def exec_init(options: InitOptions) -> None:
 
 
 # Helpers
-def _loglevel(args: Namespace) -> int:
-    if hasattr(args, 'debug') and args.debug:
+def _loglevel(args: Namespace, toml_args: dict) -> int:
+    def is_attr_used(attr_name: str) -> bool | None:
+        return getattr(args, attr_name, None) or toml_args.get(attr_name)
+
+    if is_attr_used('debug'):
         return logging.DEBUG
 
-    if hasattr(args, 'verbose') and args.verbose:
+    if is_attr_used('verbose'):
         return logging.INFO
 
     return logging.WARNING
+
+
+def _config_file_path(args: Namespace) -> Path:
+    return (
+        Path.joinpath(
+            Path('.') if not getattr(args, 'foundry_root', None) else args.foundry_root,
+            'kontrol.toml',
+        )
+        if not getattr(args, 'config_file', None)
+        else args.config_file
+    )
 
 
 if __name__ == '__main__':

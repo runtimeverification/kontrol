@@ -137,7 +137,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                  </statusCode>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_ARITHMETICCONTRACT_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -149,7 +149,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( CONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
@@ -170,7 +170,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -192,13 +192,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_ARITHMETICCONTRACT_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_ARITHMETICCONTRACT_BAL:Int
                      </balance>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_ARITHMETICCONTRACT_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -210,36 +210,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              ...
            </kevm>
            <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
                ...
              </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
              <whitelist>
                <isCallWhitelistActive>
                  false
@@ -257,6 +233,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             ...
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -281,34 +258,34 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( 1024 <=Int CALLDEPTH_CELL:Int
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-17-TO-7)]
     
@@ -336,11 +313,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                    ( _STATUSCODE => EVMC_REVERT )
                  </statusCode>
                  <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_ARITHMETICCONTRACT_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -352,7 +329,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( CONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
@@ -373,7 +350,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -395,13 +372,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_ARITHMETICCONTRACT_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_ARITHMETICCONTRACT_BAL:Int
                      </balance>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_ARITHMETICCONTRACT_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -413,36 +390,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              ...
            </kevm>
            <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
                ...
              </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
              <whitelist>
                <isCallWhitelistActive>
                  false
@@ -460,6 +413,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             ...
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -484,35 +438,35 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
                )))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-23-TO-11)]
     
@@ -540,11 +494,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                    ( _STATUSCODE => EVMC_SUCCESS )
                  </statusCode>
                  <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_ARITHMETICCONTRACT_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -577,7 +531,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -599,13 +553,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_ARITHMETICCONTRACT_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_ARITHMETICCONTRACT_BAL:Int
                      </balance>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_ARITHMETICCONTRACT_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -617,36 +571,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              ...
            </kevm>
            <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
                ...
              </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
              <whitelist>
                <isCallWhitelistActive>
                  false
@@ -664,6 +594,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             ...
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -688,36 +619,36 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
        andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-26-TO-14)]
     
@@ -745,11 +676,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                    ( _STATUSCODE => EVMC_REVERT )
                  </statusCode>
                  <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     CONTRACT_ID:Int
+                     C_ARITHMETICCONTRACT_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
@@ -782,7 +713,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( CONTRACT_ID:Int ) )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -804,13 +735,13 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                  <accounts>
                    ( <account>
                      <acctID>
-                       CONTRACT_ID:Int
+                       C_ARITHMETICCONTRACT_ID:Int
                      </acctID>
                      <balance>
-                       CONTRACT_BAL:Int
+                       C_ARITHMETICCONTRACT_BAL:Int
                      </balance>
                      <nonce>
-                       CONTRACT_NONCE:Int
+                       C_ARITHMETICCONTRACT_NONCE:Int
                      </nonce>
                      ...
                    </account>
@@ -822,36 +753,12 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              ...
            </kevm>
            <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
                ...
              </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
              <whitelist>
                <isCallWhitelistActive>
                  false
@@ -869,6 +776,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             ...
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -893,36 +801,36 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int CONTRACT_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CONTRACT_BAL:Int
-       andBool ( 0 <=Int CONTRACT_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CONTRACT_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( CONTRACT_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          CONTRACT_ID:Int
+          C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
        andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < CONTRACT_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-27-TO-15)]
 

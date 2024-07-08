@@ -14,10 +14,10 @@
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │
-┃  │  (712 steps)
+┃  │  (1242 steps)
 ┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 87
+┃  │   pc: 68
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │
@@ -37,10 +37,10 @@
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │
-   │  (443 steps)
+   │  (348 steps)
    ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 163
+   │   pc: 161
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
    │
@@ -55,7 +55,7 @@
 
 
 
-module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
+module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
     
     
     rule [BASIC-BLOCK-8-TO-6]: <foundry>
@@ -76,32 +76,32 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #buf ( 32 , VV0_x_114b9705:Int ) )
+                   ( _OUTPUT_CELL => b"" )
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
                  </statusCode>
                  <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_IDENTITY_ID:Int ) )
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_ENUM_ID:Int ) |Set SetItem ( C_ENUM_MEMBER_CONTRACT_ID:Int ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     C_IDENTITY_ID:Int
+                     C_ENUM_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"i\xab\xff\xa1" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
+                     b"c6\xf6\x1e"
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( selector ( "applyOp(uint256)" ) : .WordStack ) )
+                     ( .WordStack => ( selector ( "enum_storage_range()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) ) +Bytes #buf ( 32 , #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -119,7 +119,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_IDENTITY_ID:Int ) )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ENUM_MEMBER_CONTRACT_ID:Int ) |Set SetItem ( C_ENUM_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -141,17 +141,36 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       C_IDENTITY_ID:Int
+                       C_ENUM_ID:Int
                      </acctID>
                      <balance>
-                       C_IDENTITY_BAL:Int
+                       C_ENUM_BAL:Int
                      </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
                      <nonce>
-                       C_IDENTITY_NONCE:Int
+                       C_ENUM_NONCE:Int
                      </nonce>
                      ...
                    </account>
-                   ACCOUNTS_REST:AccountCellMap )
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
                  </accounts>
                  ...
                </network>
@@ -206,32 +225,44 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_IDENTITY_ID:Int
-       andBool ( 0 <=Int C_IDENTITY_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int C_IDENTITY_NONCE:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( C_IDENTITY_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_IDENTITY_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_IDENTITY_ID:Int <Int pow160
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          C_IDENTITY_ID:Int
+          C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 9 ) )
-               ))))))))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 9 ) )
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -259,22 +290,22 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  </statusCode>
                  <callState>
                    <id>
-                     C_IDENTITY_ID:Int
+                     C_ENUM_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"i\xab\xff\xa1" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
+                     b"c6\xf6\x1e"
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 164 : ( selector ( "identity(uint256)" ) : ( C_IDENTITY_ID:Int : ( 0 : ( VV0_x_114b9705:Int : ( 70 : ( selector ( "applyOp(uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 132 : ( selector ( "letter()" ) : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( selector ( "enum_storage_range()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xac7\xee\xbb" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -292,7 +323,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_IDENTITY_ID:Int ) )
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ENUM_MEMBER_CONTRACT_ID:Int ) )
                    </accessedAccounts>
                    ...
                  </substate>
@@ -314,17 +345,36 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       C_IDENTITY_ID:Int
+                       C_ENUM_ID:Int
                      </acctID>
                      <balance>
-                       C_IDENTITY_BAL:Int
+                       C_ENUM_BAL:Int
                      </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
                      <nonce>
-                       C_IDENTITY_NONCE:Int
+                       C_ENUM_NONCE:Int
                      </nonce>
                      ...
                    </account>
-                   ACCOUNTS_REST:AccountCellMap )
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
                  </accounts>
                  ...
                </network>
@@ -379,32 +429,44 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_IDENTITY_ID:Int
-       andBool ( 0 <=Int C_IDENTITY_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int C_IDENTITY_NONCE:Int
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( 1024 <=Int CALLDEPTH_CELL:Int
-       andBool ( C_IDENTITY_NONCE:Int <Int maxUInt64
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_IDENTITY_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_IDENTITY_ID:Int <Int pow160
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( C_IDENTITY_BAL:Int <Int pow256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          C_IDENTITY_ID:Int
+          C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 9 ) )
-               ))))))))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 9 ) )
+               ))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule

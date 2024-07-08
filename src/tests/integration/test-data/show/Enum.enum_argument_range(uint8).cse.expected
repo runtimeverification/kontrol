@@ -5,10 +5,10 @@
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 │
-│  (274 steps)
+│  (514 steps)
 ├─ 3 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 62
+│   pc: 68
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: EVMC_SUCCESS
 │
@@ -23,7 +23,7 @@
 
 
 
-module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
+module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
     
     
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
@@ -51,19 +51,19 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
                  </statusCode>
                  <callState>
                    <id>
-                     C_STATICCALLCONTRACT_ID:Int
+                     C_ENUM_ID:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"`\xfeG\xb1" +Bytes #buf ( 32 , VV0_y_114b9705:Int )
+                     b"\x84|7\xfb" +Bytes #buf ( 32 , VV0_letter_114b9705:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( selector ( "set(uint256)" ) : .WordStack ) )
+                     ( .WordStack => ( selector ( "enum_argument_range(uint8)" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -74,9 +74,6 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
                    <callGas>
                      0
                    </callGas>
-                   <static>
-                     false
-                   </static>
                    ...
                  </callState>
                  <substate>
@@ -103,20 +100,36 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
                  <accounts>
                    ( <account>
                      <acctID>
-                       C_STATICCALLCONTRACT_ID:Int
+                       C_ENUM_ID:Int
                      </acctID>
                      <balance>
-                       C_STATICCALLCONTRACT_BAL:Int
+                       C_ENUM_BAL:Int
                      </balance>
                      <storage>
-                       ( C_STATICCALLCONTRACT_STORAGE:Map => C_STATICCALLCONTRACT_STORAGE:Map [ 0 <- VV0_y_114b9705:Int ] )
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
                      </storage>
                      <nonce>
-                       C_STATICCALLCONTRACT_NONCE:Int
+                       C_ENUM_NONCE:Int
                      </nonce>
                      ...
                    </account>
-                   ACCOUNTS_REST:AccountCellMap )
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
                  </accounts>
                  ...
                </network>
@@ -171,31 +184,46 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int VV0_y_114b9705:Int
-       andBool ( 0 <=Int C_STATICCALLCONTRACT_ID:Int
-       andBool ( 0 <=Int C_STATICCALLCONTRACT_BAL:Int
-       andBool ( 0 <=Int C_STATICCALLCONTRACT_NONCE:Int
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( VV0_letter_114b9705:Int <Int 6
+       andBool ( 0 <=Int VV0_letter_114b9705:Int
+       andBool ( VV0_letter_114b9705:Int <Int 256
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_STATICCALLCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_STATICCALLCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_STATICCALLCONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( VV0_y_114b9705:Int <Int pow256
-       andBool ( C_STATICCALLCONTRACT_BAL:Int <Int pow256
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
-          C_STATICCALLCONTRACT_ID:Int
+          C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < C_STATICCALLCONTRACT_ID:Int <= 9 ) )
-               )))))))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 9 ) )
+               ))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
 
 endmodule
