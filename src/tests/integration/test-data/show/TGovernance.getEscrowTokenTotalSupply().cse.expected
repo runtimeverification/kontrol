@@ -82,7 +82,7 @@
 
 
 
-module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
+module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():1
     
     
     rule [BASIC-BLOCK-13-TO-7]: <foundry>
@@ -174,7 +174,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                        C_TGOVERNANCE_ESCROW_BAL:Int
                      </balance>
                      <storage>
-                       ( ( 0 |-> #asWord ( #buf ( 11 , _C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER ) +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes #buf ( 1 , _C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE ) ) )
+                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes ) )
                        C_TGOVERNANCE_ESCROW_STORAGE:Map )
                      </storage>
                      <nonce>
@@ -274,6 +274,8 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
+       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
+       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
@@ -315,7 +317,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 9 ) )
-               )))))))))))))))))))))))))))))))))))))))))))))
+               )))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-7)]
     
     rule [BASIC-BLOCK-16-TO-10]: <foundry>
@@ -410,7 +412,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                        C_TGOVERNANCE_ESCROW_BAL:Int
                      </balance>
                      <storage>
-                       ( ( 0 |-> #asWord ( #buf ( 11 , ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Int => ?_C_TESCROW_TOKEN_SLOT_AFTER ) ) +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes #buf ( 1 , ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Int => ?_C_TESCROW_TOKEN_SLOT_BEFORE ) ) ) )
+                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes ) )
                        C_TGOVERNANCE_ESCROW_STORAGE:Map )
                      </storage>
                      <nonce>
@@ -514,6 +516,8 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
+       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
+       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
@@ -555,10 +559,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 9 ) )
-               ))))))))))))))))))))))))))))))))))))))))))))))
-       ensures ( #buf ( 1 , ?_C_TESCROW_TOKEN_SLOT_BEFORE ) ~> .K ==K #buf ( 1 , C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Int ) ~> .K
-       andBool ( #buf ( 11 , ?_C_TESCROW_TOKEN_SLOT_AFTER ) ~> .K ==K #buf ( 11 , C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Int ) ~> .K
-               ))
+               ))))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-10)]
     
     rule [BASIC-BLOCK-17-TO-11]: <foundry>
@@ -653,7 +654,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                        C_TGOVERNANCE_ESCROW_BAL:Int
                      </balance>
                      <storage>
-                       ( ( 0 |-> #asWord ( #buf ( 11 , C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Int ) +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes #buf ( 1 , C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Int ) ) )
+                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes ) )
                        C_TGOVERNANCE_ESCROW_STORAGE:Map )
                      </storage>
                      <nonce>
@@ -754,6 +755,8 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
+       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
+       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
@@ -795,10 +798,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 9 ) )
-               ))))))))))))))))))))))))))))))))))))))))))))))
-       ensures ( #buf ( 1 , ?__C_TESCROW_TOKEN_SLOT_BEFORE ) ~> .K ==K #buf ( 1 , C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Int ) ~> .K
-       andBool ( #buf ( 11 , ?__C_TESCROW_TOKEN_SLOT_AFTER ) ~> .K ==K #buf ( 11 , C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Int ) ~> .K
-               ))
+               ))))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-17-TO-11)]
 
 endmodule
