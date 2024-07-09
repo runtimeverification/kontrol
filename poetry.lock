@@ -645,7 +645,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.634"
+version = "1.0.635"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -653,26 +653,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.45"
+kframework = "7.1.46"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.634"
-resolved_reference = "ecc16a832b85fa8d54626f84dbf44ca38483d72c"
+reference = "v1.0.635"
+resolved_reference = "800f92a4119d41708ff7e5a1c236926b22f26954"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.45"
+version = "7.1.46"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.45-py3-none-any.whl", hash = "sha256:a8dff4bda25a1510b9673d2b1be5bd70bb359b556c1384d8261ad2d8cfdbeff9"},
-    {file = "kframework-7.1.45.tar.gz", hash = "sha256:350b4f7ec2bb67d75eba02e5499e7bd290c58ce4c03852aaa4077dd9be0e1761"},
+    {file = "kframework-7.1.46-py3-none-any.whl", hash = "sha256:c90e523fd232d5645463e0f130ba0b39f2c7119f0260631978eea9e9f4e4c970"},
+    {file = "kframework-7.1.46.tar.gz", hash = "sha256:cc6fdd2a77afc1e3f29c0ceb72b55c8cb1323b889c75e20bf431a94b51916f05"},
 ]
 
 [package.dependencies]
@@ -1229,13 +1229,13 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "70.2.0"
+version = "70.3.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-70.2.0-py3-none-any.whl", hash = "sha256:b8b8060bb426838fbe942479c90296ce976249451118ef566a5a0b7d8b78fb05"},
-    {file = "setuptools-70.2.0.tar.gz", hash = "sha256:bd63e505105011b25c3c11f753f7e3b8465ea739efddaccef8f0efac2137bac1"},
+    {file = "setuptools-70.3.0-py3-none-any.whl", hash = "sha256:fe384da74336c398e0d956d1cae0669bc02eed936cdb1d49b57de1990dc11ffc"},
+    {file = "setuptools-70.3.0.tar.gz", hash = "sha256:f171bab1dfbc86b132997f26a119f6056a57950d058587841a0082e8830f9dc5"},
 ]
 
 [package.extras]
@@ -1382,4 +1382,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "a7fbb1c961b2f60319ef1aa509a25c5081ef6e076e75f2cbed852ea8d06732cd"
+content-hash = "e84540c70f8032c99319a2dc13a3c85a2d44de5012409ce5ca89e40a5c7b4618"
