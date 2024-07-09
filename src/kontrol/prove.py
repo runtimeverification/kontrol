@@ -1062,8 +1062,8 @@ def _create_cse_accounts(
 
     for field in storage_fields:
         field_name = contract_name + '_' + field.label.upper()
-        if field.data_type.startswith('enum'):
-            enum_name = field.data_type.split(' ')[1]
+        if field.data_type.name.startswith('enum'):
+            enum_name = field.data_type.name.split(' ')[1]
             enum_max = foundry.enums[enum_name]
             new_account_constraints.append(
                 mlEqualsTrue(
@@ -1074,7 +1074,7 @@ def _create_cse_accounts(
                 )
             )
         # Processing of strings
-        if field.data_type == 'string':
+        if field.data_type.name == 'string':
             string_contents = KVariable(field_name + '_S_CONTENTS', sort=KSort('Bytes'))
             string_length = KVariable(field_name + '_S_LENGTH', sort=KSort('Int'))
             string_structure = KEVM.as_word(
@@ -1098,7 +1098,7 @@ def _create_cse_accounts(
             new_account_constraints.append(mlEqualsTrue(string_length_lb))
             new_account_constraints.append(mlEqualsTrue(string_length_ub))
         # Processing of addresses
-        if field.data_type == 'address':
+        if field.data_type.name == 'address':
             if field.slot in singly_occupied_slots:
                 # The offset must equal zero
                 assert field.offset == 0
@@ -1111,11 +1111,11 @@ def _create_cse_accounts(
                 new_account_constraints.append(mlEqualsTrue(address_range_lb))
                 new_account_constraints.append(mlEqualsTrue(address_range_ub))
         # Processing of contracts
-        if field.data_type.startswith('contract '):
+        if field.data_type.name.startswith('contract '):
             if field.linked_interface:
                 contract_type = field.linked_interface
             else:
-                contract_type = field.data_type.split(' ')[1]
+                contract_type = field.data_type.name.split(' ')[1]
             for full_contract_name, contract_obj in foundry.contracts.items():
                 # TODO: this is not enough, it is possible that the same contract comes with
                 # src% and test%, in which case we don't know automatically which one to choose

@@ -18,6 +18,8 @@ from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process, single
+from pyk.prelude.ml import mlEqualsTrue
+from pyk.prelude.k import K_ITEM, GENERATED_TOP_CELL
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -337,7 +339,7 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
 
 class StorageField(NamedTuple):
     label: str
-    data_type: str
+    data_type: StorageFieldType
     slot: int
     offset: int
     linked_interface: str | None
@@ -1378,6 +1380,108 @@ def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[st
     _find_function_calls(node)
     return function_calls
 
+@dataclass
+class StorageFieldType:
+    name: str
+    pred: KInner | None
+
+    def compute_preds(self, base_pred: KInner) -> None:
+        self.pred = base_pred
+
+    def preds(self) -> list[tuple[KInner, str]]:
+        assert self.pred is not None
+        return [(self.pred, self.name)]
+
+    def pred_vars(self) -> list[KInner]:
+        return []
+
+    def compute_constraints(self, storage_map: KInner) -> list[KInner]:
+
+        constraints: list[KInner] = []
+        for pred, pred_type in self.preds():
+            assert isinstance(pred, KApply)
+            constraint = _range_predicate(term=KEVM.lookup(storage_map, pred.args[1]), type_label=pred_type)
+            if constraint is not None:
+                constraint = mlEqualsTrue(constraint)
+                for pred_var in self.pred_vars():
+                    constraint = KLabel('#Forall', K_ITEM, GENERATED_TOP_CELL)(pred_var, constraint)
+                constraints.append(constraint)
+        return constraints
+
+@dataclass
+class StorageFieldArrayType(StorageFieldType):
+    base_type: StorageFieldType
+
+
+@dataclass
+class StorageFieldMappingType(StorageFieldType):
+    key_type: StorageFieldType
+    val_type: StorageFieldType
+    pred_var: tuple[KInner, ...] = ()
+
+    def pred_vars(self) -> list[KInner]:
+        return list(self.pred_var) + self.val_type.pred_vars()
+
+    def compute_preds(self, base_pred: KInner) -> None:
+        variable = KVariable('V_' + hash_str(base_pred)[0:8])
+        self.pred_var = (variable,)
+        self.pred = base_pred
+        self.val_type.compute_preds(
+                KApply('buf', [intToken(32),
+                KApply('keccak(_)_SERIALIZATION_Int_Bytes', [
+                    KEVM.bytes_append(
+                        variable,
+                        base_pred,
+                    )
+                ])
+                ])
+        )
+
+    def preds(self) -> list[tuple[KInner, str]]:
+        assert self.pred is not None
+        return [(self.pred, self.name)] + self.val_type.preds()
+
+@dataclass
+class StorageFieldStructType(StorageFieldType):
+    members: tuple[StorageField, ...]
+
+
+def build_storage_field_type(dct: dict, types_dct: dict, interface_annotations: dict) -> StorageFieldType:
+    if 'key' in dct:
+        # Mapping
+        return StorageFieldMappingType(
+            name=dct['label'], 
+            key_type=build_storage_field_type(types_dct[dct['key']], types_dct, interface_annotations),
+            val_type=build_storage_field_type(types_dct[dct['value']], types_dct, interface_annotations),
+            pred=None,
+        )
+    elif 'members' in dct:
+        # Struct
+        return StorageFieldStructType(
+            name=dct['label'],
+            members=tuple(storage_field_from_dict(member, types_dct, interface_annotations) for member in dct['members']),
+            pred=None,
+        )
+    elif 'base' in dct:
+        # Array
+        return StorageFieldArrayType(
+            name=dct['label'],
+            base_type=build_storage_field_type(types_dct[dct['base']], types_dct, interface_annotations),
+            pred=None,
+        )
+    else:
+        # Other
+        return StorageFieldType(name=dct['label'], pred=None)
+
+
+def storage_field_from_dict(dct: dict, types_dct: dict, interface_annotations: dict) -> StorageField:
+    label= dct['label']
+    slot = int(dct['slot'])
+    offset = int(dct['offset'])
+    data_type = build_storage_field_type(types_dct[dct['type']], types_dct, interface_annotations)
+    linked_interface = interface_annotations.get(dct['label'], None)
+    return StorageField(label, data_type, slot, offset, linked_interface)
+
 
 def process_storage_layout(storage_layout: dict, interface_annotations: dict) -> tuple[StorageField, ...]:
     storage = storage_layout.get('storage', [])
@@ -1386,14 +1490,7 @@ def process_storage_layout(storage_layout: dict, interface_annotations: dict) ->
     fields_list: list[StorageField] = []
     for field in storage:
         try:
-            type_info = types.get(field['type'], {})
-            storage_field = StorageField(
-                label=field['label'],
-                data_type=type_info.get('label', field['type']),
-                slot=int(field['slot']),
-                offset=int(field['offset']),
-                linked_interface=interface_annotations.get(field['label'], None),
-            )
+            storage_field = storage_field_from_dict(field, types, interface_annotations)
             fields_list.append(storage_field)
         except (KeyError, ValueError) as e:
             _LOGGER.error(f'Error processing field {field}: {e}')
