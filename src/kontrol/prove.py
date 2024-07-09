@@ -901,6 +901,7 @@ def _init_cterm(
         'ADDRESSSET_CELL': set_empty(),
         'STORAGESLOTSET_CELL': set_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
+        'MOCKFUNCTIONS_CELL': KApply('.MockFunctionCellMap'),
         'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
         'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
         'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,

@@ -1016,8 +1016,9 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
          </account>
          <mockFunction>
            <mockFunctionAddress> ACCTCODE </mockFunctionAddress>
-           <mockFunctionValues>...  CALLDATA |-> MOCKTARGET ...</mockFunctionValues>
+           <mockFunctionValues>...  CALLDATA_KEY |-> MOCKTARGET ...</mockFunctionValues>
          </mockFunction>
+         requires #range(CALLDATA, 0, lengthBytes(CALLDATA_KEY)) ==K CALLDATA_KEY
       [priority(30)]
 ```
 
@@ -1545,7 +1546,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "infiniteGas()" )                            => 3986649939 )
     rule ( selector ( "setGas(uint256)" )                          => 3713137314 )
     rule ( selector ( "mockCall(address,bytes,bytes)" )            => 3110212580 )
-    rule ( selector ( "mockFunction(address,address,bytes)" )            => 2918731041 )
+    rule ( selector ( "mockFunction(address,address,bytes)" )      => 2918731041 )
 ```
 
 - selectors for unimplemented cheat code functions.
