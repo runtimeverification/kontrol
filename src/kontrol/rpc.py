@@ -150,7 +150,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         )
 
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
-        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
 
         # print('K----------------------------------------------')
@@ -181,6 +181,8 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         formatted_messages_dict['blockNumber'] = tx_receipt['<txBlockNumber>']
         formatted_messages_dict['hash'] = tx_receipt['<txHash>']
         formatted_messages_dict['from'] = _acct_id_to_address(tx_receipt['<sender>'])
+        del formatted_messages_dict['priorityFee']
+        del formatted_messages_dict['maxFee']
         return formatted_messages_dict
     
 
@@ -190,7 +192,20 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         if tx_receipt_dict is None:
             return 'Transaction receipt not found'
         
+        msg_id = str(tx_receipt_dict['<txID>'])
+        messages_dict = self._get_all_messages_dict()
+
+        if msg_id not in messages_dict:
+            return 'Transaction not found.'
+
         formatted_receipt_dict = _apply_format_to_message_cell_json_dict(tx_receipt_dict)
+        formatted_receipt_dict['to'] = messages_dict[msg_id]['<to>']
+        formatted_receipt_dict['transactionHash'] = formatted_receipt_dict['hash']
+        formatted_receipt_dict['from'] = formatted_receipt_dict['sender']
+        del formatted_receipt_dict['hash']
+        del formatted_receipt_dict['sender']
+        del formatted_receipt_dict['bloomFilter']
+        del formatted_receipt_dict['nonce']
 
         return formatted_receipt_dict
 
