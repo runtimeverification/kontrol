@@ -14,14 +14,6 @@ module KONTROL-VM
                         | "#eth_sendTransaction" TxType Int Int Int Int Int Int Bytes [symbol(eth_sendTransaction)]
                         | Int
 
-    syntax KItem ::= "#eth_sendTransaction_final"
-
-    rule <k> TXID:Int ~> #eth_sendTransaction_final => . ... </k>
-        //  <txPending> ListItem(TXID) => .List ... </txPending>
-         <txOrder>   ListItem(TXID) => .List ... </txOrder>
-         <currentTxID> TXID => TXID +Int 1 </currentTxID>
-         <rpcResponse> _ => 200 </rpcResponse>
-
     syntax RPCResponse ::= ".RPCResponse" | String | Int | Bytes
     
     configuration <simbolikVM>
@@ -32,6 +24,9 @@ module KONTROL-VM
                     <timeFreeze> true </timeFreeze>
                     <timeDiff> 0 </timeDiff>
                     <currentTxID> 0 </currentTxID>
+                    <blockchain>
+                      <blockStorage> .Map </blockStorage>
+                    </blockchain>
                     <txReceipts>
                       <txReceipt multiplicity ="*" type="Map">
                         <txHash>          .Bytes  </txHash>
@@ -44,9 +39,76 @@ module KONTROL-VM
                         <txBlockNumber>   0          </txBlockNumber>
                       </txReceipt>
                     </txReceipts>
-                  </simbolikVM>                       
+                  </simbolikVM>                 
 
+    
     rule <k> #kontrol_requestValue => . ... </k> 
+
+```
+
+  The Blockchain State
+  --------------------
+
+  A `BlockchainItem` contains the information of a block and its network state.
+  The `blockList` cell stores a list of previous blocks and network states.
+  -   `#pushBlockchainState` saves a copy of the block state and network state as a `BlockchainItem` in the `blockList` cell.
+  -   `#getBlockByNumber(BlockIdentifier, List, Block)` retrieves a specific `BlockchainItem` from the `blockList` cell.
+
+```k
+    syntax BlockchainItem ::= ".BlockchainItem"
+                            | "{" NetworkCell "|" BlockCell "}"
+    // -----------------------------------------------------------
+
+    syntax KItem ::= "#pushBlockchainState"
+                  | "#pushBlockchainState" BlockchainItem
+    // ------------------------------------------------------
+    rule <k> #pushBlockchainState => #pushBlockchainState { <network> NETWORK </network> | <block> BLOCK </block> } ... </k>
+        <network> NETWORK </network>
+        <block>   BLOCK   </block>
+
+    rule <k> #pushBlockchainState ({ _ | <block> <number> NUM </number> _ </block> } #as BCHAINITEM) => . ... </k>
+        <blockStorage> M => M[NUM                             <- BCHAINITEM]
+                              [#blockchainItemHash(BCHAINITEM) <- BCHAINITEM]
+                              [LATEST                          <- BCHAINITEM] </blockStorage>
+        <blockhashes> (.List => ListItem(#blockchainItemHash(BCHAINITEM))) ... </blockhashes>
+
+    syntax BlockchainItem ::= #getBlockByNumber ( BlockIdentifier , Map , BlockchainItem ) [function]
+    // -------------------------------------------------------------------------------------------------
+    rule #getBlockByNumber( _                 , _                   , _     ) => .BlockchainItem [owise]
+    rule #getBlockByNumber( BLOCKID           , BLOCKID |-> BLOCK _ , _     ) => BLOCK
+    rule #getBlockByNumber( LATEST            , .Map                , BLOCK ) => BLOCK
+    rule #getBlockByNumber( EARLIEST          , M                   , BLOCK ) => BLOCK requires notBool 0 in_keys(M)
+    rule #getBlockByNumber( EARLIEST => 0     , M                   , _     )          requires         0 in_keys(M)
+    rule #getBlockByNumber( PENDING => LATEST , _                   , _     )
+
+    syntax AccountItem ::= AccountCell | ".AccountItem"
+    // ---------------------------------------------------
+
+    syntax AccountItem ::= #getAccountFromBlockchainItem( BlockchainItem , Int ) [function]
+    // ---------------------------------------------------------------------------------------
+    rule #getAccountFromBlockchainItem ( { <network> <accounts> (<account> <acctID> ACCT </acctID> ACCOUNTDATA </account>) ... </accounts>  ... </network> | _ } , ACCT ) => <account> <acctID> ACCT </acctID> ACCOUNTDATA </account>
+    rule #getAccountFromBlockchainItem(_, _) => .AccountItem [owise]
+
+    syntax KItem ::= #getAccountAtBlock ( BlockIdentifier , Int )
+    // -------------------------------------------------------------
+    rule <k> #getAccountAtBlock(BLOCKNUM , ACCTID)
+          => #getAccountFromBlockchainItem(#getBlockByNumber(BLOCKNUM, BLOCKSTORAGE, {<network> NETWORK </network> | <block> BLOCK </block>}), ACCTID) ... </k>
+        <blockStorage> BLOCKSTORAGE </blockStorage>
+        <network>      NETWORK      </network>
+        <block>        BLOCK        </block>
+
+    syntax Int ::= #getNumberFromBlockchainItem (BlockchainItem) [function]
+    // -----------------------------------------------------------------------
+    rule #getNumberFromBlockchainItem({ _ | <block> <number> BLOCKNUM </number> ... </block> }) => BLOCKNUM
+
+    syntax Int ::= #getNumberAtBlock ( BlockIdentifier , Map , BlockchainItem ) [function]
+    // --------------------------------------------------------------------------------------
+    rule #getNumberAtBlock (X:Int  , _           , _     ) => X
+    rule #getNumberAtBlock (BLOCKID, BLOCKSTORAGE, BLOCK ) => #getNumberFromBlockchainItem(#getBlockByNumber(BLOCKID, BLOCKSTORAGE, BLOCK)) [owise]
+
+
+
+
 
     syntax KItem ::= "#acctFromPrivateKey" String Int [symbol(acctFromPrivateKey)] 
     syntax KItem ::= "#setAcctBalance" Int Int 
@@ -63,6 +125,13 @@ module KONTROL-VM
               </account> 
               ... 
             </accounts> 
+
+    
+    syntax KItem ::= "#update_current_tx_id" 
+
+    rule <k> TXID:Int ~> #update_current_tx_id => . ... </k>
+         <currentTxID> TXID => TXID +Int 1 </currentTxID>
+         <rpcResponse> _ => 200 </rpcResponse>
 
     rule <k> #eth_sendTransaction 
                 TXTYPE
@@ -83,8 +152,10 @@ module KONTROL-VM
                   TXVALUE 
                   TXNONCE
                   TXDATA  
-                ~> #makeTxReceipts
-                ~> #eth_sendTransaction_final 
+                ~> #update_current_tx_id
+                // ~> #makeTxReceipts
+                // ~> #clear_tx_lists
+                ~> #mineBlock
                 ... 
               </k>
     
@@ -402,7 +473,7 @@ module KONTROL-VM
      syntax KItem ::= "#makeTxReceipts"
                    | "#makeTxReceiptsAux" List
  // ------------------------------------------
-    rule <k> VALUE:Int ~> #makeTxReceipts => #makeTxReceiptsAux TXLIST ~> VALUE ... </k>
+    rule <k> #makeTxReceipts => #makeTxReceiptsAux TXLIST ... </k>
          <txOrder> TXLIST </txOrder>
     rule <k> #makeTxReceiptsAux .List => . ... </k>
     rule <k> #makeTxReceiptsAux (ListItem(TXID) TXLIST) => #makeTxReceipt TXID ~> #makeTxReceiptsAux TXLIST ... </k>
@@ -444,6 +515,86 @@ module KONTROL-VM
          <number>     BN   </number>
          <origin>     ACCT </origin>
       
+
+     syntax BlockchainItem ::= ".BlockchainItem"
+                            | "{" NetworkCell "|" BlockCell "}"
+
+    syntax KItem ::= "#mineBlock"
+    // -----------------------------
+    rule <k> #mineBlock
+          => #finalizeBlock
+          ~> #setParentHash #getBlockByNumber( LATEST, BLOCKSTORAGE, {<network> NETWORK </network> | <block> BLOCK </block>} )
+          ~> #makeTxReceipts
+          // ~> #updateStateTrie
+          // ~> #updateTrieRoots
+          ~> #saveState
+          ~> #startBlock
+          ~> #cleanTxLists
+          ~> #clearGas
+          ...
+         </k>
+         <blockStorage> BLOCKSTORAGE </blockStorage>
+         <network>      NETWORK      </network>
+         <block>        BLOCK        </block>
+
+    syntax KItem ::= "#saveState"
+                   | "#incrementBlockNumber"
+                   | "#cleanTxLists"
+                   | "#clearGas"
+                   | "#setParentHash" BlockchainItem
+                  //  | "#updateTrieRoots"
+                  //  | "#updateStateRoot"
+                  //  | "#updateTransactionsRoot"
+                  //  | "#updateReceiptsRoot"
+                  //  | "#initStateTrie"
+                  //  | "#updateStateTrie"
+                   | #updateStateTrie ( JSONs )
+
+
+    rule <k> #setParentHash BCI => . ... </k>
+         <previousHash> _ => #blockchainItemHash( BCI ) </previousHash>
+
+    rule <k> #saveState => #pushBlockchainState ~> #incrementBlockNumber ... </k>
+
+    rule <k> #incrementBlockNumber => . ... </k>
+         <number> BN => BN +Int 1 </number>
+
+    rule <k> #cleanTxLists => . ... </k>
+         <txPending> _ => .List </txPending>
+         <txOrder>   _ => .List </txOrder>
+    
+    rule <k> #clearGas => . ... </k>
+         <gas> _ => 0 </gas>
+
+```
+
+Helper Funcs
+------------
+
+```k
+    syntax Int ::= #blockchainItemHash( BlockchainItem ) [function]
+ // ---------------------------------------------------------------
+    rule #blockchainItemHash( { _ |
+         <block>
+           <previousHash>      HP </previousHash>
+           <ommersHash>        HO </ommersHash>
+           <coinbase>          HC </coinbase>
+           <stateRoot>         HR </stateRoot>
+           <transactionsRoot>  HT </transactionsRoot>
+           <receiptsRoot>      HE </receiptsRoot>
+           <logsBloom>         HB </logsBloom>
+           <difficulty>        HD </difficulty>
+           <number>            HI </number>
+           <gasLimit>          HL </gasLimit>
+           <gasUsed>           HG </gasUsed>
+           <timestamp>         HS </timestamp>
+           <extraData>         HX </extraData>
+           <mixHash>           HM </mixHash>
+           <blockNonce>        HN </blockNonce>
+           ...
+         </block> } )
+      => #blockHeaderHash(HP, HO, HC, HR, HT, HE, HB, HD, HI, HL, HG, HS, HX, HM, HN)
+
 
 endmodule
 
