@@ -184,14 +184,13 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         del formatted_messages_dict['priorityFee']
         del formatted_messages_dict['maxFee']
         return formatted_messages_dict
-    
 
     def exec_get_transaction_receipt(self, tx_hash: str) -> dict | str:
         tx_receipt_dict = self._get_tx_receipt_by_hash(tx_hash)
 
         if tx_receipt_dict is None:
             return 'Transaction receipt not found'
-        
+
         msg_id = str(tx_receipt_dict['<txID>'])
         messages_dict = self._get_all_messages_dict()
 
@@ -392,7 +391,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
                         message_dict = {}
                         for args in message_cell.args:
                             assert type(args) is KApply
-                            cell_name = args.label.name
+                            cell_name = str(args.label.name)
                             if isinstance(args.args[0], KToken):
 
                                 value = None
@@ -404,7 +403,8 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
                                 message_dict[cell_name] = value
 
-                        messages_dict[message_dict['<msgID>']] = message_dict
+                        msg_id = str(message_dict['<msgID>'])
+                        messages_dict[msg_id] = message_dict
                     elif 'MessageCellMap' in message_cell.label.name:
                         queue.extend(message_cell.args)
 
@@ -528,8 +528,8 @@ def _apply_format_to_message_cell_json_dict(message_dict: dict) -> dict:
 
             try:
                 int(value, 16)
-                value = "0x" + value if value[:2] != '0x' else value
-            except:
+                value = '0x' + value if value[:2] != '0x' else value
+            except Exception:
                 if type(value) is int:
                     value = hex(value)
                 elif message_dict[key].isdecimal():
