@@ -106,10 +106,6 @@ module KONTROL-VM
     rule #getNumberAtBlock (X:Int  , _           , _     ) => X
     rule #getNumberAtBlock (BLOCKID, BLOCKSTORAGE, BLOCK ) => #getNumberFromBlockchainItem(#getBlockByNumber(BLOCKID, BLOCKSTORAGE, BLOCK)) [owise]
 
-
-
-
-
     syntax KItem ::= "#acctFromPrivateKey" String Int [symbol(acctFromPrivateKey)] 
     syntax KItem ::= "#setAcctBalance" Int Int 
     // ---------------------------------------------

@@ -45,6 +45,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.register_method('eth_getBalance', self.exec_get_balance)
         self.register_method('eth_sendTransaction', self.exec_send_transaction)
         self.register_method('eth_getTransactionByHash', self.exec_get_transaction_by_hash)
+        self.register_method('eth_getTransactionReceipt', self.exec_get_transaction_receipt)
         self.register_method('kontrol_requestValue', self.exec_request_value)
         self.register_method('kontrol_addAccount', self.exec_add_account)
 
@@ -176,11 +177,22 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         if msg_id not in messages_dict:
             return 'Transaction not found.'
 
-        formatted_messages_dict = _apply_format_to_json_dict(messages_dict[msg_id])
+        formatted_messages_dict = _apply_format_to_message_cell_json_dict(messages_dict[msg_id])
         formatted_messages_dict['blockNumber'] = tx_receipt['<txBlockNumber>']
         formatted_messages_dict['hash'] = tx_receipt['<txHash>']
         formatted_messages_dict['from'] = _acct_id_to_address(tx_receipt['<sender>'])
         return formatted_messages_dict
+    
+
+    def exec_get_transaction_receipt(self, tx_hash: str) -> dict | str:
+        tx_receipt_dict = self._get_tx_receipt_by_hash(tx_hash)
+
+        if tx_receipt_dict is None:
+            return 'Transaction receipt not found'
+        
+        formatted_receipt_dict = _apply_format_to_message_cell_json_dict(tx_receipt_dict)
+
+        return formatted_receipt_dict
 
     # ------------------------------------------------------
     # VM data fetch helper functions
@@ -321,40 +333,40 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
             cell = self.cterm.cell('TXNONCE_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<txNonce>'] = cell.token
+            messages_dict[msg_id]['<txNonce>'] = int(cell.token)
             cell = self.cterm.cell('TXGASPRICE_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<txGasPrice>'] = cell.token
+            messages_dict[msg_id]['<txGasPrice>'] = int(cell.token)
             cell = self.cterm.cell('TXGASLIMIT_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<txGasLimit>'] = cell.token
+            messages_dict[msg_id]['<txGasLimit>'] = int(cell.token)
             cell = self.cterm.cell('TO_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<to>'] = cell.token
+            messages_dict[msg_id]['<to>'] = _acct_id_to_address(int(cell.token))
             cell = self.cterm.cell('VALUE_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<value>'] = cell.token
+            messages_dict[msg_id]['<value>'] = int(cell.token)
             cell = self.cterm.cell('SIGV_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<sigV>'] = cell.token
+            messages_dict[msg_id]['<sigV>'] = int(cell.token)
             cell = self.cterm.cell('SIGR_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<sigR>'] = cell.token
+            messages_dict[msg_id]['<sigR>'] = ast.literal_eval(cell.token).hex()
             cell = self.cterm.cell('SIGS_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<sigS>'] = cell.token
+            messages_dict[msg_id]['<sigS>'] = ast.literal_eval(cell.token).hex()
             cell = self.cterm.cell('DATA_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<data>'] = cell.token
+            messages_dict[msg_id]['<data>'] = '0x' + ast.literal_eval(cell.token).hex()
             cell = self.cterm.cell('TXCHAINID_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<txChainID>'] = cell.token
+            messages_dict[msg_id]['<txChainID>'] = int(cell.token)
             cell = self.cterm.cell('TXPRIORITYFEE_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<txPriorityFee>'] = cell.token
+            messages_dict[msg_id]['<txPriorityFee>'] = int(cell.token)
             cell = self.cterm.cell('TXMAXFEE_CELL')
             assert type(cell) is KToken
-            messages_dict[msg_id]['<txMaxFee>'] = cell.token
+            messages_dict[msg_id]['<txMaxFee>'] = int(cell.token)
         else:
             assert type(cell) is KApply
             queue: deque[KInner] = deque(cell.args)
@@ -367,7 +379,15 @@ class StatefulKJsonRpcServer(JsonRpcServer):
                             assert type(args) is KApply
                             cell_name = args.label.name
                             if isinstance(args.args[0], KToken):
-                                message_dict[cell_name] = args.args[0].token
+
+                                value = None
+
+                                if args.args[0].token.isdecimal():
+                                    value = int(args.args[0].token)
+                                else:
+                                    value = '0x' + ast.literal_eval(args.args[0].token).hex()
+
+                                message_dict[cell_name] = value
 
                         messages_dict[message_dict['<msgID>']] = message_dict
                     elif 'MessageCellMap' in message_cell.label.name:
@@ -473,7 +493,7 @@ def _tx_hash_to_msg_id(hash: str) -> int:
         return -1  # TODO: Trigger error instead of returning value
 
 
-def _apply_format_to_json_dict(message_dict: dict) -> dict:
+def _apply_format_to_message_cell_json_dict(message_dict: dict) -> dict:
     formatted_message_dict = {}
 
     for key in message_dict:
@@ -487,14 +507,20 @@ def _apply_format_to_json_dict(message_dict: dict) -> dict:
             new_key = 'input'
 
         if new_key == 'to':
-            formatted_message_dict[new_key] = _acct_id_to_address(int(message_dict[key]))
+            formatted_message_dict[new_key] = message_dict[key]
         else:
             value = message_dict[key]
 
-            if message_dict[key].isdecimal():
-                value = hex(int(message_dict[key]))
-            else:
-                value = '0x' + ast.literal_eval(message_dict[key]).hex()
+            try:
+                int(value, 16)
+                value = "0x" + value if value[:2] != '0x' else value
+            except:
+                if type(value) is int:
+                    value = hex(value)
+                elif message_dict[key].isdecimal():
+                    value = hex(int(message_dict[key]))
+                else:
+                    value = '0x' + ast.literal_eval(message_dict[key]).hex()
 
             formatted_message_dict[new_key] = value
 
