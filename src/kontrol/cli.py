@@ -16,7 +16,6 @@ from .options import (
     CleanOptions,
     CompileOptions,
     GetModelOptions,
-    VMOptions,
     InitOptions,
     ListOptions,
     LoadStateOptions,
@@ -35,6 +34,7 @@ from .options import (
     UnrefuteNodeOptions,
     VersionOptions,
     ViewKcfgOptions,
+    VMOptions,
 )
 from .prove import ConfigType, parse_test_version_tuple
 

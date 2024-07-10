@@ -96,6 +96,7 @@ def foundry_kompile(
             empty_config=empty_config,
             contracts=foundry.contracts.values(),
             requires=['vm.md'],
+            enums=foundry.enums,
         )
         # requires=['foundry.md'],
 

@@ -149,20 +149,37 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         )
 
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
-        output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
+        output_kore = self.krun.run_pattern(pattern, pipe_stderr=False)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
+
+        # print('K----------------------------------------------')
+        # k_cell = self.cterm.cell('K_CELL')
+        # _PPRINT.pprint(k_cell)
+        # print('TXORDER----------------------------------------------')
+        # txOrder_cell = self.cterm.cell('TXORDER_CELL')
+        # _PPRINT.pprint(txOrder_cell)
+        # print('RPCRESPONSE----------------------------------------------')
+        # rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
+        # _PPRINT.pprint(rpc_response_cell)
 
         return self._get_last_message_tx_hash()
 
     def exec_get_transaction_by_hash(self, tx_hash: str) -> dict | str:
-        msg_id = str(_tx_hash_to_msg_id(tx_hash))
+        tx_receipt = self._get_tx_receipt_by_hash(tx_hash)
+
+        if tx_receipt is None:
+            return 'Transaction receipt not found'
+
+        msg_id = str(tx_receipt['<txID>'])
         messages_dict = self._get_all_messages_dict()
 
         if msg_id not in messages_dict:
             return 'Transaction not found.'
 
         formatted_messages_dict = _apply_format_to_json_dict(messages_dict[msg_id])
-        formatted_messages_dict['hash'] = tx_hash
+        formatted_messages_dict['blockNumber'] = tx_receipt['<txBlockNumber>']
+        formatted_messages_dict['hash'] = tx_receipt['<txHash>']
+        formatted_messages_dict['from'] = _acct_id_to_address(tx_receipt['<sender>'])
         return formatted_messages_dict
 
     # ------------------------------------------------------
@@ -200,13 +217,92 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
         return accounts_dict
 
+    def _get_tx_receipt_by_msg_id(self, msg_id: int) -> dict | None:
+        # TODO: Fetch missing information from the tx receipts dict
+        tx_receipts_dict = self._get_all_tx_receipts_dict()
+        tx_receipt = None
+
+        for tx_receipt_key in tx_receipts_dict:
+            if tx_receipts_dict[tx_receipt_key]['<txID>'] == msg_id:
+                tx_receipt = tx_receipts_dict[tx_receipt_key]
+
+        return tx_receipt
+
+    def _get_tx_receipt_by_hash(self, hash: str) -> dict | None:
+        tx_receipts_dict = self._get_all_tx_receipts_dict()
+        return tx_receipts_dict[hash[2:]]
+
+    def _get_all_tx_receipts_dict(self) -> dict:
+        cells = self.cterm.cells
+        cell = cells.get('TXRECEIPTS_CELL', None)
+
+        tx_receipts_dict = {}
+
+        if cell is None:
+            # For the first transaction, the cells of the message will be scattered in the model, and if there is only this transaction in the messages map, this dictionary entry must be built manually.
+            cell = self.cterm.cell('TXHASH_CELL')
+            assert type(cell) is KToken
+            tx_hash = ast.literal_eval(cell.token).hex()
+
+            tx_receipts_dict[tx_hash] = {'<txHash>': '0x' + tx_hash}
+
+            cell = self.cterm.cell('TXCUMULATIVEGAS_CELL')
+            assert type(cell) is KToken
+            tx_receipts_dict[tx_hash]['<txNonce>'] = int(cell.token)
+            cell = self.cterm.cell('BLOOMFILTER_CELL')
+            assert type(cell) is KToken
+            tx_receipts_dict[tx_hash]['<bloomFilter>'] = '0x' + ast.literal_eval(cell.token).hex()
+            cell = self.cterm.cell('TXSTATUS_CELL')
+            assert type(cell) is KToken
+            tx_receipts_dict[tx_hash]['<txStatus>'] = int(cell.token)
+            cell = self.cterm.cell('TXID_CELL')
+            assert type(cell) is KToken
+            tx_receipts_dict[tx_hash]['<txID>'] = int(cell.token)
+            cell = self.cterm.cell('SENDER_CELL')
+            assert type(cell) is KToken
+            tx_receipts_dict[tx_hash]['<sender>'] = int(cell.token)
+            cell = self.cterm.cell('TXBLOCKNUMBER_CELL')
+            assert type(cell) is KToken
+            tx_receipts_dict[tx_hash]['<txBlockNumber>'] = int(cell.token)
+
+        else:
+            assert type(cell) is KApply
+            queue: deque[KInner] = deque(cell.args)
+            while len(queue) > 0:
+                tx_receipt_cell = queue.popleft()
+                if isinstance(tx_receipt_cell, KApply):
+                    if tx_receipt_cell.label.name == '<txReceipt>':
+                        tx_receipt_dict = {}
+                        for args in tx_receipt_cell.args:
+                            assert type(args) is KApply
+                            cell_name = args.label.name
+                            if isinstance(args.args[0], KToken):
+                                value = None
+
+                                if args.args[0].token.isdecimal():
+                                    value = int(args.args[0].token)
+                                else:
+                                    value = '0x' + ast.literal_eval(args.args[0].token).hex()
+
+                                tx_receipt_dict[cell_name] = value
+
+                        tx_receipts_dict[tx_receipt_dict['<txHash>']] = tx_receipt_dict
+                    elif 'txReceiptCellMap' in tx_receipt_cell.label.name:
+                        queue.extend(tx_receipt_cell.args)
+
+        return tx_receipts_dict
+
     def _get_last_message_tx_hash(self) -> str:
 
         cell = self.cterm.cell('CURRENTTXID_CELL')
         assert type(cell) is KToken
         last_tx_id = int(cell.token) - 1
 
-        last_tx_hash = _msg_id_to_tx_hash(last_tx_id)
+        tx_receipt = self._get_tx_receipt_by_msg_id(last_tx_id)
+
+        assert tx_receipt is not None
+
+        last_tx_hash = tx_receipt['<txHash>']  # _msg_id_to_tx_hash(last_tx_id)
 
         return last_tx_hash
 
@@ -367,14 +463,6 @@ def _address_to_acct_id(address: str) -> int:
     except ValueError:
         print(f'Invalid hexadecimal string: {address}')
         return -1  # TODO: Trigger error instead of returning value
-
-
-def _msg_id_to_tx_hash(msg_id: int) -> str:
-    hex_value = hex(msg_id).lower()[2:]
-    target_length = 66
-    padding_length = target_length - len(hex_value)
-    padded_hash = '0' * padding_length + hex_value
-    return '0x' + padded_hash
 
 
 def _tx_hash_to_msg_id(hash: str) -> int:

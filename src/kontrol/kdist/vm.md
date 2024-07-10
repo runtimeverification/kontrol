@@ -32,6 +32,18 @@ module KONTROL-VM
                     <timeFreeze> true </timeFreeze>
                     <timeDiff> 0 </timeDiff>
                     <currentTxID> 0 </currentTxID>
+                    <txReceipts>
+                      <txReceipt multiplicity ="*" type="Map">
+                        <txHash>          .Bytes  </txHash>
+                        <txCumulativeGas> 0          </txCumulativeGas>
+                        <logSet>          .List      </logSet>
+                        <bloomFilter>     .Bytes </bloomFilter>
+                        <txStatus>        0          </txStatus>
+                        <txID>            0          </txID>
+                        <sender>          .Account   </sender>
+                        <txBlockNumber>   0          </txBlockNumber>
+                      </txReceipt>
+                    </txReceipts>
                   </simbolikVM>                       
 
     rule <k> #kontrol_requestValue => . ... </k> 
@@ -71,6 +83,7 @@ module KONTROL-VM
                   TXVALUE 
                   TXNONCE
                   TXDATA  
+                ~> #makeTxReceipts
                 ~> #eth_sendTransaction_final 
                 ... 
               </k>
@@ -384,6 +397,53 @@ module KONTROL-VM
            ...
          </account>
       requires ACCTTO =/=K .Account
+
+
+     syntax KItem ::= "#makeTxReceipts"
+                   | "#makeTxReceiptsAux" List
+ // ------------------------------------------
+    rule <k> VALUE:Int ~> #makeTxReceipts => #makeTxReceiptsAux TXLIST ~> VALUE ... </k>
+         <txOrder> TXLIST </txOrder>
+    rule <k> #makeTxReceiptsAux .List => . ... </k>
+    rule <k> #makeTxReceiptsAux (ListItem(TXID) TXLIST) => #makeTxReceipt TXID ~> #makeTxReceiptsAux TXLIST ... </k>
+
+    syntax KItem ::= "#makeTxReceipt" Int
+ // -------------------------------------
+    rule <k> #makeTxReceipt TXID => . ... </k>
+         <txReceipts>
+           ( .Bag
+          => <txReceipt>
+               <txHash> #hashTxData( #getTxData (TXID) ) </txHash>
+               <txCumulativeGas> CGAS                           </txCumulativeGas>
+               <logSet>          LOGS                           </logSet>
+               <bloomFilter>     #bloomFilter(LOGS)             </bloomFilter>
+               <txStatus>        bool2Word(SC ==K EVMC_SUCCESS) </txStatus>
+               <txID>            TXID                           </txID>
+               <sender>          ACCT                           </sender>
+               <txBlockNumber>   BN                             </txBlockNumber>
+             </txReceipt>
+           )
+           ...
+         </txReceipts>
+         <message>
+           <msgID>      TXID </msgID>
+           <txNonce>    TN   </txNonce>
+           <txGasPrice> TP   </txGasPrice>
+           <txGasLimit> TG   </txGasLimit>
+           <to>         TT   </to>
+           <value>      TV   </value>
+           <sigV>       TW   </sigV>
+           <sigR>       TR   </sigR>
+           <sigS>       TS   </sigS>
+           <data>       TD   </data>
+           ...
+         </message>
+         <statusCode> SC   </statusCode>
+         <gasUsed>    CGAS </gasUsed>
+         <log>        LOGS </log>
+         <number>     BN   </number>
+         <origin>     ACCT </origin>
+      
 
 endmodule
 

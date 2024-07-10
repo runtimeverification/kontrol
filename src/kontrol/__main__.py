@@ -13,7 +13,6 @@ from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from pyk.rpc.rpc import ServeRpcOptions
-from pyk.utils import ensure_dir_path, run_process
 from pyk.utils import run_process
 
 from . import VERSION
@@ -60,7 +59,6 @@ if TYPE_CHECKING:
         CleanOptions,
         CompileOptions,
         GetModelOptions,
-        VMOptions,
         InitOptions,
         ListOptions,
         LoadStateOptions,
@@ -79,6 +77,7 @@ if TYPE_CHECKING:
         UnrefuteNodeOptions,
         VersionOptions,
         ViewKcfgOptions,
+        VMOptions,
     )
 
     T = TypeVar('T')
@@ -373,11 +372,13 @@ def exec_get_model(options: GetModelOptions) -> None:
 def exec_clean(options: CleanOptions) -> None:
     run_process(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)
 
+
 def exec_vm(options: VMOptions) -> None:
     server = StatefulKJsonRpcServer(
         ServeRpcOptions({'definition_dir': None, 'port': int(options.port), 'host': options.host})
     )
     server.serve()
+
 
 def exec_init(options: InitOptions) -> None:
     init_project(project_root=options.project_root, skip_forge=options.skip_forge)

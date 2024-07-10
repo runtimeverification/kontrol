@@ -156,6 +156,7 @@ class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
             }
         )
 
+
 class VMOptions(FoundryOptions, LoggingOptions):
     host: str
     port: int
@@ -166,10 +167,11 @@ class VMOptions(FoundryOptions, LoggingOptions):
             'host': '127.0.0.1',
             'port': 8081,
         }
-    
+
     @staticmethod
     def from_option_string() -> dict[str, str]:
         return LoggingOptions.from_option_string()
+
 
 class InitOptions(LoggingOptions):
     project_root: Path
