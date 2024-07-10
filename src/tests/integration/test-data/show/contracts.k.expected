@@ -5778,7 +5778,6 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
     
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KinfiniteGas" "(" ")" [symbol(""), klabel(method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KinfiniteGas_)]
     
-    
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KsetGas" "(" Int ":" "uint256" ")" [symbol(""), klabel(method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KsetGas_uint256)]
     
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KsymbolicStorage" "(" Int ":" "address" ")" [symbol(""), klabel(method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KsymbolicStorage_address)]
@@ -5900,9 +5899,6 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
       
     
     rule  ( selector ( "infiniteGas()" ) => 3986649939 )
-      
-    
-    rule  ( selector ( "mockFunction(address,address,bytes)" ) => 2918731041 )
       
     
     rule  ( selector ( "setGas(uint256)" ) => 3713137314 )
