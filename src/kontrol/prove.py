@@ -1057,15 +1057,20 @@ def _create_cse_accounts(
         field_name = contract_name + '_' + field.label.upper()
         if field.data_type.startswith('enum'):
             enum_name = field.data_type.split(' ')[1]
-            enum_max = foundry.enums[enum_name]
-            new_account_constraints.append(
-                mlEqualsTrue(
-                    ltInt(
-                        KEVM.lookup(storage_map, intToken(field.slot)),
-                        intToken(enum_max),
+            if enum_name not in foundry.enums:
+                _LOGGER.warning(
+                    f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol, possibly due to --omit-enum-constraints being enabled.'
+                )
+            else:
+                enum_max = foundry.enums[enum_name]
+                new_account_constraints.append(
+                    mlEqualsTrue(
+                        ltInt(
+                            KEVM.lookup(storage_map, intToken(field.slot)),
+                            intToken(enum_max),
+                        )
                     )
                 )
-            )
         # Processing of strings
         if field.data_type == 'string':
             string_contents = KVariable(field_name + '_S_CONTENTS', sort=KSort('Bytes'))

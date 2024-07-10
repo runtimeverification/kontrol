@@ -698,13 +698,18 @@ class Contract:
                     conjuncts.append(rp)
                 if input.internal_type is not None and input.internal_type.startswith('enum '):
                     enum_name = input.internal_type.split(' ')[1]
-                    enum_max = enums[enum_name]
-                    conjuncts.append(
-                        ltInt(
-                            KVariable(input.arg_name),
-                            intToken(enum_max),
+                    if enum_name not in enums:
+                        _LOGGER.warning(
+                            f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol, possibly due to --omit-enum-constraints being enabled.'
                         )
-                    )
+                    else:
+                        enum_max = enums[enum_name]
+                        conjuncts.append(
+                            ltInt(
+                                KVariable(input.arg_name),
+                                intToken(enum_max),
+                            )
+                        )
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
             ensures = andBool(conjuncts)

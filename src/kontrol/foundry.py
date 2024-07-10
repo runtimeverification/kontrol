@@ -73,6 +73,8 @@ class Foundry:
     _toml: dict[str, Any]
     _bug_report: BugReport | None
     _use_hex_encoding: bool
+
+    add_enum_constraints: bool
     enums: dict[str, int]
 
     class Sorts:
@@ -83,12 +85,14 @@ class Foundry:
         foundry_root: Path,
         bug_report: BugReport | None = None,
         use_hex_encoding: bool = False,
+        add_enum_constraints: bool = True,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
         self._use_hex_encoding = use_hex_encoding
+        self.add_enum_constraints = add_enum_constraints
         self.enums = {}
 
     def lookup_full_contract_name(self, contract_name: str) -> str:
@@ -170,7 +174,7 @@ class Foundry:
                     enum_max = len([member['name'] for member in dct['members']])
                     if enum_name in self.enums and enum_max != self.enums[enum_name]:
                         raise ValueError(
-                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported.'
+                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported. Pass --omit-enum-constraints to remove this restriction.'
                         )
                     self.enums[enum_name] = len([member['name'] for member in dct['members']])
                 for node in dct['nodes']:
@@ -181,7 +185,8 @@ class Foundry:
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
             contract = Contract(contract_name, contract_json, foundry=True)
-            find_enums(contract_json['ast'])
+            if self.add_enum_constraints:
+                find_enums(contract_json['ast'])
 
             _contracts[contract.name_with_path] = contract  # noqa: B909
 
