@@ -46,6 +46,7 @@ ACCOUNTS_EXPECTED: Final = [
                 ),
             ),
             KApply(label=KLabel(name='<origStorage>'), args=(KApply(label=KLabel(name='.Map'), args=()),)),
+            KApply(label=KLabel(name='<transientStorage>'), args=(KApply(label=KLabel(name='.Map'), args=()),)),
             KApply(label=KLabel(name='<nonce>'), args=(KToken(token='0', sort=KSort(name='Int')),)),
         ),
     )
