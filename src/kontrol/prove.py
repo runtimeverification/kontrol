@@ -26,7 +26,7 @@ from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.utils import run_process, unique
+from pyk.utils import run_process_2, unique
 
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
@@ -62,7 +62,7 @@ def foundry_prove(
 
     if options.use_booster:
         try:
-            run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
+            run_process_2(['which', 'kore-rpc-booster']).stdout.strip()
         except CalledProcessError:
             raise RuntimeError(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."

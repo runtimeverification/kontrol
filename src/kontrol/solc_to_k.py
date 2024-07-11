@@ -17,7 +17,7 @@ from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
-from pyk.utils import hash_str, run_process, single
+from pyk.utils import hash_str, run_process_2, single
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -1101,7 +1101,7 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     }
 
     try:
-        process_res = run_process(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
+        process_res = run_process_2(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
     except CalledProcessError as err:
         raise RuntimeError('solc error', err.stdout, err.stderr) from err
     result = json.loads(process_res.stdout)
