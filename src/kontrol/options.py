@@ -520,7 +520,7 @@ class ShowOptions(
             'omit_unstable_output': False,
             'to_kevm_claims': False,
             'kevm_claim_dir': None,
-            'use_hex_encoding': False,
+            'use_hex_encoding': True,
             'counterexample_info': True,
         }
 

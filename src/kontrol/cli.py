@@ -552,11 +552,11 @@ def _create_argument_parser() -> ArgumentParser:
         help='Path to write KEVM claim files at.',
     )
     show_args.add_argument(
-        '--use-hex-encoding',
+        '--no-use-hex-encoding',
         dest='use_hex_encoding',
         default=None,
-        action='store_true',
-        help='Print elements in hexadecimal encoding.',
+        action='store_false',
+        help='Print elements in non-hexadecimal encoding.',
     )
 
     command_parser.add_parser(

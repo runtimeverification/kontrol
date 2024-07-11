@@ -90,7 +90,7 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         args.pop(arg)
 
 
-def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:
+def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = True) -> Foundry:
     try:
         foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report, use_hex_encoding=use_hex_encoding)
     except FileNotFoundError:

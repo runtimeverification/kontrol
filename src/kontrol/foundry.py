@@ -89,7 +89,7 @@ class Foundry:
         self,
         foundry_root: Path,
         bug_report: BugReport | None = None,
-        use_hex_encoding: bool = False,
+        use_hex_encoding: bool = True,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
