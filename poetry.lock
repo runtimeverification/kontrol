@@ -376,13 +376,13 @@ test = ["pytest (>=7.0.0)", "pytest-xdist (>=2.4.0)"]
 
 [[package]]
 name = "eth-typing"
-version = "4.3.1"
+version = "4.4.0"
 description = "eth-typing: Common type annotations for ethereum python packages"
 optional = false
 python-versions = "<4,>=3.8"
 files = [
-    {file = "eth_typing-4.3.1-py3-none-any.whl", hash = "sha256:b4d7cee912c7779da75da4b42fa61475c1089d35a4df5081a786eaa29d5f6865"},
-    {file = "eth_typing-4.3.1.tar.gz", hash = "sha256:4504559c87a9f71f4b99aa5a1e0549adaa7f192cbf8e37a295acfcddb1b5412d"},
+    {file = "eth_typing-4.4.0-py3-none-any.whl", hash = "sha256:a5e30a6e69edda7b1d1e96e9d71bab48b9bb988a77909d8d1666242c5562f841"},
+    {file = "eth_typing-4.4.0.tar.gz", hash = "sha256:93848083ac6bb4c20cc209ea9153a08b0a528be23337c889f89e1e5ffbe9807d"},
 ]
 
 [package.dependencies]
@@ -568,13 +568,13 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.105.0"
+version = "6.105.1"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "hypothesis-6.105.0-py3-none-any.whl", hash = "sha256:383bb2d8b37d8090e82847d7cb1130b9ef04bf8c71addd099f7ee1f7139f00d8"},
-    {file = "hypothesis-6.105.0.tar.gz", hash = "sha256:45078be3168c06a0426afca6f139829b28dfea9d2ea79fa1bd498b9783b11c16"},
+    {file = "hypothesis-6.105.1-py3-none-any.whl", hash = "sha256:d8993472a7bccfc20172e02ba8636bb0067add92d1fa05e95a40bab02c1e8305"},
+    {file = "hypothesis-6.105.1.tar.gz", hash = "sha256:d4eedb42193da9507623f4fe27fd38f715ec19ad30ad7c30e3b25594c0b491dc"},
 ]
 
 [package.dependencies]
@@ -583,10 +583,10 @@ exceptiongroup = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 sortedcontainers = ">=2.1.0,<3.0.0"
 
 [package.extras]
-all = ["backports.zoneinfo (>=0.2.1)", "black (>=19.10b0)", "click (>=7.0)", "crosshair-tool (>=0.0.58)", "django (>=3.2)", "dpcontracts (>=0.4)", "hypothesis-crosshair (>=0.0.6)", "lark (>=0.10.1)", "libcst (>=0.3.16)", "numpy (>=1.17.3)", "pandas (>=1.1)", "pytest (>=4.6)", "python-dateutil (>=1.4)", "pytz (>=2014.1)", "redis (>=3.0.0)", "rich (>=9.0.0)", "tzdata (>=2024.1)"]
+all = ["backports.zoneinfo (>=0.2.1)", "black (>=19.10b0)", "click (>=7.0)", "crosshair-tool (>=0.0.59)", "django (>=3.2)", "dpcontracts (>=0.4)", "hypothesis-crosshair (>=0.0.7)", "lark (>=0.10.1)", "libcst (>=0.3.16)", "numpy (>=1.17.3)", "pandas (>=1.1)", "pytest (>=4.6)", "python-dateutil (>=1.4)", "pytz (>=2014.1)", "redis (>=3.0.0)", "rich (>=9.0.0)", "tzdata (>=2024.1)"]
 cli = ["black (>=19.10b0)", "click (>=7.0)", "rich (>=9.0.0)"]
 codemods = ["libcst (>=0.3.16)"]
-crosshair = ["crosshair-tool (>=0.0.58)", "hypothesis-crosshair (>=0.0.6)"]
+crosshair = ["crosshair-tool (>=0.0.59)", "hypothesis-crosshair (>=0.0.7)"]
 dateutil = ["python-dateutil (>=1.4)"]
 django = ["django (>=3.2)"]
 dpcontracts = ["dpcontracts (>=0.4)"]
@@ -645,7 +645,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.630"
+version = "1.0.641"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -653,26 +653,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.43"
+kframework = "7.1.55"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.630"
-resolved_reference = "f7bd9f5cec5883f49ac30b6e7cf1406a2a7df805"
+reference = "v1.0.641"
+resolved_reference = "492ad8324d293a2e514d18b9b7d86e6e9ed830d5"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.43"
+version = "7.1.55"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.43-py3-none-any.whl", hash = "sha256:a9f18c575cfc12a7cf725011f81d1a9ecd8f39f853a9f5005d01dda42680c387"},
-    {file = "kframework-7.1.43.tar.gz", hash = "sha256:2ca4b2319285e87f25fe973ce285c994efe1f6382a394126e6443262cc6c7a39"},
+    {file = "kframework-7.1.55-py3-none-any.whl", hash = "sha256:fe047cc7c54d1d3a27da9716ef169e993f17cdd8340570f209ce6087c147b710"},
+    {file = "kframework-7.1.55.tar.gz", hash = "sha256:b9aad3375f6b9778eae3f16f9da4c1e838dd50ebf77059d52525bb2bca63f3e6"},
 ]
 
 [package.dependencies]
@@ -1229,13 +1229,13 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "70.2.0"
+version = "70.3.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-70.2.0-py3-none-any.whl", hash = "sha256:b8b8060bb426838fbe942479c90296ce976249451118ef566a5a0b7d8b78fb05"},
-    {file = "setuptools-70.2.0.tar.gz", hash = "sha256:bd63e505105011b25c3c11f753f7e3b8465ea739efddaccef8f0efac2137bac1"},
+    {file = "setuptools-70.3.0-py3-none-any.whl", hash = "sha256:fe384da74336c398e0d956d1cae0669bc02eed936cdb1d49b57de1990dc11ffc"},
+    {file = "setuptools-70.3.0.tar.gz", hash = "sha256:f171bab1dfbc86b132997f26a119f6056a57950d058587841a0082e8830f9dc5"},
 ]
 
 [package.extras]
@@ -1382,4 +1382,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "abcca9fa656b82fd692bf372fa5c386d8ee143b0b60db7de9b19a111ac9fdcbb"
+content-hash = "fd5846cc1793a128e9245f2d9e947b04a5afc2de0792b97555e8d64cee212a3f"

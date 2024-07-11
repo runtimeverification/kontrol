@@ -790,6 +790,7 @@ def recorded_state_to_account_cells(
                 KEVM.parse_bytestack(stringToken(accounts[addr]['code'])),
                 map_of(accounts[addr]['storage']),
                 map_empty(),
+                map_empty(),
                 intToken(accounts[addr]['nonce']),
             )
         )
@@ -928,6 +929,13 @@ def _init_cterm(
         }
         init_subst.update(init_subst_test)
     else:
+        # CSE needs to be agnostic of the following Kontrol cells
+        del init_subst['ACTIVE_CELL']
+        del init_subst['ISEVENTEXPECTED_CELL']
+        del init_subst['ISREVERTEXPECTED_CELL']
+        del init_subst['RECORDEVENT_CELL']
+        del init_subst['SINGLECALL_CELL']
+
         accounts: list[KInner] = []
         contract_account_name = Foundry.symbolic_contract_name(contract_name)
 
@@ -1008,6 +1016,7 @@ def _create_initial_account_list(
         Foundry.address_TEST_CONTRACT(),
         intToken(0),
         program,
+        map_empty(),
         map_empty(),
         map_empty(),
         intToken(1),
@@ -1210,6 +1219,7 @@ def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) 
         program,
         KVariable('ACCT_STORAGE_FINAL'),
         KVariable('ACCT_ORIGSTORAGE_FINAL'),
+        KVariable('ACCT_TRANSIENTSTORAGE_FINAL'),
         KVariable('ACCT_NONCE_FINAL'),
     )
     final_subst = {
