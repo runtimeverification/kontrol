@@ -790,6 +790,7 @@ def recorded_state_to_account_cells(
                 KEVM.parse_bytestack(stringToken(accounts[addr]['code'])),
                 map_of(accounts[addr]['storage']),
                 map_empty(),
+                map_empty(),
                 intToken(accounts[addr]['nonce']),
             )
         )
@@ -1017,6 +1018,7 @@ def _create_initial_account_list(
         program,
         map_empty(),
         map_empty(),
+        map_empty(),
         intToken(1),
     )
     init_account_list: list[KInner] = [
@@ -1212,6 +1214,7 @@ def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) 
         program,
         KVariable('ACCT_STORAGE_FINAL'),
         KVariable('ACCT_ORIGSTORAGE_FINAL'),
+        KVariable('ACCT_TRANSIENTSTORAGE_FINAL'),
         KVariable('ACCT_NONCE_FINAL'),
     )
     final_subst = {
