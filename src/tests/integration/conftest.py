@@ -25,6 +25,7 @@ if TYPE_CHECKING:
 
 
 FORGE_STD_REF: Final = '75f1746'
+KONTROL_CHEATCODES_REF: Final = '0048278'
 
 
 @pytest.fixture
@@ -66,7 +67,10 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
             copy_tree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root))
 
             run_process(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
-            run_process(['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'], cwd=foundry_root)
+            run_process(
+                ['forge', 'install', '--no-git', f'runtimeverification/kontrol-cheatcodes@{KONTROL_CHEATCODES_REF}'],
+                cwd=foundry_root,
+            )
             run_process(['forge', 'build'], cwd=foundry_root)
 
             foundry_kompile(

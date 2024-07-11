@@ -456,6 +456,7 @@ class Foundry:
             bytesToken(b'\x00'),
             store_var,
             map_empty(),
+            map_empty(),
             intToken(0),
         )
 
@@ -467,6 +468,7 @@ class Foundry:
             program,
             storage if storage is not None else KVariable(prefix + '_STORAGE', sort=KSort('Map')),
             KVariable(prefix + '_ORIGSTORAGE', sort=KSort('Map')),
+            KVariable(prefix + '_TRANSIENTSTORAGE', sort=KSort('Map')),
             KVariable(prefix + '_NONCE', sort=KSort('Int')),
         )
 
