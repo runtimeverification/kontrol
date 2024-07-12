@@ -82,6 +82,7 @@ def test_kontrol_end_to_end(
     no_use_booster: bool,
     bug_report: BugReport | None,
     server_end_to_end: KoreServer,
+    force_sequential: bool,
 ) -> None:
 
     if (
@@ -104,6 +105,7 @@ def test_kontrol_end_to_end(
                 'break_on_calls': False,
                 'use_gas': False,
                 'port': server_end_to_end.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
