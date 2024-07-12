@@ -201,7 +201,6 @@ class Foundry:
             except KeyError:
                 _LOGGER.warning(f'Skipping non-compatible JSON file for contract: {contract_name} at {json_path}.')
                 continue
-            find_enums(contract_json['ast'])
 
             _contracts[contract.name_with_path] = contract  # noqa: B909
 
