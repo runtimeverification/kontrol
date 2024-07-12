@@ -64,6 +64,7 @@ def test_foundry_trace(
     server: KoreServer,
     update_expected_output: bool,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -89,6 +90,7 @@ def test_foundry_trace(
                 'trace_storage': trace_options.trace_storage,
                 'active_tracing': trace_options.active_tracing,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
