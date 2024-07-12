@@ -1428,7 +1428,7 @@ class StorageFieldMappingType(StorageFieldType):
         self.pred = base_pred
         self.val_type.compute_preds(
                 KApply('buf', [intToken(32),
-                KApply('keccak(_)_SERIALIZATION_Int_Bytes', [
+                KApply('keccak', [
                     KEVM.bytes_append(
                         variable,
                         base_pred,
@@ -1492,6 +1492,7 @@ def process_storage_layout(storage_layout: dict, interface_annotations: dict) ->
         try:
             storage_field = storage_field_from_dict(field, types, interface_annotations)
             fields_list.append(storage_field)
+            storage_field.data_type.compute_preds(KApply('buf', [intToken(32), intToken(storage_field.slot)]))
         except (KeyError, ValueError) as e:
             _LOGGER.error(f'Error processing field {field}: {e}')
 

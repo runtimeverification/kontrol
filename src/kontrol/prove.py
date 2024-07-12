@@ -1064,6 +1064,15 @@ def _create_cse_accounts(
     ]
 
     for field in storage_fields:
+
+        for constraint in field.data_type.compute_constraints(storage_map):
+            new_account_constraints.append(constraint)
+            print(constraint)
+#              print(field.data_type.slot_vars())
+
+#          if isinstance(field.data_type, StorageFieldMappingType):
+#              ...
+
         field_name = contract_name + '_' + field.label.upper()
         if field.data_type.name.startswith('enum'):
             enum_name = field.data_type.name.split(' ')[1]
