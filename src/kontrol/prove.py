@@ -417,6 +417,7 @@ def _run_cfg_group(
                 counterexample_info=options.counterexample_info,
                 max_frontier_parallel=options.max_frontier_parallel,
                 fail_fast=options.fail_fast,
+                force_sequential=options.force_sequential,
             )
 
             if options.minimize_proofs or options.config_type == ConfigType.SUMMARY_CONFIG:
