@@ -41,6 +41,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         self.register_method('eth_memoryUsed', self.exec_get_memory_used)
         self.register_method('eth_gasPrice', self.exec_get_gas_price)
         self.register_method('eth_blockNumber', self.exec_get_block_number)
+        self.register_method('eth_getBlockByNumber', self.exec_get_block_by_number)
         self.register_method('eth_accounts', self.exec_accounts)
         self.register_method('eth_getBalance', self.exec_get_balance)
         self.register_method('eth_sendTransaction', self.exec_send_transaction)
@@ -79,6 +80,14 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         cell = self.cterm.cell('NUMBER_CELL')
         assert type(cell) is KToken
         return int(cell.token)
+    
+    def exec_get_block_by_number(self, block_number: int) -> int:
+
+        print(f'BLOCK NUMBER: {block_number}')
+
+        self._get_all_block_storage_dict()
+
+        return block_number
 
     def exec_get_balance(self, address: str) -> str:
         acct_id = _address_to_acct_id(address)
@@ -152,16 +161,6 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
         output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
-
-        # print('K----------------------------------------------')
-        # k_cell = self.cterm.cell('K_CELL')
-        # _PPRINT.pprint(k_cell)
-        # print('TXORDER----------------------------------------------')
-        # tx_order_cell = self.cterm.cell('TXORDER_CELL')
-        # _PPRINT.pprint(tx_order_cell)
-        # print('RPCRESPONSE----------------------------------------------')
-        # rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
-        # _PPRINT.pprint(rpc_response_cell)
 
         return self._get_last_message_tx_hash()
 
@@ -244,7 +243,6 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         return accounts_dict
 
     def _get_tx_receipt_by_msg_id(self, msg_id: int) -> dict | None:
-        # TODO: Fetch missing information from the tx receipts dict
         tx_receipts_dict = self._get_all_tx_receipts_dict()
         tx_receipt = None
 
@@ -410,6 +408,33 @@ class StatefulKJsonRpcServer(JsonRpcServer):
 
         return messages_dict
 
+    def _get_all_block_storage_dict(self) -> dict:
+        block_storage_dict = {}
+
+        cell = self.cterm.cell('BLOCKSTORAGE_CELL')
+        assert type(cell) is KApply
+
+        queue: deque[KInner] = deque(cell.args)
+        while len(queue) > 0:
+            cell = queue.popleft()
+            if isinstance(cell, KApply):
+                print(cell.label.name)
+                if 'BlockchainItem' in cell.label.name:
+                    item_dict = {}
+                    for args in cell.args:
+                        assert type(args) is KApply
+                        cell_dict = _convert_cell_to_dict(args)
+                        item_dict[args.label.name] = cell_dict
+                        
+                    # msg_id = str(message_dict['<network>'])
+                    block_storage_dict[item_dict['<block>']['<number>']] = item_dict
+                # elif 'Map' in cell.label.name:# or 
+                elif '_|->_' in cell.label.name:
+                    queue.extend(cell.args)
+
+        return block_storage_dict
+        
+
     # ------------------------------------------------------
     # VM setup functions
     # ------------------------------------------------------
@@ -540,3 +565,29 @@ def _apply_format_to_message_cell_json_dict(message_dict: dict) -> dict:
             formatted_message_dict[new_key] = value
 
     return formatted_message_dict
+
+def _convert_cell_to_dict(cell: KApply) -> dict | int | str:
+    cell_dict = {}
+
+
+    if('AccountCell' in  cell.label.name):
+        return _convert_cell_to_dict()
+
+    for args in cell.args:
+
+        if(type(args) is not KToken):
+            assert type(args) is KApply
+
+            cell_dict[args.label.name] = _convert_cell_to_dict(args)
+        else:
+            assert type(args) is KToken
+            value = None
+            if args.token.isdecimal():
+                value = int(args.token)
+            else:
+                value = '0x' + ast.literal_eval(args.token).hex()
+
+            return value
+
+    return cell_dict
+    

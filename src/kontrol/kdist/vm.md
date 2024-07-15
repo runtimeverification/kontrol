@@ -12,7 +12,6 @@ module KONTROL-VM
     syntax RPCRequest ::= ".RPCRequest"                 [symbol(EmptyRPCRequest)] 
                         | "#kontrol_requestValue"           [symbol(kontrol_requestValue)]
                         | "#eth_sendTransaction" TxType Int Int Int Int Int Int Bytes [symbol(eth_sendTransaction)]
-                        | Int
 
     syntax RPCResponse ::= ".RPCResponse" | String | Int | Bytes
     
@@ -106,28 +105,14 @@ module KONTROL-VM
     rule #getNumberAtBlock (X:Int  , _           , _     ) => X
     rule #getNumberAtBlock (BLOCKID, BLOCKSTORAGE, BLOCK ) => #getNumberFromBlockchainItem(#getBlockByNumber(BLOCKID, BLOCKSTORAGE, BLOCK)) [owise]
 
-    syntax KItem ::= "#acctFromPrivateKey" String Int [symbol(acctFromPrivateKey)] 
-    syntax KItem ::= "#setAcctBalance" Int Int 
-    // ---------------------------------------------
-    rule <k> #acctFromPrivateKey KEYSTR BAL => #newAccount #addrFromPrivateKey(KEYSTR) ~> #setAcctBalance #addrFromPrivateKey(KEYSTR) BAL ... </k>
-         <accountKeys> M => M[#addrFromPrivateKey(KEYSTR) <- #parseHexWord(KEYSTR)] </accountKeys>
-         
-    rule <k> #setAcctBalance KEY BAL => . ... </k>
-            <accounts> 
-              <account>
-                <acctID> KEY </acctID> 
-                <balance> _ => BAL </balance> 
-                ... 
-              </account> 
-              ... 
-            </accounts> 
+```
 
-    
-    syntax KItem ::= "#update_current_tx_id" 
+  Transaction Signing and execution
+  ---------------------------------
 
-    rule <k> TXID:Int ~> #update_current_tx_id => . ... </k>
-         <currentTxID> TXID => TXID +Int 1 </currentTxID>
-         <rpcResponse> _ => 200 </rpcResponse>
+  The next block of K code contains the set of functions used to implement `eth_sendTransaction`. The information send with the request is used to load a new `<message>` cell, sign, validate, and execute it. Once these steps are performed, the transaction id is incremented and a block is mined. 
+
+```k
 
     rule <k> #eth_sendTransaction 
                 TXTYPE
@@ -149,13 +134,34 @@ module KONTROL-VM
                   TXNONCE
                   TXDATA  
                 ~> #update_current_tx_id
-                // ~> #makeTxReceipts
-                // ~> #clear_tx_lists
                 ~> #mineBlock
                 ... 
               </k>
     
+
     syntax KItem ::= "#loadTx" TxType Int Int Int Int Int Int Bytes 
+                   | "#makeTX" Int
+                   | "#loadNonce" Int Int
+                   | "#loadTransaction" Int TxType Int Int Int Int Int Int Bytes
+                   | "#signTX" Int Int
+                   | "#signTX" Int String 
+                   | "#prepareTx" Int Account
+                   | "#setup_G0" Int
+                   | "#validateTx" Int
+                   | "#updateTimestamp"
+                   | "#executeTx" Int
+                   | "#makeTxReceipts"
+                   | "#makeTxReceiptsAux" List
+                   | "#makeTxReceipt" Int
+
+
+    syntax Int ::= #time( Bool ) [function]
+
+    syntax EthereumCommand ::= "#finishTx"
+                             | #loadAccessList ( JSON )              [klabel(#loadAccessList)]
+                             | #loadAccessListAux ( Account , List ) [klabel(#loadAccessListAux)]
+    
+
     // ---------------------------------------
     rule <k> #loadTx TXTYPE ACCTFROM ACCTTO TXGAS TXGASPRICE TXVALUE TXNONCE TXDATA
           => #makeTX TXID
@@ -168,7 +174,6 @@ module KONTROL-VM
          </k>
          <currentTxID> TXID </currentTxID>
 
-    syntax EthereumCommand ::= "#makeTX" Int
     // ---------------------------------------
     rule <k> #makeTX TXID => . ... </k>
          <txOrder>   ... (.List => ListItem(TXID)) </txOrder>
@@ -189,8 +194,7 @@ module KONTROL-VM
           ...
           </messages> [owise, preserves-definedness]
 
-  syntax KItem ::= "#loadNonce" Int Int
-  // -------------------------------------
+    // -------------------------------------
     rule <k> #loadNonce ACCT TXID => . ... </k>
          <message>
            <msgID> TXID </msgID>
@@ -202,11 +206,10 @@ module KONTROL-VM
            <nonce> NONCE </nonce>
            ...
          </account>
-
-  syntax KItem ::= "#loadTransaction" Int TxType Int Int Int Int Int Int Bytes
   
-  //TODO: Retreive the proper value for txAccess cell 
-  rule <k> #loadTransaction  
+    // ------------------------------------------
+    //TODO: Retreive the proper value for txAccess cell 
+    rule <k> #loadTransaction  
                 TXID:Int
                 TXTYPE:TxType
                 ACCTFROM:Int 
@@ -231,19 +234,8 @@ module KONTROL-VM
           ...
         </message>
 
-    syntax String ::= #unparseByteStack ( Bytes ) [function, klabel(unparseByteStack), symbol]
-    rule #unparseByteStack(WS) => Bytes2String(WS)
 
-    syntax String  ::=
-        "Hex2Raw" "(" String ")" [function, klabel(Hex2Raw)]
-      | "Raw2Hex" "(" String ")" [function, klabel(Raw2Hex)]
-
-    rule Hex2Raw ( S ) => #unparseByteStack( #parseByteStack ( S ) )
-  
-    syntax KItem ::= "#signTX" Int Int
-                   | "#signTX" Int String 
-    // --------------------------------------------------------
-
+    // ------------------------------------------
     rule <k> #signTX TXID ACCTFROM:Int => #signTX TXID ECDSASign ( #hashTxData( #getTxData (TXID) ), #padToWidth( 32, #asByteStack( KEY ) ) )  ... </k>
         <accountKeys> ... ACCTFROM |-> KEY ... </accountKeys>
         <mode> NORMAL </mode>
@@ -269,8 +261,7 @@ module KONTROL-VM
          <rpcResponse> _ => -1 </rpcResponse> // TODO: Come up with error code values for this cell
       requires notBool ACCTFROM in_keys(KEYMAP)
 
-    syntax KItem ::= "#prepareTx" Int Account
-
+    // ------------------------------------------
     rule <k> #prepareTx TXID:Int ACCTFROM
           => #setup_G0 TXID 
           ~> #validateTx TXID 
@@ -280,8 +271,7 @@ module KONTROL-VM
           </k>
          <origin> _ => ACCTFROM </origin>
 
-    syntax KItem ::= "#setup_G0" Int
-   // --------------------------------
+    // ------------------------------------------
     rule <k> #setup_G0 TXID => . ... </k>
          <schedule> SCHED </schedule>
          <callGas> _ => G0(SCHED, DATA, (ACCTTO ==K .Account) ) </callGas>
@@ -292,8 +282,7 @@ module KONTROL-VM
            ...
          </message>
 
-    syntax KItem ::= "#validateTx" Int
-   // --------------------------------
+    // ------------------------------------------
     rule <k> #validateTx TXID => #end #if BAL <Int GLIMIT *Int GPRICE #then EVMC_BALANCE_UNDERFLOW #else EVMC_OUT_OF_GAS #fi ... </k>
          <callGas> G0_INIT </callGas>
          <origin> ACCTFROM </origin>
@@ -310,7 +299,6 @@ module KONTROL-VM
          </message>
       requires GLIMIT <Int G0_INIT
         orBool BAL <Int GLIMIT *Int GPRICE
-      
 
     rule <k> #validateTx TXID => . ... </k>
          <origin> ACCTFROM </origin>
@@ -329,20 +317,17 @@ module KONTROL-VM
       requires GLIMIT >=Int G0_INIT
        andBool BAL >=Int GLIMIT *Int GPRICE
 
-    syntax KItem ::= "#updateTimestamp"
     // -----------------------------------
     rule <k> #updateTimestamp => . ... </k>
          <timestamp> _ => #time(TIMEFREEZE) +Int TIMEDIFF </timestamp>
          <timeFreeze> TIMEFREEZE </timeFreeze>
          <timeDiff>   TIMEDIFF   </timeDiff>
 
-    syntax Int ::= #time( Bool ) [function]
     // ---------------------------------------
     rule #time(false) => 0 // TODO: Originally this was #time. Should represent the current time of the VM.
     rule #time(true)  => 0
 
-    syntax EthereumCommand ::= "#finishTx"
-    // ---------------------------------------
+    // ------------------------------------------
     rule <statusCode> _:ExceptionalStatusCode </statusCode> <k> #halt ~> #finishTx => #popCallStack ~> #popWorldState                   ... </k>
     rule <statusCode> EVMC_REVERT             </statusCode> <k> #halt ~> #finishTx => #popCallStack ~> #popWorldState ~> #refund GAVAIL ... </k> <gas> GAVAIL </gas>
 
@@ -366,12 +351,8 @@ module KONTROL-VM
            ...
          </message>
       requires TT =/=K .Account
-
-    
-    syntax EthereumCommand ::= #loadAccessList ( JSON )              [klabel(#loadAccessList)]
-                             | #loadAccessListAux ( Account , List ) [klabel(#loadAccessListAux)]
  
-    // ---------------------------------------------------------------------------------------------
+    // ------------------------------------------
     rule <k> #loadAccessList ([ .JSONs ]) => .K ... </k>
          <schedule> SCHED </schedule>
       requires Ghasaccesslist << SCHED >>
@@ -400,10 +381,7 @@ module KONTROL-VM
          <schedule> SCHED </schedule>
          <callGas> GLIMIT => GLIMIT -Int Gaccesslistaddress < SCHED > </callGas>
 
-    // ---------------------------------------------------------------------------------------------
-  
-    syntax KItem ::= "#executeTx" Int
-   // ---------------------------------
+    // ------------------------------------------
     rule <k> #executeTx TXID:Int
           => #accessAccounts ACCTFROM #newAddr(ACCTFROM, NONCE) #precompiledAccountsSet(SCHED) 
           ~> #loadAccessList(TA)  
@@ -465,17 +443,13 @@ module KONTROL-VM
          </account>
       requires ACCTTO =/=K .Account
 
-
-     syntax KItem ::= "#makeTxReceipts"
-                   | "#makeTxReceiptsAux" List
- // ------------------------------------------
+    // ------------------------------------------
     rule <k> #makeTxReceipts => #makeTxReceiptsAux TXLIST ... </k>
          <txOrder> TXLIST </txOrder>
     rule <k> #makeTxReceiptsAux .List => . ... </k>
     rule <k> #makeTxReceiptsAux (ListItem(TXID) TXLIST) => #makeTxReceipt TXID ~> #makeTxReceiptsAux TXLIST ... </k>
 
-    syntax KItem ::= "#makeTxReceipt" Int
- // -------------------------------------
+    // ------------------------------------------
     rule <k> #makeTxReceipt TXID => . ... </k>
          <txReceipts>
            ( .Bag
@@ -511,6 +485,15 @@ module KONTROL-VM
          <number>     BN   </number>
          <origin>     ACCT </origin>
       
+```
+
+  Block Mining
+  ------------
+
+  The productions below are used to perform the mining of blocks, advancing the blockchain state as well as storing it. 
+
+```k
+
 
      syntax BlockchainItem ::= ".BlockchainItem"
                             | "{" NetworkCell "|" BlockCell "}"
@@ -564,12 +547,12 @@ module KONTROL-VM
 
 ```
 
-Helper Funcs
-------------
+  Helper Funcs
+  ------------
 
 ```k
+    // ---------------------------------------------------------------
     syntax Int ::= #blockchainItemHash( BlockchainItem ) [function]
- // ---------------------------------------------------------------
     rule #blockchainItemHash( { _ |
          <block>
            <previousHash>      HP </previousHash>
@@ -591,7 +574,29 @@ Helper Funcs
          </block> } )
       => #blockHeaderHash(HP, HO, HC, HR, HT, HE, HB, HD, HI, HL, HG, HS, HX, HM, HN)
 
+    // ---------------------------------------------
+    syntax KItem ::= "#update_current_tx_id" 
 
+    rule <k> TXID:Int ~> #update_current_tx_id => . ... </k>
+         <currentTxID> TXID => TXID +Int 1 </currentTxID>
+         <rpcResponse> _ => 200 </rpcResponse>
+
+    // ---------------------------------------------
+    syntax KItem ::= "#acctFromPrivateKey" String Int [symbol(acctFromPrivateKey)] 
+    syntax KItem ::= "#setAcctBalance" Int Int 
+
+    rule <k> #acctFromPrivateKey KEYSTR BAL => #newAccount #addrFromPrivateKey(KEYSTR) ~> #setAcctBalance #addrFromPrivateKey(KEYSTR) BAL ... </k>
+         <accountKeys> M => M[#addrFromPrivateKey(KEYSTR) <- #parseHexWord(KEYSTR)] </accountKeys>
+         
+    rule <k> #setAcctBalance KEY BAL => . ... </k>
+            <accounts> 
+              <account>
+                <acctID> KEY </acctID> 
+                <balance> _ => BAL </balance> 
+                ... 
+              </account> 
+              ... 
+            </accounts> 
 endmodule
 
 ```
