@@ -1155,14 +1155,14 @@ def _create_cse_accounts(
                                 KApply(
                                     '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
                                     [
+                                        slot_var_after,
                                         KApply(
                                             '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
                                             [
-                                                slot_var_after,
                                                 KEVM.buf(intToken(20), contract_account_variable),
+                                                slot_var_before,
                                             ],
                                         ),
-                                        slot_var_before,
                                     ],
                                 )
                             ],
