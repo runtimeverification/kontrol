@@ -656,8 +656,8 @@ def foundry_show(
     foundry: Foundry,
     options: ShowOptions,
 ) -> str:
-    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
     test_id = foundry.get_test_id(options.test, options.version)
+    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
     proof = foundry.get_apr_proof(test_id)
 
     nodes: Iterable[int | str] = options.nodes
