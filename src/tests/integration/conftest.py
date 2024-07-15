@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 import pytest
 from filelock import FileLock
 from pyk.kore.rpc import kore_server
-from pyk.utils import run_process
+from pyk.utils import run_process_2
 
 from kontrol.foundry import Foundry
 from kontrol.kompile import foundry_kompile
@@ -66,12 +66,12 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
         if not foundry_root.is_dir():
             copy_tree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root))
 
-            run_process(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
-            run_process(
+            run_process_2(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
+            run_process_2(
                 ['forge', 'install', '--no-git', f'runtimeverification/kontrol-cheatcodes@{KONTROL_CHEATCODES_REF}'],
                 cwd=foundry_root,
             )
-            run_process(['forge', 'build'], cwd=foundry_root)
+            run_process_2(['forge', 'build'], cwd=foundry_root)
 
             foundry_kompile(
                 BuildOptions(

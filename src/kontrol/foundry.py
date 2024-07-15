@@ -30,7 +30,7 @@ from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
-from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
+from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
 from .solc_to_k import Contract
@@ -302,7 +302,7 @@ class Foundry:
 
     def build(self) -> None:
         try:
-            run_process(['forge', 'build', '--build-info', '--root', str(self._root)], logger=_LOGGER)
+            run_process_2(['forge', 'build', '--build-info', '--root', str(self._root)], logger=_LOGGER)
         except FileNotFoundError as err:
             raise RuntimeError(
                 "Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH."
@@ -1249,14 +1249,14 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     """
 
     if not skip_forge:
-        run_process(['forge', 'init', str(project_root), '--no-git'], logger=_LOGGER)
+        run_process_2(['forge', 'init', str(project_root), '--no-git'], logger=_LOGGER)
 
     root = ensure_dir_path(project_root)
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
     append_to_file(root / 'foundry.toml', foundry_toml_extra_contents())
-    run_process(
+    run_process_2(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,
         cwd=root,
