@@ -196,8 +196,6 @@ class Foundry:
                 find_enums(contract_json['ast'])
             try:
                 contract = Contract(contract_name, contract_json, foundry=True)
-                if self.add_enum_constraints:
-                    find_enums(contract_json['ast'])
             except KeyError:
                 _LOGGER.warning(f'Skipping non-compatible JSON file for contract: {contract_name} at {json_path}.')
                 continue
