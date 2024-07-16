@@ -498,10 +498,11 @@ class Foundry:
             try:
                 proof_dir, proof_name_version = pid.rsplit('%', 1)
                 proof_name, proof_version_str = proof_name_version.split(':', 1)
+                proof_dir_name = proof_dir + '%' + proof_name
                 proof_version = int(proof_version_str)
             except ValueError:
                 continue
-            if re.search(regex, proof_name) and (version is None or version == proof_version):
+            if re.search(regex, proof_dir_name) and (version is None or version == proof_version):
                 matches.append(f'{proof_dir}%{proof_name}:{proof_version}')
         return matches
 
@@ -655,8 +656,8 @@ def foundry_show(
     foundry: Foundry,
     options: ShowOptions,
 ) -> str:
-    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
     test_id = foundry.get_test_id(options.test, options.version)
+    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
     proof = foundry.get_apr_proof(test_id)
 
     nodes: Iterable[int | str] = options.nodes
