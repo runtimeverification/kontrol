@@ -26,13 +26,13 @@ class ConfigType(Enum):
 
 class FoundryOptions(Options):
     foundry_root: Path
-    omit_enum_constraints: bool
+    enum_constraints: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'foundry_root': Path('.'),
-            'omit_enum_constraints': False,
+            'enum_constraints': False,
         }
 
     @staticmethod

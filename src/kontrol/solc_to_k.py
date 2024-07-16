@@ -700,7 +700,7 @@ class Contract:
                     enum_name = input.internal_type.split(' ')[1]
                     if enum_name not in enums:
                         _LOGGER.warning(
-                            f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol, possibly due to --omit-enum-constraints being enabled.'
+                            f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
                         )
                     else:
                         enum_max = enums[enum_name]

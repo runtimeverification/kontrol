@@ -181,7 +181,7 @@ class Foundry:
                     enum_max = len([member['name'] for member in dct['members']])
                     if enum_name in self.enums and enum_max != self.enums[enum_name]:
                         raise ValueError(
-                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported. Pass --omit-enum-constraints to remove this restriction.'
+                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported with --enum-constraints.'
                         )
                     self.enums[enum_name] = len([member['name'] for member in dct['members']])
                 for node in dct['nodes']:

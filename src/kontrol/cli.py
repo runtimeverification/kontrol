@@ -169,8 +169,8 @@ class KontrolCLIArgs(KEVMCLIArgs):
             help='Path to Foundry project root directory.',
         )
         args.add_argument(
-            '--omit-enum-constraints',
-            dest='omit_enum_constraints',
+            '--enum-constraints',
+            dest='enum_constraints',
             default=None,
             action='store_true',
             help='Skip adding constraints for enum function arguments and storage slots.',
