@@ -968,27 +968,16 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
       [priority(30)]
 ```
 
-```k
-    syntax KItem ::= "#setMockFunction" Account Account Bytes [symbol(foundry_setMockFunction)]
- // ---------------------------------------------------------------------------------
-    rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
-         <mockFunction>
-            <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
-            <mockFunctionValues>  MOCKVALUES => MOCKVALUES [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
-         </mockFunction>
 
-   rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
-         <mockFunctions>
-           ( .Bag
-            => <mockFunction>
-                  <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
-                  <mockFunctionValues> .Map [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
-               </mockFunction>
-           )
-           ...
-         </mockFunctions>
+Mock functions
+----------
+
+#### `mockFunction` - Treats all calls to callee strictly or loosely matching data as if they are instead called on calledContract. 
+
+
 ```
-
+    function mockFunction(address callee, address calledContract, bytes calldata data) external;
+```
 
 ```k
     rule [cheatcode.call.mockFunction]:
@@ -999,11 +988,7 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
          ...
          </k>
       requires SELECTOR ==Int selector ( "mockFunction(address,address,bytes)" )
-```
 
-
-
-```k
     rule [foundry.set.mockFunction]:
          <k> #call ACCTFROM ACCTTO ACCTCODE VALUE APPVALUE CALLDATA STATIC
           => #callWithCode ACCTFROM ACCTTO ACCTCODE CODE VALUE APPVALUE CALLDATA STATIC
@@ -1491,6 +1476,30 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
            )
            ...
          </mockCalls>
+```
+
+- `#setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA` will update the `<mockFunctions>` mapping for the given account and calldata.
+
+
+```k
+    syntax KItem ::= "#setMockFunction" Account Account Bytes [symbol(foundry_setMockFunction)]
+ // ---------------------------------------------------------------------------------
+    rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
+         <mockFunction>
+            <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
+            <mockFunctionValues>  MOCKVALUES => MOCKVALUES [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
+         </mockFunction>
+
+   rule <k> #setMockFunction MOCKADDRESS MOCKTARGET MOCKCALLDATA => .K ... </k>
+         <mockFunctions>
+           ( .Bag
+            => <mockFunction>
+                  <mockFunctionAddress> MOCKADDRESS </mockFunctionAddress>
+                  <mockFunctionValues> .Map [ MOCKCALLDATA <- MOCKTARGET ] </mockFunctionValues>
+               </mockFunction>
+           )
+           ...
+         </mockFunctions>
 ```
 
 - `#execMockCall` will update the output of the function call with `RETURNDATA` using `#setLocalMem`. In case the function did not end with `EVMC_SUCCESS` it will update the status code to `EVMC_SUCCESS`.
