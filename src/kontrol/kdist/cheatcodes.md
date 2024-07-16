@@ -970,7 +970,7 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
 
 
 Mock functions
-----------
+--------------
 
 #### `mockFunction` - Treats all calls to callee strictly or loosely matching data as if they are instead called on calledContract. 
 
