@@ -128,6 +128,10 @@ class Foundry:
         return self.out / 'proofs'
 
     @property
+    def fuzz_dir(self) -> Path:
+        return self.out / 'fuzz'
+
+    @property
     def digest_file(self) -> Path:
         return self.out / 'digest'
 
@@ -200,6 +204,9 @@ class Foundry:
 
     def mk_proofs_dir(self) -> None:
         self.proofs_dir.mkdir(exist_ok=True)
+
+    def mk_fuzz_dir(self) -> None:
+        self.fuzz_dir.mkdir(exist_ok=True)
 
     def method_digest(self, contract_name: str, method_sig: str) -> str:
         return self.contracts[contract_name].method_by_sig[method_sig].digest
@@ -363,7 +370,7 @@ class Foundry:
         test_sigs = self.matching_tests([test], exact_match=exact_match)
         return test_sigs
 
-    def get_test_id(self, test: str, version: int | None) -> str:
+    def get_test_id(self, test: str, version: int | None, fuzzing: bool = False) -> str:
         """
         Retrieves the unique identifier for a test based on its name and version.
 
@@ -387,7 +394,7 @@ class Foundry:
                 )
                 raise ValueError(error_msg) from e
 
-        matching_proof_ids = self.proof_ids_with_test(test, version)
+        matching_proof_ids = self.proof_ids_with_test(test, version, fuzzing)
         matching_sigs = self.matching_sigs(test)
 
         if not matching_proof_ids:
@@ -503,13 +510,15 @@ class Foundry:
                 matches.append(f'{proof_dir}%{proof_name}:{proof_version}')
         return matches
 
-    def proof_ids_with_test(self, test: str, version: int | None = None) -> list[str]:
-        proof_ids = self.filter_proof_ids(self.list_proof_dir(), test, version)
+    def proof_ids_with_test(self, test: str, version: int | None = None, fuzzing: bool = False) -> list[str]:
+        proofs_dir = self.list_fuzz_dir() if fuzzing else self.list_proof_dir()
+        proof_ids = self.filter_proof_ids(proofs_dir, test, version)
         _LOGGER.info(f'Found {len(proof_ids)} matching proofs for {test}:{version}: {proof_ids}')
         return proof_ids
 
-    def get_apr_proof(self, test_id: str) -> APRProof:
-        proof = Proof.read_proof_data(self.proofs_dir, test_id)
+    def get_apr_proof(self, test_id: str, fuzzing: bool = False) -> APRProof:
+        proofs_dir = self.fuzz_dir if fuzzing else self.proofs_dir
+        proof = Proof.read_proof_data(proofs_dir, test_id)
         if not isinstance(proof, APRProof):
             raise ValueError('Specified proof is not an APRProof.')
         return proof
@@ -544,15 +553,23 @@ class Foundry:
     def list_proof_dir(self) -> list[str]:
         return listdir(self.proofs_dir)
 
+    def list_fuzz_dir(self) -> list[str]:
+        return listdir(self.fuzz_dir)
+
     def resolve_setup_proof_version(
-        self, test: str, reinit: bool, test_version: int | None = None, user_specified_setup_version: int | None = None
+        self,
+        test: str,
+        reinit: bool,
+        test_version: int | None = None,
+        user_specified_setup_version: int | None = None,
+        fuzzing: bool = False,
     ) -> int:
         _, method = self.get_contract_and_method(test)
-        effective_test_version = 0 if test_version is None else self.free_proof_version(test)
+        effective_test_version = 0 if test_version is None else self.free_proof_version(test, fuzzing)
 
         if not method.up_to_date(self.digest_file):
             _LOGGER.info(f'Creating a new version of {test} because it was updated.')
-            return self.free_proof_version(test)
+            return self.free_proof_version(test, fuzzing)
 
         if reinit:
             if user_specified_setup_version is None:
@@ -567,7 +584,7 @@ class Foundry:
                 _LOGGER.info(f'Reusing version {user_specified_setup_version} of {test}')
                 effective_test_version = user_specified_setup_version
         else:
-            latest_test_version = self.latest_proof_version(test)
+            latest_test_version = self.latest_proof_version(test, fuzzing)
             effective_test_version = 0 if latest_test_version is None else latest_test_version
             if user_specified_setup_version is not None and Proof.proof_data_exists(
                 f'{test}:{user_specified_setup_version}', self.proofs_dir
@@ -582,6 +599,7 @@ class Foundry:
         test: str,
         reinit: bool,
         user_specified_version: int | None,
+        fuzzing: bool = False,
     ) -> int:
         _, method = self.get_contract_and_method(test)
 
@@ -604,9 +622,9 @@ class Foundry:
 
         if not method.up_to_date(self.digest_file):
             _LOGGER.info(f'Creating a new version of test {test} because it is out of date.')
-            return self.free_proof_version(test)
+            return self.free_proof_version(test, fuzzing)
 
-        latest_version = self.latest_proof_version(test)
+        latest_version = self.latest_proof_version(test, fuzzing)
         return self.check_method_change(latest_version, test, method)
 
     def check_method_change(
@@ -630,22 +648,25 @@ class Foundry:
     def latest_proof_version(
         self,
         test: str,
+        fuzzing: bool = False,
     ) -> int | None:
         """
         find the highest used proof ID, to be used as a default. Returns None if no version of this proof exists.
         """
-        proof_ids = self.filter_proof_ids(self.list_proof_dir(), test.split('%')[-1])
+        proof_dir = self.list_fuzz_dir() if fuzzing else self.list_proof_dir()
+        proof_ids = self.filter_proof_ids(proof_dir, test.split('%')[-1])
         versions = {int(pid.split(':')[1]) for pid in proof_ids}
         return max(versions, default=None)
 
     def free_proof_version(
         self,
         test: str,
+        fuzzing: bool = False,
     ) -> int:
         """
         find the lowest proof id that is not used yet
         """
-        latest_version = self.latest_proof_version(test)
+        latest_version = self.latest_proof_version(test, fuzzing)
         return latest_version + 1 if latest_version is not None else 0
 
 

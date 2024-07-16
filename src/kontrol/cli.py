@@ -15,6 +15,7 @@ from .options import (
     BuildOptions,
     CleanOptions,
     CompileOptions,
+    FuzzOptions,
     GetModelOptions,
     InitOptions,
     ListOptions,
@@ -71,6 +72,7 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'minimize-proof': MinimizeProofOptions(args),
         'clean': CleanOptions(args),
         'init': InitOptions(args),
+        'fuzz': FuzzOptions(args),
     }
     try:
         return options[command]
@@ -369,6 +371,26 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Indicate if the JSON comes from vm.stopAndReturnStateDiff and not vm.dumpState',
+    )
+
+    fuzz_args = command_parser.add_parser(
+        'fuzz',
+        help='LETSGOOOOO',
+        parents=[
+            kontrol_cli_args.logging_args,
+        ],
+    )
+    fuzz_args.add_argument(
+        '--match-test',
+        '--mt',
+        type=parse_test_version_tuple,
+        dest='tests',
+        action='append',
+        help=(
+            'Specify contract function(s) to test using a regular expression. This will match functions'
+            " based on their full signature,  e.g., 'ERC20Test.testTransfer(address,uint256)'. This option"
+            ' can be used multiple times to add more functions to test.'
+        ),
     )
 
     prove_args = command_parser.add_parser(

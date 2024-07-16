@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+if [[ "$#" -ne 3 ]]; then
+    echo "Exactly three arguments are required"
+    exit 1
+fi
+
+if [[ "$1" != '/dev/stdin' ]] || [[ $3 != '/dev/stdout' ]]; then
+    echo "Invalid args"
+    exit 1
+fi
+
+DEPTH=$2
+echo $DEPTH
+
+read INPUT
+echo $INPUT
+
+kore-exec --depth $DEPTH --pattern $INPUT > /dev/stdout

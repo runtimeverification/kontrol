@@ -38,6 +38,7 @@ from .foundry import (
     read_recorded_state_diff,
     read_recorded_state_dump,
 )
+from .fuzz import kontrol_fuzz
 from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
@@ -56,6 +57,7 @@ if TYPE_CHECKING:
         BuildOptions,
         CleanOptions,
         CompileOptions,
+        FuzzOptions,
         GetModelOptions,
         InitOptions,
         ListOptions,
@@ -192,6 +194,19 @@ def exec_build(options: BuildOptions) -> None:
         console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] [black]{e}[/black]')
 
 
+def exec_fuzz(options: FuzzOptions) -> None:
+    print('FUZZZ')
+    if options.verbose:
+        proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
+    else:
+        proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running: \n Add `--verbose` to `kontrol prove` for more details![/{_rv_blue()}]'
+    console.print(proving_message)
+    kontrol_fuzz(
+        foundry=_load_foundry(options.foundry_root, options.bug_report),
+        options=options,
+    )
+
+
 def exec_prove(options: ProveOptions) -> None:
     if options.recorded_diff_state_path and options.recorded_dump_state_path:
         raise AssertionError('Provide only one file for recorded state updates')
@@ -301,9 +316,9 @@ def exec_list(options: ListOptions) -> None:
 
 def exec_view_kcfg(options: ViewKcfgOptions) -> None:
     foundry = _load_foundry(options.foundry_root, use_hex_encoding=True)
-    test_id = foundry.get_test_id(options.test, options.version)
+    test_id = foundry.get_test_id(options.test, options.version, True)
     contract_name, _ = test_id.split('.')
-    proof = foundry.get_apr_proof(test_id)
+    proof = foundry.get_apr_proof(test_id, True)
 
     def _short_info(cterm: CTerm) -> Iterable[str]:
         return foundry.short_info_for_contract(contract_name, cterm)

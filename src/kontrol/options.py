@@ -22,6 +22,7 @@ if TYPE_CHECKING:
 class ConfigType(Enum):
     TEST_CONFIG = 'TEST_CONFIG'
     SUMMARY_CONFIG = 'SUMMARY_CONFIG'
+    FUZZ_CONFIG = 'FUZZ_CONFIG'
 
 
 class FoundryOptions(Options):
@@ -320,6 +321,100 @@ class MinimizeProofOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
             FoundryOptions.get_argument_type()
             | LoggingOptions.get_argument_type()
             | FoundryTestOptions.get_argument_type()
+        )
+
+
+class FuzzOptions(
+    LoggingOptions,
+    ParallelOptions,
+    KOptions,
+    KProveOptions,
+    SMTOptions,
+    RpcOptions,
+    BugReportOptions,
+    ExploreOptions,
+    FoundryOptions,
+    TraceOptions,
+):
+    tests: list[tuple[str, int | None]]
+    reinit: bool
+    bmc_depth: int | None
+    run_constructor: bool
+    use_gas: bool
+    setup_version: int | None
+    break_on_cheatcodes: bool
+    recorded_diff_state_path: Path | None
+    recorded_dump_state_path: Path | None
+    include_summaries: list[tuple[str, int | None]]
+    with_non_general_state: bool
+    xml_test_report: bool
+    cse: bool
+    hevm: bool
+    minimize_proofs: bool
+    max_frontier_parallel: int
+    config_type: ConfigType
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'tests': [],
+            'reinit': False,
+            'bmc_depth': None,
+            'run_constructor': False,
+            'use_gas': False,
+            'break_on_cheatcodes': False,
+            'recorded_diff_state_path': None,
+            'recorded_dump_state_path': None,
+            'setup_version': None,
+            'include_summaries': [],
+            'with_non_general_state': False,
+            'xml_test_report': False,
+            'cse': False,
+            'hevm': False,
+            'minimize_proofs': False,
+            'max_frontier_parallel': 1,
+            'config_type': ConfigType.FUZZ_CONFIG,
+        }
+
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return (
+            LoggingOptions.from_option_string()
+            | ParallelOptions.from_option_string()
+            | KOptions.from_option_string()
+            | KProveOptions.from_option_string()
+            | SMTOptions.from_option_string()
+            | RpcOptions.from_option_string()
+            | BugReportOptions.from_option_string()
+            | ExploreOptions.from_option_string()
+            | FoundryOptions.from_option_string()
+            | TraceOptions.from_option_string()
+            | {
+                'match-test': 'tests',
+                'init-node-from-diff': 'recorded_diff_state_path',
+                'init-node-from-dump': 'recorded_dump_state_path',
+                'include-summary': 'include_summaries',
+            }
+        )
+
+    @staticmethod
+    def get_argument_type() -> dict[str, Callable]:
+        return (
+            LoggingOptions.get_argument_type()
+            | ParallelOptions.get_argument_type()
+            | KOptions.get_argument_type()
+            | KProveOptions.get_argument_type()
+            | SMTOptions.get_argument_type()
+            | RpcOptions.get_argument_type()
+            | BugReportOptions.get_argument_type()
+            | ExploreOptions.get_argument_type()
+            | FoundryOptions.get_argument_type()
+            | TraceOptions.get_argument_type()
+            | {
+                'match-test': list_of(parse_test_version_tuple),
+                'init-node-from': file_path,
+                'include-summary': list_of(parse_test_version_tuple),
+            }
         )
 
 

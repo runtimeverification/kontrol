@@ -42,7 +42,7 @@ if TYPE_CHECKING:
     from pyk.kast.inner import KInner
     from pyk.kore.rpc import KoreServer
 
-    from .options import ProveOptions
+    from .options import FuzzOptions, ProveOptions
     from .solc_to_k import StorageField
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -205,6 +205,7 @@ def collect_tests(
     reinit: bool,
     return_empty: bool = False,
     exact_match: bool = False,
+    fuzzing: bool = False,
 ) -> list[FoundryTest]:
     if not tests and not return_empty:
         tests = [(test, None) for test in foundry.all_tests]
@@ -216,13 +217,18 @@ def collect_tests(
     res: list[FoundryTest] = []
     for sig, ver in tests:
         contract, method = foundry.get_contract_and_method(sig)
-        version = foundry.resolve_proof_version(sig, reinit, ver)
+        version = foundry.resolve_proof_version(sig, reinit, ver, fuzzing)
         res.append(FoundryTest(contract, method, version))
     return res
 
 
 def collect_setup_methods(
-    foundry: Foundry, contracts: Iterable[tuple[Contract, int]] = (), *, reinit: bool, setup_version: int | None = None
+    foundry: Foundry,
+    contracts: Iterable[tuple[Contract, int]] = (),
+    *,
+    reinit: bool,
+    setup_version: int | None = None,
+    fuzzing: bool = False,
 ) -> list[FoundryTest]:
     res: list[FoundryTest] = []
     contract_names: set[str] = set()  # ensures uniqueness of each result (Contract itself is not hashable)
@@ -235,7 +241,7 @@ def collect_setup_methods(
         if not method:
             continue
         version = foundry.resolve_setup_proof_version(
-            f'{contract.name_with_path}.setUp()', reinit, test_version, setup_version
+            f'{contract.name_with_path}.setUp()', reinit, test_version, setup_version, fuzzing
         )
         res.append(FoundryTest(contract, method, version))
     return res
@@ -298,14 +304,16 @@ class PreexistingKoreServer(OptionalKoreServer):
 def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
-    options: ProveOptions,
+    options: ProveOptions | FuzzOptions,
     summary_ids: Iterable[str],
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
+    fuzzing: bool = False,
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
         proof = None
-        if Proof.proof_data_exists(test.id, foundry.proofs_dir):
-            proof = foundry.get_apr_proof(test.id)
+        proofs_dir = foundry.fuzz_dir if fuzzing else foundry.proofs_dir
+        if Proof.proof_data_exists(test.id, proofs_dir):
+            proof = foundry.get_apr_proof(test.id, fuzzing)
             if proof.passed:
                 return None
         start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
@@ -607,22 +615,40 @@ def _method_to_cfg(
         callvalue = method.callvalue_cell
         program = contract_code
 
-    init_cterm = _init_cterm(
-        foundry,
-        empty_config,
-        contract_name=contract._name,
-        program=program,
-        contract_code=bytesToken(contract_code),
-        storage_fields=contract.fields,
-        method=method,
-        use_gas=use_gas,
-        recorded_state_entries=recorded_state_entries,
-        calldata=calldata,
-        callvalue=callvalue,
-        active_symbolik=active_symbolik,
-        trace_options=trace_options,
-        config_type=config_type,
-    )
+    if config_type == ConfigType.FUZZ_CONFIG:
+        init_cterm = _init_fuzz_cterm(
+            foundry,
+            empty_config,
+            contract_name=contract._name,
+            program=program,
+            contract_code=bytesToken(contract_code),
+            storage_fields=contract.fields,
+            method=method,
+            use_gas=use_gas,
+            recorded_state_entries=recorded_state_entries,
+            calldata=calldata,
+            callvalue=callvalue,
+            active_symbolik=active_symbolik,
+            trace_options=trace_options,
+            config_type=config_type,
+        )
+    else:
+        init_cterm = _init_cterm(
+            foundry,
+            empty_config,
+            contract_name=contract._name,
+            program=program,
+            contract_code=bytesToken(contract_code),
+            storage_fields=contract.fields,
+            method=method,
+            use_gas=use_gas,
+            recorded_state_entries=recorded_state_entries,
+            calldata=calldata,
+            callvalue=callvalue,
+            active_symbolik=active_symbolik,
+            trace_options=trace_options,
+            config_type=config_type,
+        )
     new_node_ids = []
 
     if setup_proof:
@@ -848,6 +874,88 @@ def _process_state_dump(recorded_state: Iterable[StateDumpEntry]) -> dict:
                 hex_string_to_int(update.value)
             )
     return accounts
+
+
+def _init_fuzz_cterm(
+    foundry: Foundry,
+    empty_config: KInner,
+    contract_name: str,
+    program: bytes,
+    contract_code: KInner,
+    storage_fields: tuple[StorageField, ...],
+    method: Contract.Method | Contract.Constructor,
+    use_gas: bool,
+    config_type: ConfigType,
+    active_symbolik: bool,
+    *,
+    calldata: KInner | None = None,
+    callvalue: KInner | None = None,
+    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
+    trace_options: TraceOptions | None = None,
+) -> CTerm:
+    schedule = KApply('SHANGHAI_EVM')
+    contract_name = contract_name.upper()
+
+    if not trace_options:
+        trace_options = TraceOptions({})
+
+    init_account_list = _create_initial_account_list(contract_code, recorded_state_entries)
+
+    jumpdests = bytesToken(_process_jumpdests(bytecode=program))
+    init_subst = {
+        'STATIC_CELL': FALSE,
+        'MODE_CELL': KApply('NORMAL'),
+        'USEGAS_CELL': TRUE if use_gas else FALSE,
+        'SCHEDULE_CELL': schedule,
+        'PROGRAM_CELL': bytesToken(program),
+        'JUMPDESTS_CELL': jumpdests,
+        'ID_CELL': Foundry.address_TEST_CONTRACT(),
+        'ORIGIN_CELL': Foundry.address_TEST_CONTRACT(),
+        'CALLER_CELL': Foundry.address_TEST_CONTRACT(),
+        'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),
+        'SINGLECALL_CELL': FALSE,
+        'ISREVERTEXPECTED_CELL': FALSE,
+        'ISOPCODEEXPECTED_CELL': FALSE,
+        'RECORDEVENT_CELL': FALSE,
+        'ISEVENTEXPECTED_CELL': FALSE,
+        'ISCALLWHITELISTACTIVE_CELL': FALSE,
+        'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
+        'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
+        'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
+        'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
+        'TRACEMEMORY_CELL': TRUE if trace_options.trace_memory else FALSE,
+        'RECORDEDTRACE_CELL': FALSE,
+        'ACCOUNTS_CELL': KEVM.accounts(init_account_list),
+    }
+
+    if calldata is not None:
+        init_subst['CALLDATA_CELL'] = calldata
+
+    if callvalue is not None:
+        init_subst['CALLVALUE_CELL'] = callvalue
+
+    if not use_gas:
+        init_subst['GAS_CELL'] = intToken(0)
+        init_subst['CALLGAS_CELL'] = intToken(0)
+        init_subst['REFUND_CELL'] = intToken(0)
+
+    if isinstance(method, Contract.Constructor):
+        # constructor can not be called in a static context.
+        init_subst['STATIC_CELL'] = FALSE
+
+        encoded_args, arg_constraints = method.encoded_args(foundry.enums)
+        init_subst['PROGRAM_CELL'] = KEVM.bytes_append(bytesToken(program), encoded_args)
+
+    init_term = Subst(init_subst)(empty_config)
+    init_cterm = CTerm.from_kast(init_term)
+
+    if isinstance(method, Contract.Constructor) and len(arg_constraints) > 0:
+        for arg_constraint in arg_constraints:
+            init_cterm = init_cterm.add_constraint(mlEqualsTrue(arg_constraint))
+
+    # init_cterm = KEVM.add_invariant(init_cterm)
+
+    return init_cterm
 
 
 def _init_cterm(
