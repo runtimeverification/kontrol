@@ -645,7 +645,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.644"
+version = "1.0.645"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -653,26 +653,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.60"
+kframework = "7.1.61"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.644"
-resolved_reference = "d6d151b8351921e6048843d590fc0e9649ed4a3a"
+reference = "v1.0.645"
+resolved_reference = "0ee8707b090773ec662b69cb6d4f3515460e179f"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.60"
+version = "7.1.61"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.60-py3-none-any.whl", hash = "sha256:2172b7cd3d4a332162ad66c0ce701945923e660d181616bd729f60d7edcc743e"},
-    {file = "kframework-7.1.60.tar.gz", hash = "sha256:254b19efe55ebb6b3a176bd518b1738d4ef2a2baf7ff0958f1210a4575c9e227"},
+    {file = "kframework-7.1.61-py3-none-any.whl", hash = "sha256:a31d2b59cbffb34d01196735a3e5e3295c93235473ae4b0e7e8b87e25457b160"},
+    {file = "kframework-7.1.61.tar.gz", hash = "sha256:b345fad0c02d5a932b6568476370c4d03b302c6bafc38010769eab4403d89e72"},
 ]
 
 [package.dependencies]
@@ -1382,4 +1382,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "8ae46ff93ef8f8bbd8575ab0ba0df17521907197476d15827bcf974c5fa71e55"
+content-hash = "7fcfb2cfb8a1ea81bd9f44c1224834e2a65e27463788cf5e7e13c7e94452c488"
