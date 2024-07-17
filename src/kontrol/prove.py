@@ -1157,11 +1157,11 @@ def _create_cse_accounts(
                                         KApply(
                                             '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
                                             [
-                                                slot_var_after,
+                                                slot_var_before,
                                                 KEVM.buf(intToken(20), contract_account_variable),
                                             ],
                                         ),
-                                        slot_var_before,
+                                        slot_var_after,
                                     ],
                                 )
                             ],
@@ -1176,7 +1176,7 @@ def _create_cse_accounts(
                                     [
                                         KApply(
                                             'lengthBytes(_)_BYTES-HOOKED_Int_Bytes',
-                                            [slot_var_before],
+                                            [slot_var_after],
                                         ),
                                         intToken(field.offset),
                                     ],
@@ -1190,7 +1190,7 @@ def _create_cse_accounts(
                                     [
                                         KApply(
                                             'lengthBytes(_)_BYTES-HOOKED_Int_Bytes',
-                                            [slot_var_after],
+                                            [slot_var_before],
                                         ),
                                         intToken(32 - 20 - field.offset),
                                     ],
