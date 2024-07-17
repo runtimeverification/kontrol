@@ -124,16 +124,21 @@ class RecreateState:
         lines.append('')
 
         lines.append(f'contract {self.name} is {self.name}Code ' + '{')
+        # Appending the Test contract address
+        lines.append('\t// Test contract address, 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496')
+        lines.append('\taddress private constant FOUNDRY_TEST_ADDRESS = 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496;')
         # Appending the cheatcode address to be able to avoid extending `Test`
         lines.append('\t// Cheat code address, 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D')
         lines.append('\taddress private constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));')
         lines.append('\tVm private constant vm = Vm(VM_ADDRESS);\n')
 
+        # Appending variables for external addresses
         for acc_key in list(self.accounts):
             lines.append('\taddress internal constant ' + self.accounts[acc_key] + 'Address = ' + acc_key + ';')
 
         lines.append('\n')
 
+        # Appending `recreateState()` function that consists of calling `vm.etch` and `vm.store` to recreate state for external computation
         lines.append('\tfunction recreateState() public {')
 
         lines.append('\t\tbytes32 slot;')
@@ -141,6 +146,17 @@ class RecreateState:
 
         for command in self.commands:
             lines.append('\t\t' + command + ';')
+
+        lines.append('\t}')
+
+        # Appending `_notExternalAddress(address user)` function that consists of `vm.assume(user != <address found in this contract>)`
+        lines.append('\tfunction _notExternalAddress(address user) public pure {')
+
+        lines.append('\t\tvm.assume(user != FOUNDRY_TEST_ADDRESS);')
+        lines.append('\t\tvm.assume(user != VM_ADDRESS);')
+
+        for acc_key in list(self.accounts):
+            lines.append('\t\tvm.assume(user != ' + self.accounts[acc_key] + 'Address);')
 
         lines.append('\t}')
 
