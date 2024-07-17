@@ -94,7 +94,7 @@ def _load_foundry(
     foundry_root: Path,
     bug_report: BugReport | None = None,
     use_hex_encoding: bool = False,
-    add_enum_constraints: bool = True,
+    add_enum_constraints: bool = False,
 ) -> Foundry:
     try:
         foundry = Foundry(
@@ -166,7 +166,7 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 def exec_load_state(options: LoadStateOptions) -> None:
     foundry_state_load(
         options=options,
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
     )
 
 
@@ -193,7 +193,7 @@ def exec_build(options: BuildOptions) -> None:
         console.print(building_message)
         foundry_kompile(
             options=options,
-            foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints),
+            foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         )
         console.print(
             ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
@@ -221,7 +221,7 @@ def exec_prove(options: ProveOptions) -> None:
         console.print(proving_message)
         results = foundry_prove(
             foundry=_load_foundry(
-                options.foundry_root, options.bug_report, add_enum_constraints=not options.enum_constraints
+                options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints
             ),
             options=options,
             recorded_state_entries=recorded_dump_entries if recorded_dump_entries else recorded_diff_entries,
@@ -270,7 +270,7 @@ def exec_show(options: ShowOptions) -> None:
         foundry=_load_foundry(
             options.foundry_root,
             use_hex_encoding=options.use_hex_encoding,
-            add_enum_constraints=not options.enum_constraints,
+            add_enum_constraints=options.enum_constraints,
         ),
         options=options,
     )
@@ -278,7 +278,7 @@ def exec_show(options: ShowOptions) -> None:
 
 
 def exec_refute_node(options: RefuteNodeOptions) -> None:
-    foundry = _load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints)
+    foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
     refutation = foundry_refute_node(foundry=foundry, options=options)
 
     if refutation:
@@ -292,14 +292,14 @@ def exec_refute_node(options: RefuteNodeOptions) -> None:
 
 def exec_unrefute_node(options: UnrefuteNodeOptions) -> None:
     foundry_unrefute_node(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
 
 def exec_split_node(options: SplitNodeOptions) -> None:
     node_ids = foundry_split_node(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
@@ -308,20 +308,18 @@ def exec_split_node(options: SplitNodeOptions) -> None:
 
 def exec_to_dot(options: ToDotOptions) -> None:
     foundry_to_dot(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
 
 def exec_list(options: ListOptions) -> None:
-    stats = foundry_list(foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints))
+    stats = foundry_list(foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints))
     print('\n'.join(stats))
 
 
 def exec_view_kcfg(options: ViewKcfgOptions) -> None:
-    foundry = _load_foundry(
-        options.foundry_root, use_hex_encoding=True, add_enum_constraints=not options.enum_constraints
-    )
+    foundry = _load_foundry(options.foundry_root, use_hex_encoding=True, add_enum_constraints=options.enum_constraints)
     test_id = foundry.get_test_id(options.test, options.version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -339,14 +337,14 @@ def exec_view_kcfg(options: ViewKcfgOptions) -> None:
 
 def exec_minimize_proof(options: MinimizeProofOptions) -> None:
     foundry_minimize_proof(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
 
 def exec_remove_node(options: RemoveNodeOptions) -> None:
     foundry_remove_node(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
@@ -362,16 +360,14 @@ def exec_simplify_node(options: SimplifyNodeOptions) -> None:
 
 def exec_step_node(options: StepNodeOptions) -> None:
     foundry_step_node(
-        foundry=_load_foundry(
-            options.foundry_root, options.bug_report, add_enum_constraints=not options.enum_constraints
-        ),
+        foundry=_load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
 
 def exec_merge_nodes(options: MergeNodesOptions) -> None:
     foundry_merge_nodes(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
@@ -379,9 +375,7 @@ def exec_merge_nodes(options: MergeNodesOptions) -> None:
 def exec_section_edge(options: SectionEdgeOptions) -> None:
 
     foundry_section_edge(
-        foundry=_load_foundry(
-            options.foundry_root, options.bug_report, add_enum_constraints=not options.enum_constraints
-        ),
+        foundry=_load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
@@ -389,7 +383,7 @@ def exec_section_edge(options: SectionEdgeOptions) -> None:
 def exec_get_model(options: GetModelOptions) -> None:
 
     output = foundry_get_model(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=not options.enum_constraints),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
     print(output)

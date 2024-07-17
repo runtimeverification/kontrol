@@ -173,7 +173,7 @@ class KontrolCLIArgs(KEVMCLIArgs):
             dest='enum_constraints',
             default=None,
             action='store_true',
-            help='Skip adding constraints for enum function arguments and storage slots.',
+            help='Add constraints for enum function arguments and storage slots.',
         )
         return args
 
