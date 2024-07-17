@@ -13,7 +13,7 @@ clean:
 
 githooks:
 	@echo "Setup Githooks"
-	cp -r .githooks/ .git/hooks/
+	cp -r .githooks/* .git/hooks/
 
 .PHONY: build
 build: githooks
