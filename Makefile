@@ -11,8 +11,12 @@ clean:
 	rm -rf dist .coverage cov-* .mypy_cache .pytest_cache
 	find -type d -name __pycache__ -prune -exec rm -rf {} \;
 
+githooks:
+	@echo "Setup Githooks"
+	cp -r .githooks/ .git/hooks/
+
 .PHONY: build
-build:
+build: githooks
 	$(POETRY) build
 
 .PHONY: poetry-install

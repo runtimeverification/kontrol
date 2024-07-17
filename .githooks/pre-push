@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Bump Version File Before Push
+og_version=$(git show origin/master:package/version)
+./package/version.sh bump ${og_version}
+./package/version.sh sub
+new_version=$(cat package/version)
+sed --in-place "s/^VERSION: Final = '.*'$/VERSION: Final = '${new_version}'/" src/kontrol/__init__.py
+git add --update && git commit --message "Set Version: $(cat package/version)" || true

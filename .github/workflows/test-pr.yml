@@ -8,20 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
-  version-bump:
-    name: 'Version Bump'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Version Bump
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh workflow run version-bump.yml --repo ${{ github.repository }} --ref ${{ github.ref }}
-
-
   code-quality-checks:
-    needs: version-bump
     name: 'Code Quality Checks'
     runs-on: ubuntu-latest
     steps:
