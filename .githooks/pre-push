@@ -1,4 +1,6 @@
 #!/bin/sh
+# Disable debug mode
+set +x
 
 # Bump Version File Before Push
 og_version=$(git show origin/master:package/version)
