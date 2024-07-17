@@ -8,6 +8,8 @@ import { Vm } from "forge-std/Vm.sol";
 import { LoadStateDumpCode } from "./LoadStateDumpCode.sol";
 
 contract LoadStateDump is LoadStateDumpCode {
+	// Test contract address, 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496
+	address private constant FOUNDRY_TEST_ADDRESS = 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496;
 	// Cheat code address, 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D
 	address private constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
 	Vm private constant vm = Vm(VM_ADDRESS);
@@ -29,5 +31,13 @@ contract LoadStateDump is LoadStateDumpCode {
 		slot = hex'0000000000000000000000000000000000000000000000000000000000000000';
 		value = hex'0000000000000000000000000000000000000000000000000000000000000002';
 		vm.store(acc1Address, slot, value);
+	}
+
+
+	function _notExternalAddress(address user) public pure {
+		vm.assume(user != FOUNDRY_TEST_ADDRESS);
+		vm.assume(user != VM_ADDRESS);
+		vm.assume(user != acc0Address);
+		vm.assume(user != acc1Address);
 	}
 }

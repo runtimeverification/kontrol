@@ -149,6 +149,8 @@ class RecreateState:
 
         lines.append('\t}')
 
+        lines.append('\n')
+
         # Appending `_notExternalAddress(address user)` function that consists of `vm.assume(user != <address found in this contract>)`
         lines.append('\tfunction _notExternalAddress(address user) public pure {')
 
