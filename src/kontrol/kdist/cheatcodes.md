@@ -875,7 +875,7 @@ function allowChangesToStorage(address,uint256) external;
 
 ```k
     rule [foundry.allowStorageSlotToAddress]:
-         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #addStorageSlotToWhitelist { #asWord(#range(ARGS, 0, 32)) | #asWord(#range(ARGS, 32, 32)) } ... </k>
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS, 0, 32)) ~> #addStorageSlotToWhitelist { #asWord(#range(ARGS, 0, 32)) | #asWord(#range(ARGS, 32, 32)) } ... </k>
          requires SELECTOR ==Int selector ( "allowChangesToStorage(address,uint256)" )
 ```
 

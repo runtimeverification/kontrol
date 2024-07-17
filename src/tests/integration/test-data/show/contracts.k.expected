@@ -415,6 +415,8 @@ module S2KtestZModAllowChangesTest-CONTRACT
     
     syntax S2KtestZModAllowChangesTestMethod ::= "S2Kkevm" "(" ")" [symbol("method_test%AllowChangesTest_S2Kkevm_")]
     
+    syntax S2KtestZModAllowChangesTestMethod ::= "S2KsetUp" "(" ")" [symbol("method_test%AllowChangesTest_S2KsetUp_")]
+    
     syntax S2KtestZModAllowChangesTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol("method_test%AllowChangesTest_S2KtargetArtifactSelectors_")]
     
     syntax S2KtestZModAllowChangesTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol("method_test%AllowChangesTest_S2KtargetArtifacts_")]
@@ -425,9 +427,9 @@ module S2KtestZModAllowChangesTest-CONTRACT
     
     syntax S2KtestZModAllowChangesTestMethod ::= "S2KtargetSenders" "(" ")" [symbol("method_test%AllowChangesTest_S2KtargetSenders_")]
     
-    syntax S2KtestZModAllowChangesTestMethod ::= "S2Ktest" "(" ")" [symbol("method_test%AllowChangesTest_S2Ktest_")]
-    
     syntax S2KtestZModAllowChangesTestMethod ::= "S2KtestAllow" "(" ")" [symbol("method_test%AllowChangesTest_S2KtestAllow_")]
+    
+    syntax S2KtestZModAllowChangesTestMethod ::= "S2KtestAllowSymbolic" "(" ")" [symbol("method_test%AllowChangesTest_S2KtestAllowSymbolic_")]
     
     syntax S2KtestZModAllowChangesTestMethod ::= "S2KtestAllowZUndfail" "(" ")" [symbol("method_test%AllowChangesTest_S2KtestAllowZUndfail_")]
     
@@ -453,6 +455,9 @@ module S2KtestZModAllowChangesTest-CONTRACT
     rule  ( S2KtestZModAllowChangesTest . S2Kkevm ( ) => #abiCallData ( "kevm" , .TypedArgs ) )
       
     
+    rule  ( S2KtestZModAllowChangesTest . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
     rule  ( S2KtestZModAllowChangesTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
       
     
@@ -468,10 +473,10 @@ module S2KtestZModAllowChangesTest-CONTRACT
     rule  ( S2KtestZModAllowChangesTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModAllowChangesTest . S2Ktest ( ) => #abiCallData ( "test" , .TypedArgs ) )
+    rule  ( S2KtestZModAllowChangesTest . S2KtestAllow ( ) => #abiCallData ( "testAllow" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModAllowChangesTest . S2KtestAllow ( ) => #abiCallData ( "testAllow" , .TypedArgs ) )
+    rule  ( S2KtestZModAllowChangesTest . S2KtestAllowSymbolic ( ) => #abiCallData ( "testAllowSymbolic" , .TypedArgs ) )
       
     
     rule  ( S2KtestZModAllowChangesTest . S2KtestAllowZUndfail ( ) => #abiCallData ( "testAllow_fail" , .TypedArgs ) )
@@ -501,6 +506,9 @@ module S2KtestZModAllowChangesTest-CONTRACT
     rule  ( selector ( "kevm()" ) => 3601001590 )
       
     
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
     rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
       
     
@@ -516,10 +524,10 @@ module S2KtestZModAllowChangesTest-CONTRACT
     rule  ( selector ( "targetSenders()" ) => 1046363171 )
       
     
-    rule  ( selector ( "test()" ) => 4171824493 )
+    rule  ( selector ( "testAllow()" ) => 3693132891 )
       
     
-    rule  ( selector ( "testAllow()" ) => 3693132891 )
+    rule  ( selector ( "testAllowSymbolic()" ) => 4094715175 )
       
     
     rule  ( selector ( "testAllow_fail()" ) => 4129570225 )
@@ -542,38 +550,38 @@ module S2KtestZModValueStore-CONTRACT
     
     syntax Bytes ::= S2KtestZModValueStoreContract "." S2KtestZModValueStoreMethod [function, symbol("method_test%ValueStore")]
     
-    syntax S2KtestZModValueStoreMethod ::= "S2KchangeValue1" "(" Int ":" "uint256" ")" [symbol("method_test%ValueStore_S2KchangeValue1_uint256")]
+    syntax S2KtestZModValueStoreMethod ::= "S2KchangeSlot0" "(" Int ":" "uint256" ")" [symbol("method_test%ValueStore_S2KchangeSlot0_uint256")]
     
-    syntax S2KtestZModValueStoreMethod ::= "S2KchangeValue2" "(" Int ":" "uint256" ")" [symbol("method_test%ValueStore_S2KchangeValue2_uint256")]
+    syntax S2KtestZModValueStoreMethod ::= "S2KchangeSlot1" "(" Int ":" "uint256" ")" [symbol("method_test%ValueStore_S2KchangeSlot1_uint256")]
     
-    syntax S2KtestZModValueStoreMethod ::= "S2Kvalue1" "(" ")" [symbol("method_test%ValueStore_S2Kvalue1_")]
+    syntax S2KtestZModValueStoreMethod ::= "S2Kslot0" "(" ")" [symbol("method_test%ValueStore_S2Kslot0_")]
     
-    syntax S2KtestZModValueStoreMethod ::= "S2Kvalue2" "(" ")" [symbol("method_test%ValueStore_S2Kvalue2_")]
+    syntax S2KtestZModValueStoreMethod ::= "S2Kslot1" "(" ")" [symbol("method_test%ValueStore_S2Kslot1_")]
     
-    rule  ( S2KtestZModValueStore . S2KchangeValue1 ( V0_newValue : uint256 ) => #abiCallData ( "changeValue1" , ( #uint256 ( V0_newValue ) , .TypedArgs ) ) )
+    rule  ( S2KtestZModValueStore . S2KchangeSlot0 ( V0_newValue : uint256 ) => #abiCallData ( "changeSlot0" , ( #uint256 ( V0_newValue ) , .TypedArgs ) ) )
        ensures #rangeUInt ( 256 , V0_newValue )
       
     
-    rule  ( S2KtestZModValueStore . S2KchangeValue2 ( V0_newValue : uint256 ) => #abiCallData ( "changeValue2" , ( #uint256 ( V0_newValue ) , .TypedArgs ) ) )
+    rule  ( S2KtestZModValueStore . S2KchangeSlot1 ( V0_newValue : uint256 ) => #abiCallData ( "changeSlot1" , ( #uint256 ( V0_newValue ) , .TypedArgs ) ) )
        ensures #rangeUInt ( 256 , V0_newValue )
       
     
-    rule  ( S2KtestZModValueStore . S2Kvalue1 ( ) => #abiCallData ( "value1" , .TypedArgs ) )
+    rule  ( S2KtestZModValueStore . S2Kslot0 ( ) => #abiCallData ( "slot0" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModValueStore . S2Kvalue2 ( ) => #abiCallData ( "value2" , .TypedArgs ) )
+    rule  ( S2KtestZModValueStore . S2Kslot1 ( ) => #abiCallData ( "slot1" , .TypedArgs ) )
       
     
-    rule  ( selector ( "changeValue1(uint256)" ) => 1634438405 )
+    rule  ( selector ( "changeSlot0(uint256)" ) => 1508657921 )
       
     
-    rule  ( selector ( "changeValue2(uint256)" ) => 367426214 )
+    rule  ( selector ( "changeSlot1(uint256)" ) => 3545667351 )
       
     
-    rule  ( selector ( "value1()" ) => 808665403 )
+    rule  ( selector ( "slot0()" ) => 944818109 )
       
     
-    rule  ( selector ( "value2()" ) => 1563665023 )
+    rule  ( selector ( "slot1()" ) => 524647605 )
       
 
 endmodule
