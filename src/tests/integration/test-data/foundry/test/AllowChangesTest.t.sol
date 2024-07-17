@@ -5,60 +5,59 @@ import "forge-std/Test.sol";
 import "kontrol-cheatcodes/KontrolCheats.sol";
 
 contract ValueStore {
-	uint256 public value1;
-	uint256 public value2;
+	uint256 public slot0;
+	uint256 public slot1;
 
-	function changeValue1(uint256 newValue) public {
-		value1 = newValue;
+	function changeSlot0(uint256 newValue) public {
+		slot0 = newValue;
 	}
 
-	function changeValue2(uint256 newValue) public {
-		value2 = newValue;
+	function changeSlot1(uint256 newValue) public {
+		slot1 = newValue;
 	}
 }
 
 contract AllowChangesTest is Test, KontrolCheats {
-	function test() public {
-		assertTrue(true);
-	}
+	ValueStore canChange;
+	ValueStore cannotChange;	
 	
-	function testAllow() public {
-		ValueStore canChange = new ValueStore();
-		ValueStore cannotChange = new ValueStore();
-
-		kevm.allowCallsToAddress(address(canChange));
-		kevm.allowChangesToStorage(address(canChange), 0);
-
-		canChange.changeValue1(85);
+	function setUp() public {
+		canChange = new ValueStore();
+		cannotChange = new ValueStore();
 	}
 
-	function testFailAllowCallsToAddress() public {
-		ValueStore canChange = new ValueStore();
-		ValueStore cannotChange = new ValueStore();
-
+	function testAllow() public {
 		kevm.allowCallsToAddress(address(canChange));
 		kevm.allowChangesToStorage(address(canChange), 0);
 
-		cannotChange.changeValue1(10245);
+		canChange.changeSlot0(85);
+	}
+
+	function testAllowSymbolic() public {
+		kevm.symbolicStorage(address(canChange));
+
+		kevm.allowCallsToAddress(address(canChange));
+		kevm.allowChangesToStorage(address(canChange), 0);
+		canChange.changeSlot0(85);
+	}
+	function testFailAllowCallsToAddress() public {
+		kevm.allowCallsToAddress(address(canChange));
+		kevm.allowChangesToStorage(address(canChange), 0);
+
+		cannotChange.changeSlot0(10245);
 	}
 
 	function testFailAllowChangesToStorage() public {
-		ValueStore canChange = new ValueStore();
-		ValueStore cannotChange = new ValueStore();
-
 		kevm.allowCallsToAddress(address(canChange));
 		kevm.allowChangesToStorage(address(canChange), 0);
 
-		canChange.changeValue2(23452);
+		canChange.changeSlot1(23452);
 	}
 
 	function testAllow_fail() public {
-		ValueStore canChange = new ValueStore();
-		ValueStore cannotChange = new ValueStore();
-
 		kevm.allowCallsToAddress(address(canChange));
 		kevm.allowChangesToStorage(address(canChange), 0);
 
-		canChange.changeValue2(234521);
+		canChange.changeSlot1(234521);
 	}
 }
