@@ -92,7 +92,7 @@ class Foundry:
         foundry_root: Path,
         bug_report: BugReport | None = None,
         use_hex_encoding: bool = False,
-        add_enum_constraints: bool = True,
+        add_enum_constraints: bool = False,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
