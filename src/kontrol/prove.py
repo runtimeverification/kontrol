@@ -12,7 +12,9 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
+from pyk.kast.outer import KProduction, KFlatModule, KImport, KTerminal, KNonTerminal
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
+from pyk.konvert import kflatmodule_to_kore
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
@@ -25,7 +27,7 @@ from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRFailureInfo, APRProof
+from pyk.proof.reachability import APRFailureInfo, APRProof, APRProver
 from pyk.utils import run_process_2, unique
 
 from .foundry import Foundry, foundry_to_xml
@@ -36,6 +38,8 @@ from .state_record import StateDiffEntry, StateDumpEntry
 from .utils import console, parse_test_version_tuple
 
 if TYPE_CHECKING:
+    from pyk.kast.outer import KSentence
+#      from pyk.kast.outer import KRule
     from collections.abc import Iterable
     from typing import Final, TypeGuard
 
@@ -294,6 +298,55 @@ class PreexistingKoreServer(OptionalKoreServer):
     def port(self) -> int:
         return self._port
 
+class KontrolAPRProver(APRProver):
+    accounts: list[str]
+
+    def __init__(
+        self,
+        kcfg_explore: KCFGExplore,
+        accounts: list[str],
+        execute_depth: int | None = None,
+        cut_point_rules: Iterable[str] = (),
+        terminal_rules: Iterable[str] = (),
+        counterexample_info: bool = False,
+        always_check_subsumption: bool = True,
+        fast_check_subsumption: bool = False,
+        direct_subproof_rules: bool = False,
+    ) -> None:
+
+        self.accounts = accounts
+        super().__init__(kcfg_explore, execute_depth, cut_point_rules, terminal_rules, counterexample_info, always_check_subsumption, fast_check_subsumption, direct_subproof_rules)
+
+    def init_proof(self, proof: APRProof) -> None:
+        def _inject_module(module_name: str, import_name: str, sentences: list[KSentence]) -> None:
+            _module = KFlatModule(module_name, sentences, [KImport(import_name)])
+            print(_module)
+            _kore_module = kflatmodule_to_kore(self.kcfg_explore.cterm_symbolic._definition, _module)
+            self.kcfg_explore.cterm_symbolic._kore_client.add_module(_kore_module, name_as_id=True)
+
+        subproofs: list[Proof] = (
+            [Proof.read_proof_data(proof.proof_dir, i) for i in proof.subproof_ids]
+            if proof.proof_dir is not None
+            else []
+        )
+        dependencies_as_rules: list[KSentence] = [
+            rule
+            for subproof in subproofs
+            if isinstance(subproof, APRProof)
+            for rule in subproof.as_rules(priority=20, direct_rule=self.direct_subproof_rules)
+        ]
+        storage_invariants: list[KSentence] = [
+            KProduction(KSort('Bool'), [KTerminal(f'{account}_storage_invariant'), KTerminal('('), KNonTerminal(KSort('Map')), KTerminal(')')]) for account in self.accounts
+        ]
+        circularity_rule = proof.as_rule(priority=20)
+
+        _inject_module(proof.dependencies_module_name, self.main_module_name, dependencies_as_rules + storage_invariants)
+        _inject_module(proof.circularities_module_name, proof.dependencies_module_name, [circularity_rule])
+
+        for node_id in [proof.init, proof.target]:
+            if self.kcfg_explore.kcfg_semantics.is_terminal(proof.kcfg.node(node_id).cterm):
+                proof.add_terminal(node_id)
+
 
 def _run_cfg_group(
     tests: list[FoundryTest],
@@ -363,6 +416,7 @@ def _run_cfg_group(
                     id=test.id,
                 )
 
+
             if proof is None:
                 # With CSE, top-level proof should be a summary if it's not a test or setUp function
                 if (
@@ -407,9 +461,20 @@ def _run_cfg_group(
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
+
+            def create_apr_prover() -> APRProver:
+                return KontrolAPRProver(
+                    create_kcfg_explore(),
+                    accounts=['abc', 'def', 'ghi'],
+                    execute_depth=options.max_depth,
+                    terminal_rules=KEVMSemantics.terminal_rules(options.break_every_step),
+                    cut_point_rules=cut_point_rules,
+                    counterexample_info=options.counterexample_info,
+                )
             run_prover(
                 proof,
                 create_kcfg_explore=create_kcfg_explore,
+                create_apr_prover=create_apr_prover,
                 max_depth=options.max_depth,
                 max_iterations=options.max_iterations,
                 cut_point_rules=cut_point_rules,
