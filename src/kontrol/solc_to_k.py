@@ -17,7 +17,7 @@ from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
-from pyk.utils import hash_str, run_process, single
+from pyk.utils import hash_str, run_process_2, single
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -648,7 +648,7 @@ class Contract:
                 self.sort,
                 items_before + items_args + items_after,
                 klabel=self.unique_klabel,
-                att=KAtt(entries=[Atts.SYMBOL('')]),
+                att=KAtt(entries=[Atts.SYMBOL(self.unique_klabel.name)]),
             )
 
         def rule(
@@ -1011,7 +1011,7 @@ class Contract:
             self.sort,
             [KTerminal(Contract.escaped(self.name_with_path, 'S2K'))],
             klabel=self.klabel,
-            att=KAtt([Atts.SYMBOL('')]),
+            att=KAtt([Atts.SYMBOL(self.klabel.name)]),
         )
 
     @property
@@ -1044,7 +1044,7 @@ class Contract:
             KSort('Bytes'),
             [KNonTerminal(self.sort), KTerminal('.'), KNonTerminal(self.sort_method)],
             klabel=self.klabel_method,
-            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL('')]),
+            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL(self.klabel_method.name)]),
         )
         res: list[KSentence] = [method_application_production]
         res.extend(method.production for method in self.methods)
@@ -1101,7 +1101,7 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     }
 
     try:
-        process_res = run_process(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
+        process_res = run_process_2(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
     except CalledProcessError as err:
         raise RuntimeError('solc error', err.stdout, err.stderr) from err
     result = json.loads(process_res.stdout)

@@ -116,7 +116,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS='--numprocesses=8 -vv -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)"'
+          TEST_ARGS='--numprocesses=6 -vv -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)"'
           [ ${{ matrix.backend }} == 'legacy' ] && TEST_ARGS+=' --no-use-booster'
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
@@ -223,7 +223,7 @@ jobs:
       - name: 'Run forge build'
         run: |
           docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git foundry-rs/forge-std@75f1746
-          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git runtimeverification/kontrol-cheatcodes@0048278
+          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git runtimeverification/kontrol-cheatcodes@7baaf34
           docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge build
       - name: 'Run kontrol build'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol build

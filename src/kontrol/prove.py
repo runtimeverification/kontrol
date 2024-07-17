@@ -26,7 +26,7 @@ from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.utils import run_process, unique
+from pyk.utils import run_process_2, unique
 
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
@@ -62,7 +62,7 @@ def foundry_prove(
 
     if options.use_booster:
         try:
-            run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
+            run_process_2(['which', 'kore-rpc-booster']).stdout.strip()
         except CalledProcessError:
             raise RuntimeError(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
@@ -417,6 +417,7 @@ def _run_cfg_group(
                 counterexample_info=options.counterexample_info,
                 max_frontier_parallel=options.max_frontier_parallel,
                 fail_fast=options.fail_fast,
+                force_sequential=options.force_sequential,
             )
 
             if options.minimize_proofs or options.config_type == ConfigType.SUMMARY_CONFIG:
@@ -902,6 +903,7 @@ def _init_cterm(
         'ADDRESSSET_CELL': set_empty(),
         'STORAGESLOTSET_CELL': set_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
+        'MOCKFUNCTIONS_CELL': KApply('.MockFunctionCellMap'),
         'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
         'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
         'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
@@ -1154,14 +1156,14 @@ def _create_cse_accounts(
                                 KApply(
                                     '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
                                     [
+                                        slot_var_before,
                                         KApply(
                                             '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
                                             [
-                                                slot_var_before,
                                                 KEVM.buf(intToken(20), contract_account_variable),
+                                                slot_var_after,
                                             ],
                                         ),
-                                        slot_var_after,
                                     ],
                                 )
                             ],

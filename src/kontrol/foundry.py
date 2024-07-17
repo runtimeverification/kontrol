@@ -30,7 +30,7 @@ from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
-from pyk.utils import ensure_dir_path, hash_str, run_process, single, unique
+from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
 from .solc_to_k import Contract
@@ -302,7 +302,7 @@ class Foundry:
 
     def build(self) -> None:
         try:
-            run_process(['forge', 'build', '--build-info', '--root', str(self._root)], logger=_LOGGER)
+            run_process_2(['forge', 'build', '--build-info', '--root', str(self._root)], logger=_LOGGER)
         except FileNotFoundError as err:
             raise RuntimeError(
                 "Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH."
@@ -498,10 +498,11 @@ class Foundry:
             try:
                 proof_dir, proof_name_version = pid.rsplit('%', 1)
                 proof_name, proof_version_str = proof_name_version.split(':', 1)
+                proof_dir_name = proof_dir + '%' + proof_name
                 proof_version = int(proof_version_str)
             except ValueError:
                 continue
-            if re.search(regex, proof_name) and (version is None or version == proof_version):
+            if re.search(regex, proof_dir_name) and (version is None or version == proof_version):
                 matches.append(f'{proof_dir}%{proof_name}:{proof_version}')
         return matches
 
@@ -655,8 +656,8 @@ def foundry_show(
     foundry: Foundry,
     options: ShowOptions,
 ) -> str:
-    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
     test_id = foundry.get_test_id(options.test, options.version)
+    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
     proof = foundry.get_apr_proof(test_id)
 
     nodes: Iterable[int | str] = options.nodes
@@ -1249,14 +1250,14 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     """
 
     if not skip_forge:
-        run_process(['forge', 'init', str(project_root), '--no-git'], logger=_LOGGER)
+        run_process_2(['forge', 'init', str(project_root), '--no-git'], logger=_LOGGER)
 
     root = ensure_dir_path(project_root)
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
     append_to_file(root / 'foundry.toml', foundry_toml_extra_contents())
-    run_process(
+    run_process_2(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,
         cwd=root,
