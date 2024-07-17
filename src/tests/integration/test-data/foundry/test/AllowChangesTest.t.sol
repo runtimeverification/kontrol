@@ -18,9 +18,12 @@ contract ValueStore {
 }
 
 contract AllowChangesTest is Test, KontrolCheats {
+	ValueStore canChange;
+	ValueStore cannotChange;	
+	
 	function setUp() public {
-		ValueStore canChange = new ValueStore();
-		ValueStore cannotChange = new ValueStore();
+		canChange = new ValueStore();
+		cannotChange = new ValueStore();
 	}
 
 	function testAllow() public {
