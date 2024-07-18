@@ -91,6 +91,9 @@ module FOUNDRY-MAIN
     imports public S2KtestZModMockCallRevertTest-VERIFICATION
     imports public S2KtestZModMockCallTest-VERIFICATION
     imports public S2KtestZModMockCallTestFoundry-VERIFICATION
+    imports public S2KtestZModMockFunctionContract-VERIFICATION
+    imports public S2KtestZModMockFunctionTest-VERIFICATION
+    imports public S2KtestZModModelMockFunctionContract-VERIFICATION
     imports public S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyToken-VERIFICATION
     imports public S2KtestZModNoImport-VERIFICATION
@@ -761,6 +764,27 @@ endmodule
 
 module S2KtestZModMockCallTestFoundry-VERIFICATION
     imports public S2KtestZModMockCallTestFoundry-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModMockFunctionContract-VERIFICATION
+    imports public S2KtestZModMockFunctionContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModMockFunctionTest-VERIFICATION
+    imports public S2KtestZModMockFunctionTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModModelMockFunctionContract-VERIFICATION
+    imports public S2KtestZModModelMockFunctionContract-CONTRACT
     
     
 
