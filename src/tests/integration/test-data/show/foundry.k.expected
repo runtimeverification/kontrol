@@ -5,6 +5,7 @@ requires "requires/pausability-lemmas.k"
 requires "requires/symbolic-bytes-lemmas.k"
 
 module FOUNDRY-MAIN
+    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
     imports public S2KtestZModAccountParamsTest-VERIFICATION
     imports public S2KtestZModAddrTest-VERIFICATION
@@ -46,7 +47,6 @@ module FOUNDRY-MAIN
     imports public S2KsrcZModRecordedCounter-VERIFICATION
     imports public S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounterTest-VERIFICATION
-    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
     imports public S2KtestZModDynamicTypesTest-VERIFICATION
     imports public S2KsrcZModExpectEmit-VERIFICATION
     imports public S2KtestZModEmitContractTest-VERIFICATION
@@ -160,6 +160,14 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
     
     
+
+endmodule
+
+module S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
+    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
+    
+    
+
 
 endmodule
 
@@ -447,13 +455,6 @@ endmodule
 
 module S2KtestZModCounterTest-VERIFICATION
     imports public S2KtestZModCounterTest-CONTRACT
-    
-    
-
-endmodule
-
-module S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
-    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
     
     
 
