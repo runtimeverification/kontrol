@@ -30,7 +30,7 @@ jobs:
           new_master="$(git rev-parse origin/master)"
           
           if git diff --exit-code ${old_master} ${new_master} -- package/version; then
-            og_version=$(git show origin/${GITHUB_BASE_REF}:package/version)
+            og_version=$(git show origin/master:package/version)
             ./package/version.sh bump ${og_version}
           else
             git merge --no-edit --strategy-option=theirs origin/master
