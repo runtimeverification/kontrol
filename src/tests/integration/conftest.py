@@ -97,4 +97,4 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
     copy_tree(str(foundry_root), str(session_foundry_root))
-    return Foundry(session_foundry_root)
+    return Foundry(session_foundry_root, add_enum_constraints=True)

@@ -464,13 +464,18 @@ class Contract:
                     type_constraints.append(rp)
                 if input.internal_type is not None and input.internal_type.startswith('enum '):
                     enum_name = input.internal_type.split(' ')[1]
-                    enum_max = enums[enum_name]
-                    type_constraints.append(
-                        ltInt(
-                            KVariable(input.arg_name),
-                            intToken(enum_max),
+                    if enum_name not in enums:
+                        _LOGGER.warning(
+                            f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
                         )
-                    )
+                    else:
+                        enum_max = enums[enum_name]
+                        type_constraints.append(
+                            ltInt(
+                                KVariable(input.arg_name),
+                                intToken(enum_max),
+                            )
+                        )
             encoded_args = KApply('encodeArgs', [KEVM.typed_args(args)])
             return encoded_args, type_constraints
 
