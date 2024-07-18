@@ -1,24 +1,5 @@
 requires "foundry.md"
 
-module S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
-    imports public FOUNDRY
-    
-    syntax Contract ::= S2KsrcZModduplicatesZMod1ZModDuplicateNameContract
-    
-    syntax S2KsrcZModduplicatesZMod1ZModDuplicateNameContract ::= "S2KsrcZModduplicatesZMod1ZModDuplicateName" [symbol("contract_src%duplicates%1%DuplicateName")]
-    
-    syntax Bytes ::= S2KsrcZModduplicatesZMod1ZModDuplicateNameContract "." S2KsrcZModduplicatesZMod1ZModDuplicateNameMethod [function, symbol("method_src%duplicates%1%DuplicateName")]
-    
-    syntax S2KsrcZModduplicatesZMod1ZModDuplicateNameMethod ::= "S2KduplicateNamedFunction" "(" ")" [symbol("method_src%duplicates%1%DuplicateName_S2KduplicateNamedFunction_")]
-    
-    rule  ( S2KsrcZModduplicatesZMod1ZModDuplicateName . S2KduplicateNamedFunction ( ) => #abiCallData ( "duplicateNamedFunction" , .TypedArgs ) )
-      
-    
-    rule  ( selector ( "duplicateNamedFunction()" ) => 2708311245 )
-      
-
-endmodule
-
 module S2KsrcZModduplicatesZMod2ZModDuplicateName-CONTRACT
     imports public FOUNDRY
     
@@ -3482,6 +3463,25 @@ module S2KtestZModCounterTest-CONTRACT
 
 endmodule
 
+module S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KsrcZModduplicatesZMod1ZModDuplicateNameContract
+    
+    syntax S2KsrcZModduplicatesZMod1ZModDuplicateNameContract ::= "S2KsrcZModduplicatesZMod1ZModDuplicateName" [symbol("contract_src%duplicates%1%DuplicateName")]
+    
+    syntax Bytes ::= S2KsrcZModduplicatesZMod1ZModDuplicateNameContract "." S2KsrcZModduplicatesZMod1ZModDuplicateNameMethod [function, symbol("method_src%duplicates%1%DuplicateName")]
+    
+    syntax S2KsrcZModduplicatesZMod1ZModDuplicateNameMethod ::= "S2KduplicateNamedFunction" "(" ")" [symbol("method_src%duplicates%1%DuplicateName_S2KduplicateNamedFunction_")]
+    
+    rule  ( S2KsrcZModduplicatesZMod1ZModDuplicateName . S2KduplicateNamedFunction ( ) => #abiCallData ( "duplicateNamedFunction" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "duplicateNamedFunction()" ) => 2708311245 )
+      
+
+endmodule
+
 module S2KtestZModDynamicTypesTest-CONTRACT
     imports public FOUNDRY
     
@@ -6740,9 +6740,18 @@ module S2KsrcZModLoadStateDiff-CONTRACT
     
     syntax Bytes ::= S2KsrcZModLoadStateDiffContract "." S2KsrcZModLoadStateDiffMethod [function, symbol("method_src%LoadStateDiff")]
     
+    syntax S2KsrcZModLoadStateDiffMethod ::= "S2KZUndnotExternalAddress" "(" Int ":" "address" ")" [symbol("method_src%LoadStateDiff_S2KZUndnotExternalAddress_address")]
+    
     syntax S2KsrcZModLoadStateDiffMethod ::= "S2KrecreateState" "(" ")" [symbol("method_src%LoadStateDiff_S2KrecreateState_")]
     
+    rule  ( S2KsrcZModLoadStateDiff . S2KZUndnotExternalAddress ( V0_user : address ) => #abiCallData ( "_notExternalAddress" , ( #address ( V0_user ) , .TypedArgs ) ) )
+       ensures #rangeAddress ( V0_user )
+      
+    
     rule  ( S2KsrcZModLoadStateDiff . S2KrecreateState ( ) => #abiCallData ( "recreateState" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "_notExternalAddress(address)" ) => 2801087029 )
       
     
     rule  ( selector ( "recreateState()" ) => 1765761107 )
@@ -6768,9 +6777,18 @@ module S2KsrcZModLoadStateDump-CONTRACT
     
     syntax Bytes ::= S2KsrcZModLoadStateDumpContract "." S2KsrcZModLoadStateDumpMethod [function, symbol("method_src%LoadStateDump")]
     
+    syntax S2KsrcZModLoadStateDumpMethod ::= "S2KZUndnotExternalAddress" "(" Int ":" "address" ")" [symbol("method_src%LoadStateDump_S2KZUndnotExternalAddress_address")]
+    
     syntax S2KsrcZModLoadStateDumpMethod ::= "S2KrecreateState" "(" ")" [symbol("method_src%LoadStateDump_S2KrecreateState_")]
     
+    rule  ( S2KsrcZModLoadStateDump . S2KZUndnotExternalAddress ( V0_user : address ) => #abiCallData ( "_notExternalAddress" , ( #address ( V0_user ) , .TypedArgs ) ) )
+       ensures #rangeAddress ( V0_user )
+      
+    
     rule  ( S2KsrcZModLoadStateDump . S2KrecreateState ( ) => #abiCallData ( "recreateState" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "_notExternalAddress(address)" ) => 2801087029 )
       
     
     rule  ( selector ( "recreateState()" ) => 1765761107 )
