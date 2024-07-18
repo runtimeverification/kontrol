@@ -1,7 +1,5 @@
 requires "foundry.md"
 
-endmodule
-
 module S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
     imports public FOUNDRY
     
@@ -18,6 +16,8 @@ module S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
     
     rule  ( selector ( "duplicateNamedFunction()" ) => 2708311245 )
       
+
+endmodule
 
 module S2KsrcZModduplicatesZMod2ZModDuplicateName-CONTRACT
     imports public FOUNDRY
