@@ -6740,9 +6740,18 @@ module S2KsrcZModLoadStateDiff-CONTRACT
     
     syntax Bytes ::= S2KsrcZModLoadStateDiffContract "." S2KsrcZModLoadStateDiffMethod [function, symbol("method_src%LoadStateDiff")]
     
+    syntax S2KsrcZModLoadStateDiffMethod ::= "S2KZUndnotExternalAddress" "(" Int ":" "address" ")" [symbol("method_src%LoadStateDiff_S2KZUndnotExternalAddress_address")]
+    
     syntax S2KsrcZModLoadStateDiffMethod ::= "S2KrecreateState" "(" ")" [symbol("method_src%LoadStateDiff_S2KrecreateState_")]
     
+    rule  ( S2KsrcZModLoadStateDiff . S2KZUndnotExternalAddress ( V0_user : address ) => #abiCallData ( "_notExternalAddress" , ( #address ( V0_user ) , .TypedArgs ) ) )
+       ensures #rangeAddress ( V0_user )
+      
+    
     rule  ( S2KsrcZModLoadStateDiff . S2KrecreateState ( ) => #abiCallData ( "recreateState" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "_notExternalAddress(address)" ) => 2801087029 )
       
     
     rule  ( selector ( "recreateState()" ) => 1765761107 )
@@ -6768,9 +6777,18 @@ module S2KsrcZModLoadStateDump-CONTRACT
     
     syntax Bytes ::= S2KsrcZModLoadStateDumpContract "." S2KsrcZModLoadStateDumpMethod [function, symbol("method_src%LoadStateDump")]
     
+    syntax S2KsrcZModLoadStateDumpMethod ::= "S2KZUndnotExternalAddress" "(" Int ":" "address" ")" [symbol("method_src%LoadStateDump_S2KZUndnotExternalAddress_address")]
+    
     syntax S2KsrcZModLoadStateDumpMethod ::= "S2KrecreateState" "(" ")" [symbol("method_src%LoadStateDump_S2KrecreateState_")]
     
+    rule  ( S2KsrcZModLoadStateDump . S2KZUndnotExternalAddress ( V0_user : address ) => #abiCallData ( "_notExternalAddress" , ( #address ( V0_user ) , .TypedArgs ) ) )
+       ensures #rangeAddress ( V0_user )
+      
+    
     rule  ( S2KsrcZModLoadStateDump . S2KrecreateState ( ) => #abiCallData ( "recreateState" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "_notExternalAddress(address)" ) => 2801087029 )
       
     
     rule  ( selector ( "recreateState()" ) => 1765761107 )
