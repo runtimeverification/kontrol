@@ -65,6 +65,7 @@ jobs:
       - name: 'Check out code'
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.JENKINS_GITHUB_PAT }}
           # fetch-depth 0 means deep clone the repo
           fetch-depth: 0
       - name: 'Configure GitHub user'
@@ -75,5 +76,5 @@ jobs:
         run: |
           git checkout -B master origin/master
           git fetch origin release:release
-          git merge --no-edit --strategy-option=theirs origin/release
+          git merge --no-edit --strategy-option=theirs -m "Merge release into master [skip ci]" origin/releaser
           git push origin master
