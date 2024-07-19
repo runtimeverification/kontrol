@@ -3872,7 +3872,9 @@ module S2KtestZModEnum-CONTRACT
     syntax S2KtestZModEnumMethod ::= "S2KenumZUndstorageZUndrange" "(" ")" [symbol("method_test%Enum_S2KenumZUndstorageZUndrange_")]
     
     rule  ( S2KtestZModEnum . S2KenumZUndargumentZUndrange ( V0_letter : uint8 ) => #abiCallData ( "enum_argument_range" , ( #uint8 ( V0_letter ) , .TypedArgs ) ) )
-       ensures #rangeUInt ( 8 , V0_letter )
+       ensures ( #rangeUInt ( 8 , V0_letter )
+       andBool ( V0_letter <Int 6
+               ))
       
     
     rule  ( S2KtestZModEnum . S2KenumZUndstorageZUndrange ( ) => #abiCallData ( "enum_storage_range" , .TypedArgs ) )
