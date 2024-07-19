@@ -75,5 +75,5 @@ jobs:
         run: |
           git checkout -B master origin/master
           git fetch origin release:release
-          git merge --no-edit origin/release
+          git merge --no-edit --strategy-option=theirs origin/release
           git push origin master
