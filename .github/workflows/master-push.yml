@@ -76,5 +76,5 @@ jobs:
         run: |
           git checkout -B master origin/master
           git fetch origin release:release
-          git merge --no-edit --strategy-option=theirs -m "Merge release into master [skip ci]" origin/release
+          git merge --no-edit --strategy-option=theirs -m "Merge release into master [skip ci]" origin/releaser
           git push origin master
