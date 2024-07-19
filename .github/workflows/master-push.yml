@@ -75,6 +75,5 @@ jobs:
         run: |
           git checkout -B master origin/master
           git fetch origin release:release
-          git checkout release -- package/version
-          git commit --no-edit --allow-empty --message "Sync with origin/release"
+          git merge --no-edit origin/release
           git push origin master
