@@ -42,4 +42,7 @@ jobs:
             git push origin release
             git tag "release-$(cat package/version)" origin/master
             git push origin "release-$(cat package/version)"
+            git checkout master
+            git merge release
+            git push origin master
           fi
