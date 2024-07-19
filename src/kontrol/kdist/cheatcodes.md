@@ -29,8 +29,8 @@ The configuration of the Foundry Cheat Codes is defined as follwing:
 5. The `<whitelist>` subconfiguration stores addresses that can be called and storage slots that can be accessed/modified during the execution.
     - `<isCallWhitelistActive>` flags if the whitelist mode is enabled for calls.
     - `<isStorageWhitelistActive>` flags if the whitelist mode is enabled for storage changes.
-    - `<addressSet>` - stores the address whitelist.
-    - `<storageSlotSet>` - stores the storage whitelist containing pairs of addresses and storage indexes.
+    - `<addressList>` - stores the address whitelist.
+    - `<storageSlotList>` - stores the storage whitelist containing pairs of addresses and storage indexes.
 6. The `<mockCalls>` subconfiguration stores information about mock calls that are active.
     - `<mockCall>`- collection that stores which mock calls are active for each address.
       - `<mockAddress>` - address which has one or more active mock calls.
@@ -77,8 +77,8 @@ module FOUNDRY-CHEAT-CODES
         <whitelist>
           <isCallWhitelistActive> false </isCallWhitelistActive>
           <isStorageWhitelistActive> false </isStorageWhitelistActive>
-          <addressSet> .Set </addressSet>
-          <storageSlotSet> .Set </storageSlotSet>
+          <addressList> .List </addressList>
+          <storageSlotList> .List </storageSlotList>
         </whitelist>
         <mockCalls>
             <mockCall multiplicity="*" type="Map">
@@ -835,7 +835,7 @@ If the address is not in the whitelist `WLIST` then `KEVM` goes into an error st
           ~> #popWorldState) => #end KONTROL_WHITELISTCALL ... </k>
          <whitelist>
            <isCallWhitelistActive> true </isCallWhitelistActive>
-           <addressSet> WLIST </addressSet>
+           <addressList> WLIST </addressList>
            ...
          </whitelist>
       requires notBool ACCTTO in WLIST
@@ -852,7 +852,7 @@ If the pair is not present in the whitelist `WLIST` then `KEVM` goes into an err
          <statusCode> _ => KONTROL_WHITELISTSTORAGE </statusCode>
          <whitelist>
            <isStorageWhitelistActive> true </isStorageWhitelistActive>
-           <storageSlotSet> WLIST </storageSlotSet>
+           <storageSlotList> WLIST </storageSlotList>
            ...
          </whitelist>
       requires notBool {ACCT|INDEX} in WLIST
@@ -1419,7 +1419,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule <k> #addAddressToWhitelist ACCT => .K ... </k>
         <whitelist>
           <isCallWhitelistActive> _ => true </isCallWhitelistActive>
-          <addressSet>  WLIST => WLIST SetItem(ACCT) </addressSet>
+          <addressList> WLIST => WLIST ListItem(ACCT) </addressList>
           ...
         </whitelist>
 ```
@@ -1432,7 +1432,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule <k> #addStorageSlotToWhitelist SLOT => .K ... </k>
         <whitelist>
           <isStorageWhitelistActive> _ => true </isStorageWhitelistActive>
-          <storageSlotSet> WLIST => WLIST SetItem(SLOT) </storageSlotSet>
+          <storageSlotList> WLIST => WLIST ListItem(SLOT) </storageSlotList>
           ...
         </whitelist>
 ```
