@@ -900,8 +900,8 @@ def _init_cterm(
         'ISEVENTEXPECTED_CELL': FALSE,
         'ISCALLWHITELISTACTIVE_CELL': FALSE,
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
-        'ADDRESSSET_CELL': set_empty(),
-        'STORAGESLOTSET_CELL': set_empty(),
+        'ADDRESSLIST_CELL': list_empty(),
+        'STORAGESLOTLIST_CELL': list_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
         'MOCKFUNCTIONS_CELL': KApply('.MockFunctionCellMap'),
         'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
@@ -1068,15 +1068,20 @@ def _create_cse_accounts(
         field_name = contract_name + '_' + field.label.upper()
         if field.data_type.startswith('enum'):
             enum_name = field.data_type.split(' ')[1]
-            enum_max = foundry.enums[enum_name]
-            new_account_constraints.append(
-                mlEqualsTrue(
-                    ltInt(
-                        KEVM.lookup(storage_map, intToken(field.slot)),
-                        intToken(enum_max),
+            if enum_name not in foundry.enums:
+                _LOGGER.warning(
+                    f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
+                )
+            else:
+                enum_max = foundry.enums[enum_name]
+                new_account_constraints.append(
+                    mlEqualsTrue(
+                        ltInt(
+                            KEVM.lookup(storage_map, intToken(field.slot)),
+                            intToken(enum_max),
+                        )
                     )
                 )
-            )
         # Processing of strings
         if field.data_type == 'string':
             string_contents = KVariable(field_name + '_S_CONTENTS', sort=KSort('Bytes'))
@@ -1229,8 +1234,8 @@ def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) 
         'ISEVENTEXPECTED_CELL': KVariable('ISEVENTEXPECTED_FINAL'),
         'ISCALLWHITELISTACTIVE_CELL': KVariable('ISCALLWHITELISTACTIVE_FINAL'),
         'ISSTORAGEWHITELISTACTIVE_CELL': KVariable('ISSTORAGEWHITELISTACTIVE_FINAL'),
-        'ADDRESSSET_CELL': KVariable('ADDRESSSET_FINAL'),
-        'STORAGESLOTSET_CELL': KVariable('STORAGESLOTSET_FINAL'),
+        'ADDRESSLIST_CELL': KVariable('ADDRESSLIST_FINAL'),
+        'STORAGESLOTLIST_CELL': KVariable('STORAGESLOTLIST_FINAL'),
     }
 
     if config_type == ConfigType.TEST_CONFIG:
@@ -1258,7 +1263,7 @@ def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) 
             KVariable('ISEVENTEXPECTED_FINAL'),
             KVariable('ISCALLWHITELISTACTIVE_FINAL'),
             KVariable('ISSTORAGEWHITELISTACTIVE_FINAL'),
-            KVariable('ADDRESSSET_FINAL'),
-            KVariable('STORAGESLOTSET_FINAL'),
+            KVariable('ADDRESSLIST_FINAL'),
+            KVariable('STORAGESLOTLIST_FINAL'),
         ],
     )

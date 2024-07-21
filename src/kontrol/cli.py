@@ -168,6 +168,13 @@ class KontrolCLIArgs(KEVMCLIArgs):
             type=dir_path,
             help='Path to Foundry project root directory.',
         )
+        args.add_argument(
+            '--enum-constraints',
+            dest='enum_constraints',
+            default=None,
+            action='store_true',
+            help='Add constraints for enum function arguments and storage slots.',
+        )
         return args
 
     @cached_property
