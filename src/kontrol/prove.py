@@ -1234,6 +1234,11 @@ def _create_cse_accounts(
                             )
                         )
 
+                    new_account_constraints.append(mlEqualsTrue(KApply(
+                        f's2k_invariant_{field_name}', [storage_map]
+                    )))
+
+
                     contract_accounts, contract_constraints = _create_cse_accounts(
                         foundry, contract_obj.fields, field_name, contract_account_code
                     )

@@ -50,7 +50,7 @@ def solc_to_k(options: SolcToKOptions) -> str:
 
     imports = list(options.imports)
     requires = list(options.requires)
-    contract_module = contract_to_main_module(contract, empty_config, enums={}, imports=['EDSL'] + imports)
+    contract_module = contract_to_main_module(contract, empty_config, enums={}, imports=['EDSL'] + imports, contracts={})
     _main_module = KFlatModule(
         options.main_module if options.main_module else 'MAIN',
         [],
@@ -1068,8 +1068,87 @@ class Contract:
         res.extend(method.selector_alias_rule for method in self.methods)
         return res if len(res) > 1 else []
 
-    def sentences(self, enums: dict[str, int]) -> list[KSentence]:
-        return [self.subsort, self.production] + self.method_sentences(enums)
+    def storage_productions(self, contracts: dict[str, Contract]) -> list[KSentence]:
+
+        def get_contract(type_name: str) -> Contract:
+            for full_contract_name, contract_obj in contracts.items():
+                if full_contract_name.split('%')[-1] == type_name:
+                    return contract_obj
+            raise ValueError(f'Contract {type_name} not found.')
+
+        def gen_accounts_list(contract: Contract, contract_name: str) -> list[str]:
+            accounts_list: list[str] = []
+            for field in contract.fields:
+                if field.data_type.name.startswith('contract '):
+                    field_name = f'C_{contract_name}_{field.label}'.upper()
+                    accounts_list.append(field_name)
+                    contract_type = field.data_type.name.split(' ')[1]
+                    contract = get_contract(contract_type)
+                    accounts_list += gen_accounts_list(contract=contract, contract_name=field_name)
+            return accounts_list
+
+        storage_prods: list[KSentence] = []
+        for account_label in gen_accounts_list(self, self._name):
+            storage_prods.append(
+                KProduction(
+                    KSort('Bool'),
+                    items=[
+                        KTerminal(f's2k_invariant_{account_label}'),
+                        KTerminal('('),
+                        KNonTerminal(KSort('Map')),
+                        KTerminal(')'),
+                    ],
+                    att=KAtt(entries=[Atts.SYMBOL(f's2k_invariant_{account_label}'), Atts.FUNCTION(None)]),
+                )
+            )
+
+            storage_prods.append(
+                KProduction(
+                    KSort('Bool'),
+                    items=[
+                        KTerminal(f's2k_entry_invariant_{account_label}'),
+                        KTerminal('('),
+                        KNonTerminal(KSort('Int')),
+                        KTerminal(','),
+                        KNonTerminal(KSort('Int')),
+                        KTerminal(')'),
+                    ],
+                    att=KAtt(entries=[Atts.SYMBOL(f's2k_entry_invariant_{account_label}'), Atts.FUNCTION(None)]),
+                )
+            )
+
+            storage_prods.append(KRule(KRewrite(KApply(f's2k_invariant_{account_label}', [KApply('.Map')]), TRUE)))
+
+            storage_prods.append(
+                KRule(
+                    KRewrite(
+                        KApply(
+                            f's2k_invariant_{account_label}',
+                            [KApply('_Map_', [KApply('_|->_', [KVariable('K'), KVariable('V')]), KVariable('M')])],
+                        ),
+                        KApply(
+                            '_andBool_',
+                            [
+                                KApply(f's2k_entry_invariant_{account_label}', [KVariable('K'), KVariable('V')]),
+                                KApply(f's2k_invariant_{account_label}', [KVariable('M')]),
+                            ],
+                        ),
+                    ),
+                    requires=KApply(
+                        'notBool_',
+                        [
+                            KApply('_in_keys(_)_MAP_Bool_KItem_Map', [KVariable('K'), KVariable('M')]),
+                        ],
+                    ),
+                )
+            )
+
+        return storage_prods
+
+    def sentences(self, enums: dict[str, int], contracts: dict[str, Contract]) -> list[KSentence]:
+        sents: list[KSentence] = [self.subsort, self.production] + self.method_sentences(enums)
+        sents += self.storage_productions(contracts)
+        return sents
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -1135,10 +1214,10 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
 
 
 def contract_to_main_module(
-    contract: Contract, empty_config: KInner, enums: dict[str, int], imports: Iterable[str] = ()
+        contract: Contract, empty_config: KInner, enums: dict[str, int], contracts: dict[str, Contract], imports: Iterable[str] = ()
 ) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
-    return KFlatModule(module_name, contract.sentences(enums), [KImport(i) for i in list(imports)])
+    return KFlatModule(module_name, contract.sentences(enums, contracts), [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, empty_config: KInner, imports: Iterable[str]) -> KFlatModule:
