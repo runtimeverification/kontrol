@@ -80,6 +80,8 @@ class Foundry:
     _toml: dict[str, Any]
     _bug_report: BugReport | None
     _use_hex_encoding: bool
+
+    add_enum_constraints: bool
     enums: dict[str, int]
 
     class Sorts:
@@ -90,12 +92,14 @@ class Foundry:
         foundry_root: Path,
         bug_report: BugReport | None = None,
         use_hex_encoding: bool = False,
+        add_enum_constraints: bool = False,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
         self._use_hex_encoding = use_hex_encoding
+        self.add_enum_constraints = add_enum_constraints
         self.enums = {}
 
     def lookup_full_contract_name(self, contract_name: str) -> str:
@@ -177,7 +181,7 @@ class Foundry:
                     enum_max = len([member['name'] for member in dct['members']])
                     if enum_name in self.enums and enum_max != self.enums[enum_name]:
                         raise ValueError(
-                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported.'
+                            f'enum name conflict: {enum_name} exists more than once in the codebase with a different size, which is not supported with --enum-constraints.'
                         )
                     self.enums[enum_name] = len([member['name'] for member in dct['members']])
                 for node in dct['nodes']:
@@ -187,12 +191,14 @@ class Foundry:
             contract_name = json_path.split('/')[-1]
             contract_json = json.loads(Path(json_path).read_text())
             contract_name = contract_name[0:-5] if contract_name.endswith('.json') else contract_name
+            contract = Contract(contract_name, contract_json, foundry=True)
+            if self.add_enum_constraints:
+                find_enums(contract_json['ast'])
             try:
                 contract = Contract(contract_name, contract_json, foundry=True)
             except KeyError:
                 _LOGGER.warning(f'Skipping non-compatible JSON file for contract: {contract_name} at {json_path}.')
                 continue
-            find_enums(contract_json['ast'])
 
             _contracts[contract.name_with_path] = contract  # noqa: B909
 
@@ -498,10 +504,11 @@ class Foundry:
             try:
                 proof_dir, proof_name_version = pid.rsplit('%', 1)
                 proof_name, proof_version_str = proof_name_version.split(':', 1)
+                proof_dir_name = proof_dir + '%' + proof_name
                 proof_version = int(proof_version_str)
             except ValueError:
                 continue
-            if re.search(regex, proof_name) and (version is None or version == proof_version):
+            if re.search(regex, proof_dir_name) and (version is None or version == proof_version):
                 matches.append(f'{proof_dir}%{proof_name}:{proof_version}')
         return matches
 
@@ -655,8 +662,8 @@ def foundry_show(
     foundry: Foundry,
     options: ShowOptions,
 ) -> str:
-    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
     test_id = foundry.get_test_id(options.test, options.version)
+    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
     proof = foundry.get_apr_proof(test_id)
 
     nodes: Iterable[int | str] = options.nodes
