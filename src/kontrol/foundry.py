@@ -111,8 +111,9 @@ class FoundryKEVM(KEVM):
                 if cell_label_to_var_name(_term.label.name) in ['CODE_CELL', 'PROGRAM_CELL']:
                     if type(_term.args[0]) is KToken:
                         contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(_term.args[0].token))
-                        new_term = KApply(_term.label, [KToken(contract_name, KSort('Bytes'))])
-                        return new_term
+                        if contract_name != 'Not found.':
+                            new_term = KApply(_term.label, [KToken(contract_name, KSort('Bytes'))])
+                            return new_term
             return _term
 
         if isinstance(kast, KInner):
