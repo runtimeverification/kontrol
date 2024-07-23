@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import datetime
 import json
 import logging
@@ -18,8 +19,8 @@ import tomlkit
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KSort, KToken, KVariable
-from pyk.kast.manip import collect, extract_lhs, minimize_term
+from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
+from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, minimize_term, top_down
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
@@ -48,7 +49,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Any, Final
 
-    from pyk.kast.inner import KInner
+    from pyk.kast.outer import KAst
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.tui import KCFGElem
     from pyk.proof.implies import RefutationProof
@@ -73,6 +74,51 @@ if TYPE_CHECKING:
 
 
 _LOGGER: Final = logging.getLogger(__name__)
+
+
+class FoundryKEVM(KEVM):
+    foundry: Foundry
+
+    def __init__(
+        self,
+        definition_dir: Path,
+        foundry: Foundry,
+        main_file: Path | None = None,
+        use_directory: Path | None = None,
+        kprove_command: str = 'kprove',
+        krun_command: str = 'krun',
+        extra_unparsing_modules: Iterable[KFlatModule] = (),
+        bug_report: BugReport | None = None,
+        use_hex: bool = False,
+    ) -> None:
+        self.foundry = foundry
+        super().__init__(
+            definition_dir,
+            main_file,
+            use_directory,
+            kprove_command,
+            krun_command,
+            extra_unparsing_modules,
+            bug_report,
+            use_hex,
+        )
+
+    def pretty_print(
+        self, kast: KAst, *, in_module: str | None = None, unalias: bool = True, sort_collections: bool = False
+    ) -> str:
+        def _replace_code(_term: KInner) -> KInner:
+            if type(_term) is KApply and _term.is_cell:
+                if cell_label_to_var_name(_term.label.name) in ['CODE_CELL', 'PROGRAM_CELL']:
+                    if type(_term.args[0]) is KToken:
+                        contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(_term.args[0].token))
+                        new_term = KApply(_term.label, [KToken(contract_name, KSort('Bytes'))])
+                        return new_term
+            return _term
+
+        if isinstance(kast, KInner):
+            kast = top_down(_replace_code, kast)
+
+        return super().pretty_print(kast, in_module=in_module, unalias=unalias, sort_collections=sort_collections)
 
 
 class Foundry:
@@ -155,8 +201,9 @@ class Foundry:
     def kevm(self) -> KEVM:
         use_directory = self.out / 'tmp'
         ensure_dir_path(use_directory)
-        return KEVM(
+        return FoundryKEVM(
             definition_dir=self.kompiled,
+            foundry=self,
             main_file=self.main_file,
             use_directory=use_directory,
             bug_report=self._bug_report,
@@ -208,6 +255,18 @@ class Foundry:
 
     def method_digest(self, contract_name: str, method_sig: str) -> str:
         return self.contracts[contract_name].method_by_sig[method_sig].digest
+
+    def contract_name_from_bytecode(self, bytecode: bytes) -> str:
+        for contract_name, contract_obj in self.contracts.items():
+            zeroed_bytecode = bytearray(bytecode)
+            for start, length in contract_obj.immutable_ranges:
+                if start + length <= len(zeroed_bytecode):
+                    zeroed_bytecode[start : start + length] = bytearray(length)
+                else:
+                    break
+            if zeroed_bytecode == bytearray.fromhex(contract_obj.deployed_bytecode):
+                return contract_name
+        return 'Not found.'
 
     @cached_property
     def digest(self) -> str:
@@ -1229,6 +1288,7 @@ class FoundryNodePrinter(KEVMNodePrinter):
             if not self.omit_unstable_output and srcmap_data is not None:
                 path, start, end = srcmap_data
                 ret_strs.append(f'src: {str(path)}:{start}:{end}')
+
         return ret_strs
 
 

@@ -746,6 +746,7 @@ class Contract:
     contract_id: int
     contract_path: str
     deployed_bytecode: str
+    immutable_ranges: list[tuple[int, int]]
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
@@ -768,6 +769,13 @@ class Contract:
         evm = self.contract_json['evm'] if not foundry else self.contract_json
 
         deployed_bytecode = evm['deployedBytecode']
+
+        self.immutable_ranges = []
+        if 'immutableReferences' in deployed_bytecode:
+            for ref in deployed_bytecode['immutableReferences'].values():
+                for rng in ref:
+                    self.immutable_ranges.append((rng['start'], rng['length']))
+
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
 
