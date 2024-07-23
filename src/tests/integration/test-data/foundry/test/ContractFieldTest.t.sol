@@ -15,6 +15,7 @@ contract TToken {
 }
 
 contract TEscrow {
+    bool spacer;
     TToken token;
 
     constructor(address _token) {

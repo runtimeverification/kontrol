@@ -69,6 +69,7 @@ def test_foundry_dependency_automated(
                 'config_type': config_type,
                 'run_constructor': run_constructor,
                 'force_sequential': force_sequential,
+                'enum_constraints': True,
             }
         ),
     )

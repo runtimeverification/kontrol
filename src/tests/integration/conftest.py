@@ -54,7 +54,7 @@ def server(foundry: Foundry, no_use_booster: bool) -> Iterator[KoreServer]:
 @pytest.fixture(scope='session')
 def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, worker_id: str) -> Foundry:
     if foundry_root_dir:
-        return Foundry(foundry_root_dir)
+        return Foundry(foundry_root_dir, add_enum_constraints=True)
 
     if worker_id == 'master':
         root_tmp_dir = tmp_path_factory.getbasetemp()
@@ -90,11 +90,12 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                             'PortalTest:PAUSABILITY-LEMMAS',
                             'ImmutableVarsTest:SYMBOLIC-BYTES-LEMMAS',
                         ],
+                        'enum_constraints': True,
                     }
                 ),
-                foundry=Foundry(foundry_root),
+                foundry=Foundry(foundry_root, add_enum_constraints=True),
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
     copy_tree(str(foundry_root), str(session_foundry_root))
-    return Foundry(session_foundry_root)
+    return Foundry(session_foundry_root, add_enum_constraints=True)
