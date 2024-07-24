@@ -116,7 +116,7 @@ class FoundryKEVM(KEVM):
                             return new_term
             return _term
 
-        if isinstance(kast, KInner):
+        if self.foundry._show_contract_names and isinstance(kast, KInner):
             kast = top_down(_replace_code, kast)
 
         return super().pretty_print(kast, in_module=in_module, unalias=unalias, sort_collections=sort_collections)
@@ -127,6 +127,7 @@ class Foundry:
     _toml: dict[str, Any]
     _bug_report: BugReport | None
     _use_hex_encoding: bool
+    _show_contract_names: bool
 
     add_enum_constraints: bool
     enums: dict[str, int]
@@ -140,12 +141,14 @@ class Foundry:
         bug_report: BugReport | None = None,
         use_hex_encoding: bool = False,
         add_enum_constraints: bool = False,
+        show_contract_names: bool = False,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
         self._use_hex_encoding = use_hex_encoding
+        self._show_contract_names = show_contract_names
         self.add_enum_constraints = add_enum_constraints
         self.enums = {}
 

@@ -565,6 +565,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Print elements in hexadecimal encoding.',
     )
+    show_args.add_argument(
+        '--show-contract-names',
+        dest='show_contract_names',
+        default=None,
+        action='store_true',
+        help='When printing <code> and <program> cells, instead of printing the source bytecode, print the name of the contract, if available.',
+    )
 
     command_parser.add_parser(
         'to-dot',
