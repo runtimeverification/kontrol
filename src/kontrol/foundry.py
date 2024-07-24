@@ -1290,6 +1290,18 @@ class FoundryNodePrinter(KEVMNodePrinter):
                 path, start, end = srcmap_data
                 ret_strs.append(f'src: {str(path)}:{start}:{end}')
 
+        calldata_cell = node.cterm.try_cell('CALLDATA_CELL')
+        program_cell = node.cterm.try_cell('PROGRAM_CELL')
+
+        if type(calldata_cell) is KToken and type(program_cell) is KToken:
+            selector = int.from_bytes(ast.literal_eval(calldata_cell.token), 'big')
+            current_contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(program_cell.token))
+            for contract_name, contract_obj in self.foundry.contracts.items():
+                if current_contract_name == contract_name:
+                    for method in contract_obj.methods:
+                        if method.id == selector:
+                            ret_strs.append(f'method: {method.qualified_name}')
+
         return ret_strs
 
 
