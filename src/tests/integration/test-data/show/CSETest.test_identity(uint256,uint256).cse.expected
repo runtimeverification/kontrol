@@ -12,6 +12,7 @@
 │   pc: 2510
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%CSETest.test_identity(uint256,uint256)
 ┃
 ┃ (branch)
 ┣━━┓ constraint: pow64 <=Int VV0_x_114b9705:Int
@@ -21,6 +22,7 @@
 ┃  │   pc: 2510
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: test%CSETest.test_identity(uint256,uint256)
 ┃  │
 ┃  │  (412 steps)
 ┃  └─ 12 (vacuous, leaf)
@@ -28,6 +30,7 @@
 ┃      pc: 0
 ┃      callDepth: 1
 ┃      statusCode: STATUSCODE:StatusCode
+┃      method: src%cse%Identity.applyOp(uint256)
 ┃
 ┗━━┓ constraint: VV0_x_114b9705:Int <Int pow64
    │
@@ -36,6 +39,7 @@
    │   pc: 2510
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%CSETest.test_identity(uint256,uint256)
    │
    │  (1937 steps)
    ├─ 13 (terminal)
@@ -43,6 +47,7 @@
    │   pc: 221
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   method: test%CSETest.test_identity(uint256,uint256)
    │
    ┊  constraint: true
    ┊  subst: OMITTED SUBST

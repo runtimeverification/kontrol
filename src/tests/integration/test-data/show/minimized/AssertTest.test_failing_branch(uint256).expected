@@ -12,6 +12,7 @@
 │   pc: 1116
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.test_failing_branch(uint256)
 ┃
 ┃ (branch)
 ┣━━┓ constraint: 100 <=Int VV0_x_114b9705:Int
@@ -21,6 +22,7 @@
 ┃  │   pc: 1116
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  │  (42 steps)
 ┃  ├─ 15 (terminal)
@@ -28,6 +30,7 @@
 ┃  │   pc: 328
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  ┊  constraint: true
 ┃  ┊  subst: OMITTED SUBST
@@ -44,6 +47,7 @@
    │   pc: 1116
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%AssertTest.test_failing_branch(uint256)
    │
    │  (66 steps)
    └─ 16 (leaf, terminal)
@@ -51,6 +55,7 @@
        pc: 2995
        callDepth: 0
        statusCode: EVMC_REVERT
+       method: test%AssertTest.test_failing_branch(uint256)
 
 
 
