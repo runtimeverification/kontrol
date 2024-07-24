@@ -20,7 +20,7 @@ from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
-from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, minimize_term, top_down
+from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
@@ -1296,14 +1296,26 @@ class FoundryNodePrinter(KEVMNodePrinter):
         calldata_cell = node.cterm.try_cell('CALLDATA_CELL')
         program_cell = node.cterm.try_cell('PROGRAM_CELL')
 
-        if type(calldata_cell) is KToken and type(program_cell) is KToken:
-            selector = int.from_bytes(ast.literal_eval(calldata_cell.token), 'big')
-            current_contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(program_cell.token))
-            for contract_name, contract_obj in self.foundry.contracts.items():
-                if current_contract_name == contract_name:
-                    for method in contract_obj.methods:
-                        if method.id == selector:
-                            ret_strs.append(f'method: {method.qualified_name}')
+        if type(program_cell) is KToken:
+            selector_bytes = None
+            if type(calldata_cell) is KToken:
+                selector_bytes = ast.literal_eval(calldata_cell.token)
+                selector_bytes = selector_bytes[:32]
+            elif (
+                type(calldata_cell) is KApply and calldata_cell.label.name == '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes'
+            ):
+                first_bytes = flatten_label(label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes', kast=calldata_cell)[0]
+                if type(first_bytes) is KToken:
+                    selector_bytes = ast.literal_eval(first_bytes.token)
+
+            if selector_bytes is not None:
+                selector = int.from_bytes(selector_bytes, 'big')
+                current_contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(program_cell.token))
+                for contract_name, contract_obj in self.foundry.contracts.items():
+                    if current_contract_name == contract_name:
+                        for method in contract_obj.methods:
+                            if method.id == selector:
+                                ret_strs.append(f'method: {method.qualified_name}')
 
         return ret_strs
 
