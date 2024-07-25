@@ -25,6 +25,7 @@ from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
+from pyk.prelude.k import DOTS
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
@@ -106,18 +107,22 @@ class FoundryKEVM(KEVM):
     def pretty_print(
         self, kast: KAst, *, in_module: str | None = None, unalias: bool = True, sort_collections: bool = False
     ) -> str:
-        def _replace_code(_term: KInner) -> KInner:
+        def _simplify_config(_term: KInner) -> KInner:
             if type(_term) is KApply and _term.is_cell:
+                # Show contract names instead of code where available
                 if cell_label_to_var_name(_term.label.name) in ['CODE_CELL', 'PROGRAM_CELL']:
                     if type(_term.args[0]) is KToken:
                         contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(_term.args[0].token))
                         if contract_name != 'Not found.':
                             new_term = KApply(_term.label, [KToken(contract_name, KSort('Bytes'))])
                             return new_term
+                # Hide jumpDests
+                if cell_label_to_var_name(_term.label.name) in ['JUMPDESTS_CELL']:
+                    return KApply(_term.label, [DOTS])
             return _term
 
-        if self.foundry._show_contract_names and isinstance(kast, KInner):
-            kast = top_down(_replace_code, kast)
+        if not self.foundry._expand_config and isinstance(kast, KInner):
+            kast = top_down(_simplify_config, kast)
 
         return super().pretty_print(kast, in_module=in_module, unalias=unalias, sort_collections=sort_collections)
 
@@ -127,7 +132,7 @@ class Foundry:
     _toml: dict[str, Any]
     _bug_report: BugReport | None
     _use_hex_encoding: bool
-    _show_contract_names: bool
+    _expand_config: bool
 
     add_enum_constraints: bool
     enums: dict[str, int]
@@ -141,14 +146,14 @@ class Foundry:
         bug_report: BugReport | None = None,
         use_hex_encoding: bool = False,
         add_enum_constraints: bool = False,
-        show_contract_names: bool = False,
+        expand_config: bool = False,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
         self._use_hex_encoding = use_hex_encoding
-        self._show_contract_names = show_contract_names
+        self._expand_config = expand_config
         self.add_enum_constraints = add_enum_constraints
         self.enums = {}
 

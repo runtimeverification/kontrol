@@ -566,11 +566,11 @@ def _create_argument_parser() -> ArgumentParser:
         help='Print elements in hexadecimal encoding.',
     )
     show_args.add_argument(
-        '--show-contract-names',
-        dest='show_contract_names',
+        '--expand-config',
+        dest='expand_config',
         default=None,
         action='store_true',
-        help='When printing <code> and <program> cells, instead of printing the source bytecode, print the name of the contract, if available.',
+        help='When printing nodes, always show full bytecode in  code and program cells, and do not hide jumpDests cell.',
     )
 
     command_parser.add_parser(
