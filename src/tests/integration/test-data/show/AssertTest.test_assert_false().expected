@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.setUp()
 │
 │  (182 steps)
 ├─ 5 (terminal)
@@ -11,6 +12,7 @@
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%AssertTest.setUp()
 │
 │  (1 step)
 ├─ 6
@@ -18,6 +20,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.test_assert_false()
 │
 │  (307 steps)
 ├─ 8
@@ -25,6 +28,7 @@
 │   pc: 2995
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.test_assert_false()
 │
 │  (1 step)
 ├─ 9
@@ -32,6 +36,7 @@
 │   pc: 2995
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
+│   method: test%AssertTest.test_assert_false()
 │
 │  (2 steps)
 └─ 10 (leaf, terminal)
@@ -39,6 +44,7 @@
     pc: 2995
     callDepth: 0
     statusCode: EVMC_REVERT
+    method: test%AssertTest.test_assert_false()
 
 
 ┌─ 7 (root, leaf, target, terminal)

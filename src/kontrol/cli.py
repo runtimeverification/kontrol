@@ -565,6 +565,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Print elements in hexadecimal encoding.',
     )
+    show_args.add_argument(
+        '--expand-config',
+        dest='expand_config',
+        default=None,
+        action='store_true',
+        help='When printing nodes, always show full bytecode in  code and program cells, and do not hide jumpDests cell.',
+    )
 
     command_parser.add_parser(
         'to-dot',
