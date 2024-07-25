@@ -1300,13 +1300,14 @@ class FoundryNodePrinter(KEVMNodePrinter):
             selector_bytes = None
             if type(calldata_cell) is KToken:
                 selector_bytes = ast.literal_eval(calldata_cell.token)
-                selector_bytes = selector_bytes[:32]
+                selector_bytes = selector_bytes[:4]
             elif (
                 type(calldata_cell) is KApply and calldata_cell.label.name == '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes'
             ):
                 first_bytes = flatten_label(label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes', kast=calldata_cell)[0]
                 if type(first_bytes) is KToken:
                     selector_bytes = ast.literal_eval(first_bytes.token)
+                    selector_bytes = selector_bytes[:4]
 
             if selector_bytes is not None:
                 selector = int.from_bytes(selector_bytes, 'big')
