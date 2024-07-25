@@ -601,13 +601,13 @@ zoneinfo = ["backports.zoneinfo (>=0.2.1)", "tzdata (>=2024.1)"]
 
 [[package]]
 name = "importlib-metadata"
-version = "8.1.0"
+version = "8.2.0"
 description = "Read metadata from Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "importlib_metadata-8.1.0-py3-none-any.whl", hash = "sha256:3cd29f739ed65973840b068e3132135ce954c254d48b5b640484467ef7ab3c8c"},
-    {file = "importlib_metadata-8.1.0.tar.gz", hash = "sha256:fcdcb1d5ead7bdf3dd32657bb94ebe9d2aabfe89a19782ddc32da5041d6ebfb4"},
+    {file = "importlib_metadata-8.2.0-py3-none-any.whl", hash = "sha256:11901fa0c2f97919b288679932bb64febaeacf289d18ac84dd68cb2e74213369"},
+    {file = "importlib_metadata-8.2.0.tar.gz", hash = "sha256:72e8d4399996132204f9a16dcc751af254a48f8d1b20b9ff0f98d4a8f901e73d"},
 ]
 
 [package.dependencies]
@@ -645,7 +645,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.651"
+version = "1.0.652"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -653,26 +653,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.77"
+kframework = "7.1.79"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.651"
-resolved_reference = "8a6002c7090305d65ada2a7916a07f67b6e7f1ac"
+reference = "v1.0.652"
+resolved_reference = "65d978978fe514d34ddf721a0d98858f1c8759fb"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.77"
+version = "7.1.79"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.77-py3-none-any.whl", hash = "sha256:52d13e961784956811be9d35a4993190582b8289f771c8f5f62be344094e5907"},
-    {file = "kframework-7.1.77.tar.gz", hash = "sha256:d0eef9057444fce29e2c0ab4e9ef4c71988b599939acc0044c1d901b93ff26f0"},
+    {file = "kframework-7.1.79-py3-none-any.whl", hash = "sha256:792559590c81650768c1528c13b4689eced5ff8df934faf0b2a0c267e4282870"},
+    {file = "kframework-7.1.79.tar.gz", hash = "sha256:a57489971b875fb3daf7f50e6334d974fbd7bf978ea0009ccc5c734c7cf7a48d"},
 ]
 
 [package.dependencies]
@@ -1383,4 +1383,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "dd1ff766fd6180d6f9fb86170200fc0df4e1136fade6a6245a32946f93534e52"
+content-hash = "13e98b715ca9a2537a22dddf69deb37af07aa14d1b6e88dc9e0b1a83c74e9f4a"
