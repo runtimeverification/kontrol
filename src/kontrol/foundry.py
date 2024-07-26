@@ -116,8 +116,9 @@ class FoundryKEVM(KEVM):
                         if contract_name is not None:
                             new_term = KApply(_term.label, [KToken(contract_name, KSort('Bytes'))])
                             return new_term
-                # Hide jumpDests
-                if cell_label_to_var_name(_term.label.name) in ['JUMPDESTS_CELL']:
+                hidden_cells = ['JUMPDESTS_CELL', 'INTERIMSTATES_CELL']
+                # Hide large, uninformative cells
+                if cell_label_to_var_name(_term.label.name) in hidden_cells:
                     return KApply(_term.label, [DOTS])
             return _term
 
