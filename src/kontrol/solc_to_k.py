@@ -771,19 +771,6 @@ class Contract:
 
         deployed_bytecode = evm['deployedBytecode']
 
-        #          self.immutable_ranges = []
-        #          if 'immutableReferences' in deployed_bytecode:
-        #              for ref in deployed_bytecode['immutableReferences'].values():
-        #                  for rng in ref:
-        #                      self.immutable_ranges.append((rng['start'], rng['length']))
-
-        #          self.link_ranges = []
-        #          if 'linkReferences' in deployed_bytecode:
-        #              for ref in deployed_bytecode['linkReferences'].values():
-        #                  for rng_grp in ref.values():
-        #                      for rng in rng_grp:
-        #                          self.link_ranges.append((rng['start'], rng['length']))
-
         self.immutable_ranges = [
             (rng['start'], rng['length'])
             for ref in deployed_bytecode.get('immutableReferences', {}).values()
