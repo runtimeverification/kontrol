@@ -747,6 +747,7 @@ class Contract:
     contract_path: str
     deployed_bytecode: str
     immutable_ranges: list[tuple[int, int]]
+    link_ranges: list[tuple[int, int]]
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
@@ -776,7 +777,19 @@ class Contract:
                 for rng in ref:
                     self.immutable_ranges.append((rng['start'], rng['length']))
 
+        self.link_ranges = []
+        if 'linkReferences' in deployed_bytecode:
+            for ref in deployed_bytecode['linkReferences'].values():
+                for rng_grp in ref.values():
+                    for rng in rng_grp:
+                        self.link_ranges.append((rng['start'], rng['length']))
+
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
+        try:
+            bytearray.fromhex(self.deployed_bytecode)
+        except ValueError:
+            print(f'non hex value for deployed_bytecode found in {self.name_with_path}')
+            print(self.deployed_bytecode)
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
 
         bytecode = evm['bytecode']

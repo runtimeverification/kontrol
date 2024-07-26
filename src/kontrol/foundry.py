@@ -268,12 +268,19 @@ class Foundry:
     def contract_name_from_bytecode(self, bytecode: bytes) -> str:
         for contract_name, contract_obj in self.contracts.items():
             zeroed_bytecode = bytearray(bytecode)
-            for start, length in contract_obj.immutable_ranges:
+            deployed_bytecode_str = re.sub(
+                pattern='__\\$(.){34}\\$__',
+                repl='0000000000000000000000000000000000000000',
+                string=contract_obj.deployed_bytecode,
+            )
+            deployed_bytecode = bytearray.fromhex(deployed_bytecode_str)
+
+            for start, length in contract_obj.immutable_ranges + contract_obj.link_ranges:
                 if start + length <= len(zeroed_bytecode):
                     zeroed_bytecode[start : start + length] = bytearray(length)
                 else:
                     break
-            if zeroed_bytecode == bytearray.fromhex(contract_obj.deployed_bytecode):
+            if zeroed_bytecode == deployed_bytecode:
                 return contract_name
         return 'Not found.'
 
