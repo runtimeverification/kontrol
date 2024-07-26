@@ -35,7 +35,7 @@ from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
-from .solc_to_k import Contract
+from .solc_to_k import Contract, _contract_name_from_bytecode
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
 from .utils import (
     append_to_file,
@@ -113,7 +113,7 @@ class FoundryKEVM(KEVM):
                 if cell_label_to_var_name(_term.label.name) in ['CODE_CELL', 'PROGRAM_CELL']:
                     if type(_term.args[0]) is KToken:
                         contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(_term.args[0].token))
-                        if contract_name != 'Not found.':
+                        if contract_name is not None:
                             new_term = KApply(_term.label, [KToken(contract_name, KSort('Bytes'))])
                             return new_term
                 # Hide jumpDests
@@ -265,24 +265,14 @@ class Foundry:
     def method_digest(self, contract_name: str, method_sig: str) -> str:
         return self.contracts[contract_name].method_by_sig[method_sig].digest
 
-    def contract_name_from_bytecode(self, bytecode: bytes) -> str:
-        for contract_name, contract_obj in self.contracts.items():
-            zeroed_bytecode = bytearray(bytecode)
-            deployed_bytecode_str = re.sub(
-                pattern='__\\$(.){34}\\$__',
-                repl='0000000000000000000000000000000000000000',
-                string=contract_obj.deployed_bytecode,
-            )
-            deployed_bytecode = bytearray.fromhex(deployed_bytecode_str)
-
-            for start, length in contract_obj.immutable_ranges + contract_obj.link_ranges:
-                if start + length <= len(zeroed_bytecode):
-                    zeroed_bytecode[start : start + length] = bytearray(length)
-                else:
-                    break
-            if zeroed_bytecode == deployed_bytecode:
-                return contract_name
-        return 'Not found.'
+    def contract_name_from_bytecode(self, bytecode: bytes) -> str | None:
+        return _contract_name_from_bytecode(
+            bytecode,
+            {
+                contract_name: (contract_obj.deployed_bytecode, contract_obj.immutable_ranges, contract_obj.link_ranges)
+                for (contract_name, contract_obj) in self.contracts.items()
+            },
+        )
 
     @cached_property
     def digest(self) -> str:

@@ -771,25 +771,33 @@ class Contract:
 
         deployed_bytecode = evm['deployedBytecode']
 
-        self.immutable_ranges = []
-        if 'immutableReferences' in deployed_bytecode:
-            for ref in deployed_bytecode['immutableReferences'].values():
-                for rng in ref:
-                    self.immutable_ranges.append((rng['start'], rng['length']))
+        #          self.immutable_ranges = []
+        #          if 'immutableReferences' in deployed_bytecode:
+        #              for ref in deployed_bytecode['immutableReferences'].values():
+        #                  for rng in ref:
+        #                      self.immutable_ranges.append((rng['start'], rng['length']))
 
-        self.link_ranges = []
-        if 'linkReferences' in deployed_bytecode:
-            for ref in deployed_bytecode['linkReferences'].values():
-                for rng_grp in ref.values():
-                    for rng in rng_grp:
-                        self.link_ranges.append((rng['start'], rng['length']))
+        #          self.link_ranges = []
+        #          if 'linkReferences' in deployed_bytecode:
+        #              for ref in deployed_bytecode['linkReferences'].values():
+        #                  for rng_grp in ref.values():
+        #                      for rng in rng_grp:
+        #                          self.link_ranges.append((rng['start'], rng['length']))
+
+        self.immutable_ranges = [
+            (rng['start'], rng['length'])
+            for ref in deployed_bytecode.get('immutableReferences', {}).values()
+            for rng in ref
+        ]
+
+        self.link_ranges = [
+            (rng['start'], rng['length'])
+            for ref in deployed_bytecode.get('linkReferences', {}).values()
+            for rng_grp in ref
+            for rng in rng_grp
+        ]
 
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
-        try:
-            bytearray.fromhex(self.deployed_bytecode)
-        except ValueError:
-            print(f'non hex value for deployed_bytecode found in {self.name_with_path}')
-            print(self.deployed_bytecode)
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
 
         bytecode = evm['bytecode']
@@ -1408,6 +1416,28 @@ def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[st
 
     _find_function_calls(node)
     return function_calls
+
+
+def _contract_name_from_bytecode(
+    bytecode: bytes, contracts: dict[str, tuple[str, list[tuple[int, int]], list[tuple[int, int]]]]
+) -> str | None:
+    for contract_name, (contract_deployed_bytecode, immutable_ranges, link_ranges) in contracts.items():
+        zeroed_bytecode = bytearray(bytecode)
+        deployed_bytecode_str = re.sub(
+            pattern='__\\$(.){34}\\$__',
+            repl='0000000000000000000000000000000000000000',
+            string=contract_deployed_bytecode,
+        )
+        deployed_bytecode = bytearray.fromhex(deployed_bytecode_str)
+
+        for start, length in immutable_ranges + link_ranges:
+            if start + length <= len(zeroed_bytecode):
+                zeroed_bytecode[start : start + length] = bytearray(length)
+            else:
+                break
+        if zeroed_bytecode == deployed_bytecode:
+            return contract_name
+    return None
 
 
 def process_storage_layout(storage_layout: dict, interface_annotations: dict) -> tuple[StorageField, ...]:
