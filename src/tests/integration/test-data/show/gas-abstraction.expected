@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%GasTest.testInfiniteGas()
 │
 │  (683 steps)
 ├─ 3
@@ -11,6 +12,7 @@
 │   pc: 2698
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%GasTest.testInfiniteGas()
 │
 ┊  constraint: true
 ┊  subst: {
@@ -72,6 +74,7 @@
 │   pc: 2698
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%GasTest.testInfiniteGas()
 │
 │  (1 step)
 ├─ 5
@@ -79,6 +82,7 @@
 │   pc: 2698
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
+│   method: test%GasTest.testInfiniteGas()
 │
 │  (2 steps)
 └─ 6 (leaf, terminal)
@@ -86,6 +90,7 @@
     pc: 2698
     callDepth: 0
     statusCode: EVMC_REVERT
+    method: test%GasTest.testInfiniteGas()
 
 
 ┌─ 2 (root, leaf, target, terminal)

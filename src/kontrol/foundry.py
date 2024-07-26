@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import datetime
 import json
 import logging
@@ -18,12 +19,13 @@ import tomlkit
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KSort, KToken, KVariable
-from pyk.kast.manip import collect, extract_lhs, minimize_term
+from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
+from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
+from pyk.prelude.k import DOTS
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
@@ -48,7 +50,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Any, Final
 
-    from pyk.kast.inner import KInner
+    from pyk.kast.outer import KAst
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.tui import KCFGElem
     from pyk.proof.implies import RefutationProof
@@ -75,11 +77,62 @@ if TYPE_CHECKING:
 _LOGGER: Final = logging.getLogger(__name__)
 
 
+class FoundryKEVM(KEVM):
+    foundry: Foundry
+
+    def __init__(
+        self,
+        definition_dir: Path,
+        foundry: Foundry,
+        main_file: Path | None = None,
+        use_directory: Path | None = None,
+        kprove_command: str = 'kprove',
+        krun_command: str = 'krun',
+        extra_unparsing_modules: Iterable[KFlatModule] = (),
+        bug_report: BugReport | None = None,
+        use_hex: bool = False,
+    ) -> None:
+        self.foundry = foundry
+        super().__init__(
+            definition_dir,
+            main_file,
+            use_directory,
+            kprove_command,
+            krun_command,
+            extra_unparsing_modules,
+            bug_report,
+            use_hex,
+        )
+
+    def pretty_print(
+        self, kast: KAst, *, in_module: str | None = None, unalias: bool = True, sort_collections: bool = False
+    ) -> str:
+        def _simplify_config(_term: KInner) -> KInner:
+            if type(_term) is KApply and _term.is_cell:
+                # Show contract names instead of code where available
+                if cell_label_to_var_name(_term.label.name) in ['CODE_CELL', 'PROGRAM_CELL']:
+                    if type(_term.args[0]) is KToken:
+                        contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(_term.args[0].token))
+                        if contract_name != 'Not found.':
+                            new_term = KApply(_term.label, [KToken(contract_name, KSort('Bytes'))])
+                            return new_term
+                # Hide jumpDests
+                if cell_label_to_var_name(_term.label.name) in ['JUMPDESTS_CELL']:
+                    return KApply(_term.label, [DOTS])
+            return _term
+
+        if not self.foundry._expand_config and isinstance(kast, KInner):
+            kast = top_down(_simplify_config, kast)
+
+        return super().pretty_print(kast, in_module=in_module, unalias=unalias, sort_collections=sort_collections)
+
+
 class Foundry:
     _root: Path
     _toml: dict[str, Any]
     _bug_report: BugReport | None
     _use_hex_encoding: bool
+    _expand_config: bool
 
     add_enum_constraints: bool
     enums: dict[str, int]
@@ -93,12 +146,14 @@ class Foundry:
         bug_report: BugReport | None = None,
         use_hex_encoding: bool = False,
         add_enum_constraints: bool = False,
+        expand_config: bool = False,
     ) -> None:
         self._root = foundry_root
         with (foundry_root / 'foundry.toml').open('rb') as f:
             self._toml = tomlkit.load(f)
         self._bug_report = bug_report
         self._use_hex_encoding = use_hex_encoding
+        self._expand_config = expand_config
         self.add_enum_constraints = add_enum_constraints
         self.enums = {}
 
@@ -155,8 +210,9 @@ class Foundry:
     def kevm(self) -> KEVM:
         use_directory = self.out / 'tmp'
         ensure_dir_path(use_directory)
-        return KEVM(
+        return FoundryKEVM(
             definition_dir=self.kompiled,
+            foundry=self,
             main_file=self.main_file,
             use_directory=use_directory,
             bug_report=self._bug_report,
@@ -208,6 +264,18 @@ class Foundry:
 
     def method_digest(self, contract_name: str, method_sig: str) -> str:
         return self.contracts[contract_name].method_by_sig[method_sig].digest
+
+    def contract_name_from_bytecode(self, bytecode: bytes) -> str:
+        for contract_name, contract_obj in self.contracts.items():
+            zeroed_bytecode = bytearray(bytecode)
+            for start, length in contract_obj.immutable_ranges:
+                if start + length <= len(zeroed_bytecode):
+                    zeroed_bytecode[start : start + length] = bytearray(length)
+                else:
+                    break
+            if zeroed_bytecode == bytearray.fromhex(contract_obj.deployed_bytecode):
+                return contract_name
+        return 'Not found.'
 
     @cached_property
     def digest(self) -> str:
@@ -1229,6 +1297,32 @@ class FoundryNodePrinter(KEVMNodePrinter):
             if not self.omit_unstable_output and srcmap_data is not None:
                 path, start, end = srcmap_data
                 ret_strs.append(f'src: {str(path)}:{start}:{end}')
+
+        calldata_cell = node.cterm.try_cell('CALLDATA_CELL')
+        program_cell = node.cterm.try_cell('PROGRAM_CELL')
+
+        if type(program_cell) is KToken:
+            selector_bytes = None
+            if type(calldata_cell) is KToken:
+                selector_bytes = ast.literal_eval(calldata_cell.token)
+                selector_bytes = selector_bytes[:4]
+            elif (
+                type(calldata_cell) is KApply and calldata_cell.label.name == '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes'
+            ):
+                first_bytes = flatten_label(label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes', kast=calldata_cell)[0]
+                if type(first_bytes) is KToken:
+                    selector_bytes = ast.literal_eval(first_bytes.token)
+                    selector_bytes = selector_bytes[:4]
+
+            if selector_bytes is not None:
+                selector = int.from_bytes(selector_bytes, 'big')
+                current_contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(program_cell.token))
+                for contract_name, contract_obj in self.foundry.contracts.items():
+                    if current_contract_name == contract_name:
+                        for method in contract_obj.methods:
+                            if method.id == selector:
+                                ret_strs.append(f'method: {method.qualified_name}')
+
         return ret_strs
 
 

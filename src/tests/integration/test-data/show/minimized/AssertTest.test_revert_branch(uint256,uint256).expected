@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.setUp()
 │
 │  (549 steps)
 ├─ 8 (split)
@@ -11,6 +12,7 @@
 │   pc: 1590
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃
 ┃ (branch)
 ┣━━┓ constraint: VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
@@ -20,6 +22,7 @@
 ┃  │   pc: 1590
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃  │
 ┃  │  (75 steps)
 ┃  └─ 15 (leaf, terminal)
@@ -27,6 +30,7 @@
 ┃      pc: 2995
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
+┃      method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃
 ┗━━┓ constraint: VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
    │
@@ -35,6 +39,7 @@
    │   pc: 1590
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
    │  (40 steps)
    └─ 16 (leaf, pending)
@@ -42,6 +47,7 @@
        pc: 328
        callDepth: 0
        statusCode: EVMC_SUCCESS
+       method: test%AssertTest.test_revert_branch(uint256,uint256)
 
 
 ┌─ 7 (root, leaf, target, terminal)
