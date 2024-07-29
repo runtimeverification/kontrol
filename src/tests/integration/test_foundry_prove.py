@@ -435,6 +435,58 @@ def test_foundry_merge_nodes(
     assert_pass(test, single(prove_res))
 
 
+def test_foundry_show_with_hex_encoding(
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+    force_sequential: bool,
+    foundry_root_dir: Path | None,
+    worker_id: str,
+    tmp_path_factory: TempPathFactory,
+) -> None:
+
+    if not foundry_root_dir:
+        if worker_id == 'master':
+            root_tmp_dir = tmp_path_factory.getbasetemp()
+        else:
+            root_tmp_dir = tmp_path_factory.getbasetemp().parent
+
+        foundry_root_dir = root_tmp_dir / 'foundry'
+    foundry = Foundry(foundry_root=foundry_root_dir, use_hex_encoding=True)
+
+    if no_use_booster:
+        pytest.skip()
+
+    test = 'CounterTest.testIncrement()'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    foundry_prove(
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'port': server.port,
+                'force_sequential': force_sequential,
+            }
+        ),
+    )
+
+    show_res = foundry_show(
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test,
+                'port': server.port,
+                'nodes': [1, 3, 4, 5, 6, 7, 2],
+            }
+        ),
+    )
+
+
 def test_foundry_merge_loop_heads(
     foundry: Foundry,
     update_expected_output: bool,
