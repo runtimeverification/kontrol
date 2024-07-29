@@ -122,7 +122,7 @@ class FoundryKEVM(KEVM):
                     return KApply(_term.label, [DOTS])
             return _term
 
-        if not self.foundry._expand_config and isinstance(kast, KInner):
+        if not self.foundry._expand_config and isinstance(kast, KInner) and not self.use_hex_encoding:
             kast = top_down(_simplify_config, kast)
 
         return super().pretty_print(kast, in_module=in_module, unalias=unalias, sort_collections=sort_collections)
