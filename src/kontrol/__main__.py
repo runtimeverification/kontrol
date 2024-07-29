@@ -14,6 +14,8 @@ from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from pyk.utils import run_process_2
+from rich.highlighter import NullHighlighter
+from rich.logging import RichHandler
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -118,7 +120,13 @@ def main() -> None:
     args = parser.parse_args()
     args.config_file = _config_file_path(args)
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
-    logging.basicConfig(level=_loglevel(args, toml_args), format=_LOG_FORMAT)
+    logging.basicConfig(
+        level=_loglevel(args, toml_args),
+        format=_LOG_FORMAT,
+        handlers=[
+            RichHandler(level='INFO', show_level=False, show_time=False, show_path=False, highlighter=NullHighlighter())
+        ],
+    )
 
     _check_k_version()
 

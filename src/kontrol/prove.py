@@ -27,6 +27,7 @@ from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process_2, unique
+from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
@@ -302,10 +303,27 @@ def _run_cfg_group(
     summary_ids: Iterable[str],
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
 ) -> list[APRProof]:
-    def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
+    def init_and_run_proof(test: FoundryTest, progress: Progress | None = None) -> APRFailureInfo | Exception | None:
+
+        task: TaskID | None = None
+        if progress is not None:
+            task = progress.add_task(
+                f'{test.id}',
+                total=1,
+                status='Loading proof',
+                summary='---',
+            )
+
         proof = None
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
             proof = foundry.get_apr_proof(test.id)
+            if progress is not None and task is not None:
+                progress.update(
+                    task,
+                    status='Finished',
+                    summary=proof.one_line_summary,
+                    advance=1,
+                )
             if proof.passed:
                 return None
         start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
@@ -315,6 +333,8 @@ def _run_cfg_group(
             kore_rpc_command = options.kore_rpc_command.split()
 
         def select_server() -> OptionalKoreServer:
+            if progress is not None and task is not None:
+                progress.update(task, status='Starting KoreServer')
             if options.port is not None:
                 return PreexistingKoreServer(options.port)
             else:
@@ -364,6 +384,8 @@ def _run_cfg_group(
                 )
 
             if proof is None:
+                if progress is not None and task is not None:
+                    progress.update(task, status='Initializing proof')
                 # With CSE, top-level proof should be a summary if it's not a test or setUp function
                 if (
                     (options.cse or options.include_summaries)
@@ -407,6 +429,13 @@ def _run_cfg_group(
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
+
+            if progress is not None and task is not None:
+                progress.update(
+                    task,
+                    status='Running proof',
+                    summary=proof.one_line_summary,
+                )
             run_prover(
                 proof,
                 create_kcfg_explore=create_kcfg_explore,
@@ -418,7 +447,12 @@ def _run_cfg_group(
                 max_frontier_parallel=options.max_frontier_parallel,
                 fail_fast=options.fail_fast,
                 force_sequential=options.force_sequential,
+                progress=progress,
+                task_id=task,
             )
+
+            if progress is not None and task is not None:
+                progress.update(task, advance=1, status='Finished')
 
             if options.minimize_proofs or options.config_type == ConfigType.SUMMARY_CONFIG:
                 proof.minimize_kcfg()
@@ -436,27 +470,39 @@ def _run_cfg_group(
             else:
                 return proof.failure_info
 
-    failure_infos: list[APRFailureInfo | Exception | None]
-    if options.workers > 1:
-        with ProcessPool(ncpus=options.workers) as process_pool:
-            failure_infos = process_pool.map(init_and_run_proof, tests)
-    else:
-        failure_infos = []
-        for test in tests:
-            failure_infos.append(init_and_run_proof(test))
+    with Progress(
+        SpinnerColumn(),
+        TimeElapsedColumn(),
+        TextColumn('{task.description}'),
+        TextColumn('{task.fields[status]}'),
+        TextColumn('{task.fields[summary]}'),
+        redirect_stderr=True,
+        redirect_stdout=True,
+    ) as progress:
 
-    proofs = [foundry.get_apr_proof(test.id) for test in tests]
+        failure_infos: list[APRFailureInfo | Exception | None]
+        if options.workers > 1 and len(tests) > 1:
+            task = progress.add_task('Running multiple proofs')
+            with ProcessPool(ncpus=options.workers) as process_pool:
+                failure_infos = process_pool.map(init_and_run_proof, tests)
+            progress.update(task, status='Finished', advance=1)
+        else:
+            failure_infos = []
+            for test in tests:
+                failure_infos.append(init_and_run_proof(test, progress))
 
-    # Reconstruct the proof from the subprocess
-    for proof, failure_info in zip(proofs, failure_infos, strict=True):
-        assert proof.failure_info is None  # Refactor once this fails
-        assert proof.error_info is None
-        if isinstance(failure_info, Exception):
-            proof.error_info = failure_info
-        elif isinstance(failure_info, APRFailureInfo):
-            proof.failure_info = failure_info
+        proofs = [foundry.get_apr_proof(test.id) for test in tests]
 
-    return proofs
+        # Reconstruct the proof from the subprocess
+        for proof, failure_info in zip(proofs, failure_infos, strict=True):
+            assert proof.failure_info is None  # Refactor once this fails
+            assert proof.error_info is None
+            if isinstance(failure_info, Exception):
+                proof.error_info = failure_info
+            elif isinstance(failure_info, APRFailureInfo):
+                proof.failure_info = failure_info
+
+        return proofs
 
 
 def method_to_apr_proof(
