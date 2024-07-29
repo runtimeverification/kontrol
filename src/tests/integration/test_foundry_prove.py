@@ -475,7 +475,7 @@ def test_foundry_show_with_hex_encoding(
         ),
     )
 
-    show_res = foundry_show(
+    foundry_show(
         foundry=foundry,
         options=ShowOptions(
             {
