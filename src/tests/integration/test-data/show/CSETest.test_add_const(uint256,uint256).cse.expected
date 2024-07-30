@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%CSETest.setUp()
 │
 │  (1550 steps)
 ├─ 9 (split)
@@ -11,6 +12,7 @@
 │   pc: 669
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%CSETest.test_add_const(uint256,uint256)
 ┃
 ┃ (branch)
 ┣━━┓ constraint: pow64 <=Int VV0_x_114b9705:Int
@@ -20,6 +22,7 @@
 ┃  │   pc: 669
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: test%CSETest.test_add_const(uint256,uint256)
 ┃  │
 ┃  │  (464 steps)
 ┃  └─ 12 (vacuous, leaf)
@@ -27,6 +30,7 @@
 ┃      pc: 0
 ┃      callDepth: 1
 ┃      statusCode: STATUSCODE:StatusCode
+┃      method: src%cse%AddConst.setConst(uint256)
 ┃
 ┗━━┓ constraint: VV0_x_114b9705:Int <Int pow64
    │
@@ -35,6 +39,7 @@
    │   pc: 669
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%CSETest.test_add_const(uint256,uint256)
    │
    │  (1123 steps)
    ├─ 13 (terminal)
@@ -42,6 +47,7 @@
    │   pc: 221
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   method: test%CSETest.test_add_const(uint256,uint256)
    │
    ┊  constraint: true
    ┊  subst: OMITTED SUBST
@@ -131,6 +137,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -149,6 +158,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -167,6 +179,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -185,6 +200,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -207,6 +225,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          4
                        </nonce>
@@ -241,7 +262,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
-                     ( b"\x0f\xee)\xd1" => b"\xe9\x19\xcf\x83" ) +Bytes ( #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) => #buf ( 32 , VV0_x_114b9705:Int ) )
+                     ( b"\x0f\xee)\xd1" => b"\xe9\x19\xcf\x83" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes ( #buf ( 32 , VV1_y_114b9705:Int ) => b"" )
                    </callData>
                    <callValue>
                      0
@@ -312,6 +333,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -330,6 +354,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -348,6 +375,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -366,6 +396,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -388,6 +421,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        4
                      </nonce>
@@ -437,16 +473,19 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -601,6 +640,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -619,6 +661,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -637,6 +682,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -655,6 +703,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -677,6 +728,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        4
                      </nonce>
@@ -726,16 +780,19 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -890,6 +947,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        ( 0 => 1 )
                      </nonce>
@@ -909,6 +969,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -926,6 +989,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -944,6 +1010,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -962,6 +1031,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -984,6 +1056,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        4
                      </nonce>
@@ -1033,16 +1108,19 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>

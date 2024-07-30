@@ -97,6 +97,7 @@ def test_foundry_prove(
     no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
+    force_sequential: bool,
 ) -> None:
     if (
         test_id in SKIPPED_PROVE_TESTS
@@ -118,6 +119,7 @@ def test_foundry_prove(
                 'break_on_calls': test_id in SHOW_TESTS,
                 'use_gas': test_id in GAS_TESTS,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -160,6 +162,7 @@ def test_foundry_fail(
     no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -175,6 +178,7 @@ def test_foundry_fail(
                 'bug_report': bug_report,
                 'break_on_calls': test_id in SHOW_TESTS,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -212,6 +216,7 @@ def test_constructor_with_symbolic_args(
     no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -229,6 +234,7 @@ def test_constructor_with_symbolic_args(
                 'break_on_calls': True,
                 'break_on_load_program': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -266,7 +272,12 @@ skipped_bmc_tests: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().
 
 @pytest.mark.parametrize('test_id', all_bmc_tests)
 def test_foundry_bmc(
-    test_id: str, foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
+    test_id: str,
+    foundry: Foundry,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -286,6 +297,7 @@ def test_foundry_bmc(
                 'bmc_depth': 3,
                 'bug_report': bug_report,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -305,6 +317,7 @@ def test_foundry_minimize_proof(
     no_use_booster: bool,
     bug_report: BugReport | None,
     server: KoreServer,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -319,6 +332,7 @@ def test_foundry_minimize_proof(
             'reinit': True,
             'bug_report': bug_report,
             'port': server.port,
+            'force_sequential': force_sequential,
         }
     )
 
@@ -350,7 +364,11 @@ def test_foundry_minimize_proof(
 
 
 def test_foundry_merge_nodes(
-    foundry: Foundry, bug_report: BugReport | None, server: KoreServer, no_use_booster: bool
+    foundry: Foundry,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -363,7 +381,13 @@ def test_foundry_merge_nodes(
     foundry_prove(
         foundry=foundry,
         options=ProveOptions(
-            {'tests': [(test, None)], 'max_iterations': 2, 'bug_report': bug_report, 'port': server.port}
+            {
+                'tests': [(test, None)],
+                'max_iterations': 2,
+                'bug_report': bug_report,
+                'port': server.port,
+                'forcforce_sequential': force_sequential,
+            }
         ),
     )
 
@@ -404,10 +428,63 @@ def test_foundry_merge_nodes(
                 'tests': [(test, None)],
                 'bug_report': bug_report,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
     assert_pass(test, single(prove_res))
+
+
+def test_foundry_show_with_hex_encoding(
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+    force_sequential: bool,
+    foundry_root_dir: Path | None,
+    worker_id: str,
+    tmp_path_factory: TempPathFactory,
+) -> None:
+
+    if not foundry_root_dir:
+        if worker_id == 'master':
+            root_tmp_dir = tmp_path_factory.getbasetemp()
+        else:
+            root_tmp_dir = tmp_path_factory.getbasetemp().parent
+
+        foundry_root_dir = root_tmp_dir / 'foundry'
+    foundry = Foundry(foundry_root=foundry_root_dir, use_hex_encoding=True)
+
+    if no_use_booster:
+        pytest.skip()
+
+    test = 'CounterTest.testIncrement()'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    foundry_prove(
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'port': server.port,
+                'force_sequential': force_sequential,
+            }
+        ),
+    )
+
+    foundry_show(
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test,
+                'port': server.port,
+                'nodes': [1, 3, 4, 5, 6, 7, 2],
+            }
+        ),
+    )
 
 
 def test_foundry_merge_loop_heads(
@@ -416,6 +493,7 @@ def test_foundry_merge_loop_heads(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -434,6 +512,7 @@ def test_foundry_merge_loop_heads(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -453,6 +532,7 @@ def test_foundry_merge_loop_heads(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -491,6 +571,7 @@ def test_foundry_auto_abstraction(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -510,6 +591,7 @@ def test_foundry_auto_abstraction(
                 'break_on_calls': True,
                 'use_gas': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -542,6 +624,7 @@ def test_foundry_remove_node(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -559,6 +642,7 @@ def test_foundry_remove_node(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -578,6 +662,7 @@ def test_foundry_remove_node(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -590,6 +675,7 @@ def test_foundry_resume_proof(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -610,6 +696,7 @@ def test_foundry_resume_proof(
                 'break_on_calls': True,
                 'reinit': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -629,6 +716,7 @@ def test_foundry_resume_proof(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -648,6 +736,7 @@ def test_foundry_init_code(
     bug_report: BugReport | None,
     no_use_booster: bool,
     server: KoreServer,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster or test_id in SKIPPED_INIT_CODE_TESTS:
         pytest.skip()
@@ -661,6 +750,7 @@ def test_foundry_init_code(
                 'bug_report': bug_report,
                 'fail_fast': False,
                 'use_booster': not no_use_booster,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -766,6 +856,7 @@ def test_foundry_refute_node(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -783,6 +874,7 @@ def test_foundry_refute_node(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -813,6 +905,7 @@ def test_foundry_refute_node(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -856,6 +949,7 @@ def test_foundry_refute_node(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -869,6 +963,7 @@ def test_foundry_xml_report(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -888,6 +983,7 @@ def test_foundry_xml_report(
                 'bug_report': bug_report,
                 'port': server.port,
                 'xml_test_report': True,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -911,6 +1007,7 @@ def test_foundry_split_node(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -928,6 +1025,7 @@ def test_foundry_split_node(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -987,6 +1085,7 @@ def test_foundry_split_node(
                 'bug_report': bug_report,
                 'break_on_calls': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -1017,6 +1116,7 @@ def test_foundry_prove_skips_setup(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     def assert_correct_ids_generted(
         proofs: list[APRProof],
@@ -1042,6 +1142,7 @@ def test_foundry_prove_skips_setup(
                     'reinit': _reinit,
                     'setup_version': _setup_version,
                     'port': server.port,
+                    'force_sequential': force_sequential,
                 }
             ),
         )

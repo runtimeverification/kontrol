@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%ConstructorTest.test_contract_call()
 │
 │  (2233 steps)
 ├─ 4 (terminal)
@@ -11,6 +12,7 @@
 │   pc: 278
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%ConstructorTest.test_contract_call()
 │
 ┊  constraint: true
 ┊  subst: OMITTED SUBST
@@ -135,6 +137,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -153,6 +158,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        ( 0 => 1 )
                      </nonce>
@@ -173,6 +181,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -190,6 +201,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -210,6 +224,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        3
                      </nonce>
@@ -259,16 +276,19 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>

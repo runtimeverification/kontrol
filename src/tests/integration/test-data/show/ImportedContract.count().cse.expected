@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%ImportedContract.count()
 │
 │  (206 steps)
 ├─ 3 (terminal)
@@ -11,6 +12,7 @@
 │   pc: 90
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: EVMC_SUCCESS
+│   method: test%ImportedContract.count()
 │
 ┊  constraint: OMITTED CONSTRAINT
 ┊  subst: OMITTED SUBST
@@ -134,16 +136,19 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.COUNT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
              ...
            </cheatcodes>
            <KEVMTracing>

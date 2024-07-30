@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssumeTest.testFail_assume_false(uint256,uint256)
 │
 │  (561 steps)
 ├─ 3
@@ -11,6 +12,7 @@
 │   pc: 563
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssumeTest.testFail_assume_false(uint256,uint256)
 │
 │  (1 step)
 ├─ 4
@@ -18,6 +20,7 @@
 │   pc: 563
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssumeTest.testFail_assume_false(uint256,uint256)
 │
 │  (190 steps)
 ├─ 5
@@ -25,6 +28,7 @@
 │   pc: 281
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssumeTest.testFail_assume_false(uint256,uint256)
 │
 │  (1 step)
 ├─ 6
@@ -32,6 +36,7 @@
 │   pc: 281
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%AssumeTest.testFail_assume_false(uint256,uint256)
 │
 │  (2 steps)
 └─ 7 (leaf, terminal)
@@ -39,6 +44,7 @@
     pc: 281
     callDepth: 0
     statusCode: EVMC_SUCCESS
+    method: test%AssumeTest.testFail_assume_false(uint256,uint256)
 
 
 ┌─ 2 (root, leaf, target, terminal)
@@ -78,7 +84,7 @@ Node 7:
             .List
           </callStack>
           <interimStates>
-            .List
+            ...
           </interimStates>
           <touchedAccounts>
             .Set
@@ -160,6 +166,9 @@ Node 7:
               <origStorage>
                 .Map
               </origStorage>
+              <transientStorage>
+                .Map
+              </transientStorage>
               <nonce>
                 0
               </nonce>
@@ -178,6 +187,9 @@ Node 7:
               <origStorage>
                 .Map
               </origStorage>
+              <transientStorage>
+                .Map
+              </transientStorage>
               <nonce>
                 1
               </nonce>
@@ -227,16 +239,19 @@ Node 7:
         <isStorageWhitelistActive>
           false
         </isStorageWhitelistActive>
-        <addressSet>
-          .Set
-        </addressSet>
-        <storageSlotSet>
-          .Set
-        </storageSlotSet>
+        <addressList>
+          .List
+        </addressList>
+        <storageSlotList>
+          .List
+        </storageSlotList>
       </whitelist>
       <mockCalls>
         .MockCallCellMap
       </mockCalls>
+      <mockFunctions>
+        .MockFunctionCellMap
+      </mockFunctions>
     </cheatcodes>
     <KEVMTracing>
       <activeTracing>
@@ -391,6 +406,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -409,6 +427,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -458,16 +479,19 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -621,6 +645,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -639,6 +666,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -688,16 +718,19 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -852,6 +885,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -870,6 +906,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -919,16 +958,19 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -1083,6 +1125,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -1101,6 +1146,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -1150,16 +1198,19 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -1312,6 +1363,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -1330,6 +1384,9 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -1379,16 +1436,19 @@ module SUMMARY-TEST%ASSUMETEST.TESTFAIL-ASSUME-FALSE(UINT256,UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -1466,7 +1526,7 @@ Failing nodes:
     VV0_a_114b9705 = 0
     VV1_b_114b9705 = 0
 
-Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
+Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
 
 See `foundry_success` predicate for more information:
 https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate

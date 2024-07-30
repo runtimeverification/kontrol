@@ -35,6 +35,7 @@ def test_foundry_dependency_automated(
     server: KoreServer,
     update_expected_output: bool,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -67,6 +68,8 @@ def test_foundry_dependency_automated(
                 'tests': [(test_id, None)],
                 'config_type': config_type,
                 'run_constructor': run_constructor,
+                'force_sequential': force_sequential,
+                'enum_constraints': True,
             }
         ),
     )

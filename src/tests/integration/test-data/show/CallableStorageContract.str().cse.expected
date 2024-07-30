@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%CallableStorageContract.str()
 ┃
 ┃ (branch)
 ┣━━┓ constraint: C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
@@ -13,6 +14,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: test%CallableStorageContract.str()
 ┃  │
 ┃  │  (867 steps)
 ┃  ├─ 6 (terminal)
@@ -20,6 +22,7 @@
 ┃  │   pc: 86
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   method: test%CallableStorageContract.str()
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
 ┃  ┊  subst: OMITTED SUBST
@@ -36,6 +39,7 @@
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%CallableStorageContract.str()
    │
    │  (1033 steps)
    ├─ 7 (terminal)
@@ -43,6 +47,7 @@
    │   pc: 86
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_SUCCESS
+   │   method: test%CallableStorageContract.str()
    │
    ┊  constraint: OMITTED CONSTRAINT
    ┊  subst: OMITTED SUBST
@@ -167,16 +172,19 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
              ...
            </cheatcodes>
            <KEVMTracing>
@@ -249,7 +257,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #range ( #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) , ( 32 -Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) , ( ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int 32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , 0 , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int 224 ) ) -Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int -160 ) ) ) )
+                   ( _OUTPUT_CELL => #range ( #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) , ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int -32 ) , ( 96 -Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) ) +Bytes #range ( #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) , 0 , ( ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , 0 , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int 224 ) ) -Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int -160 ) ) ) )
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
@@ -271,7 +279,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                      ( .WordStack => ( 95 : ( selector ( "str()" ) : .WordStack ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) +Bytes #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) , ( 32 -Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) , ( ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int 32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) , 0 , ( ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -340,16 +348,19 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
              ...
            </cheatcodes>
            <KEVMTracing>

@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%GasTest.testInfiniteGas()
 │
 │  (683 steps)
 ├─ 3
@@ -11,6 +12,7 @@
 │   pc: 2698
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%GasTest.testInfiniteGas()
 │
 ┊  constraint: true
 ┊  subst: {
@@ -72,6 +74,7 @@
 │   pc: 2698
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%GasTest.testInfiniteGas()
 │
 │  (1 step)
 ├─ 5
@@ -79,6 +82,7 @@
 │   pc: 2698
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
+│   method: test%GasTest.testInfiniteGas()
 │
 │  (2 steps)
 └─ 6 (leaf, terminal)
@@ -86,6 +90,7 @@
     pc: 2698
     callDepth: 0
     statusCode: EVMC_REVERT
+    method: test%GasTest.testInfiniteGas()
 
 
 ┌─ 2 (root, leaf, target, terminal)
@@ -128,7 +133,7 @@ Node 6:
             .List
           </callStack>
           <interimStates>
-            .List
+            ...
           </interimStates>
           <touchedAccounts>
             .Set
@@ -280,6 +285,9 @@ Node 6:
               <origStorage>
                 .Map
               </origStorage>
+              <transientStorage>
+                .Map
+              </transientStorage>
               <nonce>
                 0
               </nonce>
@@ -298,6 +306,9 @@ Node 6:
               <origStorage>
                 .Map
               </origStorage>
+              <transientStorage>
+                .Map
+              </transientStorage>
               <nonce>
                 1
               </nonce>
@@ -391,16 +402,19 @@ Node 6:
         <isStorageWhitelistActive>
           false
         </isStorageWhitelistActive>
-        <addressSet>
-          .Set
-        </addressSet>
-        <storageSlotSet>
-          .Set
-        </storageSlotSet>
+        <addressList>
+          .List
+        </addressList>
+        <storageSlotList>
+          .List
+        </storageSlotList>
       </whitelist>
       <mockCalls>
         .MockCallCellMap
       </mockCalls>
+      <mockFunctions>
+        .MockFunctionCellMap
+      </mockFunctions>
     </cheatcodes>
     <KEVMTracing>
       <activeTracing>
@@ -548,6 +562,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -566,6 +583,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -615,16 +635,19 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -768,6 +791,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -786,6 +812,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -835,16 +864,19 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -988,6 +1020,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -1006,6 +1041,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -1055,16 +1093,19 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -1134,7 +1175,7 @@ Failing nodes:
     ORIGIN_ID = 645326474426547203313410069153905908525362434350
     TIMESTAMP_CELL = 0
 
-Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
+Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
 
 See `foundry_success` predicate for more information:
 https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate

@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%Enum.enum_storage_range()
 ┃
 ┃ (branch)
 ┣━━┓ constraint: CALLDEPTH_CELL:Int <Int 1024
@@ -13,6 +14,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: test%Enum.enum_storage_range()
 ┃  │
 ┃  │  (1242 steps)
 ┃  ├─ 6 (terminal)
@@ -20,6 +22,7 @@
 ┃  │   pc: 68
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   method: test%Enum.enum_storage_range()
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
 ┃  ┊  subst: OMITTED SUBST
@@ -36,6 +39,7 @@
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%Enum.enum_storage_range()
    │
    │  (348 steps)
    ├─ 7 (terminal)
@@ -43,6 +47,7 @@
    │   pc: 161
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
+   │   method: test%Enum.enum_storage_range()
    │
    ┊  constraint: OMITTED CONSTRAINT
    ┊  subst: OMITTED SUBST
@@ -191,16 +196,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
              ...
            </cheatcodes>
            <KEVMTracing>
@@ -263,6 +271,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))))))
+       ensures #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <=Int 5
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -395,16 +404,19 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
              ...
            </cheatcodes>
            <KEVMTracing>

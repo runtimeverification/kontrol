@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   method: src%cse%Identity.identity(uint256)
 │
 │  (331 steps)
 ├─ 3 (terminal)
@@ -11,6 +12,7 @@
 │   pc: 87
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: EVMC_SUCCESS
+│   method: src%cse%Identity.identity(uint256)
 │
 ┊  constraint: OMITTED CONSTRAINT
 ┊  subst: OMITTED SUBST
@@ -131,16 +133,19 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
              ...
            </cheatcodes>
            <KEVMTracing>

@@ -26,11 +26,13 @@ class ConfigType(Enum):
 
 class FoundryOptions(Options):
     foundry_root: Path
+    enum_constraints: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'foundry_root': Path('.'),
+            'enum_constraints': False,
         }
 
     @staticmethod
@@ -513,6 +515,7 @@ class ShowOptions(
     to_kevm_claims: bool
     kevm_claim_dir: Path | None
     use_hex_encoding: bool
+    expand_config: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -522,6 +525,7 @@ class ShowOptions(
             'kevm_claim_dir': None,
             'use_hex_encoding': False,
             'counterexample_info': True,
+            'expand_config': False,
         }
 
     @staticmethod

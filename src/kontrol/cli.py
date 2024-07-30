@@ -168,6 +168,13 @@ class KontrolCLIArgs(KEVMCLIArgs):
             type=dir_path,
             help='Path to Foundry project root directory.',
         )
+        args.add_argument(
+            '--enum-constraints',
+            dest='enum_constraints',
+            default=None,
+            action='store_true',
+            help='Add constraints for enum function arguments and storage slots.',
+        )
         return args
 
     @cached_property
@@ -557,6 +564,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Print elements in hexadecimal encoding.',
+    )
+    show_args.add_argument(
+        '--expand-config',
+        dest='expand_config',
+        default=None,
+        action='store_true',
+        help='When printing nodes, always show full bytecode in  code and program cells, and do not hide jumpDests cell.',
     )
 
     command_parser.add_parser(

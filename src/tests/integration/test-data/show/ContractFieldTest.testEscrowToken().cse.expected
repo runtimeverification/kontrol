@@ -4,13 +4,15 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%ContractFieldTest.setUp()
 │
-│  (2219 steps)
+│  (2231 steps)
 ├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 194
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%ContractFieldTest.testEscrowToken()
 │
 ┊  constraint: true
 ┊  subst: OMITTED SUBST
@@ -130,11 +132,14 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 0 |-> 491460923342184218035706888008750043977755113263 ) )
+                       ( .Map => ( 0 |-> 125813996375599159817140963330240011258305308995328 ) )
                      </storage>
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        ( 0 => 1 )
                      </nonce>
@@ -154,6 +159,9 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -171,6 +179,9 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -189,6 +200,9 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -210,6 +224,9 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        3
                      </nonce>
@@ -259,16 +276,19 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>

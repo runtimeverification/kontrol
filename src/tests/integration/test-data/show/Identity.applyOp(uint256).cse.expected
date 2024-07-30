@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   method: src%cse%Identity.applyOp(uint256)
 ┃
 ┃ (branch)
 ┣━━┓ constraint: CALLDEPTH_CELL:Int <Int 1024
@@ -13,6 +14,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%cse%Identity.applyOp(uint256)
 ┃  │
 ┃  │  (712 steps)
 ┃  ├─ 6 (terminal)
@@ -20,6 +22,7 @@
 ┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   method: src%cse%Identity.applyOp(uint256)
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
 ┃  ┊  subst: OMITTED SUBST
@@ -36,6 +39,7 @@
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
+   │   method: src%cse%Identity.applyOp(uint256)
    │
    │  (443 steps)
    ├─ 7 (terminal)
@@ -43,6 +47,7 @@
    │   pc: 163
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
+   │   method: src%cse%Identity.applyOp(uint256)
    │
    ┊  constraint: OMITTED CONSTRAINT
    ┊  subst: OMITTED SUBST
@@ -172,16 +177,19 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
              ...
            </cheatcodes>
            <KEVMTracing>
@@ -345,16 +353,19 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
              ...
            </cheatcodes>
            <KEVMTracing>
