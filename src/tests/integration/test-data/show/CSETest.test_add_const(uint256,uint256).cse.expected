@@ -835,8 +835,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                )))))))))))))))))
        ensures ( VV1_y_114b9705:Int <Int pow64
        andBool ( VV1_y_114b9705:Int <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
-       andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ==Int ( VV1_y_114b9705:Int +Int VV0_x_114b9705:Int )
-               )))
+               ))
       [priority(20), label(BASIC-BLOCK-11-TO-13)]
     
     rule [BASIC-BLOCK-1-TO-9]: <foundry>
