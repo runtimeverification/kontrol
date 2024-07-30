@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.setUp()
 │
 │  (1272 steps)
 └─ 20 (leaf, terminal)
@@ -11,6 +12,7 @@
     pc: 328
     callDepth: 0
     statusCode: EVMC_SUCCESS
+    method: test%AssertTest.testFail_expect_revert()
 
 
 ┌─ 7 (root, leaf, target, terminal)
@@ -50,7 +52,7 @@ Node 20:
             .List
           </callStack>
           <interimStates>
-            .List
+            ...
           </interimStates>
           <touchedAccounts>
             SetItem ( 728815563385977040452943777879061427756277306518 )

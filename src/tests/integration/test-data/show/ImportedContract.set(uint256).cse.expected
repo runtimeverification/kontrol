@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%ImportedContract.set(uint256)
 ┃
 ┃ (branch)
 ┣━━┓ constraint: 3 <=Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
@@ -13,6 +14,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: test%ImportedContract.set(uint256)
 ┃  │
 ┃  │  (373 steps)
 ┃  ├─ 6 (terminal)
@@ -20,6 +22,7 @@
 ┃  │   pc: 107
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   method: test%ImportedContract.set(uint256)
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
 ┃  ┊  subst: OMITTED SUBST
@@ -36,6 +39,7 @@
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%ImportedContract.set(uint256)
    │
    │  (362 steps)
    ├─ 7 (terminal)
@@ -43,6 +47,7 @@
    │   pc: 107
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_SUCCESS
+   │   method: test%ImportedContract.set(uint256)
    │
    ┊  constraint: OMITTED CONSTRAINT
    ┊  subst: OMITTED SUBST
