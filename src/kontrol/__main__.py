@@ -191,17 +191,17 @@ def exec_build(options: BuildOptions) -> None:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer:[/{_rv_blue()}]'
     else:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer: \n Add `--verbose` to `kontrol build` for more details![/{_rv_blue()}]'
-    try:
-        console.print(building_message)
-        foundry_kompile(
-            options=options,
-            foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
-        )
-        console.print(
-            ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
-        )
-    except Exception as e:
-        console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] [black]{e}[/black]')
+#      try:
+    console.print(building_message)
+    foundry_kompile(
+        options=options,
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+    )
+    console.print(
+        ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
+    )
+#      except Exception as e:
+#          console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] [black]{e}[/black]')
 
 
 def exec_prove(options: ProveOptions) -> None:

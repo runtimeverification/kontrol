@@ -48,7 +48,7 @@ def solc_to_k(options: SolcToKOptions) -> str:
 
     imports = list(options.imports)
     requires = list(options.requires)
-    contract_module = contract_to_main_module(contract, empty_config, enums={}, imports=['EDSL'] + imports)
+    contract_module = contract_to_main_module(contract, empty_config, enums={}, imports=['EDSL'] + imports, contracts={})
     _main_module = KFlatModule(
         options.main_module if options.main_module else 'MAIN',
         [],
@@ -337,7 +337,7 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
 
 class StorageField(NamedTuple):
     label: str
-    data_type: str
+    data_type: StorageFieldType
     slot: int
     offset: int
     linked_interface: str | None
@@ -1082,8 +1082,105 @@ class Contract:
         res.extend(method.selector_alias_rule for method in self.methods)
         return res if len(res) > 1 else []
 
-    def sentences(self, enums: dict[str, int]) -> list[KSentence]:
-        return [self.subsort, self.production] + self.method_sentences(enums)
+    def storage_productions(self, contracts: dict[str, Contract]) -> list[KSentence]:
+
+        def get_contract(type_name: str) -> Contract:
+            for full_contract_name, contract_obj in contracts.items():
+                if full_contract_name.split('%')[-1] == type_name:
+                    return contract_obj
+            raise ValueError(f'Contract {type_name} not found.')
+
+        def gen_accounts_list(contract: Contract, contract_name: str) -> list[tuple[str, Contract]]:
+            accounts_list: list[tuple[str, Contract]] = []
+            for field in contract.fields:
+                if field.data_type.name.startswith('contract '):
+                    field_name = f'C_{contract_name}_{field.label}'.upper()
+                    contract_type = field.data_type.name.split(' ')[1]
+                    contract = get_contract(contract_type)
+                    accounts_list.append((field_name, contract))
+                    accounts_list += gen_accounts_list(contract=contract, contract_name=field_name)
+            return accounts_list
+
+        storage_prods: list[KSentence] = []
+        for account_label, contract_obj in gen_accounts_list(self, self._name):
+            storage_prods.append(
+                KProduction(
+                    KSort('Bool'),
+                    items=[
+                        KTerminal(f's2k_invariant_{account_label}'),
+                        KTerminal('('),
+                        KNonTerminal(KSort('Map')),
+                        KTerminal(')'),
+                    ],
+                    att=KAtt(entries=[Atts.SYMBOL(f's2k_invariant_{account_label}'), Atts.FUNCTION(None)]),
+                )
+            )
+
+            storage_prods.append(
+                KProduction(
+                    KSort('Bool'),
+                    items=[
+                        KTerminal(f's2k_entry_invariant_{account_label}'),
+                        KTerminal('('),
+                        KNonTerminal(KSort('Int')),
+                        KTerminal(','),
+                        KNonTerminal(KSort('Int')),
+                        KTerminal(')'),
+                    ],
+                    att=KAtt(entries=[Atts.SYMBOL(f's2k_entry_invariant_{account_label}'), Atts.FUNCTION(None)]),
+                )
+            )
+
+            storage_prods.append(KRule(KRewrite(KApply(f's2k_invariant_{account_label}', [KApply('.Map')]), TRUE)))
+
+            storage_prods.append(
+                KRule(
+                    KRewrite(
+                        KApply(
+                            f's2k_invariant_{account_label}',
+                            [KApply('_Map_', [KApply('_|->_', [KVariable('K'), KVariable('V')]), KVariable('M')])],
+                        ),
+                        KApply(
+                            '_andBool_',
+                            [
+                                KApply(f's2k_entry_invariant_{account_label}', [KVariable('K'), KVariable('V')]),
+                                KApply(f's2k_invariant_{account_label}', [KVariable('M')]),
+                            ],
+                        ),
+                    ),
+                    requires=KApply(
+                        'notBool_',
+                        [
+                            KApply('_in_keys(_)_MAP_Bool_KItem_Map', [KVariable('K'), KVariable('M')]),
+                        ],
+                    ),
+                )
+            )
+            print(account_label)
+            print(contract_obj.fields)
+            for field in contract_obj.fields:
+                for key, type_name in field.data_type.preds():
+                    print(key)
+                    rp = _range_predicate(term=KVariable('V'), type_label=type_name)
+
+#                      print(KRule(KRewrite(lhs=KApply(
+#                      f's2k_entry_invariant_{account_label}' , [key, KVariable('V')]) , rhs=_range_predicate(term=KVariable('V'), type_label=type_name)
+#                          )))
+
+#                      if rp is not None:
+#                          storage_prods.append(KRule(KRewrite(lhs=KApply(
+#                          f's2k_entry_invariant_{account_label}' , [key, KVariable('V')]) , rhs=rp
+#                              )))
+#                  field.data_type.compute_constraints()
+            print('---')
+
+
+        return storage_prods
+
+    def sentences(self, enums: dict[str, int], contracts: dict[str, Contract]) -> list[KSentence]:
+        sents: list[KSentence] = [self.subsort, self.production] + self.method_sentences(enums)
+        sents += self.storage_productions(contracts)
+        return sents
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -1149,10 +1246,10 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
 
 
 def contract_to_main_module(
-    contract: Contract, empty_config: KInner, enums: dict[str, int], imports: Iterable[str] = ()
+        contract: Contract, empty_config: KInner, enums: dict[str, int], contracts: dict[str, Contract], imports: Iterable[str] = ()
 ) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
-    return KFlatModule(module_name, contract.sentences(enums), [KImport(i) for i in list(imports)])
+    return KFlatModule(module_name, contract.sentences(enums, contracts), [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, empty_config: KInner, imports: Iterable[str]) -> KFlatModule:
@@ -1404,6 +1501,114 @@ def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[st
     _find_function_calls(node)
     return function_calls
 
+@dataclass
+class StorageFieldType:
+    name: str
+    pred: KInner | None
+
+    def compute_preds(self, base_pred: KInner) -> None:
+        self.pred = base_pred
+
+    def preds(self) -> list[tuple[KInner, str]]:
+        assert self.pred is not None
+        return [(self.pred, self.name)]
+
+    def pred_vars(self) -> list[KInner]:
+        return []
+
+    def compute_constraints(self) -> list[KInner]:
+
+        constraints: list[KInner] = []
+#          for pred, pred_type in self.preds():
+#              constraints.append(
+#                  KRule(KRewrite(lhs=))
+#              )
+#              print(pred, pred_type)
+#              assert isinstance(pred, KApply)
+#              constraint = _range_predicate(term=KEVM.lookup(storage_map, pred.args[1]), type_label=pred_type)
+#              if constraint is not None:
+#                  constraint = mlEqualsTrue(constraint)
+#                  for pred_var in self.pred_vars():
+#                      constraint = KLabel('#Forall', K_ITEM, GENERATED_TOP_CELL)(pred_var, constraint)
+#                  constraints.append(constraint)
+        return constraints
+
+@dataclass
+class StorageFieldArrayType(StorageFieldType):
+    base_type: StorageFieldType
+
+
+@dataclass
+class StorageFieldMappingType(StorageFieldType):
+    key_type: StorageFieldType
+    val_type: StorageFieldType
+    pred_var: tuple[KInner, ...] = ()
+
+    def pred_vars(self) -> list[KInner]:
+        return list(self.pred_var) + self.val_type.pred_vars()
+
+    def compute_preds(self, base_pred: KInner) -> None:
+        ...
+#          variable = KVariable('V_' + hash_str(base_pred)[0:8])
+#          self.pred_var = (variable,)
+#          self.pred = base_pred
+#          self.val_type.compute_preds(
+#                  KApply('buf', [intToken(32),
+#                  KApply('keccak', [
+#                      KEVM.bytes_append(
+#                          variable,
+#                          base_pred,
+#                      )
+#                  ])
+#                  ])
+#          )
+
+    def preds(self) -> list[tuple[KInner, str]]:
+#          assert self.pred is not None
+#          return [(self.pred, self.name)] + self.val_type.preds()
+        return []
+
+@dataclass
+class StorageFieldStructType(StorageFieldType):
+    members: tuple[StorageField, ...]
+
+
+def build_storage_field_type(dct: dict, types_dct: dict, interface_annotations: dict) -> StorageFieldType:
+    if 'key' in dct:
+        # Mapping
+        return StorageFieldMappingType(
+            name=dct['label'], 
+            key_type=build_storage_field_type(types_dct[dct['key']], types_dct, interface_annotations),
+            val_type=build_storage_field_type(types_dct[dct['value']], types_dct, interface_annotations),
+            pred=None,
+        )
+    elif 'members' in dct:
+        # Struct
+        return StorageFieldStructType(
+            name=dct['label'],
+            members=tuple(storage_field_from_dict(member, types_dct, interface_annotations) for member in dct['members']),
+            pred=None,
+        )
+    elif 'base' in dct:
+        # Array
+        return StorageFieldArrayType(
+            name=dct['label'],
+            base_type=build_storage_field_type(types_dct[dct['base']], types_dct, interface_annotations),
+            pred=None,
+        )
+    else:
+        # Other
+        return StorageFieldType(name=dct['label'], pred=None)
+
+
+def storage_field_from_dict(dct: dict, types_dct: dict, interface_annotations: dict) -> StorageField:
+    label= dct['label']
+    slot = int(dct['slot'])
+    offset = int(dct['offset'])
+    data_type = build_storage_field_type(types_dct[dct['type']], types_dct, interface_annotations)
+    linked_interface = interface_annotations.get(dct['label'], None)
+    return StorageField(label, data_type, slot, offset, linked_interface)
+
 
 def _contract_name_from_bytecode(
     bytecode: bytes, contracts: dict[str, tuple[str, list[tuple[int, int]], list[tuple[int, int]]]]
@@ -1434,15 +1639,9 @@ def process_storage_layout(storage_layout: dict, interface_annotations: dict) ->
     fields_list: list[StorageField] = []
     for field in storage:
         try:
-            type_info = types.get(field['type'], {})
-            storage_field = StorageField(
-                label=field['label'],
-                data_type=type_info.get('label', field['type']),
-                slot=int(field['slot']),
-                offset=int(field['offset']),
-                linked_interface=interface_annotations.get(field['label'], None),
-            )
+            storage_field = storage_field_from_dict(field, types, interface_annotations)
             fields_list.append(storage_field)
+            storage_field.data_type.compute_preds(intToken(storage_field.slot))
         except (KeyError, ValueError) as e:
             _LOGGER.error(f'Error processing field {field}: {e}')
 

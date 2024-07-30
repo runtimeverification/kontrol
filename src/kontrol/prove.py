@@ -12,7 +12,9 @@ from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from pathos.pools import ProcessPool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
+from pyk.kast.outer import KProduction, KFlatModule, KImport, KTerminal, KNonTerminal
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
+from pyk.konvert import kflatmodule_to_kore
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
@@ -25,7 +27,7 @@ from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
-from pyk.proof.reachability import APRFailureInfo, APRProof
+from pyk.proof.reachability import APRFailureInfo, APRProof, APRProver
 from pyk.utils import run_process_2, unique
 
 from .foundry import Foundry, foundry_to_xml
@@ -36,6 +38,8 @@ from .state_record import StateDiffEntry, StateDumpEntry
 from .utils import console, parse_test_version_tuple
 
 if TYPE_CHECKING:
+    from pyk.kast.outer import KSentence
+#      from pyk.kast.outer import KRule
     from collections.abc import Iterable
     from typing import Final, TypeGuard
 
@@ -294,6 +298,55 @@ class PreexistingKoreServer(OptionalKoreServer):
     def port(self) -> int:
         return self._port
 
+class KontrolAPRProver(APRProver):
+    accounts: list[str]
+
+    def __init__(
+        self,
+        kcfg_explore: KCFGExplore,
+        accounts: list[str],
+        execute_depth: int | None = None,
+        cut_point_rules: Iterable[str] = (),
+        terminal_rules: Iterable[str] = (),
+        counterexample_info: bool = False,
+        always_check_subsumption: bool = True,
+        fast_check_subsumption: bool = False,
+        direct_subproof_rules: bool = False,
+    ) -> None:
+
+        self.accounts = accounts
+        super().__init__(kcfg_explore, execute_depth, cut_point_rules, terminal_rules, counterexample_info, always_check_subsumption, fast_check_subsumption, direct_subproof_rules)
+
+    def init_proof(self, proof: APRProof) -> None:
+        def _inject_module(module_name: str, import_name: str, sentences: list[KSentence]) -> None:
+            _module = KFlatModule(module_name, sentences, [KImport(import_name)])
+            print(_module)
+            _kore_module = kflatmodule_to_kore(self.kcfg_explore.cterm_symbolic._definition, _module)
+            self.kcfg_explore.cterm_symbolic._kore_client.add_module(_kore_module, name_as_id=True)
+
+        subproofs: list[Proof] = (
+            [Proof.read_proof_data(proof.proof_dir, i) for i in proof.subproof_ids]
+            if proof.proof_dir is not None
+            else []
+        )
+        dependencies_as_rules: list[KSentence] = [
+            rule
+            for subproof in subproofs
+            if isinstance(subproof, APRProof)
+            for rule in subproof.as_rules(priority=20, direct_rule=self.direct_subproof_rules)
+        ]
+        storage_invariants: list[KSentence] = [
+            KProduction(KSort('Bool'), [KTerminal(f'{account}_storage_invariant'), KTerminal('('), KNonTerminal(KSort('Map')), KTerminal(')')]) for account in self.accounts
+        ]
+        circularity_rule = proof.as_rule(priority=20)
+
+        _inject_module(proof.dependencies_module_name, self.main_module_name, dependencies_as_rules + storage_invariants)
+        _inject_module(proof.circularities_module_name, proof.dependencies_module_name, [circularity_rule])
+
+        for node_id in [proof.init, proof.target]:
+            if self.kcfg_explore.kcfg_semantics.is_terminal(proof.kcfg.node(node_id).cterm):
+                proof.add_terminal(node_id)
+
 
 def _run_cfg_group(
     tests: list[FoundryTest],
@@ -363,6 +416,7 @@ def _run_cfg_group(
                     id=test.id,
                 )
 
+
             if proof is None:
                 # With CSE, top-level proof should be a summary if it's not a test or setUp function
                 if (
@@ -407,9 +461,20 @@ def _run_cfg_group(
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
+
+#              def create_apr_prover() -> APRProver:
+#                  return KontrolAPRProver(
+#                      create_kcfg_explore(),
+#                      accounts=['abc', 'def', 'ghi'],
+#                      execute_depth=options.max_depth,
+#                      terminal_rules=KEVMSemantics.terminal_rules(options.break_every_step),
+#                      cut_point_rules=cut_point_rules,
+#                      counterexample_info=options.counterexample_info,
+#                  )
             run_prover(
                 proof,
                 create_kcfg_explore=create_kcfg_explore,
+#                  create_apr_prover=create_apr_prover,
                 max_depth=options.max_depth,
                 max_iterations=options.max_iterations,
                 cut_point_rules=cut_point_rules,
@@ -1065,9 +1130,18 @@ def _create_cse_accounts(
     ]
 
     for field in storage_fields:
+
+#          for constraint in field.data_type.compute_constraints(storage_map):
+#              new_account_constraints.append(constraint)
+#              print(constraint)
+#              print(field.data_type.slot_vars())
+
+#          if isinstance(field.data_type, StorageFieldMappingType):
+#              ...
+
         field_name = contract_name + '_' + field.label.upper()
-        if field.data_type.startswith('enum'):
-            enum_name = field.data_type.split(' ')[1]
+        if field.data_type.name.startswith('enum'):
+            enum_name = field.data_type.name.split(' ')[1]
             if enum_name not in foundry.enums:
                 _LOGGER.warning(
                     f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
@@ -1083,7 +1157,7 @@ def _create_cse_accounts(
                     )
                 )
         # Processing of strings
-        if field.data_type == 'string':
+        if field.data_type.name == 'string':
             string_contents = KVariable(field_name + '_S_CONTENTS', sort=KSort('Bytes'))
             string_length = KVariable(field_name + '_S_LENGTH', sort=KSort('Int'))
             string_structure = KEVM.as_word(
@@ -1107,7 +1181,7 @@ def _create_cse_accounts(
             new_account_constraints.append(mlEqualsTrue(string_length_lb))
             new_account_constraints.append(mlEqualsTrue(string_length_ub))
         # Processing of addresses
-        if field.data_type == 'address':
+        if field.data_type.name == 'address':
             if field.slot in singly_occupied_slots:
                 # The offset must equal zero
                 assert field.offset == 0
@@ -1120,11 +1194,11 @@ def _create_cse_accounts(
                 new_account_constraints.append(mlEqualsTrue(address_range_lb))
                 new_account_constraints.append(mlEqualsTrue(address_range_ub))
         # Processing of contracts
-        if field.data_type.startswith('contract '):
+        if field.data_type.name.startswith('contract '):
             if field.linked_interface:
                 contract_type = field.linked_interface
             else:
-                contract_type = field.data_type.split(' ')[1]
+                contract_type = field.data_type.name.split(' ')[1]
             for full_contract_name, contract_obj in foundry.contracts.items():
                 # TODO: this is not enough, it is possible that the same contract comes with
                 # src% and test%, in which case we don't know automatically which one to choose
@@ -1204,6 +1278,11 @@ def _create_cse_accounts(
                                 )
                             )
                         )
+
+                    new_account_constraints.append(mlEqualsTrue(KApply(
+                        f's2k_invariant_{field_name}', [storage_map]
+                    )))
+
 
                     contract_accounts, contract_constraints = _create_cse_accounts(
                         foundry, contract_obj.fields, field_name, contract_account_code
