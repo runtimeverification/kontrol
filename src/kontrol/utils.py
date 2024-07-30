@@ -19,6 +19,8 @@ def _read_digest_file(digest_file: Path) -> dict:
         digest_dict = json.loads(digest_file.read_text())
     else:
         digest_dict = {}
+    if 'methods' not in digest_dict:
+        digest_dict['methods'] = {}
     return digest_dict
 
 
