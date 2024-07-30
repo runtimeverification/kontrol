@@ -38,6 +38,7 @@ from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
 from .utils import (
+    _read_digest_file,
     append_to_file,
     empty_lemmas_file_contents,
     foundry_toml_extra_contents,
@@ -298,16 +299,12 @@ class Foundry:
     def up_to_date(self) -> bool:
         if not self.digest_file.exists():
             return False
-        digest_dict = json.loads(self.digest_file.read_text())
-        if 'foundry' not in digest_dict:
-            digest_dict['foundry'] = ''
+        digest_dict = _read_digest_file(self.digest_file)
         self.digest_file.write_text(json.dumps(digest_dict, indent=4))
-        return digest_dict['foundry'] == self.digest
+        return digest_dict.get('foundry', '') == self.digest
 
     def update_digest(self) -> None:
-        digest_dict = {}
-        if self.digest_file.exists():
-            digest_dict = json.loads(self.digest_file.read_text())
+        digest_dict = _read_digest_file(self.digest_file)
         digest_dict['foundry'] = self.digest
         self.digest_file.write_text(json.dumps(digest_dict, indent=4))
 

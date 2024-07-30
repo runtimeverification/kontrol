@@ -12,10 +12,11 @@ from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
 from pyk.utils import ensure_dir_path, hash_str
 
+from . import VERSION
 from .foundry import Foundry
 from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
-from .utils import _rv_blue, console
+from .utils import _read_digest_file, _rv_blue, console
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -124,17 +125,14 @@ def foundry_kompile(
     def kompilation_up_to_date() -> bool:
         if not foundry.digest_file.exists():
             return False
-        digest_dict = json.loads(foundry.digest_file.read_text())
-        if 'kompilation' not in digest_dict:
-            digest_dict['kompilation'] = ''
+        digest_dict = _read_digest_file(foundry.digest_file)
         foundry.digest_file.write_text(json.dumps(digest_dict, indent=4))
-        return digest_dict['kompilation'] == kompilation_digest()
+        return digest_dict.get('kompilation', '') == kompilation_digest()
 
     def update_kompilation_digest() -> None:
-        digest_dict = {}
-        if foundry.digest_file.exists():
-            digest_dict = json.loads(foundry.digest_file.read_text())
+        digest_dict = _read_digest_file(foundry.digest_file)
         digest_dict['kompilation'] = kompilation_digest()
+        digest_dict['kontrol'] = VERSION
         foundry.digest_file.write_text(json.dumps(digest_dict, indent=4))
 
         _LOGGER.info('Updated Kompilation digest')
