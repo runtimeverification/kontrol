@@ -17,8 +17,6 @@ from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
-from pyk.prelude.ml import mlEqualsTrue
-from pyk.prelude.k import K_ITEM, GENERATED_TOP_CELL
 from pyk.utils import hash_str, run_process_2, single
 
 if TYPE_CHECKING:
@@ -1076,19 +1074,19 @@ class Contract:
                     return contract_obj
             raise ValueError(f'Contract {type_name} not found.')
 
-        def gen_accounts_list(contract: Contract, contract_name: str) -> list[str]:
-            accounts_list: list[str] = []
+        def gen_accounts_list(contract: Contract, contract_name: str) -> list[tuple[str, Contract]]:
+            accounts_list: list[tuple[str, Contract]] = []
             for field in contract.fields:
                 if field.data_type.name.startswith('contract '):
                     field_name = f'C_{contract_name}_{field.label}'.upper()
-                    accounts_list.append(field_name)
                     contract_type = field.data_type.name.split(' ')[1]
                     contract = get_contract(contract_type)
+                    accounts_list.append((field_name, contract))
                     accounts_list += gen_accounts_list(contract=contract, contract_name=field_name)
             return accounts_list
 
         storage_prods: list[KSentence] = []
-        for account_label in gen_accounts_list(self, self._name):
+        for account_label, contract_obj in gen_accounts_list(self, self._name):
             storage_prods.append(
                 KProduction(
                     KSort('Bool'),
@@ -1142,6 +1140,24 @@ class Contract:
                     ),
                 )
             )
+            print(account_label)
+            print(contract_obj.fields)
+            for field in contract_obj.fields:
+                for key, type_name in field.data_type.preds():
+                    print(key)
+                    rp = _range_predicate(term=KVariable('V'), type_label=type_name)
+
+#                      print(KRule(KRewrite(lhs=KApply(
+#                      f's2k_entry_invariant_{account_label}' , [key, KVariable('V')]) , rhs=_range_predicate(term=KVariable('V'), type_label=type_name)
+#                          )))
+
+#                      if rp is not None:
+#                          storage_prods.append(KRule(KRewrite(lhs=KApply(
+#                          f's2k_entry_invariant_{account_label}' , [key, KVariable('V')]) , rhs=rp
+#                              )))
+#                  field.data_type.compute_constraints()
+            print('---')
+
 
         return storage_prods
 
@@ -1484,17 +1500,21 @@ class StorageFieldType:
     def pred_vars(self) -> list[KInner]:
         return []
 
-    def compute_constraints(self, storage_map: KInner) -> list[KInner]:
+    def compute_constraints(self) -> list[KInner]:
 
         constraints: list[KInner] = []
-        for pred, pred_type in self.preds():
-            assert isinstance(pred, KApply)
-            constraint = _range_predicate(term=KEVM.lookup(storage_map, pred.args[1]), type_label=pred_type)
-            if constraint is not None:
-                constraint = mlEqualsTrue(constraint)
-                for pred_var in self.pred_vars():
-                    constraint = KLabel('#Forall', K_ITEM, GENERATED_TOP_CELL)(pred_var, constraint)
-                constraints.append(constraint)
+#          for pred, pred_type in self.preds():
+#              constraints.append(
+#                  KRule(KRewrite(lhs=))
+#              )
+#              print(pred, pred_type)
+#              assert isinstance(pred, KApply)
+#              constraint = _range_predicate(term=KEVM.lookup(storage_map, pred.args[1]), type_label=pred_type)
+#              if constraint is not None:
+#                  constraint = mlEqualsTrue(constraint)
+#                  for pred_var in self.pred_vars():
+#                      constraint = KLabel('#Forall', K_ITEM, GENERATED_TOP_CELL)(pred_var, constraint)
+#                  constraints.append(constraint)
         return constraints
 
 @dataclass
@@ -1512,23 +1532,25 @@ class StorageFieldMappingType(StorageFieldType):
         return list(self.pred_var) + self.val_type.pred_vars()
 
     def compute_preds(self, base_pred: KInner) -> None:
-        variable = KVariable('V_' + hash_str(base_pred)[0:8])
-        self.pred_var = (variable,)
-        self.pred = base_pred
-        self.val_type.compute_preds(
-                KApply('buf', [intToken(32),
-                KApply('keccak', [
-                    KEVM.bytes_append(
-                        variable,
-                        base_pred,
-                    )
-                ])
-                ])
-        )
+        ...
+#          variable = KVariable('V_' + hash_str(base_pred)[0:8])
+#          self.pred_var = (variable,)
+#          self.pred = base_pred
+#          self.val_type.compute_preds(
+#                  KApply('buf', [intToken(32),
+#                  KApply('keccak', [
+#                      KEVM.bytes_append(
+#                          variable,
+#                          base_pred,
+#                      )
+#                  ])
+#                  ])
+#          )
 
     def preds(self) -> list[tuple[KInner, str]]:
-        assert self.pred is not None
-        return [(self.pred, self.name)] + self.val_type.preds()
+#          assert self.pred is not None
+#          return [(self.pred, self.name)] + self.val_type.preds()
+        return []
 
 @dataclass
 class StorageFieldStructType(StorageFieldType):
@@ -1581,7 +1603,7 @@ def process_storage_layout(storage_layout: dict, interface_annotations: dict) ->
         try:
             storage_field = storage_field_from_dict(field, types, interface_annotations)
             fields_list.append(storage_field)
-            storage_field.data_type.compute_preds(KApply('buf', [intToken(32), intToken(storage_field.slot)]))
+            storage_field.data_type.compute_preds(intToken(storage_field.slot))
         except (KeyError, ValueError) as e:
             _LOGGER.error(f'Error processing field {field}: {e}')
 
