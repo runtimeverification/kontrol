@@ -746,6 +746,8 @@ class Contract:
     contract_id: int
     contract_path: str
     deployed_bytecode: str
+    immutable_ranges: list[tuple[int, int]]
+    link_ranges: list[tuple[int, int]]
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
@@ -768,6 +770,20 @@ class Contract:
         evm = self.contract_json['evm'] if not foundry else self.contract_json
 
         deployed_bytecode = evm['deployedBytecode']
+
+        self.immutable_ranges = [
+            (rng['start'], rng['length'])
+            for ref in deployed_bytecode.get('immutableReferences', {}).values()
+            for rng in ref
+        ]
+
+        self.link_ranges = [
+            (rng['start'], rng['length'])
+            for ref in deployed_bytecode.get('linkReferences', {}).values()
+            for rng_grp in ref
+            for rng in rng_grp
+        ]
+
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
 
@@ -1592,6 +1608,28 @@ def storage_field_from_dict(dct: dict, types_dct: dict, interface_annotations: d
     data_type = build_storage_field_type(types_dct[dct['type']], types_dct, interface_annotations)
     linked_interface = interface_annotations.get(dct['label'], None)
     return StorageField(label, data_type, slot, offset, linked_interface)
+
+
+def _contract_name_from_bytecode(
+    bytecode: bytes, contracts: dict[str, tuple[str, list[tuple[int, int]], list[tuple[int, int]]]]
+) -> str | None:
+    for contract_name, (contract_deployed_bytecode, immutable_ranges, link_ranges) in contracts.items():
+        zeroed_bytecode = bytearray(bytecode)
+        deployed_bytecode_str = re.sub(
+            pattern='__\\$(.){34}\\$__',
+            repl='0000000000000000000000000000000000000000',
+            string=contract_deployed_bytecode,
+        )
+        deployed_bytecode = bytearray.fromhex(deployed_bytecode_str)
+
+        for start, length in immutable_ranges + link_ranges:
+            if start + length <= len(zeroed_bytecode):
+                zeroed_bytecode[start : start + length] = bytearray(length)
+            else:
+                break
+        if zeroed_bytecode == deployed_bytecode:
+            return contract_name
+    return None
 
 
 def process_storage_layout(storage_layout: dict, interface_annotations: dict) -> tuple[StorageField, ...]:
