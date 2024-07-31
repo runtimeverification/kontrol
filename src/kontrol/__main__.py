@@ -97,6 +97,7 @@ def _load_foundry(
     bug_report: BugReport | None = None,
     use_hex_encoding: bool = False,
     add_enum_constraints: bool = False,
+    expand_config: bool = False,
 ) -> Foundry:
     try:
         foundry = Foundry(
@@ -104,6 +105,7 @@ def _load_foundry(
             bug_report=bug_report,
             use_hex_encoding=use_hex_encoding,
             add_enum_constraints=add_enum_constraints,
+            expand_config=expand_config,
         )
     except FileNotFoundError:
         print(
@@ -279,6 +281,7 @@ def exec_show(options: ShowOptions) -> None:
             options.foundry_root,
             use_hex_encoding=options.use_hex_encoding,
             add_enum_constraints=options.enum_constraints,
+            expand_config=options.expand_config,
         ),
         options=options,
     )

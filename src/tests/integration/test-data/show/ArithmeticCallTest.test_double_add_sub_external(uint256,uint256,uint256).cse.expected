@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%ArithmeticCallTest.setUp()
 │
 │  (1077 steps)
 ├─ 7 (split)
@@ -11,6 +12,7 @@
 │   pc: 0
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
+│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃
 ┃ (branch)
 ┣━━┓ constraints:
@@ -22,6 +24,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
 ┃  └─ 12 (leaf, terminal)
@@ -29,6 +32,7 @@
 ┃      pc: 1584
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
+┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃
 ┣━━┓ constraint: ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
 ┃  │
@@ -37,6 +41,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
 ┃  └─ 13 (leaf, terminal)
@@ -44,6 +49,7 @@
 ┃      pc: 1584
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
+┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃
 ┣━━┓ constraints:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
@@ -56,6 +62,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (503 steps)
 ┃  └─ 18 (leaf, terminal)
@@ -63,6 +70,7 @@
 ┃      pc: 1708
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
+┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃
 ┣━━┓ constraints:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
@@ -74,6 +82,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (503 steps)
 ┃  └─ 19 (leaf, terminal)
@@ -81,6 +90,7 @@
 ┃      pc: 1708
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
+┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃
 ┣━━┓ constraints:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
@@ -94,6 +104,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (759 steps)
 ┃  ├─ 22 (terminal)
@@ -101,6 +112,7 @@
 ┃  │   pc: 248
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  ┊  constraint: true
 ┃  ┊  subst: OMITTED SUBST
@@ -122,6 +134,7 @@
    │   pc: 0
    │   callDepth: 1
    │   statusCode: STATUSCODE:StatusCode
+   │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
    │
    │  (762 steps)
    └─ 23 (leaf, terminal)
@@ -129,6 +142,7 @@
        pc: 3736
        callDepth: 0
        statusCode: EVMC_REVERT
+       method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 
 
 

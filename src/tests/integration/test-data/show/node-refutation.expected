@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%MergeTest.test_branch_merge(uint256)
 │
 │  (324 steps)
 ├─ 3 (split)
@@ -11,6 +12,7 @@
 │   pc: 525
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%MergeTest.test_branch_merge(uint256)
 ┃
 ┃ (branch)
 ┣━━┓ constraint: 10 <=Int VV0_x_114b9705:Int
@@ -20,6 +22,7 @@
 ┃      pc: 525
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
+┃      method: test%MergeTest.test_branch_merge(uint256)
 ┃
 ┗━━┓ constraint: VV0_x_114b9705:Int <Int 10
    │
@@ -28,6 +31,7 @@
    │   pc: 525
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (90 steps)
    ├─ 12
@@ -35,6 +39,7 @@
    │   pc: 235
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (1 step)
    ├─ 13
@@ -42,6 +47,7 @@
    │   pc: 235
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (2 steps)
    ├─ 14 (terminal)
@@ -49,6 +55,7 @@
    │   pc: 235
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   method: test%MergeTest.test_branch_merge(uint256)
    │
    ┊  constraint: true
    ┊  subst: OMITTED SUBST

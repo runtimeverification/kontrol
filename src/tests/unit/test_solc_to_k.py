@@ -11,6 +11,7 @@ from kontrol.solc_to_k import (
     Contract,
     Input,
     StorageField,
+    _contract_name_from_bytecode,
     _range_predicates,
     find_function_calls,
     process_length_equals,
@@ -614,3 +615,33 @@ def test_storage_layout_fields(
     output = process_storage_layout(storage_layout, interface_annotations)
     # Then
     assert output == expected
+
+
+def test_contract_name_from_bytecode() -> None:
+    contract_data: dict[str, tuple[str, list[tuple[int, int]], list[tuple[int, int]]]] = {
+        'contract1': ('00000000ffffffffffffffff', [(0, 4)], []),
+        'contract2': ('aaaaaaaaaa000000000000aa', [(5, 6)], []),
+        'contract3': (
+            'bbbbbbbbbbbbbbbbbbbbbb__$53aea86b7d70b31448b230b20ae141a537$__bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+            [],
+            [(11, 20)],
+        ),
+    }
+
+    assert (
+        _contract_name_from_bytecode(bytecode=bytes.fromhex('ddddddddffffffffffffffff'), contracts=contract_data)
+        == 'contract1'
+    )
+    assert (
+        _contract_name_from_bytecode(bytecode=bytes.fromhex('aaaaaaaaaa111111111111aa'), contracts=contract_data)
+        == 'contract2'
+    )
+    assert (
+        _contract_name_from_bytecode(
+            bytecode=bytes.fromhex(
+                'bbbbbbbbbbbbbbbbbbbbbb7777777777777777777777777777777777777777bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+            ),
+            contracts=contract_data,
+        )
+        == 'contract3'
+    )
