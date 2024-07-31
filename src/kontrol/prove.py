@@ -486,11 +486,12 @@ def _run_cfg_group(
             done_tests = 0
             failed_tests = 0
             passed_tests = 0
-            task = progress.add_task(
-                f'Multi-proof Mode ({options.workers} workers)',
-                status='Running',
-                summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
-            )
+            if not options.hide_status_bar:
+                task = progress.add_task(
+                    f'Multi-proof Mode ({options.workers} workers)',
+                    status='Running',
+                    summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
+                )
 
             def update_status_bar(test_id: str) -> None:
                 nonlocal done_tests, failed_tests, passed_tests, progress
@@ -500,9 +501,12 @@ def _run_cfg_group(
                     passed_tests += 1
                 elif proof.failed:
                     failed_tests += 1
-                progress.update(
-                    task, summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.'
-                )
+                if not options.hide_status_bar:
+                    if progress is not None:
+                        progress.update(
+                            task,
+                            summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
+                        )
 
             with Pool(processes=options.workers) as process_pool:
                 results = [
@@ -514,12 +518,14 @@ def _run_cfg_group(
 
                 process_pool.close()
                 process_pool.join()
-            progress.update(task, status='Finished', advance=1)
+            if not options.hide_status_bar:
+                if progress is not None:
+                    progress.update(task, status='Finished', advance=1)
             failure_infos = [result.get() for result in results]
         else:
             failure_infos = []
             for test in tests:
-                failure_infos.append(init_and_run_proof(test, progress))
+                failure_infos.append(init_and_run_proof(test, None if options.hide_status_bar else progress))
 
         proofs = [foundry.get_apr_proof(test.id) for test in tests]
 
