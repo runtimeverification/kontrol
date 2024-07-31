@@ -482,7 +482,7 @@ def _run_cfg_group(
     ) as progress:
 
         failure_infos: list[APRFailureInfo | Exception | None]
-        if options.workers > 1:  # and len(tests) > 1:
+        if options.workers > 1 and len(tests) > 1:
             done_tests = 0
             failed_tests = 0
             passed_tests = 0
