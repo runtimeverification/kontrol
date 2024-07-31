@@ -493,7 +493,7 @@ def _run_cfg_group(
                     summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
                 )
 
-            def update_status_bar(test_id: str) -> None:
+            def update_status_bar(test_id: str, result: Any) -> None:
                 nonlocal done_tests, failed_tests, passed_tests, progress
                 done_tests += 1
                 proof = foundry.get_apr_proof(test_id)
