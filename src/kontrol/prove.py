@@ -492,7 +492,7 @@ def _run_cfg_group(
                 summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
             )
 
-            def my_callback(test_id: str) -> None:
+            def update_status_bar(test_id: str) -> None:
                 nonlocal done_tests, failed_tests, passed_tests, progress
                 done_tests += 1
                 proof = foundry.get_apr_proof(test_id)
@@ -506,7 +506,9 @@ def _run_cfg_group(
 
             with Pool(processes=options.workers) as process_pool:
                 results = [
-                    process_pool.apply_async(init_and_run_proof, args=(test,), callback=partial(my_callback, test.id))
+                    process_pool.apply_async(
+                        init_and_run_proof, args=(test,), callback=partial(update_status_bar, test.id)
+                    )
                     for test in tests
                 ]
 
