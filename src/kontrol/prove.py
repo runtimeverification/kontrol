@@ -318,14 +318,14 @@ def _run_cfg_group(
         proof = None
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
             proof = foundry.get_apr_proof(test.id)
-            if progress is not None and task is not None:
-                progress.update(
-                    task,
-                    status='Finished',
-                    summary=proof.one_line_summary,
-                    advance=1,
-                )
             if proof.passed:
+                if progress is not None and task is not None:
+                    progress.update(
+                        task,
+                        status='Finished',
+                        summary=proof.one_line_summary,
+                        advance=1,
+                    )
                 return None
         start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
 
@@ -335,7 +335,7 @@ def _run_cfg_group(
 
         def select_server() -> OptionalKoreServer:
             if progress is not None and task is not None:
-                progress.update(task, status='Starting KoreServer')
+                progress.update(task, status='Starting KoreServer', summary=proof.one_line_summary)
             if options.port is not None:
                 return PreexistingKoreServer(options.port)
             else:
@@ -386,7 +386,7 @@ def _run_cfg_group(
 
             if proof is None:
                 if progress is not None and task is not None:
-                    progress.update(task, status='Initializing proof')
+                    progress.update(task, status='Initializing proof', summary=proof.one_line_summary)
                 # With CSE, top-level proof should be a summary if it's not a test or setUp function
                 if (
                     (options.cse or options.include_summaries)
