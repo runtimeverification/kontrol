@@ -5,12 +5,13 @@ import time
 from abc import abstractmethod
 from collections import Counter
 from copy import copy
+from functools import partial
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
-from pathos.pools import ProcessPool  # type: ignore
+from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
@@ -481,11 +482,38 @@ def _run_cfg_group(
     ) as progress:
 
         failure_infos: list[APRFailureInfo | Exception | None]
-        if options.workers > 1 and len(tests) > 1:
-            task = progress.add_task('Running multiple proofs')
-            with ProcessPool(ncpus=options.workers) as process_pool:
-                failure_infos = process_pool.map(init_and_run_proof, tests)
+        if options.workers > 1:  # and len(tests) > 1:
+            done_tests = 0
+            failed_tests = 0
+            passed_tests = 0
+            task = progress.add_task(
+                f'Multi-proof Mode ({options.workers} workers)',
+                status='Running',
+                summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
+            )
+
+            def my_callback(test_id: str) -> None:
+                nonlocal done_tests, failed_tests, passed_tests, progress
+                done_tests += 1
+                proof = foundry.get_apr_proof(test_id)
+                if proof.passed:
+                    passed_tests += 1
+                elif proof.failed:
+                    failed_tests += 1
+                progress.update(
+                    task, summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.'
+                )
+
+            with Pool(processes=options.workers) as process_pool:
+                results = [
+                    process_pool.apply_async(init_and_run_proof, args=(test,), callback=partial(my_callback, test.id))
+                    for test in tests
+                ]
+
+                process_pool.close()
+                process_pool.join()
             progress.update(task, status='Finished', advance=1)
+            failure_infos = [result.get() for result in results]
         else:
             failure_infos = []
             for test in tests:
