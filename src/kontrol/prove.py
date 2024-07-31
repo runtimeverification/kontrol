@@ -335,7 +335,9 @@ def _run_cfg_group(
 
         def select_server() -> OptionalKoreServer:
             if progress is not None and task is not None:
-                progress.update(task, status='Starting KoreServer', summary=proof.one_line_summary)
+                progress.update(
+                    task, status='Starting KoreServer', summary=proof.one_line_summary if proof is not None else '---'
+                )
             if options.port is not None:
                 return PreexistingKoreServer(options.port)
             else:
@@ -386,7 +388,7 @@ def _run_cfg_group(
 
             if proof is None:
                 if progress is not None and task is not None:
-                    progress.update(task, status='Initializing proof', summary=proof.one_line_summary)
+                    progress.update(task, status='Initializing proof')
                 # With CSE, top-level proof should be a summary if it's not a test or setUp function
                 if (
                     (options.cse or options.include_summaries)
