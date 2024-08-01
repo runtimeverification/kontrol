@@ -8,14 +8,14 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
-from antlr4 import CommonTokenStream, InputStream # type: ignore
+from antlr4 import CommonTokenStream, InputStream  # type: ignore
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
-from pyk.prelude.kbool import TRUE, FALSE, andBool
+from pyk.prelude.kbool import FALSE, TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process_2, single
@@ -1566,7 +1566,7 @@ class AnnotationVisitor(SolidityVisitor):
         if op in operator_mapping:
             operator_label = operator_mapping[op]
         else:
-            raise ValueError(f"Unsupported operator in a precondition: {op}")
+            raise ValueError(f'Unsupported operator in a precondition: {op}')
 
         return KApply(operator_label, left, right)
 
@@ -1599,15 +1599,14 @@ class AnnotationVisitor(SolidityVisitor):
             if input.name == var_name:
                 # TODO(palina): add support for complex types
                 return abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{input.arg_name}')
-        else:
-            # TODO: add support for storage fields
-            # for field in self.method.contract.storage_fields:
-                # if field.name == var_name:
-                    # Perform the necessary action for a matching storage field
-                    # break  # Exit the loop once the matching field is found
-            raise ValueError(f"Not implemented yet: {var_name}")
-        raise ValueError(f"Not implemented yet: {var_name}")
-    
+
+        # TODO: add support for storage fields
+        # for field in self.method.contract.storage_fields:
+        # if field.name == var_name:
+        # Perform the necessary action for a matching storage field
+        # break  # Exit the loop once the matching field is found
+        raise ValueError(f'Not implemented yet: {var_name}')
+
     # def visitLengthAccess(self, ctx: SolidityParser.LengthAccessContext):
     #     var_name = ctx.variableName().getText()
     #     return len(self.context.get(var_name, ""))
