@@ -955,6 +955,7 @@ def foundry_minimize_proof(foundry: Foundry, options: MinimizeProofOptions) -> N
     test_id = foundry.get_test_id(options.test, options.version)
     apr_proof = foundry.get_apr_proof(test_id)
     apr_proof.minimize_kcfg()
+    apr_proof.kcfg.merge_nodes(KEVMSemantics())
     apr_proof.write_proof_data()
 
 
