@@ -653,40 +653,45 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.89"
+kframework = {git = "https://github.com/runtimeverification/k.git", branch = "merge-node", subdirectory = "pyk"}
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.661"
-resolved_reference = "d7f2081dc4c9ee5cbdb4cb507c72ff8a232d8710"
+reference = "merge-node"
+resolved_reference = "2f12b23b7ca3731ac9475ed8250a209e9bcfed23"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.89"
+version = "7.1.0"
 description = ""
 optional = false
-python-versions = "<4.0,>=3.10"
-files = [
-    {file = "kframework-7.1.89-py3-none-any.whl", hash = "sha256:553ec07a40fe859407d0c7f8b88a57d1bbaa4702863ead360850fc74258a71d0"},
-    {file = "kframework-7.1.89.tar.gz", hash = "sha256:899d425237f7f652ba5b8a88b36289b13ed1aa9c12ff380e32e65a6a37c1179e"},
-]
+python-versions = "^3.10"
+files = []
+develop = false
 
 [package.dependencies]
-cmd2 = ">=2.4.2,<3.0.0"
-coloredlogs = ">=15.0.1,<16.0.0"
-filelock = ">=3.9.0,<4.0.0"
-graphviz = ">=0.20.1,<0.21.0"
-hypothesis = ">=6.103.1,<7.0.0"
+cmd2 = "^2.4.2"
+coloredlogs = "^15.0.1"
+filelock = "^3.9.0"
+graphviz = "^0.20.1"
+hypothesis = "^6.103.1"
 psutil = "5.9.5"
-pybind11 = ">=2.10.3,<3.0.0"
+pybind11 = "^2.10.3"
 pytest = "*"
-textual = ">=0.27.0,<0.28.0"
-tomli = ">=2.0.1,<3.0.0"
-xdg-base-dirs = ">=6.0.1,<7.0.0"
+textual = "^0.27.0"
+tomli = "^2.0.1"
+xdg-base-dirs = "^6.0.1"
+
+[package.source]
+type = "git"
+url = "https://github.com/runtimeverification/k.git"
+reference = "merge-node"
+resolved_reference = "2fc635d82de943bc82deb412edee8e131836635f"
+subdirectory = "pyk"
 
 [[package]]
 name = "linkify-it-py"
@@ -1383,4 +1388,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4b0b12700d58a52cff8b9398784139b93269bc6d3d60146b55f4fa20eb8f05a2"
+content-hash = "3c0ee728b17434339504da9f55ee6df6c9ff04589cdafb31b7bb645d0d1dcf46"
