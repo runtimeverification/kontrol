@@ -8,6 +8,7 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
+from antlr4 import CommonTokenStream, InputStream
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
@@ -18,6 +19,10 @@ from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process_2, single
+
+from .solidity.SolidityLexer import SolidityLexer
+from .solidity.SolidityParser import SolidityParser
+from .solidity.SolidityVisitor import SolidityVisitor
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -335,7 +340,9 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     return natspecs
 
 
-def parse_preconditions(devdoc: str | None, method: Contract.Method | Contract.Constructor) -> tuple[Precondition, ...] | None:
+def parse_annotations(
+    devdoc: str | None, method: Contract.Method | Contract.Constructor
+) -> tuple[Precondition, ...] | None:
     """
     Parse developer documentation (devdoc) to extract user-provided preconditions.
 
@@ -359,18 +366,8 @@ def parse_preconditions(devdoc: str | None, method: Contract.Method | Contract.C
         if not precondition:
             continue
 
-        parts = precondition.split()
-        if len(parts) != 3:
-            raise ValueError(f"Invalid precondition expression format: {precondition}, please use 'LHS operator RHS'")
-
-        lhs, operator, rhs = parts
-
-        # Convert lhs and rhs to int if they represent numbers, otherwise keep as string
-        lhs = int(lhs) if lhs.isdigit() else str(lhs)
-        rhs = int(rhs) if rhs.isdigit() else str(lhs)
-
         # Create a Precondition object and add it to the list
-        new_precondition = Precondition(operator, lhs, rhs, method)
+        new_precondition = Precondition(precondition, method)
         preconditions.append(new_precondition)
 
     return tuple(preconditions)
@@ -386,22 +383,14 @@ class StorageField(NamedTuple):
 
 @dataclass
 class Precondition:
-    operator: str
-    rhs: str | int
-    lhs: str | int
+    precondition: str
     method: Contract.Method | Contract.Constructor
 
-    def __init__(self, operator: str, lhs: str | int, rhs: str | int, method: Contract.Method | Contract.Constructor):
+    def __init__(self, precondition: str, method: Contract.Method | Contract.Constructor):
         """
         Initializes a new instance of the Precondition class.
-
-        :param operator: The boolean operator as a string (e.g., '==', '!=', '<=', '>=', '<', '>').
-        :param lhs: The left-hand side operand, which can be an input or storage variable (str) or a constant (int).
-        :param rhs: The left-hand side operand, which can be an input or storage variable (str) or a constant (int).
         """
-        self.operator = operator
-        self.lhs = lhs
-        self.rhs = rhs
+        self.precondition = precondition
         self.method = method
 
     @cached_property
@@ -414,44 +403,19 @@ class Precondition:
         - Operators are translated into the corresponding KLabel application, e.g., `leInt`, `eqInt`, etc.
         """
 
-        # Helper function to determine if a term is a constant or a variable and convert accordingly
-        def convert_term(term: str | int) -> KInner:
-            if isinstance(term, int):
-                return intToken(term)
-            else:
-                for input in self.method.inputs:
-                    if input.name == term:
-                        # TODO(palina): add support for complex types
-                        return abstract_term_safely(
-                            KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{input.arg_name}'
-                        )
-                else:
-                    for field in self.method.contract.storage_fields:
-                        if field.name == term:
-                            # Perform the necessary action for a matching storage field
-                            break  # Exit the loop once the matching field is found
+        # Parse the input expression
+        input_stream = InputStream(self.precondition)
+        lexer = SolidityLexer(input_stream)
 
-            raise ValueError(f"Unknown term: {term}")
+        stream = CommonTokenStream(lexer)
+        parser = SolidityParser(stream)
+        tree = parser.expression()
 
-        # Map operators to KLabel applications
-        operator_mapping = {
-            '<=': '_<=Int_',
-            '>=': '_>=Int_',
-            '==': '_==Int_',
-            '!=': '_=/=Int_',
-            '<': '_<Int_',
-            '>': '_>Int_',
-        }
+        # Evaluate the expression
+        evaluator = AnnotationVisitor(self.method)
+        result = evaluator.visit(tree)
 
-        if self.operator in operator_mapping:
-            operator_label = operator_mapping[self.operator]
-        else:
-            raise ValueError(f"Unsupported operator in a precondition: {self.operator}")
-
-        lhs_converted = convert_term(self.lhs)
-        rhs_converted = convert_term(self.rhs)
-
-        return KApply(operator_label, lhs_converted, rhs_converted)
+        return result
 
 
 @dataclass
@@ -640,9 +604,7 @@ class Contract:
             self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
             self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
             self.preconditions = (
-                parse_preconditions(devdoc.get('custom:kontrol-precondition', None), self)
-                if devdoc is not None
-                else None
+                parse_annotations(devdoc.get('custom:kontrol-precondition', None), self) if devdoc is not None else None
             )
             self.function_calls = tuple(function_calls) if function_calls is not None else None
 
@@ -1565,3 +1527,106 @@ def process_storage_layout(storage_layout: dict, interface_annotations: dict) ->
             _LOGGER.error(f'Error processing field {field}: {e}')
 
     return tuple(fields_list)
+
+
+class AnnotationVisitor(SolidityVisitor):
+    def __init__(self, method: Contract.Method | Contract.Constructor):
+        self.method = method
+
+    # def visitAndExpression(self, ctx: SolidityParser.AndExpressionContext):
+    #     left = self.visit(ctx.booleanExpression(0))
+    #     right = self.visit(ctx.booleanExpression(1))
+    #     return left and right
+
+    # def visitOrExpression(self, ctx: SolidityParser.OrExpressionContext):
+    #     left = self.visit(ctx.booleanExpression(0))
+    #     right = self.visit(ctx.booleanExpression(1))
+    #     return left or right
+
+    # def visitNotExpression(self, ctx: SolidityParser.NotExpressionContext):
+    #     value = self.visit(ctx.booleanExpression())
+    #     return not value
+
+    def visitRelationalExpression(self, ctx: SolidityParser.RelationalExpressionContext) -> KApply:
+        left = self.visit(ctx.arithmeticExpression(0))
+        right = self.visit(ctx.arithmeticExpression(1))
+
+        if left is None or right is None:
+            return None  # Handle None cases appropriately
+
+        op = ctx.RelOp().getText()
+
+        # Map operators to KLabel applications
+        operator_mapping = {
+            '<=': '_<=Int_',
+            '>=': '_>=Int_',
+            '==': '_==Int_',
+            '!=': '_=/=Int_',
+            '<': '_<Int_',
+            '>': '_>Int_',
+        }
+
+        if op in operator_mapping:
+            operator_label = operator_mapping[op]
+        else:
+            raise ValueError(f"Unsupported operator in a precondition: {op}")
+
+        return KApply(operator_label, left, right)
+
+    def visitBooleanLiteral(self, ctx: SolidityParser.BooleanLiteralContext) -> KInner:
+        return TRUE if ctx.getText() == 'true' else FALSE
+
+        # def visitAddExpression(self, ctx: SolidityParser.AddExpressionContext):
+        #     left = self.visit(ctx.arithmeticExpression(0))
+        #     right = self.visit(ctx.arithmeticExpression(1))
+        #     return left + right
+
+        # def visitSubtractExpression(self, ctx: SolidityParser.SubtractExpressionContext):
+        #     left = self.visit(ctx.arithmeticExpression(0))
+        #     right = self.visit(ctx.arithmeticExpression(1))
+        #     return left - right
+
+        # def visitMultiplyExpression(self, ctx: SolidityParser.MultiplyExpressionContext):
+        #     left = self.visit(ctx.arithmeticExpression(0))
+        #     right = self.visit(ctx.arithmeticExpression(1))
+        #     return left * right
+
+        # def visitDivideExpression(self, ctx: SolidityParser.DivideExpressionContext):
+        #     left = self.visit(ctx.arithmeticExpression(0))
+        #     right = self.visit(ctx.arithmeticExpression(1))
+        return left / right
+
+    def visitVariable(self, ctx: SolidityParser.VariableContext) -> KInner:
+        var_name = ctx.getText()
+        for input in self.method.inputs:
+            if input.name == var_name:
+                # TODO(palina): add support for complex types
+                return abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{input.arg_name}')
+        else:
+            for field in self.method.contract.storage_fields:
+                if field.name == var_name:
+                    # Perform the necessary action for a matching storage field
+                    break  # Exit the loop once the matching field is found
+                raise ValueError(f"Not implemented yet: {var_name}")
+
+            raise ValueError(f"Unknown term: {var_name}")
+
+    # def visitLengthAccess(self, ctx: SolidityParser.LengthAccessContext):
+    #     var_name = ctx.variableName().getText()
+    #     return len(self.context.get(var_name, ""))
+
+    # def visitArrayElement(self, ctx: SolidityParser.ArrayElementContext):
+    #     var_name = ctx.variableName().getText()
+    #     index = int(ctx.INTEGER().getText())
+    #     return self.context.get(var_name, [])[index]
+
+    # def visitMappingElement(self, ctx: SolidityParser.MappingElementContext):
+    #     var_name = ctx.variableName().getText()
+    #     key = ctx.variableName().getText()
+    #     return self.context.get(var_name, {}).get(key, 0)
+
+    # def visitAddressLiteral(self, ctx: SolidityParser.AddressLiteralContext):
+    #     return ctx.getText()
+
+    def visitIntegerLiteral(self, ctx: SolidityParser.IntegerLiteralContext) -> KInner:
+        return intToken(ctx.getText())

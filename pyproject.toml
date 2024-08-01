@@ -15,6 +15,7 @@ python = "^3.10"
 kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.659", subdirectory = "kevm-pyk" }
 eth-utils = "^4.1.1"
 pycryptodome = "^3.20.0"
+antlr4-python3-runtime = "^4.13.1"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
