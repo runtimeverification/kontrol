@@ -8,14 +8,14 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
-from antlr4 import CommonTokenStream, InputStream
+from antlr4 import CommonTokenStream, InputStream # type: ignore
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
-from pyk.prelude.kbool import TRUE, andBool
+from pyk.prelude.kbool import TRUE, FALSE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process_2, single
@@ -1551,9 +1551,6 @@ class AnnotationVisitor(SolidityVisitor):
         left = self.visit(ctx.arithmeticExpression(0))
         right = self.visit(ctx.arithmeticExpression(1))
 
-        if left is None or right is None:
-            return None  # Handle None cases appropriately
-
         op = ctx.RelOp().getText()
 
         # Map operators to KLabel applications
@@ -1594,7 +1591,7 @@ class AnnotationVisitor(SolidityVisitor):
         # def visitDivideExpression(self, ctx: SolidityParser.DivideExpressionContext):
         #     left = self.visit(ctx.arithmeticExpression(0))
         #     right = self.visit(ctx.arithmeticExpression(1))
-        return left / right
+        #     return left / right
 
     def visitVariable(self, ctx: SolidityParser.VariableContext) -> KInner:
         var_name = ctx.getText()
@@ -1603,14 +1600,14 @@ class AnnotationVisitor(SolidityVisitor):
                 # TODO(palina): add support for complex types
                 return abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{input.arg_name}')
         else:
-            for field in self.method.contract.storage_fields:
-                if field.name == var_name:
+            # TODO: add support for storage fields
+            # for field in self.method.contract.storage_fields:
+                # if field.name == var_name:
                     # Perform the necessary action for a matching storage field
-                    break  # Exit the loop once the matching field is found
-                raise ValueError(f"Not implemented yet: {var_name}")
-
-            raise ValueError(f"Unknown term: {var_name}")
-
+                    # break  # Exit the loop once the matching field is found
+            raise ValueError(f"Not implemented yet: {var_name}")
+        raise ValueError(f"Not implemented yet: {var_name}")
+    
     # def visitLengthAccess(self, ctx: SolidityParser.LengthAccessContext):
     #     var_name = ctx.variableName().getText()
     #     return len(self.context.get(var_name, ""))
