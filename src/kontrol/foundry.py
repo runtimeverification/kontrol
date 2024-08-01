@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import re
+import shutil
 import sys
 import traceback
 import xml.etree.ElementTree as Et
@@ -260,8 +261,19 @@ class Foundry:
 
         return _contracts
 
-    def mk_proofs_dir(self) -> None:
-        self.proofs_dir.mkdir(exist_ok=True)
+    def mk_proofs_dir(self, reinit: bool = False, remove_existing_proofs: bool = False) -> None:
+        if remove_existing_proofs and self.proofs_dir.exists():
+            if reinit or any(
+                not method.contract_up_to_date(Path(method.contract_digest))
+                for contract in self.contracts.values()
+                for method in contract.methods
+            ):
+                shutil.rmtree(self.proofs_dir.absolute())
+                self.proofs_dir.mkdir(exist_ok=False)
+            else:
+                self.proofs_dir.mkdir(exist_ok=True)
+        else:
+            self.proofs_dir.mkdir(exist_ok=True)
 
     def method_digest(self, contract_name: str, method_sig: str) -> str:
         return self.contracts[contract_name].method_by_sig[method_sig].digest
