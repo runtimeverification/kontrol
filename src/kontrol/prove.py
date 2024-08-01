@@ -497,18 +497,18 @@ def _run_cfg_group(
 
             def update_status_bar(test_id: str, result: Any) -> None:
                 nonlocal done_tests, failed_tests, passed_tests, progress
+                if options.hide_status_bar or progress is None:
+                    return
                 done_tests += 1
                 proof = foundry.get_apr_proof(test_id)
                 if proof.passed:
                     passed_tests += 1
                 elif proof.failed:
                     failed_tests += 1
-                if not options.hide_status_bar:
-                    if progress is not None:
-                        progress.update(
-                            task,
-                            summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
-                        )
+                progress.update(
+                    task,
+                    summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
+                )
 
             with Pool(processes=options.workers) as process_pool:
                 results = [
