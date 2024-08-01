@@ -263,17 +263,8 @@ class Foundry:
 
     def mk_proofs_dir(self, reinit: bool = False, remove_existing_proofs: bool = False) -> None:
         if remove_existing_proofs and self.proofs_dir.exists():
-            if reinit or any(
-                not method.contract_up_to_date(Path(method.contract_digest))
-                for contract in self.contracts.values()
-                for method in contract.methods
-            ):
-                shutil.rmtree(self.proofs_dir.absolute())
-                self.proofs_dir.mkdir(exist_ok=False)
-            else:
-                self.proofs_dir.mkdir(exist_ok=True)
-        else:
-            self.proofs_dir.mkdir(exist_ok=True)
+            self.remove_old_proofs(reinit)
+        self.proofs_dir.mkdir(exist_ok=True)
 
     def method_digest(self, contract_name: str, method_sig: str) -> str:
         return self.contracts[contract_name].method_by_sig[method_sig].digest
@@ -733,6 +724,18 @@ class Foundry:
         """
         latest_version = self.latest_proof_version(test)
         return latest_version + 1 if latest_version is not None else 0
+
+    def remove_old_proofs(self, force_remove: bool = False) -> bool:
+        if force_remove or any(
+                not method.contract_up_to_date(Path(method.contract_digest))
+                for contract in self.contracts.values()
+                for method in contract.methods
+            ):
+                shutil.rmtree(self.proofs_dir.absolute())
+                return True
+        else:
+            return False
+
 
 
 def foundry_show(
