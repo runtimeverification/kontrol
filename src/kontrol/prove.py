@@ -1153,8 +1153,8 @@ def _create_cse_accounts(
         if field.data_type.startswith('enum'):
             enum_name = field.data_type.split(' ')[1]
             if enum_name not in foundry.enums:
-                _LOGGER.warning(
-                    f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
+                _LOGGER.info(
+                    f'Skipping adding constraint for {enum_name} because it is not tracked by Kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
                 )
             else:
                 enum_max = foundry.enums[enum_name]
