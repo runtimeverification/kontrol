@@ -346,14 +346,7 @@ def parse_annotations(
     """
     Parse developer documentation (devdoc) to extract user-provided preconditions.
 
-    Returns a tuple of Precondition objects, each representing a single precondition.
-    This function currently supports a simple grammar allowing expressions of the form 'LHS operator RHS'.
-    The following operators are supported: '==', '!=', '<=', '>=', '<', '>'.
-    RHS and LHS can include input or storage variables, as well as int constants.
-
-    Example:
-        If devdoc for the function contains { '@custom:kontrol-precondition': ' x <= 14,x >= 2,'}, it would return:
-        [Precondition(operator='<=', rhs=14, lhs='x'), Precondition(operator='>=', rhs=2, lhs='x')]
+    Returns a tuple of Precondition objects, each representing a single precondition and a method to which it belongs.
     """
 
     if devdoc is None:
