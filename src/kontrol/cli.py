@@ -529,7 +529,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='remove_old_proofs',
         default=None,
         action='store_true',
-        help='Remove all existing KCFGs if they need to be regenerated.',
+        help='Remove all outdated KCFGs.',
     )
 
     show_args = command_parser.add_parser(
