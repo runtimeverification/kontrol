@@ -19,7 +19,6 @@ from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process_2, single
 
-from . import VERSION
 from .utils import _read_digest_file
 
 if TYPE_CHECKING:
@@ -600,10 +599,6 @@ class Contract:
             return (
                 digest_dict.get('methods', {}).get(self.qualified_name, {}).get('contract', '') == self.contract_digest
             )
-
-        def kontrol_up_to_date(self, digest_file: Path) -> bool:
-            digest_dict = _read_digest_file(digest_file)
-            return digest_dict.get('kontrol', {}) == VERSION
 
         def update_digest(self, digest_file: Path) -> None:
             digest_dict = _read_digest_file(digest_file)
