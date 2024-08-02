@@ -444,6 +444,13 @@ def _create_argument_parser() -> ArgumentParser:
         '--config-type', default=None, type=ConfigType, help='Config type', choices=list(ConfigType)
     )
     prove_args.add_argument(
+        '--hide-status-bar',
+        dest='hide_status_bar',
+        default=None,
+        action='store_true',
+        help='Disables the proof status bar.',
+    )
+    prove_args.add_argument(
         '--break-on-cheatcodes',
         dest='break_on_cheatcodes',
         default=None,
