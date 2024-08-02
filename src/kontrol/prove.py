@@ -70,7 +70,7 @@ def foundry_prove(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
             ) from None
 
-    foundry.mk_proofs_dir()
+    foundry.mk_proofs_dir(options.reinit, options.remove_old_proofs)
 
     if options.include_summaries and options.cse:
         raise AttributeError('Error! Cannot use both --cse and --include-summary.')

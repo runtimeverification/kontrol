@@ -531,6 +531,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_false',
         help='If tracing is active, avoid storing memory information.',
     )
+    prove_args.add_argument(
+        '--remove-old-proofs',
+        dest='remove_old_proofs',
+        default=None,
+        action='store_true',
+        help='Remove all outdated KCFGs.',
+    )
 
     show_args = command_parser.add_parser(
         'show',
