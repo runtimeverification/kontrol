@@ -626,7 +626,9 @@ class Foundry:
             return self.free_proof_version(test)
 
         if not kontrol_up_to_date(self.digest_file):
-            _LOGGER.warning('Kontrol version is different than the one used to generate the current definition.')
+            _LOGGER.warning(
+                'Kontrol version is different than the one used to generate the current definition. Consider running `kontrol build` to update the definition.'
+            )
 
         if reinit:
             if user_specified_setup_version is None:
@@ -667,7 +669,9 @@ class Foundry:
             return self.free_proof_version(test)
 
         if not kontrol_up_to_date(self.digest_file):
-            _LOGGER.warning('Kontrol version is different than the one used to generate the current definition.')
+            _LOGGER.warning(
+                'Kontrol version is different than the one used to generate the current definition. Consider running `kontrol build` to update the definition.'
+            )
 
         method_status = method.up_to_date(self.digest_file)
 
