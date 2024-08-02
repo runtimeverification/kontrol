@@ -11,6 +11,8 @@ import stat
 
 from rich.console import Console
 
+from . import VERSION
+
 console = Console()
 
 
@@ -22,6 +24,13 @@ def _read_digest_file(digest_file: Path) -> dict:
     if 'methods' not in digest_dict:
         digest_dict['methods'] = {}
     return digest_dict
+
+
+def kontrol_up_to_date(digest_file: Path) -> bool:
+    if not digest_file.exists():
+        return False
+    digest_dict = _read_digest_file(digest_file)
+    return digest_dict.get('kontrol', '') == VERSION
 
 
 def parse_test_version_tuple(value: str) -> tuple[str, int | None]:

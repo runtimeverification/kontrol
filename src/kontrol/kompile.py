@@ -16,7 +16,7 @@ from . import VERSION
 from .foundry import Foundry
 from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
-from .utils import _read_digest_file, _rv_blue, console
+from .utils import _read_digest_file, _rv_blue, console, kontrol_up_to_date
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -126,7 +126,6 @@ def foundry_kompile(
         if not foundry.digest_file.exists():
             return False
         digest_dict = _read_digest_file(foundry.digest_file)
-        foundry.digest_file.write_text(json.dumps(digest_dict, indent=4))
         return digest_dict.get('kompilation', '') == kompilation_digest()
 
     def update_kompilation_digest() -> None:
@@ -137,7 +136,23 @@ def foundry_kompile(
 
         _LOGGER.info('Updated Kompilation digest')
 
-    if not foundry.up_to_date() or not kompilation_up_to_date() or options.rekompile or not kompiled_timestamp.exists():
+    def should_rekompile() -> bool:
+        if options.rekompile or not kompiled_timestamp.exists():
+            return True
+
+        kompilation_status = kompilation_up_to_date()
+        foundry_status = foundry.up_to_date()
+        kontrol_status = kontrol_up_to_date(foundry.digest_file)
+
+        if not kompilation_status:
+            if foundry_status and kontrol_status:
+                return False
+            return True
+        if not foundry_status or not kontrol_status:
+            return True
+        return False
+
+    if should_rekompile():
         output_dir = foundry.kompiled
         kevm_kompile(
             target=options.target,
