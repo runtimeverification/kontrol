@@ -727,15 +727,14 @@ class Foundry:
 
     def remove_old_proofs(self, force_remove: bool = False) -> bool:
         if force_remove or any(
-                not method.contract_up_to_date(Path(method.contract_digest))
-                for contract in self.contracts.values()
-                for method in contract.methods
-            ):
-                shutil.rmtree(self.proofs_dir.absolute())
-                return True
+            not method.contract_up_to_date(Path(method.contract_digest))
+            for contract in self.contracts.values()
+            for method in contract.methods
+        ):
+            shutil.rmtree(self.proofs_dir.absolute())
+            return True
         else:
             return False
-
 
 
 def foundry_show(
