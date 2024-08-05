@@ -10,7 +10,7 @@ from functools import partial
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
-from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests, compute_jumpdests
+from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
@@ -303,23 +303,6 @@ class PreexistingKoreServer(OptionalKoreServer):
 class KontrolSemantics(KEVMSemantics):
 
     def custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
-        """Given a CTerm, update the JUMPDESTS_CELL and PROGRAM_CELL if the rule 'EVM.program.load' is at the top of the K_CELL.
-
-        :param cterm: CTerm of a proof node.
-        :type cterm: CTerm
-        :return: If the K_CELL matches the load_pattern, a Step with depth 1 is returned together with the new configuration, also registering that the `EVM.program.load` rule has been applied. Otherwise, None is returned.
-        :rtype: KCFGExtendResult | None
-        """
-        load_pattern = KSequence([KApply('loadProgram', KVariable('###BYTECODE')), KVariable('###CONTINUATION')])
-        subst = load_pattern.match(cterm.cell('K_CELL'))
-        if subst is not None:
-            bytecode_sections = flatten_label('_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes', subst['###BYTECODE'])
-            jumpdests_set = compute_jumpdests(bytecode_sections)
-            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'JUMPDESTS_CELL', jumpdests_set))
-            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'PROGRAM_CELL', subst['###BYTECODE']))
-            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
-            return Step(new_cterm, 1, (), ['EVM.program.load'], cut=True)
-
         cheatcode_call_pattern = KSequence(
             [KApply('cheatcode_call', intToken(1530912521), KVariable('ARGS')), KVariable('###CONTINUATION')]
         )
@@ -343,7 +326,7 @@ class KontrolSemantics(KEVMSemantics):
 
             return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshUIntCustomVar'], cut=True)
 
-        return None
+        return super().custom_step(cterm)
 
     @staticmethod
     def cut_point_rules(
