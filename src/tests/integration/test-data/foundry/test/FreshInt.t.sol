@@ -20,6 +20,12 @@ contract FreshCheatcodes is Test, KontrolCheats {
         assertLe(val, max);
     }
 
+    function test_int128_custom_name() public {
+        int128 val = int128(uint128(kevm.freshUInt(16, "abcdef")));
+        assertGe(val, min);
+        assertLe(val, max);
+    }
+
     function testFail_int128() public {
         int128 val = int128(uint128(kevm.freshUInt(16)));
         assertGt(val, max);

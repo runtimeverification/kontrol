@@ -343,6 +343,7 @@ This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes 
 
 ```
 function freshUInt(uint8) external returns (uint256);
+function freshUInt(uint8, string calldata) external returns (uint256);
 ```
 
 `cheatcode.call.freshUInt` will match when the `freshUInt` cheat code function is called.
@@ -355,6 +356,14 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
       requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
        andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
+       [preserves-definedness]
+
+    rule [cheatcode.call.freshUIntCustomVar]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "freshUInt(uint8,string)" )
+       andBool 0 <Int #asWord(#range(ARGS, 0, 32)) andBool #asWord(#range(ARGS, 0, 32)) <=Int 32
+       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(#range(ARGS, 0, 32)))
        [preserves-definedness]
 ```
 
@@ -1545,6 +1554,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "sign(uint256,bytes32)" )                    => 3812747940 )
     rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
     rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
+    rule ( selector ( "freshUInt(uint8,string)" )                  => 1530912521 )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
     rule ( selector ( "freshAddress()" )                           => 2363359817 )

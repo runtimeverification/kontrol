@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import logging
 import time
 from abc import abstractmethod
@@ -9,13 +10,14 @@ from functools import partial
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
-from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
+from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests, compute_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
-from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
+from pyk.kast.inner import KApply, KSequence, KSort, KToken, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
+from pyk.kcfg.kcfg import Step
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_item, map_of, set_empty
@@ -42,6 +44,7 @@ if TYPE_CHECKING:
     from typing import Final, TypeGuard
 
     from pyk.kast.inner import KInner
+    from pyk.kcfg.kcfg import KCFGExtendResult
     from pyk.kore.rpc import KoreServer
 
     from .options import ProveOptions
@@ -297,6 +300,68 @@ class PreexistingKoreServer(OptionalKoreServer):
         return self._port
 
 
+class KontrolSemantics(KEVMSemantics):
+
+    def custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
+        """Given a CTerm, update the JUMPDESTS_CELL and PROGRAM_CELL if the rule 'EVM.program.load' is at the top of the K_CELL.
+
+        :param cterm: CTerm of a proof node.
+        :type cterm: CTerm
+        :return: If the K_CELL matches the load_pattern, a Step with depth 1 is returned together with the new configuration, also registering that the `EVM.program.load` rule has been applied. Otherwise, None is returned.
+        :rtype: KCFGExtendResult | None
+        """
+        load_pattern = KSequence([KApply('loadProgram', KVariable('###BYTECODE')), KVariable('###CONTINUATION')])
+        subst = load_pattern.match(cterm.cell('K_CELL'))
+        if subst is not None:
+            bytecode_sections = flatten_label('_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes', subst['###BYTECODE'])
+            jumpdests_set = compute_jumpdests(bytecode_sections)
+            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'JUMPDESTS_CELL', jumpdests_set))
+            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'PROGRAM_CELL', subst['###BYTECODE']))
+            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+            return Step(new_cterm, 1, (), ['EVM.program.load'], cut=True)
+
+        cheatcode_call_pattern = KSequence(
+            [KApply('cheatcode_call', intToken(1530912521), KVariable('ARGS')), KVariable('###CONTINUATION')]
+        )
+        subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
+        if subst is not None:
+            args = subst['ARGS']
+            if type(args) is not KToken:
+                return None
+            args_bytes = ast.literal_eval(args.token)
+            int_size = int.from_bytes(args_bytes[:32], 'big')
+            varname_offset = int.from_bytes(args_bytes[32:64], 'big')
+            varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
+            varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
+            varname = varname.upper()
+            variable = KVariable(varname)
+
+            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', KEVM.buf(intToken(32), variable)))
+            new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(intToken(0), variable)))
+            new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(variable, intToken(2 ** (8 * int_size)))))
+
+            return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshUIntCustomVar'], cut=True)
+
+        return None
+
+    @staticmethod
+    def cut_point_rules(
+        break_on_jumpi: bool,
+        break_on_calls: bool,
+        break_on_storage: bool,
+        break_on_basic_blocks: bool,
+        break_on_load_program: bool,
+    ) -> list[str]:
+        return super(KontrolSemantics, KontrolSemantics).cut_point_rules(
+            break_on_jumpi=break_on_jumpi,
+            break_on_calls=break_on_calls,
+            break_on_storage=break_on_storage,
+            break_on_basic_blocks=break_on_basic_blocks,
+            break_on_load_program=break_on_load_program,
+        ) + ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshUIntCustomVar']
+
+
 def _run_cfg_group(
     tests: list[FoundryTest],
     foundry: Foundry,
@@ -382,7 +447,7 @@ def _run_cfg_group(
                 )
                 return KCFGExplore(
                     cterm_symbolic,
-                    kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                    kcfg_semantics=KontrolSemantics(auto_abstract_gas=options.auto_abstract_gas),
                     id=test.id,
                 )
 
@@ -418,7 +483,7 @@ def _run_cfg_group(
                         }
                     ),
                 )
-            cut_point_rules = KEVMSemantics.cut_point_rules(
+            cut_point_rules = KontrolSemantics.cut_point_rules(
                 options.break_on_jumpi,
                 options.break_on_calls,
                 options.break_on_storage,
