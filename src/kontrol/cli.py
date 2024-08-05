@@ -444,6 +444,13 @@ def _create_argument_parser() -> ArgumentParser:
         '--config-type', default=None, type=ConfigType, help='Config type', choices=list(ConfigType)
     )
     prove_args.add_argument(
+        '--hide-status-bar',
+        dest='hide_status_bar',
+        default=None,
+        action='store_true',
+        help='Disables the proof status bar.',
+    )
+    prove_args.add_argument(
         '--break-on-cheatcodes',
         dest='break_on_cheatcodes',
         default=None,
@@ -523,6 +530,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_false',
         help='If tracing is active, avoid storing memory information.',
+    )
+    prove_args.add_argument(
+        '--remove-old-proofs',
+        dest='remove_old_proofs',
+        default=None,
+        action='store_true',
+        help='Remove all outdated KCFGs.',
     )
 
     show_args = command_parser.add_parser(

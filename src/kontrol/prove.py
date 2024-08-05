@@ -5,12 +5,13 @@ import time
 from abc import abstractmethod
 from collections import Counter
 from copy import copy
+from functools import partial
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
-from pathos.pools import ProcessPool  # type: ignore
+from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
@@ -27,6 +28,7 @@ from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import run_process_2, unique
+from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
@@ -68,7 +70,7 @@ def foundry_prove(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
             ) from None
 
-    foundry.mk_proofs_dir()
+    foundry.mk_proofs_dir(options.reinit, options.remove_old_proofs)
 
     if options.include_summaries and options.cse:
         raise AttributeError('Error! Cannot use both --cse and --include-summary.')
@@ -302,11 +304,28 @@ def _run_cfg_group(
     summary_ids: Iterable[str],
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
 ) -> list[APRProof]:
-    def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
+    def init_and_run_proof(test: FoundryTest, progress: Progress | None = None) -> APRFailureInfo | Exception | None:
+
+        task: TaskID | None = None
+        if progress is not None:
+            task = progress.add_task(
+                f'{test.id}',
+                total=1,
+                status='Loading proof',
+                summary='---',
+            )
+
         proof = None
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
             proof = foundry.get_apr_proof(test.id)
             if proof.passed:
+                if progress is not None and task is not None:
+                    progress.update(
+                        task,
+                        status='Finished',
+                        summary=proof.one_line_summary,
+                        advance=1,
+                    )
                 return None
         start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
 
@@ -315,6 +334,10 @@ def _run_cfg_group(
             kore_rpc_command = options.kore_rpc_command.split()
 
         def select_server() -> OptionalKoreServer:
+            if progress is not None and task is not None:
+                progress.update(
+                    task, status='Starting KoreServer', summary=proof.one_line_summary if proof is not None else '---'
+                )
             if options.port is not None:
                 return PreexistingKoreServer(options.port)
             else:
@@ -364,6 +387,8 @@ def _run_cfg_group(
                 )
 
             if proof is None:
+                if progress is not None and task is not None:
+                    progress.update(task, status='Initializing proof')
                 # With CSE, top-level proof should be a summary if it's not a test or setUp function
                 if (
                     (options.cse or options.include_summaries)
@@ -407,6 +432,13 @@ def _run_cfg_group(
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
+
+            if progress is not None and task is not None:
+                progress.update(
+                    task,
+                    status='Running proof',
+                    summary=proof.one_line_summary,
+                )
             run_prover(
                 proof,
                 create_kcfg_explore=create_kcfg_explore,
@@ -418,7 +450,12 @@ def _run_cfg_group(
                 max_frontier_parallel=options.max_frontier_parallel,
                 fail_fast=options.fail_fast,
                 force_sequential=options.force_sequential,
+                progress=progress,
+                task_id=task,
             )
+
+            if progress is not None and task is not None:
+                progress.update(task, advance=1, status='Finished')
 
             if options.minimize_proofs or options.config_type == ConfigType.SUMMARY_CONFIG:
                 proof.minimize_kcfg()
@@ -436,27 +473,74 @@ def _run_cfg_group(
             else:
                 return proof.failure_info
 
-    failure_infos: list[APRFailureInfo | Exception | None]
-    if options.workers > 1:
-        with ProcessPool(ncpus=options.workers) as process_pool:
-            failure_infos = process_pool.map(init_and_run_proof, tests)
-    else:
-        failure_infos = []
-        for test in tests:
-            failure_infos.append(init_and_run_proof(test))
+    with Progress(
+        SpinnerColumn(),
+        TimeElapsedColumn(),
+        TextColumn('{task.description}'),
+        TextColumn('{task.fields[status]}'),
+        TextColumn('{task.fields[summary]}'),
+        redirect_stderr=True,
+        redirect_stdout=True,
+    ) as progress:
 
-    proofs = [foundry.get_apr_proof(test.id) for test in tests]
+        failure_infos: list[APRFailureInfo | Exception | None]
+        if options.workers > 1 and len(tests) > 1:
+            done_tests = 0
+            failed_tests = 0
+            passed_tests = 0
+            if not options.hide_status_bar:
+                task = progress.add_task(
+                    f'Multi-proof Mode ({options.workers} workers)',
+                    status='Running',
+                    summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
+                )
 
-    # Reconstruct the proof from the subprocess
-    for proof, failure_info in zip(proofs, failure_infos, strict=True):
-        assert proof.failure_info is None  # Refactor once this fails
-        assert proof.error_info is None
-        if isinstance(failure_info, Exception):
-            proof.error_info = failure_info
-        elif isinstance(failure_info, APRFailureInfo):
-            proof.failure_info = failure_info
+            def update_status_bar(test_id: str, result: Any) -> None:
+                nonlocal done_tests, failed_tests, passed_tests, progress
+                if options.hide_status_bar or progress is None:
+                    return
+                done_tests += 1
+                proof = foundry.get_apr_proof(test_id)
+                if proof.passed:
+                    passed_tests += 1
+                elif proof.failed:
+                    failed_tests += 1
+                progress.update(
+                    task,
+                    summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
+                )
 
-    return proofs
+            with Pool(processes=options.workers) as process_pool:
+                results = [
+                    process_pool.apply_async(
+                        init_and_run_proof, args=(test,), callback=partial(update_status_bar, test.id)
+                    )
+                    for test in tests
+                ]
+
+                process_pool.close()
+                process_pool.join()
+            if not options.hide_status_bar:
+                if progress is not None:
+                    progress.update(task, status='Finished', advance=1)
+            failure_infos = [result.get() for result in results]
+        else:
+            failure_infos = []
+            for test in tests:
+                failure_infos.append(init_and_run_proof(test, None if options.hide_status_bar else progress))
+
+        proofs = [foundry.get_apr_proof(test.id) for test in tests]
+
+        # Reconstruct the proof from the subprocess
+        for proof, failure_info in zip(proofs, failure_infos, strict=True):
+            assert proof.failure_info is None  # Refactor once this fails
+            assert proof.error_info is None
+            if isinstance(failure_info, Exception):
+                proof.error_info = failure_info
+            elif isinstance(failure_info, APRFailureInfo):
+                proof.failure_info = failure_info
+
+        return proofs
 
 
 def method_to_apr_proof(
@@ -1073,8 +1157,8 @@ def _create_cse_accounts(
         if field.data_type.startswith('enum'):
             enum_name = field.data_type.split(' ')[1]
             if enum_name not in foundry.enums:
-                _LOGGER.warning(
-                    f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
+                _LOGGER.info(
+                    f'Skipping adding constraint for {enum_name} because it is not tracked by Kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
                 )
             else:
                 enum_max = foundry.enums[enum_name]

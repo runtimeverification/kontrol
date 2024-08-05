@@ -23,6 +23,7 @@ from pyk.utils import hash_str, run_process_2, single
 from .solidity.SolidityLexer import SolidityLexer
 from .solidity.SolidityParser import SolidityParser
 from .solidity.SolidityVisitor import SolidityVisitor
+from .utils import _read_digest_file
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -459,24 +460,13 @@ class Contract:
             return f'{self.contract_name}.init'
 
         def up_to_date(self, digest_file: Path) -> bool:
-            if not digest_file.exists():
-                return False
-            digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
-                digest_file.write_text(json.dumps(digest_dict))
-            if self.qualified_name not in digest_dict['methods']:
-                return False
-            return digest_dict['methods'][self.qualified_name]['method'] == self.digest
+            digest_dict = _read_digest_file(digest_file)
+            return digest_dict.get('methods', {}).get(self.qualified_name, {}).get('method', '') == self.digest
 
         def update_digest(self, digest_file: Path) -> None:
-            digest_dict = {}
-            if digest_file.exists():
-                digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
+            digest_dict = _read_digest_file(digest_file)
             digest_dict['methods'][self.qualified_name] = {'method': self.digest}
-            digest_file.write_text(json.dumps(digest_dict))
+            digest_file.write_text(json.dumps(digest_dict, indent=4))
 
             _LOGGER.info(f'Updated method {self.qualified_name} in digest file: {digest_file}')
 
@@ -673,33 +663,17 @@ class Contract:
             return tuple(arg_types)
 
         def up_to_date(self, digest_file: Path) -> bool:
-            if not digest_file.exists():
-                return False
-            digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
-                digest_file.write_text(json.dumps(digest_dict, indent=4))
-            if self.qualified_name not in digest_dict['methods']:
-                return False
-            return digest_dict['methods'][self.qualified_name]['method'] == self.digest
+            digest_dict = _read_digest_file(digest_file)
+            return digest_dict.get('methods', {}).get(self.qualified_name, {}).get('method', '') == self.digest
 
         def contract_up_to_date(self, digest_file: Path) -> bool:
-            if not digest_file.exists():
-                return False
-            digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
-                digest_file.write_text(json.dumps(digest_dict, indent=4))
-            if self.qualified_name not in digest_dict['methods']:
-                return False
-            return digest_dict['methods'][self.qualified_name]['contract'] == self.contract_digest
+            digest_dict = _read_digest_file(digest_file)
+            return (
+                digest_dict.get('methods', {}).get(self.qualified_name, {}).get('contract', '') == self.contract_digest
+            )
 
         def update_digest(self, digest_file: Path) -> None:
-            digest_dict = {}
-            if digest_file.exists():
-                digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
+            digest_dict = _read_digest_file(digest_file)
             digest_dict['methods'][self.qualified_name] = {'method': self.digest, 'contract': self.contract_digest}
             digest_file.write_text(json.dumps(digest_dict, indent=4))
 
@@ -777,8 +751,8 @@ class Contract:
                 if input.internal_type is not None and input.internal_type.startswith('enum '):
                     enum_name = input.internal_type.split(' ')[1]
                     if enum_name not in enums:
-                        _LOGGER.warning(
-                            f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
+                        _LOGGER.info(
+                            f'Skipping adding constraint for {enum_name} because it is not tracked by Kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
                         )
                     else:
                         enum_max = enums[enum_name]

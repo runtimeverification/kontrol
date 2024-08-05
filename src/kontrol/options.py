@@ -354,6 +354,8 @@ class ProveOptions(
     minimize_proofs: bool
     max_frontier_parallel: int
     config_type: ConfigType
+    hide_status_bar: bool
+    remove_old_proofs: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -375,6 +377,8 @@ class ProveOptions(
             'minimize_proofs': False,
             'max_frontier_parallel': 1,
             'config_type': ConfigType.TEST_CONFIG,
+            'hide_status_bar': False,
+            'remove_old_proofs': False,
         }
 
     @staticmethod

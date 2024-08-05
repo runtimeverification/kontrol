@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import re
+import shutil
 import sys
 import traceback
 import xml.etree.ElementTree as Et
@@ -38,11 +39,13 @@ from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
 from .utils import (
+    _read_digest_file,
     append_to_file,
     empty_lemmas_file_contents,
     foundry_toml_extra_contents,
     kontrol_file_contents,
     kontrol_toml_file_contents,
+    kontrol_up_to_date,
     write_to_file,
 )
 
@@ -260,7 +263,9 @@ class Foundry:
 
         return _contracts
 
-    def mk_proofs_dir(self) -> None:
+    def mk_proofs_dir(self, reinit: bool = False, remove_existing_proofs: bool = False) -> None:
+        if remove_existing_proofs and self.proofs_dir.exists():
+            self.remove_old_proofs(reinit)
         self.proofs_dir.mkdir(exist_ok=True)
 
     def method_digest(self, contract_name: str, method_sig: str) -> str:
@@ -298,16 +303,11 @@ class Foundry:
     def up_to_date(self) -> bool:
         if not self.digest_file.exists():
             return False
-        digest_dict = json.loads(self.digest_file.read_text())
-        if 'foundry' not in digest_dict:
-            digest_dict['foundry'] = ''
-        self.digest_file.write_text(json.dumps(digest_dict, indent=4))
-        return digest_dict['foundry'] == self.digest
+        digest_dict = _read_digest_file(self.digest_file)
+        return digest_dict.get('foundry', '') == self.digest
 
     def update_digest(self) -> None:
-        digest_dict = {}
-        if self.digest_file.exists():
-            digest_dict = json.loads(self.digest_file.read_text())
+        digest_dict = _read_digest_file(self.digest_file)
         digest_dict['foundry'] = self.digest
         self.digest_file.write_text(json.dumps(digest_dict, indent=4))
 
@@ -628,6 +628,11 @@ class Foundry:
             _LOGGER.info(f'Creating a new version of {test} because it was updated.')
             return self.free_proof_version(test)
 
+        if not kontrol_up_to_date(self.digest_file):
+            _LOGGER.warning(
+                'Kontrol version is different than the one used to generate the current definition. Consider running `kontrol build` to update the definition.'
+            )
+
         if reinit:
             if user_specified_setup_version is None:
                 _LOGGER.info(
@@ -666,17 +671,24 @@ class Foundry:
             _LOGGER.info(f'Creating a new version of test {test} because --reinit was specified.')
             return self.free_proof_version(test)
 
+        if not kontrol_up_to_date(self.digest_file):
+            _LOGGER.warning(
+                'Kontrol version is different than the one used to generate the current definition. Consider running `kontrol build` to update the definition.'
+            )
+
+        method_status = method.up_to_date(self.digest_file)
+
         if user_specified_version:
             _LOGGER.info(f'Using user-specified version {user_specified_version} for test {test}')
             if not Proof.proof_data_exists(f'{test}:{user_specified_version}', self.proofs_dir):
                 raise ValueError(f'The specified version {user_specified_version} of proof {test} does not exist.')
-            if not method.up_to_date(self.digest_file):
+            if not method_status:
                 _LOGGER.warn(
                     f'Using specified version {user_specified_version} of proof {test}, but it is out of date.'
                 )
             return user_specified_version
 
-        if not method.up_to_date(self.digest_file):
+        if not method_status:
             _LOGGER.info(f'Creating a new version of test {test} because it is out of date.')
             return self.free_proof_version(test)
 
@@ -721,6 +733,17 @@ class Foundry:
         """
         latest_version = self.latest_proof_version(test)
         return latest_version + 1 if latest_version is not None else 0
+
+    def remove_old_proofs(self, force_remove: bool = False) -> bool:
+        if force_remove or any(
+            not method.contract_up_to_date(Path(method.contract_digest))
+            for contract in self.contracts.values()
+            for method in contract.methods
+        ):
+            shutil.rmtree(self.proofs_dir.absolute())
+            return True
+        else:
+            return False
 
 
 def foundry_show(
