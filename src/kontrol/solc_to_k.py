@@ -560,17 +560,17 @@ class Contract:
             return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
 
         @cached_property
-        def arg_names(self) -> tuple[str, ...]:
-            arg_names: list[str] = []
+        def arg_names(self) -> dict[str, str]:
+            arg_names: dict[str, str] = {}
             for input in self.inputs:
                 if input.type.endswith('[]') and not input.type.startswith('tuple'):
                     if input.array_lengths is None:
                         raise ValueError(f'Array length bounds missing for {input.name}')
                     length = input.array_lengths[0]
-                    arg_names.extend(f'{input.arg_name}_{i}' for i in range(length))
+                    arg_names.update({f'{input.arg_name}_{i}': f'{input.name}_{i}' for i in range(length)})
                 else:
-                    arg_names.extend([sub_input.arg_name for sub_input in input.flattened()])
-            return tuple(arg_names)
+                    arg_names.update({sub_input.arg_name: sub_input.name for sub_input in input.flattened()})
+            return arg_names
 
         @cached_property
         def arg_types(self) -> tuple[str, ...]:
@@ -635,7 +635,7 @@ class Contract:
             self, contract: KInner, application_label: KLabel, contract_name: str, enums: dict[str, int]
         ) -> KRule | None:
             prod_klabel = self.unique_klabel
-            arg_vars = [KVariable(name) for name in self.arg_names]
+            arg_vars = [KVariable(name) for name in self.arg_names.keys()]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
             for input in self.inputs:
@@ -712,7 +712,7 @@ class Contract:
             assert klabel is not None
             args = [
                 abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{name}')
-                for name in self.arg_names
+                for name in self.arg_names.keys()
             ]
             return klabel(args)
 

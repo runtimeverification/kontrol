@@ -117,6 +117,8 @@ def foundry_kompile(
         _LOGGER.info(f'Wrote file: {foundry_contracts_file}')
         foundry.main_file.write_text(kevm.pretty_print(contract_main_definition) + '\n')
         _LOGGER.info(f'Wrote file: {foundry.main_file}')
+        foundry.record_input_name_mapping(foundry.input_mapping_file)
+        _LOGGER.info(f'Wrote file: {foundry.input_mapping_file}')
 
     def kompilation_digest() -> str:
         k_files = list(options.requires) + [foundry_contracts_file, foundry.main_file]

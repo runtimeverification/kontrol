@@ -21,7 +21,7 @@ from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
-from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
+from pyk.kast.manip import abstract_term_safely, cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
@@ -210,6 +210,10 @@ class Foundry:
     def contracts_file(self) -> Path:
         return self.kompiled / 'contracts.k'
 
+    @property
+    def input_mapping_file(self) -> Path:
+        return self.kompiled / 'input-mapping.json'
+
     @cached_property
     def kevm(self) -> KEVM:
         use_directory = self.out / 'tmp'
@@ -380,6 +384,28 @@ class Foundry:
             ) from err
         except CalledProcessError as err:
             raise RuntimeError("Couldn't forge build!") from err
+
+    def record_input_name_mapping(self, input_mapping_file: Path) -> None:
+        """
+        Saves a JSON file storing a mapping between the names of Method's inputs and their K representation.  
+        """
+
+        input_mapping = {}
+
+        for contract in self.contracts.values():
+            contract_mapping = {}
+            for method in contract.methods:
+                input_mapping = {}
+                for arg_name, name in method.arg_names.items():
+                    abstracted_term_name = abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{arg_name}').name
+                    input_mapping[name] = abstracted_term_name
+
+                contract_mapping[method.name] = input_mapping
+
+            input_mapping[contract._name] = contract_mapping
+
+        with input_mapping_file.open('w') as json_file:
+            json.dump(input_mapping, json_file, indent=4)
 
     @cached_property
     def all_tests(self) -> list[str]:
