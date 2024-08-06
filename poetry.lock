@@ -588,13 +588,13 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.108.9"
+version = "6.108.10"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "hypothesis-6.108.9-py3-none-any.whl", hash = "sha256:52fc4617ed9dde4c24a0b7a120b8f0bbbc8987397134694786499239b3e54766"},
-    {file = "hypothesis-6.108.9.tar.gz", hash = "sha256:5b1eef70b2f1c3682935fd8fa4bc535d824b15fe3612bb0043dfdc9e370c640b"},
+    {file = "hypothesis-6.108.10-py3-none-any.whl", hash = "sha256:7b24f7197dad30de0799181eeb885452846ed81022707e35c9c275cf63ddd24f"},
+    {file = "hypothesis-6.108.10.tar.gz", hash = "sha256:8d8b3a57f27bd964b04e58c5731ab9862134fbb5511958c814aaca3120286f28"},
 ]
 
 [package.dependencies]
@@ -665,7 +665,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.666"
+version = "1.0.668"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -673,26 +673,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.93"
+kframework = "7.1.94"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.666"
-resolved_reference = "c7c8fe1090a31b3ba3963bbebd41a7020925c37b"
+reference = "v1.0.668"
+resolved_reference = "e6638beea48b8bdc1f4bb639854be9fe94550596"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.93"
+version = "7.1.94"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.93-py3-none-any.whl", hash = "sha256:27b501bc2379b1bd1707a4deff44d597409a665355ad8671a0b0b6270068e174"},
-    {file = "kframework-7.1.93.tar.gz", hash = "sha256:f68e060994818808c9d37f10f84c7b419e410be4ee99a5aee032bd12359d9f51"},
+    {file = "kframework-7.1.94-py3-none-any.whl", hash = "sha256:6e5bd949e63ce290429d33a51ead0ec7c35c396f7b9bae4e4403a152fbf05b5d"},
+    {file = "kframework-7.1.94.tar.gz", hash = "sha256:e97f828d5917e02f9819b87bf5e1941b180cd5703968d43d9a64f77df0cebebc"},
 ]
 
 [package.dependencies]
@@ -1403,4 +1403,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "76cc3937d5885b43b23d89a0bd7c63a4d4a08af99efb47972eac77636e4a8680"
+content-hash = "3882ba824bd6f300a24b2c4e809829b1d78b07af2e57a219b9e6057b3159e353"
