@@ -411,13 +411,12 @@ class Foundry:
                     for arg_name, name in method.arg_names.items()
                 }
 
-                contract_mapping[method.name] = method_input_mapping
+                contract_mapping[method.signature] = method_input_mapping
 
-            input_mapping[contract._name] = contract_mapping
+            input_mapping[contract.name_with_path] = contract_mapping
 
         # Write resulting mapping to JSON file
-        with input_mapping_file.open('w') as json_file:
-            json.dump(input_mapping, json_file, indent=4)
+        input_mapping_file.write_text(json.dumps(input_mapping, indent=4))
 
     @cached_property
     def all_tests(self) -> list[str]:
@@ -1278,13 +1277,6 @@ def foundry_get_model(
         _LOGGER.warning('Node ID is not provided. Displaying models of failing and pending nodes:')
         failing = pending = True
 
-    # TODO(palina): use contract, test names to get relevant input mappings
-    # _, test_name = test_id.rsplit('%', 1)
-    # _contract_name, _test_name = test_name.split('(')[0].split('.')
-    # with open(foundry.input_mapping_file, 'r') as file:
-    # # Load the JSON data into a dictionary
-    # input_mapping = json.load(file)
-
     nodes: Iterable[NodeIdLike] = options.nodes
     if pending:
         nodes = list(nodes) + [node.id for node in proof.pending]
@@ -1319,6 +1311,11 @@ def foundry_get_model(
             res_lines.append('')
             res_lines.append(f'Node id: {node_id}')
             node = proof.kcfg.node(node_id)
+
+            contract_name, test_name = test_id.split(':')[0].split('.')
+            input_mapping = json.loads(foundry.input_mapping_file.read_text())
+            input_mapping = input_mapping.get(contract_name, {}).get(test_name, {})
+            # TODO: use the input mapping to generate the model
             res_lines.extend(print_model(node, kcfg_explore))
 
     return '\n'.join(res_lines)
