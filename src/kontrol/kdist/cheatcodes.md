@@ -390,6 +390,7 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
 
 ```
 function freshBool() external returns (bool);
+function freshBool(string calldata) external returns (uint256);
 ```
 
 `cheatcode.call.freshBool` will match when the `freshBool` cheat code function is called.
@@ -402,12 +403,20 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
       requires SELECTOR ==Int selector ( "freshBool()" )
        ensures #rangeBool(?WORD)
        [preserves-definedness]
+
+    rule [cheatcode.call.freshBoolCustomVar]:
+         <k> #cheatcode_call SELECTOR _ => .K ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "freshBool(string)" )
+       ensures #rangeBool(?WORD)
+       [preserves-definedness]
 ```
 
 #### `freshBytes` - Returns a fully symbolic byte array value of the given length.
 
 ```
 function freshBytes(uint256) external returns (bytes memory);
+function freshBytes(uint256, string calldata) external returns (bytes memory);
 ```
 
 `cheatcode.call.freshBytes` will match when the `freshBytes` cheat code function is called.
@@ -423,12 +432,23 @@ This rule returns a fully symbolic byte array value of the given length.
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
       [preserves-definedness]
+
+    rule [cheatcode.call.freshBytesCustomVar]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <output> _ =>
+            #buf(32, 32) +Bytes #buf(32, #asWord(#range(ARGS, 0, 32))) +Bytes ?BYTES
+            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(#range(ARGS, 0, 32)) +Int maxUInt5 ) ) -Int #asWord(#range(ARGS, 0, 32)) ) , 0 )
+         </output>
+      requires SELECTOR ==Int selector ( "freshBytes(uint256,string)" )
+      ensures lengthBytes(?BYTES) ==Int #asWord(#range(ARGS, 0, 32))
+      [preserves-definedness]
 ```
 
 #### `freshAddress` - Returns a single symbolic address.
 
 ```
 function freshAddress() external returns (address);
+function freshAddress(string calldata) external returns (address);
 ```
 
 `foundry.call.freshAddress` will match when the `freshAddress` cheat code function is called.
@@ -439,6 +459,13 @@ This rule returns a symbolic address value.
          <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshAddress()" )
+       ensures #rangeAddress(?WORD) andBool ?WORD =/=Int #address(FoundryTest) andBool ?WORD =/=Int #address(FoundryCheat)
+       [preserves-definedness]
+
+    rule [foundry.call.freshAddressCustomVar]:
+         <k> #cheatcode_call SELECTOR _ => .K ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "freshAddress(string)" )
        ensures #rangeAddress(?WORD) andBool ?WORD =/=Int #address(FoundryTest) andBool ?WORD =/=Int #address(FoundryCheat)
        [preserves-definedness]
 ```
