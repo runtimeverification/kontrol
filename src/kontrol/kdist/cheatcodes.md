@@ -340,8 +340,22 @@ This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes 
       requires SELECTOR ==Int selector ( "symbolicStorage(address)" )
 
     rule [cheatcode.call.symbolicStorageCustomVar]:
-         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setSymbolicStorage #asWord(ARGS) ... </k>
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setSymbolicStorageCustomVar #asWord(#range(ARGS, 0, 32)) ARGS ... </k>
       requires SELECTOR ==Int selector ( "symbolicStorage(address,string)" )
+```
+
+```k
+     syntax KItem ::= "#setSymbolicStorageCustomVar" Int Bytes [symbol(foundry_setSymbolicStorageCustomVar)]
+```
+
+```{.k .symbolic}
+    rule [cheatcode.set.symbolicStorageCustomVar]: <k> #setSymbolicStorageCustomVar ACCTID ARGS => .K ... </k>
+         <account>
+           <acctID> ACCTID </acctID>
+           <storage> _ => ?STORAGE </storage>
+           <origStorage> _ => ?STORAGE </origStorage>
+           ...
+         </account>
 ```
 
 #### `freshUInt` - Returns a single symbolic unsigned integer.
@@ -1121,7 +1135,7 @@ Utils
 ```
 
 ```{.k .symbolic}
-    rule <k> #setSymbolicStorage ACCTID => .K ... </k>
+    rule [cheatcode.set.symbolicStorage]: <k> #setSymbolicStorage ACCTID => .K ... </k>
          <account>
            <acctID> ACCTID </acctID>
            <storage> _ => ?STORAGE </storage>

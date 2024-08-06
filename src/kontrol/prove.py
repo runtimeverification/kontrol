@@ -326,6 +326,49 @@ class KontrolSemantics(KEVMSemantics):
 
             return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshUIntCustomVar'], cut=True)
 
+        cheatcode_call_pattern = KSequence(
+            [
+                KApply('foundry_setSymbolicStorageCustomVar', KVariable('ACCTID'), KVariable('ARGS')),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+        subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
+        if subst is not None:
+            args = subst['ARGS']
+            account_id = subst['ACCTID']
+            if type(args) is not KToken:
+                return None
+            args_bytes = ast.literal_eval(args.token)
+            varname_offset = int.from_bytes(args_bytes[32:64], 'big')
+            varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
+            varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
+            varname = varname.upper()
+            variable = KVariable(varname)
+            accounts_cell = cterm.cell('ACCOUNTS_CELL')
+
+            all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
+            cell_accounts = [
+                CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)
+            ] + [
+                CTerm(account.args[1], [])
+                for account in all_accounts
+                if (type(account) is KApply and account.label.name == 'AccountCellMapItem')
+            ]
+
+            cell_accounts_map = {account.cell('ACCTID_CELL'): account for account in cell_accounts}
+
+            contract_account = cell_accounts_map[account_id]
+            contract_account = CTerm(set_cell(contract_account.config, 'STORAGE_CELL', variable), [])
+            contract_account = CTerm(set_cell(contract_account.config, 'ORIGSTORAGE_CELL', variable), [])
+            cell_accounts_map[account_id] = contract_account
+
+            new_accounts_cell = KEVM.accounts([account.config for account in cell_accounts_map.values()])
+
+            new_cterm = CTerm(set_cell(cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), cterm.constraints)
+            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+
+            return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.set.symbolicStorageCustomVar'], cut=True)
+
         return super().custom_step(cterm)
 
     @staticmethod
@@ -342,7 +385,10 @@ class KontrolSemantics(KEVMSemantics):
             break_on_storage=break_on_storage,
             break_on_basic_blocks=break_on_basic_blocks,
             break_on_load_program=break_on_load_program,
-        ) + ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshUIntCustomVar']
+        ) + [
+            'FOUNDRY-CHEAT-CODES.cheatcode.call.freshUIntCustomVar',
+            'FOUNDRY-CHEAT-CODES.cheatcode.set.symbolicStorageCustomVar',
+        ]
 
 
 def _run_cfg_group(
