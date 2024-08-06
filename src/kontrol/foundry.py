@@ -21,7 +21,15 @@ from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
-from pyk.kast.manip import abstract_term_safely, cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
+from pyk.kast.manip import (
+    abstract_term_safely,
+    cell_label_to_var_name,
+    collect,
+    extract_lhs,
+    flatten_label,
+    minimize_term,
+    top_down,
+)
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
@@ -387,23 +395,27 @@ class Foundry:
 
     def record_input_name_mapping(self, input_mapping_file: Path) -> None:
         """
-        Saves a JSON file storing a mapping between the names of Method's inputs and their K representation.  
+        Saves a JSON file storing a mapping between the names of Method's inputs and their K representation.
         """
 
         input_mapping = {}
 
+        # Create the mapping for each contract's method
         for contract in self.contracts.values():
             contract_mapping = {}
-            for method in contract.methods:
-                input_mapping = {}
-                for arg_name, name in method.arg_names.items():
-                    abstracted_term_name = abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{arg_name}').name
-                    input_mapping[name] = abstracted_term_name
 
-                contract_mapping[method.name] = input_mapping
+            # Create the mapping for each method's arguments
+            for method in contract.methods:
+                method_input_mapping = {
+                    abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{arg_name}').name: name
+                    for arg_name, name in method.arg_names.items()
+                }
+
+                contract_mapping[method.name] = method_input_mapping
 
             input_mapping[contract._name] = contract_mapping
 
+        # Write resulting mapping to JSON file
         with input_mapping_file.open('w') as json_file:
             json.dump(input_mapping, json_file, indent=4)
 
@@ -1265,6 +1277,13 @@ def foundry_get_model(
     if not options.nodes:
         _LOGGER.warning('Node ID is not provided. Displaying models of failing and pending nodes:')
         failing = pending = True
+
+    # TODO(palina): use contract, test names to get relevant input mappings
+    # _, test_name = test_id.rsplit('%', 1)
+    # _contract_name, _test_name = test_name.split('(')[0].split('.')
+    # with open(foundry.input_mapping_file, 'r') as file:
+    # # Load the JSON data into a dictionary
+    # input_mapping = json.load(file)
 
     nodes: Iterable[NodeIdLike] = options.nodes
     if pending:
