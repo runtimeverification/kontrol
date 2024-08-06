@@ -328,6 +328,7 @@ This rule then takes from the function call data the account using `#asWord(#ran
 
 ```
 function symbolicStorage(address) external;
+  function symbolicStorage(address, string calldata) external;
 ```
 
 `cheatcode.call.symbolicStorage` will match when the `symbolicStorage` cheat code function is called.
@@ -337,6 +338,10 @@ This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes 
     rule [cheatcode.call.symbolicStorage]:
          <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setSymbolicStorage #asWord(ARGS) ... </k>
       requires SELECTOR ==Int selector ( "symbolicStorage(address)" )
+
+    rule [cheatcode.call.symbolicStorageCustomVar]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setSymbolicStorage #asWord(ARGS) ... </k>
+      requires SELECTOR ==Int selector ( "symbolicStorage(address,string)" )
 ```
 
 #### `freshUInt` - Returns a single symbolic unsigned integer.
@@ -1553,11 +1558,15 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "expectEmit(bool,bool,bool,bool,address)" )  => 2176505587 )
     rule ( selector ( "sign(uint256,bytes32)" )                    => 3812747940 )
     rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
+    rule ( selector ( "symbolicStorage(address,string)" )          => 745143816  )
     rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
     rule ( selector ( "freshUInt(uint8,string)" )                  => 1530912521 )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
+    rule ( selector ( "freshBool(string)" )                        => 525694724  )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
+    rule ( selector ( "freshBytes(uint256,string)" )               => 390682600  )
     rule ( selector ( "freshAddress()" )                           => 2363359817 )
+    rule ( selector ( "freshAddress(string)" )                     => 1202084987 )
     rule ( selector ( "prank(address)" )                           => 3395723175 )
     rule ( selector ( "prank(address,address)" )                   => 1206193358 )
     rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )
