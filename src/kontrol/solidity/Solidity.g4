@@ -19,6 +19,7 @@ arithmeticExpression
     | arithmeticExpression '-' arithmeticExpression   # SubtractExpression
     | arithmeticExpression '*' arithmeticExpression   # MultiplyExpression
     | arithmeticExpression '/' arithmeticExpression   # DivideExpression
+    | arithmeticExpression '**' arithmeticExpression  # PowExpression
     | atom                                            # AtomExpression
     ;
 

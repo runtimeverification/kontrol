@@ -105,25 +105,30 @@ class AnnotationVisitor(SolidityVisitor):
     def visitIntegerLiteral(self, ctx: SolidityParser.IntegerLiteralContext) -> KInner:
         return intToken(ctx.getText())
 
-    # def visitAddExpression(self, ctx: SolidityParser.AddExpressionContext):
-    #     left = self.visit(ctx.arithmeticExpression(0))
-    #     right = self.visit(ctx.arithmeticExpression(1))
-    #     return left + right
+    def visitAddExpression(self, ctx: SolidityParser.AddExpressionContext):
+        left = self.visit(ctx.arithmeticExpression(0))
+        right = self.visit(ctx.arithmeticExpression(1))
+        return KApply('_+Int_', left, right)
 
-    # def visitSubtractExpression(self, ctx: SolidityParser.SubtractExpressionContext):
-    #     left = self.visit(ctx.arithmeticExpression(0))
-    #     right = self.visit(ctx.arithmeticExpression(1))
-    #     return left - right
+    def visitSubtractExpression(self, ctx: SolidityParser.SubtractExpressionContext):
+        left = self.visit(ctx.arithmeticExpression(0))
+        right = self.visit(ctx.arithmeticExpression(1))
+        return KApply('_-Int_', left, right)
 
-    # def visitMultiplyExpression(self, ctx: SolidityParser.MultiplyExpressionContext):
-    #     left = self.visit(ctx.arithmeticExpression(0))
-    #     right = self.visit(ctx.arithmeticExpression(1))
-    #     return left * right
+    def visitMultiplyExpression(self, ctx: SolidityParser.MultiplyExpressionContext):
+        left = self.visit(ctx.arithmeticExpression(0))
+        right = self.visit(ctx.arithmeticExpression(1))
+        return KApply('_*Int_', left, right)
 
-    # def visitDivideExpression(self, ctx: SolidityParser.DivideExpressionContext):
-    #     left = self.visit(ctx.arithmeticExpression(0))
-    #     right = self.visit(ctx.arithmeticExpression(1))
-    #     return left / right
+    def visitDivideExpression(self, ctx: SolidityParser.DivideExpressionContext):
+        left = self.visit(ctx.arithmeticExpression(0))
+        right = self.visit(ctx.arithmeticExpression(1))
+        return KApply('_/Int_', left, right)
+
+    def visitPowExpression(self, ctx: SolidityParser.PowExpressionContext):
+        left = self.visit(ctx.arithmeticExpression(0))
+        right = self.visit(ctx.arithmeticExpression(1))
+        return KApply('_^Int_', left, right)
 
     # def visitLengthAccess(self, ctx: SolidityParser.LengthAccessContext):
     #     var_name = ctx.variableName().getText()
