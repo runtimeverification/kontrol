@@ -14,6 +14,12 @@ contract FreshCheatcodes is Test, KontrolCheats {
         assertLe(fresh_uint256, 1);
     }
 
+    function test_bool_custom_name() public {
+        uint256 fresh_uint256 = kevm.freshBool("bcdef");
+        assertGe(fresh_uint256, 0);
+        assertLe(fresh_uint256, 1);
+    }
+
     function test_int128() public {
         int128 val = int128(uint128(kevm.freshUInt(16)));
         assertGe(val, min);
@@ -39,6 +45,12 @@ contract FreshCheatcodes is Test, KontrolCheats {
 
     function test_address() public {
         address fresh_address = kevm.freshAddress();
+        assertNotEq(fresh_address, address(this));
+        assertNotEq(fresh_address, address(vm));
+    }
+
+    function test_address_custom_name() public {
+        address fresh_address = kevm.freshAddress("abcdefg");
         assertNotEq(fresh_address, address(this));
         assertNotEq(fresh_address, address(vm));
     }
