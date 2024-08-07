@@ -74,6 +74,7 @@ if TYPE_CHECKING:
         ToDotOptions,
         UnrefuteNodeOptions,
     )
+    from .solc import CompilationUnit
 
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -334,6 +335,13 @@ class Foundry:
         _, start, end = byte_offset_to_lines(src_contract_text.split('\n'), s, l)
         return (src_contract_path, start, end)
 
+    def solidity_src_print(self, contract_path: Path, start: int, end: int) -> Iterable[str]:
+        lines = contract_path.read_text().split('\n')
+        prefix_lines = [f'   {l}' for l in lines[:start]]
+        actual_lines = [f' | {l}' for l in lines[start:end]]
+        suffix_lines = [f'   {l}' for l in lines[end:]]
+        return prefix_lines + actual_lines + suffix_lines
+
     def solidity_src(self, contract_name: str, pc: int) -> Iterable[str]:
         srcmap_data = self.srcmap_data(contract_name, pc)
         if srcmap_data is None:
@@ -341,11 +349,7 @@ class Foundry:
         contract_path, start, end = srcmap_data
         if not (contract_path.exists() and contract_path.is_file()):
             return [f'No file at path for contract {contract_name}: {contract_path}']
-        lines = contract_path.read_text().split('\n')
-        prefix_lines = [f'   {l}' for l in lines[:start]]
-        actual_lines = [f' | {l}' for l in lines[start:end]]
-        suffix_lines = [f'   {l}' for l in lines[end:]]
-        return prefix_lines + actual_lines + suffix_lines
+        return self.solidity_src_print(contract_path, start, end)
 
     def short_info_for_contract(self, contract_name: str, cterm: CTerm) -> list[str]:
         ret_strs = self.kevm.short_info(cterm)
@@ -357,11 +361,18 @@ class Foundry:
                 ret_strs.append(f'src: {str(path)}:{start}:{end}')
         return ret_strs
 
-    def custom_view(self, contract_name: str, element: KCFGElem) -> Iterable[str]:
+    def custom_view(self, contract_name: str, element: KCFGElem, compilation_unit: CompilationUnit) -> Iterable[str]:
         if type(element) is KCFG.Node:
             pc_cell = element.cterm.try_cell('PC_CELL')
+            program_cell = element.cterm.try_cell('PROGRAM_CELL')
             if type(pc_cell) is KToken and pc_cell.sort == INT:
-                return self.solidity_src(contract_name, int(pc_cell.token))
+                if type(program_cell) is KToken:
+                    bytecode = ast.literal_eval(program_cell.token)
+                    instruction = compilation_unit.get_instruction(bytecode, int(pc_cell.token))
+                    start_line, _, end_line, _ = instruction.source_range()
+                    return self.solidity_src_print(Path(instruction.contract.file_path), start_line, end_line)
+                else:
+                    return self.solidity_src(contract_name, int(pc_cell.token))
         elif type(element) is KCFG.Edge:
             return list(element.rules)
         elif type(element) is KCFG.NDBranch:

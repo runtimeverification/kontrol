@@ -43,6 +43,7 @@ from .foundry import (
 from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
+from .solc import CompilationUnit
 from .solc_to_k import solc_compile, solc_to_k
 from .utils import _rv_blue, _rv_yellow, console
 
@@ -335,11 +336,13 @@ def exec_view_kcfg(options: ViewKcfgOptions) -> None:
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
 
+    compilation_unit = CompilationUnit.load_build_info(options.foundry_root)
+
     def _short_info(cterm: CTerm) -> Iterable[str]:
         return foundry.short_info_for_contract(contract_name, cterm)
 
     def _custom_view(elem: KCFGElem) -> Iterable[str]:
-        return foundry.custom_view(contract_name, elem)
+        return foundry.custom_view(contract_name, elem, compilation_unit)
 
     node_printer = foundry_node_printer(foundry, contract_name, proof)
     viewer = APRProofViewer(proof, foundry.kevm, node_printer=node_printer, custom_view=_custom_view)
