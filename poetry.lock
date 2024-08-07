@@ -588,13 +588,13 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.109.0"
+version = "6.110.0"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "hypothesis-6.109.0-py3-none-any.whl", hash = "sha256:6731bc652806406eff5aa5cc3429517c061642eb4472a02a845361faf431c318"},
-    {file = "hypothesis-6.109.0.tar.gz", hash = "sha256:a97c4ee0c967d92cd450fb70ea68b2cec49fda0f824738767bccec3ecb14a646"},
+    {file = "hypothesis-6.110.0-py3-none-any.whl", hash = "sha256:976200b4c0b3e315c04bf33e1bc176054dd07ff40ef2c7f4129768a50aca9753"},
+    {file = "hypothesis-6.110.0.tar.gz", hash = "sha256:fc1bd11cb913e83451d2cff3876ad771ab909d64b854a068d47cb4e6f53f2b0c"},
 ]
 
 [package.dependencies]
@@ -665,7 +665,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.672"
+version = "1.0.673"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -680,8 +680,8 @@ tomlkit = "^0.11.6"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.672"
-resolved_reference = "6e916f325b825069752a3907e70564de482f5d43"
+reference = "v1.0.673"
+resolved_reference = "16dac735654df9593291de4bd0bceb729ebdeb02"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -1403,4 +1403,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "b3d1506e3ef4b8ff7bad3551c05ff622fbfa65782afc32e7b00f0ac42ef4bac9"
+content-hash = "da39f135d94bb0c91ee6dd87cfb545057fba1dfc80f95c6580eb804d6fee6bfe"
