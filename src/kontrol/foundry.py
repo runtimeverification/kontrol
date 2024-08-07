@@ -737,7 +737,7 @@ class Foundry:
 
     def remove_old_proofs(self, force_remove: bool = False) -> bool:
         if force_remove or any(
-            # Wee need to check only the methods that get written to the digest file
+            # We need to check only the methods that get written to the digest file
             # Otherwise we'd get vacuous positives
             (method.is_test or method.is_testfail or method.is_setup)
             and not method.contract_up_to_date(Path(self.digest_file))
