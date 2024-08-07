@@ -9,6 +9,7 @@ from functools import partial
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
+from antlr4 import CommonTokenStream, InputStream  # type: ignore
 from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from multiprocess.pool import Pool  # type: ignore
@@ -34,6 +35,9 @@ from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
+from .solidity.AnnotationVisitor import AnnotationVisitor
+from .solidity.SolidityLexer import SolidityLexer
+from .solidity.SolidityParser import SolidityParser
 from .state_record import StateDiffEntry, StateDumpEntry
 from .utils import console, parse_test_version_tuple
 
@@ -1031,7 +1035,7 @@ def _init_cterm(
         else:
             # Symbolic accounts of all relevant contracts
             accounts, storage_constraints = _create_cse_accounts(
-                foundry, storage_fields, contract_account_name, contract_code
+                foundry, storage_fields, contract_account_name, contract_code, method
             )
 
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
@@ -1075,9 +1079,10 @@ def _init_cterm(
     for constraint in storage_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
 
-    if method.preconditions is not None:
-        for precondition in method.preconditions:
-            init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition.to_kapply))
+    # TODO(palina): we don't need that as long as we're doing it in _cse_...
+    # if method.preconditions is not None:
+    #     for precondition in method.preconditions:
+    #         init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition.to_kapply))
 
     # The calling contract is assumed to be in the present accounts for non-tests
     if not (config_type == ConfigType.TEST_CONFIG or active_symbolik):
@@ -1126,6 +1131,7 @@ def _create_cse_accounts(
     storage_fields: tuple[StorageField, ...],
     contract_name: str,
     contract_code: KInner,
+    method: Contract.Method,
 ) -> tuple[list[KInner], list[KApply]]:
     """
     Recursively generates a list of new accounts corresponding to `contract` fields, each having <code> and <storage> cell (partially) set up.
@@ -1145,6 +1151,33 @@ def _create_cse_accounts(
 
     new_accounts: list[KInner] = []
     new_account_constraints: list[KApply] = []
+
+    # TODO(palina): add a method processing preconditions
+    def precondition_to_kapply(precondition: str) -> KApply:
+        """
+        Converts the precondition to a KApply term.
+
+        - Constants are translated into `intToken` terms
+        - Variables should be searched in method's inputs or in the contract's storage fields
+        - Operators are translated into the corresponding KLabel application, e.g., `leInt`, `eqInt`, etc.
+        """
+
+        # Parse the input expression
+        input_stream = InputStream(precondition)
+        lexer = SolidityLexer(input_stream)
+
+        stream = CommonTokenStream(lexer)
+        parser = SolidityParser(stream)
+        tree = parser.expression()
+
+        # Evaluate the expression
+        evaluator = AnnotationVisitor(method, foundry, storage_fields, contract_name)
+        result = evaluator.visit(tree)
+
+        return result
+
+    for p in method.preconditions:
+        new_account_constraints.append(mlEqualsTrue(precondition_to_kapply(p.precondition)))
 
     storage_map: KInner = KVariable(contract_name + '_STORAGE', sort=KSort('Map'))
 
@@ -1294,7 +1327,7 @@ def _create_cse_accounts(
                         )
 
                     contract_accounts, contract_constraints = _create_cse_accounts(
-                        foundry, contract_obj.fields, field_name, contract_account_code
+                        foundry, contract_obj.fields, field_name, contract_account_code, method
                     )
                     new_accounts.extend(contract_accounts)
                     new_account_constraints.extend(contract_constraints)

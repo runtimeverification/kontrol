@@ -1,23 +1,9 @@
-# Generated from src/kontrol/solidity/Solidity.g4 by ANTLR 4.13.1
+# Generated from src/kontrol/solidity/Solidity.g4 by ANTLR 4.13.2
 # encoding: utf-8
 import sys
+from io import StringIO
 
-from antlr4 import (
-    ATN,
-    DFA,
-    ATNDeserializer,
-    NoViableAltException,
-    Parser,
-    ParserATNSimulator,
-    ParserRuleContext,
-    ParseTreeListener,
-    ParseTreeVisitor,
-    PredictionContextCache,
-    RecognitionException,
-    RuleContext,
-    Token,
-    TokenStream,
-)
+from antlr4 import *
 
 if sys.version_info[1] > 5:
     from typing import TextIO
@@ -29,150 +15,154 @@ def serializedATN():
     return [
         4,
         1,
-        21,
+        23,
+        72,
+        2,
+        0,
+        7,
+        0,
+        2,
+        1,
+        7,
+        1,
+        2,
+        2,
+        7,
+        2,
+        2,
+        3,
+        7,
+        3,
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        1,
+        23,
+        8,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        5,
+        1,
+        31,
+        8,
+        1,
+        10,
+        1,
+        12,
+        1,
+        34,
+        9,
+        1,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        5,
+        2,
+        51,
+        8,
+        2,
+        10,
+        2,
+        12,
+        2,
+        54,
+        9,
+        2,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        3,
+        3,
         70,
-        2,
-        0,
-        7,
-        0,
-        2,
-        1,
-        7,
-        1,
-        2,
-        2,
-        7,
-        2,
-        2,
-        3,
-        7,
-        3,
-        1,
-        0,
-        1,
-        0,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        3,
-        1,
-        23,
-        8,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        5,
-        1,
-        31,
-        8,
-        1,
-        10,
-        1,
-        12,
-        1,
-        34,
-        9,
-        1,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        5,
-        2,
-        51,
-        8,
-        2,
-        10,
-        2,
-        12,
-        2,
-        54,
-        9,
-        2,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        3,
-        3,
-        68,
         8,
         3,
         1,
@@ -188,7 +178,7 @@ def serializedATN():
         6,
         0,
         0,
-        82,
+        86,
         0,
         8,
         1,
@@ -208,7 +198,7 @@ def serializedATN():
         0,
         0,
         6,
-        67,
+        69,
         1,
         0,
         0,
@@ -252,7 +242,7 @@ def serializedATN():
         14,
         15,
         5,
-        20,
+        22,
         0,
         0,
         15,
@@ -550,37 +540,37 @@ def serializedATN():
         0,
         0,
         55,
-        68,
+        70,
         5,
         13,
         0,
         0,
         56,
-        68,
+        70,
         5,
         14,
         0,
         0,
         57,
-        68,
+        70,
         5,
         15,
         0,
         0,
         58,
-        68,
+        70,
         5,
         16,
         0,
         0,
         59,
-        68,
+        70,
         5,
         17,
         0,
         0,
         60,
-        68,
+        70,
         5,
         11,
         0,
@@ -604,78 +594,102 @@ def serializedATN():
         0,
         0,
         64,
-        68,
+        70,
         1,
         0,
         0,
         0,
         65,
-        68,
+        70,
         5,
         18,
         0,
         0,
         66,
-        68,
+        70,
         5,
         19,
         0,
         0,
         67,
+        70,
+        5,
+        20,
+        0,
+        0,
+        68,
+        70,
+        5,
+        21,
+        0,
+        0,
+        69,
         55,
         1,
         0,
         0,
         0,
-        67,
+        69,
         56,
         1,
         0,
         0,
         0,
-        67,
+        69,
         57,
         1,
         0,
         0,
         0,
-        67,
+        69,
         58,
         1,
         0,
         0,
         0,
-        67,
+        69,
         59,
         1,
         0,
         0,
         0,
-        67,
+        69,
         60,
         1,
         0,
         0,
         0,
-        67,
+        69,
         61,
         1,
         0,
         0,
         0,
-        67,
+        69,
         65,
         1,
         0,
         0,
         0,
-        67,
+        69,
         66,
         1,
         0,
         0,
         0,
+        69,
+        67,
+        1,
+        0,
+        0,
+        0,
+        69,
         68,
+        1,
+        0,
+        0,
+        0,
+        70,
         7,
         1,
         0,
@@ -687,7 +701,7 @@ def serializedATN():
         32,
         50,
         52,
-        67,
+        69,
     ]
 
 
@@ -724,6 +738,8 @@ class SolidityParser(Parser):
         "AddressLiteral",
         "BlockAccess",
         "MsgAccess",
+        "ContractVariableAccess",
+        "ContractVariableArrayElement",
         "RelOp",
         "WS",
     ]
@@ -755,12 +771,14 @@ class SolidityParser(Parser):
     AddressLiteral = 17
     BlockAccess = 18
     MsgAccess = 19
-    RelOp = 20
-    WS = 21
+    ContractVariableAccess = 20
+    ContractVariableArrayElement = 21
+    RelOp = 22
+    WS = 23
 
     def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.13.1")
+        self.checkVersion("4.13.2")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
@@ -974,6 +992,7 @@ class SolidityParser(Parser):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = SolidityParser.BooleanExpressionContext(self, self._ctx, _parentState)
+        _prevctx = localctx
         _startState = 2
         self.enterRecursionRule(localctx, 2, self.RULE_booleanExpression, _p)
         try:
@@ -984,37 +1003,45 @@ class SolidityParser(Parser):
             if la_ == 1:
                 localctx = SolidityParser.NotExpressionContext(self, localctx)
                 self._ctx = localctx
+                _prevctx = localctx
 
                 self.state = 11
                 self.match(SolidityParser.T__2)
                 self.state = 12
                 self.booleanExpression(4)
+                pass
 
             elif la_ == 2:
                 localctx = SolidityParser.RelationalExpressionContext(self, localctx)
                 self._ctx = localctx
+                _prevctx = localctx
                 self.state = 13
                 self.arithmeticExpression(0)
                 self.state = 14
                 self.match(SolidityParser.RelOp)
                 self.state = 15
                 self.arithmeticExpression(0)
+                pass
 
             elif la_ == 3:
                 localctx = SolidityParser.BooleanLiteralContext(self, localctx)
                 self._ctx = localctx
+                _prevctx = localctx
                 self.state = 17
                 self.match(SolidityParser.BOOLEAN_LITERAL)
+                pass
 
             elif la_ == 4:
                 localctx = SolidityParser.ParenthesizedBooleanExpressionContext(self, localctx)
                 self._ctx = localctx
+                _prevctx = localctx
                 self.state = 18
                 self.match(SolidityParser.T__3)
                 self.state = 19
                 self.booleanExpression(0)
                 self.state = 20
                 self.match(SolidityParser.T__4)
+                pass
 
             self._ctx.stop = self._input.LT(-1)
             self.state = 32
@@ -1024,6 +1051,7 @@ class SolidityParser(Parser):
                 if _alt == 1:
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
+                    _prevctx = localctx
                     self.state = 30
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input, 1, self._ctx)
@@ -1041,6 +1069,7 @@ class SolidityParser(Parser):
                         self.match(SolidityParser.T__0)
                         self.state = 26
                         self.booleanExpression(7)
+                        pass
 
                     elif la_ == 2:
                         localctx = SolidityParser.OrExpressionContext(
@@ -1056,6 +1085,7 @@ class SolidityParser(Parser):
                         self.match(SolidityParser.T__1)
                         self.state = 29
                         self.booleanExpression(6)
+                        pass
 
                 self.state = 34
                 self._errHandler.sync(self)
@@ -1213,12 +1243,14 @@ class SolidityParser(Parser):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = SolidityParser.ArithmeticExpressionContext(self, self._ctx, _parentState)
+        _prevctx = localctx
         _startState = 4
         self.enterRecursionRule(localctx, 4, self.RULE_arithmeticExpression, _p)
         try:
             self.enterOuterAlt(localctx, 1)
             localctx = SolidityParser.AtomExpressionContext(self, localctx)
             self._ctx = localctx
+            _prevctx = localctx
 
             self.state = 36
             self.atom()
@@ -1230,6 +1262,7 @@ class SolidityParser(Parser):
                 if _alt == 1:
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
+                    _prevctx = localctx
                     self.state = 50
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input, 3, self._ctx)
@@ -1247,6 +1280,7 @@ class SolidityParser(Parser):
                         self.match(SolidityParser.T__5)
                         self.state = 40
                         self.arithmeticExpression(6)
+                        pass
 
                     elif la_ == 2:
                         localctx = SolidityParser.SubtractExpressionContext(
@@ -1262,6 +1296,7 @@ class SolidityParser(Parser):
                         self.match(SolidityParser.T__6)
                         self.state = 43
                         self.arithmeticExpression(5)
+                        pass
 
                     elif la_ == 3:
                         localctx = SolidityParser.MultiplyExpressionContext(
@@ -1277,6 +1312,7 @@ class SolidityParser(Parser):
                         self.match(SolidityParser.T__7)
                         self.state = 46
                         self.arithmeticExpression(4)
+                        pass
 
                     elif la_ == 4:
                         localctx = SolidityParser.DivideExpressionContext(
@@ -1292,6 +1328,7 @@ class SolidityParser(Parser):
                         self.match(SolidityParser.T__8)
                         self.state = 49
                         self.arithmeticExpression(3)
+                        pass
 
                 self.state = 54
                 self._errHandler.sync(self)
@@ -1361,6 +1398,29 @@ class SolidityParser(Parser):
         def accept(self, visitor: ParseTreeVisitor):
             if hasattr(visitor, "visitLengthAccess"):
                 return visitor.visitLengthAccess(self)
+            else:
+                return visitor.visitChildren(self)
+
+    class ContractVariableAccessContext(AtomContext):
+
+        def __init__(self, parser, ctx: ParserRuleContext):  # actually a SolidityParser.AtomContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def ContractVariableAccess(self):
+            return self.getToken(SolidityParser.ContractVariableAccess, 0)
+
+        def enterRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "enterContractVariableAccess"):
+                listener.enterContractVariableAccess(self)
+
+        def exitRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "exitContractVariableAccess"):
+                listener.exitContractVariableAccess(self)
+
+        def accept(self, visitor: ParseTreeVisitor):
+            if hasattr(visitor, "visitContractVariableAccess"):
+                return visitor.visitContractVariableAccess(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -1456,6 +1516,29 @@ class SolidityParser(Parser):
             else:
                 return visitor.visitChildren(self)
 
+    class ContractVariableArrayElementContext(AtomContext):
+
+        def __init__(self, parser, ctx: ParserRuleContext):  # actually a SolidityParser.AtomContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def ContractVariableArrayElement(self):
+            return self.getToken(SolidityParser.ContractVariableArrayElement, 0)
+
+        def enterRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "enterContractVariableArrayElement"):
+                listener.enterContractVariableArrayElement(self)
+
+        def exitRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "exitContractVariableArrayElement"):
+                listener.exitContractVariableArrayElement(self)
+
+        def accept(self, visitor: ParseTreeVisitor):
+            if hasattr(visitor, "visitContractVariableArrayElement"):
+                return visitor.visitContractVariableArrayElement(self)
+            else:
+                return visitor.visitChildren(self)
+
     class ArrayElementContext(AtomContext):
 
         def __init__(self, parser, ctx: ParserRuleContext):  # actually a SolidityParser.AtomContext
@@ -1530,7 +1613,7 @@ class SolidityParser(Parser):
         localctx = SolidityParser.AtomContext(self, self._ctx, self.state)
         self.enterRule(localctx, 6, self.RULE_atom)
         try:
-            self.state = 67
+            self.state = 69
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [13]:
@@ -1538,31 +1621,37 @@ class SolidityParser(Parser):
                 self.enterOuterAlt(localctx, 1)
                 self.state = 55
                 self.match(SolidityParser.VariableName)
+                pass
             elif token in [14]:
                 localctx = SolidityParser.LengthAccessContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 56
                 self.match(SolidityParser.LengthAccess)
+                pass
             elif token in [15]:
                 localctx = SolidityParser.ArrayElementContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 57
                 self.match(SolidityParser.ArrayElement)
+                pass
             elif token in [16]:
                 localctx = SolidityParser.MappingElementContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 58
                 self.match(SolidityParser.MappingElement)
+                pass
             elif token in [17]:
                 localctx = SolidityParser.AddressLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 59
                 self.match(SolidityParser.AddressLiteral)
+                pass
             elif token in [11]:
                 localctx = SolidityParser.IntegerLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
                 self.state = 60
                 self.match(SolidityParser.INTEGER)
+                pass
             elif token in [4]:
                 localctx = SolidityParser.ParenthesizedArithmeticExpressionContext(self, localctx)
                 self.enterOuterAlt(localctx, 7)
@@ -1572,16 +1661,31 @@ class SolidityParser(Parser):
                 self.arithmeticExpression(0)
                 self.state = 63
                 self.match(SolidityParser.T__4)
+                pass
             elif token in [18]:
                 localctx = SolidityParser.BlockAccessContext(self, localctx)
                 self.enterOuterAlt(localctx, 8)
                 self.state = 65
                 self.match(SolidityParser.BlockAccess)
+                pass
             elif token in [19]:
                 localctx = SolidityParser.MsgAccessContext(self, localctx)
                 self.enterOuterAlt(localctx, 9)
                 self.state = 66
                 self.match(SolidityParser.MsgAccess)
+                pass
+            elif token in [20]:
+                localctx = SolidityParser.ContractVariableAccessContext(self, localctx)
+                self.enterOuterAlt(localctx, 10)
+                self.state = 67
+                self.match(SolidityParser.ContractVariableAccess)
+                pass
+            elif token in [21]:
+                localctx = SolidityParser.ContractVariableArrayElementContext(self, localctx)
+                self.enterOuterAlt(localctx, 11)
+                self.state = 68
+                self.match(SolidityParser.ContractVariableArrayElement)
+                pass
             else:
                 raise NoViableAltException(self)
 

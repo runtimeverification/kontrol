@@ -1,4 +1,4 @@
-# Generated from src/kontrol/solidity/Solidity.g4 by ANTLR 4.13.1
+# Generated from src/kontrol/solidity/Solidity.g4 by ANTLR 4.13.2
 from antlr4 import *
 
 if "." in __name__:
@@ -93,6 +93,14 @@ class SolidityVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by SolidityParser#MsgAccess.
     def visitMsgAccess(self, ctx: SolidityParser.MsgAccessContext):
+        return self.visitChildren(ctx)
+
+    # Visit a parse tree produced by SolidityParser#ContractVariableAccess.
+    def visitContractVariableAccess(self, ctx: SolidityParser.ContractVariableAccessContext):
+        return self.visitChildren(ctx)
+
+    # Visit a parse tree produced by SolidityParser#ContractVariableArrayElement.
+    def visitContractVariableArrayElement(self, ctx: SolidityParser.ContractVariableArrayElementContext):
         return self.visitChildren(ctx)
 
 

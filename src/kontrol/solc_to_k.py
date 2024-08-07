@@ -8,21 +8,17 @@ from functools import cached_property
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
-from antlr4 import CommonTokenStream, InputStream  # type: ignore
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
-from pyk.prelude.kbool import FALSE, TRUE, andBool
+from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process_2, single
 
-from .solidity.SolidityLexer import SolidityLexer
-from .solidity.SolidityParser import SolidityParser
-from .solidity.SolidityVisitor import SolidityVisitor
 from .utils import _read_digest_file
 
 if TYPE_CHECKING:
@@ -386,30 +382,6 @@ class Precondition:
         """
         self.precondition = precondition
         self.method = method
-
-    @cached_property
-    def to_kapply(self) -> KApply:
-        """
-        Converts the precondition to a KApply term.
-
-        - Constants are translated into `intToken` terms
-        - Variables should be searched in method's inputs or in the contract's storage fields
-        - Operators are translated into the corresponding KLabel application, e.g., `leInt`, `eqInt`, etc.
-        """
-
-        # Parse the input expression
-        input_stream = InputStream(self.precondition)
-        lexer = SolidityLexer(input_stream)
-
-        stream = CommonTokenStream(lexer)
-        parser = SolidityParser(stream)
-        tree = parser.expression()
-
-        # Evaluate the expression
-        evaluator = AnnotationVisitor(self.method)
-        result = evaluator.visit(tree)
-
-        return result
 
 
 @dataclass
@@ -1494,102 +1466,3 @@ def process_storage_layout(storage_layout: dict, interface_annotations: dict) ->
             _LOGGER.error(f'Error processing field {field}: {e}')
 
     return tuple(fields_list)
-
-
-class AnnotationVisitor(SolidityVisitor):
-    def __init__(self, method: Contract.Method | Contract.Constructor):
-        self.method = method
-
-    # def visitAndExpression(self, ctx: SolidityParser.AndExpressionContext):
-    #     left = self.visit(ctx.booleanExpression(0))
-    #     right = self.visit(ctx.booleanExpression(1))
-    #     return left and right
-
-    # def visitOrExpression(self, ctx: SolidityParser.OrExpressionContext):
-    #     left = self.visit(ctx.booleanExpression(0))
-    #     right = self.visit(ctx.booleanExpression(1))
-    #     return left or right
-
-    # def visitNotExpression(self, ctx: SolidityParser.NotExpressionContext):
-    #     value = self.visit(ctx.booleanExpression())
-    #     return not value
-
-    def visitRelationalExpression(self, ctx: SolidityParser.RelationalExpressionContext) -> KApply:
-        left = self.visit(ctx.arithmeticExpression(0))
-        right = self.visit(ctx.arithmeticExpression(1))
-
-        op = ctx.RelOp().getText()
-
-        # Map operators to KLabel applications
-        operator_mapping = {
-            '<=': '_<=Int_',
-            '>=': '_>=Int_',
-            '==': '_==Int_',
-            '!=': '_=/=Int_',
-            '<': '_<Int_',
-            '>': '_>Int_',
-        }
-
-        if op in operator_mapping:
-            operator_label = operator_mapping[op]
-        else:
-            raise ValueError(f'Unsupported operator in a precondition: {op}')
-
-        return KApply(operator_label, left, right)
-
-    def visitBooleanLiteral(self, ctx: SolidityParser.BooleanLiteralContext) -> KInner:
-        return TRUE if ctx.getText() == 'true' else FALSE
-
-        # def visitAddExpression(self, ctx: SolidityParser.AddExpressionContext):
-        #     left = self.visit(ctx.arithmeticExpression(0))
-        #     right = self.visit(ctx.arithmeticExpression(1))
-        #     return left + right
-
-        # def visitSubtractExpression(self, ctx: SolidityParser.SubtractExpressionContext):
-        #     left = self.visit(ctx.arithmeticExpression(0))
-        #     right = self.visit(ctx.arithmeticExpression(1))
-        #     return left - right
-
-        # def visitMultiplyExpression(self, ctx: SolidityParser.MultiplyExpressionContext):
-        #     left = self.visit(ctx.arithmeticExpression(0))
-        #     right = self.visit(ctx.arithmeticExpression(1))
-        #     return left * right
-
-        # def visitDivideExpression(self, ctx: SolidityParser.DivideExpressionContext):
-        #     left = self.visit(ctx.arithmeticExpression(0))
-        #     right = self.visit(ctx.arithmeticExpression(1))
-        #     return left / right
-
-    def visitVariable(self, ctx: SolidityParser.VariableContext) -> KInner:
-        var_name = ctx.getText()
-        for input in self.method.inputs:
-            if input.name == var_name:
-                # TODO(palina): add support for complex types
-                return abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{input.arg_name}')
-
-        # TODO: add support for storage fields
-        # for field in self.method.contract.storage_fields:
-        # if field.name == var_name:
-        # Perform the necessary action for a matching storage field
-        # break  # Exit the loop once the matching field is found
-        raise ValueError(f'Not implemented yet: {var_name}')
-
-    # def visitLengthAccess(self, ctx: SolidityParser.LengthAccessContext):
-    #     var_name = ctx.variableName().getText()
-    #     return len(self.context.get(var_name, ""))
-
-    # def visitArrayElement(self, ctx: SolidityParser.ArrayElementContext):
-    #     var_name = ctx.variableName().getText()
-    #     index = int(ctx.INTEGER().getText())
-    #     return self.context.get(var_name, [])[index]
-
-    # def visitMappingElement(self, ctx: SolidityParser.MappingElementContext):
-    #     var_name = ctx.variableName().getText()
-    #     key = ctx.variableName().getText()
-    #     return self.context.get(var_name, {}).get(key, 0)
-
-    # def visitAddressLiteral(self, ctx: SolidityParser.AddressLiteralContext):
-    #     return ctx.getText()
-
-    def visitIntegerLiteral(self, ctx: SolidityParser.IntegerLiteralContext) -> KInner:
-        return intToken(ctx.getText())

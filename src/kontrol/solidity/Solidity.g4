@@ -32,6 +32,8 @@ atom
     | '(' arithmeticExpression ')'                    # ParenthesizedArithmeticExpression
     | BlockAccess                                     # BlockAccess
     | MsgAccess                                       # MsgAccess
+    | ContractVariableAccess                          # ContractVariableAccess
+    | ContractVariableArrayElement                    # ContractVariableArrayElement
     ;
 
 // Lexer rules
@@ -46,6 +48,8 @@ MappingElement: VariableName '[' VariableName ']';
 AddressLiteral: ADDRESS;
 BlockAccess: 'block.' ('timestamp' | 'number');
 MsgAccess: 'msg.' ('sender');
+ContractVariableAccess: VariableName '.' VariableName;
+ContractVariableArrayElement: VariableName '.' VariableName '[' (VariableName | INTEGER | ADDRESS) ']';
 
 RelOp: '<' | '<=' | '>' | '>=' | '==' | '!=';
 

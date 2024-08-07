@@ -1,4 +1,4 @@
-# Generated from src/kontrol/solidity/Solidity.g4 by ANTLR 4.13.1
+# Generated from src/kontrol/solidity/Solidity.g4 by ANTLR 4.13.2
 from antlr4 import *
 
 if "." in __name__:
@@ -176,6 +176,22 @@ class SolidityListener(ParseTreeListener):
 
     # Exit a parse tree produced by SolidityParser#MsgAccess.
     def exitMsgAccess(self, ctx: SolidityParser.MsgAccessContext):
+        pass
+
+    # Enter a parse tree produced by SolidityParser#ContractVariableAccess.
+    def enterContractVariableAccess(self, ctx: SolidityParser.ContractVariableAccessContext):
+        pass
+
+    # Exit a parse tree produced by SolidityParser#ContractVariableAccess.
+    def exitContractVariableAccess(self, ctx: SolidityParser.ContractVariableAccessContext):
+        pass
+
+    # Enter a parse tree produced by SolidityParser#ContractVariableArrayElement.
+    def enterContractVariableArrayElement(self, ctx: SolidityParser.ContractVariableArrayElementContext):
+        pass
+
+    # Exit a parse tree produced by SolidityParser#ContractVariableArrayElement.
+    def exitContractVariableArrayElement(self, ctx: SolidityParser.ContractVariableArrayElementContext):
         pass
 
 
