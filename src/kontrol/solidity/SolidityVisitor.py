@@ -103,5 +103,13 @@ class SolidityVisitor(ParseTreeVisitor):
     def visitContractVariableArrayElement(self, ctx: SolidityParser.ContractVariableArrayElementContext):
         return self.visitChildren(ctx)
 
+    # Visit a parse tree produced by SolidityParser#contractVariableAccessExpr.
+    def visitContractVariableAccessExpr(self, ctx: SolidityParser.ContractVariableAccessExprContext):
+        return self.visitChildren(ctx)
+
+    # Visit a parse tree produced by SolidityParser#contractVariableArrayElemExpr.
+    def visitContractVariableArrayElemExpr(self, ctx: SolidityParser.ContractVariableArrayElemExprContext):
+        return self.visitChildren(ctx)
+
 
 del SolidityParser

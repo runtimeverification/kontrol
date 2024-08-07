@@ -1038,6 +1038,11 @@ def _init_cterm(
                 foundry, storage_fields, contract_account_name, contract_code, method
             )
 
+            # Add precondition constraints
+            storage_constraints.extend(
+                _create_precondition_constraints(foundry, storage_fields, contract_account_name, method)
+            )
+
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
 
         init_subst_accounts = {'ACCOUNTS_CELL': KEVM.accounts(accounts)}
@@ -1126,6 +1131,46 @@ def _create_initial_account_list(
     return init_account_list
 
 
+def _create_precondition_constraints(
+    foundry: Foundry,
+    storage_fields: tuple[StorageField, ...],
+    contract_name: str,
+    method: Contract.Method,
+) -> list[KApply]:
+
+    precondition_constraints: list[KApply] = []
+
+    def precondition_to_kapply(precondition: str) -> KApply:
+        """
+        Converts the precondition to a KApply term.
+
+        - Constants are translated into `intToken` terms
+        - Variables should be searched in method's inputs or in the contract's storage fields
+        - Operators are translated into the corresponding KLabel application, e.g., `leInt`, `eqInt`, etc.
+        TBD
+        """
+
+        # Parse the input expression
+        input_stream = InputStream(precondition)
+        lexer = SolidityLexer(input_stream)
+
+        stream = CommonTokenStream(lexer)
+        parser = SolidityParser(stream)
+        tree = parser.expression()
+
+        # Evaluate the expression
+        evaluator = AnnotationVisitor(method, foundry, storage_fields, contract_name)
+        result = evaluator.visit(tree)
+
+        return result
+
+    if method.preconditions is not None:
+        for p in method.preconditions:
+            precondition_constraints.append(mlEqualsTrue(precondition_to_kapply(p.precondition)))
+
+    return precondition_constraints
+
+
 def _create_cse_accounts(
     foundry: Foundry,
     storage_fields: tuple[StorageField, ...],
@@ -1151,33 +1196,6 @@ def _create_cse_accounts(
 
     new_accounts: list[KInner] = []
     new_account_constraints: list[KApply] = []
-
-    # TODO(palina): add a method processing preconditions
-    def precondition_to_kapply(precondition: str) -> KApply:
-        """
-        Converts the precondition to a KApply term.
-
-        - Constants are translated into `intToken` terms
-        - Variables should be searched in method's inputs or in the contract's storage fields
-        - Operators are translated into the corresponding KLabel application, e.g., `leInt`, `eqInt`, etc.
-        """
-
-        # Parse the input expression
-        input_stream = InputStream(precondition)
-        lexer = SolidityLexer(input_stream)
-
-        stream = CommonTokenStream(lexer)
-        parser = SolidityParser(stream)
-        tree = parser.expression()
-
-        # Evaluate the expression
-        evaluator = AnnotationVisitor(method, foundry, storage_fields, contract_name)
-        result = evaluator.visit(tree)
-
-        return result
-
-    for p in method.preconditions:
-        new_account_constraints.append(mlEqualsTrue(precondition_to_kapply(p.precondition)))
 
     storage_map: KInner = KVariable(contract_name + '_STORAGE', sort=KSort('Map'))
 

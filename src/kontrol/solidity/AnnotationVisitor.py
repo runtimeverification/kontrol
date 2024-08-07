@@ -64,54 +64,66 @@ class AnnotationVisitor(SolidityVisitor):
     def visitBooleanLiteral(self, ctx: SolidityParser.BooleanLiteralContext) -> KInner:
         return TRUE if ctx.getText() == 'true' else FALSE
 
-        # def visitAddExpression(self, ctx: SolidityParser.AddExpressionContext):
-        #     left = self.visit(ctx.arithmeticExpression(0))
-        #     right = self.visit(ctx.arithmeticExpression(1))
-        #     return left + right
-
-        # def visitSubtractExpression(self, ctx: SolidityParser.SubtractExpressionContext):
-        #     left = self.visit(ctx.arithmeticExpression(0))
-        #     right = self.visit(ctx.arithmeticExpression(1))
-        #     return left - right
-
-        # def visitMultiplyExpression(self, ctx: SolidityParser.MultiplyExpressionContext):
-        #     left = self.visit(ctx.arithmeticExpression(0))
-        #     right = self.visit(ctx.arithmeticExpression(1))
-        #     return left * right
-
-        # def visitDivideExpression(self, ctx: SolidityParser.DivideExpressionContext):
-        #     left = self.visit(ctx.arithmeticExpression(0))
-        #     right = self.visit(ctx.arithmeticExpression(1))
-        #     return left / right
-
     def visitVariable(self, ctx: SolidityParser.VariableContext) -> KInner:
         var_name = ctx.getText()
+        # Search for matches in function inputs
         for input in self.method.inputs:
             if input.name == var_name:
-                # TODO(palina): add support for complex types
+                # TODO: add support for complex types
                 return abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{input.arg_name}')
 
-        # TODO: add support for storage fields
+        # Search for matches in contract storage fields
         for field in self.storage_fields:
             if field.label == var_name:
                 storage_map: KInner = KVariable(self.contract_name + '_STORAGE', sort=KSort('Map'))
                 return KEVM.lookup(storage_map, intToken(field.slot))
-                # return abstract_term_safely(KVariable('_###SOLIDITY_STORAGE_VAR###_'), base_name=f'V{field.name}')
-        # for field in self.method.contract.storage_fields:
-        # if field.name == var_name:
-        # Perform the necessary action for a matching storage field
-        # break  # Exit the loop once the matching field is found
-        raise ValueError(f'Not implemented yet: {var_name}')
 
-    # def visitContractVariableAccess(self, ctx: SolidityParser.ContractVariableAccessContext):
-    #     contract_name = ctx.VariableName(0).getText()
-    #     var_name = ctx.VariableName(1).getText()
+        raise ValueError(f'Variable {var_name} not found in function inputs or storage fields of {self.method.name}.')
 
-        # TODO (palina): add support for contract variables
-        # - find contract
-        # - find variables
-        # - lookup
-        # return self.contracts.get(contract_name, {}).get(var_name, 0)
+    def visitContractVariableAccess(self, ctx: SolidityParser.ContractVariableAccessContext):
+        contract_field_name: str = ctx.contractVariableAccessExpr().VariableName(0).getText()
+        var_name: str = ctx.contractVariableAccessExpr().VariableName(1).getText()
+
+        for field in self.storage_fields:
+            if field.data_type.startswith('contract ') and field.label == contract_field_name:
+                contract_type = field.data_type.split(' ')[1]
+
+                # TODO: it is possible for a contact to have an interface annotation, `linked_interface`
+                for full_contract_name, contract_obj in self.foundry.contracts.items():
+                    # TODO: this is not enough, it is possible that the same contract comes with
+                    # src% and test%, in which case we don't know automatically which one to choose
+                    if full_contract_name.split('%')[-1] == contract_type:
+                        for field in contract_obj.fields:
+                            if field.label == var_name:
+                                storage_map: KInner = KVariable(
+                                    self.contract_name + '_' + contract_field_name.upper() + '_STORAGE', sort=KSort('Map')
+                                )
+                                return KEVM.lookup(storage_map, intToken(field.slot))
+
+        raise ValueError(f'Variable {contract_field_name}.{var_name} not found.')
+
+    def visitIntegerLiteral(self, ctx: SolidityParser.IntegerLiteralContext) -> KInner:
+        return intToken(ctx.getText())
+
+    # def visitAddExpression(self, ctx: SolidityParser.AddExpressionContext):
+    #     left = self.visit(ctx.arithmeticExpression(0))
+    #     right = self.visit(ctx.arithmeticExpression(1))
+    #     return left + right
+
+    # def visitSubtractExpression(self, ctx: SolidityParser.SubtractExpressionContext):
+    #     left = self.visit(ctx.arithmeticExpression(0))
+    #     right = self.visit(ctx.arithmeticExpression(1))
+    #     return left - right
+
+    # def visitMultiplyExpression(self, ctx: SolidityParser.MultiplyExpressionContext):
+    #     left = self.visit(ctx.arithmeticExpression(0))
+    #     right = self.visit(ctx.arithmeticExpression(1))
+    #     return left * right
+
+    # def visitDivideExpression(self, ctx: SolidityParser.DivideExpressionContext):
+    #     left = self.visit(ctx.arithmeticExpression(0))
+    #     right = self.visit(ctx.arithmeticExpression(1))
+    #     return left / right
 
     # def visitLengthAccess(self, ctx: SolidityParser.LengthAccessContext):
     #     var_name = ctx.variableName().getText()
@@ -129,6 +141,3 @@ class AnnotationVisitor(SolidityVisitor):
 
     # def visitAddressLiteral(self, ctx: SolidityParser.AddressLiteralContext):
     #     return ctx.getText()
-
-    def visitIntegerLiteral(self, ctx: SolidityParser.IntegerLiteralContext) -> KInner:
-        return intToken(ctx.getText())

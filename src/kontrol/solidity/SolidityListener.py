@@ -194,5 +194,21 @@ class SolidityListener(ParseTreeListener):
     def exitContractVariableArrayElement(self, ctx: SolidityParser.ContractVariableArrayElementContext):
         pass
 
+    # Enter a parse tree produced by SolidityParser#contractVariableAccessExpr.
+    def enterContractVariableAccessExpr(self, ctx: SolidityParser.ContractVariableAccessExprContext):
+        pass
+
+    # Exit a parse tree produced by SolidityParser#contractVariableAccessExpr.
+    def exitContractVariableAccessExpr(self, ctx: SolidityParser.ContractVariableAccessExprContext):
+        pass
+
+    # Enter a parse tree produced by SolidityParser#contractVariableArrayElemExpr.
+    def enterContractVariableArrayElemExpr(self, ctx: SolidityParser.ContractVariableArrayElemExprContext):
+        pass
+
+    # Exit a parse tree produced by SolidityParser#contractVariableArrayElemExpr.
+    def exitContractVariableArrayElemExpr(self, ctx: SolidityParser.ContractVariableArrayElemExprContext):
+        pass
+
 
 del SolidityParser

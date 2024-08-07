@@ -15,693 +15,807 @@ def serializedATN():
     return [
         4,
         1,
+        24,
+        87,
+        2,
+        0,
+        7,
+        0,
+        2,
+        1,
+        7,
+        1,
+        2,
+        2,
+        7,
+        2,
+        2,
+        3,
+        7,
+        3,
+        2,
+        4,
+        7,
+        4,
+        2,
+        5,
+        7,
+        5,
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        1,
+        27,
+        8,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        5,
+        1,
+        35,
+        8,
+        1,
+        10,
+        1,
+        12,
+        1,
+        38,
+        9,
+        1,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        5,
+        2,
+        55,
+        8,
+        2,
+        10,
+        2,
+        12,
+        2,
+        58,
+        9,
+        2,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        1,
+        3,
+        3,
+        3,
+        74,
+        8,
+        3,
+        1,
+        4,
+        1,
+        4,
+        1,
+        4,
+        1,
+        4,
+        1,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1,
+        5,
+        0,
+        2,
+        2,
+        4,
+        6,
+        0,
+        2,
+        4,
+        6,
+        8,
+        10,
+        0,
+        1,
+        1,
+        0,
+        14,
+        16,
+        99,
+        0,
+        12,
+        1,
+        0,
+        0,
+        0,
+        2,
+        26,
+        1,
+        0,
+        0,
+        0,
+        4,
+        39,
+        1,
+        0,
+        0,
+        0,
+        6,
+        73,
+        1,
+        0,
+        0,
+        0,
+        8,
+        75,
+        1,
+        0,
+        0,
+        0,
+        10,
+        79,
+        1,
+        0,
+        0,
+        0,
+        12,
+        13,
+        3,
+        2,
+        1,
+        0,
+        13,
+        1,
+        1,
+        0,
+        0,
+        0,
+        14,
+        15,
+        6,
+        1,
+        -1,
+        0,
+        15,
+        16,
+        5,
+        3,
+        0,
+        0,
+        16,
+        27,
+        3,
+        2,
+        1,
+        4,
+        17,
+        18,
+        3,
+        4,
+        2,
+        0,
+        18,
+        19,
+        5,
         23,
+        0,
+        0,
+        19,
+        20,
+        3,
+        4,
+        2,
+        0,
+        20,
+        27,
+        1,
+        0,
+        0,
+        0,
+        21,
+        27,
+        5,
+        13,
+        0,
+        0,
+        22,
+        23,
+        5,
+        4,
+        0,
+        0,
+        23,
+        24,
+        3,
+        2,
+        1,
+        0,
+        24,
+        25,
+        5,
+        5,
+        0,
+        0,
+        25,
+        27,
+        1,
+        0,
+        0,
+        0,
+        26,
+        14,
+        1,
+        0,
+        0,
+        0,
+        26,
+        17,
+        1,
+        0,
+        0,
+        0,
+        26,
+        21,
+        1,
+        0,
+        0,
+        0,
+        26,
+        22,
+        1,
+        0,
+        0,
+        0,
+        27,
+        36,
+        1,
+        0,
+        0,
+        0,
+        28,
+        29,
+        10,
+        6,
+        0,
+        0,
+        29,
+        30,
+        5,
+        1,
+        0,
+        0,
+        30,
+        35,
+        3,
+        2,
+        1,
+        7,
+        31,
+        32,
+        10,
+        5,
+        0,
+        0,
+        32,
+        33,
+        5,
+        2,
+        0,
+        0,
+        33,
+        35,
+        3,
+        2,
+        1,
+        6,
+        34,
+        28,
+        1,
+        0,
+        0,
+        0,
+        34,
+        31,
+        1,
+        0,
+        0,
+        0,
+        35,
+        38,
+        1,
+        0,
+        0,
+        0,
+        36,
+        34,
+        1,
+        0,
+        0,
+        0,
+        36,
+        37,
+        1,
+        0,
+        0,
+        0,
+        37,
+        3,
+        1,
+        0,
+        0,
+        0,
+        38,
+        36,
+        1,
+        0,
+        0,
+        0,
+        39,
+        40,
+        6,
+        2,
+        -1,
+        0,
+        40,
+        41,
+        3,
+        6,
+        3,
+        0,
+        41,
+        56,
+        1,
+        0,
+        0,
+        0,
+        42,
+        43,
+        10,
+        5,
+        0,
+        0,
+        43,
+        44,
+        5,
+        6,
+        0,
+        0,
+        44,
+        55,
+        3,
+        4,
+        2,
+        6,
+        45,
+        46,
+        10,
+        4,
+        0,
+        0,
+        46,
+        47,
+        5,
+        7,
+        0,
+        0,
+        47,
+        55,
+        3,
+        4,
+        2,
+        5,
+        48,
+        49,
+        10,
+        3,
+        0,
+        0,
+        49,
+        50,
+        5,
+        8,
+        0,
+        0,
+        50,
+        55,
+        3,
+        4,
+        2,
+        4,
+        51,
+        52,
+        10,
+        2,
+        0,
+        0,
+        52,
+        53,
+        5,
+        9,
+        0,
+        0,
+        53,
+        55,
+        3,
+        4,
+        2,
+        3,
+        54,
+        42,
+        1,
+        0,
+        0,
+        0,
+        54,
+        45,
+        1,
+        0,
+        0,
+        0,
+        54,
+        48,
+        1,
+        0,
+        0,
+        0,
+        54,
+        51,
+        1,
+        0,
+        0,
+        0,
+        55,
+        58,
+        1,
+        0,
+        0,
+        0,
+        56,
+        54,
+        1,
+        0,
+        0,
+        0,
+        56,
+        57,
+        1,
+        0,
+        0,
+        0,
+        57,
+        5,
+        1,
+        0,
+        0,
+        0,
+        58,
+        56,
+        1,
+        0,
+        0,
+        0,
+        59,
+        74,
+        5,
+        16,
+        0,
+        0,
+        60,
+        74,
+        5,
+        17,
+        0,
+        0,
+        61,
+        74,
+        5,
+        18,
+        0,
+        0,
+        62,
+        74,
+        5,
+        19,
+        0,
+        0,
+        63,
+        74,
+        5,
+        20,
+        0,
+        0,
+        64,
+        74,
+        5,
+        14,
+        0,
+        0,
+        65,
+        66,
+        5,
+        4,
+        0,
+        0,
+        66,
+        67,
+        3,
+        4,
+        2,
+        0,
+        67,
+        68,
+        5,
+        5,
+        0,
+        0,
+        68,
+        74,
+        1,
+        0,
+        0,
+        0,
+        69,
+        74,
+        5,
+        21,
+        0,
+        0,
+        70,
+        74,
+        5,
+        22,
+        0,
+        0,
+        71,
+        74,
+        3,
+        8,
+        4,
+        0,
         72,
-        2,
-        0,
-        7,
-        0,
-        2,
-        1,
-        7,
-        1,
-        2,
-        2,
-        7,
-        2,
-        2,
+        74,
         3,
-        7,
-        3,
-        1,
-        0,
-        1,
-        0,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        3,
-        1,
-        23,
-        8,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        5,
-        1,
-        31,
-        8,
-        1,
-        10,
-        1,
-        12,
-        1,
-        34,
-        9,
-        1,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        1,
-        2,
-        5,
-        2,
-        51,
-        8,
-        2,
-        10,
-        2,
-        12,
-        2,
-        54,
-        9,
-        2,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        1,
-        3,
-        3,
-        3,
-        70,
-        8,
-        3,
-        1,
-        3,
-        0,
-        2,
-        2,
-        4,
-        4,
-        0,
-        2,
-        4,
-        6,
-        0,
-        0,
-        86,
-        0,
-        8,
-        1,
-        0,
-        0,
-        0,
-        2,
-        22,
-        1,
-        0,
-        0,
-        0,
-        4,
-        35,
-        1,
-        0,
-        0,
-        0,
-        6,
-        69,
-        1,
-        0,
-        0,
-        0,
-        8,
-        9,
-        3,
-        2,
-        1,
-        0,
-        9,
-        1,
-        1,
-        0,
-        0,
-        0,
-        10,
-        11,
-        6,
-        1,
-        -1,
-        0,
-        11,
-        12,
-        5,
-        3,
-        0,
-        0,
-        12,
-        23,
-        3,
-        2,
-        1,
-        4,
-        13,
-        14,
-        3,
-        4,
-        2,
-        0,
-        14,
-        15,
-        5,
-        22,
-        0,
-        0,
-        15,
-        16,
-        3,
-        4,
-        2,
-        0,
-        16,
-        23,
-        1,
-        0,
-        0,
-        0,
-        17,
-        23,
-        5,
-        10,
-        0,
-        0,
-        18,
-        19,
-        5,
-        4,
-        0,
-        0,
-        19,
-        20,
-        3,
-        2,
-        1,
-        0,
-        20,
-        21,
-        5,
-        5,
-        0,
-        0,
-        21,
-        23,
-        1,
-        0,
-        0,
-        0,
-        22,
-        10,
-        1,
-        0,
-        0,
-        0,
-        22,
-        13,
-        1,
-        0,
-        0,
-        0,
-        22,
-        17,
-        1,
-        0,
-        0,
-        0,
-        22,
-        18,
-        1,
-        0,
-        0,
-        0,
-        23,
-        32,
-        1,
-        0,
-        0,
-        0,
-        24,
-        25,
-        10,
-        6,
-        0,
-        0,
-        25,
-        26,
-        5,
-        1,
-        0,
-        0,
-        26,
-        31,
-        3,
-        2,
-        1,
-        7,
-        27,
-        28,
         10,
         5,
         0,
-        0,
-        28,
-        29,
-        5,
-        2,
-        0,
-        0,
-        29,
-        31,
-        3,
-        2,
-        1,
-        6,
-        30,
-        24,
-        1,
-        0,
-        0,
-        0,
-        30,
-        27,
-        1,
-        0,
-        0,
-        0,
-        31,
-        34,
-        1,
-        0,
-        0,
-        0,
-        32,
-        30,
-        1,
-        0,
-        0,
-        0,
-        32,
-        33,
-        1,
-        0,
-        0,
-        0,
-        33,
-        3,
-        1,
-        0,
-        0,
-        0,
-        34,
-        32,
-        1,
-        0,
-        0,
-        0,
-        35,
-        36,
-        6,
-        2,
-        -1,
-        0,
-        36,
-        37,
-        3,
-        6,
-        3,
-        0,
-        37,
-        52,
-        1,
-        0,
-        0,
-        0,
-        38,
-        39,
-        10,
-        5,
-        0,
-        0,
-        39,
-        40,
-        5,
-        6,
-        0,
-        0,
-        40,
-        51,
-        3,
-        4,
-        2,
-        6,
-        41,
-        42,
-        10,
-        4,
-        0,
-        0,
-        42,
-        43,
-        5,
-        7,
-        0,
-        0,
-        43,
-        51,
-        3,
-        4,
-        2,
-        5,
-        44,
-        45,
-        10,
-        3,
-        0,
-        0,
-        45,
-        46,
-        5,
-        8,
-        0,
-        0,
-        46,
-        51,
-        3,
-        4,
-        2,
-        4,
-        47,
-        48,
-        10,
-        2,
-        0,
-        0,
-        48,
-        49,
-        5,
-        9,
-        0,
-        0,
-        49,
-        51,
-        3,
-        4,
-        2,
-        3,
-        50,
-        38,
-        1,
-        0,
-        0,
-        0,
-        50,
-        41,
-        1,
-        0,
-        0,
-        0,
-        50,
-        44,
-        1,
-        0,
-        0,
-        0,
-        50,
-        47,
-        1,
-        0,
-        0,
-        0,
-        51,
-        54,
-        1,
-        0,
-        0,
-        0,
-        52,
-        50,
-        1,
-        0,
-        0,
-        0,
-        52,
-        53,
-        1,
-        0,
-        0,
-        0,
-        53,
-        5,
-        1,
-        0,
-        0,
-        0,
-        54,
-        52,
-        1,
-        0,
-        0,
-        0,
-        55,
-        70,
-        5,
-        13,
-        0,
-        0,
-        56,
-        70,
-        5,
-        14,
-        0,
-        0,
-        57,
-        70,
-        5,
-        15,
-        0,
-        0,
-        58,
-        70,
-        5,
-        16,
-        0,
-        0,
-        59,
-        70,
-        5,
-        17,
-        0,
-        0,
-        60,
-        70,
-        5,
-        11,
-        0,
-        0,
-        61,
-        62,
-        5,
-        4,
-        0,
-        0,
-        62,
-        63,
-        3,
-        4,
-        2,
-        0,
-        63,
-        64,
-        5,
-        5,
-        0,
-        0,
-        64,
-        70,
-        1,
-        0,
-        0,
-        0,
-        65,
-        70,
-        5,
-        18,
-        0,
-        0,
-        66,
-        70,
-        5,
-        19,
-        0,
-        0,
-        67,
-        70,
-        5,
-        20,
-        0,
-        0,
-        68,
-        70,
-        5,
-        21,
-        0,
-        0,
-        69,
-        55,
-        1,
-        0,
-        0,
-        0,
-        69,
-        56,
-        1,
-        0,
-        0,
-        0,
-        69,
-        57,
-        1,
-        0,
-        0,
-        0,
-        69,
-        58,
-        1,
-        0,
-        0,
-        0,
-        69,
+        73,
         59,
         1,
         0,
         0,
         0,
-        69,
+        73,
         60,
         1,
         0,
         0,
         0,
-        69,
+        73,
         61,
         1,
         0,
         0,
         0,
-        69,
+        73,
+        62,
+        1,
+        0,
+        0,
+        0,
+        73,
+        63,
+        1,
+        0,
+        0,
+        0,
+        73,
+        64,
+        1,
+        0,
+        0,
+        0,
+        73,
         65,
         1,
         0,
         0,
         0,
+        73,
         69,
-        66,
         1,
         0,
         0,
         0,
-        69,
-        67,
-        1,
-        0,
-        0,
-        0,
-        69,
-        68,
-        1,
-        0,
-        0,
-        0,
+        73,
         70,
+        1,
+        0,
+        0,
+        0,
+        73,
+        71,
+        1,
+        0,
+        0,
+        0,
+        73,
+        72,
+        1,
+        0,
+        0,
+        0,
+        74,
         7,
         1,
         0,
         0,
         0,
+        75,
+        76,
+        5,
+        16,
+        0,
+        0,
+        76,
+        77,
+        5,
+        10,
+        0,
+        0,
+        77,
+        78,
+        5,
+        16,
+        0,
+        0,
+        78,
+        9,
+        1,
+        0,
+        0,
+        0,
+        79,
+        80,
+        5,
+        16,
+        0,
+        0,
+        80,
+        81,
+        5,
+        10,
+        0,
+        0,
+        81,
+        82,
+        5,
+        16,
+        0,
+        0,
+        82,
+        83,
+        5,
+        11,
+        0,
+        0,
+        83,
+        84,
+        7,
+        0,
+        0,
+        0,
+        84,
+        85,
+        5,
+        12,
+        0,
+        0,
+        85,
+        11,
+        1,
+        0,
+        0,
+        0,
         6,
-        22,
-        30,
-        32,
-        50,
-        52,
-        69,
+        26,
+        34,
+        36,
+        54,
+        56,
+        73,
     ]
 
 
@@ -715,9 +829,12 @@ class SolidityParser(Parser):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = ["<INVALID>", "'&&'", "'||'", "'!'", "'('", "')'", "'+'", "'-'", "'*'", "'/'"]
+    literalNames = ["<INVALID>", "'&&'", "'||'", "'!'", "'('", "')'", "'+'", "'-'", "'*'", "'/'", "'.'", "'['", "']'"]
 
     symbolicNames = [
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
         "<INVALID>",
         "<INVALID>",
         "<INVALID>",
@@ -738,8 +855,6 @@ class SolidityParser(Parser):
         "AddressLiteral",
         "BlockAccess",
         "MsgAccess",
-        "ContractVariableAccess",
-        "ContractVariableArrayElement",
         "RelOp",
         "WS",
     ]
@@ -748,8 +863,17 @@ class SolidityParser(Parser):
     RULE_booleanExpression = 1
     RULE_arithmeticExpression = 2
     RULE_atom = 3
+    RULE_contractVariableAccessExpr = 4
+    RULE_contractVariableArrayElemExpr = 5
 
-    ruleNames = ["expression", "booleanExpression", "arithmeticExpression", "atom"]
+    ruleNames = [
+        "expression",
+        "booleanExpression",
+        "arithmeticExpression",
+        "atom",
+        "contractVariableAccessExpr",
+        "contractVariableArrayElemExpr",
+    ]
 
     EOF = Token.EOF
     T__0 = 1
@@ -761,20 +885,21 @@ class SolidityParser(Parser):
     T__6 = 7
     T__7 = 8
     T__8 = 9
-    BOOLEAN_LITERAL = 10
-    INTEGER = 11
-    ADDRESS = 12
-    VariableName = 13
-    LengthAccess = 14
-    ArrayElement = 15
-    MappingElement = 16
-    AddressLiteral = 17
-    BlockAccess = 18
-    MsgAccess = 19
-    ContractVariableAccess = 20
-    ContractVariableArrayElement = 21
-    RelOp = 22
-    WS = 23
+    T__9 = 10
+    T__10 = 11
+    T__11 = 12
+    BOOLEAN_LITERAL = 13
+    INTEGER = 14
+    ADDRESS = 15
+    VariableName = 16
+    LengthAccess = 17
+    ArrayElement = 18
+    MappingElement = 19
+    AddressLiteral = 20
+    BlockAccess = 21
+    MsgAccess = 22
+    RelOp = 23
+    WS = 24
 
     def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
         super().__init__(input, output)
@@ -815,7 +940,7 @@ class SolidityParser(Parser):
         self.enterRule(localctx, 0, self.RULE_expression)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 8
+            self.state = 12
             self.booleanExpression(0)
         except RecognitionException as re:
             localctx.exception = re
@@ -997,7 +1122,7 @@ class SolidityParser(Parser):
         self.enterRecursionRule(localctx, 2, self.RULE_booleanExpression, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 22
+            self.state = 26
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input, 0, self._ctx)
             if la_ == 1:
@@ -1005,9 +1130,9 @@ class SolidityParser(Parser):
                 self._ctx = localctx
                 _prevctx = localctx
 
-                self.state = 11
+                self.state = 15
                 self.match(SolidityParser.T__2)
-                self.state = 12
+                self.state = 16
                 self.booleanExpression(4)
                 pass
 
@@ -1015,11 +1140,11 @@ class SolidityParser(Parser):
                 localctx = SolidityParser.RelationalExpressionContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 13
+                self.state = 17
                 self.arithmeticExpression(0)
-                self.state = 14
+                self.state = 18
                 self.match(SolidityParser.RelOp)
-                self.state = 15
+                self.state = 19
                 self.arithmeticExpression(0)
                 pass
 
@@ -1027,7 +1152,7 @@ class SolidityParser(Parser):
                 localctx = SolidityParser.BooleanLiteralContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 17
+                self.state = 21
                 self.match(SolidityParser.BOOLEAN_LITERAL)
                 pass
 
@@ -1035,16 +1160,16 @@ class SolidityParser(Parser):
                 localctx = SolidityParser.ParenthesizedBooleanExpressionContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 18
+                self.state = 22
                 self.match(SolidityParser.T__3)
-                self.state = 19
+                self.state = 23
                 self.booleanExpression(0)
-                self.state = 20
+                self.state = 24
                 self.match(SolidityParser.T__4)
                 pass
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 32
+            self.state = 36
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input, 2, self._ctx)
             while _alt != 2 and _alt != ATN.INVALID_ALT_NUMBER:
@@ -1052,7 +1177,7 @@ class SolidityParser(Parser):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 30
+                    self.state = 34
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input, 1, self._ctx)
                     if la_ == 1:
@@ -1060,14 +1185,14 @@ class SolidityParser(Parser):
                             self, SolidityParser.BooleanExpressionContext(self, _parentctx, _parentState)
                         )
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_booleanExpression)
-                        self.state = 24
+                        self.state = 28
                         if not self.precpred(self._ctx, 6):
                             from antlr4.error.Errors import FailedPredicateException
 
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
-                        self.state = 25
+                        self.state = 29
                         self.match(SolidityParser.T__0)
-                        self.state = 26
+                        self.state = 30
                         self.booleanExpression(7)
                         pass
 
@@ -1076,18 +1201,18 @@ class SolidityParser(Parser):
                             self, SolidityParser.BooleanExpressionContext(self, _parentctx, _parentState)
                         )
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_booleanExpression)
-                        self.state = 27
+                        self.state = 31
                         if not self.precpred(self._ctx, 5):
                             from antlr4.error.Errors import FailedPredicateException
 
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
-                        self.state = 28
+                        self.state = 32
                         self.match(SolidityParser.T__1)
-                        self.state = 29
+                        self.state = 33
                         self.booleanExpression(6)
                         pass
 
-                self.state = 34
+                self.state = 38
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input, 2, self._ctx)
 
@@ -1252,10 +1377,10 @@ class SolidityParser(Parser):
             self._ctx = localctx
             _prevctx = localctx
 
-            self.state = 36
+            self.state = 40
             self.atom()
             self._ctx.stop = self._input.LT(-1)
-            self.state = 52
+            self.state = 56
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input, 4, self._ctx)
             while _alt != 2 and _alt != ATN.INVALID_ALT_NUMBER:
@@ -1263,7 +1388,7 @@ class SolidityParser(Parser):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 50
+                    self.state = 54
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input, 3, self._ctx)
                     if la_ == 1:
@@ -1271,14 +1396,14 @@ class SolidityParser(Parser):
                             self, SolidityParser.ArithmeticExpressionContext(self, _parentctx, _parentState)
                         )
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_arithmeticExpression)
-                        self.state = 38
+                        self.state = 42
                         if not self.precpred(self._ctx, 5):
                             from antlr4.error.Errors import FailedPredicateException
 
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
-                        self.state = 39
+                        self.state = 43
                         self.match(SolidityParser.T__5)
-                        self.state = 40
+                        self.state = 44
                         self.arithmeticExpression(6)
                         pass
 
@@ -1287,14 +1412,14 @@ class SolidityParser(Parser):
                             self, SolidityParser.ArithmeticExpressionContext(self, _parentctx, _parentState)
                         )
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_arithmeticExpression)
-                        self.state = 41
+                        self.state = 45
                         if not self.precpred(self._ctx, 4):
                             from antlr4.error.Errors import FailedPredicateException
 
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
-                        self.state = 42
+                        self.state = 46
                         self.match(SolidityParser.T__6)
-                        self.state = 43
+                        self.state = 47
                         self.arithmeticExpression(5)
                         pass
 
@@ -1303,14 +1428,14 @@ class SolidityParser(Parser):
                             self, SolidityParser.ArithmeticExpressionContext(self, _parentctx, _parentState)
                         )
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_arithmeticExpression)
-                        self.state = 44
+                        self.state = 48
                         if not self.precpred(self._ctx, 3):
                             from antlr4.error.Errors import FailedPredicateException
 
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
-                        self.state = 45
+                        self.state = 49
                         self.match(SolidityParser.T__7)
-                        self.state = 46
+                        self.state = 50
                         self.arithmeticExpression(4)
                         pass
 
@@ -1319,18 +1444,18 @@ class SolidityParser(Parser):
                             self, SolidityParser.ArithmeticExpressionContext(self, _parentctx, _parentState)
                         )
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_arithmeticExpression)
-                        self.state = 47
+                        self.state = 51
                         if not self.precpred(self._ctx, 2):
                             from antlr4.error.Errors import FailedPredicateException
 
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
-                        self.state = 48
+                        self.state = 52
                         self.match(SolidityParser.T__8)
-                        self.state = 49
+                        self.state = 53
                         self.arithmeticExpression(3)
                         pass
 
-                self.state = 54
+                self.state = 58
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input, 4, self._ctx)
 
@@ -1407,8 +1532,8 @@ class SolidityParser(Parser):
             super().__init__(parser)
             self.copyFrom(ctx)
 
-        def ContractVariableAccess(self):
-            return self.getToken(SolidityParser.ContractVariableAccess, 0)
+        def contractVariableAccessExpr(self):
+            return self.getTypedRuleContext(SolidityParser.ContractVariableAccessExprContext, 0)
 
         def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterContractVariableAccess"):
@@ -1522,8 +1647,8 @@ class SolidityParser(Parser):
             super().__init__(parser)
             self.copyFrom(ctx)
 
-        def ContractVariableArrayElement(self):
-            return self.getToken(SolidityParser.ContractVariableArrayElement, 0)
+        def contractVariableArrayElemExpr(self):
+            return self.getTypedRuleContext(SolidityParser.ContractVariableArrayElemExprContext, 0)
 
         def enterRule(self, listener: ParseTreeListener):
             if hasattr(listener, "enterContractVariableArrayElement"):
@@ -1613,82 +1738,208 @@ class SolidityParser(Parser):
         localctx = SolidityParser.AtomContext(self, self._ctx, self.state)
         self.enterRule(localctx, 6, self.RULE_atom)
         try:
-            self.state = 69
+            self.state = 73
             self._errHandler.sync(self)
-            token = self._input.LA(1)
-            if token in [13]:
+            la_ = self._interp.adaptivePredict(self._input, 5, self._ctx)
+            if la_ == 1:
                 localctx = SolidityParser.VariableContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 55
+                self.state = 59
                 self.match(SolidityParser.VariableName)
                 pass
-            elif token in [14]:
+
+            elif la_ == 2:
                 localctx = SolidityParser.LengthAccessContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 56
+                self.state = 60
                 self.match(SolidityParser.LengthAccess)
                 pass
-            elif token in [15]:
+
+            elif la_ == 3:
                 localctx = SolidityParser.ArrayElementContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 57
+                self.state = 61
                 self.match(SolidityParser.ArrayElement)
                 pass
-            elif token in [16]:
+
+            elif la_ == 4:
                 localctx = SolidityParser.MappingElementContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
-                self.state = 58
+                self.state = 62
                 self.match(SolidityParser.MappingElement)
                 pass
-            elif token in [17]:
+
+            elif la_ == 5:
                 localctx = SolidityParser.AddressLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
-                self.state = 59
+                self.state = 63
                 self.match(SolidityParser.AddressLiteral)
                 pass
-            elif token in [11]:
+
+            elif la_ == 6:
                 localctx = SolidityParser.IntegerLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
-                self.state = 60
+                self.state = 64
                 self.match(SolidityParser.INTEGER)
                 pass
-            elif token in [4]:
+
+            elif la_ == 7:
                 localctx = SolidityParser.ParenthesizedArithmeticExpressionContext(self, localctx)
                 self.enterOuterAlt(localctx, 7)
-                self.state = 61
+                self.state = 65
                 self.match(SolidityParser.T__3)
-                self.state = 62
+                self.state = 66
                 self.arithmeticExpression(0)
-                self.state = 63
+                self.state = 67
                 self.match(SolidityParser.T__4)
                 pass
-            elif token in [18]:
+
+            elif la_ == 8:
                 localctx = SolidityParser.BlockAccessContext(self, localctx)
                 self.enterOuterAlt(localctx, 8)
-                self.state = 65
+                self.state = 69
                 self.match(SolidityParser.BlockAccess)
                 pass
-            elif token in [19]:
+
+            elif la_ == 9:
                 localctx = SolidityParser.MsgAccessContext(self, localctx)
                 self.enterOuterAlt(localctx, 9)
-                self.state = 66
+                self.state = 70
                 self.match(SolidityParser.MsgAccess)
                 pass
-            elif token in [20]:
+
+            elif la_ == 10:
                 localctx = SolidityParser.ContractVariableAccessContext(self, localctx)
                 self.enterOuterAlt(localctx, 10)
-                self.state = 67
-                self.match(SolidityParser.ContractVariableAccess)
+                self.state = 71
+                self.contractVariableAccessExpr()
                 pass
-            elif token in [21]:
+
+            elif la_ == 11:
                 localctx = SolidityParser.ContractVariableArrayElementContext(self, localctx)
                 self.enterOuterAlt(localctx, 11)
-                self.state = 68
-                self.match(SolidityParser.ContractVariableArrayElement)
+                self.state = 72
+                self.contractVariableArrayElemExpr()
                 pass
-            else:
-                raise NoViableAltException(self)
 
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+    class ContractVariableAccessExprContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def VariableName(self, i: int = None):
+            if i is None:
+                return self.getTokens(SolidityParser.VariableName)
+            else:
+                return self.getToken(SolidityParser.VariableName, i)
+
+        def getRuleIndex(self):
+            return SolidityParser.RULE_contractVariableAccessExpr
+
+        def enterRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "enterContractVariableAccessExpr"):
+                listener.enterContractVariableAccessExpr(self)
+
+        def exitRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "exitContractVariableAccessExpr"):
+                listener.exitContractVariableAccessExpr(self)
+
+        def accept(self, visitor: ParseTreeVisitor):
+            if hasattr(visitor, "visitContractVariableAccessExpr"):
+                return visitor.visitContractVariableAccessExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+    def contractVariableAccessExpr(self):
+
+        localctx = SolidityParser.ContractVariableAccessExprContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 8, self.RULE_contractVariableAccessExpr)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 75
+            self.match(SolidityParser.VariableName)
+            self.state = 76
+            self.match(SolidityParser.T__9)
+            self.state = 77
+            self.match(SolidityParser.VariableName)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+    class ContractVariableArrayElemExprContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def VariableName(self, i: int = None):
+            if i is None:
+                return self.getTokens(SolidityParser.VariableName)
+            else:
+                return self.getToken(SolidityParser.VariableName, i)
+
+        def INTEGER(self):
+            return self.getToken(SolidityParser.INTEGER, 0)
+
+        def ADDRESS(self):
+            return self.getToken(SolidityParser.ADDRESS, 0)
+
+        def getRuleIndex(self):
+            return SolidityParser.RULE_contractVariableArrayElemExpr
+
+        def enterRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "enterContractVariableArrayElemExpr"):
+                listener.enterContractVariableArrayElemExpr(self)
+
+        def exitRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "exitContractVariableArrayElemExpr"):
+                listener.exitContractVariableArrayElemExpr(self)
+
+        def accept(self, visitor: ParseTreeVisitor):
+            if hasattr(visitor, "visitContractVariableArrayElemExpr"):
+                return visitor.visitContractVariableArrayElemExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+    def contractVariableArrayElemExpr(self):
+
+        localctx = SolidityParser.ContractVariableArrayElemExprContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 10, self.RULE_contractVariableArrayElemExpr)
+        self._la = 0  # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 79
+            self.match(SolidityParser.VariableName)
+            self.state = 80
+            self.match(SolidityParser.T__9)
+            self.state = 81
+            self.match(SolidityParser.VariableName)
+            self.state = 82
+            self.match(SolidityParser.T__10)
+            self.state = 83
+            _la = self._input.LA(1)
+            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 114688) != 0)):
+                self._errHandler.recoverInline(self)
+            else:
+                self._errHandler.reportMatch(self)
+                self.consume()
+            self.state = 84
+            self.match(SolidityParser.T__11)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
