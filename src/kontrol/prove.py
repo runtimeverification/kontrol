@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 import time
 from abc import abstractmethod
@@ -583,6 +584,10 @@ def method_to_apr_proof(
         config_type=config_type,
     )
 
+    input_mapping = json.loads(foundry.input_mapping_file.read_text())
+    proof_input_mapping = input_mapping.get(test.contract.name_with_path, {}).get(test.method.signature, {})
+    proof_input_mapping.update(input_mapping.get('env', []))
+
     apr_proof = APRProof(
         test.id,
         kcfg,
@@ -593,6 +598,7 @@ def method_to_apr_proof(
         bmc_depth=bmc_depth,
         proof_dir=foundry.proofs_dir,
         subproof_ids=summary_ids,
+        variable_names_mapping=proof_input_mapping,
     )
 
     return apr_proof

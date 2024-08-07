@@ -415,6 +415,16 @@ class Foundry:
 
             input_mapping[contract.name_with_path] = contract_mapping
 
+        # Add environment variables to the mapping
+        env_variables_mapping = {
+            'TIMESTAMP_CELL': 'block.timestamp',
+            'NUMBER_CELL': 'block.number',
+            'ORIGIN_ID': 'tx.origin',
+            'CALLER_ID': 'msg.sender',
+        }
+
+        input_mapping['env'] = env_variables_mapping
+
         # Write resulting mapping to JSON file
         input_mapping_file.write_text(json.dumps(input_mapping, indent=4))
 
@@ -1314,9 +1324,10 @@ def foundry_get_model(
 
             contract_name, test_name = test_id.split(':')[0].split('.')
             input_mapping = json.loads(foundry.input_mapping_file.read_text())
-            input_mapping = input_mapping.get(contract_name, {}).get(test_name, {})
-            # TODO: use the input mapping to generate the model
-            res_lines.extend(print_model(node, kcfg_explore))
+            proof_input_mapping = input_mapping.get(contract_name, {}).get(test_name, {})
+            proof_input_mapping.update(input_mapping.get('env', {}))
+
+            res_lines.extend(print_model(node, kcfg_explore, proof_input_mapping))
 
     return '\n'.join(res_lines)
 
