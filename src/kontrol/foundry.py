@@ -749,7 +749,6 @@ class Foundry:
         else:
             return False
 
-
     def remove_proofs_dir(self) -> None:
         if self.proofs_dir.exists():
             shutil.rmtree(self.proofs_dir.absolute())
