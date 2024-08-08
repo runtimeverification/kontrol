@@ -312,6 +312,9 @@ class KontrolSemantics(KEVMSemantics):
         if subst is not None:
             args = subst['ARGS']
             if type(args) is not KToken:
+                _LOGGER.warning(
+                    'Custom K variable name specified for freshUInt cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                )
                 return None
             args_bytes = ast.literal_eval(args.token)
             int_size = int.from_bytes(args_bytes[:32], 'big')
@@ -336,6 +339,9 @@ class KontrolSemantics(KEVMSemantics):
         if subst is not None:
             args = subst['ARGS']
             if type(args) is not KToken:
+                _LOGGER.warning(
+                    'Custom K variable name specified for freshAddress cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                )
                 return None
             args_bytes = ast.literal_eval(args.token)
             varname_offset = int.from_bytes(args_bytes[0:32], 'big')
@@ -347,7 +353,9 @@ class KontrolSemantics(KEVMSemantics):
             new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
             new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', KEVM.buf(intToken(32), variable)))
             new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(intToken(0), variable)))
-            new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(variable, intToken(1461501637330902918203684832716283019655932542975))))
+            new_cterm = new_cterm.add_constraint(
+                mlEqualsTrue(ltInt(variable, intToken(1461501637330902918203684832716283019655932542975)))
+            )
             new_cterm = new_cterm.add_constraint(
                 mlEqualsTrue(KApply('_=/=Int_', [variable, intToken(728815563385977040452943777879061427756277306518)]))
             )
@@ -363,14 +371,29 @@ class KontrolSemantics(KEVMSemantics):
         )
         subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
         if subst is not None:
-            print('abc')
             args = subst['ARGS']
-            if type(args) is not KToken:
-                print(args)
-                return None
-            args_bytes = ast.literal_eval(args.token)
-            bytes_length = int.from_bytes(args_bytes[:32], 'big')
-            varname_offset = int.from_bytes(args_bytes[32:64], 'big')
+
+            if type(args) is KToken:
+                args_bytes = ast.literal_eval(args.token)
+                varname_offset = int.from_bytes(args_bytes[32:64], 'big')
+                bytes_length = KApply('#range', [args, intToken(0), intToken(32)])
+            else:
+                partial_symbolic_args_pattern = KApply(
+                    '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                    [KApply('buf', [intToken(32), KVariable('LENGTH')]), KVariable('CONCRETE_VARNAME')],
+                )
+                args_subst = partial_symbolic_args_pattern.match(args)
+                if args_subst is not None and type(args_subst['CONCRETE_VARNAME']) is KToken:
+                    args = args_subst['CONCRETE_VARNAME']
+                    args_bytes = ast.literal_eval(args.token)
+                    varname_offset = int.from_bytes(args_bytes[0:32], 'big') - 32
+                    bytes_length = KApply('buf', [intToken(32), args_subst['LENGTH']])
+                else:
+                    _LOGGER.warning(
+                        'Custom K variable name specified for freshBytes cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                    )
+                    return None
+
             varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
             varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
             varname = varname.upper()
@@ -385,7 +408,7 @@ class KontrolSemantics(KEVMSemantics):
                     KApply(
                         '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
                         [
-                            KEVM.buf(intToken(32), KApply('asWord', args)),
+                            KEVM.buf(intToken(32), KApply('asWord', bytes_length)),
                             KApply(
                                 '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
                                 [
@@ -400,10 +423,12 @@ class KontrolSemantics(KEVMSemantics):
                                                         intToken(
                                                             115792089237316195423570985008687907853269984665640564039457584007913129639904
                                                         ),
-                                                        KApply('_+Int_', [KApply('asWord', args), intToken(31)]),
+                                                        KApply(
+                                                            '_+Int_', [KApply('asWord', bytes_length), intToken(31)]
+                                                        ),
                                                     ],
                                                 ),
-                                                KApply('asWord', args),
+                                                KApply('asWord', bytes_length),
                                             ],
                                         ),
                                         intToken(0),
@@ -417,9 +442,10 @@ class KontrolSemantics(KEVMSemantics):
 
             new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', output_cell))
             new_cterm = new_cterm.add_constraint(
-                mlEqualsTrue(eqInt(KApply('lengthBytes(_)_BYTES-HOOKED_Int_Bytes', variable), intToken(bytes_length)))
+                mlEqualsTrue(
+                    eqInt(KApply('lengthBytes(_)_BYTES-HOOKED_Int_Bytes', variable), KApply('asWord', bytes_length))
+                )
             )
-            print('def')
 
             return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshBytesCustomVar'], cut=True)
 
@@ -431,6 +457,9 @@ class KontrolSemantics(KEVMSemantics):
         if subst is not None:
             args = subst['ARGS']
             if type(args) is not KToken:
+                _LOGGER.warning(
+                    'Custom K variable name specified for freshBool cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                )
                 return None
             args_bytes = ast.literal_eval(args.token)
             varname_offset = int.from_bytes(args_bytes[0:32], 'big')
@@ -446,6 +475,7 @@ class KontrolSemantics(KEVMSemantics):
 
             return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshBoolCustomVar'], cut=True)
 
+        # symbolicStorage
         cheatcode_call_pattern = KSequence(
             [
                 KApply('foundry_setSymbolicStorageCustomVar', KVariable('ACCTID'), KVariable('ARGS')),
@@ -456,10 +486,24 @@ class KontrolSemantics(KEVMSemantics):
         if subst is not None:
             args = subst['ARGS']
             account_id = subst['ACCTID']
-            if type(args) is not KToken:
-                return None
-            args_bytes = ast.literal_eval(args.token)
-            varname_offset = int.from_bytes(args_bytes[32:64], 'big')
+            if type(args) is KToken:
+                args_bytes = ast.literal_eval(args.token)
+                varname_offset = int.from_bytes(args_bytes[32:64], 'big')
+            else:
+                partial_symbolic_args_pattern = KApply(
+                    '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                    [KApply('buf', [intToken(32), KVariable('ACCTID')]), KVariable('CONCRETE_VARNAME')],
+                )
+                args_subst = partial_symbolic_args_pattern.match(args)
+                if args_subst is not None and type(args_subst['CONCRETE_VARNAME']) is KToken:
+                    args = args_subst['CONCRETE_VARNAME']
+                    args_bytes = ast.literal_eval(args.token)
+                    varname_offset = int.from_bytes(args_bytes[0:32], 'big') - 32
+                else:
+                    _LOGGER.warning(
+                        'Custom K variable name specified for symbolicStorage cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                    )
+                    return None
             varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
             varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
             varname = varname.upper()

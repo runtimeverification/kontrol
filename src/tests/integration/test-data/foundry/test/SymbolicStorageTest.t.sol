@@ -25,9 +25,10 @@ contract SymbolicStorageTest is Test, KontrolCheats {
         require(value != 0);
         assertEq(uint256(value), 0);
     }
+
     function testFail_SymbolicStorage1_custom_name(uint256 slot) public {
         SymbolicStore myStore = new SymbolicStore();
-        kevm.symbolicStorage(address(myStore), "STORAGE_abcd");
+        kevm.symbolicStorage(address(myStore), "storage_abcd");
         bytes32 value = vm.load(address(myStore), bytes32(uint256(slot)));
         require(value != 0);
         assertEq(uint256(value), 0);
