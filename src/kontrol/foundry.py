@@ -335,8 +335,8 @@ class Foundry:
         _, start, end = byte_offset_to_lines(src_contract_text.split('\n'), s, l)
         return (src_contract_path, start, end)
 
-    def solidity_src_print(self, contract_path: Path, start: int, end: int) -> Iterable[str]:
-        lines = contract_path.read_text().split('\n')
+    def solidity_src_print(self, path: Path, start: int, end: int) -> Iterable[str]:
+        lines = path.read_text().split('\n')
         prefix_lines = [f'   {l}' for l in lines[:start]]
         actual_lines = [f' | {l}' for l in lines[start:end]]
         suffix_lines = [f'   {l}' for l in lines[end:]]
@@ -367,17 +367,27 @@ class Foundry:
             program_cell = element.cterm.try_cell('PROGRAM_CELL')
             if type(pc_cell) is KToken and pc_cell.sort == INT:
                 if type(program_cell) is KToken:
-                    bytecode = ast.literal_eval(program_cell.token)
-                    instruction = compilation_unit.get_instruction(bytecode, int(pc_cell.token))
-                    start_line, _, end_line, _ = instruction.source_range()
-                    return self.solidity_src_print(Path(instruction.contract.file_path), start_line, end_line)
-                else:
-                    return self.solidity_src(contract_name, int(pc_cell.token))
+                    try:
+                        bytecode = ast.literal_eval(program_cell.token)
+                        instruction = compilation_unit.get_instruction(bytecode, int(pc_cell.token))
+                        node = instruction.node()
+                        #closest_stmt = instruction_node.closest_stmt()
+                        #node = closest_stmt if closest_stmt is not None else instruction_node
+                        start_line, _, end_line, _ = instruction.source_range()
+                        start_line1, _, end_line1, _ = node.source_range()
+                        return (  [f"contract_name: {instruction.contract.file_path}\n"]
+                                + [f"start: {start_line}  end:{end_line}\n"]
+                                + [f"source_name: {node.source.name}\n"]
+                                + [f"start: {start_line1}  end:{end_line1}\n"]
+                                + self.solidity_src_print(Path(node.source.name), start_line1 - 1, end_line1))
+                    except Exception as e:
+                        return [str(e)]
+                return ['NO DATA 2']
         elif type(element) is KCFG.Edge:
             return list(element.rules)
         elif type(element) is KCFG.NDBranch:
             return list(element.rules)
-        return ['NO DATA']
+        return ['NO DATA 3']
 
     def build(self) -> None:
         try:
