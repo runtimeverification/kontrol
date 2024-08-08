@@ -713,6 +713,8 @@ def _run_cfg_group(
                 force_sequential=options.force_sequential,
                 progress=progress,
                 task_id=task,
+                maintenance_rate=options.maintenance_rate,
+                assume_defined=options.assume_defined,
             )
 
             if progress is not None and task is not None:
