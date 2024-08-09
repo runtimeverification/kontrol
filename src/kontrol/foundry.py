@@ -372,9 +372,12 @@ class Foundry:
             return list(element.rules)
         return ['NO DATA']
 
-    def build(self) -> None:
+    def build(self, no_metadata: bool) -> None:
+        forge_build_args = ['forge', 'build', '--build-info', '--root', str(self._root)] + (
+            ['--no-metadata'] if no_metadata else []
+        )
         try:
-            run_process_2(['forge', 'build', '--build-info', '--root', str(self._root)], logger=_LOGGER)
+            run_process_2(forge_build_args, logger=_LOGGER)
         except FileNotFoundError as err:
             raise RuntimeError(
                 "Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH."

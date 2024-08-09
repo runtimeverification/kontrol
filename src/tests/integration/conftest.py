@@ -91,6 +91,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                             'ImmutableVarsTest:SYMBOLIC-BYTES-LEMMAS',
                         ],
                         'enum_constraints': True,
+                        'no_metadata': True,
                     }
                 ),
                 foundry=Foundry(foundry_root, add_enum_constraints=True),

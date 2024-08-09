@@ -329,6 +329,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Do not silence K compiler warnings.',
     )
+    build.add_argument(
+        '--no-metadata',
+        dest='no_metadata',
+        default=None,
+        action='store_true',
+        help='Do not append cbor or bytecode_hash metadata to bytecode.',
+    )
 
     state_diff_args = command_parser.add_parser(
         'load-state',

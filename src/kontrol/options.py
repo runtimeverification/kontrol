@@ -767,6 +767,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
     rekompile: bool
     no_forge_build: bool
     no_silence_warnings: bool
+    no_metadata: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -775,6 +776,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             'rekompile': False,
             'no_forge_build': False,
             'no_silence_warnings': False,
+            'no_metadata': False,
         }
 
     @staticmethod

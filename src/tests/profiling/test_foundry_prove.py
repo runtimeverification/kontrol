@@ -27,7 +27,12 @@ def test_foundy_prove(
     foundry = forge_build(TEST_DATA_DIR, foundry_root)
 
     with profile('kompile.prof', sort_keys=('cumtime', 'tottime'), limit=15):
-        foundry_kompile(BuildOptions({'includes': ()}), foundry=foundry)
+        foundry_kompile(
+            BuildOptions(
+                {'includes': (), 'no_metadata': True},
+            ),
+            foundry=foundry,
+        )
 
     with profile('prove.prof', sort_keys=('cumtime', 'tottime'), limit=100):
         foundry_prove(
