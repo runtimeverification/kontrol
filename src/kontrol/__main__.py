@@ -13,7 +13,6 @@ from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
-from pyk.utils import run_process_2
 from rich.highlighter import NullHighlighter
 from rich.logging import RichHandler
 
@@ -21,6 +20,7 @@ from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
 from .foundry import (
     Foundry,
+    foundry_clean,
     foundry_get_model,
     foundry_list,
     foundry_merge_nodes,
@@ -401,7 +401,7 @@ def exec_get_model(options: GetModelOptions) -> None:
 
 
 def exec_clean(options: CleanOptions) -> None:
-    run_process_2(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)
+    foundry_clean(foundry=_load_foundry(options.foundry_root), options=options)
 
 
 def exec_init(options: InitOptions) -> None:
