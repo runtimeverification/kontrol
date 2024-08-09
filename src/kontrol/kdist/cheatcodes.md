@@ -346,7 +346,7 @@ function copyStorage(address,address) external;
 ```
 
 `cheatcode.call.copyStorage` will match when the `copyStorage` cheat code function is called.
-This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes its storage completely symbolic.
+This rule then takes the two addresses using `#asWord(#range(ARGS, 0, 32))` and `#asWord(#range(ARGS, 32, 32))` and copies the storage of the first address into the storage of the second.
 
 ```k
     rule [cheatcode.call.copyStorage]:
