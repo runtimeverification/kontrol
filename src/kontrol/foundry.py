@@ -21,7 +21,15 @@ from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
-from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
+from pyk.kast.manip import (
+    abstract_term_safely,
+    cell_label_to_var_name,
+    collect,
+    extract_lhs,
+    flatten_label,
+    minimize_term,
+    top_down,
+)
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.prelude.bytes import bytesToken
@@ -211,6 +219,10 @@ class Foundry:
     def contracts_file(self) -> Path:
         return self.kompiled / 'contracts.k'
 
+    @property
+    def input_mapping_file(self) -> Path:
+        return self.kompiled / 'input-mapping.json'
+
     @cached_property
     def kevm(self) -> KEVM:
         use_directory = self.out / 'tmp'
@@ -381,6 +393,41 @@ class Foundry:
             ) from err
         except CalledProcessError as err:
             raise RuntimeError("Couldn't forge build!") from err
+
+    def record_input_name_mapping(self, input_mapping_file: Path) -> None:
+        """
+        Saves a JSON file storing a mapping between the names of Method's inputs and their K representation.
+        """
+
+        input_mapping = {}
+
+        # Create the mapping for each contract's method
+        for contract in self.contracts.values():
+            contract_mapping = {}
+
+            # Create the mapping for each method's arguments
+            for method in contract.methods:
+                method_input_mapping = {
+                    abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{arg_name}').name: name
+                    for arg_name, name in method.arg_names.items()
+                }
+
+                contract_mapping[method.signature] = method_input_mapping
+
+            input_mapping[contract.name_with_path] = contract_mapping
+
+        # Add environment variables to the mapping
+        env_variables_mapping = {
+            'TIMESTAMP_CELL': 'block.timestamp',
+            'NUMBER_CELL': 'block.number',
+            'ORIGIN_ID': 'tx.origin',
+            'CALLER_ID': 'msg.sender',
+        }
+
+        input_mapping['env'] = env_variables_mapping
+
+        # Write resulting mapping to JSON file
+        input_mapping_file.write_text(json.dumps(input_mapping, indent=4))
 
     @cached_property
     def all_tests(self) -> list[str]:
@@ -1282,7 +1329,13 @@ def foundry_get_model(
             res_lines.append('')
             res_lines.append(f'Node id: {node_id}')
             node = proof.kcfg.node(node_id)
-            res_lines.extend(print_model(node, kcfg_explore))
+
+            contract_name, test_name = test_id.split(':')[0].split('.')
+            input_mapping = json.loads(foundry.input_mapping_file.read_text())
+            proof_input_mapping = input_mapping.get(contract_name, {}).get(test_name, {})
+            proof_input_mapping.update(input_mapping.get('env', {}))
+
+            res_lines.extend(print_model(node, kcfg_explore, proof_input_mapping))
 
     return '\n'.join(res_lines)
 
