@@ -2,9 +2,9 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/KEVMCheats.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract AssertTest is Test, KEVMCheats {
+contract AssertTest is Test, KontrolCheats {
     uint y;
 
     function call_assert_false() public pure {

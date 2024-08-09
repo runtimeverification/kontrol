@@ -91,7 +91,6 @@ PROOF_ID_DATA: list[tuple[str, str, list[str], list[str]]] = [
     'test_id,test_name,proof_ids,expected', PROOF_ID_DATA, ids=[test_id for test_id, *_ in PROOF_ID_DATA]
 )
 def test_proof_identification(test_id: str, test_name: str, proof_ids: list[str], expected: list[str]) -> None:
-
     # When
     actual = Foundry.filter_proof_ids(proof_ids, test_name)
 

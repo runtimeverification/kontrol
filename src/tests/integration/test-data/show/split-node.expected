@@ -4,48 +4,15 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%PrankTest.setUp()
 │
-│  (435 steps)
-├─ 3
-│   k: #end EVMC_SUCCESS ~> #pc [ RETURN ] ~> #execute ~> #codeDeposit 4914609233421842 ...
-│   pc: 52
-│   callDepth: 1
-│   statusCode: STATUSCODE:StatusCode
-│
-│  (1 step)
-├─ 4
-│   k: #halt ~> #pc [ RETURN ] ~> #execute ~> #codeDeposit 4914609233421842180357068880 ...
-│   pc: 52
-│   callDepth: 1
-│   statusCode: EVMC_SUCCESS
-│
-│  (2 steps)
-├─ 5
-│   k: #halt ~> #codeDeposit 491460923342184218035706888008750043977755113263 ~> #pc [  ...
-│   pc: 52
-│   callDepth: 1
-│   statusCode: EVMC_SUCCESS
-│
-│  (160 steps)
-├─ 6
-│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 292
-│   callDepth: 0
-│   statusCode: EVMC_SUCCESS
-│
-│  (1 step)
-├─ 7
-│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 292
-│   callDepth: 0
-│   statusCode: EVMC_SUCCESS
-│
-│  (2 steps)
+│  (601 steps)
 ├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 292
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%PrankTest.setUp()
 │
 │  (1 step)
 ├─ 9
@@ -53,6 +20,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%PrankTest.testSymbolicStartPrank(address)
 │
 │  (585 steps)
 ├─ 11
@@ -60,6 +28,7 @@
 │   pc: 3272
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%PrankTest.testSymbolicStartPrank(address)
 │
 │  (1 step)
 ├─ 12 (split)
@@ -67,57 +36,64 @@
 │   pc: 3272
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%PrankTest.testSymbolicStartPrank(address)
 ┃
 ┃ (branch)
-┣━━┓ constraint: { true #Equals VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 }
+┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263
 ┃  │
 ┃  └─ 70 (leaf, refuted)
 ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
 ┃      pc: 3272
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
+┃      method: test%PrankTest.testSymbolicStartPrank(address)
 ┃
-┗━━┓ constraint: { false #Equals VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 }
+┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 )
    │
    ├─ 71 (split)
    │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
    │   pc: 3272
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%PrankTest.testSymbolicStartPrank(address)
    ┃
    ┃ (branch)
-   ┣━━┓ constraint: { true #Equals VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 }
+   ┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349
    ┃  │
    ┃  └─ 72 (leaf, refuted)
    ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
    ┃      pc: 3272
    ┃      callDepth: 0
    ┃      statusCode: STATUSCODE:StatusCode
+   ┃      method: test%PrankTest.testSymbolicStartPrank(address)
    ┃
-   ┗━━┓ constraint: { false #Equals VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 }
+   ┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 )
       │
       ├─ 73 (split)
       │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
       │   pc: 3272
       │   callDepth: 0
       │   statusCode: STATUSCODE:StatusCode
+      │   method: test%PrankTest.testSymbolicStartPrank(address)
       ┃
       ┃ (branch)
-      ┣━━┓ constraint: { true #Equals VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 }
+      ┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518
       ┃  │
       ┃  └─ 74 (leaf, refuted)
       ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
       ┃      pc: 3272
       ┃      callDepth: 0
       ┃      statusCode: STATUSCODE:StatusCode
+      ┃      method: test%PrankTest.testSymbolicStartPrank(address)
       ┃
-      ┗━━┓ constraint: { false #Equals VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 }
+      ┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 )
          │
          ├─ 75
          │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
          │   pc: 3272
          │   callDepth: 0
          │   statusCode: STATUSCODE:StatusCode
+         │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (246 steps)
          ├─ 76
@@ -125,6 +101,7 @@
          │   pc: 3369
          │   callDepth: 0
          │   statusCode: STATUSCODE:StatusCode
+         │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (1 step)
          ├─ 77
@@ -132,6 +109,7 @@
          │   pc: 3369
          │   callDepth: 0
          │   statusCode: STATUSCODE:StatusCode
+         │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (18 steps)
          ├─ 78
@@ -139,6 +117,7 @@
          │   pc: 0
          │   callDepth: 1
          │   statusCode: STATUSCODE:StatusCode
+         │   method: src%Prank.msgSender()
          │
          │  (1 step)
          ├─ 79
@@ -146,6 +125,7 @@
          │   pc: 0
          │   callDepth: 1
          │   statusCode: STATUSCODE:StatusCode
+         │   method: src%Prank.msgSender()
          │
          │  (320 steps)
          ├─ 80
@@ -153,6 +133,7 @@
          │   pc: 130
          │   callDepth: 1
          │   statusCode: STATUSCODE:StatusCode
+         │   method: src%Prank.msgSender()
          │
          │  (1 step)
          ├─ 81
@@ -160,6 +141,7 @@
          │   pc: 130
          │   callDepth: 1
          │   statusCode: EVMC_SUCCESS
+         │   method: src%Prank.msgSender()
          │
          │  (2 steps)
          ├─ 82
@@ -167,6 +149,7 @@
          │   pc: 130
          │   callDepth: 1
          │   statusCode: EVMC_SUCCESS
+         │   method: src%Prank.msgSender()
          │
          │  (1 step)
          ├─ 83
@@ -174,6 +157,7 @@
          │   pc: 130
          │   callDepth: 1
          │   statusCode: EVMC_SUCCESS
+         │   method: src%Prank.msgSender()
          │
          │  (549 steps)
          ├─ 84
@@ -181,6 +165,7 @@
          │   pc: 1578
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (1 step)
          ├─ 85
@@ -188,6 +173,7 @@
          │   pc: 1578
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (102 steps)
          ├─ 86
@@ -195,6 +181,7 @@
          │   pc: 292
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (1 step)
          ├─ 87
@@ -202,6 +189,7 @@
          │   pc: 292
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (2 steps)
          ├─ 88 (terminal)
@@ -209,6 +197,7 @@
          │   pc: 292
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          ┊  constraint: OMITTED CONSTRAINT
          ┊  subst: OMITTED SUBST
@@ -224,15 +213,10 @@
 module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
     
     
-    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+    rule [BASIC-BLOCK-1-TO-8]: <foundry>
            <kevm>
              <k>
-               ( .K => #end EVMC_SUCCESS
-               ~> #pc [ RETURN ]
-               ~> #execute
-               ~> #codeDeposit 491460923342184218035706888008750043977755113263
-               ~> #pc [ CREATE ] )
-               ~> #execute
+               ( #execute => #halt )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -247,120 +231,38 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <ethereum>
                <evm>
                  <output>
-                   ( b"" => b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n" )
+                   b""
                  </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
                  <callStack>
-                   ( .List => ListItem ( <callState>
-                     <id>
-                       728815563385977040452943777879061427756277306518
-                     </id>
-                     <caller>
-                       CALLER_ID:Int
-                     </caller>
-                     <callData>
-                       b"\n\x92T\xe4"
-                     </callData>
-                     <callValue>
-                       0
-                     </callValue>
-                     <wordStack>
-                       ( 291 : ( selector ( "setUp()" ) : .WordStack ) )
-                     </wordStack>
-                     <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x02\x0ea\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x02\x0e`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                     </localMem>
-                     <memoryUsed>
-                       0
-                     </memoryUsed>
-                     <callGas>
-                       0
-                     </callGas>
-                     <static>
-                       false
-                     </static>
-                     <callDepth>
-                       0
-                     </callDepth>
-                     ...
-                   </callState> ) )
+                   .List
                  </callStack>
                  <interimStates>
-                   ( .List => ListItem ( { <accounts>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <nonce>
-                         2
-                       </nonce>
-                       ...
-                     </account> )
-                   </accounts> | <substate>
-                     <selfDestruct>
-                       SELFDESTRUCT_CELL:Set
-                     </selfDestruct>
-                     <log>
-                       .List
-                     </log>
-                     <refund>
-                       0
-                     </refund>
-                     <accessedAccounts>
-                       SetItem ( 491460923342184218035706888008750043977755113263 )
-                     </accessedAccounts>
-                     <accessedStorage>
-                       .Map
-                     </accessedStorage>
-                   </substate> } ) )
+                   .List
                  </interimStates>
                  <touchedAccounts>
                    ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
+                     728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
+                     CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"" )
+                     b"\n\x92T\xe4"
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     .WordStack
+                     ( .WordStack => ( selector ( "setUp()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x027a\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x027`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa2dipfsX\"\x12 \xd8?j\xefMNgC\x967\xfd\xcfg\xf8~Aa\x91u\xab\x1f\xbd\x13\xb9e\x08\xea\xca\xe9\xc0\x8c\xcedsolcC\x00\x08\r\x003" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -372,14 +274,11 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      false
                    </static>
                    <callDepth>
-                     ( 0 => 1 )
+                     0
                    </callDepth>
                    ...
                  </callState>
                  <substate>
-                   <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct>
                    <log>
                      .List
                    </log>
@@ -392,6 +291,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   ...
                  </substate>
                  <origin>
                    ORIGIN_ID:Int
@@ -422,6 +322,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        ( 0 => 1 )
                      </nonce>
@@ -440,6 +343,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -457,6 +363,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -470,11 +379,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       .Map
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
                      </storage>
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -524,1422 +436,56 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-3)]
-    
-    rule [BASIC-BLOCK-3-TO-4]: <foundry>
-           <kevm>
-             <k>
-               ( #end EVMC_SUCCESS => #halt )
-               ~> #pc [ RETURN ]
-               ~> #execute
-               ~> #codeDeposit 491460923342184218035706888008750043977755113263
-               ~> #pc [ CREATE ]
-               ~> #execute
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
+           <KEVMTracing>
+             <activeTracing>
                false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
-                 </statusCode>
-                 <callStack>
-                   ListItem ( <callState>
-                     <id>
-                       728815563385977040452943777879061427756277306518
-                     </id>
-                     <caller>
-                       CALLER_ID:Int
-                     </caller>
-                     <callData>
-                       b"\n\x92T\xe4"
-                     </callData>
-                     <callValue>
-                       0
-                     </callValue>
-                     <wordStack>
-                       ( 291 : ( selector ( "setUp()" ) : .WordStack ) )
-                     </wordStack>
-                     <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x02\x0ea\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x02\x0e`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                     </localMem>
-                     <memoryUsed>
-                       0
-                     </memoryUsed>
-                     <callGas>
-                       0
-                     </callGas>
-                     <static>
-                       false
-                     </static>
-                     <callDepth>
-                       0
-                     </callDepth>
-                     ...
-                   </callState> )
-                 </callStack>
-                 <interimStates>
-                   ListItem ( { <accounts>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <nonce>
-                         2
-                       </nonce>
-                       ...
-                     </account> )
-                   </accounts> | <substate>
-                     <selfDestruct>
-                       SELFDESTRUCT_CELL:Set
-                     </selfDestruct>
-                     <log>
-                       .List
-                     </log>
-                     <refund>
-                       0
-                     </refund>
-                     <accessedAccounts>
-                       SetItem ( 491460923342184218035706888008750043977755113263 )
-                     </accessedAccounts>
-                     <accessedStorage>
-                       .Map
-                     </accessedStorage>
-                   </substate> } )
-                 </interimStates>
-                 <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     491460923342184218035706888008750043977755113263
-                   </id>
-                   <caller>
-                     728815563385977040452943777879061427756277306518
-                   </caller>
-                   <callData>
-                     b""
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     .WordStack
-                   </wordStack>
-                   <localMem>
-                     b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     1
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct>
-                   <log>
-                     .List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts>
-                   <accessedStorage>
-                     .Map
-                   </accessedStorage>
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       491460923342184218035706888008750043977755113263
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       2
-                     </nonce>
-                     ...
-                   </account> ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-3-TO-4)]
-    
-    rule [BASIC-BLOCK-4-TO-5]: <foundry>
-           <kevm>
-             <k>
-               #halt
-               ~> ( #pc [ RETURN ]
-               ~> #execute => .K )
-               ~> #codeDeposit 491460923342184218035706888008750043977755113263
-               ~> #pc [ CREATE ]
-               ~> #execute
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
+             </activeTracing>
+             <traceStorage>
                false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                 </output>
-                 <statusCode>
-                   EVMC_SUCCESS
-                 </statusCode>
-                 <callStack>
-                   ListItem ( <callState>
-                     <id>
-                       728815563385977040452943777879061427756277306518
-                     </id>
-                     <caller>
-                       CALLER_ID:Int
-                     </caller>
-                     <callData>
-                       b"\n\x92T\xe4"
-                     </callData>
-                     <callValue>
-                       0
-                     </callValue>
-                     <wordStack>
-                       ( 291 : ( selector ( "setUp()" ) : .WordStack ) )
-                     </wordStack>
-                     <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x02\x0ea\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x02\x0e`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                     </localMem>
-                     <memoryUsed>
-                       0
-                     </memoryUsed>
-                     <callGas>
-                       0
-                     </callGas>
-                     <static>
-                       false
-                     </static>
-                     <callDepth>
-                       0
-                     </callDepth>
-                     ...
-                   </callState> )
-                 </callStack>
-                 <interimStates>
-                   ListItem ( { <accounts>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <nonce>
-                         2
-                       </nonce>
-                       ...
-                     </account> )
-                   </accounts> | <substate>
-                     <selfDestruct>
-                       SELFDESTRUCT_CELL:Set
-                     </selfDestruct>
-                     <log>
-                       .List
-                     </log>
-                     <refund>
-                       0
-                     </refund>
-                     <accessedAccounts>
-                       SetItem ( 491460923342184218035706888008750043977755113263 )
-                     </accessedAccounts>
-                     <accessedStorage>
-                       .Map
-                     </accessedStorage>
-                   </substate> } )
-                 </interimStates>
-                 <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     491460923342184218035706888008750043977755113263
-                   </id>
-                   <caller>
-                     728815563385977040452943777879061427756277306518
-                   </caller>
-                   <callData>
-                     b""
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     .WordStack
-                   </wordStack>
-                   <localMem>
-                     b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     1
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct>
-                   <log>
-                     .List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts>
-                   <accessedStorage>
-                     .Map
-                   </accessedStorage>
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       491460923342184218035706888008750043977755113263
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       2
-                     </nonce>
-                     ...
-                   </account> ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-4-TO-5)]
-    
-    rule [BASIC-BLOCK-5-TO-6]: <foundry>
-           <kevm>
-             <k>
-               ( #halt
-               ~> #codeDeposit 491460923342184218035706888008750043977755113263
-               ~> #pc [ CREATE ] => #end EVMC_SUCCESS
-               ~> #pc [ STOP ] )
-               ~> #execute
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
+             </traceStorage>
+             <traceWordStack>
                false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n" => b"" )
-                 </output>
-                 <statusCode>
-                   EVMC_SUCCESS
-                 </statusCode>
-                 <callStack>
-                   ( ListItem ( <callState>
-                     <id>
-                       728815563385977040452943777879061427756277306518
-                     </id>
-                     <caller>
-                       CALLER_ID:Int
-                     </caller>
-                     <callData>
-                       b"\n\x92T\xe4"
-                     </callData>
-                     <callValue>
-                       0
-                     </callValue>
-                     <wordStack>
-                       ( 291 : ( selector ( "setUp()" ) : .WordStack ) )
-                     </wordStack>
-                     <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x02\x0ea\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x02\x0e`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                     </localMem>
-                     <memoryUsed>
-                       0
-                     </memoryUsed>
-                     <callGas>
-                       0
-                     </callGas>
-                     <static>
-                       false
-                     </static>
-                     <callDepth>
-                       0
-                     </callDepth>
-                     ...
-                   </callState> ) => .List )
-                 </callStack>
-                 <interimStates>
-                   ( ListItem ( { <accounts>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <nonce>
-                         2
-                       </nonce>
-                       ...
-                     </account> )
-                   </accounts> | <substate>
-                     <selfDestruct>
-                       SELFDESTRUCT_CELL:Set
-                     </selfDestruct>
-                     <log>
-                       .List
-                     </log>
-                     <refund>
-                       0
-                     </refund>
-                     <accessedAccounts>
-                       SetItem ( 491460923342184218035706888008750043977755113263 )
-                     </accessedAccounts>
-                     <accessedStorage>
-                       .Map
-                     </accessedStorage>
-                   </substate> } ) => .List )
-                 </interimStates>
-                 <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
-                   </id>
-                   <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
-                   </caller>
-                   <callData>
-                     ( b"" => b"\n\x92T\xe4" )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( .WordStack => ( selector ( "setUp()" ) : .WordStack ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x02\x0ea\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x02\x0e`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n" )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     ( 1 => 0 )
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct>
-                   <log>
-                     .List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts>
-                   <accessedStorage>
-                     .Map
-                   </accessedStorage>
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       491460923342184218035706888008750043977755113263
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( .Map => ( 27 |-> 491460923342184218035706888008750043977755113263 ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       2
-                     </nonce>
-                     ...
-                   </account> ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-5-TO-6)]
-    
-    rule [BASIC-BLOCK-6-TO-7]: <foundry>
-           <kevm>
-             <k>
-               ( #end EVMC_SUCCESS => #halt )
-               ~> #pc [ STOP ]
-               ~> #execute
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
+             </traceWordStack>
+             <traceMemory>
                false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   b""
-                 </output>
-                 <statusCode>
-                   EVMC_SUCCESS
-                 </statusCode>
-                 <callStack>
-                   .List
-                 </callStack>
-                 <interimStates>
-                   .List
-                 </interimStates>
-                 <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     728815563385977040452943777879061427756277306518
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"\n\x92T\xe4"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( selector ( "setUp()" ) : .WordStack )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x02\x0ea\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x02\x0e`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     0
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <log>
-                     .List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts>
-                   <accessedStorage>
-                     .Map
-                   </accessedStorage>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       491460923342184218035706888008750043977755113263
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       2
-                     </nonce>
-                     ...
-                   </account> ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-6-TO-7)]
-    
-    rule [BASIC-BLOCK-7-TO-8]: <foundry>
-           <kevm>
-             <k>
-               #halt
-               ~> ( #pc [ STOP ]
-               ~> #execute => .K )
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
+             </traceMemory>
+             <recordedTrace>
                false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   b""
-                 </output>
-                 <statusCode>
-                   EVMC_SUCCESS
-                 </statusCode>
-                 <callStack>
-                   .List
-                 </callStack>
-                 <interimStates>
-                   .List
-                 </interimStates>
-                 <touchedAccounts>
-                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     728815563385977040452943777879061427756277306518
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"\n\x92T\xe4"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( selector ( "setUp()" ) : .WordStack )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x02\x0ea\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x02\x0e`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     0
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <log>
-                     .List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
-                   </accessedAccounts>
-                   <accessedStorage>
-                     .Map
-                   </accessedStorage>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       491460923342184218035706888008750043977755113263
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       2
-                     </nonce>
-                     ...
-                   </account> ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_PRANKTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-      [priority(20), label(BASIC-BLOCK-7-TO-8)]
+      [priority(20), label(BASIC-BLOCK-1-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
            <kevm>
@@ -1990,7 +536,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( ( selector ( "setUp()" ) : .WordStack ) => .WordStack )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x02\x0ea\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x02\x0e`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n" => b"" )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\xa0`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P3`\x80R`\x80Qa\x027a\x006`\x009`\x00\x81\x81`\xb0\x01Ra\x01\x01\x01Ra\x027`\x00\xf3\xfe`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`\x046\x10a\x00bW`\x005`\xe0\x1c\x80c\x06f\x1a\xbd\x14a\x00gW\x80c\x10\x03\xe2\xd2\x14a\x00\x83W\x80c\x1d\xc0_\x17\x14a\x00\x98W\x80c\x8d\xa5\xcb[\x14a\x00\xabW\x80c\xd77\xd0\xc7\x14a\x00\xeaW\x80c\xf9gW\xd1\x14a\x00\xf0W[`\x00\x80\xfd[a\x00p`\x00T\x81V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[a\x00\x96a\x00\x916`\x04a\x01\xa3V[a\x00\xf6V[\x00[a\x00\x96a\x00\xa66`\x04a\x01\xa3V[a\x01xV[a\x00\xd2\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00zV[3a\x00\xd2V[2a\x00\xd2V[3`\x01`\x01`\xa0\x1b\x03\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x16\x14a\x01_W`@QbF\x1b\xcd`\xe5\x1b\x81R` `\x04\x82\x01R`\n`$\x82\x01Ri'\xb76<\x907\xbb\xb72\xb9`\xb1\x1b`D\x82\x01R`d\x01`@Q\x80\x91\x03\x90\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xd2V[\x90\x91UPPPV[2\x15a\x01\x83W`\x00\x80\xfd[\x80`\x00T\x10\x15a\x01\x92W`\x00\x80\xfd[\x80`\x00\x80\x82\x82Ta\x01p\x91\x90a\x01\xeaV[`\x00` \x82\x84\x03\x12\x15a\x01\xb5W`\x00\x80\xfd[P5\x91\x90PV[cNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[`\x00\x82\x19\x82\x11\x15a\x01\xe5Wa\x01\xe5a\x01\xbcV[P\x01\x90V[`\x00\x82\x82\x10\x15a\x01\xfcWa\x01\xfca\x01\xbcV[P\x03\x90V\xfe\xa2dipfsX\"\x12 \xd8?j\xefMNgC\x967\xfd\xcfg\xf8~Aa\x91u\xab\x1f\xbd\x13\xb9e\x08\xea\xca\xe9\xc0\x8c\xcedsolcC\x00\x08\r\x003" => b"" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -2050,6 +596,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -2068,6 +617,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -2086,6 +638,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -2135,31 +690,54 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_PRANKTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
        ensures ( 0 <=Int ?VV0_addr_114b9705
        andBool ( ?VV0_addr_114b9705 <Int pow160
@@ -2274,6 +852,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -2292,6 +873,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -2310,6 +894,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -2359,46 +946,62 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_addr_114b9705:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))))
-       ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
            <kevm>
              <k>
-               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 36 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 36 128 0 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\x06D}V" +Bytes #buf ( 32 , VV0_addr_114b9705:Int ) false
                ~> #return 128 0 )
@@ -2506,6 +1109,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -2524,6 +1130,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -2542,6 +1151,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -2591,17 +1203,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -2610,15 +1245,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-75-TO-76]: <foundry>
@@ -2734,6 +1368,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -2752,6 +1389,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -2770,6 +1410,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -2787,6 +1430,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -2805,6 +1451,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -2868,17 +1517,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -2887,28 +1559,23 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
-       ensures ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-               )))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-75-TO-76)]
     
     rule [BASIC-BLOCK-76-TO-77]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 => #accessAccounts 491460923342184218035706888008750043977755113263
+               ( STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> .K => #accessAccounts 491460923342184218035706888008750043977755113263
                ~> #checkCall VV0_addr_114b9705:Int 0
                ~> #call VV0_addr_114b9705:Int 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
                ~> #return 128 32 )
@@ -3017,6 +1684,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -3035,6 +1705,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -3053,6 +1726,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -3071,6 +1747,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -3134,17 +1813,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3153,18 +1855,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-76-TO-77)]
     
     rule [BASIC-BLOCK-77-TO-78]: <foundry>
@@ -3244,6 +1945,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -3262,6 +1966,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -3280,6 +1987,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          2
                        </nonce>
@@ -3298,6 +2008,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -3403,6 +2116,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -3421,6 +2137,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -3439,6 +2158,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -3457,6 +2179,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -3520,17 +2245,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3539,24 +2287,23 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-77-TO-78)]
     
     rule [BASIC-BLOCK-78-TO-79]: <foundry>
            <kevm>
              <k>
-               ( #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) => .K )
+               ( #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI ) ~> .K => .K )
                ~> #execute
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
@@ -3628,6 +2375,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -3646,6 +2396,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -3664,6 +2417,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          2
                        </nonce>
@@ -3682,6 +2438,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -3787,6 +2546,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -3805,6 +2567,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -3823,6 +2588,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -3841,6 +2609,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -3904,17 +2675,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3923,18 +2717,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-78-TO-79)]
     
     rule [BASIC-BLOCK-79-TO-80]: <foundry>
@@ -4013,6 +2806,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -4031,6 +2827,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -4049,6 +2848,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          2
                        </nonce>
@@ -4067,6 +2869,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -4172,6 +2977,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -4190,6 +2998,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -4208,6 +3019,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -4226,6 +3040,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -4289,17 +3106,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -4308,18 +3148,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-79-TO-80)]
     
     rule [BASIC-BLOCK-80-TO-81]: <foundry>
@@ -4401,6 +3240,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -4419,6 +3261,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -4437,6 +3282,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          2
                        </nonce>
@@ -4455,6 +3303,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -4560,6 +3411,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -4578,6 +3432,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -4596,6 +3453,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -4614,6 +3474,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -4677,17 +3540,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -4696,18 +3582,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-80-TO-81)]
     
     rule [BASIC-BLOCK-81-TO-82]: <foundry>
@@ -4789,6 +3674,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -4807,6 +3695,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -4825,6 +3716,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          2
                        </nonce>
@@ -4843,6 +3737,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -4948,6 +3845,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -4966,6 +3866,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -4984,6 +3887,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -5002,6 +3908,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -5065,17 +3974,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -5084,18 +4016,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-81-TO-82)]
     
     rule [BASIC-BLOCK-82-TO-83]: <foundry>
@@ -5180,6 +4111,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -5198,6 +4132,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -5216,6 +4153,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          2
                        </nonce>
@@ -5234,6 +4174,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -5339,6 +4282,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -5357,6 +4303,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -5375,6 +4324,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -5393,6 +4345,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -5456,17 +4411,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -5475,18 +4453,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-82-TO-83)]
     
     rule [BASIC-BLOCK-83-TO-84]: <foundry>
@@ -5571,6 +4548,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -5589,6 +4569,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -5607,6 +4590,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          2
                        </nonce>
@@ -5625,6 +4611,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -5730,6 +4719,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -5748,6 +4740,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -5766,6 +4761,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -5784,6 +4782,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -5847,17 +4848,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -5866,24 +4890,23 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-83-TO-84)]
     
     rule [BASIC-BLOCK-84-TO-85]: <foundry>
            <kevm>
              <k>
-               ( CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ( CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\x90\xc5\x01;" false
                ~> #return 160 0 )
@@ -5994,6 +5017,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -6012,6 +5038,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -6030,6 +5059,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -6048,6 +5080,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -6111,17 +5146,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -6130,18 +5188,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-84-TO-85)]
     
     rule [BASIC-BLOCK-85-TO-86]: <foundry>
@@ -6259,6 +5316,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -6277,6 +5337,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -6295,6 +5358,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -6313,6 +5379,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -6376,17 +5445,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -6395,18 +5487,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-85-TO-86)]
     
     rule [BASIC-BLOCK-86-TO-87]: <foundry>
@@ -6520,6 +5611,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -6538,6 +5632,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -6556,6 +5653,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -6574,6 +5674,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -6637,17 +5740,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -6656,18 +5782,17 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-86-TO-87)]
     
     rule [BASIC-BLOCK-87-TO-88]: <foundry>
@@ -6781,6 +5906,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -6799,6 +5927,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -6817,6 +5948,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -6835,6 +5969,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -6898,17 +6035,40 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -6917,23 +6077,25 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( 0 <=Int VV0_addr_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( VV0_addr_114b9705:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV0_addr_114b9705:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               ))))))))))))))))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-87-TO-88)]
 
 endmodule
 0 Failure nodes. (0 pending and 0 failing)
 
-Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
+Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
 
-Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
+
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

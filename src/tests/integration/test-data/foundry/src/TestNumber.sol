@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.8.13;
 
-import "ds-test/test.sol";
+import {Test, console} from "forge-std/Test.sol";
 
-contract TestNumber is DSTest{
+contract TestNumber is Test{
     uint256 public testNumber ;
 
     constructor(uint256 initial){

@@ -4,27 +4,15 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.setUp()
 │
-│  (179 steps)
-├─ 3
-│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 328
-│   callDepth: 0
-│   statusCode: STATUSCODE:StatusCode
-│
-│  (1 step)
-├─ 4
-│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 328
-│   callDepth: 0
-│   statusCode: EVMC_SUCCESS
-│
-│  (2 steps)
+│  (182 steps)
 ├─ 5 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%AssertTest.setUp()
 │
 │  (1 step)
 ├─ 6
@@ -32,6 +20,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.testFail_expect_revert()
 │
 │  (417 steps)
 ├─ 8
@@ -39,6 +28,7 @@
 │   pc: 811
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.testFail_expect_revert()
 │
 │  (1 step)
 ├─ 9
@@ -46,6 +36,7 @@
 │   pc: 811
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.testFail_expect_revert()
 │
 │  (230 steps)
 ├─ 10
@@ -53,6 +44,7 @@
 │   pc: 892
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.testFail_expect_revert()
 │
 │  (1 step)
 ├─ 11
@@ -60,6 +52,7 @@
 │   pc: 892
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.testFail_expect_revert()
 │
 │  (18 steps)
 ├─ 12
@@ -67,6 +60,7 @@
 │   pc: 0
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.call_assert_false()
 │
 │  (1 step)
 ├─ 13
@@ -74,6 +68,7 @@
 │   pc: 0
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.call_assert_false()
 │
 │  (319 steps)
 ├─ 14
@@ -81,6 +76,7 @@
 │   pc: 2995
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%AssertTest.call_assert_false()
 │
 │  (1 step)
 ├─ 15
@@ -88,6 +84,7 @@
 │   pc: 2995
 │   callDepth: 1
 │   statusCode: EVMC_REVERT
+│   method: test%AssertTest.call_assert_false()
 │
 │  (2 steps)
 ├─ 16
@@ -95,6 +92,7 @@
 │   pc: 2995
 │   callDepth: 1
 │   statusCode: EVMC_REVERT
+│   method: test%AssertTest.call_assert_false()
 │
 │  (1 step)
 ├─ 17
@@ -102,6 +100,7 @@
 │   pc: 2995
 │   callDepth: 1
 │   statusCode: EVMC_REVERT
+│   method: test%AssertTest.call_assert_false()
 │
 │  (95 steps)
 ├─ 18
@@ -109,6 +108,7 @@
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%AssertTest.testFail_expect_revert()
 │
 │  (1 step)
 ├─ 19
@@ -116,6 +116,7 @@
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%AssertTest.testFail_expect_revert()
 │
 │  (2 steps)
 └─ 20 (leaf, terminal)
@@ -123,6 +124,7 @@
     pc: 328
     callDepth: 0
     statusCode: EVMC_SUCCESS
+    method: test%AssertTest.testFail_expect_revert()
 
 
 ┌─ 7 (root, leaf, target, terminal)
@@ -162,7 +164,7 @@ Node 20:
             .List
           </callStack>
           <interimStates>
-            .List
+            ...
           </interimStates>
           <touchedAccounts>
             SetItem ( 728815563385977040452943777879061427756277306518 )
@@ -244,6 +246,9 @@ Node 20:
               <origStorage>
                 .Map
               </origStorage>
+              <transientStorage>
+                .Map
+              </transientStorage>
               <nonce>
                 0
               </nonce>
@@ -262,6 +267,9 @@ Node 20:
               <origStorage>
                 .Map
               </origStorage>
+              <transientStorage>
+                .Map
+              </transientStorage>
               <nonce>
                 1
               </nonce>
@@ -316,17 +324,40 @@ Node 20:
         <isStorageWhitelistActive>
           false
         </isStorageWhitelistActive>
-        <addressSet>
-          .Set
-        </addressSet>
-        <storageSlotSet>
-          .Set
-        </storageSlotSet>
+        <addressList>
+          .List
+        </addressList>
+        <storageSlotList>
+          .List
+        </storageSlotList>
       </whitelist>
       <mockCalls>
         .MockCallCellMap
       </mockCalls>
+      <mockFunctions>
+        .MockFunctionCellMap
+      </mockFunctions>
     </cheatcodes>
+    <KEVMTracing>
+      <activeTracing>
+        false
+      </activeTracing>
+      <traceStorage>
+        false
+      </traceStorage>
+      <traceWordStack>
+        false
+      </traceWordStack>
+      <traceMemory>
+        false
+      </traceMemory>
+      <recordedTrace>
+        false
+      </recordedTrace>
+      <traceData>
+        .List
+      </traceData>
+    </KEVMTracing>
   </foundry>
   ...
 </generatedTop>
@@ -336,25 +367,22 @@ Node 20:
 #And ( { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
-#And ( { true #Equals CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
-#And ( { true #Equals ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
-#And ( { true #Equals CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349 }
 #And ( { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
-#And ( { true #Equals ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) ) }
-#And { true #Equals ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) )
+#And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
+#And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
+#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
+#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
 module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
     
     
-    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+    rule [BASIC-BLOCK-1-TO-5]: <foundry>
            <kevm>
              <k>
-               ( .K => #end EVMC_SUCCESS
-               ~> #pc [ STOP ] )
-               ~> #execute
+               ( #execute => #halt )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -371,6 +399,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                  <output>
                    b""
                  </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
                  <callStack>
                    .List
                  </callStack>
@@ -457,6 +488,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -475,6 +509,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -524,445 +561,56 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-3)]
-    
-    rule [BASIC-BLOCK-3-TO-4]: <foundry>
-           <kevm>
-             <k>
-               ( #end EVMC_SUCCESS => #halt )
-               ~> #pc [ STOP ]
-               ~> #execute
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
+           <KEVMTracing>
+             <activeTracing>
                false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   b""
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
-                 </statusCode>
-                 <callStack>
-                   .List
-                 </callStack>
-                 <interimStates>
-                   .List
-                 </interimStates>
-                 <touchedAccounts>
-                   .Set
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     728815563385977040452943777879061427756277306518
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"\n\x92T\xe4"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( selector ( "setUp()" ) : .WordStack )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     0
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <log>
-                     .List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     .Set
-                   </accessedAccounts>
-                   <accessedStorage>
-                     .Map
-                   </accessedStorage>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account> )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-3-TO-4)]
-    
-    rule [BASIC-BLOCK-4-TO-5]: <foundry>
-           <kevm>
-             <k>
-               #halt
-               ~> ( #pc [ STOP ]
-               ~> #execute => .K )
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
+             </activeTracing>
+             <traceStorage>
                false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   b""
-                 </output>
-                 <statusCode>
-                   EVMC_SUCCESS
-                 </statusCode>
-                 <callStack>
-                   .List
-                 </callStack>
-                 <interimStates>
-                   .List
-                 </interimStates>
-                 <touchedAccounts>
-                   .Set
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     728815563385977040452943777879061427756277306518
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"\n\x92T\xe4"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( selector ( "setUp()" ) : .WordStack )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     0
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <log>
-                     .List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     .Set
-                   </accessedAccounts>
-                   <accessedStorage>
-                     .Map
-                   </accessedStorage>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account> )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-           </cheatcodes>
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSERTTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-      [priority(20), label(BASIC-BLOCK-4-TO-5)]
+      [priority(20), label(BASIC-BLOCK-1-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
            <kevm>
@@ -1073,6 +721,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -1091,6 +742,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -1140,31 +794,54 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSERTTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
@@ -1276,6 +953,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -1294,6 +974,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -1343,44 +1026,60 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
-       andBool ( CALLER_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=K 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=K 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
-       ensures ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
            <kevm>
              <k>
-               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0 => #accessAccounts 645326474426547203313410069153905908525362434349
+               ( CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\xf4\x84H\x14" false
                ~> #return 128 0 )
@@ -1488,6 +1187,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -1506,6 +1208,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -1555,17 +1260,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -1573,14 +1301,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
@@ -1697,6 +1424,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -1715,6 +1445,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -1769,17 +1502,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -1787,20 +1543,19 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-10)]
     
     rule [BASIC-BLOCK-10-TO-11]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0 => #accessAccounts 728815563385977040452943777879061427756277306518
+               ( STATICCALL 0 728815563385977040452943777879061427756277306518 128 4 128 0 ~> .K => #accessAccounts 728815563385977040452943777879061427756277306518
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 728815563385977040452943777879061427756277306518 0 0 b"\xf3\xad0#" true
                ~> #return 128 0 )
@@ -1910,6 +1665,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -1928,6 +1686,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -1982,17 +1743,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -2000,14 +1784,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-11)]
     
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
@@ -2088,6 +1871,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -2106,6 +1892,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -2211,6 +2000,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -2229,6 +2021,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -2283,17 +2078,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -2301,20 +2119,19 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
            <kevm>
              <k>
-               ( #precompiled? ( 728815563385977040452943777879061427756277306518 , SHANGHAI ) => .K )
+               ( #precompiled? ( 728815563385977040452943777879061427756277306518 , SHANGHAI ) ~> .K => .K )
                ~> #execute
                ~> #return 128 0
                ~> #pc [ STATICCALL ]
@@ -2387,6 +2204,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -2405,6 +2225,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -2510,6 +2333,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -2528,6 +2354,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -2582,17 +2411,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -2600,14 +2452,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -2687,6 +2538,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -2705,6 +2559,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -2810,6 +2667,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -2828,6 +2688,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -2882,17 +2745,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -2900,14 +2786,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
     rule [BASIC-BLOCK-14-TO-15]: <foundry>
@@ -2990,6 +2875,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -3008,6 +2896,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -3113,6 +3004,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -3131,6 +3025,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -3185,17 +3082,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3203,14 +3123,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-14-TO-15)]
     
     rule [BASIC-BLOCK-15-TO-16]: <foundry>
@@ -3293,6 +3212,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -3311,6 +3233,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -3416,6 +3341,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -3434,6 +3362,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -3488,17 +3419,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3506,14 +3460,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3599,6 +3552,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -3617,6 +3573,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -3722,6 +3681,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -3740,6 +3702,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -3794,17 +3759,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -3812,14 +3800,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
     
     rule [BASIC-BLOCK-17-TO-18]: <foundry>
@@ -3905,6 +3892,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          0
                        </nonce>
@@ -3923,6 +3913,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        <origStorage>
                          .Map
                        </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
                        <nonce>
                          1
                        </nonce>
@@ -4028,6 +4021,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -4046,6 +4042,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -4100,17 +4099,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -4118,14 +4140,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-17-TO-18)]
     
     rule [BASIC-BLOCK-18-TO-19]: <foundry>
@@ -4239,6 +4260,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -4257,6 +4281,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -4311,17 +4338,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -4329,14 +4379,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-18-TO-19)]
     
     rule [BASIC-BLOCK-19-TO-20]: <foundry>
@@ -4450,6 +4499,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -4468,6 +4520,9 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -4522,17 +4577,40 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -4540,14 +4618,13 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _CONTRACT_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( ( notBool ( 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 ) )
-       andBool ( ( notBool ( 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 ) )
-               )))))))))))))
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-19-TO-20)]
 
 endmodule
@@ -4565,22 +4642,23 @@ Failing nodes:
     #And { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
     #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
     #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And #Not ( { CONTRACT_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
     #And { true #Equals CALLER_ID:Int <Int pow160 }
     #And { true #Equals ORIGIN_ID:Int <Int pow160 }
     #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
     #And { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
-    #And { false #Equals 0 <Int CALLER_ID:Int andBool CALLER_ID:Int <=Int 9 }
-    #And { false #Equals 0 <Int ORIGIN_ID:Int andBool ORIGIN_ID:Int <=Int 9 } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And { false #Equals #range ( 0 < CALLER_ID:Int <= 9 ) }
+    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 9 ) } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
   Model:
     CALLER_ID = 10
-    CONTRACT_ID = 3
     NUMBER_CELL = 0
     ORIGIN_ID = 10
     TIMESTAMP_CELL = 0
 
-Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
+Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
 
-Access documentation for KEVM foundry integration at https://docs.runtimeverification.com/kontrol
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
+
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

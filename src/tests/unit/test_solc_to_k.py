@@ -7,7 +7,16 @@ from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KVariable
 from pyk.prelude.kint import eqInt, intToken
 
-from kontrol.solc_to_k import Contract, Input, _range_predicates, find_function_calls, process_length_equals
+from kontrol.solc_to_k import (
+    Contract,
+    Input,
+    StorageField,
+    _contract_name_from_bytecode,
+    _range_predicates,
+    find_function_calls,
+    process_length_equals,
+    process_storage_layout,
+)
 
 from .utils import TEST_DATA_DIR
 
@@ -100,6 +109,12 @@ ESCAPE_DATA: list[tuple[str, str, str, str]] = [
     ('lower_z', '', 'z_', 'zZUnd'),
     ('with_escape_no_prefix', 'S2K', 'zS2K_', 'S2KzS2KZUnd'),
     ('doll', 'S2K', '$name', 'S2KZDlrname'),
+    (
+        'full_path',
+        'S2K',
+        'node_modules%@openzeppelin%contracts%utils%Address',
+        'S2KnodeZUndmodulesZModZAtopenzeppelinZModcontractsZModutilsZModAddress',
+    ),
 ]
 
 
@@ -228,10 +243,19 @@ ABI_DATA: list[tuple[str, dict, dict, Input]] = [
             name='_tx',
             type='tuple',
             components=(
-                Input(name='nonce', type='uint256', components=(), idx=0, array_lengths=None, dynamic_type_length=None),
+                Input(
+                    name='nonce',
+                    type='uint256',
+                    internal_type='uint256',
+                    components=(),
+                    idx=0,
+                    array_lengths=None,
+                    dynamic_type_length=None,
+                ),
                 Input(
                     name='sender',
                     type='address',
+                    internal_type='address',
                     components=(),
                     idx=1,
                     array_lengths=None,
@@ -240,23 +264,42 @@ ABI_DATA: list[tuple[str, dict, dict, Input]] = [
                 Input(
                     name='target',
                     type='address',
+                    internal_type='address',
                     components=(),
                     idx=2,
                     array_lengths=None,
                     dynamic_type_length=None,
                 ),
-                Input(name='value', type='uint256', components=(), idx=3, array_lengths=None, dynamic_type_length=None),
+                Input(
+                    name='value',
+                    type='uint256',
+                    internal_type='uint256',
+                    components=(),
+                    idx=3,
+                    array_lengths=None,
+                    dynamic_type_length=None,
+                ),
                 Input(
                     name='gasLimit',
                     type='uint256',
+                    internal_type='uint256',
                     components=(),
                     idx=4,
                     array_lengths=None,
                     dynamic_type_length=None,
                 ),
-                Input(name='data', type='bytes', components=(), idx=5, array_lengths=None, dynamic_type_length=600),
+                Input(
+                    name='data',
+                    type='bytes',
+                    internal_type='bytes',
+                    components=(),
+                    idx=5,
+                    array_lengths=None,
+                    dynamic_type_length=600,
+                ),
             ),
             idx=0,
+            internal_type='struct MyStruct.ComplexType',
             array_lengths=None,
             dynamic_type_length=None,
         ),
@@ -291,7 +334,7 @@ def test_process_length_equals(
     assert dyn_len == expected_dynamic_type_length
 
 
-AST_DATA: list[tuple[str, dict, list[str]]] = [
+AST_DATA: list[tuple[str, dict, tuple[StorageField, ...], list[str]]] = [
     (
         'skip_first',
         {
@@ -304,7 +347,7 @@ AST_DATA: list[tuple[str, dict, list[str]]] = [
                             'expression': {
                                 'expression': {
                                     'typeDescriptions': {
-                                        'typeString': 'contract KEVMCheatsBase',
+                                        'typeString': 'contract KontrolCheatsBase',
                                     },
                                 },
                                 'memberName': 'infiniteGas',
@@ -358,6 +401,7 @@ AST_DATA: list[tuple[str, dict, list[str]]] = [
                 ],
             },
         },
+        (),
         ['Counter.setNumber(uint256,bool)', 'Counter.number()'],
     ),
     (
@@ -411,18 +455,193 @@ AST_DATA: list[tuple[str, dict, list[str]]] = [
                 ],
             },
         },
+        (),
         ['ArithmeticContract.add(uint256,uint256)'],
+    ),
+    (
+        'interface_call',
+        {
+            'nodeType': 'FunctionDefinition',
+            'body': {
+                'statements': [
+                    {
+                        'expression': {
+                            'expression': {
+                                'expression': {
+                                    'name': 'token',
+                                    'typeDescriptions': {
+                                        'typeIdentifier': 't_contract$_IERC20_$46789',
+                                        'typeString': 'contract IERC20',
+                                    },
+                                },
+                                'memberName': 'totalSupply',
+                                'nodeType': 'MemberAccess',
+                                'typeDescriptions': {
+                                    'typeIdentifier': 't_function_external_view$__$returns$_t_uint256_$',
+                                    'typeString': 'function () view external returns (uint256)',
+                                },
+                            },
+                            'nodeType': 'FunctionCall',
+                        },
+                    }
+                ],
+            },
+        },
+        (StorageField(label='token', data_type='contract IERC20', slot=0, offset=0, linked_interface='ERC20'),),
+        ['ERC20.totalSupply()'],
+    ),
+    (
+        'emit_event',
+        {
+            'eventCall': {
+                'arguments': [],
+                'expression': {
+                    'argumentTypes': [],
+                    'expression': {
+                        'typeDescriptions': {
+                            'typeIdentifier': 't_type$_t_contract$_IERC20_$40681_$',
+                            'typeString': 'type(contract IERC20)',
+                        }
+                    },
+                    'memberName': 'Transfer',
+                    'nodeType': 'MemberAccess',
+                    'typeDescriptions': {
+                        'typeIdentifier': 't_function_event_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$__$',
+                        'typeString': 'function (address,address,uint256)',
+                    },
+                },
+                'kind': 'functionCall',
+                'nameLocations': [],
+                'names': [],
+                'nodeType': 'FunctionCall',
+                'src': '3625:37:33',
+                'typeDescriptions': {'typeIdentifier': 't_tuple$__$', 'typeString': 'tuple()'},
+            }
+        },
+        (),
+        [],
     ),
 ]
 
 
 @pytest.mark.parametrize(
-    'test_id,ast,expected',
+    'test_id,ast,fields,expected',
     AST_DATA,
     ids=[test_id for test_id, *_ in AST_DATA],
 )
-def test_find_function_calls(test_id: str, ast: dict, expected: list[str]) -> None:
+def test_find_function_calls(test_id: str, ast: dict, fields: tuple[StorageField, ...], expected: list[str]) -> None:
     # When
-    output = find_function_calls(ast)
+    output = find_function_calls(ast, fields)
     # Then
     assert output == expected
+
+
+LAYOUT_DATA: list[tuple[str, dict, dict, tuple[StorageField, ...]]] = [
+    (
+        'static-types',
+        {
+            'storage': [
+                {
+                    'astId': 46782,
+                    'contract': 'src/Counter.sol:Counter',
+                    'label': 'x',
+                    'offset': 0,
+                    'slot': '0',
+                    'type': 't_bool',
+                },
+                {
+                    'astId': 46784,
+                    'contract': 'src/Counter.sol:Counter',
+                    'label': 'secondBoolean',
+                    'offset': 1,
+                    'slot': '0',
+                    'type': 't_bool',
+                },
+                {
+                    'astId': 46786,
+                    'contract': 'src/Counter.sol:Counter',
+                    'label': 'number',
+                    'offset': 0,
+                    'slot': '1',
+                    'type': 't_uint256',
+                },
+            ],
+            'types': {
+                't_bool': {'encoding': 'inplace', 'label': 'bool', 'numberOfBytes': '1'},
+                't_uint256': {'encoding': 'inplace', 'label': 'uint256', 'numberOfBytes': '32'},
+            },
+        },
+        {},
+        (
+            StorageField(label='x', data_type='bool', slot=0, offset=0, linked_interface=None),
+            StorageField(label='secondBoolean', data_type='bool', slot=0, offset=1, linked_interface=None),
+            StorageField(label='number', data_type='uint256', slot=1, offset=0, linked_interface=None),
+        ),
+    ),
+    (
+        'contract-types',
+        {
+            'storage': [
+                {
+                    'astId': 46793,
+                    'contract': 'test/InterfaceTest.t.sol:InterfaceContract',
+                    'label': 'token',
+                    'offset': 0,
+                    'slot': '0',
+                    'type': 't_contract(IERC20)46789',
+                },
+            ],
+            'types': {
+                't_contract(IERC20)46789': {'encoding': 'inplace', 'label': 'contract IERC20', 'numberOfBytes': '20'},
+            },
+        },
+        {
+            'token': 'ERC20',
+        },
+        (StorageField(label='token', data_type='contract IERC20', slot=0, offset=0, linked_interface='ERC20'),),
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    'test_id,storage_layout,interface_annotations,expected',
+    LAYOUT_DATA,
+    ids=[test_id for test_id, *_ in LAYOUT_DATA],
+)
+def test_storage_layout_fields(
+    test_id: str, storage_layout: dict, interface_annotations: dict, expected: tuple[StorageField, ...]
+) -> None:
+    # When
+    output = process_storage_layout(storage_layout, interface_annotations)
+    # Then
+    assert output == expected
+
+
+def test_contract_name_from_bytecode() -> None:
+    contract_data: dict[str, tuple[str, list[tuple[int, int]], list[tuple[int, int]]]] = {
+        'contract1': ('00000000ffffffffffffffff', [(0, 4)], []),
+        'contract2': ('aaaaaaaaaa000000000000aa', [(5, 6)], []),
+        'contract3': (
+            'bbbbbbbbbbbbbbbbbbbbbb__$53aea86b7d70b31448b230b20ae141a537$__bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+            [],
+            [(11, 20)],
+        ),
+    }
+
+    assert (
+        _contract_name_from_bytecode(bytecode=bytes.fromhex('ddddddddffffffffffffffff'), contracts=contract_data)
+        == 'contract1'
+    )
+    assert (
+        _contract_name_from_bytecode(bytecode=bytes.fromhex('aaaaaaaaaa111111111111aa'), contracts=contract_data)
+        == 'contract2'
+    )
+    assert (
+        _contract_name_from_bytecode(
+            bytecode=bytes.fromhex(
+                'bbbbbbbbbbbbbbbbbbbbbb7777777777777777777777777777777777777777bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+            ),
+            contracts=contract_data,
+        )
+        == 'contract3'
+    )

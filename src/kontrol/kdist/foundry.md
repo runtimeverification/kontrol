@@ -10,14 +10,20 @@ This file describes the K semantics of the Foundry testing framework, which incl
 
 ```k
 requires "cheatcodes.md"
+requires "hevm.md"
 requires "hashed-locations.md"
 requires "edsl.md"
+requires "trace.md"
+requires "assert.md"
 requires "lemmas/lemmas.k"
 
 module FOUNDRY
     imports FOUNDRY-SUCCESS
     imports FOUNDRY-CHEAT-CODES
     imports FOUNDRY-ACCOUNTS
+    imports HEVM-SUCCESS
+    imports EVM-TRACING
+    imports KONTROL-ASSERTIONS
     imports EDSL
     imports LEMMAS
 
@@ -25,6 +31,7 @@ module FOUNDRY
       <foundry>
         <kevm/>
         <cheatcodes/>
+        <KEVMTracing/>
       </foundry>
 endmodule
 ```
@@ -41,16 +48,85 @@ module FOUNDRY-ACCOUNTS
     syntax Int             ::= #address ( Contract ) [macro]
     syntax Contract        ::= FoundryContract
     syntax Field           ::= FoundryField
-    syntax FoundryContract ::= "FoundryTest"  [klabel(contract_FoundryTest)]
-                             | "FoundryCheat" [klabel(contract_FoundryCheat)]
+    syntax FoundryContract ::= "FoundryTest"  [symbol(contract_FoundryTest)]
+                             | "FoundryCheat" [symbol(contract_FoundryCheat)]
  // -------------------------------------------------------------------------
     rule #address(FoundryTest)  => 728815563385977040452943777879061427756277306518  // 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496
     rule #address(FoundryCheat) => 645326474426547203313410069153905908525362434349  // 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D
 
-    syntax FoundryField ::= "Failed" [klabel(slot_failed)]
+    syntax FoundryField ::= "Failed" [symbol(slot_failed)]
  // ------------------------------------------------------
     rule #loc(FoundryCheat . Failed) => 46308022326495007027972728677917914892729792999299745830475596687180801507328 // 0x6661696c65640000000000000000000000000000000000000000000000000000
+```
 
+Then, we define helpers in K which can:
+
+-   Inject a given boolean condition into's this execution's path condition
+-   Set the `FoundryCheat . Failed` location to `True`.
+
+```k
+    syntax KItem ::= #assume ( Bool ) [symbol(cheatcode_assume)]
+ // ------------------------------------------------------------
+    rule <k> #assume(B) => .K ... </k> ensures B
+
+     syntax KItem ::= "#markAsFailed" [symbol(foundry_markAsFailed)]
+  // ---------------------------------------------------------------
+     rule <k> #markAsFailed => .K ... </k>
+          <account>
+             <acctID> #address(FoundryCheat) </acctID>
+             <storage> STORAGE => STORAGE [ #loc(FoundryCheat . Failed) <- 1 ] </storage>
+             ...
+           </account>
+```
+
+#### Structure of execution
+
+The `cheatcode.call` rule is used to inject specific behaviour for each cheat code.
+The rule has a higher priority than any other `#call` rule and will match every call made to the [FoundryCheat address](https://book.getfoundry.sh/cheatcodes/#cheatcodes-reference).
+The function selector, represented as `#asWord(#range(ARGS, 0, 4))` and the call data `#range(ARGS, 4, lengthBytes(ARGS) -Int 4)` are passed to the `#cheatcode_call` production, which will further rewrite using rules defined for implemented cheat codes.
+Finally, the rule for `#cheatcode_return` is used to end the execution of the `CALL` OpCode.
+
+```k
+    rule [cheatcode.call]:
+         <k> (#checkCall _ _
+          ~> #call _ CHEAT_ADDR _ _ _ ARGS _
+          ~> #return RETSTART RETWIDTH )
+          => #cheatcode_call #asWord(#range(ARGS, 0, 4)) #range(ARGS, 4, lengthBytes(ARGS) -Int 4)
+          ~> #cheatcode_return RETSTART RETWIDTH
+         ...
+         </k>
+         <output> _ => .Bytes </output>
+    requires CHEAT_ADDR ==Int #address(FoundryCheat)
+    [priority(40)]
+```
+
+We define two productions named `#cheatcode_return` and `#cheatcode_call`, which will be used by each cheat code.
+The rule `cheatcode.return` will rewrite the `#cheatcode_return` production into other productions that will place the output of the execution into the local memory, refund the gas value of the call and push the value `1` on the call stack.
+
+```k
+    syntax KItem ::= "#cheatcode_return" Int Int  [symbol(cheatcode_return)]
+                   | "#cheatcode_call" Int Bytes  [symbol(cheatcode_call)  ]
+                   | "#cheatcode_error" Int Bytes [symbol(cheatcode_error) ]
+ // ------------------------------------------------------------------------
+    rule [cheatcode.return]:
+         <k> #cheatcode_return RETSTART RETWIDTH
+          => #setLocalMem RETSTART RETWIDTH OUT
+          ~> #refund GCALL
+          ~> 1 ~> #push
+          ... </k>
+         <output> OUT </output>
+         <callGas> GCALL </callGas>
+```
+
+We define a new status code:
+ - `CHEATCODE_UNIMPLEMENTED`, which signals that the execution ran into an unimplemented cheat code.
+
+```k
+    syntax ExceptionalStatusCode ::= "CHEATCODE_UNIMPLEMENTED"
+ // ---------------------------------------------------------
+```
+
+```k
 endmodule
 ```
 
@@ -79,8 +155,8 @@ module FOUNDRY-SUCCESS
         opcodeExpected: Bool ","
         recordEventExpected: Bool ","
         eventExpected: Bool
-      ")" [function, klabel(foundry_success), symbol]
- // -------------------------------------------------
+      ")" [function, symbol(foundry_success)]
+ // -----------------------------------------
     rule foundry_success(EVMC_SUCCESS, 0, false, false, false, false) => true
     rule foundry_success(_, _, _, _, _, _)                            => false [owise]
 

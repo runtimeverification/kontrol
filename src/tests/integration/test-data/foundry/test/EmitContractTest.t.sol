@@ -36,4 +36,11 @@ contract EmitContractTest is Test {
         // The event we get
         emitter.t();
     }
+
+    function testExpectEmitLessTopics() public {
+        ExpectEmit emitter = new ExpectEmit();
+        vm.expectEmit(true, true, true, false);
+        emit Transfer(address(this), address(1337), 1337);
+        emitter.t();
+    }
 }

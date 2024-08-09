@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass
 from functools import cached_property
 from subprocess import CalledProcessError
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
@@ -15,9 +15,11 @@ from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
-from pyk.prelude.kint import eqInt, intToken
+from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
-from pyk.utils import FrozenDict, hash_str, run_process, single
+from pyk.utils import hash_str, run_process_2, single
+
+from .utils import _read_digest_file
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -27,34 +29,32 @@ if TYPE_CHECKING:
     from pyk.kast import KInner
     from pyk.kast.outer import KProductionItem, KSentence
 
+    from .options import SolcToKOptions
+
 _LOGGER: Final = logging.getLogger(__name__)
 
 
-def solc_to_k(
-    contract_file: Path,
-    contract_name: str,
-    main_module: str | None,
-    requires: Iterable[str] = (),
-    imports: Iterable[str] = (),
-) -> str:
+def solc_to_k(options: SolcToKOptions) -> str:
     definition_dir = kdist.get('evm-semantics.haskell')
     kevm = KEVM(definition_dir)
     empty_config = kevm.definition.empty_config(KEVM.Sorts.KEVM_CELL)
 
-    solc_json = solc_compile(contract_file)
-    contract_json = solc_json['contracts'][contract_file.name][contract_name]
-    if 'sources' in solc_json and contract_file.name in solc_json['sources']:
-        contract_source = solc_json['sources'][contract_file.name]
+    solc_json = solc_compile(options.contract_file)
+    contract_json = solc_json['contracts'][options.contract_file.name][options.contract_name]
+    if 'sources' in solc_json and options.contract_file.name in solc_json['sources']:
+        contract_source = solc_json['sources'][options.contract_file.name]
         for key in ['id', 'ast']:
             if key not in contract_json and key in contract_source:
                 contract_json[key] = contract_source[key]
-    contract = Contract(contract_name, contract_json, foundry=False)
+    contract = Contract(options.contract_name, contract_json, foundry=False)
 
-    imports = list(imports)
-    requires = list(requires)
-    contract_module = contract_to_main_module(contract, empty_config, imports=['EDSL'] + imports)
+    imports = list(options.imports)
+    requires = list(options.requires)
+    contract_module = contract_to_main_module(contract, empty_config, enums={}, imports=['EDSL'] + imports)
     _main_module = KFlatModule(
-        main_module if main_module else 'MAIN', [], [KImport(mname) for mname in [contract_module.name] + imports]
+        options.main_module if options.main_module else 'MAIN',
+        [],
+        [KImport(mname) for mname in [contract_module.name] + imports],
     )
     modules = (contract_module, _main_module)
     bin_runtime_definition = KDefinition(
@@ -71,6 +71,7 @@ class Input:
     type: str
     components: tuple[Input, ...] = ()
     idx: int = 0
+    internal_type: str | None = None
     array_lengths: tuple[int, ...] | None = None
     dynamic_type_length: int | None = None
 
@@ -88,6 +89,7 @@ class Input:
         """
         name = input.get('name')
         type = input.get('type')
+        internal_type = input.get('internalType')
         if name is None or type is None:
             raise ValueError("ABI dictionary must contain 'name' and 'type' keys.", input)
         array_lengths, dynamic_type_length = (
@@ -97,13 +99,21 @@ class Input:
             return Input(
                 name,
                 type,
-                tuple(Input._unwrap_components(input['components'], idx, natspec_lengths)),
-                idx,
-                array_lengths,
-                dynamic_type_length,
+                internal_type=internal_type,
+                components=tuple(Input._unwrap_components(input['components'], idx, natspec_lengths)),
+                idx=idx,
+                array_lengths=array_lengths,
+                dynamic_type_length=dynamic_type_length,
             )
         else:
-            return Input(name, type, idx=idx, array_lengths=array_lengths, dynamic_type_length=dynamic_type_length)
+            return Input(
+                name,
+                type,
+                internal_type=internal_type,
+                idx=idx,
+                array_lengths=array_lengths,
+                dynamic_type_length=dynamic_type_length,
+            )
 
     @staticmethod
     def _make_tuple_type(components: Iterable[Input], array_index: int | None = None) -> KApply:
@@ -120,6 +130,7 @@ class Input:
                     _c.type,
                     _c.components,
                     _c.idx,
+                    _c.internal_type,
                     _c.array_lengths,
                     _c.dynamic_type_length,
                 )
@@ -141,16 +152,31 @@ class Input:
         :param natspec_lengths: Optional dictionary for calculating array and dynamic type lengths
         :return: A list of Input instances for each component, including nested components
         """
-        return [
-            Input(
-                component['name'],
-                component['type'],
-                tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
-                idx,
-                *process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None),
+        inputs = []
+        for component in components:
+            lengths = process_length_equals(component, natspec_lengths) if natspec_lengths else (None, None)
+            inputs.append(
+                Input(
+                    component['name'],
+                    component['type'],
+                    internal_type=component['internalType'],
+                    components=tuple(Input._unwrap_components(component.get('components', []), idx, natspec_lengths)),
+                    idx=idx,
+                    array_lengths=lengths[0],
+                    dynamic_type_length=lengths[1],
+                )
             )
-            for idx, component in enumerate(components, start=idx)
-        ]
+            # If the component is of `tuple[n]` type, it will have `n` elements with different `idx`
+            if component['type'].endswith('[]') and component['type'].startswith('tuple'):
+                array_length, _ = lengths
+
+                if array_length is None:
+                    raise ValueError(f'Array length bounds missing for {component["name"]}')
+                idx += array_length[0]
+            else:
+                # Otherwise, use the next `idx` for the next component
+                idx += 1
+        return inputs
 
     def make_single_type(self) -> KApply:
         """
@@ -190,20 +216,50 @@ class Input:
             return self.make_single_type()
 
     def flattened(self) -> list[Input]:
-        if len(self.components) > 0:
-            nest = [comp.flattened() for comp in self.components]
-            return [fcomp for fncomp in nest for fcomp in fncomp]
+        components = []
+
+        if self.type.endswith('[]'):
+            if self.array_lengths is None:
+                raise ValueError(f'Array length bounds missing for {self.name}')
+
+            base_type = self.type.rstrip('[]')
+            if base_type == 'tuple':
+                components = [
+                    Input(
+                        f'{_c.name}_{i}',
+                        _c.type,
+                        _c.components,
+                        _c.idx,
+                        array_lengths=_c.array_lengths,
+                        dynamic_type_length=_c.dynamic_type_length,
+                    )
+                    for i in range(self.array_lengths[0])
+                    for _c in self.components
+                ]
+            else:
+                components = [Input(f'{self.name}_{i}', base_type, idx=self.idx) for i in range(self.array_lengths[0])]
+        elif self.type == 'tuple':
+            components = list(self.components)
         else:
             return [self]
 
+        nest = [comp.flattened() for comp in components]
+        return [fcomp for fncomp in nest for fcomp in fncomp]
+
 
 def inputs_from_abi(abi_inputs: Iterable[dict], natspec_lengths: dict | None) -> list[Input]:
+    def count_components(input: Input) -> int:
+        if len(input.components) > 0:
+            return sum(count_components(component) for component in input.components)
+        else:
+            return 1
+
     inputs = []
     index = 0
     for input in abi_inputs:
         cur_input = Input.from_dict(input, index, natspec_lengths)
         inputs.append(cur_input)
-        index += len(cur_input.flattened())
+        index += count_components(cur_input)
     return inputs
 
 
@@ -281,13 +337,20 @@ def parse_devdoc(tag: str, devdoc: dict | None) -> dict:
     return natspecs
 
 
+class StorageField(NamedTuple):
+    label: str
+    data_type: str
+    slot: int
+    offset: int
+    linked_interface: str | None
+
+
 @dataclass
 class Contract:
     @dataclass
     class Constructor:
         sort: KSort
-        arg_names: tuple[str, ...]
-        arg_types: tuple[str, ...]
+        inputs: tuple[Input, ...]
         contract_name: str
         contract_digest: str
         contract_storage_digest: str
@@ -303,11 +366,11 @@ class Contract:
             sort: KSort,
         ) -> None:
             self.signature = 'init'
-            self.arg_names = tuple([f'V{i}_{input["name"].replace("-", "_")}' for i, input in enumerate(abi['inputs'])])
-            self.arg_types = tuple([input['type'] for input in abi['inputs']])
             self.contract_name = contract_name
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
+            # TODO: support NatSpec comments for dynamic types
+            self.inputs = tuple(inputs_from_abi(abi['inputs'], None))
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
@@ -329,24 +392,13 @@ class Contract:
             return f'{self.contract_name}.init'
 
         def up_to_date(self, digest_file: Path) -> bool:
-            if not digest_file.exists():
-                return False
-            digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
-                digest_file.write_text(json.dumps(digest_dict))
-            if self.qualified_name not in digest_dict['methods']:
-                return False
-            return digest_dict['methods'][self.qualified_name]['method'] == self.digest
+            digest_dict = _read_digest_file(digest_file)
+            return digest_dict.get('methods', {}).get(self.qualified_name, {}).get('method', '') == self.digest
 
         def update_digest(self, digest_file: Path) -> None:
-            digest_dict = {}
-            if digest_file.exists():
-                digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
+            digest_dict = _read_digest_file(digest_file)
             digest_dict['methods'][self.qualified_name] = {'method': self.digest}
-            digest_file.write_text(json.dumps(digest_dict))
+            digest_file.write_text(json.dumps(digest_dict, indent=4))
 
             _LOGGER.info(f'Updated method {self.qualified_name} in digest file: {digest_file}')
 
@@ -354,6 +406,69 @@ class Contract:
         def digest(self) -> str:
             contract_digest = self.contract_digest
             return hash_str(f'{self.contract_storage_digest}{contract_digest}')
+
+        @cached_property
+        def callvalue_cell(self) -> KInner:
+            return (
+                intToken(0)
+                if not self.payable
+                else abstract_term_safely(KVariable('_###CALLVALUE###_'), base_name='CALLVALUE')
+            )
+
+        def encoded_args(self, enums: dict[str, int]) -> tuple[KInner, list[KInner]]:
+            args: list[KInner] = []
+            type_constraints: list[KInner] = []
+            for input in self.inputs:
+                abi_type = input.to_abi()
+                args.append(abi_type)
+                rps = []
+                if input.type.startswith('tuple'):
+                    components = input.components
+
+                    if input.type.endswith('[]'):
+                        if input.array_lengths is None:
+                            raise ValueError(f'Array length bounds missing for {input.name}')
+
+                        tuple_array_components = [
+                            Input(
+                                f'{_c.name}_{i}',
+                                _c.type,
+                                _c.components,
+                                _c.idx,
+                                _c.internal_type,
+                                _c.array_lengths,
+                                _c.dynamic_type_length,
+                            )
+                            for i in range(input.array_lengths[0])
+                            for _c in components
+                        ]
+                        components = tuple(tuple_array_components)
+
+                    for sub_input in components:
+                        _abi_type = sub_input.to_abi()
+                        rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
+                else:
+                    rps = _range_predicates(abi_type, input.dynamic_type_length)
+                for rp in rps:
+                    if rp is None:
+                        raise ValueError(f'Unsupported ABI type for method for {self.contract_name}.init')
+                    type_constraints.append(rp)
+                if input.internal_type is not None and input.internal_type.startswith('enum '):
+                    enum_name = input.internal_type.split(' ')[1]
+                    if enum_name not in enums:
+                        _LOGGER.warning(
+                            f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
+                        )
+                    else:
+                        enum_max = enums[enum_name]
+                        type_constraints.append(
+                            ltInt(
+                                KVariable(input.arg_name),
+                                intToken(enum_max),
+                            )
+                        )
+            encoded_args = KApply('encodeArgs', [KEVM.typed_args(args)])
+            return encoded_args, type_constraints
 
     @dataclass
     class Method:
@@ -366,6 +481,8 @@ class Contract:
         contract_digest: str
         contract_storage_digest: str
         payable: bool
+        pure: bool
+        view: bool
         signature: str
         ast: dict | None
         natspec_values: dict | None
@@ -394,6 +511,8 @@ class Contract:
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
+            self.pure = abi['stateMutability'] == 'pure'
+            self.view = abi['stateMutability'] == 'view'
             self.ast = ast
             natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
             self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
@@ -444,13 +563,11 @@ class Contract:
         def arg_names(self) -> tuple[str, ...]:
             arg_names: list[str] = []
             for input in self.inputs:
-                if input.type.endswith('[]'):
+                if input.type.endswith('[]') and not input.type.startswith('tuple'):
                     if input.array_lengths is None:
                         raise ValueError(f'Array length bounds missing for {input.name}')
                     length = input.array_lengths[0]
-                    arg_names.extend(
-                        f'{sub_input.arg_name}_{i}' for i in range(length) for sub_input in input.flattened()
-                    )
+                    arg_names.extend(f'{input.arg_name}_{i}' for i in range(length))
                 else:
                     arg_names.extend([sub_input.arg_name for sub_input in input.flattened()])
             return tuple(arg_names)
@@ -465,7 +582,7 @@ class Contract:
                     length = input.array_lengths[0]
                     base_type = input.type.split('[')[0]
                     if base_type == 'tuple':
-                        arg_types.extend(f'{sub_input.type}' for _i in range(length) for sub_input in input.flattened())
+                        arg_types.extend([sub_input.type for sub_input in input.flattened()])
                     else:
                         arg_types.extend([base_type] * length)
 
@@ -474,33 +591,17 @@ class Contract:
             return tuple(arg_types)
 
         def up_to_date(self, digest_file: Path) -> bool:
-            if not digest_file.exists():
-                return False
-            digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
-                digest_file.write_text(json.dumps(digest_dict, indent=4))
-            if self.qualified_name not in digest_dict['methods']:
-                return False
-            return digest_dict['methods'][self.qualified_name]['method'] == self.digest
+            digest_dict = _read_digest_file(digest_file)
+            return digest_dict.get('methods', {}).get(self.qualified_name, {}).get('method', '') == self.digest
 
         def contract_up_to_date(self, digest_file: Path) -> bool:
-            if not digest_file.exists():
-                return False
-            digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
-                digest_file.write_text(json.dumps(digest_dict, indent=4))
-            if self.qualified_name not in digest_dict['methods']:
-                return False
-            return digest_dict['methods'][self.qualified_name]['contract'] == self.contract_digest
+            digest_dict = _read_digest_file(digest_file)
+            return (
+                digest_dict.get('methods', {}).get(self.qualified_name, {}).get('contract', '') == self.contract_digest
+            )
 
         def update_digest(self, digest_file: Path) -> None:
-            digest_dict = {}
-            if digest_file.exists():
-                digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
+            digest_dict = _read_digest_file(digest_file)
             digest_dict['methods'][self.qualified_name] = {'method': self.digest, 'contract': self.contract_digest}
             digest_file.write_text(json.dumps(digest_dict, indent=4))
 
@@ -527,10 +628,12 @@ class Contract:
                 self.sort,
                 items_before + items_args + items_after,
                 klabel=self.unique_klabel,
-                att=KAtt(entries=[Atts.SYMBOL('')]),
+                att=KAtt(entries=[Atts.SYMBOL(self.unique_klabel.name)]),
             )
 
-        def rule(self, contract: KInner, application_label: KLabel, contract_name: str) -> KRule | None:
+        def rule(
+            self, contract: KInner, application_label: KLabel, contract_name: str, enums: dict[str, int]
+        ) -> KRule | None:
             prod_klabel = self.unique_klabel
             arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
@@ -539,8 +642,29 @@ class Contract:
                 abi_type = input.to_abi()
                 args.append(abi_type)
                 rps = []
-                if input.type == 'tuple':
-                    for sub_input in input.components:
+                if input.type.startswith('tuple'):
+                    components = input.components
+
+                    if input.type.endswith('[]'):
+                        if input.array_lengths is None:
+                            raise ValueError(f'Array length bounds missing for {input.name}')
+
+                        tuple_array_components = [
+                            Input(
+                                f'{_c.name}_{i}',
+                                _c.type,
+                                _c.components,
+                                _c.idx,
+                                _c.internal_type,
+                                _c.array_lengths,
+                                _c.dynamic_type_length,
+                            )
+                            for i in range(input.array_lengths[0])
+                            for _c in components
+                        ]
+                        components = tuple(tuple_array_components)
+
+                    for sub_input in components:
                         _abi_type = sub_input.to_abi()
                         rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
                 else:
@@ -552,6 +676,20 @@ class Contract:
                         )
                         return None
                     conjuncts.append(rp)
+                if input.internal_type is not None and input.internal_type.startswith('enum '):
+                    enum_name = input.internal_type.split(' ')[1]
+                    if enum_name not in enums:
+                        _LOGGER.info(
+                            f'Skipping adding constraint for {enum_name} because it is not tracked by Kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
+                        )
+                    else:
+                        enum_max = enums[enum_name]
+                        conjuncts.append(
+                            ltInt(
+                                KVariable(input.arg_name),
+                                intToken(enum_max),
+                            )
+                        )
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
             ensures = andBool(conjuncts)
@@ -583,11 +721,13 @@ class Contract:
     contract_id: int
     contract_path: str
     deployed_bytecode: str
+    immutable_ranges: list[tuple[int, int]]
+    link_ranges: list[tuple[int, int]]
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
-    fields: FrozenDict
     constructor: Constructor | None
+    interface_annotations: dict[str, str]
     PREFIX_CODE: Final = 'Z'
 
     def __init__(self, contract_name: str, contract_json: dict, foundry: bool = False) -> None:
@@ -599,12 +739,26 @@ class Contract:
             self.contract_path = self.contract_json['ast']['absolutePath']
         except KeyError:
             raise ValueError(
-                "Must have 'ast' field in solc output. Make sure `ast = true` is present in foundry.toml"
+                "Must have 'ast' field in solc output. Make sure `ast = true` is present in foundry.toml and run `forge clean`"
             ) from None
 
         evm = self.contract_json['evm'] if not foundry else self.contract_json
 
         deployed_bytecode = evm['deployedBytecode']
+
+        self.immutable_ranges = [
+            (rng['start'], rng['length'])
+            for ref in deployed_bytecode.get('immutableReferences', {}).values()
+            for rng in ref
+        ]
+
+        self.link_ranges = [
+            (rng['start'], rng['length'])
+            for ref in deployed_bytecode.get('linkReferences', {}).values()
+            for rng_grp in ref
+            for rng in rng_grp
+        ]
+
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
 
@@ -628,6 +782,14 @@ class Contract:
         metadata = self.contract_json.get('metadata', {})
         devdoc = metadata.get('output', {}).get('devdoc', {}).get('methods', {})
 
+        self.interface_annotations = {
+            node['name']: node.get('documentation', {}).get('text', '').split()[1]
+            for node in contract_ast['nodes']
+            if node['nodeType'] == 'VariableDeclaration'
+            and 'stateVariable' in node
+            and node.get('documentation', {}).get('text', '').startswith('@custom:kontrol-instantiate-interface')
+        }
+
         for method in contract_json['abi']:
             if method['type'] == 'function':
                 msig = method_sig_from_abi(method)
@@ -635,7 +797,7 @@ class Contract:
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else None
                 method_devdoc = devdoc.get(msig)
-                method_calls = find_function_calls(method_ast)
+                method_calls = find_function_calls(method_ast, self.fields)
                 _m = Contract.Method(
                     msig,
                     mid,
@@ -655,16 +817,10 @@ class Contract:
 
         self.methods = tuple(sorted(_methods, key=(lambda method: method.signature)))
 
-        self.fields = FrozenDict({})
-        if 'storageLayout' in self.contract_json and 'storage' in self.contract_json['storageLayout']:
-            _fields_list = [(_f['label'], int(_f['slot'])) for _f in self.contract_json['storageLayout']['storage']]
-            _fields = {}
-            for _l, _s in _fields_list:
-                if _l in _fields:
-                    _LOGGER.info(f'Found duplicate field access key on contract {self._name}: {_l}')
-                    continue
-                _fields[_l] = _s
-            self.fields = FrozenDict(_fields)
+        if self.constructor is None:
+            empty_constructor = {'inputs': [], 'stateMutability': 'nonpayable', 'type': 'constructor'}
+            _c = Contract.Constructor(empty_constructor, self._name, self.digest, self.storage_digest, self.sort_method)
+            self.constructor = _c
 
     @cached_property
     def name_with_path(self) -> str:
@@ -717,6 +873,18 @@ class Contract:
 
         return _srcmap
 
+    @cached_property
+    def fields(self) -> tuple[StorageField, ...]:
+        return process_storage_layout(self.contract_json.get('storageLayout', {}), self.interface_annotations)
+
+    @cached_property
+    def has_storage_layout(self) -> bool:
+        return 'storageLayout' in self.contract_json
+
+    @cached_property
+    def is_test_contract(self) -> bool:
+        return any(field.label == 'IS_TEST' for field in self.fields)
+
     @staticmethod
     def contract_to_module_name(c: str) -> str:
         return Contract.escaped(c, 'S2K') + '-CONTRACT'
@@ -731,7 +899,7 @@ class Contract:
 
     @staticmethod
     def escaped_chars() -> list[str]:
-        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%']
+        return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%', '@']
 
     @staticmethod
     def escape_char(char: str) -> str:
@@ -748,6 +916,8 @@ class Contract:
                 as_ecaped = 'Sub'
             case '%':
                 as_ecaped = 'Mod'
+            case '@':
+                as_ecaped = 'At'
             case _:
                 as_ecaped = hex(ord(char)).removeprefix('0x')
         return f'{Contract.PREFIX_CODE}{as_ecaped}'
@@ -766,6 +936,8 @@ class Contract:
             return '-', 3
         elif seq.startswith('Mod'):
             return '%', 3
+        elif seq.startswith('At'):
+            return '@', 2
         else:
             return chr(int(seq, base=16)), 4
 
@@ -840,7 +1012,7 @@ class Contract:
             self.sort,
             [KTerminal(Contract.escaped(self.name_with_path, 'S2K'))],
             klabel=self.klabel,
-            att=KAtt([Atts.SYMBOL('')]),
+            att=KAtt([Atts.SYMBOL(self.klabel.name)]),
         )
 
     @property
@@ -868,46 +1040,25 @@ class Contract:
     def has_unlinked(self) -> bool:
         return 0 <= self.deployed_bytecode.find('__')
 
-    @property
-    def method_sentences(self) -> list[KSentence]:
+    def method_sentences(self, enums: dict[str, int]) -> list[KSentence]:
         method_application_production: KSentence = KProduction(
             KSort('Bytes'),
             [KNonTerminal(self.sort), KTerminal('.'), KNonTerminal(self.sort_method)],
             klabel=self.klabel_method,
-            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL('')]),
+            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL(self.klabel_method.name)]),
         )
         res: list[KSentence] = [method_application_production]
         res.extend(method.production for method in self.methods)
         method_rules = (
-            method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path) for method in self.methods
+            method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path, enums=enums)
+            for method in self.methods
         )
         res.extend(rule for rule in method_rules if rule)
         res.extend(method.selector_alias_rule for method in self.methods)
         return res if len(res) > 1 else []
 
-    @property
-    def field_sentences(self) -> list[KSentence]:
-        prods: list[KSentence] = [self.subsort_field]
-        rules: list[KSentence] = []
-        for field, slot in self.fields.items():
-            klabel = KLabel(self.klabel_field.name + f'_{field}')
-            prods.append(
-                KProduction(self.sort_field, [KTerminal(field)], klabel=klabel, att=KAtt(entries=[Atts.SYMBOL('')]))
-            )
-            rule_lhs = KEVM.loc(KApply(KLabel('contract_access_field'), [KApply(self.klabel), KApply(klabel)]))
-            rule_rhs = intToken(slot)
-            rules.append(KRule(KRewrite(rule_lhs, rule_rhs)))
-        if len(prods) == 1 and not rules:
-            return []
-        return prods + rules
-
-    @property
-    def sentences(self) -> list[KSentence]:
-        return (
-            [self.subsort, self.production, self.macro_bin_runtime, self.macro_init_bytecode]
-            + self.field_sentences
-            + self.method_sentences
-        )
+    def sentences(self, enums: dict[str, int]) -> list[KSentence]:
+        return [self.subsort, self.production] + self.method_sentences(enums)
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -951,7 +1102,7 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     }
 
     try:
-        process_res = run_process(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
+        process_res = run_process_2(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
     except CalledProcessError as err:
         raise RuntimeError('solc error', err.stdout, err.stderr) from err
     result = json.loads(process_res.stdout)
@@ -972,9 +1123,11 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     return result
 
 
-def contract_to_main_module(contract: Contract, empty_config: KInner, imports: Iterable[str] = ()) -> KFlatModule:
+def contract_to_main_module(
+    contract: Contract, empty_config: KInner, enums: dict[str, int], imports: Iterable[str] = ()
+) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
-    return KFlatModule(module_name, contract.sentences, [KImport(i) for i in list(imports)])
+    return KFlatModule(module_name, contract.sentences(enums), [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, empty_config: KInner, imports: Iterable[str]) -> KFlatModule:
@@ -1133,17 +1286,12 @@ def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KApply 
 
 def method_sig_from_abi(method_json: dict) -> str:
     def unparse_input(input_json: dict) -> str:
-        is_array = False
-        is_sized = False
-        array_size = 0
+        array_sizes = []
         base_type = input_json['type']
-        if re.match(r'.+\[.*\]', base_type):
-            is_array = True
+        while re.match(r'.+\[.*\]', base_type):
             array_size_str = base_type.split('[')[1][:-1]
-            if array_size_str != '':
-                is_sized = True
-                array_size = int(array_size_str)
-            base_type = base_type.split('[')[0]
+            array_sizes.append(array_size_str if array_size_str != '' else '')
+            base_type = base_type.rpartition('[')[0]
         if base_type == 'tuple':
             input_type = '('
             for i, component in enumerate(input_json['components']):
@@ -1151,13 +1299,11 @@ def method_sig_from_abi(method_json: dict) -> str:
                     input_type += ','
                 input_type += unparse_input(component)
             input_type += ')'
-            if is_array and not (is_sized):
-                input_type += '[]'
-            elif is_array and is_sized:
-                input_type += f'[{array_size}]'
-            return input_type
         else:
-            return input_json['type']
+            input_type = base_type
+        for array_size in reversed(array_sizes):
+            input_type += f'[{array_size}]' if array_size else '[]'
+        return input_type
 
     method_name = method_json['name']
     method_args = ''
@@ -1175,18 +1321,24 @@ def hex_string_to_int(hex: str) -> int:
         raise ValueError('Invalid hex format')
 
 
-def find_function_calls(node: dict) -> list[str]:
-    """Recursive function that takes a method AST and returns all the functions that are called in the given method.
+def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[str]:
+    """Recursive function that takes a method AST and a set of storage fields and returns all the functions that are called in the given method.
 
     :param node: AST of a Solidity Method
     :type node: dict
+    :param fields: A tuple of contract's fields, including those with interface and contract types.
+    :type fields: tuple[StorageField, ...]
     :return: A list of unique function signatures that are called inside the provided method AST.
     :rtype: list[str]
 
-    Functions that belong to contracts such as `Vm` and `KEVMCheatsBase` are ignored.
+    If a function call is made to an interface which has a user-supplied contract annotation, the function call is considered to belong to this contract.
+    Functions that belong to contracts such as `Vm` and `KontrolCheatsBase` are ignored.
     Functions like `abi.encodePacked` that do not belong to a Contract are assigned to a `UnknownContractType` and are ignored.
     """
     function_calls: list[str] = []
+
+    def _is_event(expression: dict) -> bool:
+        return expression['typeDescriptions'].get('typeIdentifier', '').startswith('t_function_event')
 
     def _find_function_calls(node: dict) -> None:
         if not node:
@@ -1194,17 +1346,23 @@ def find_function_calls(node: dict) -> list[str]:
 
         if node.get('nodeType') == 'FunctionCall':
             expression = node.get('expression', {})
-            if expression.get('nodeType') == 'MemberAccess':
+            if expression.get('nodeType', '') == 'MemberAccess' and not _is_event(expression):
+                contract_name = expression['expression'].get('name', '')
                 contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
                 contract_type = (
                     contract_type_string.split()[-1] if 'contract' in contract_type_string else 'UnknownContractType'
                 )
 
+                for field in fields:
+                    if field.label == contract_name and field.linked_interface is not None:
+                        contract_type = field.linked_interface
+                        break
+
                 function_name = expression.get('memberName')
                 arg_types = expression['typeDescriptions'].get('typeString')
                 args = arg_types.split()[1] if arg_types is not None else '()'
 
-                if contract_type not in ['KEVMCheatsBase', 'Vm', 'UnknownContractType']:
+                if contract_type not in ['KontrolCheatsBase', 'Vm', 'UnknownContractType']:
                     value = f'{contract_type}.{function_name}{args}'
                     # Check if value is not already in the list
                     if value not in function_calls:
@@ -1220,3 +1378,47 @@ def find_function_calls(node: dict) -> list[str]:
 
     _find_function_calls(node)
     return function_calls
+
+
+def _contract_name_from_bytecode(
+    bytecode: bytes, contracts: dict[str, tuple[str, list[tuple[int, int]], list[tuple[int, int]]]]
+) -> str | None:
+    for contract_name, (contract_deployed_bytecode, immutable_ranges, link_ranges) in contracts.items():
+        zeroed_bytecode = bytearray(bytecode)
+        deployed_bytecode_str = re.sub(
+            pattern='__\\$(.){34}\\$__',
+            repl='0000000000000000000000000000000000000000',
+            string=contract_deployed_bytecode,
+        )
+        deployed_bytecode = bytearray.fromhex(deployed_bytecode_str)
+
+        for start, length in immutable_ranges + link_ranges:
+            if start + length <= len(zeroed_bytecode):
+                zeroed_bytecode[start : start + length] = bytearray(length)
+            else:
+                break
+        if zeroed_bytecode == deployed_bytecode:
+            return contract_name
+    return None
+
+
+def process_storage_layout(storage_layout: dict, interface_annotations: dict) -> tuple[StorageField, ...]:
+    storage = storage_layout.get('storage', [])
+    types = storage_layout.get('types', {})
+
+    fields_list: list[StorageField] = []
+    for field in storage:
+        try:
+            type_info = types.get(field['type'], {})
+            storage_field = StorageField(
+                label=field['label'],
+                data_type=type_info.get('label', field['type']),
+                slot=int(field['slot']),
+                offset=int(field['offset']),
+                linked_interface=interface_annotations.get(field['label'], None),
+            )
+            fields_list.append(storage_field)
+        except (KeyError, ValueError) as e:
+            _LOGGER.error(f'Error processing field {field}: {e}')
+
+    return tuple(fields_list)
