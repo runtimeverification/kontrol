@@ -353,7 +353,7 @@ This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes 
          <k> #cheatcode_call SELECTOR ARGS =>
                #loadAccount #asWord(#range(ARGS, 0, 32)) ~>
                #loadAccount #asWord(#range(ARGS, 32, 32)) ~>
-               #copyStorage #loadAccount #asWord(#range(ARGS, 0, 32)) #loadAccount #asWord(#range(ARGS, 32, 32)) ... </k>
+               #copyStorage #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
       requires SELECTOR ==Int selector ( "copyStorage(address,address)" )
 ```
 
@@ -1137,7 +1137,7 @@ Utils
 - `#copyStorage ACCTFROM ACCTTO` copies the storage of ACCTFROM to be the storage of ACCTTO
 
 ```k
-     syntax KItem ::= "#copyStorage" Int [symbol(foundry_copyStorage)]
+     syntax KItem ::= "#copyStorage" Int Int [symbol(foundry_copyStorage)]
 ```
 
 ```{.k .symbolic}
