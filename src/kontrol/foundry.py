@@ -61,6 +61,7 @@ if TYPE_CHECKING:
     from pyk.utils import BugReport
 
     from .options import (
+        CleanOptions,
         GetModelOptions,
         LoadStateOptions,
         MergeNodesOptions,
@@ -736,7 +737,10 @@ class Foundry:
 
     def remove_old_proofs(self, force_remove: bool = False) -> bool:
         if force_remove or any(
-            not method.contract_up_to_date(Path(method.contract_digest))
+            # We need to check only the methods that get written to the digest file
+            # Otherwise we'd get vacuous positives
+            (method.is_test or method.is_testfail or method.is_setup)
+            and not method.contract_up_to_date(Path(self.digest_file))
             for contract in self.contracts.values()
             for method in contract.methods
         ):
@@ -744,6 +748,10 @@ class Foundry:
             return True
         else:
             return False
+
+    def remove_proofs_dir(self) -> None:
+        if self.proofs_dir.exists():
+            shutil.rmtree(self.proofs_dir.absolute())
 
 
 def foundry_show(
@@ -1382,3 +1390,14 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
         logger=_LOGGER,
         cwd=root,
     )
+
+
+def foundry_clean(foundry: Foundry, options: CleanOptions) -> None:
+    if options.proofs and options.old_proofs:
+        raise AttributeError('Use --proofs or --old-proofs, but not both!')
+    if options.proofs:
+        foundry.remove_proofs_dir()
+    elif options.old_proofs:
+        foundry.remove_old_proofs()
+    else:
+        run_process_2(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)

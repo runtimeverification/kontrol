@@ -83,6 +83,16 @@ class TraceOptions(Options):
 
 
 class CleanOptions(FoundryOptions, LoggingOptions):
+    proofs: bool
+    old_proofs: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'proofs': False,
+            'old_proofs': False,
+        }
+
     @staticmethod
     def from_option_string() -> dict[str, str]:
         return FoundryOptions.from_option_string() | LoggingOptions.from_option_string()
