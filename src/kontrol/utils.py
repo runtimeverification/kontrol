@@ -72,7 +72,7 @@ def append_to_file(file_path: Path, content: str) -> None:
 
 
 def empty_lemmas_file_contents() -> str:
-    return """require "foundry.md"
+    return """requires "foundry.md"
 
 module KONTROL-LEMMAS
 
