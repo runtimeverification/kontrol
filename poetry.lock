@@ -599,13 +599,13 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.108.10"
+version = "6.110.1"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "hypothesis-6.108.10-py3-none-any.whl", hash = "sha256:7b24f7197dad30de0799181eeb885452846ed81022707e35c9c275cf63ddd24f"},
-    {file = "hypothesis-6.108.10.tar.gz", hash = "sha256:8d8b3a57f27bd964b04e58c5731ab9862134fbb5511958c814aaca3120286f28"},
+    {file = "hypothesis-6.110.1-py3-none-any.whl", hash = "sha256:4b54a4ed3385c53b247b99e7b3c9630e7b665ef3cfdb2c557dd1c0b34d090481"},
+    {file = "hypothesis-6.110.1.tar.gz", hash = "sha256:a138bfaea11aba6daadf8effd9065251a6fec1549f25b7d72ac9881a413f76b0"},
 ]
 
 [package.dependencies]
@@ -676,7 +676,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.670"
+version = "1.0.677"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -684,26 +684,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.95"
+kframework = "7.1.102"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.670"
-resolved_reference = "5535f00987197cadb3f5463d89261c025d37d280"
+reference = "v1.0.677"
+resolved_reference = "ef6407961fab26308e3b84cd2ccdb06bff0aeac3"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.95"
+version = "7.1.102"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.95-py3-none-any.whl", hash = "sha256:932e226ac6207158a35e435e267411f0f183fea671fca7731462c7f532c25c02"},
-    {file = "kframework-7.1.95.tar.gz", hash = "sha256:b60a3341069a1610189b2350dc432b18e90bc87d964e5b7d4c92b1824bc28c51"},
+    {file = "kframework-7.1.102-py3-none-any.whl", hash = "sha256:6518e479f8ae53b83d5ac6891608dd1d22be824e57e3971dd7b6776fb195674e"},
+    {file = "kframework-7.1.102.tar.gz", hash = "sha256:17f051454a0636df443023e642aba2f7abb43f8b238e9379e315fc7178822131"},
 ]
 
 [package.dependencies]
