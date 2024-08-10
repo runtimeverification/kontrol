@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 
 FORGE_STD_REF: Final = '75f1746'
-KONTROL_CHEATCODES_REF: Final = '0ff265b'
+KONTROL_CHEATCODES_REF: Final = 'b5ba431'
 
 
 @pytest.fixture
@@ -71,7 +71,8 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                 ['forge', 'install', '--no-git', f'runtimeverification/kontrol-cheatcodes@{KONTROL_CHEATCODES_REF}'],
                 cwd=foundry_root,
             )
-            run_process_2(['forge', 'build'], cwd=foundry_root)
+            res = run_process_2(['forge', 'build'], cwd=foundry_root, check=False)
+            print(res.stderr)
 
             foundry_kompile(
                 BuildOptions(

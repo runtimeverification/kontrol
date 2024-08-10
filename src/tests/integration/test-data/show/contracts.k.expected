@@ -5008,6 +5008,8 @@ module S2KtestZModFreshBytesTest-CONTRACT
     
     syntax S2KtestZModFreshBytesTestMethod ::= "S2KtestZUndsymbolicZUndbytesZUnd1" "(" ")" [symbol("method_test%FreshBytesTest_S2KtestZUndsymbolicZUndbytesZUnd1_")]
     
+    syntax S2KtestZModFreshBytesTestMethod ::= "S2KtestZUndsymbolicZUndbytesZUnd1ZUndcustomZUndname" "(" ")" [symbol("method_test%FreshBytesTest_S2KtestZUndsymbolicZUndbytesZUnd1ZUndcustomZUndname_")]
+    
     syntax S2KtestZModFreshBytesTestMethod ::= "S2KtestZUndsymbolicZUndbytesZUnd2" "(" ")" [symbol("method_test%FreshBytesTest_S2KtestZUndsymbolicZUndbytesZUnd2_")]
     
     syntax S2KtestZModFreshBytesTestMethod ::= "S2KtestZUndsymbolicZUndbytesZUnd3" "(" ")" [symbol("method_test%FreshBytesTest_S2KtestZUndsymbolicZUndbytesZUnd3_")]
@@ -5052,6 +5054,9 @@ module S2KtestZModFreshBytesTest-CONTRACT
       
     
     rule  ( S2KtestZModFreshBytesTest . S2KtestZUndsymbolicZUndbytesZUnd1 ( ) => #abiCallData ( "test_symbolic_bytes_1" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModFreshBytesTest . S2KtestZUndsymbolicZUndbytesZUnd1ZUndcustomZUndname ( ) => #abiCallData ( "test_symbolic_bytes_1_custom_name" , .TypedArgs ) )
       
     
     rule  ( S2KtestZModFreshBytesTest . S2KtestZUndsymbolicZUndbytesZUnd2 ( ) => #abiCallData ( "test_symbolic_bytes_2" , .TypedArgs ) )
@@ -5103,6 +5108,9 @@ module S2KtestZModFreshBytesTest-CONTRACT
     rule  ( selector ( "test_symbolic_bytes_1()" ) => 1469379986 )
       
     
+    rule  ( selector ( "test_symbolic_bytes_1_custom_name()" ) => 504290508 )
+      
+    
     rule  ( selector ( "test_symbolic_bytes_2()" ) => 1407248988 )
       
     
@@ -5149,13 +5157,21 @@ module S2KtestZModFreshCheatcodes-CONTRACT
     
     syntax S2KtestZModFreshCheatcodesMethod ::= "S2KtestZUndaddress" "(" ")" [symbol("method_test%FreshCheatcodes_S2KtestZUndaddress_")]
     
+    syntax S2KtestZModFreshCheatcodesMethod ::= "S2KtestZUndaddressZUndcustomZUndname" "(" ")" [symbol("method_test%FreshCheatcodes_S2KtestZUndaddressZUndcustomZUndname_")]
+    
     syntax S2KtestZModFreshCheatcodesMethod ::= "S2KtestZUndbool" "(" ")" [symbol("method_test%FreshCheatcodes_S2KtestZUndbool_")]
+    
+    syntax S2KtestZModFreshCheatcodesMethod ::= "S2KtestZUndboolZUndcustomZUndname" "(" ")" [symbol("method_test%FreshCheatcodes_S2KtestZUndboolZUndcustomZUndname_")]
     
     syntax S2KtestZModFreshCheatcodesMethod ::= "S2KtestZUndfreshSymbolicWord" "(" ")" [symbol("method_test%FreshCheatcodes_S2KtestZUndfreshSymbolicWord_")]
     
     syntax S2KtestZModFreshCheatcodesMethod ::= "S2KtestZUndfreshUints" "(" Int ":" "uint8" ")" [symbol("method_test%FreshCheatcodes_S2KtestZUndfreshUints_uint8")]
     
     syntax S2KtestZModFreshCheatcodesMethod ::= "S2KtestZUndint128" "(" ")" [symbol("method_test%FreshCheatcodes_S2KtestZUndint128_")]
+    
+    syntax S2KtestZModFreshCheatcodesMethod ::= "S2KtestZUndint128ZUndcustomZUndname1" "(" ")" [symbol("method_test%FreshCheatcodes_S2KtestZUndint128ZUndcustomZUndname1_")]
+    
+    syntax S2KtestZModFreshCheatcodesMethod ::= "S2KtestZUndint128ZUndcustomZUndname2" "(" ")" [symbol("method_test%FreshCheatcodes_S2KtestZUndint128ZUndcustomZUndname2_")]
     
     rule  ( S2KtestZModFreshCheatcodes . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
@@ -5196,7 +5212,13 @@ module S2KtestZModFreshCheatcodes-CONTRACT
     rule  ( S2KtestZModFreshCheatcodes . S2KtestZUndaddress ( ) => #abiCallData ( "test_address" , .TypedArgs ) )
       
     
+    rule  ( S2KtestZModFreshCheatcodes . S2KtestZUndaddressZUndcustomZUndname ( ) => #abiCallData ( "test_address_custom_name" , .TypedArgs ) )
+      
+    
     rule  ( S2KtestZModFreshCheatcodes . S2KtestZUndbool ( ) => #abiCallData ( "test_bool" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModFreshCheatcodes . S2KtestZUndboolZUndcustomZUndname ( ) => #abiCallData ( "test_bool_custom_name" , .TypedArgs ) )
       
     
     rule  ( S2KtestZModFreshCheatcodes . S2KtestZUndfreshSymbolicWord ( ) => #abiCallData ( "test_freshSymbolicWord" , .TypedArgs ) )
@@ -5207,6 +5229,12 @@ module S2KtestZModFreshCheatcodes-CONTRACT
       
     
     rule  ( S2KtestZModFreshCheatcodes . S2KtestZUndint128 ( ) => #abiCallData ( "test_int128" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModFreshCheatcodes . S2KtestZUndint128ZUndcustomZUndname1 ( ) => #abiCallData ( "test_int128_custom_name1" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModFreshCheatcodes . S2KtestZUndint128ZUndcustomZUndname2 ( ) => #abiCallData ( "test_int128_custom_name2" , .TypedArgs ) )
       
     
     rule  ( selector ( "IS_TEST()" ) => 4202047188 )
@@ -5248,7 +5276,13 @@ module S2KtestZModFreshCheatcodes-CONTRACT
     rule  ( selector ( "test_address()" ) => 3931432000 )
       
     
+    rule  ( selector ( "test_address_custom_name()" ) => 678915031 )
+      
+    
     rule  ( selector ( "test_bool()" ) => 1205338438 )
+      
+    
+    rule  ( selector ( "test_bool_custom_name()" ) => 2967479810 )
       
     
     rule  ( selector ( "test_freshSymbolicWord()" ) => 4235451793 )
@@ -5258,6 +5292,12 @@ module S2KtestZModFreshCheatcodes-CONTRACT
       
     
     rule  ( selector ( "test_int128()" ) => 3014857546 )
+      
+    
+    rule  ( selector ( "test_int128_custom_name1()" ) => 1064234955 )
+      
+    
+    rule  ( selector ( "test_int128_custom_name2()" ) => 2943704578 )
       
 
 endmodule
@@ -5778,11 +5818,19 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
     
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KfreshAddress" "(" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KfreshAddress_")]
     
+    syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KfreshAddress" "(" String ":" "string" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KfreshAddress_string")]
+    
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KfreshBool" "(" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KfreshBool_")]
+    
+    syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KfreshBool" "(" String ":" "string" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KfreshBool_string")]
     
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KfreshBytes" "(" Int ":" "uint256" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KfreshBytes_uint256")]
     
+    syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KfreshBytes" "(" Int ":" "uint256" "," String ":" "string" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KfreshBytes_uint256_string")]
+    
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KfreshUInt" "(" Int ":" "uint8" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KfreshUInt_uint8")]
+    
+    syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KfreshUInt" "(" Int ":" "uint8" "," String ":" "string" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KfreshUInt_uint8_string")]
     
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KinfiniteGas" "(" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KinfiniteGas_")]
     
@@ -5791,6 +5839,8 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KsetGas" "(" Int ":" "uint256" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KsetGas_uint256")]
     
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KsymbolicStorage" "(" Int ":" "address" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KsymbolicStorage_address")]
+    
+    syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KsymbolicStorage" "(" Int ":" "address" "," String ":" "string" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KsymbolicStorage_address_string")]
     
     rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KallowCallsToAddress ( V0_ : address ) => #abiCallData ( "allowCallsToAddress" , ( #address ( V0_ ) , .TypedArgs ) ) )
        ensures #rangeAddress ( V0_ )
@@ -5847,14 +5897,28 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
     rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KfreshAddress ( ) => #abiCallData ( "freshAddress" , .TypedArgs ) )
       
     
+    rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KfreshAddress ( V0_ : string ) => #abiCallData ( "freshAddress" , ( #string ( V0_ ) , .TypedArgs ) ) )
+      
+    
     rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KfreshBool ( ) => #abiCallData ( "freshBool" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KfreshBool ( V0_ : string ) => #abiCallData ( "freshBool" , ( #string ( V0_ ) , .TypedArgs ) ) )
       
     
     rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KfreshBytes ( V0_ : uint256 ) => #abiCallData ( "freshBytes" , ( #uint256 ( V0_ ) , .TypedArgs ) ) )
        ensures #rangeUInt ( 256 , V0_ )
       
     
+    rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KfreshBytes ( V0_ : uint256 , V1_ : string ) => #abiCallData ( "freshBytes" , ( #uint256 ( V0_ ) , ( #string ( V1_ ) , .TypedArgs ) ) ) )
+       ensures #rangeUInt ( 256 , V0_ )
+      
+    
     rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KfreshUInt ( V0_ : uint8 ) => #abiCallData ( "freshUInt" , ( #uint8 ( V0_ ) , .TypedArgs ) ) )
+       ensures #rangeUInt ( 8 , V0_ )
+      
+    
+    rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KfreshUInt ( V0_ : uint8 , V1_ : string ) => #abiCallData ( "freshUInt" , ( #uint8 ( V0_ ) , ( #string ( V1_ ) , .TypedArgs ) ) ) )
        ensures #rangeUInt ( 8 , V0_ )
       
     
@@ -5873,6 +5937,10 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
       
     
     rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KsymbolicStorage ( V0_ : address ) => #abiCallData ( "symbolicStorage" , ( #address ( V0_ ) , .TypedArgs ) ) )
+       ensures #rangeAddress ( V0_ )
+      
+    
+    rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KsymbolicStorage ( V0_ : address , V1_ : string ) => #abiCallData ( "symbolicStorage" , ( #address ( V0_ ) , ( #string ( V1_ ) , .TypedArgs ) ) ) )
        ensures #rangeAddress ( V0_ )
       
     
@@ -5906,13 +5974,25 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
     rule  ( selector ( "freshAddress()" ) => 2363359817 )
       
     
+    rule  ( selector ( "freshAddress(string)" ) => 1202084987 )
+      
+    
     rule  ( selector ( "freshBool()" ) => 2935720297 )
+      
+    
+    rule  ( selector ( "freshBool(string)" ) => 525694724 )
       
     
     rule  ( selector ( "freshBytes(uint256)" ) => 1389402351 )
       
     
+    rule  ( selector ( "freshBytes(uint256,string)" ) => 390682600 )
+      
+    
     rule  ( selector ( "freshUInt(uint8)" ) => 625253732 )
+      
+    
+    rule  ( selector ( "freshUInt(uint8,string)" ) => 1530912521 )
       
     
     rule  ( selector ( "infiniteGas()" ) => 3986649939 )
@@ -5925,6 +6005,9 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
       
     
     rule  ( selector ( "symbolicStorage(address)" ) => 769677742 )
+      
+    
+    rule  ( selector ( "symbolicStorage(address,string)" ) => 745143816 )
       
 
 endmodule
@@ -11165,6 +11248,8 @@ module S2KtestZModSymbolicStorageTest-CONTRACT
     
     syntax S2KtestZModSymbolicStorageTestMethod ::= "S2KtestFailZUndSymbolicStorage1" "(" Int ":" "uint256" ")" [symbol("method_test%SymbolicStorageTest_S2KtestFailZUndSymbolicStorage1_uint256")]
     
+    syntax S2KtestZModSymbolicStorageTestMethod ::= "S2KtestFailZUndSymbolicStorage1ZUndcustomZUndname" "(" Int ":" "uint256" ")" [symbol("method_test%SymbolicStorageTest_S2KtestFailZUndSymbolicStorage1ZUndcustomZUndname_uint256")]
+    
     rule  ( S2KtestZModSymbolicStorageTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
     
@@ -11210,6 +11295,10 @@ module S2KtestZModSymbolicStorageTest-CONTRACT
        ensures #rangeUInt ( 256 , V0_slot )
       
     
+    rule  ( S2KtestZModSymbolicStorageTest . S2KtestFailZUndSymbolicStorage1ZUndcustomZUndname ( V0_slot : uint256 ) => #abiCallData ( "testFail_SymbolicStorage1_custom_name" , ( #uint256 ( V0_slot ) , .TypedArgs ) ) )
+       ensures #rangeUInt ( 256 , V0_slot )
+      
+    
     rule  ( selector ( "IS_TEST()" ) => 4202047188 )
       
     
@@ -11250,6 +11339,9 @@ module S2KtestZModSymbolicStorageTest-CONTRACT
       
     
     rule  ( selector ( "testFail_SymbolicStorage1(uint256)" ) => 2899744320 )
+      
+    
+    rule  ( selector ( "testFail_SymbolicStorage1_custom_name(uint256)" ) => 3711439179 )
       
 
 endmodule

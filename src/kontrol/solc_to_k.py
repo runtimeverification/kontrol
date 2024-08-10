@@ -58,7 +58,7 @@ def solc_to_k(options: SolcToKOptions) -> str:
     )
     modules = (contract_module, _main_module)
     bin_runtime_definition = KDefinition(
-        _main_module.name, modules, requires=tuple(KRequire(req) for req in ['edsl.md'] + requires)
+        "S2KtestZModFreshBytesTest-VERIFICATION", modules, requires=tuple(KRequire(req) for req in ['edsl.md'] + requires)
     )
 
     _kprint = KEVM(definition_dir, extra_unparsing_modules=modules)
@@ -1102,6 +1102,8 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     }
 
     try:
+        process_res = run_process_2(['solc-select', 'install', '0.8.13'], logger=_LOGGER, input=json.dumps(args))
+        process_res = run_process_2(['solc-select', 'use', '0.8.13'], logger=_LOGGER, input=json.dumps(args))
         process_res = run_process_2(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
     except CalledProcessError as err:
         raise RuntimeError('solc error', err.stdout, err.stderr) from err
