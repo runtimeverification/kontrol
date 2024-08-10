@@ -216,17 +216,18 @@ class KontrolCLIArgs(KEVMCLIArgs):
     def rpc_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
         args.add_argument(
-            '--trace-rewrites',
-            dest='trace_rewrites',
+            '--no-log-rewrites',
+            dest='log_succ_rewrites',
+            default=None,
+            action='store_false',
+            help='Do not log traces of any simplification and rewrite rule application.',
+        )
+        args.add_argument(
+            '--log-fail-rewrites',
+            dest='log_fail_rewrites',
             default=None,
             action='store_true',
             help='Log traces of all simplification and rewrite rule applications.',
-        )
-        args.add_argument(
-            '--kore-rpc-command',
-            dest='kore_rpc_command',
-            type=str,
-            help='Custom command to start RPC server.',
         )
         args.add_argument(
             '--use-booster',
