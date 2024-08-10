@@ -49,7 +49,8 @@ class FoundryOptions(Options):
 
 
 class RpcOptions(Options):
-    trace_rewrites: bool
+    log_succ_rewrites: bool
+    log_fail_rewrites: bool
     kore_rpc_command: str | None
     use_booster: bool
     port: int | None
@@ -58,7 +59,8 @@ class RpcOptions(Options):
     @staticmethod
     def default() -> dict[str, Any]:
         return {
-            'trace_rewrites': False,
+            'log_succ_rewrites': True,
+            'log_fail_rewrites': False,
             'kore_rpc_command': None,
             'use_booster': True,
             'port': None,
