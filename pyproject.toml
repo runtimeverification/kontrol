@@ -15,6 +15,7 @@ python = "^3.10"
 kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.680", subdirectory = "kevm-pyk" }
 eth-utils = "^4.1.1"
 pycryptodome = "^3.20.0"
+antlr4-python3-runtime = "^4.13.1"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
@@ -51,12 +52,21 @@ remove-all-unused-imports = true
 ignore-init-module-imports = true
 remove-duplicate-keys = true
 remove-unused-variables = true
-exclude = "src/tests/integration/test-data"
+exclude = [
+    "src/tests/integration/test-data",
+    "src/kontrol/solidity",
+]
 
 [tool.black]
 line-length = 120
 skip-string-normalization = true
 
+[tool.flake8]
+exclude = "src/kontrol/solidity"
+
 [tool.mypy]
 disallow_untyped_defs = true
-exclude = "src/tests/integration/test-data"
+exclude = [
+    "src/tests/integration/test-data",
+    "src/kontrol/solidity",
+]
