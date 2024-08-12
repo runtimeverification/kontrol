@@ -230,6 +230,12 @@ class KontrolCLIArgs(KEVMCLIArgs):
             help='Log traces of all simplification and rewrite rule applications.',
         )
         args.add_argument(
+            '--kore-rpc-command',
+            dest='kore_rpc_command',
+            type=str,
+            help='Custom command to start RPC server.',
+        )
+        args.add_argument(
             '--use-booster',
             dest='use_booster',
             default=None,
