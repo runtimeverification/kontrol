@@ -66,6 +66,7 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
                         'no_metadata': True,
                     }
                 ),
+                BuildOptions({'require': str(foundry_root / 'lemmas.k'), 'module-import': 'TestBase:KONTROL-LEMMAS'}),
                 foundry=Foundry(foundry_root),
             )
 

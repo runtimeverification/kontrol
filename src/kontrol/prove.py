@@ -378,7 +378,8 @@ def _run_cfg_group(
                 cterm_symbolic = CTermSymbolic(
                     client,
                     foundry.kevm.definition,
-                    trace_rewrites=options.trace_rewrites,
+                    log_succ_rewrites=options.log_succ_rewrites,
+                    log_fail_rewrites=options.log_fail_rewrites,
                 )
                 return KCFGExplore(
                     cterm_symbolic,
