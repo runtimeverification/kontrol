@@ -665,7 +665,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.681"
+version = "1.0.682"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -673,26 +673,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.103"
+kframework = "7.1.104"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.681"
-resolved_reference = "b4afee51b1f232d615c6ebec1d5a380e1a26bbd7"
+reference = "v1.0.682"
+resolved_reference = "cb91fb4c746c1ca1afd020783ca9bd1e14666f11"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.103"
+version = "7.1.104"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.103-py3-none-any.whl", hash = "sha256:a148f763fd1a65a67511cc72f737ecd3d53897597c72fc56be3bbd0579fe4b22"},
-    {file = "kframework-7.1.103.tar.gz", hash = "sha256:b62571985cbe6a1654c2420703c0df9e2528bb474f68e9ea7a2b437e6f6de10d"},
+    {file = "kframework-7.1.104-py3-none-any.whl", hash = "sha256:a623575b4404ec4725d2269eafa9cd9d11468cef5f184e1c4db268d3bcf74d7e"},
+    {file = "kframework-7.1.104.tar.gz", hash = "sha256:5ee957523716d1f7e5964a77d09ec6432486ac886fed5fa0175bfc02d20f20e1"},
 ]
 
 [package.dependencies]
@@ -1014,17 +1014,17 @@ test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
 
 [[package]]
 name = "pybind11"
-version = "2.13.1"
+version = "2.13.2"
 description = "Seamless operability between C++11 and Python"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pybind11-2.13.1-py3-none-any.whl", hash = "sha256:97881536abe0cd4260a9ccc5bf6d1cf3113318f08af1feb82d4b9f95e93f0aa4"},
-    {file = "pybind11-2.13.1.tar.gz", hash = "sha256:65be498b1cac516161add1508e65375674916bebf2570d057dc9c3c7bcbbc7b0"},
+    {file = "pybind11-2.13.2-py3-none-any.whl", hash = "sha256:a5376617f8475f812183ba9117ae1c9eedff6d045f2252ab76fa5c31b5a04cc4"},
+    {file = "pybind11-2.13.2.tar.gz", hash = "sha256:f050e703fb596df2fa8cdbe1175c13856ec96d8dace878a642bcea3875356cfe"},
 ]
 
 [package.extras]
-global = ["pybind11-global (==2.13.1)"]
+global = ["pybind11-global (==2.13.2)"]
 
 [[package]]
 name = "pycodestyle"
@@ -1403,4 +1403,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "a9ee19320ead06ac1b76a5ab1b92692ccf4b6c5f659376c0378f7589e384306d"
+content-hash = "b44773e84b533b28c3b02a30d8e045e691483028ad859027fa0140abf6e9b6da"
