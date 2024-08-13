@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 
 FORGE_STD_REF: Final = '75f1746'
-KONTROL_CHEATCODES_REF: Final = '7baaf34'
+KONTROL_CHEATCODES_REF: Final = 'a5dd4b0'
 
 
 @pytest.fixture

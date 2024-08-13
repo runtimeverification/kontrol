@@ -44,6 +44,8 @@ module FOUNDRY-MAIN
     imports public S2KtestZModTToken-VERIFICATION
     imports public S2KsrcZModCounter-VERIFICATION
     imports public S2KsrcZModRecordedCounter-VERIFICATION
+    imports public S2KtestZModCopyStorageContract-VERIFICATION
+    imports public S2KtestZModCopyStorageTest-VERIFICATION
     imports public S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounterTest-VERIFICATION
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
@@ -433,6 +435,20 @@ endmodule
 
 module S2KsrcZModRecordedCounter-VERIFICATION
     imports public S2KsrcZModRecordedCounter-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModCopyStorageContract-VERIFICATION
+    imports public S2KtestZModCopyStorageContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModCopyStorageTest-VERIFICATION
+    imports public S2KtestZModCopyStorageTest-CONTRACT
     
     
 

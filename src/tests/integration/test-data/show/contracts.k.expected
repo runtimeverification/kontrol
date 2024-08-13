@@ -3303,6 +3303,140 @@ module S2KsrcZModRecordedCounter-CONTRACT
 
 endmodule
 
+module S2KtestZModCopyStorageContract-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModCopyStorageContractContract
+    
+    syntax S2KtestZModCopyStorageContractContract ::= "S2KtestZModCopyStorageContract" [symbol("contract_test%CopyStorageContract")]
+    
+    syntax Bytes ::= S2KtestZModCopyStorageContractContract "." S2KtestZModCopyStorageContractMethod [function, symbol("method_test%CopyStorageContract")]
+    
+    syntax S2KtestZModCopyStorageContractMethod ::= "S2Kx" "(" ")" [symbol("method_test%CopyStorageContract_S2Kx_")]
+    
+    rule  ( S2KtestZModCopyStorageContract . S2Kx ( ) => #abiCallData ( "x" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "x()" ) => 206924188 )
+      
+
+endmodule
+
+module S2KtestZModCopyStorageTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModCopyStorageTestContract
+    
+    syntax S2KtestZModCopyStorageTestContract ::= "S2KtestZModCopyStorageTest" [symbol("contract_test%CopyStorageTest")]
+    
+    syntax Bytes ::= S2KtestZModCopyStorageTestContract "." S2KtestZModCopyStorageTestMethod [function, symbol("method_test%CopyStorageTest")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol("method_test%CopyStorageTest_S2KISZUndTEST_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol("method_test%CopyStorageTest_S2KexcludeArtifacts_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol("method_test%CopyStorageTest_S2KexcludeContracts_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol("method_test%CopyStorageTest_S2KexcludeSenders_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2Kfailed" "(" ")" [symbol("method_test%CopyStorageTest_S2Kfailed_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2Kkevm" "(" ")" [symbol("method_test%CopyStorageTest_S2Kkevm_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KsetUp" "(" ")" [symbol("method_test%CopyStorageTest_S2KsetUp_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol("method_test%CopyStorageTest_S2KtargetArtifactSelectors_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol("method_test%CopyStorageTest_S2KtargetArtifacts_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KtargetContracts" "(" ")" [symbol("method_test%CopyStorageTest_S2KtargetContracts_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol("method_test%CopyStorageTest_S2KtargetSelectors_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KtargetSenders" "(" ")" [symbol("method_test%CopyStorageTest_S2KtargetSenders_")]
+    
+    syntax S2KtestZModCopyStorageTestMethod ::= "S2KtestCopyStorage" "(" ")" [symbol("method_test%CopyStorageTest_S2KtestCopyStorage_")]
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2Kkevm ( ) => #abiCallData ( "kevm" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModCopyStorageTest . S2KtestCopyStorage ( ) => #abiCallData ( "testCopyStorage" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "kevm()" ) => 3601001590 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "testCopyStorage()" ) => 3410432051 )
+      
+
+endmodule
+
 module S2KtestZModCounter-CONTRACT
     imports public FOUNDRY
     
@@ -5762,6 +5896,8 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
     
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KallowChangesToStorage" "(" Int ":" "address" "," Int ":" "uint256" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KallowChangesToStorage_address_uint256")]
     
+    syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KcopyStorage" "(" Int ":" "address" "," Int ":" "address" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KcopyStorage_address_address")]
+    
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KexpectCreate" "(" Int ":" "address" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KexpectCreate_address_uint256_bytes")]
     
     syntax S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBaseMethod ::= "S2KexpectCreate2" "(" Int ":" "address" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol("method_lib%kontrol-cheatcodes%src%KontrolCheatsBase_S2KexpectCreate2_address_uint256_bytes")]
@@ -5799,6 +5935,12 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
     rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KallowChangesToStorage ( V0_ : address , V1_ : uint256 ) => #abiCallData ( "allowChangesToStorage" , ( #address ( V0_ ) , ( #uint256 ( V1_ ) , .TypedArgs ) ) ) )
        ensures ( #rangeAddress ( V0_ )
        andBool ( #rangeUInt ( 256 , V1_ )
+               ))
+      
+    
+    rule  ( S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase . S2KcopyStorage ( V0_ : address , V1_ : address ) => #abiCallData ( "copyStorage" , ( #address ( V0_ ) , ( #address ( V1_ ) , .TypedArgs ) ) ) )
+       ensures ( #rangeAddress ( V0_ )
+       andBool ( #rangeAddress ( V1_ )
                ))
       
     
@@ -5880,6 +6022,9 @@ module S2KlibZModkontrolZSubcheatcodesZModsrcZModKontrolCheatsBase-CONTRACT
       
     
     rule  ( selector ( "allowChangesToStorage(address,uint256)" ) => 4207417100 )
+      
+    
+    rule  ( selector ( "copyStorage(address,address)" ) => 540912653 )
       
     
     rule  ( selector ( "expectCreate(address,uint256,bytes)" ) => 658968394 )
