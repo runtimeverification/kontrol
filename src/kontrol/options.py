@@ -453,7 +453,7 @@ class ProveOptions(
             self.log_succ_rewrites = True
             self.max_frontier_parallel = self.optimize_performance
             self.maintenance_rate = 2 * self.optimize_performance
-            self.smt_timeout = 32000
+            self.smt_timeout = 120000
             self.smt_retry_limit = 0
             self.max_depth = 100000
             self.max_iterations = 10000
