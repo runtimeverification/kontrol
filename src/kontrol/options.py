@@ -747,6 +747,15 @@ class VersionOptions(LoggingOptions):
 
 
 class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+
+    use_hex_encoding: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'use_hex_encoding': False,
+        }
+
     @staticmethod
     def from_option_string() -> dict[str, str]:
         return (

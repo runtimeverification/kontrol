@@ -330,7 +330,7 @@ def exec_list(options: ListOptions) -> None:
 
 
 def exec_view_kcfg(options: ViewKcfgOptions) -> None:
-    foundry = _load_foundry(options.foundry_root, use_hex_encoding=True, add_enum_constraints=options.enum_constraints)
+    foundry = _load_foundry(options.foundry_root, use_hex_encoding=options.use_hex_encoding, add_enum_constraints=options.enum_constraints)
     test_id = foundry.get_test_id(options.test, options.version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)

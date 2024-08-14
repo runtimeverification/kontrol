@@ -623,7 +623,7 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
 
-    command_parser.add_parser(
+    view_kcfg_args = command_parser.add_parser(
         'view-kcfg',
         help='Explore a given proof in the KCFG visualizer.',
         parents=[
@@ -632,6 +632,14 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.foundry_args,
             config_args.config_args,
         ],
+    )
+
+    view_kcfg_args.add_argument(
+        '--use-hex-encoding',
+        dest='use_hex_encoding',
+        default=None,
+        action='store_true',
+        help='Print elements in hexadecimal encoding.',
     )
 
     command_parser.add_parser(
