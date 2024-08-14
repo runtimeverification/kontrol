@@ -450,7 +450,7 @@ class ProveOptions(
         """
         if self.optimize_performance is not None:
             self.assume_defined = True
-            self.log_succ_rewrites = True
+            self.log_succ_rewrites = False
             self.max_frontier_parallel = self.optimize_performance
             self.maintenance_rate = 2 * self.optimize_performance
             self.smt_timeout = 120000
