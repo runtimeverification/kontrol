@@ -560,7 +560,7 @@ def _create_argument_parser() -> ArgumentParser:
         help=(
             'Optimize performance for proof execution. Takes the number of parallel threads to be used.'
             "Will overwrite other settings of 'assume-defined', 'log-success-rewrites', 'max-frontier-parallel',"
-            "'maintenance-rate', 'smt-timeout', 'smt-retry-limit', 'max-depth' and 'max-iterations'."
+            "'maintenance-rate', 'smt-timeout', 'smt-retry-limit', 'max-depth', and 'max-iterations'."
         ),
     )
 
