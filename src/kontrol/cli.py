@@ -552,6 +552,18 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Remove all outdated KCFGs.',
     )
+    prove_args.add_argument(
+        '--optimize-performance',
+        type=int,
+        default=None,
+        dest='optimize_performance',
+        help=(
+            'Optimize performance settings for the proof execution. Takes an integer value that adjusts '
+            'parameters like frontier parallelism and maintenance rate. Will overwrite any settings on:'
+            "'assume-defined', 'log-success-rewrites', 'max-frontier-parallel', 'maintenance-rate', 'smt-timeout'"
+            ", 'smt-retry-limit', 'max-depth', 'max-iterations' and 'kore-rpc-command'. Example: '--optimize-performance 6'"
+        ),
+    )
 
     show_args = command_parser.add_parser(
         'show',
