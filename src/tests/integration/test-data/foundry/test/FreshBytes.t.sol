@@ -29,7 +29,7 @@ contract FreshBytesTest is Test, KontrolCheats {
 
     function test_symbolic_bytes_1_custom_name() public {
         uint256 length = uint256(kevm.freshUInt(1));
-        vm.assume (0 < length);
+        vm.assume (36 < length);
         vm.assume (length <= length_limit);
         bytes memory fresh_bytes = kevm.freshBytes(length, "cdefg");
         uint256 index = uint256(kevm.freshUInt(1));

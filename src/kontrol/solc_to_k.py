@@ -58,7 +58,7 @@ def solc_to_k(options: SolcToKOptions) -> str:
     )
     modules = (contract_module, _main_module)
     bin_runtime_definition = KDefinition(
-        "S2KtestZModFreshBytesTest-VERIFICATION", modules, requires=tuple(KRequire(req) for req in ['edsl.md'] + requires)
+        _main_module.name, modules, requires=tuple(KRequire(req) for req in ['edsl.md'] + requires)
     )
 
     _kprint = KEVM(definition_dir, extra_unparsing_modules=modules)
