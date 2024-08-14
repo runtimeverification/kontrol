@@ -368,6 +368,11 @@ class ProveOptions(
     config_type: ConfigType
     hide_status_bar: bool
     remove_old_proofs: bool
+    optimize_performance: int | None
+
+    def __init__(self, args: dict[str, Any]) -> None:
+        super().__init__(args)
+        self.apply_optimizations()
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -391,6 +396,7 @@ class ProveOptions(
             'config_type': ConfigType.TEST_CONFIG,
             'hide_status_bar': False,
             'remove_old_proofs': False,
+            'optimize_performance': None,
         }
 
     @staticmethod
@@ -433,6 +439,24 @@ class ProveOptions(
                 'include-summary': list_of(parse_test_version_tuple),
             }
         )
+
+    def apply_optimizations(self) -> None:
+        """Applies a series of performance optimizations based on the value of the
+        `optimize_performance` attribute.
+
+        If `optimize_performance` is not `None`, this method will adjust several
+        internal parameters to enhance performance. The integer value of `optimize_performance`
+        is used to set the level of parallelism for frontier exploration and maintenance rate.
+        """
+        if self.optimize_performance is not None:
+            self.assume_defined = True
+            self.log_succ_rewrites = False
+            self.max_frontier_parallel = self.optimize_performance
+            self.maintenance_rate = 2 * self.optimize_performance
+            self.smt_timeout = 120000
+            self.smt_retry_limit = 0
+            self.max_depth = 100000
+            self.max_iterations = 10000
 
 
 class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
@@ -747,6 +771,15 @@ class VersionOptions(LoggingOptions):
 
 
 class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+
+    use_hex_encoding: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'use_hex_encoding': False,
+        }
+
     @staticmethod
     def from_option_string() -> dict[str, str]:
         return (
