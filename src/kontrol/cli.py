@@ -561,7 +561,7 @@ def _create_argument_parser() -> ArgumentParser:
             'Optimize performance settings for the proof execution. Takes an integer value that adjusts '
             'parameters like frontier parallelism and maintenance rate. Will overwrite any settings on:'
             "'assume-defined', 'log-success-rewrites', 'max-frontier-parallel', 'maintenance-rate', 'smt-timeout'"
-            ", 'smt-retry-limit', 'max-depth', 'max-iterations' and 'kore-rpc-command'. Example: '--optimize-performance 6'"
+            ", 'smt-retry-limit', 'max-depth' and 'max-iterations'. Example: '--optimize-performance 6'"
         ),
     )
 
