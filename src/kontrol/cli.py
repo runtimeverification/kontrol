@@ -552,6 +552,17 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Remove all outdated KCFGs.',
     )
+    prove_args.add_argument(
+        '--optimize-performance',
+        type=int,
+        default=None,
+        dest='optimize_performance',
+        help=(
+            'Optimize performance for proof execution. Takes the number of parallel threads to be used.'
+            "Will overwrite other settings of 'assume-defined', 'log-success-rewrites', 'max-frontier-parallel',"
+            "'maintenance-rate', 'smt-timeout', 'smt-retry-limit', 'max-depth', and 'max-iterations'."
+        ),
+    )
 
     show_args = command_parser.add_parser(
         'show',
@@ -623,7 +634,7 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
 
-    command_parser.add_parser(
+    view_kcfg_args = command_parser.add_parser(
         'view-kcfg',
         help='Explore a given proof in the KCFG visualizer.',
         parents=[
@@ -632,6 +643,14 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.foundry_args,
             config_args.config_args,
         ],
+    )
+
+    view_kcfg_args.add_argument(
+        '--use-hex-encoding',
+        dest='use_hex_encoding',
+        default=None,
+        action='store_true',
+        help='Print elements in hexadecimal encoding.',
     )
 
     command_parser.add_parser(

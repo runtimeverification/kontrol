@@ -174,8 +174,13 @@ run-constructor            = false
 
 [show.default]
 foundry-project-root       = '.'
-verbose                    = true
+verbose                    = false
 debug                      = false
+use-hex-encoding           = false
+
+[view-kcfg.default]
+foundry-project-root       = '.'
+use-hex-encoding           = false
 """
 
 
