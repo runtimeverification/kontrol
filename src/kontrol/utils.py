@@ -72,7 +72,9 @@ def append_to_file(file_path: Path, content: str) -> None:
 
 
 def empty_lemmas_file_contents() -> str:
-    return """module KONTROL-LEMMAS
+    return """requires "foundry.md"
+
+module KONTROL-LEMMAS
 
 // Your lemmas go here
 // Not sure what to do next? Try checking the documentation for writing lemmas: https://docs.runtimeverification.com/kontrol/guides/advancing-proofs/kevm-lemmas

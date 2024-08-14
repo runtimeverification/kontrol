@@ -216,8 +216,15 @@ class KontrolCLIArgs(KEVMCLIArgs):
     def rpc_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
         args.add_argument(
-            '--trace-rewrites',
-            dest='trace_rewrites',
+            '--no-log-rewrites',
+            dest='log_succ_rewrites',
+            default=None,
+            action='store_false',
+            help='Do not log traces of any simplification and rewrite rule application.',
+        )
+        args.add_argument(
+            '--log-fail-rewrites',
+            dest='log_fail_rewrites',
             default=None,
             action='store_true',
             help='Log traces of all simplification and rewrite rule applications.',
@@ -328,6 +335,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Do not silence K compiler warnings.',
+    )
+    build.add_argument(
+        '--no-metadata',
+        dest='no_metadata',
+        default=None,
+        action='store_true',
+        help='Do not append cbor or bytecode_hash metadata to bytecode.',
     )
 
     state_diff_args = command_parser.add_parser(
@@ -775,7 +789,7 @@ def _create_argument_parser() -> ArgumentParser:
     get_model.add_argument(
         '--failing', dest='failing', default=None, action='store_true', help='Also display models of failing nodes'
     )
-    command_parser.add_parser(
+    clean = command_parser.add_parser(
         'clean',
         help='Remove the build artifacts and cache directories.',
         parents=[
@@ -783,6 +797,20 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.foundry_args,
             config_args.config_args,
         ],
+    )
+    clean.add_argument(
+        '--proofs',
+        dest='proofs',
+        action='store_true',
+        default=None,
+        help='Clean proofs directory.',
+    )
+    clean.add_argument(
+        '--old-proofs',
+        dest='old_proofs',
+        action='store_true',
+        default=None,
+        help='Clean outdated proofs.',
     )
     init = command_parser.add_parser(
         'init',

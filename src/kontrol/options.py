@@ -49,7 +49,8 @@ class FoundryOptions(Options):
 
 
 class RpcOptions(Options):
-    trace_rewrites: bool
+    log_succ_rewrites: bool
+    log_fail_rewrites: bool
     kore_rpc_command: str | None
     use_booster: bool
     port: int | None
@@ -58,7 +59,8 @@ class RpcOptions(Options):
     @staticmethod
     def default() -> dict[str, Any]:
         return {
-            'trace_rewrites': False,
+            'log_succ_rewrites': True,
+            'log_fail_rewrites': False,
             'kore_rpc_command': None,
             'use_booster': True,
             'port': None,
@@ -83,6 +85,16 @@ class TraceOptions(Options):
 
 
 class CleanOptions(FoundryOptions, LoggingOptions):
+    proofs: bool
+    old_proofs: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'proofs': False,
+            'old_proofs': False,
+        }
+
     @staticmethod
     def from_option_string() -> dict[str, str]:
         return FoundryOptions.from_option_string() | LoggingOptions.from_option_string()
@@ -757,6 +769,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
     rekompile: bool
     no_forge_build: bool
     no_silence_warnings: bool
+    no_metadata: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -765,6 +778,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             'rekompile': False,
             'no_forge_build': False,
             'no_silence_warnings': False,
+            'no_metadata': False,
         }
 
     @staticmethod

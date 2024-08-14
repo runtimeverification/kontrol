@@ -358,6 +358,24 @@ This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes 
          </account>
 ```
 
+#### `copyStorage` - Copies the storage of one account into another.
+
+```
+function copyStorage(address,address) external;
+```
+
+`cheatcode.call.copyStorage` will match when the `copyStorage` cheat code function is called.
+This rule then takes the two addresses using `#asWord(#range(ARGS, 0, 32))` and `#asWord(#range(ARGS, 32, 32))` and copies the storage of the first address into the storage of the second.
+
+```k
+    rule [cheatcode.call.copyStorage]:
+         <k> #cheatcode_call SELECTOR ARGS =>
+               #loadAccount #asWord(#range(ARGS, 0, 32)) ~>
+               #loadAccount #asWord(#range(ARGS, 32, 32)) ~>
+               #copyStorage #asWord(#range(ARGS, 0, 32)) #asWord(#range(ARGS, 32, 32)) ... </k>
+      requires SELECTOR ==Int selector ( "copyStorage(address,address)" )
+```
+
 #### `freshUInt` - Returns a single symbolic unsigned integer.
 
 ```
@@ -1027,7 +1045,7 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
 Mock functions
 --------------
 
-#### `mockFunction` - Treats all calls to callee strictly or loosely matching data as if they are instead called on calledContract. 
+#### `mockFunction` - Treats all calls to callee strictly or loosely matching data as if they are instead called on calledContract.
 
 
 ```
@@ -1155,7 +1173,7 @@ Utils
          </account>
 ```
 
-`#setSymbolicStorage ACCTID` takes a given account and makes its storage fully symbolic.
+- `#setSymbolicStorage ACCTID` takes a given account and makes its storage fully symbolic.
 
 ```k
      syntax KItem ::= "#setSymbolicStorage" Int [symbol(foundry_setSymbolicStorage)]
@@ -1169,6 +1187,29 @@ Utils
            <origStorage> _ => ?STORAGE </origStorage>
            ...
          </account>
+```
+
+- `#copyStorage ACCTFROM ACCTTO` copies the storage of ACCTFROM to be the storage of ACCTTO
+
+```k
+     syntax KItem ::= "#copyStorage" Int Int [symbol(foundry_copyStorage)]
+```
+
+```{.k .symbolic}
+    rule <k> #copyStorage ACCTFROM ACCTTO => .K ... </k>
+         <account>
+           <acctID> ACCTFROM </acctID>
+           <storage> STORAGEFROM </storage>
+           <origStorage> ORIGSTORAGEFROM </origStorage>
+           ...
+         </account>
+         <account>
+           <acctID> ACCTTO </acctID>
+           <storage> _ => STORAGEFROM </storage>
+           <origStorage> _ => ORIGSTORAGEFROM </origStorage>
+           ...
+         </account>
+         [preserves-definedness]
 ```
 
 - `#setExpectRevert` sets the `<expectedRevert>` subconfiguration with the current call depth and the expected message from `expectRevert`.
@@ -1616,6 +1657,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "setGas(uint256)" )                          => 3713137314 )
     rule ( selector ( "mockCall(address,bytes,bytes)" )            => 3110212580 )
     rule ( selector ( "mockFunction(address,address,bytes)" )      => 2918731041 )
+    rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
 ```
 
 - selectors for unimplemented cheat code functions.

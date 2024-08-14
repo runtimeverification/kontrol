@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 
 FORGE_STD_REF: Final = '75f1746'
-KONTROL_CHEATCODES_REF: Final = 'b5ba431'
+KONTROL_CHEATCODES_REF: Final = 'f0dc718'
 
 
 @pytest.fixture
@@ -92,6 +92,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                             'ImmutableVarsTest:SYMBOLIC-BYTES-LEMMAS',
                         ],
                         'enum_constraints': True,
+                        'no_metadata': True,
                     }
                 ),
                 foundry=Foundry(foundry_root, add_enum_constraints=True),
