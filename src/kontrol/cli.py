@@ -558,10 +558,9 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         dest='optimize_performance',
         help=(
-            'Optimize performance settings for the proof execution. Takes an integer value that adjusts '
-            'parameters like frontier parallelism and maintenance rate. Will overwrite any settings on:'
-            "'assume-defined', 'log-success-rewrites', 'max-frontier-parallel', 'maintenance-rate', 'smt-timeout'"
-            ", 'smt-retry-limit', 'max-depth' and 'max-iterations'. Example: '--optimize-performance 6'"
+            'Optimize performance for proof execution. Takes the number of parallel threads to be used.'
+            "Will overwrite other settings of 'assume-defined', 'log-success-rewrites', 'max-frontier-parallel',"
+            "'maintenance-rate', 'smt-timeout', 'smt-retry-limit', 'max-depth' and 'max-iterations'."
         ),
     )
 
