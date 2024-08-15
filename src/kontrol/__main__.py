@@ -126,7 +126,8 @@ def main() -> None:
         level=_loglevel(args, toml_args),
         format=_LOG_FORMAT,
         handlers=[
-            RichHandler(level='INFO', show_level=False, show_time=False, show_path=False, highlighter=NullHighlighter())
+            RichHandler(level='DEBUG', show_level=True, show_time=False, show_path=False, highlighter=NullHighlighter()),
+            RichHandler(level='INFO', show_level=True, show_time=False, show_path=False, highlighter=NullHighlighter()),
         ],
     )
 
@@ -215,6 +216,8 @@ def exec_build(options: BuildOptions) -> None:
 def exec_prove(options: ProveOptions) -> None:
     if options.recorded_diff_state_path and options.recorded_dump_state_path:
         raise AssertionError('Provide only one file for recorded state updates')
+
+    _LOGGER.debug(options.to_string())
 
     recorded_diff_entries = (
         read_recorded_state_diff(options.recorded_diff_state_path) if options.recorded_diff_state_path else None
