@@ -1256,9 +1256,8 @@ module SUMMARY-TEST%FRESHCHEATCODES.TEST-ADDRESS-CUSTOM-NAME():0
        andBool ( ABCDEFG:Int <Int maxUInt160
        andBool ( ABCDEFG:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ABCDEFG:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 =/=Int chop ( ( ABCDEFG:Int +Int -645326474426547203313410069153905908525362434349 ) )
        andBool ( 0 =/=Int chop ( ( ABCDEFG:Int +Int -728815563385977040452943777879061427756277306518 ) )
-               ))))))
+               )))))
       [priority(20), label(BASIC-BLOCK-6-TO-7)]
     
     rule [BASIC-BLOCK-7-TO-8]: <foundry>
@@ -1495,11 +1494,10 @@ module SUMMARY-TEST%FRESHCHEATCODES.TEST-ADDRESS-CUSTOM-NAME():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHCHEATCODES_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 =/=Int chop ( ( ABCDEFG:Int +Int -645326474426547203313410069153905908525362434349 ) )
        andBool ( 0 =/=Int chop ( ( ABCDEFG:Int +Int -728815563385977040452943777879061427756277306518 ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))))
+               ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-7-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1736,11 +1734,10 @@ module SUMMARY-TEST%FRESHCHEATCODES.TEST-ADDRESS-CUSTOM-NAME():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHCHEATCODES_ID =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 =/=Int chop ( ( ABCDEFG:Int +Int -645326474426547203313410069153905908525362434349 ) )
        andBool ( 0 =/=Int chop ( ( ABCDEFG:Int +Int -728815563385977040452943777879061427756277306518 ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))))
+               ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
 
 endmodule
