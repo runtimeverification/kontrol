@@ -821,6 +821,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
     no_forge_build: bool
     no_silence_warnings: bool
     no_metadata: bool
+    keccak_lemmas: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -830,6 +831,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             'no_forge_build': False,
             'no_silence_warnings': False,
             'no_metadata': False,
+            'keccak_lemmas': True,
         }
 
     @staticmethod
