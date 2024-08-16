@@ -470,8 +470,8 @@ class KontrolSemantics(KEVMSemantics):
 
             new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
             new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', KEVM.buf(intToken(32), variable)))
-            new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(intToken(0), variable)))
-            new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(variable, intToken(1))))
+            new_cterm = new_cterm.add_constraint(mlEqualsTrue(leInt(intToken(0), variable)))
+            new_cterm = new_cterm.add_constraint(mlEqualsTrue(leInt(variable, intToken(1))))
 
             return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshBoolCustomVar'], cut=True)
 
