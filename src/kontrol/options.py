@@ -458,7 +458,7 @@ class ProveOptions(
             self.max_depth = 100000
             self.max_iterations = 10000
 
-    def to_string(self) -> str:
+    def __str__(self) -> str:
         """
         Generate a string representation of the instance, including attributes from inherited classes.
 
@@ -466,7 +466,6 @@ class ProveOptions(
         The loop is required to iterate over all parent classes and fetch attributes set by the `default` method.
 
         :return: String representation of the instance.
-        :rtype: str
         """
         options_dict = {**self.__dict__}
 
@@ -855,7 +854,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             | KompileTargetOptions.get_argument_type()
         )
 
-    def to_string(self) -> str:
+    def __str__(self) -> str:
         """
         Generate a string representation of the instance, including attributes from inherited classes.
 
@@ -863,7 +862,6 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
         The loop is required to iterate over all parent classes and fetch attributes set by the `default` method.
 
         :return: String representation of the instance.
-        :rtype: str
         """
         options_dict = {**self.__dict__}
 
