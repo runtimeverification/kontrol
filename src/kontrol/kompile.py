@@ -132,7 +132,7 @@ def foundry_kompile(
         digest_dict = _read_digest_file(foundry.digest_file)
         digest_dict['kompilation'] = kompilation_digest()
         digest_dict['kontrol'] = VERSION
-        digest_dict['build-options'] = options.to_string()
+        digest_dict['build-options'] = str(options)
         foundry.digest_file.write_text(json.dumps(digest_dict, indent=4))
 
         _LOGGER.info('Updated Kompilation digest')

@@ -458,6 +458,24 @@ class ProveOptions(
             self.max_depth = 100000
             self.max_iterations = 10000
 
+    def __str__(self) -> str:
+        """
+        Generate a string representation of the instance, including attributes from inherited classes.
+
+        The first line collects all attributes that are directly set on the instance.
+        The loop is required to iterate over all parent classes and fetch attributes set by the `default` method.
+
+        :return: String representation of the instance.
+        """
+        options_dict = {**self.__dict__}
+
+        for parent in self.__class__.__bases__:
+            if hasattr(parent, 'default'):
+                options_dict.update(parent.default())
+
+        options_str = ', '.join(f'{key}: {value}' for key, value in options_dict.items())
+        return f'ProveOptions({options_str})'
+
 
 class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
     node: NodeIdLike
@@ -836,7 +854,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             | KompileTargetOptions.get_argument_type()
         )
 
-    def to_string(self) -> str:
+    def __str__(self) -> str:
         """
         Generate a string representation of the instance, including attributes from inherited classes.
 
@@ -844,7 +862,6 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
         The loop is required to iterate over all parent classes and fetch attributes set by the `default` method.
 
         :return: String representation of the instance.
-        :rtype: str
         """
         options_dict = {**self.__dict__}
 
