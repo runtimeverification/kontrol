@@ -126,8 +126,13 @@ def main() -> None:
         level=_loglevel(args, toml_args),
         format=_LOG_FORMAT,
         handlers=[
-            RichHandler(level='DEBUG', show_level=True, show_time=False, show_path=False, highlighter=NullHighlighter()),
-            RichHandler(level='INFO', show_level=True, show_time=False, show_path=False, highlighter=NullHighlighter()),
+            RichHandler(
+                level=_loglevel(args, toml_args),
+                show_level=False,
+                show_time=False,
+                show_path=False,
+                highlighter=NullHighlighter(),
+            ),
         ],
     )
 
@@ -196,6 +201,8 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 
 
 def exec_build(options: BuildOptions) -> None:
+    _LOGGER.debug(options.to_string())
+
     if options.verbose:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer:[/{_rv_blue()}]'
     else:
@@ -214,10 +221,10 @@ def exec_build(options: BuildOptions) -> None:
 
 
 def exec_prove(options: ProveOptions) -> None:
+    _LOGGER.debug(options.to_string())
+
     if options.recorded_diff_state_path and options.recorded_dump_state_path:
         raise AssertionError('Provide only one file for recorded state updates')
-
-    _LOGGER.debug(options.to_string())
 
     recorded_diff_entries = (
         read_recorded_state_diff(options.recorded_diff_state_path) if options.recorded_diff_state_path else None
