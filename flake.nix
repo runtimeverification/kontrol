@@ -96,7 +96,7 @@
                   prev.lib.optionalString
                   (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
                   "APPLE_SILICON=true"
-                } kdist build kontrol.foundry
+                } kdist -v build kontrol.foundry
               '';
 
               installPhase = ''
