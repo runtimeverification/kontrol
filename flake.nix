@@ -78,6 +78,7 @@
                 (kontrol-pyk { inherit solc_version; })
                 k-framework.packages.${prev.system}.k
                 libtool
+                mpfr
                 openssl.dev
                 gmp
                 pkg-config
