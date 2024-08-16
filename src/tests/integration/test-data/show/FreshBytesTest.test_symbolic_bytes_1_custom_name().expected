@@ -118,20 +118,38 @@
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%FreshBytesTest.test_symbolic_bytes_1_custom_name()
 │
-│  (3 steps)
-└─ 17 (vacuous, leaf)
-    k: #assume ( lengthBytes ( ?BYTES:Bytes ) <Int lengthBytes ( ?BYTES:Bytes ) ) ~> #c ...
-    pc: 1208
-    callDepth: 0
-    statusCode: STATUSCODE:StatusCode
-    method: test%FreshBytesTest.test_symbolic_bytes_1_custom_name()
-
-
-┌─ 2 (root, leaf, target, terminal)
+│  (422 steps)
+├─ 17
+│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   pc: 281
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   method: test%FreshBytesTest.test_symbolic_bytes_1_custom_name()
+│
+│  (1 step)
+├─ 18
+│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   pc: 281
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   method: test%FreshBytesTest.test_symbolic_bytes_1_custom_name()
+│
+│  (2 steps)
+├─ 19 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: PC_CELL_5d410f2a:Int
-│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
-│   statusCode: STATUSCODE_FINAL:StatusCode
+│   pc: 281
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   method: test%FreshBytesTest.test_symbolic_bytes_1_custom_name()
+│
+┊  constraint: true
+┊  subst: OMITTED SUBST
+└─ 2 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
+
 
 
 
@@ -2752,12 +2770,6 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
-       ensures ( lengthBytes ( ?BYTES:Bytes ) <Int maxBytesLength
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int maxUInt64
-       andBool ( -1 <Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) )
-       andBool ( ( lengthBytes ( ?BYTES:Bytes ) -Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 32
-       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
-               )))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -2991,17 +3003,12 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
        andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
        andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int maxBytesLength
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( -1 <Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) )
-       andBool ( ( lengthBytes ( ?BYTES:Bytes ) -Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 32
-       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
-               ))))))))))))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
     rule [BASIC-BLOCK-14-TO-15]: <foundry>
@@ -3028,7 +3035,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <ethereum>
                <evm>
                  <output>
-                   ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) => #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) )
+                   ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) => #buf ( 32 , ??WORD0 ) )
                  </output>
                  <callStack>
                    .List
@@ -3053,10 +3060,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int ( 292 => 324 ) ) : ( ( selector ( "freshUInt(uint8)" ) => selector ( "assume(bool)" ) ) : ( 645326474426547203313410069153905908525362434349 : ( ( 0 => lengthBytes ( ?BYTES:Bytes ) ) : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int ( 292 => 324 ) ) : ( ( selector ( "freshUInt(uint8)" ) => selector ( "assume(bool)" ) ) : ( 645326474426547203313410069153905908525362434349 : ( ( 0 => ??WORD0 ) : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int ( 256 => 288 ) ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes ( b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" => #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( lengthBytes ( ?BYTES:Bytes ) <Int lengthBytes ( ?BYTES:Bytes ) ) ) )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int ( 256 => 288 ) ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes ( b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" => #buf ( 32 , ??WORD0 ) +Bytes b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ??WORD0 <Int lengthBytes ( ?BYTES:Bytes ) ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -3236,17 +3243,15 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
        andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
        andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int maxBytesLength
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( -1 <Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) )
-       andBool ( ( lengthBytes ( ?BYTES:Bytes ) -Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 32
-       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
-               ))))))))))))))))))))))
+               )))))))))))))))))
+       ensures ( 0 <=Int ??WORD0
+       andBool ( ??WORD0 <Int 256
+               ))
       [priority(20), label(BASIC-BLOCK-14-TO-15)]
     
     rule [BASIC-BLOCK-15-TO-16]: <foundry>
@@ -3254,7 +3259,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <k>
                ( STATICCALL 0 645326474426547203313410069153905908525362434349 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 36 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
-               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( lengthBytes ( ?BYTES:Bytes ) <Int lengthBytes ( ?BYTES:Bytes ) ) ) true
+               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes ) ) ) true
                ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0 )
                ~> #pc [ STATICCALL ]
                ~> #execute
@@ -3272,7 +3277,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <ethereum>
                <evm>
                  <output>
-                   #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) )
+                   #buf ( 32 , ?WORD0:Int )
                  </output>
                  <callStack>
                    .List
@@ -3297,10 +3302,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 324 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( lengthBytes ( ?BYTES:Bytes ) : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 324 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?WORD0:Int : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( lengthBytes ( ?BYTES:Bytes ) <Int lengthBytes ( ?BYTES:Bytes ) ) )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -3469,6 +3474,8 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
            </KEVMTracing>
          </foundry>
       requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( 0 <=Int ?WORD0:Int
+       andBool ( ?WORD0:Int <Int 256
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
@@ -3480,17 +3487,12 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
        andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
        andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int maxBytesLength
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( -1 <Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) )
-       andBool ( ( lengthBytes ( ?BYTES:Bytes ) -Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 32
-       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
-               ))))))))))))))))))))))
+               )))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3498,10 +3500,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <k>
                ( #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
-               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( lengthBytes ( ?BYTES:Bytes ) <Int lengthBytes ( ?BYTES:Bytes ) ) ) true
-               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0 => #assume ( lengthBytes ( ?BYTES:Bytes ) <Int lengthBytes ( ?BYTES:Bytes ) )
-               ~> #cheatcode_return ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0 )
-               ~> #pc [ STATICCALL ]
+               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes ) ) ) true
+               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0
+               ~> #pc [ STATICCALL ] => #end EVMC_SUCCESS
+               ~> #pc [ STOP ] )
                ~> #execute
                ~> _CONTINUATION
              </k>
@@ -3517,7 +3519,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <ethereum>
                <evm>
                  <output>
-                   ( #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) => b"" )
+                   ( #buf ( 32 , ?WORD0:Int ) => b"" )
                  </output>
                  <callStack>
                    .List
@@ -3542,10 +3544,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 324 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( lengthBytes ( ?BYTES:Bytes ) : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 324 ) => selector ( "test_symbolic_bytes_1_custom_name()" ) ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?WORD0:Int : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( lengthBytes ( ?BYTES:Bytes ) <Int lengthBytes ( ?BYTES:Bytes ) ) )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes ( b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes ) ) ) => b"Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -3621,7 +3623,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                        0
                      </balance>
                      <storage>
-                       .Map
+                       ( .Map => ( 27 |-> #asWord ( #range ( ?BYTES:Bytes , ?WORD0:Int , 1 ) ) ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -3714,6 +3716,8 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
            </KEVMTracing>
          </foundry>
       requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( 0 <=Int ?WORD0:Int
+       andBool ( ?WORD0:Int <Int 256
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
@@ -3725,18 +3729,498 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
        andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
        andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int maxBytesLength
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( -1 <Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) )
-       andBool ( ( lengthBytes ( ?BYTES:Bytes ) -Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 32
-       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
-               ))))))))))))))))))))))
+               )))))))))))))))))))
+       ensures ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes )
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
+    
+    rule [BASIC-BLOCK-17-TO-18]: <foundry>
+           <kevm>
+             <k>
+               ( #end EVMC_SUCCESS => #halt )
+               ~> #pc [ STOP ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x1e\x0e\xdc\xcc"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes b"Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 27 |-> #asWord ( #range ( ?BYTES:Bytes , ?WORD0:Int , 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( 0 <=Int ?WORD0:Int
+       andBool ( ?WORD0:Int <Int 256
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
+       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
+       andBool ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-17-TO-18)]
+    
+    rule [BASIC-BLOCK-18-TO-19]: <foundry>
+           <kevm>
+             <k>
+               #halt
+               ~> ( #pc [ STOP ]
+               ~> #execute => .K )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x1e\x0e\xdc\xcc"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes b"Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     SetItem ( 645326474426547203313410069153905908525362434349 )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 27 |-> #asWord ( #range ( ?BYTES:Bytes , ?WORD0:Int , 1 ) ) )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( 0 <=Int ?WORD0:Int
+       andBool ( ?WORD0:Int <Int 256
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int NUMBER_CELL:Int
+       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( NUMBER_CELL:Int <=Int maxSInt256
+       andBool ( TIMESTAMP_CELL:Int <Int pow256
+       andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
+       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
+       andBool ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-18-TO-19)]
 
 endmodule
 0 Failure nodes. (0 pending and 0 failing)
