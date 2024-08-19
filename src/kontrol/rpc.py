@@ -80,7 +80,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         cell = self.cterm.cell('NUMBER_CELL')
         assert type(cell) is KToken
         return int(cell.token)
-    
+
     def exec_get_block_by_number(self, block_number: int) -> int:
 
         print(f'BLOCK NUMBER: {block_number}')
@@ -161,6 +161,16 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         pattern = self.krun.kast_to_kore(self.cterm.config, sort=GENERATED_TOP_CELL)
         output_kore = self.krun.run_pattern(pattern, pipe_stderr=True)
         self.cterm = CTerm.from_kast(self.krun.kore_to_kast(output_kore))
+
+        # print('K----------------------------------------------')
+        # k_cell = self.cterm.cell('K_CELL')
+        # _PPRINT.pprint(k_cell)
+        # print('TXORDER----------------------------------------------')
+        # tx_order_cell = self.cterm.cell('TXORDER_CELL')
+        # _PPRINT.pprint(tx_order_cell)
+        # print('RPCRESPONSE----------------------------------------------')
+        # rpc_response_cell = self.cterm.cell('RPCRESPONSE_CELL')
+        # _PPRINT.pprint(rpc_response_cell)
 
         return self._get_last_message_tx_hash()
 
@@ -418,22 +428,23 @@ class StatefulKJsonRpcServer(JsonRpcServer):
         while len(queue) > 0:
             cell = queue.popleft()
             if isinstance(cell, KApply):
-                print(cell.label.name)
+                # print(cell.label.name)
                 if 'BlockchainItem' in cell.label.name:
                     item_dict = {}
                     for args in cell.args:
                         assert type(args) is KApply
-                        cell_dict = _convert_cell_to_dict(args)
+                        cell_dict = _extract_cell_data(args)
                         item_dict[args.label.name] = cell_dict
-                        
+
                     # msg_id = str(message_dict['<network>'])
                     block_storage_dict[item_dict['<block>']['<number>']] = item_dict
-                # elif 'Map' in cell.label.name:# or 
+                # elif 'Map' in cell.label.name:# or
                 elif '_|->_' in cell.label.name:
                     queue.extend(cell.args)
+                # else:
+                #     print(cell.label.name)
 
         return block_storage_dict
-        
 
     # ------------------------------------------------------
     # VM setup functions
@@ -566,19 +577,54 @@ def _apply_format_to_message_cell_json_dict(message_dict: dict) -> dict:
 
     return formatted_message_dict
 
-def _convert_cell_to_dict(cell: KApply) -> dict | int | str:
+def _is_label_a_map(name: str) -> bool:
+    map_names = ['<accounts>', '<messages>', '<blocks>']
+    
+    if name in map_names:
+        return True
+    
+    return False
+
+
+def _extract_cell_data(cell: KApply):
+    if(_is_label_a_map(cell.label.name)):
+        return _from_cell_map_to_list(cell)
+    
+    return _convert_cell_to_dict(cell)
+
+def _from_cell_map_to_list(cell: KApply):
+    index_list = []
+    cell_list = list(cell.args)
+    
+    index = 0
+    for cell in cell_list:
+        if('CellMap' in cell.label.name):
+            index_list.append(index)
+            for new_cell in list(cell.args):
+                cell_list.append(new_cell)
+        index += 1
+
+    index_list.reverse()
+
+    for index in index_list:
+        cell_list.pop(index)
+
+    return_list = []
+    for cell in cell_list:
+        return_list.append(_extract_cell_data(cell))
+
+    return return_list
+
+
+def _convert_cell_to_dict(cell: KApply, depth = 0) -> dict | int | str:
     cell_dict = {}
-
-
-    if('AccountCell' in  cell.label.name):
-        return _convert_cell_to_dict()
-
+            
     for args in cell.args:
 
-        if(type(args) is not KToken):
+        if type(args) is not KToken:
             assert type(args) is KApply
 
-            cell_dict[args.label.name] = _convert_cell_to_dict(args)
+            cell_dict[args.label.name] = _extract_cell_data(args)
         else:
             assert type(args) is KToken
             value = None
@@ -590,4 +636,3 @@ def _convert_cell_to_dict(cell: KApply) -> dict | int | str:
             return value
 
     return cell_dict
-    
