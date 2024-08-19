@@ -71,8 +71,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                 ['forge', 'install', '--no-git', f'runtimeverification/kontrol-cheatcodes@{KONTROL_CHEATCODES_REF}'],
                 cwd=foundry_root,
             )
-            res = run_process_2(['forge', 'build'], cwd=foundry_root, check=False)
-            print(res.stderr)
+            run_process_2(['forge', 'build'], cwd=foundry_root)
 
             foundry_kompile(
                 BuildOptions(
