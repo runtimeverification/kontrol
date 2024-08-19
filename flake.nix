@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.686";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.690";
     nixpkgs.follows = "kevm/nixpkgs";
     nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
@@ -27,7 +27,7 @@
     let
       nixLibs = pkgs:
         with pkgs;
-        "-I${procps}/include -L${procps}/lib -I${openssl.dev}/include -L${openssl.out}/lib -I${secp256k1}/include -L${secp256k1}/lib";
+        "-I${openssl.dev}/include -L${openssl.out}/lib -I${secp256k1}/include -L${secp256k1}/lib";
       overlay = final: prev:
         let
           nixpkgs-pyk = import inputs.nixpkgs-pyk {
@@ -77,11 +77,13 @@
                 prev.kevm-pyk
                 (kontrol-pyk { inherit solc_version; })
                 k-framework.packages.${prev.system}.k
+                boost
                 libtool
+                mpfr
                 openssl.dev
                 gmp
                 pkg-config
-                procps
+                secp256k1
               ];
               nativeBuildInputs = [ prev.makeWrapper ];
 
@@ -96,7 +98,7 @@
                   prev.lib.optionalString
                   (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
                   "APPLE_SILICON=true"
-                } kdist build kontrol.foundry
+                } kdist -v build kontrol.foundry
               '';
 
               installPhase = ''

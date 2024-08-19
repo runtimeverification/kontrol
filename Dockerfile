@@ -16,7 +16,6 @@ RUN    apt-get -y update             \
          cmake                       \
          curl                        \
          graphviz                    \
-         libprocps-dev               \
          libsecp256k1-dev            \
          libssl-dev                  \
          libtool                     \
