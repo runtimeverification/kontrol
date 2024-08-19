@@ -2315,7 +2315,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <ethereum>
                <evm>
                  <output>
-                   ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ??BYTES ) ) +Bytes ??BYTES +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ??BYTES ) +Int maxUInt5 ) ) -Int lengthBytes ( ??BYTES ) ) , 0 ) )
+                   ( b"" => #buf ( 32 , 32 ) +Bytes #buf ( 32 , #asWord ( #buf ( 32 , ?WORD:Int ) ) ) +Bytes ?CDEFG +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord ( #buf ( 32 , ?WORD:Int ) ) +Int maxUInt5 ) ) -Int #asWord ( #buf ( 32 , ?WORD:Int ) ) ) , 0 ) )
                  </output>
                  <callStack>
                    .List
@@ -2340,10 +2340,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 292 : ( selector ( "freshBytes(uint256,string)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( ( ?WORD:Int => lengthBytes ( ??BYTES ) ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) )
+                     ( 292 : ( selector ( "freshBytes(uint256,string)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( ?WORD:Int : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ?WORD:Int => lengthBytes ( ??BYTES ) ) ) +Bytes b"\x17IW\xe8" +Bytes #buf ( 32 , ( ?WORD:Int => lengthBytes ( ??BYTES ) ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05cdefg\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ?WORD:Int ) +Bytes b"\x17IW\xe8" +Bytes #buf ( 32 , ?WORD:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05cdefg\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
                    </localMem>
                    <memoryUsed>
                      0
@@ -2529,17 +2529,13 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
-       ensures ( ?WORD:Int ==Int lengthBytes ( ??BYTES )
-       andBool ( 36 <Int lengthBytes ( ??BYTES )
-       andBool ( lengthBytes ( ??BYTES ) <=Int 72
-       andBool ( lengthBytes ( ??BYTES ) <Int 256
-               ))))
+       ensures lengthBytes ( ?CDEFG ) ==Int #asWord ( #buf ( 32 , ?WORD:Int ) )
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
            <kevm>
              <k>
-               ( #cheatcode_return 160 0 => CALL 0 645326474426547203313410069153905908525362434349 0 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 36 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 32 )
+               ( #cheatcode_return 160 0 => CALL 0 645326474426547203313410069153905908525362434349 0 ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 36 ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 32 )
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION
@@ -2556,7 +2552,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <ethereum>
                <evm>
                  <output>
-                   b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 )
+                   ( #buf ( 32 , 32 ) => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " ) +Bytes #buf ( 32 , ( #asWord ( #buf ( 32 , ?WORD:Int ) ) => lengthBytes ( CDEFG:Bytes ) ) ) +Bytes CDEFG +Bytes #buf ( ( ( notMaxUInt5 &Int ( ( #asWord ( #buf ( 32 , ?WORD:Int ) ) => lengthBytes ( CDEFG:Bytes ) ) +Int maxUInt5 ) ) -Int ( #asWord ( #buf ( 32 , ?WORD:Int ) ) => lengthBytes ( CDEFG:Bytes ) ) ) , 0 )
                  </output>
                  <callStack>
                    .List
@@ -2581,10 +2577,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 292 => ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 292 ) ) : ( ( selector ( "freshBytes(uint256,string)" ) => selector ( "freshUInt(uint8)" ) ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( ( lengthBytes ( ?BYTES:Bytes ) => ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) ) : ( ( 280 => lengthBytes ( ?BYTES:Bytes ) ) : ( ( selector ( "test_symbolic_bytes_1_custom_name()" ) => 280 ) : ( .WordStack => ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     ( ( 292 => ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 292 ) ) : ( ( selector ( "freshBytes(uint256,string)" ) => selector ( "freshUInt(uint8)" ) ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( ( ?WORD:Int => ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int 224 ) ) : ( ( 280 => lengthBytes ( CDEFG:Bytes ) ) : ( ( selector ( "test_symbolic_bytes_1_custom_name()" ) => 280 ) : ( .WordStack => ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes #buf ( 32 , ( lengthBytes ( ?BYTES:Bytes ) => ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) ) ) +Bytes ( b"\x17IW\xe8" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05cdefg\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes #buf ( 32 , ( ?WORD:Int => ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) ) ) +Bytes ( b"\x17IW\xe8" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes #buf ( 32 , ( ?WORD:Int => lengthBytes ( CDEFG:Bytes ) ) ) +Bytes ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05cdefg\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -2752,7 +2748,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+      requires ( 0 <=Int ?WORD:Int
+       andBool ( 36 <Int ?WORD:Int
+       andBool ( ?WORD:Int <=Int 72
+       andBool ( ?WORD:Int <Int 256
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
@@ -2761,24 +2760,28 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( lengthBytes ( CDEFG ) ==Int #asWord ( #buf ( 32 , ?WORD:Int ) )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))
+               ))))))))))))))))))
+       ensures ( ?WORD:Int ==Int lengthBytes ( CDEFG:Bytes )
+       andBool ( 36 <Int lengthBytes ( CDEFG:Bytes )
+       andBool ( lengthBytes ( CDEFG:Bytes ) <=Int 72
+       andBool ( lengthBytes ( CDEFG:Bytes ) <Int 256
+       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
+               )))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
            <kevm>
              <k>
-               ( CALL 0 645326474426547203313410069153905908525362434349 0 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 36 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 32 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
+               ( CALL 0 645326474426547203313410069153905908525362434349 0 ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 36 ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 32 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" false
-               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 32 )
+               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 32 )
                ~> #pc [ CALL ]
                ~> #execute
                ~> _CONTINUATION
@@ -2795,7 +2798,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <ethereum>
                <evm>
                  <output>
-                   b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 )
+                   b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 )
                  </output>
                  <callStack>
                    .List
@@ -2820,10 +2823,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 292 ) : ( selector ( "freshUInt(uint8)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 292 ) : ( selector ( "freshUInt(uint8)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( CDEFG:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                    </localMem>
                    <memoryUsed>
                      0
@@ -2991,7 +2994,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+      requires ( _?WORD ==Int lengthBytes ( CDEFG:Bytes )
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
@@ -3000,15 +3003,16 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
+       andBool ( 36 <Int lengthBytes ( CDEFG:Bytes )
+       andBool ( lengthBytes ( CDEFG:Bytes ) <=Int 72
+       andBool ( lengthBytes ( CDEFG:Bytes ) <Int 256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))
+       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
+               ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
     rule [BASIC-BLOCK-14-TO-15]: <foundry>
@@ -3017,8 +3021,8 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                ( #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
                ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" false
-               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 32
-               ~> #pc [ CALL ] => STATICCALL 0 645326474426547203313410069153905908525362434349 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 36 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0
+               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 256 ) 32
+               ~> #pc [ CALL ] => STATICCALL 0 645326474426547203313410069153905908525362434349 ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 36 ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0
                ~> #pc [ STATICCALL ] )
                ~> #execute
                ~> _CONTINUATION
@@ -3035,7 +3039,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <ethereum>
                <evm>
                  <output>
-                   ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) => #buf ( 32 , ??WORD0 ) )
+                   ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) => #buf ( 32 , ??WORD0 ) )
                  </output>
                  <callStack>
                    .List
@@ -3060,10 +3064,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int ( 292 => 324 ) ) : ( ( selector ( "freshUInt(uint8)" ) => selector ( "assume(bool)" ) ) : ( 645326474426547203313410069153905908525362434349 : ( ( 0 => ??WORD0 ) : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int ( 292 => 324 ) ) : ( ( selector ( "freshUInt(uint8)" ) => selector ( "assume(bool)" ) ) : ( 645326474426547203313410069153905908525362434349 : ( ( 0 => ??WORD0 ) : ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( CDEFG:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int ( 256 => 288 ) ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes ( b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" => #buf ( 32 , ??WORD0 ) +Bytes b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ??WORD0 <Int lengthBytes ( ?BYTES:Bytes ) ) ) )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int ( 256 => 288 ) ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes ( b"%D\x9dd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" => #buf ( 32 , ??WORD0 ) +Bytes b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ??WORD0 <Int lengthBytes ( CDEFG:Bytes ) ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -3231,7 +3235,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+      requires ( _?WORD ==Int lengthBytes ( CDEFG:Bytes )
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NUMBER_CELL:Int
@@ -3240,15 +3244,16 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
+       andBool ( 36 <Int lengthBytes ( CDEFG:Bytes )
+       andBool ( lengthBytes ( CDEFG:Bytes ) <=Int 72
+       andBool ( lengthBytes ( CDEFG:Bytes ) <Int 256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))
+       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
+               ))))))))))))))))))
        ensures ( 0 <=Int ??WORD0
        andBool ( ??WORD0 <Int 256
                ))
@@ -3257,10 +3262,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
     rule [BASIC-BLOCK-15-TO-16]: <foundry>
            <kevm>
              <k>
-               ( STATICCALL 0 645326474426547203313410069153905908525362434349 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 36 ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
+               ( STATICCALL 0 645326474426547203313410069153905908525362434349 ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 36 ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
-               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes ) ) ) true
-               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0 )
+               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( CDEFG:Bytes ) ) ) true
+               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0 )
                ~> #pc [ STATICCALL ]
                ~> #execute
                ~> _CONTINUATION
@@ -3302,10 +3307,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 324 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?WORD0:Int : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 324 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?WORD0:Int : ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( CDEFG:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes ) ) )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( CDEFG:Bytes ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -3473,7 +3478,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+      requires ( _?WORD ==Int lengthBytes ( CDEFG:Bytes )
        andBool ( 0 <=Int ?WORD0:Int
        andBool ( ?WORD0:Int <Int 256
        andBool ( 0 <=Int CALLER_ID:Int
@@ -3484,15 +3489,16 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
+       andBool ( 36 <Int lengthBytes ( CDEFG:Bytes )
+       andBool ( lengthBytes ( CDEFG:Bytes ) <=Int 72
+       andBool ( lengthBytes ( CDEFG:Bytes ) <Int 256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))))
+       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
+               ))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3500,8 +3506,8 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              <k>
                ( #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
-               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes ) ) ) true
-               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0
+               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( CDEFG:Bytes ) ) ) true
+               ~> #return ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) 0
                ~> #pc [ STATICCALL ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
@@ -3544,10 +3550,10 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 324 ) => selector ( "test_symbolic_bytes_1_custom_name()" ) ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?WORD0:Int : ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( ?BYTES:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) => .WordStack ) )
+                     ( ( ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 324 ) => selector ( "test_symbolic_bytes_1_custom_name()" ) ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?WORD0:Int : ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int 224 ) : ( lengthBytes ( CDEFG:Bytes ) : ( 280 : ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack ) ) ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes ( b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes ) ) ) => b"Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes ( b"Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( ?WORD0:Int <Int lengthBytes ( CDEFG:Bytes ) ) ) => b"Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -3623,7 +3629,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 27 |-> #asWord ( #range ( ?BYTES:Bytes , ?WORD0:Int , 1 ) ) ) )
+                       ( .Map => ( 27 |-> #asWord ( #range ( CDEFG:Bytes , ?WORD0:Int , 1 ) ) ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -3715,7 +3721,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+      requires ( _?WORD ==Int lengthBytes ( CDEFG:Bytes )
        andBool ( 0 <=Int ?WORD0:Int
        andBool ( ?WORD0:Int <Int 256
        andBool ( 0 <=Int CALLER_ID:Int
@@ -3726,16 +3732,17 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
+       andBool ( 36 <Int lengthBytes ( CDEFG:Bytes )
+       andBool ( lengthBytes ( CDEFG:Bytes ) <=Int 72
+       andBool ( lengthBytes ( CDEFG:Bytes ) <Int 256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))))
-       ensures ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
+               ))))))))))))))))))))
+       ensures ?WORD0:Int <Int lengthBytes ( CDEFG:Bytes )
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
     
     rule [BASIC-BLOCK-17-TO-18]: <foundry>
@@ -3789,7 +3796,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes b"Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes b"Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                    </localMem>
                    <memoryUsed>
                      0
@@ -3865,7 +3872,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> #asWord ( #range ( ?BYTES:Bytes , ?WORD0:Int , 1 ) ) )
+                       ( 27 |-> #asWord ( #range ( CDEFG:Bytes , ?WORD0:Int , 1 ) ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -3957,7 +3964,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+      requires ( _?WORD ==Int lengthBytes ( CDEFG:Bytes )
        andBool ( 0 <=Int ?WORD0:Int
        andBool ( ?WORD0:Int <Int 256
        andBool ( 0 <=Int CALLER_ID:Int
@@ -3968,16 +3975,17 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
-       andBool ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( 36 <Int lengthBytes ( CDEFG:Bytes )
+       andBool ( lengthBytes ( CDEFG:Bytes ) <=Int 72
+       andBool ( lengthBytes ( CDEFG:Bytes ) <Int 256
+       andBool ( ?WORD0:Int <Int lengthBytes ( CDEFG:Bytes )
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))))
+       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
+               )))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-17-TO-18)]
     
     rule [BASIC-BLOCK-18-TO-19]: <foundry>
@@ -4031,7 +4039,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                      ( selector ( "test_symbolic_bytes_1_custom_name()" ) : .WordStack )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( ?BYTES:Bytes ) ) +Bytes ?BYTES:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( ?BYTES:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( ?BYTES:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes b"Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) +Int 288 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , lengthBytes ( CDEFG:Bytes ) ) +Bytes CDEFG:Bytes +Bytes #buf ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) -Int lengthBytes ( CDEFG:Bytes ) ) , 0 ) +Bytes #buf ( 32 , ?WORD0:Int ) +Bytes b"Lc\xe5b\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                    </localMem>
                    <memoryUsed>
                      0
@@ -4107,7 +4115,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> #asWord ( #range ( ?BYTES:Bytes , ?WORD0:Int , 1 ) ) )
+                       ( 27 |-> #asWord ( #range ( CDEFG:Bytes , ?WORD0:Int , 1 ) ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -4199,7 +4207,7 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _?WORD ==Int lengthBytes ( ?BYTES:Bytes )
+      requires ( _?WORD ==Int lengthBytes ( CDEFG:Bytes )
        andBool ( 0 <=Int ?WORD0:Int
        andBool ( ?WORD0:Int <Int 256
        andBool ( 0 <=Int CALLER_ID:Int
@@ -4210,16 +4218,17 @@ module SUMMARY-TEST%FRESHBYTESTEST.TEST-SYMBOLIC-BYTES-1-CUSTOM-NAME():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( TIMESTAMP_CELL:Int <Int pow256
-       andBool ( 36 <Int lengthBytes ( ?BYTES:Bytes )
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <=Int 72
-       andBool ( lengthBytes ( ?BYTES:Bytes ) <Int 256
-       andBool ( ?WORD0:Int <Int lengthBytes ( ?BYTES:Bytes )
+       andBool ( 36 <Int lengthBytes ( CDEFG:Bytes )
+       andBool ( lengthBytes ( CDEFG:Bytes ) <=Int 72
+       andBool ( lengthBytes ( CDEFG:Bytes ) <Int 256
+       andBool ( ?WORD0:Int <Int lengthBytes ( CDEFG:Bytes )
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FRESHBYTESTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))))
+       andBool ( ( ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) +Int ( notMaxUInt5 &Int ( lengthBytes ( CDEFG:Bytes ) +Int maxUInt5 ) ) ) <=Int 18446744073709551359
+               )))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-18-TO-19)]
 
 endmodule
