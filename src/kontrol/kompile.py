@@ -57,7 +57,7 @@ def foundry_kompile(
         regen = True
         foundry_up_to_date = False
 
-    requires = options.requires + (['src/kontrol/kdist/keccak.md'] if options.keccak_lemmas else [])
+    requires = options.requires + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
     for r in tuple(requires):
         req = Path(r)
         if not req.exists():
