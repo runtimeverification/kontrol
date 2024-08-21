@@ -415,12 +415,6 @@ module KONTROL-AUX-LEMMAS
     rule M:Map [ K1 <- _ ] [ K2 <- V2 ] [ K3 <- V3 ] [ K4 <- V4 ] [ K5 <- V5 ] [ K6 <- V6 ] [ K1 <- V7 ]              => M:Map [ K2 <- V2 ] [ K3 <- V3 ] [ K4 <- V4 ] [ K5 <- V5 ] [ K6 <- V6 ] [ K1 <- V7 ] [simplification]
     rule M:Map [ K1 <- _ ] [ K2 <- V2 ] [ K3 <- V3 ] [ K4 <- V4 ] [ K5 <- V5 ] [ K6 <- V6 ] [ K7 <- V7 ] [ K1 <- V8 ] => M:Map [ K2 <- V2 ] [ K3 <- V3 ] [ K4 <- V4 ] [ K5 <- V5 ] [ K6 <- V6 ] [ K7 <- V7 ] [ K1 <- V8 ] [simplification]
 
-    //
-    // Additional keccak assumption:
-    //
-
-    rule keccak(B:Bytes) <Int BOUND:Int => true requires BOUND >=Int pow256 -Int 32 [simplification, concrete(BOUND)]
-
     rule lengthBytes ( #padToWidth ( 32 , #asByteStack ( VALUE ) ) ) => 32
         requires #rangeUInt(256, VALUE)
         [simplification]

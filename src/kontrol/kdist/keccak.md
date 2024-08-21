@@ -58,5 +58,7 @@ The assumption of injectivity simplifies reasoning about the keccak function in 
       requires X <Int 0 orBool X >=Int pow256
       [concrete(X), simplification]
 
+    rule keccak(B:Bytes) <Int BOUND:Int => true requires BOUND >=Int pow256 -Int 32 [simplification, concrete(BOUND)]
+
 endmodule
 ```
