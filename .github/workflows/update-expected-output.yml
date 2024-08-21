@@ -1,0 +1,58 @@
+---
+name: 'Update Expected Output'
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Branch for which to update the expected output'
+        required: true
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  code-quality-checks:
+    name: 'Code Quality Checks'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v4
+      - name: 'Install Poetry'
+        uses: Gr1N/setup-poetry@v8
+      - name: 'Run code quality checks'
+        run: make check
+      - name: 'Run pyupgrade'
+        run: make pyupgrade
+
+  update-output:
+    needs: code-quality-checks
+    name: 'Update Kontrol expected output'
+    runs-on: [self-hosted, linux, normal, fast]
+    timeout-minutes: 45
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 'Set up Docker'
+        uses: ./.github/actions/with-docker
+        with:
+          container-name: kontrol-ci-integration-${{ github.sha }}
+      - name: 'Build KEVM'
+        run: |
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'poetry install'
+            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
+      - name: 'Run integration tests'
+        run: |
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS='--numprocesses=6 --update-expected-output -vv -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)"'
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS='--numprocesses=6 --update-expected-output -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
+      - name: 'Copy updated files to host'
+        run: |
+          docker cp kontrol-ci-integration-${GITHUB_SHA}:src/tests/integration/test-data/show ./src/tests/integration/test-data/show
+      - name: 'Push golden files to branch'
+        run: |
+        ...
+      - name: 'Tear down Docker'
+        if: always()
+        run: |
+          docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
