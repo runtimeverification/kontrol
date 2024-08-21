@@ -833,7 +833,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             'no_silence_warnings': False,
             'no_metadata': False,
             'keccak_lemmas': True,
-            'auxiliary_lemmas': True,
+            'auxiliary_lemmas': False,
         }
 
     @staticmethod

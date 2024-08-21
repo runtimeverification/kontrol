@@ -4,7 +4,6 @@ requires "requires/cse-lemmas.k"
 requires "requires/pausability-lemmas.k"
 requires "requires/symbolic-bytes-lemmas.k"
 requires "requires/keccak.md"
-requires "requires/kontrol_lemmas.md"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
@@ -163,7 +162,6 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
     imports public KECCAK-LEMMAS
-    imports public KONTROL-AUX-LEMMAS
     
     
 
