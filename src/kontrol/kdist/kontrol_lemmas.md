@@ -456,5 +456,12 @@ module KONTROL-AUX-LEMMAS
       requires 0 <=Int A
       [simplification]
 
+    rule bool2Word(X) *Int Y ==Int Z => (X andBool (Y ==Int Z)) orBool ((notBool X) andBool Z ==Int 0)
+      [simplification]
+
+    rule X *Int Y <=Int Z => Y <Int ( Z +Int 1 ) /Int X
+      requires 0 <Int X andBool 0 <=Int Z andBool ( Z +Int 1) modInt X ==Int 0
+      [simplification, concrete(X, Z), preserves-definedness]
+
 endmodule
 ```
