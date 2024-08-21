@@ -52,8 +52,8 @@ module KONTROL-AUX-LEMMAS
     rule A *Int B => B *Int A [simplification(30), symbolic(A), concrete(B)]
 
     // /Int
-    rule 0 /Int B         => 0         requires B =/=Int 0 [simplification, preserves-definedness]
-    rule A /Int B ==Int 0 => A ==Int 0 requires B =/=Int 0 [simplification, preserves-definedness]
+    rule 0 /Int B         => 0        requires B =/=Int 0                 [simplification, preserves-definedness]
+    rule A /Int B ==Int 0 => A <Int B requires 0 <=Int A andBool 0 <Int B [simplification, preserves-definedness]
 
     rule ( A *Int B ) /Int C => ( A /Int C ) *Int B requires A modInt C ==Int 0 [simplification, concrete(A, C), preserves-definedness]
 
