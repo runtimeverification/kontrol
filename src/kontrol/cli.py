@@ -350,6 +350,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_false',
         help='Do not include assumptions on keccak properties.',
     )
+    build.add_argument(
+        '--no-auxiliary-lemmas',
+        dest='auxiliary_lemmas',
+        default=None,
+        action='store_false',
+        help='Do not include auxiliary Kontrol lemmas.',
+    )
 
     state_diff_args = command_parser.add_parser(
         'load-state',

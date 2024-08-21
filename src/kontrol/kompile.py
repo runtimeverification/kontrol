@@ -57,7 +57,11 @@ def foundry_kompile(
         regen = True
         foundry_up_to_date = False
 
-    requires = options.requires + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
+    requires = (
+        options.requires
+        + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
+        + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
+    )
     for r in tuple(requires):
         req = Path(r)
         if not req.exists():
@@ -108,6 +112,7 @@ def foundry_kompile(
             requires=(['contracts.k'] + copied_requires),
             imports=_imports,
             keccak_lemmas=options.keccak_lemmas,
+            auxiliary_lemmas=options.auxiliary_lemmas,
         )
 
         kevm = KEVM(
@@ -192,6 +197,7 @@ def _foundry_to_main_def(
     requires: Iterable[str],
     imports: dict[str, list[str]],
     keccak_lemmas: bool,
+    auxiliary_lemmas: bool,
 ) -> KDefinition:
     modules = [
         contract_to_verification_module(contract, empty_config, imports=imports[contract.name_with_path])
@@ -202,6 +208,7 @@ def _foundry_to_main_def(
         imports=tuple(
             [KImport(mname) for mname in (_m.name for _m in modules)]
             + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
+            + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
         ),
     )
 
