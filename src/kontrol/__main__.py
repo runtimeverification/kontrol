@@ -13,7 +13,6 @@ from pyk.cterm.symbolic import CTermSMTError
 from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
-from pyk.utils import run_process_2
 from rich.highlighter import NullHighlighter
 from rich.logging import RichHandler
 
@@ -21,6 +20,7 @@ from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
 from .foundry import (
     Foundry,
+    foundry_clean,
     foundry_get_model,
     foundry_list,
     foundry_merge_nodes,
@@ -126,7 +126,13 @@ def main() -> None:
         level=_loglevel(args, toml_args),
         format=_LOG_FORMAT,
         handlers=[
-            RichHandler(level='INFO', show_level=False, show_time=False, show_path=False, highlighter=NullHighlighter())
+            RichHandler(
+                level=_loglevel(args, toml_args),
+                show_level=False,
+                show_time=False,
+                show_path=False,
+                highlighter=NullHighlighter(),
+            ),
         ],
     )
 
@@ -195,7 +201,9 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 
 
 def exec_build(options: BuildOptions) -> None:
-    if options.verbose:
+    _LOGGER.debug(options)
+
+    if options.verbose or options.debug:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer:[/{_rv_blue()}]'
     else:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer: \n Add `--verbose` to `kontrol build` for more details![/{_rv_blue()}]'
@@ -213,6 +221,8 @@ def exec_build(options: BuildOptions) -> None:
 
 
 def exec_prove(options: ProveOptions) -> None:
+    _LOGGER.debug(options)
+
     if options.recorded_diff_state_path and options.recorded_dump_state_path:
         raise AssertionError('Provide only one file for recorded state updates')
 
@@ -223,7 +233,7 @@ def exec_prove(options: ProveOptions) -> None:
         read_recorded_state_dump(options.recorded_dump_state_path) if options.recorded_dump_state_path else None
     )
 
-    if options.verbose:
+    if options.verbose or options.debug:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
     else:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running: \n Add `--verbose` to `kontrol prove` for more details![/{_rv_blue()}]'
@@ -330,7 +340,9 @@ def exec_list(options: ListOptions) -> None:
 
 
 def exec_view_kcfg(options: ViewKcfgOptions) -> None:
-    foundry = _load_foundry(options.foundry_root, use_hex_encoding=True, add_enum_constraints=options.enum_constraints)
+    foundry = _load_foundry(
+        options.foundry_root, use_hex_encoding=options.use_hex_encoding, add_enum_constraints=options.enum_constraints
+    )
     test_id = foundry.get_test_id(options.test, options.version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -401,7 +413,7 @@ def exec_get_model(options: GetModelOptions) -> None:
 
 
 def exec_clean(options: CleanOptions) -> None:
-    run_process_2(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)
+    foundry_clean(foundry=_load_foundry(options.foundry_root), options=options)
 
 
 def exec_init(options: InitOptions) -> None:

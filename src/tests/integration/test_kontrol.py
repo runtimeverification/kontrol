@@ -61,7 +61,13 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
             copy_tree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'))
 
             foundry_kompile(
-                BuildOptions({}),
+                BuildOptions(
+                    {
+                        'require': str(foundry_root / 'lemmas.k'),
+                        'module-import': 'TestBase:KONTROL-LEMMAS',
+                        'no_metadata': True,
+                    }
+                ),
                 foundry=Foundry(foundry_root),
             )
 

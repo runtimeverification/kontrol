@@ -49,7 +49,8 @@ class FoundryOptions(Options):
 
 
 class RpcOptions(Options):
-    trace_rewrites: bool
+    log_succ_rewrites: bool
+    log_fail_rewrites: bool
     kore_rpc_command: str | None
     use_booster: bool
     port: int | None
@@ -58,7 +59,8 @@ class RpcOptions(Options):
     @staticmethod
     def default() -> dict[str, Any]:
         return {
-            'trace_rewrites': False,
+            'log_succ_rewrites': True,
+            'log_fail_rewrites': False,
             'kore_rpc_command': None,
             'use_booster': True,
             'port': None,
@@ -83,6 +85,16 @@ class TraceOptions(Options):
 
 
 class CleanOptions(FoundryOptions, LoggingOptions):
+    proofs: bool
+    old_proofs: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'proofs': False,
+            'old_proofs': False,
+        }
+
     @staticmethod
     def from_option_string() -> dict[str, str]:
         return FoundryOptions.from_option_string() | LoggingOptions.from_option_string()
@@ -356,6 +368,11 @@ class ProveOptions(
     config_type: ConfigType
     hide_status_bar: bool
     remove_old_proofs: bool
+    optimize_performance: int | None
+
+    def __init__(self, args: dict[str, Any]) -> None:
+        super().__init__(args)
+        self.apply_optimizations()
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -379,6 +396,7 @@ class ProveOptions(
             'config_type': ConfigType.TEST_CONFIG,
             'hide_status_bar': False,
             'remove_old_proofs': False,
+            'optimize_performance': None,
         }
 
     @staticmethod
@@ -421,6 +439,42 @@ class ProveOptions(
                 'include-summary': list_of(parse_test_version_tuple),
             }
         )
+
+    def apply_optimizations(self) -> None:
+        """Applies a series of performance optimizations based on the value of the
+        `optimize_performance` attribute.
+
+        If `optimize_performance` is not `None`, this method will adjust several
+        internal parameters to enhance performance. The integer value of `optimize_performance`
+        is used to set the level of parallelism for frontier exploration and maintenance rate.
+        """
+        if self.optimize_performance is not None:
+            self.assume_defined = True
+            self.log_succ_rewrites = False
+            self.max_frontier_parallel = self.optimize_performance
+            self.maintenance_rate = 2 * self.optimize_performance
+            self.smt_timeout = 120000
+            self.smt_retry_limit = 0
+            self.max_depth = 100000
+            self.max_iterations = 10000
+
+    def __str__(self) -> str:
+        """
+        Generate a string representation of the instance, including attributes from inherited classes.
+
+        The first line collects all attributes that are directly set on the instance.
+        The loop is required to iterate over all parent classes and fetch attributes set by the `default` method.
+
+        :return: String representation of the instance.
+        """
+        options_dict = {**self.__dict__}
+
+        for parent in self.__class__.__bases__:
+            if hasattr(parent, 'default'):
+                options_dict.update(parent.default())
+
+        options_str = ', '.join(f'{key}: {value}' for key, value in options_dict.items())
+        return f'ProveOptions({options_str})'
 
 
 class RefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
@@ -735,6 +789,15 @@ class VersionOptions(LoggingOptions):
 
 
 class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+
+    use_hex_encoding: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'use_hex_encoding': False,
+        }
+
     @staticmethod
     def from_option_string() -> dict[str, str]:
         return (
@@ -757,6 +820,9 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
     rekompile: bool
     no_forge_build: bool
     no_silence_warnings: bool
+    no_metadata: bool
+    keccak_lemmas: bool
+    auxiliary_lemmas: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -765,6 +831,9 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             'rekompile': False,
             'no_forge_build': False,
             'no_silence_warnings': False,
+            'no_metadata': False,
+            'keccak_lemmas': True,
+            'auxiliary_lemmas': False,
         }
 
     @staticmethod
@@ -789,7 +858,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             | KompileTargetOptions.get_argument_type()
         )
 
-    def to_string(self) -> str:
+    def __str__(self) -> str:
         """
         Generate a string representation of the instance, including attributes from inherited classes.
 
@@ -797,7 +866,6 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
         The loop is required to iterate over all parent classes and fetch attributes set by the `default` method.
 
         :return: String representation of the instance.
-        :rtype: str
         """
         options_dict = {**self.__dict__}
 
