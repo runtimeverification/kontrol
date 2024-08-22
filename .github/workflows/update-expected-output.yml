@@ -11,7 +11,7 @@ jobs:
     if: github.ref != 'refs/heads/master'
     name: 'Update Kontrol expected output'
     runs-on: [self-hosted, linux, normal, fast]
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS='--numprocesses=6 --update-expected-output -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
       - name: 'Copy updated files to host'
         run: |
-          docker cp kontrol-ci-integration-${GITHUB_SHA}:src/tests/integration/test-data/show ./src/tests/integration/test-data/show
+          docker cp kontrol-ci-integration-${GITHUB_SHA}:/home/user/src/tests/integration/test-data/show ./src/tests/integration/test-data/show
       - name: 'Configure GitHub user'
         run: |
           git config user.name devops
