@@ -57,7 +57,12 @@ def foundry_kompile(
         regen = True
         foundry_up_to_date = False
 
-    for r in options.requires:
+    requires = (
+        options.requires
+        + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
+        + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
+    )
+    for r in tuple(requires):
         req = Path(r)
         if not req.exists():
             raise ValueError(f'No such file: {req}')
@@ -65,7 +70,7 @@ def foundry_kompile(
             raise ValueError(
                 f'Required K files have conflicting names: {r} and {requires_paths[req.name]}. Consider changing the name of one of these files.'
             )
-        requires_paths[req.name] = r  # noqa: B909
+        requires_paths[req.name] = str(r)
         req_path = foundry_requires_dir / req.name
         if regen or not req_path.exists():
             _LOGGER.info(f'Copying requires path: {req} -> {req_path}')
@@ -86,7 +91,7 @@ def foundry_kompile(
     if regen or not foundry_contracts_file.exists() or not foundry.main_file.exists():
         if regen and foundry_up_to_date:
             console.print(
-                f'[{_rv_blue()}][bold]--regen[/bold] option provied. Rebuilding Kontrol Project.[/{_rv_blue()}]'
+                f'[{_rv_blue()}][bold]--regen[/bold] option provided. Rebuilding Kontrol Project.[/{_rv_blue()}]'
             )
 
         copied_requires = []
@@ -106,6 +111,8 @@ def foundry_kompile(
             contracts=foundry.contracts.values(),
             requires=(['contracts.k'] + copied_requires),
             imports=_imports,
+            keccak_lemmas=options.keccak_lemmas,
+            auxiliary_lemmas=options.auxiliary_lemmas,
         )
 
         kevm = KEVM(
@@ -189,6 +196,8 @@ def _foundry_to_main_def(
     empty_config: KInner,
     requires: Iterable[str],
     imports: dict[str, list[str]],
+    keccak_lemmas: bool,
+    auxiliary_lemmas: bool,
 ) -> KDefinition:
     modules = [
         contract_to_verification_module(contract, empty_config, imports=imports[contract.name_with_path])
@@ -196,7 +205,11 @@ def _foundry_to_main_def(
     ]
     _main_module = KFlatModule(
         main_module,
-        imports=(KImport(mname) for mname in [_m.name for _m in modules]),
+        imports=tuple(
+            [KImport(mname) for mname in (_m.name for _m in modules)]
+            + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
+            + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
+        ),
     )
 
     return KDefinition(

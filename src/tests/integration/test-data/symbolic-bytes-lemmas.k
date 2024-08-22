@@ -8,6 +8,12 @@ module SYMBOLIC-BYTES-LEMMAS
     imports INT-SYMBOLIC
 
     //
+    // Neutrality of b""
+    //
+    rule B   +Bytes b"" => B [simplification]
+    rule b"" +Bytes B   => B [simplification]
+
+    //
     // Byte indexing in terms of #asWord
     //
     rule BA [ X ] => #asWord ( #range (BA, X, 1) )
