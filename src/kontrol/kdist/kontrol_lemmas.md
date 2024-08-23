@@ -55,7 +55,9 @@ module KONTROL-AUX-LEMMAS
     rule 0 /Int B         => 0        requires B =/=Int 0                 [simplification, preserves-definedness]
     rule A /Int B ==Int 0 => A <Int B requires 0 <=Int A andBool 0 <Int B [simplification, preserves-definedness]
 
-    rule ( A *Int B ) /Int C => ( A /Int C ) *Int B requires A modInt C ==Int 0 [simplification, concrete(A, C), preserves-definedness]
+    rule ( A *Int B ) /Int C => ( A /Int C ) *Int B
+      requires 0 <=Int A andBool (notBool C ==Int 0) andBool A modInt C ==Int 0
+      [simplification, concrete(A, C), preserves-definedness]
 
     // /Word
     rule  _ /Word W1 => 0          requires W1  ==Int 0 [simplification]
@@ -103,7 +105,8 @@ module KONTROL-AUX-LEMMAS
     [simplification, concrete(N), preserves-definedness]
 
     // >>Int
-    rule [shift-to-div]: X >>Int N => X /Int (2 ^Int N) [simplification(60), concrete(N)]
+    rule [shift-to-div]: X >>Int N => X /Int (2 ^Int N)
+      requires 0 <=Int X andBool 0 <=Int N [simplification(60), concrete(N)]
 
     // Boolean equality
     rule B ==K false => notBool B [simplification(30), comm]
