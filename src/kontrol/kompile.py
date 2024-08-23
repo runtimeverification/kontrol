@@ -81,7 +81,7 @@ def foundry_kompile(
                 # Fetch current permissions
                 current_permissions = Path.stat(req_path).st_mode
                 # Grant write permissions
-                Path.chmod(req_path, current_permissions | Path.stat.S_IWUSR | Path.stat.S_IWGRP | Path.stat.S_IWOTH)
+                req_path.chmod(current_permissions | Path.stat.S_IWUSR | Path.stat.S_IWGRP | Path.stat.S_IWOTH)
             regen = True
 
     _imports: dict[str, list[str]] = {contract.name_with_path: [] for contract in foundry.contracts.values()}
