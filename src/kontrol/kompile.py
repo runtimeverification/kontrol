@@ -79,7 +79,7 @@ def foundry_kompile(
             # If the copied file is not writeable
             if not os.access(req_path, os.W_OK):
                 # Fetch current permissions
-                current_permissions = Path.stat(req_path).st_mode
+                current_permissions = req_path.stat().st_mode
                 # Grant write permissions
                 req_path.chmod(current_permissions | Path.stat.S_IWUSR | Path.stat.S_IWGRP | Path.stat.S_IWOTH)
             regen = True
