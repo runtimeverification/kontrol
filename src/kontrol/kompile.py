@@ -4,7 +4,6 @@ import json
 import logging
 import os
 import shutil
-import stat
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -80,9 +79,9 @@ def foundry_kompile(
             # If the copied file is not writeable
             if not os.access(req_path, os.W_OK):
                 # Fetch current permissions
-                current_permissions = os.stat(req_path).st_mode
+                current_permissions = Path.stat(req_path).st_mode
                 # Grant write permissions
-                os.chmod(req_path, current_permissions | stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
+                Path.chmod(req_path, current_permissions | Path.stat.S_IWUSR | Path.stat.S_IWGRP | Path.stat.S_IWOTH)
             regen = True
 
     _imports: dict[str, list[str]] = {contract.name_with_path: [] for contract in foundry.contracts.values()}
