@@ -211,8 +211,10 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
       requires ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
@@ -227,8 +229,6 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_CALLABLESTORAGECONTRACT_ID:Int
@@ -386,9 +386,11 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int =/=Int 0
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
@@ -403,8 +405,6 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_CALLABLESTORAGECONTRACT_ID:Int
