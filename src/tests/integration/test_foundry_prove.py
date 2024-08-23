@@ -519,7 +519,7 @@ def test_foundry_merge_loop_heads(
 
     check_pending(foundry, test, [17, 18, 19])
 
-    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [4, 10, 15], 'include_disjunct': True}))
+    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [4, 9, 15], 'include_disjunct': True}))
 
     check_pending(foundry, test, [19, 20])
 
