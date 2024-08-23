@@ -44,7 +44,7 @@
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
-┃  └─ 16 (leaf, terminal)
+┃  └─ 13 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 1584
 ┃      callDepth: 0
@@ -532,7 +532,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-12)]
     
-    rule [BASIC-BLOCK-10-TO-16]: <foundry>
+    rule [BASIC-BLOCK-10-TO-13]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -911,7 +911,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-10-TO-16)]
+      [priority(20), label(BASIC-BLOCK-10-TO-13)]
     
     rule [BASIC-BLOCK-1-TO-7]: <foundry>
            <kevm>
