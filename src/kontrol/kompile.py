@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import shutil
+import stat
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -81,7 +82,7 @@ def foundry_kompile(
                 # Fetch current permissions
                 current_permissions = req_path.stat().st_mode
                 # Grant write permissions
-                req_path.chmod(current_permissions | Path.stat.S_IWUSR | Path.stat.S_IWGRP | Path.stat.S_IWOTH)
+                req_path.chmod(current_permissions | stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
             regen = True
 
     _imports: dict[str, list[str]] = {contract.name_with_path: [] for contract in foundry.contracts.values()}
