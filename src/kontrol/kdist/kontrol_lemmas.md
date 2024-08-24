@@ -327,5 +327,8 @@ module KONTROL-AUX-LEMMAS
       requires 0 <Int X andBool 0 <=Int Z andBool ( Z +Int 1) modInt X ==Int 0
       [simplification, concrete(X, Z), preserves-definedness]
 
+    #asWord ( B ) <=Int X => true requires X >=Int ( 2 ^ (8 *Int lengthBytes(B)) ) -Int 1 [simplification]
+    #asWord ( B )  <Int X => true requires X >=Int   2 ^ (8 *Int lengthBytes(B))          [simplification]
+
 endmodule
 ```
