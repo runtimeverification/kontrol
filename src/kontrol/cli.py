@@ -343,6 +343,20 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Do not append cbor or bytecode_hash metadata to bytecode.',
     )
+    build.add_argument(
+        '--no-keccak-lemmas',
+        dest='keccak_lemmas',
+        default=None,
+        action='store_false',
+        help='Do not include assumptions on keccak properties.',
+    )
+    build.add_argument(
+        '--auxiliary-lemmas',
+        dest='auxiliary_lemmas',
+        default=None,
+        action='store_true',
+        help='Include auxiliary Kontrol lemmas.',
+    )
 
     state_diff_args = command_parser.add_parser(
         'load-state',
