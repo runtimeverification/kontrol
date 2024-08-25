@@ -302,6 +302,28 @@ class PreexistingKoreServer(OptionalKoreServer):
 
 class KontrolSemantics(KEVMSemantics):
 
+    def can_make_custom_step(self, cterm: CTerm) -> bool:
+
+        patterns = [
+            KSequence(
+                [KApply('cheatcode_call', intToken(1530912521), KVariable('ARGS')), KVariable('###CONTINUATION')]
+            ),
+            KApply('cheatcode_call', intToken(1202084987), KVariable('ARGS')),
+            KVariable('###CONTINUATION'),
+            KApply('cheatcode_call', intToken(390682600), KVariable('ARGS')),
+            KVariable('###CONTINUATION'),
+            KApply('cheatcode_call', intToken(525694724), KVariable('ARGS')),
+            KVariable('###CONTINUATION'),
+            KApply('foundry_setSymbolicStorageCustomVar', KVariable('ACCTID'), KVariable('ARGS')),
+            KVariable('###CONTINUATION'),
+        ]
+
+        return any(
+            pattern.match(cterm.cell('K_CELL')) is not None for pattern in patterns
+        ) or super().can_make_custom_step(cterm)
+
+        return
+
     def custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
 
         # freshUInt
