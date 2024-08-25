@@ -1393,7 +1393,7 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
     append_to_file(root / 'foundry.toml', foundry_toml_extra_contents())
     run_process_2(
-        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
+        ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes@f0dc718'],
         logger=_LOGGER,
         cwd=root,
     )

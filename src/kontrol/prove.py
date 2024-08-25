@@ -305,257 +305,271 @@ class KontrolSemantics(KEVMSemantics):
     def can_make_custom_step(self, cterm: CTerm) -> bool:
 
         patterns = [
+            # freshUInt
             KSequence(
                 [KApply('cheatcode_call', intToken(1530912521), KVariable('ARGS')), KVariable('###CONTINUATION')]
             ),
-            KApply('cheatcode_call', intToken(1202084987), KVariable('ARGS')),
-            KVariable('###CONTINUATION'),
-            KApply('cheatcode_call', intToken(390682600), KVariable('ARGS')),
-            KVariable('###CONTINUATION'),
-            KApply('cheatcode_call', intToken(525694724), KVariable('ARGS')),
-            KVariable('###CONTINUATION'),
-            KApply('foundry_setSymbolicStorageCustomVar', KVariable('ACCTID'), KVariable('ARGS')),
-            KVariable('###CONTINUATION'),
+            # freshAddress
+            KSequence(
+                [KApply('cheatcode_call', intToken(1202084987), KVariable('ARGS')), KVariable('###CONTINUATION')]
+            ),
+            # freshBytes
+            KSequence([KApply('cheatcode_call', intToken(390682600), KVariable('ARGS')), KVariable('###CONTINUATION')]),
+            # freshBool
+            KSequence([KApply('cheatcode_call', intToken(525694724), KVariable('ARGS')), KVariable('###CONTINUATION')]),
+            # symbolicStorage
+            KSequence(
+                [
+                    KApply('foundry_setSymbolicStorageCustomVar', KVariable('ACCTID'), KVariable('ARGS')),
+                    KVariable('###CONTINUATION'),
+                ]
+            ),
         ]
 
         return any(
             pattern.match(cterm.cell('K_CELL')) is not None for pattern in patterns
         ) or super().can_make_custom_step(cterm)
 
-        return
-
     def custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
 
-        # freshUInt
-        cheatcode_call_pattern = KSequence(
-            [KApply('cheatcode_call', intToken(1530912521), KVariable('ARGS')), KVariable('###CONTINUATION')]
-        )
-        subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
-        if subst is not None:
-            args = subst['ARGS']
-            if type(args) is not KToken:
-                _LOGGER.warning(
-                    'Custom K variable name specified for freshUInt cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
-                )
-                return None
-            args_bytes = ast.literal_eval(args.token)
-            int_size = int.from_bytes(args_bytes[:32], 'big')
-            varname_offset = int.from_bytes(args_bytes[32:64], 'big')
-            varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
-            varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
-            varname = varname.upper()
-            variable = KVariable(varname)
+        if self.can_make_custom_step(cterm):
 
-            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
-            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', KEVM.buf(intToken(32), variable)))
-            new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(intToken(0), variable)))
-            new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(variable, intToken(2 ** (8 * int_size)))))
-
-            return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshUIntCustomVar'], cut=True)
-
-        # freshAddress
-        cheatcode_call_pattern = KSequence(
-            [KApply('cheatcode_call', intToken(1202084987), KVariable('ARGS')), KVariable('###CONTINUATION')]
-        )
-        subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
-        if subst is not None:
-            args = subst['ARGS']
-            if type(args) is not KToken:
-                _LOGGER.warning(
-                    'Custom K variable name specified for freshAddress cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
-                )
-                return None
-            args_bytes = ast.literal_eval(args.token)
-            varname_offset = int.from_bytes(args_bytes[0:32], 'big')
-            varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
-            varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
-            varname = varname.upper()
-            variable = KVariable(varname)
-
-            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
-            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', KEVM.buf(intToken(32), variable)))
-            new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(intToken(0), variable)))
-            new_cterm = new_cterm.add_constraint(
-                mlEqualsTrue(ltInt(variable, intToken(1461501637330902918203684832716283019655932542975)))
+            # freshUInt
+            cheatcode_call_pattern = KSequence(
+                [KApply('cheatcode_call', intToken(1530912521), KVariable('ARGS')), KVariable('###CONTINUATION')]
             )
-            new_cterm = new_cterm.add_constraint(
-                mlEqualsTrue(KApply('_=/=Int_', [variable, intToken(728815563385977040452943777879061427756277306518)]))
-            )
-            new_cterm = new_cterm.add_constraint(
-                mlEqualsTrue(KApply('_=/=Int_', [variable, intToken(645326474426547203313410069153905908525362434349)]))
-            )
-
-            return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.foundry.call.freshAddressCustomVar'], cut=True)
-
-        # freshBytes
-        cheatcode_call_pattern = KSequence(
-            [KApply('cheatcode_call', intToken(390682600), KVariable('ARGS')), KVariable('###CONTINUATION')]
-        )
-        subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
-        if subst is not None:
-            args = subst['ARGS']
-
-            if type(args) is KToken:
-                args_bytes = ast.literal_eval(args.token)
-                varname_offset = int.from_bytes(args_bytes[32:64], 'big')
-                bytes_length = KApply('#range', [args, intToken(0), intToken(32)])
-            else:
-                partial_symbolic_args_pattern = KApply(
-                    '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                    [KApply('buf', [intToken(32), KVariable('LENGTH')]), KVariable('CONCRETE_VARNAME')],
-                )
-                args_subst = partial_symbolic_args_pattern.match(args)
-                if args_subst is not None and type(args_subst['CONCRETE_VARNAME']) is KToken:
-                    args = args_subst['CONCRETE_VARNAME']
-                    args_bytes = ast.literal_eval(args.token)
-                    varname_offset = int.from_bytes(args_bytes[0:32], 'big') - 32
-                    bytes_length = KApply('buf', [intToken(32), args_subst['LENGTH']])
-                else:
+            subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
+            if subst is not None:
+                args = subst['ARGS']
+                if type(args) is not KToken:
                     _LOGGER.warning(
-                        'Custom K variable name specified for freshBytes cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                        'Custom K variable name specified for freshUInt cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
                     )
                     return None
+                args_bytes = ast.literal_eval(args.token)
+                int_size = int.from_bytes(args_bytes[:32], 'big')
+                varname_offset = int.from_bytes(args_bytes[32:64], 'big')
+                varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
+                varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
+                varname = varname.upper()
+                variable = KVariable(varname)
 
-            varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
-            varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
-            varname = varname.upper()
-            variable = KVariable(varname)
+                new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+                new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', KEVM.buf(intToken(32), variable)))
+                new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(intToken(0), variable)))
+                new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(variable, intToken(2 ** (8 * int_size)))))
 
-            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+                return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshUIntCustomVar'], cut=True)
 
-            output_cell = KApply(
-                '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                [
-                    KEVM.buf(intToken(32), intToken(32)),
-                    KApply(
+            # freshAddress
+            cheatcode_call_pattern = KSequence(
+                [KApply('cheatcode_call', intToken(1202084987), KVariable('ARGS')), KVariable('###CONTINUATION')]
+            )
+            subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
+            if subst is not None:
+                args = subst['ARGS']
+                if type(args) is not KToken:
+                    _LOGGER.warning(
+                        'Custom K variable name specified for freshAddress cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                    )
+                    return None
+                args_bytes = ast.literal_eval(args.token)
+                varname_offset = int.from_bytes(args_bytes[0:32], 'big')
+                varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
+                varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
+                varname = varname.upper()
+                variable = KVariable(varname)
+
+                new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+                new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', KEVM.buf(intToken(32), variable)))
+                new_cterm = new_cterm.add_constraint(mlEqualsTrue(ltInt(intToken(0), variable)))
+                new_cterm = new_cterm.add_constraint(
+                    mlEqualsTrue(ltInt(variable, intToken(1461501637330902918203684832716283019655932542975)))
+                )
+                new_cterm = new_cterm.add_constraint(
+                    mlEqualsTrue(
+                        KApply('_=/=Int_', [variable, intToken(728815563385977040452943777879061427756277306518)])
+                    )
+                )
+                new_cterm = new_cterm.add_constraint(
+                    mlEqualsTrue(
+                        KApply('_=/=Int_', [variable, intToken(645326474426547203313410069153905908525362434349)])
+                    )
+                )
+
+                return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.foundry.call.freshAddressCustomVar'], cut=True)
+
+            # freshBytes
+            cheatcode_call_pattern = KSequence(
+                [KApply('cheatcode_call', intToken(390682600), KVariable('ARGS')), KVariable('###CONTINUATION')]
+            )
+            subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
+            if subst is not None:
+                args = subst['ARGS']
+
+                if type(args) is KToken:
+                    args_bytes = ast.literal_eval(args.token)
+                    varname_offset = int.from_bytes(args_bytes[32:64], 'big')
+                    bytes_length = KApply('#range', [args, intToken(0), intToken(32)])
+                else:
+                    partial_symbolic_args_pattern = KApply(
                         '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                        [
-                            KEVM.buf(intToken(32), KApply('asWord', bytes_length)),
-                            KApply(
-                                '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                                [
-                                    variable,
-                                    KEVM.buf(
-                                        KApply(
-                                            '_-Int_',
-                                            [
-                                                KApply(
-                                                    '_&Int_',
-                                                    [
-                                                        intToken(
-                                                            115792089237316195423570985008687907853269984665640564039457584007913129639904
-                                                        ),
-                                                        KApply(
-                                                            '_+Int_', [KApply('asWord', bytes_length), intToken(31)]
-                                                        ),
-                                                    ],
-                                                ),
-                                                KApply('asWord', bytes_length),
-                                            ],
-                                        ),
-                                        intToken(0),
-                                    ),
-                                ],
-                            ),
-                        ],
-                    ),
-                ],
-            )
+                        [KApply('buf', [intToken(32), KVariable('LENGTH')]), KVariable('CONCRETE_VARNAME')],
+                    )
+                    args_subst = partial_symbolic_args_pattern.match(args)
+                    if args_subst is not None and type(args_subst['CONCRETE_VARNAME']) is KToken:
+                        args = args_subst['CONCRETE_VARNAME']
+                        args_bytes = ast.literal_eval(args.token)
+                        varname_offset = int.from_bytes(args_bytes[0:32], 'big') - 32
+                        bytes_length = KApply('buf', [intToken(32), args_subst['LENGTH']])
+                    else:
+                        _LOGGER.warning(
+                            'Custom K variable name specified for freshBytes cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                        )
+                        return None
 
-            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', output_cell))
-            new_cterm = new_cterm.add_constraint(
-                mlEqualsTrue(
-                    eqInt(KApply('lengthBytes(_)_BYTES-HOOKED_Int_Bytes', variable), KApply('asWord', bytes_length))
-                )
-            )
+                varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
+                varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
+                varname = varname.upper()
+                variable = KVariable(varname)
 
-            return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshBytesCustomVar'], cut=True)
+                new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
 
-        # freshBool
-        cheatcode_call_pattern = KSequence(
-            [KApply('cheatcode_call', intToken(525694724), KVariable('ARGS')), KVariable('###CONTINUATION')]
-        )
-        subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
-        if subst is not None:
-            args = subst['ARGS']
-            if type(args) is not KToken:
-                _LOGGER.warning(
-                    'Custom K variable name specified for freshBool cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
-                )
-                return None
-            args_bytes = ast.literal_eval(args.token)
-            varname_offset = int.from_bytes(args_bytes[0:32], 'big')
-            varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
-            varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
-            varname = varname.upper()
-            variable = KVariable(varname)
-
-            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
-            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', KEVM.buf(intToken(32), variable)))
-            new_cterm = new_cterm.add_constraint(mlEqualsTrue(leInt(intToken(0), variable)))
-            new_cterm = new_cterm.add_constraint(mlEqualsTrue(leInt(variable, intToken(1))))
-
-            return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshBoolCustomVar'], cut=True)
-
-        # symbolicStorage
-        cheatcode_call_pattern = KSequence(
-            [
-                KApply('foundry_setSymbolicStorageCustomVar', KVariable('ACCTID'), KVariable('ARGS')),
-                KVariable('###CONTINUATION'),
-            ]
-        )
-        subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
-        if subst is not None:
-            args = subst['ARGS']
-            account_id = subst['ACCTID']
-            if type(args) is KToken:
-                args_bytes = ast.literal_eval(args.token)
-                varname_offset = int.from_bytes(args_bytes[32:64], 'big')
-            else:
-                partial_symbolic_args_pattern = KApply(
+                output_cell = KApply(
                     '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
-                    [KApply('buf', [intToken(32), KVariable('ACCTID')]), KVariable('CONCRETE_VARNAME')],
+                    [
+                        KEVM.buf(intToken(32), intToken(32)),
+                        KApply(
+                            '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                            [
+                                KEVM.buf(intToken(32), KApply('asWord', bytes_length)),
+                                KApply(
+                                    '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                    [
+                                        variable,
+                                        KEVM.buf(
+                                            KApply(
+                                                '_-Int_',
+                                                [
+                                                    KApply(
+                                                        '_&Int_',
+                                                        [
+                                                            intToken(
+                                                                115792089237316195423570985008687907853269984665640564039457584007913129639904
+                                                            ),
+                                                            KApply(
+                                                                '_+Int_', [KApply('asWord', bytes_length), intToken(31)]
+                                                            ),
+                                                        ],
+                                                    ),
+                                                    KApply('asWord', bytes_length),
+                                                ],
+                                            ),
+                                            intToken(0),
+                                        ),
+                                    ],
+                                ),
+                            ],
+                        ),
+                    ],
                 )
-                args_subst = partial_symbolic_args_pattern.match(args)
-                if args_subst is not None and type(args_subst['CONCRETE_VARNAME']) is KToken:
-                    args = args_subst['CONCRETE_VARNAME']
-                    args_bytes = ast.literal_eval(args.token)
-                    varname_offset = int.from_bytes(args_bytes[0:32], 'big') - 32
-                else:
+
+                new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', output_cell))
+                new_cterm = new_cterm.add_constraint(
+                    mlEqualsTrue(
+                        eqInt(KApply('lengthBytes(_)_BYTES-HOOKED_Int_Bytes', variable), KApply('asWord', bytes_length))
+                    )
+                )
+
+                return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshBytesCustomVar'], cut=True)
+
+            # freshBool
+            cheatcode_call_pattern = KSequence(
+                [KApply('cheatcode_call', intToken(525694724), KVariable('ARGS')), KVariable('###CONTINUATION')]
+            )
+            subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
+            if subst is not None:
+                args = subst['ARGS']
+                if type(args) is not KToken:
                     _LOGGER.warning(
-                        'Custom K variable name specified for symbolicStorage cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                        'Custom K variable name specified for freshBool cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
                     )
                     return None
-            varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
-            varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
-            varname = varname.upper()
-            variable = KVariable(varname)
-            accounts_cell = cterm.cell('ACCOUNTS_CELL')
+                args_bytes = ast.literal_eval(args.token)
+                varname_offset = int.from_bytes(args_bytes[0:32], 'big')
+                varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
+                varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
+                varname = varname.upper()
+                variable = KVariable(varname)
 
-            all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
-            cell_accounts = [
-                CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)
-            ] + [
-                CTerm(account.args[1], [])
-                for account in all_accounts
-                if (type(account) is KApply and account.label.name == 'AccountCellMapItem')
-            ]
+                new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+                new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'OUTPUT_CELL', KEVM.buf(intToken(32), variable)))
+                new_cterm = new_cterm.add_constraint(mlEqualsTrue(leInt(intToken(0), variable)))
+                new_cterm = new_cterm.add_constraint(mlEqualsTrue(leInt(variable, intToken(1))))
 
-            cell_accounts_map = {account.cell('ACCTID_CELL'): account for account in cell_accounts}
+                return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.call.freshBoolCustomVar'], cut=True)
 
-            contract_account = cell_accounts_map[account_id]
-            contract_account = CTerm(set_cell(contract_account.config, 'STORAGE_CELL', variable), [])
-            contract_account = CTerm(set_cell(contract_account.config, 'ORIGSTORAGE_CELL', variable), [])
-            cell_accounts_map[account_id] = contract_account
+            # symbolicStorage
+            cheatcode_call_pattern = KSequence(
+                [
+                    KApply('foundry_setSymbolicStorageCustomVar', KVariable('ACCTID'), KVariable('ARGS')),
+                    KVariable('###CONTINUATION'),
+                ]
+            )
+            subst = cheatcode_call_pattern.match(cterm.cell('K_CELL'))
+            if subst is not None:
+                args = subst['ARGS']
+                account_id = subst['ACCTID']
+                if type(args) is KToken:
+                    args_bytes = ast.literal_eval(args.token)
+                    varname_offset = int.from_bytes(args_bytes[32:64], 'big')
+                else:
+                    partial_symbolic_args_pattern = KApply(
+                        '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                        [KApply('buf', [intToken(32), KVariable('ACCTID')]), KVariable('CONCRETE_VARNAME')],
+                    )
+                    args_subst = partial_symbolic_args_pattern.match(args)
+                    if args_subst is not None and type(args_subst['CONCRETE_VARNAME']) is KToken:
+                        args = args_subst['CONCRETE_VARNAME']
+                        args_bytes = ast.literal_eval(args.token)
+                        varname_offset = int.from_bytes(args_bytes[0:32], 'big') - 32
+                    else:
+                        _LOGGER.warning(
+                            'Custom K variable name specified for symbolicStorage cheat code, but matching heuristic failed to determine a concrete variable name. Falling back to using default variable name.'
+                        )
+                        return None
+                varname_length = int.from_bytes(args_bytes[varname_offset : varname_offset + 32], 'big')
+                varname = args_bytes[varname_offset + 32 : varname_offset + 32 + varname_length].decode('utf-8')
+                varname = varname.upper()
+                variable = KVariable(varname)
+                accounts_cell = cterm.cell('ACCOUNTS_CELL')
 
-            new_accounts_cell = KEVM.accounts([account.config for account in cell_accounts_map.values()])
+                all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
+                cell_accounts = [
+                    CTerm(account, []) for account in all_accounts if (type(account) is KApply and account.is_cell)
+                ] + [
+                    CTerm(account.args[1], [])
+                    for account in all_accounts
+                    if (type(account) is KApply and account.label.name == 'AccountCellMapItem')
+                ]
 
-            new_cterm = CTerm(set_cell(cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), cterm.constraints)
-            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+                cell_accounts_map = {account.cell('ACCTID_CELL'): account for account in cell_accounts}
 
-            return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.set.symbolicStorageCustomVar'], cut=True)
+                contract_account = cell_accounts_map[account_id]
+                contract_account = CTerm(set_cell(contract_account.config, 'STORAGE_CELL', variable), [])
+                contract_account = CTerm(set_cell(contract_account.config, 'ORIGSTORAGE_CELL', variable), [])
+                cell_accounts_map[account_id] = contract_account
 
-        return super().custom_step(cterm)
+                new_accounts_cell = KEVM.accounts([account.config for account in cell_accounts_map.values()])
+
+                new_cterm = CTerm(set_cell(cterm.config, 'ACCOUNTS_CELL', new_accounts_cell), cterm.constraints)
+                new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+
+                return Step(new_cterm, 1, (), ['FOUNDRY-CHEAT-CODES.cheatcode.set.symbolicStorageCustomVar'], cut=True)
+
+            return super().custom_step(cterm)
+        else:
+            return None
 
     @staticmethod
     def cut_point_rules(
