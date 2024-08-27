@@ -16,6 +16,7 @@ from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
+from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_item, map_of, set_empty
@@ -730,7 +731,7 @@ def _method_to_cfg(
         # Copy KCFG and minimize it
         if graft_setup_proof:
             cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())
-            cfg.minimize()
+            KCFGMinimizer(cfg).minimize()
             cfg.remove_node(setup_proof.target)
         else:
             cfg = KCFG()
