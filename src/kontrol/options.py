@@ -575,6 +575,7 @@ class ShowOptions(
     kevm_claim_dir: Path | None
     use_hex_encoding: bool
     expand_config: bool
+    minimize_kcfg: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -586,6 +587,7 @@ class ShowOptions(
             'use_hex_encoding': False,
             'counterexample_info': True,
             'expand_config': False,
+            'minimize_kcfg': False,
         }
 
     @staticmethod

@@ -24,6 +24,7 @@ from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
 from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
+from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
 from pyk.prelude.k import DOTS
@@ -784,6 +785,9 @@ def foundry_show(
         foundry, contract_name, proof, omit_unstable_output=options.omit_unstable_output
     )
     proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
+
+    if options.minimize_kcfg:
+        KCFGMinimizer(proof.kcfg).minimize()
 
     res_lines = proof_show.show(
         proof,

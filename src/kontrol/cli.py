@@ -632,6 +632,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='When printing nodes, always show full bytecode in  code and program cells, and do not hide jumpDests cell.',
     )
+    show_args.add_argument(
+        '--minimize-kcfg',
+        dest='minimize_kcfg',
+        default=None,
+        action='store_true',
+        help='Run KCFG minimization routine before displaying it.',
+    )
 
     command_parser.add_parser(
         'to-dot',
