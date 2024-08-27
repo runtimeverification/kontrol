@@ -755,7 +755,7 @@ class Contract:
         self.link_ranges = [
             (rng['start'], rng['length'])
             for ref in deployed_bytecode.get('linkReferences', {}).values()
-            for rng_grp in ref
+            for rng_grp in ref.values()
             for rng in rng_grp
         ]
 
