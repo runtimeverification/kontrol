@@ -811,7 +811,7 @@ def foundry_show(
             res_lines += print_failure_info(proof, kcfg_explore, options.counterexample_info)
             res_lines += Foundry.help_info()
 
-    if options.to_kevm_claims:
+    if options.to_kevm_claims or options.to_kevm_rules:
         _foundry_labels = [
             prod.klabel
             for prod in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].productions
@@ -822,7 +822,10 @@ def foundry_show(
             kevm_config_pattern = KApply(
                 '<generatedTop>',
                 [
-                    KApply('<foundry>', [KVariable('KEVM_CELL'), KVariable('CHEATCODES_CELL')]),
+                    KApply(
+                        '<foundry>',
+                        [KVariable('KEVM_CELL'), KVariable('CHEATCODES_CELL'), KVariable('KEVMTRACING_CELL')],
+                    ),
                     KVariable('GENERATEDCOUNTER_CELL'),
                 ],
             )
@@ -849,17 +852,20 @@ def foundry_show(
         # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
         proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
 
-        claims = [edge.to_rule('BASIC-BLOCK', claim=True) for edge in proof.kcfg.edges()]
-        claims = [claim for claim in claims if not _contains_foundry_klabel(claim.body)]
-        claims = [
-            claim for claim in claims if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(claim.body)))
+        sentences = [
+            edge.to_rule('BASIC-BLOCK', claim=(not options.to_kevm_rules), definition=foundry.kevm.definition)
+            for edge in proof.kcfg.edges()
         ]
-        if len(claims) == 0:
-            _LOGGER.warning(f'No claims retained for proof {proof.id}')
+        sentences = [sent for sent in sentences if not _contains_foundry_klabel(sent.body)]
+        sentences = [
+            sent for sent in sentences if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(sent.body)))
+        ]
+        if len(sentences) == 0:
+            _LOGGER.warning(f'No claims or rules retained for proof {proof.id}')
 
         else:
             module_name = Contract.escaped(proof.id.upper() + '-SPEC', '')
-            module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
+            module = KFlatModule(module_name, sentences=sentences, imports=[KImport('VERIFICATION')])
             defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
 
             defn_lines = foundry.kevm.pretty_print(defn, in_module='EVM').split('\n')
@@ -867,8 +873,8 @@ def foundry_show(
             res_lines += defn_lines
 
             if options.kevm_claim_dir is not None:
-                kevm_claims_file = options.kevm_claim_dir / (module_name.lower() + '.k')
-                kevm_claims_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
+                kevm_sentences_file = options.kevm_claim_dir / (module_name.lower() + '.k')
+                kevm_sentences_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
 
     return '\n'.join([line.rstrip() for line in res_lines])
 
