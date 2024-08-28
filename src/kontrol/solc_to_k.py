@@ -217,7 +217,7 @@ class Input:
 
     def flattened(self) -> list[Input]:
         components = []
-        sub_components = ()
+        sub_components: tuple[Input, ...] = ()
 
         if self.type.endswith('[]'):
             if self.array_lengths is None:
