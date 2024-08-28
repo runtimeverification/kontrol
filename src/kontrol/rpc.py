@@ -481,6 +481,7 @@ class StatefulKJsonRpcServer(JsonRpcServer):
                 bytesToken(b''),
                 map_empty(),
                 map_empty(),
+                map_empty(),
                 intToken(0),
             )
         )
