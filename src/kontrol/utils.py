@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -10,7 +11,26 @@ import stat
 
 from rich.console import Console
 
+from . import VERSION
+
 console = Console()
+
+
+def _read_digest_file(digest_file: Path) -> dict:
+    if digest_file.exists():
+        digest_dict = json.loads(digest_file.read_text())
+    else:
+        digest_dict = {}
+    if 'methods' not in digest_dict:
+        digest_dict['methods'] = {}
+    return digest_dict
+
+
+def kontrol_up_to_date(digest_file: Path) -> bool:
+    if not digest_file.exists():
+        return False
+    digest_dict = _read_digest_file(digest_file)
+    return digest_dict.get('kontrol', '') == VERSION
 
 
 def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
@@ -42,8 +62,19 @@ def write_to_file(file_path: Path, content: str, grant_exec_permission: bool = F
         print(f'An error occurred while writing to the file: {e}')
 
 
+def append_to_file(file_path: Path, content: str) -> None:
+    """Appends the given content to a file specified by the file path."""
+    try:
+        with file_path.open('a', encoding='utf-8') as file:
+            file.write(content)
+    except Exception as e:
+        print(f'An error occurred while writing to the file: {e}')
+
+
 def empty_lemmas_file_contents() -> str:
-    return """module KONTROL-LEMMAS
+    return """requires "foundry.md"
+
+module KONTROL-LEMMAS
 
 // Your lemmas go here
 // Not sure what to do next? Try checking the documentation for writing lemmas: https://docs.runtimeverification.com/kontrol/guides/advancing-proofs/kevm-lemmas
@@ -113,16 +144,16 @@ $ kontrol command --help
 def kontrol_toml_file_contents() -> str:
     return """[build.default]
 foundry-project-root       = '.'
-regen                      = true
-rekompile                  = true
-verbose                    = true
+regen                      = false
+rekompile                  = false
+verbose                    = false
 debug                      = false
 require                    = 'lemmas.k'
 module-import              = 'TestBase:KONTROL-LEMMAS'
 
 [prove.default]
 foundry-project-root       = '.'
-verbose                    = true
+verbose                    = false
 debug                      = false
 max-depth                  = 25000
 reinit                     = false
@@ -143,8 +174,19 @@ run-constructor            = false
 
 [show.default]
 foundry-project-root       = '.'
-verbose                    = true
+verbose                    = false
 debug                      = false
+use-hex-encoding           = false
+
+[view-kcfg.default]
+foundry-project-root       = '.'
+use-hex-encoding           = false
+"""
+
+
+def foundry_toml_extra_contents() -> str:
+    return """
+extra_output = ['storageLayout']
 """
 
 

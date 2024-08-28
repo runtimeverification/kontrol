@@ -5,7 +5,7 @@ copyright: Copyright (c) Runtime Verification, Inc. All Rights Reserved.
 # Kontrol Contributor Guide
 
 Thank you for making a contribution to Kontrol.
-The following is a set of guidelines to get your changes reviewed, tested and merged into Kontrol. If you have any questions about this process or Kontrol in general, please get in touch via our [Discord Server](https://discord.com/invite/CurfmXNtbN).
+The following is a set of guidelines to get your changes reviewed, tested and merged into Kontrol. If you have any questions about this process or Kontrol in general, please get in touch via our [Kontrol Telegram Group](https://t.me/rv_kontrol) or [Discord Server](https://discord.com/invite/CurfmXNtbN).
 
 ## Opening an issue
 
@@ -26,7 +26,7 @@ The first step is to develop and test your changes locally.
 
 ##### 1. Build Kontrol from source
 ```
-kup install k.openssl.procps.secp256k1 --version v$(cat deps/k_release)
+kup install k.openssl.secp256k1 --version v$(cat deps/k_release)
 poetry install
 poetry run kdist clean
 CXX=clang++-14 poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry

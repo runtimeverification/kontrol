@@ -17,7 +17,9 @@ from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.prelude.string import stringToken
-from pyk.utils import hash_str, run_process, single
+from pyk.utils import hash_str, run_process_2, single
+
+from .utils import _read_digest_file
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -390,24 +392,13 @@ class Contract:
             return f'{self.contract_name}.init'
 
         def up_to_date(self, digest_file: Path) -> bool:
-            if not digest_file.exists():
-                return False
-            digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
-                digest_file.write_text(json.dumps(digest_dict))
-            if self.qualified_name not in digest_dict['methods']:
-                return False
-            return digest_dict['methods'][self.qualified_name]['method'] == self.digest
+            digest_dict = _read_digest_file(digest_file)
+            return digest_dict.get('methods', {}).get(self.qualified_name, {}).get('method', '') == self.digest
 
         def update_digest(self, digest_file: Path) -> None:
-            digest_dict = {}
-            if digest_file.exists():
-                digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
+            digest_dict = _read_digest_file(digest_file)
             digest_dict['methods'][self.qualified_name] = {'method': self.digest}
-            digest_file.write_text(json.dumps(digest_dict))
+            digest_file.write_text(json.dumps(digest_dict, indent=4))
 
             _LOGGER.info(f'Updated method {self.qualified_name} in digest file: {digest_file}')
 
@@ -464,13 +455,18 @@ class Contract:
                     type_constraints.append(rp)
                 if input.internal_type is not None and input.internal_type.startswith('enum '):
                     enum_name = input.internal_type.split(' ')[1]
-                    enum_max = enums[enum_name]
-                    type_constraints.append(
-                        ltInt(
-                            KVariable(input.arg_name),
-                            intToken(enum_max),
+                    if enum_name not in enums:
+                        _LOGGER.warning(
+                            f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
                         )
-                    )
+                    else:
+                        enum_max = enums[enum_name]
+                        type_constraints.append(
+                            ltInt(
+                                KVariable(input.arg_name),
+                                intToken(enum_max),
+                            )
+                        )
             encoded_args = KApply('encodeArgs', [KEVM.typed_args(args)])
             return encoded_args, type_constraints
 
@@ -595,33 +591,17 @@ class Contract:
             return tuple(arg_types)
 
         def up_to_date(self, digest_file: Path) -> bool:
-            if not digest_file.exists():
-                return False
-            digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
-                digest_file.write_text(json.dumps(digest_dict, indent=4))
-            if self.qualified_name not in digest_dict['methods']:
-                return False
-            return digest_dict['methods'][self.qualified_name]['method'] == self.digest
+            digest_dict = _read_digest_file(digest_file)
+            return digest_dict.get('methods', {}).get(self.qualified_name, {}).get('method', '') == self.digest
 
         def contract_up_to_date(self, digest_file: Path) -> bool:
-            if not digest_file.exists():
-                return False
-            digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
-                digest_file.write_text(json.dumps(digest_dict, indent=4))
-            if self.qualified_name not in digest_dict['methods']:
-                return False
-            return digest_dict['methods'][self.qualified_name]['contract'] == self.contract_digest
+            digest_dict = _read_digest_file(digest_file)
+            return (
+                digest_dict.get('methods', {}).get(self.qualified_name, {}).get('contract', '') == self.contract_digest
+            )
 
         def update_digest(self, digest_file: Path) -> None:
-            digest_dict = {}
-            if digest_file.exists():
-                digest_dict = json.loads(digest_file.read_text())
-            if 'methods' not in digest_dict:
-                digest_dict['methods'] = {}
+            digest_dict = _read_digest_file(digest_file)
             digest_dict['methods'][self.qualified_name] = {'method': self.digest, 'contract': self.contract_digest}
             digest_file.write_text(json.dumps(digest_dict, indent=4))
 
@@ -648,7 +628,7 @@ class Contract:
                 self.sort,
                 items_before + items_args + items_after,
                 klabel=self.unique_klabel,
-                att=KAtt(entries=[Atts.SYMBOL('')]),
+                att=KAtt(entries=[Atts.SYMBOL(self.unique_klabel.name)]),
             )
 
         def rule(
@@ -698,13 +678,18 @@ class Contract:
                     conjuncts.append(rp)
                 if input.internal_type is not None and input.internal_type.startswith('enum '):
                     enum_name = input.internal_type.split(' ')[1]
-                    enum_max = enums[enum_name]
-                    conjuncts.append(
-                        ltInt(
-                            KVariable(input.arg_name),
-                            intToken(enum_max),
+                    if enum_name not in enums:
+                        _LOGGER.info(
+                            f'Skipping adding constraint for {enum_name} because it is not tracked by Kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
                         )
-                    )
+                    else:
+                        enum_max = enums[enum_name]
+                        conjuncts.append(
+                            ltInt(
+                                KVariable(input.arg_name),
+                                intToken(enum_max),
+                            )
+                        )
             lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
             ensures = andBool(conjuncts)
@@ -736,6 +721,8 @@ class Contract:
     contract_id: int
     contract_path: str
     deployed_bytecode: str
+    immutable_ranges: list[tuple[int, int]]
+    link_ranges: list[tuple[int, int]]
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
@@ -752,12 +739,26 @@ class Contract:
             self.contract_path = self.contract_json['ast']['absolutePath']
         except KeyError:
             raise ValueError(
-                "Must have 'ast' field in solc output. Make sure `ast = true` is present in foundry.toml"
+                "Must have 'ast' field in solc output. Make sure `ast = true` is present in foundry.toml and run `forge clean`"
             ) from None
 
         evm = self.contract_json['evm'] if not foundry else self.contract_json
 
         deployed_bytecode = evm['deployedBytecode']
+
+        self.immutable_ranges = [
+            (rng['start'], rng['length'])
+            for ref in deployed_bytecode.get('immutableReferences', {}).values()
+            for rng in ref
+        ]
+
+        self.link_ranges = [
+            (rng['start'], rng['length'])
+            for ref in deployed_bytecode.get('linkReferences', {}).values()
+            for rng_grp in ref.values()
+            for rng in rng_grp
+        ]
+
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
 
@@ -1011,7 +1012,7 @@ class Contract:
             self.sort,
             [KTerminal(Contract.escaped(self.name_with_path, 'S2K'))],
             klabel=self.klabel,
-            att=KAtt([Atts.SYMBOL('')]),
+            att=KAtt([Atts.SYMBOL(self.klabel.name)]),
         )
 
     @property
@@ -1044,7 +1045,7 @@ class Contract:
             KSort('Bytes'),
             [KNonTerminal(self.sort), KTerminal('.'), KNonTerminal(self.sort_method)],
             klabel=self.klabel_method,
-            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL('')]),
+            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL(self.klabel_method.name)]),
         )
         res: list[KSentence] = [method_application_production]
         res.extend(method.production for method in self.methods)
@@ -1101,7 +1102,7 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     }
 
     try:
-        process_res = run_process(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
+        process_res = run_process_2(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
     except CalledProcessError as err:
         raise RuntimeError('solc error', err.stdout, err.stderr) from err
     result = json.loads(process_res.stdout)
@@ -1336,13 +1337,16 @@ def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[st
     """
     function_calls: list[str] = []
 
+    def _is_event(expression: dict) -> bool:
+        return expression['typeDescriptions'].get('typeIdentifier', '').startswith('t_function_event')
+
     def _find_function_calls(node: dict) -> None:
         if not node:
             return
 
         if node.get('nodeType') == 'FunctionCall':
             expression = node.get('expression', {})
-            if expression.get('nodeType') == 'MemberAccess':
+            if expression.get('nodeType', '') == 'MemberAccess' and not _is_event(expression):
                 contract_name = expression['expression'].get('name', '')
                 contract_type_string = expression['expression']['typeDescriptions'].get('typeString', '')
                 contract_type = (
@@ -1374,6 +1378,28 @@ def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[st
 
     _find_function_calls(node)
     return function_calls
+
+
+def _contract_name_from_bytecode(
+    bytecode: bytes, contracts: dict[str, tuple[str, list[tuple[int, int]], list[tuple[int, int]]]]
+) -> str | None:
+    for contract_name, (contract_deployed_bytecode, immutable_ranges, link_ranges) in contracts.items():
+        zeroed_bytecode = bytearray(bytecode)
+        deployed_bytecode_str = re.sub(
+            pattern='__\\$(.){34}\\$__',
+            repl='0000000000000000000000000000000000000000',
+            string=contract_deployed_bytecode,
+        )
+        deployed_bytecode = bytearray.fromhex(deployed_bytecode_str)
+
+        for start, length in immutable_ranges + link_ranges:
+            if start + length <= len(zeroed_bytecode):
+                zeroed_bytecode[start : start + length] = bytearray(length)
+            else:
+                break
+        if zeroed_bytecode == deployed_bytecode:
+            return contract_name
+    return None
 
 
 def process_storage_layout(storage_layout: dict, interface_annotations: dict) -> tuple[StorageField, ...]:

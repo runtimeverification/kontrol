@@ -3,9 +3,9 @@ requires "requires/lemmas.k"
 requires "requires/cse-lemmas.k"
 requires "requires/pausability-lemmas.k"
 requires "requires/symbolic-bytes-lemmas.k"
+requires "requires/keccak.md"
 
 module FOUNDRY-MAIN
-    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
     imports public S2KtestZModAccountParamsTest-VERIFICATION
     imports public S2KtestZModAddrTest-VERIFICATION
@@ -45,8 +45,11 @@ module FOUNDRY-MAIN
     imports public S2KtestZModTToken-VERIFICATION
     imports public S2KsrcZModCounter-VERIFICATION
     imports public S2KsrcZModRecordedCounter-VERIFICATION
+    imports public S2KtestZModCopyStorageContract-VERIFICATION
+    imports public S2KtestZModCopyStorageTest-VERIFICATION
     imports public S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounterTest-VERIFICATION
+    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
     imports public S2KtestZModDynamicTypesTest-VERIFICATION
     imports public S2KsrcZModExpectEmit-VERIFICATION
     imports public S2KtestZModEmitContractTest-VERIFICATION
@@ -91,6 +94,9 @@ module FOUNDRY-MAIN
     imports public S2KtestZModMockCallRevertTest-VERIFICATION
     imports public S2KtestZModMockCallTest-VERIFICATION
     imports public S2KtestZModMockCallTestFoundry-VERIFICATION
+    imports public S2KtestZModMockFunctionContract-VERIFICATION
+    imports public S2KtestZModMockFunctionTest-VERIFICATION
+    imports public S2KtestZModModelMockFunctionContract-VERIFICATION
     imports public S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyToken-VERIFICATION
     imports public S2KtestZModNoImport-VERIFICATION
@@ -155,13 +161,7 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModconsole2-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
-    
-    
-
-endmodule
-
-module S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
-    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
+    imports public KECCAK-LEMMAS
     
     
 
@@ -442,6 +442,20 @@ module S2KsrcZModRecordedCounter-VERIFICATION
 
 endmodule
 
+module S2KtestZModCopyStorageContract-VERIFICATION
+    imports public S2KtestZModCopyStorageContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModCopyStorageTest-VERIFICATION
+    imports public S2KtestZModCopyStorageTest-CONTRACT
+    
+    
+
+endmodule
+
 module S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounter-CONTRACT
     
@@ -451,6 +465,13 @@ endmodule
 
 module S2KtestZModCounterTest-VERIFICATION
     imports public S2KtestZModCounterTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
+    imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
     
     
 
@@ -761,6 +782,27 @@ endmodule
 
 module S2KtestZModMockCallTestFoundry-VERIFICATION
     imports public S2KtestZModMockCallTestFoundry-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModMockFunctionContract-VERIFICATION
+    imports public S2KtestZModMockFunctionContract-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModMockFunctionTest-VERIFICATION
+    imports public S2KtestZModMockFunctionTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModModelMockFunctionContract-VERIFICATION
+    imports public S2KtestZModModelMockFunctionContract-CONTRACT
     
     
 

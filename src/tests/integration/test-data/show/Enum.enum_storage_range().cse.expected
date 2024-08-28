@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%Enum.enum_storage_range()
 ┃
 ┃ (branch)
 ┣━━┓ constraint: CALLDEPTH_CELL:Int <Int 1024
@@ -13,6 +14,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: test%Enum.enum_storage_range()
 ┃  │
 ┃  │  (1242 steps)
 ┃  ├─ 6 (terminal)
@@ -20,6 +22,7 @@
 ┃  │   pc: 68
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   method: test%Enum.enum_storage_range()
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
 ┃  ┊  subst: OMITTED SUBST
@@ -36,6 +39,7 @@
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
+   │   method: test%Enum.enum_storage_range()
    │
    │  (348 steps)
    ├─ 7 (terminal)
@@ -43,6 +47,7 @@
    │   pc: 161
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
+   │   method: test%Enum.enum_storage_range()
    │
    ┊  constraint: OMITTED CONSTRAINT
    ┊  subst: OMITTED SUBST
@@ -178,36 +183,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              ...
            </kevm>
            <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
                ...
              </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
              <whitelist>
                <isCallWhitelistActive>
                  false
@@ -215,16 +196,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -251,11 +236,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
@@ -271,8 +258,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
@@ -405,36 +390,12 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              ...
            </kevm>
            <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
                ...
              </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
              <whitelist>
                <isCallWhitelistActive>
                  false
@@ -442,16 +403,20 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -478,11 +443,13 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( 1024 <=Int CALLDEPTH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
@@ -498,8 +465,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int

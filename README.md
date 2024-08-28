@@ -4,7 +4,7 @@ Kontrol combines [KEVM](https://github.com/runtimeverification/evm-semantics) an
 ## Documentation & Support
 Documentation for Kontrol can be found in [Kontrol book](https://docs.runtimeverification.com/kontrol).
 
-Join our [Discord server](https://discord.com/invite/CurfmXNtbN) if you have any questions or require support.
+Join our [Kontrol Telegram Group](https://t.me/rv_kontrol) or [Discord server](https://discord.com/invite/CurfmXNtbN) if you have any questions or require support.
 
 ## Fast Installation
 
@@ -22,7 +22,7 @@ You need to install the [K Framework] on your system, see the instructions there
 The fastest way is via the [kup package manager], with which you can do to get the correct version of K:
 
 ```sh
-kup install k.openssl.procps.secp256k1 --version v$(cat deps/k_release)
+kup install k.openssl.secp256k1 --version v$(cat deps/k_release)
 ```
 
 #### Poetry dependencies

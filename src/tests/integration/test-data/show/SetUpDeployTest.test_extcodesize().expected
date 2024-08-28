@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%SetUpDeployTest.setUp()
 │
 │  (876 steps)
 ├─ 8 (terminal)
@@ -11,6 +12,7 @@
 │   pc: 194
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%SetUpDeployTest.setUp()
 │
 │  (1 step)
 ├─ 9
@@ -18,6 +20,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%SetUpDeployTest.test_extcodesize()
 │
 │  (348 steps)
 ├─ 11
@@ -25,6 +28,7 @@
 │   pc: 194
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%SetUpDeployTest.test_extcodesize()
 │
 │  (1 step)
 ├─ 12
@@ -32,6 +36,7 @@
 │   pc: 194
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%SetUpDeployTest.test_extcodesize()
 │
 │  (2 steps)
 ├─ 13 (terminal)
@@ -39,6 +44,7 @@
 │   pc: 194
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   method: test%SetUpDeployTest.test_extcodesize()
 │
 ┊  constraint: true
 ┊  subst: OMITTED SUBST
@@ -103,7 +109,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      ( .WordStack => ( selector ( "setUp()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`@Qa\x02z8\x03\x80a\x02z\x839\x81\x01`@\x81\x90Ra\x00/\x91a\x00TV[`\x00\x80T`\x01`\x01`\xa0\x1b\x03\x19\x16`\x01`\x01`\xa0\x1b\x03\x92\x90\x92\x16\x91\x90\x91\x17\x90Ua\x00\x84V[`\x00` \x82\x84\x03\x12\x15a\x00fW`\x00\x80\xfd[\x81Q`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x00}W`\x00\x80\xfd[\x93\x92PPPV[a\x01\xe7\x80a\x00\x93`\x009`\x00\xf3\xfe`\x80`@R`\x046\x10a\x00CW`\x005`\xe0\x1c\x80c\f\x11\xde\xdd\x14a\x00OW\x80c'\xe25\xe3\x14a\x00uW\x80cp\xa0\x821\x14a\x00\xa2W\x80c\xfc\fTj\x14a\x00\xd8W`\x00\x80\xfd[6a\x00JW\x00[`\x00\x80\xfd[a\x00ba\x00]6`\x04a\x01[V[a\x01\x10V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[4\x80\x15a\x00\x81W`\x00\x80\xfd[Pa\x00ba\x00\x906`\x04a\x01[V[`\x01` R`\x00\x90\x81R`@\x90 T\x81V[4\x80\x15a\x00\xaeW`\x00\x80\xfd[Pa\x00ba\x00\xbd6`\x04a\x01[V[`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[4\x80\x15a\x00\xe4W`\x00\x80\xfd[P`\x00Ta\x00\xf8\x90`\x01`\x01`\xa0\x1b\x03\x16\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00lV[`\x01`\x01`\xa0\x1b\x03\x81\x16`\x00\x90\x81R`\x01` R`@\x81 \x80T4\x91\x90\x83\x90a\x01:\x90\x84\x90a\x01\x8bV[\x90\x91UPPP`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[`\x00` \x82\x84\x03\x12\x15a\x01mW`\x00\x80\xfd[\x815`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x01\x84W`\x00\x80\xfd[\x93\x92PPPV[`\x00\x82\x19\x82\x11\x15a\x01\xacWcNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[P\x01\x90V\xfe\xa2dipfsX\"\x12 **$\x94\x90\xc9ML\r\x1b\xa6N6\xf8\x95;\x13>\x07\xbe6ou~\x12\x92\x15|9\x04\x0e\x90dsolcC\x00\x08\r\x003\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`@Qa\x02Q8\x03\x80a\x02Q\x839\x81\x01`@\x81\x90Ra\x00/\x91a\x00TV[`\x00\x80T`\x01`\x01`\xa0\x1b\x03\x19\x16`\x01`\x01`\xa0\x1b\x03\x92\x90\x92\x16\x91\x90\x91\x17\x90Ua\x00\x84V[`\x00` \x82\x84\x03\x12\x15a\x00fW`\x00\x80\xfd[\x81Q`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x00}W`\x00\x80\xfd[\x93\x92PPPV[a\x01\xbe\x80a\x00\x93`\x009`\x00\xf3\xfe`\x80`@R`\x046\x10a\x00CW`\x005`\xe0\x1c\x80c\f\x11\xde\xdd\x14a\x00OW\x80c'\xe25\xe3\x14a\x00uW\x80cp\xa0\x821\x14a\x00\xa2W\x80c\xfc\fTj\x14a\x00\xd8W`\x00\x80\xfd[6a\x00JW\x00[`\x00\x80\xfd[a\x00ba\x00]6`\x04a\x01[V[a\x01\x10V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[4\x80\x15a\x00\x81W`\x00\x80\xfd[Pa\x00ba\x00\x906`\x04a\x01[V[`\x01` R`\x00\x90\x81R`@\x90 T\x81V[4\x80\x15a\x00\xaeW`\x00\x80\xfd[Pa\x00ba\x00\xbd6`\x04a\x01[V[`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[4\x80\x15a\x00\xe4W`\x00\x80\xfd[P`\x00Ta\x00\xf8\x90`\x01`\x01`\xa0\x1b\x03\x16\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00lV[`\x01`\x01`\xa0\x1b\x03\x81\x16`\x00\x90\x81R`\x01` R`@\x81 \x80T4\x91\x90\x83\x90a\x01:\x90\x84\x90a\x01\x8bV[\x90\x91UPPP`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[`\x00` \x82\x84\x03\x12\x15a\x01mW`\x00\x80\xfd[\x815`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x01\x84W`\x00\x80\xfd[\x93\x92PPPV[`\x00\x82\x19\x82\x11\x15a\x01\xacWcNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[P\x01\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -163,6 +169,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        ( 0 => 1 )
                      </nonce>
@@ -181,6 +190,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -198,6 +210,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -216,6 +231,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -265,16 +283,19 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -299,15 +320,15 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_SETUPDEPLOYTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
@@ -362,7 +383,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      ( ( selector ( "setUp()" ) : .WordStack ) => .WordStack )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`@Qa\x02z8\x03\x80a\x02z\x839\x81\x01`@\x81\x90Ra\x00/\x91a\x00TV[`\x00\x80T`\x01`\x01`\xa0\x1b\x03\x19\x16`\x01`\x01`\xa0\x1b\x03\x92\x90\x92\x16\x91\x90\x91\x17\x90Ua\x00\x84V[`\x00` \x82\x84\x03\x12\x15a\x00fW`\x00\x80\xfd[\x81Q`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x00}W`\x00\x80\xfd[\x93\x92PPPV[a\x01\xe7\x80a\x00\x93`\x009`\x00\xf3\xfe`\x80`@R`\x046\x10a\x00CW`\x005`\xe0\x1c\x80c\f\x11\xde\xdd\x14a\x00OW\x80c'\xe25\xe3\x14a\x00uW\x80cp\xa0\x821\x14a\x00\xa2W\x80c\xfc\fTj\x14a\x00\xd8W`\x00\x80\xfd[6a\x00JW\x00[`\x00\x80\xfd[a\x00ba\x00]6`\x04a\x01[V[a\x01\x10V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[4\x80\x15a\x00\x81W`\x00\x80\xfd[Pa\x00ba\x00\x906`\x04a\x01[V[`\x01` R`\x00\x90\x81R`@\x90 T\x81V[4\x80\x15a\x00\xaeW`\x00\x80\xfd[Pa\x00ba\x00\xbd6`\x04a\x01[V[`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[4\x80\x15a\x00\xe4W`\x00\x80\xfd[P`\x00Ta\x00\xf8\x90`\x01`\x01`\xa0\x1b\x03\x16\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00lV[`\x01`\x01`\xa0\x1b\x03\x81\x16`\x00\x90\x81R`\x01` R`@\x81 \x80T4\x91\x90\x83\x90a\x01:\x90\x84\x90a\x01\x8bV[\x90\x91UPPP`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[`\x00` \x82\x84\x03\x12\x15a\x01mW`\x00\x80\xfd[\x815`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x01\x84W`\x00\x80\xfd[\x93\x92PPPV[`\x00\x82\x19\x82\x11\x15a\x01\xacWcNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[P\x01\x90V\xfe\xa2dipfsX\"\x12 **$\x94\x90\xc9ML\r\x1b\xa6N6\xf8\x95;\x13>\x07\xbe6ou~\x12\x92\x15|9\x04\x0e\x90dsolcC\x00\x08\r\x003\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"" )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x80`@R4\x80\x15a\x00\x10W`\x00\x80\xfd[P`@Qa\x02Q8\x03\x80a\x02Q\x839\x81\x01`@\x81\x90Ra\x00/\x91a\x00TV[`\x00\x80T`\x01`\x01`\xa0\x1b\x03\x19\x16`\x01`\x01`\xa0\x1b\x03\x92\x90\x92\x16\x91\x90\x91\x17\x90Ua\x00\x84V[`\x00` \x82\x84\x03\x12\x15a\x00fW`\x00\x80\xfd[\x81Q`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x00}W`\x00\x80\xfd[\x93\x92PPPV[a\x01\xbe\x80a\x00\x93`\x009`\x00\xf3\xfe`\x80`@R`\x046\x10a\x00CW`\x005`\xe0\x1c\x80c\f\x11\xde\xdd\x14a\x00OW\x80c'\xe25\xe3\x14a\x00uW\x80cp\xa0\x821\x14a\x00\xa2W\x80c\xfc\fTj\x14a\x00\xd8W`\x00\x80\xfd[6a\x00JW\x00[`\x00\x80\xfd[a\x00ba\x00]6`\x04a\x01[V[a\x01\x10V[`@Q\x90\x81R` \x01[`@Q\x80\x91\x03\x90\xf3[4\x80\x15a\x00\x81W`\x00\x80\xfd[Pa\x00ba\x00\x906`\x04a\x01[V[`\x01` R`\x00\x90\x81R`@\x90 T\x81V[4\x80\x15a\x00\xaeW`\x00\x80\xfd[Pa\x00ba\x00\xbd6`\x04a\x01[V[`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[4\x80\x15a\x00\xe4W`\x00\x80\xfd[P`\x00Ta\x00\xf8\x90`\x01`\x01`\xa0\x1b\x03\x16\x81V[`@Q`\x01`\x01`\xa0\x1b\x03\x90\x91\x16\x81R` \x01a\x00lV[`\x01`\x01`\xa0\x1b\x03\x81\x16`\x00\x90\x81R`\x01` R`@\x81 \x80T4\x91\x90\x83\x90a\x01:\x90\x84\x90a\x01\x8bV[\x90\x91UPPP`\x01`\x01`\xa0\x1b\x03\x16`\x00\x90\x81R`\x01` R`@\x90 T\x90V[`\x00` \x82\x84\x03\x12\x15a\x01mW`\x00\x80\xfd[\x815`\x01`\x01`\xa0\x1b\x03\x81\x16\x81\x14a\x01\x84W`\x00\x80\xfd[\x93\x92PPPV[`\x00\x82\x19\x82\x11\x15a\x01\xacWcNH{q`\xe0\x1b`\x00R`\x11`\x04R`$`\x00\xfd[P\x01\x90V\xfe\xa1dsolcC\x00\x08\r\x00\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -422,6 +443,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -440,6 +464,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -458,6 +485,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -507,16 +537,19 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -541,15 +574,15 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_SETUPDEPLOYTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
@@ -663,6 +696,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -681,6 +717,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -699,6 +738,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -748,16 +790,19 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -782,14 +827,14 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))
@@ -906,6 +951,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -924,6 +972,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -942,6 +993,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -991,16 +1045,19 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -1025,12 +1082,12 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -1149,6 +1206,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        1
                      </nonce>
@@ -1167,6 +1227,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        0
                      </nonce>
@@ -1185,6 +1248,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                      <origStorage>
                        .Map
                      </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
                      <nonce>
                        2
                      </nonce>
@@ -1234,16 +1300,19 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -1268,12 +1337,12 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -1284,7 +1353,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
 endmodule
 0 Failure nodes. (0 pending and 0 failing)
 
-Join the Runtime Verification Discord server for support: https://discord.com/invite/CurfmXNtbN
+Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
 
 See `foundry_success` predicate for more information:
 https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate

@@ -20,12 +20,19 @@ if TYPE_CHECKING:
 sys.setrecursionlimit(10**7)
 
 
-def test_foundy_prove(profile: Profiler, no_use_booster: bool, bug_report: BugReport | None, tmp_path: Path) -> None:
+def test_foundy_prove(
+    profile: Profiler, no_use_booster: bool, bug_report: BugReport | None, tmp_path: Path, force_sequential: bool
+) -> None:
     foundry_root = tmp_path / 'foundry'
     foundry = forge_build(TEST_DATA_DIR, foundry_root)
 
     with profile('kompile.prof', sort_keys=('cumtime', 'tottime'), limit=15):
-        foundry_kompile(BuildOptions({'includes': ()}), foundry=foundry)
+        foundry_kompile(
+            BuildOptions(
+                {'includes': (), 'no_metadata': True},
+            ),
+            foundry=foundry,
+        )
 
     with profile('prove.prof', sort_keys=('cumtime', 'tottime'), limit=100):
         foundry_prove(
@@ -34,6 +41,7 @@ def test_foundy_prove(profile: Profiler, no_use_booster: bool, bug_report: BugRe
                     'bug_report': bug_report,
                     'use_booster': not no_use_booster,
                     'tests': [('AssertTest.test_revert_branch', None)],
+                    'force_sequential': force_sequential,
                 }
             ),
             foundry=foundry,

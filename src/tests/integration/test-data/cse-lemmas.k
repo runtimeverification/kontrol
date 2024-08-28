@@ -55,6 +55,13 @@ module CSE-LEMMAS
        andBool X +Int 1 <=Int A
        [concrete(X), simplification, preserves-definedness]
 
+    rule { #asWord ( X ) #Equals #asWord ( Y ) } => { X #Equals Y }
+      requires lengthBytes(X) ==Int lengthBytes(Y) andBool lengthBytes(X) <=Int 32
+      [simplification]
+
+    rule #asWord ( B ) <=Int X => true requires X >=Int ( 2 ^Int (8 *Int minInt(32, lengthBytes(B))) -Int 1 ) [simplification]
+    rule #asWord ( B )  <Int X => true requires X >=Int   2 ^Int (8 *Int minInt(32, lengthBytes(B)))          [simplification]
+
 endmodule
 
 module CSE-LEMMAS-SPEC

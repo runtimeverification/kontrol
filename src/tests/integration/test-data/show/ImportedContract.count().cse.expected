@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   method: test%ImportedContract.count()
 │
 │  (206 steps)
 ├─ 3 (terminal)
@@ -11,6 +12,7 @@
 │   pc: 90
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: EVMC_SUCCESS
+│   method: test%ImportedContract.count()
 │
 ┊  constraint: OMITTED CONSTRAINT
 ┊  subst: OMITTED SUBST
@@ -121,36 +123,12 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.COUNT():0
              ...
            </kevm>
            <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
                </isOpcodeExpected>
                ...
              </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
              <whitelist>
                <isCallWhitelistActive>
                  false
@@ -158,16 +136,20 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.COUNT():0
                <isStorageWhitelistActive>
                  false
                </isStorageWhitelistActive>
-               <addressSet>
-                 .Set
-               </addressSet>
-               <storageSlotSet>
-                 .Set
-               </storageSlotSet>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
              </whitelist>
              <mockCalls>
                .MockCallCellMap
              </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
@@ -192,10 +174,12 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.COUNT():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_ID:Int
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_BAL:Int
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -204,8 +188,6 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.COUNT():0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( C_IMPORTEDCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_IMPORTEDCONTRACT_ID:Int

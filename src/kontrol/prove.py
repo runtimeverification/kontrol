@@ -5,12 +5,13 @@ import time
 from abc import abstractmethod
 from collections import Counter
 from copy import copy
+from functools import partial
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
 from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
-from pathos.pools import ProcessPool  # type: ignore
+from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, set_cell
@@ -26,7 +27,8 @@ from pyk.prelude.string import stringToken
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.utils import run_process, unique
+from pyk.utils import run_process_2, unique
+from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
@@ -62,13 +64,13 @@ def foundry_prove(
 
     if options.use_booster:
         try:
-            run_process(('which', 'kore-rpc-booster'), pipe_stderr=True).stdout.strip()
+            run_process_2(['which', 'kore-rpc-booster']).stdout.strip()
         except CalledProcessError:
             raise RuntimeError(
                 "Couldn't locate the kore-rpc-booster RPC binary. Please put 'kore-rpc-booster' on PATH manually or using kup install/kup shell."
             ) from None
 
-    foundry.mk_proofs_dir()
+    foundry.mk_proofs_dir(options.reinit, options.remove_old_proofs)
 
     if options.include_summaries and options.cse:
         raise AttributeError('Error! Cannot use both --cse and --include-summary.')
@@ -84,8 +86,9 @@ def foundry_prove(
 
     if options.cse:
         exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
+        return_empty = options.config_type == ConfigType.SUMMARY_CONFIG
         test_suite = collect_tests(
-            foundry, options.tests, reinit=options.reinit, return_empty=True, exact_match=exact_match
+            foundry, options.tests, reinit=options.reinit, return_empty=return_empty, exact_match=exact_match
         )
         for test in test_suite:
             if not isinstance(test.method, Contract.Method) or test.method.function_calls is None:
@@ -301,11 +304,28 @@ def _run_cfg_group(
     summary_ids: Iterable[str],
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
 ) -> list[APRProof]:
-    def init_and_run_proof(test: FoundryTest) -> APRFailureInfo | Exception | None:
+    def init_and_run_proof(test: FoundryTest, progress: Progress | None = None) -> APRFailureInfo | Exception | None:
+
+        task: TaskID | None = None
+        if progress is not None:
+            task = progress.add_task(
+                f'{test.id}',
+                total=1,
+                status='Loading proof',
+                summary='---',
+            )
+
         proof = None
         if Proof.proof_data_exists(test.id, foundry.proofs_dir):
             proof = foundry.get_apr_proof(test.id)
             if proof.passed:
+                if progress is not None and task is not None:
+                    progress.update(
+                        task,
+                        status='Finished',
+                        summary=proof.one_line_summary,
+                        advance=1,
+                    )
                 return None
         start_time = time.time() if proof is None or proof.status == ProofStatus.PENDING else None
 
@@ -314,6 +334,10 @@ def _run_cfg_group(
             kore_rpc_command = options.kore_rpc_command.split()
 
         def select_server() -> OptionalKoreServer:
+            if progress is not None and task is not None:
+                progress.update(
+                    task, status='Starting KoreServer', summary=proof.one_line_summary if proof is not None else '---'
+                )
             if options.port is not None:
                 return PreexistingKoreServer(options.port)
             else:
@@ -354,7 +378,8 @@ def _run_cfg_group(
                 cterm_symbolic = CTermSymbolic(
                     client,
                     foundry.kevm.definition,
-                    trace_rewrites=options.trace_rewrites,
+                    log_succ_rewrites=options.log_succ_rewrites,
+                    log_fail_rewrites=options.log_fail_rewrites,
                 )
                 return KCFGExplore(
                     cterm_symbolic,
@@ -363,6 +388,8 @@ def _run_cfg_group(
                 )
 
             if proof is None:
+                if progress is not None and task is not None:
+                    progress.update(task, status='Initializing proof')
                 # With CSE, top-level proof should be a summary if it's not a test or setUp function
                 if (
                     (options.cse or options.include_summaries)
@@ -406,6 +433,13 @@ def _run_cfg_group(
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
+
+            if progress is not None and task is not None:
+                progress.update(
+                    task,
+                    status='Running proof',
+                    summary=proof.one_line_summary,
+                )
             run_prover(
                 proof,
                 create_kcfg_explore=create_kcfg_explore,
@@ -416,7 +450,15 @@ def _run_cfg_group(
                 counterexample_info=options.counterexample_info,
                 max_frontier_parallel=options.max_frontier_parallel,
                 fail_fast=options.fail_fast,
+                force_sequential=options.force_sequential,
+                progress=progress,
+                task_id=task,
+                maintenance_rate=options.maintenance_rate,
+                assume_defined=options.assume_defined,
             )
+
+            if progress is not None and task is not None:
+                progress.update(task, advance=1, status='Finished')
 
             if options.minimize_proofs or options.config_type == ConfigType.SUMMARY_CONFIG:
                 proof.minimize_kcfg()
@@ -434,27 +476,74 @@ def _run_cfg_group(
             else:
                 return proof.failure_info
 
-    failure_infos: list[APRFailureInfo | Exception | None]
-    if options.workers > 1:
-        with ProcessPool(ncpus=options.workers) as process_pool:
-            failure_infos = process_pool.map(init_and_run_proof, tests)
-    else:
-        failure_infos = []
-        for test in tests:
-            failure_infos.append(init_and_run_proof(test))
+    with Progress(
+        SpinnerColumn(),
+        TimeElapsedColumn(),
+        TextColumn('{task.description}'),
+        TextColumn('{task.fields[status]}'),
+        TextColumn('{task.fields[summary]}'),
+        redirect_stderr=True,
+        redirect_stdout=True,
+    ) as progress:
 
-    proofs = [foundry.get_apr_proof(test.id) for test in tests]
+        failure_infos: list[APRFailureInfo | Exception | None]
+        if options.workers > 1 and len(tests) > 1:
+            done_tests = 0
+            failed_tests = 0
+            passed_tests = 0
+            if not options.hide_status_bar:
+                task = progress.add_task(
+                    f'Multi-proof Mode ({options.workers} workers)',
+                    status='Running',
+                    summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
+                )
 
-    # Reconstruct the proof from the subprocess
-    for proof, failure_info in zip(proofs, failure_infos, strict=True):
-        assert proof.failure_info is None  # Refactor once this fails
-        assert proof.error_info is None
-        if isinstance(failure_info, Exception):
-            proof.error_info = failure_info
-        elif isinstance(failure_info, APRFailureInfo):
-            proof.failure_info = failure_info
+            def update_status_bar(test_id: str, result: Any) -> None:
+                nonlocal done_tests, failed_tests, passed_tests, progress
+                if options.hide_status_bar or progress is None:
+                    return
+                done_tests += 1
+                proof = foundry.get_apr_proof(test_id)
+                if proof.passed:
+                    passed_tests += 1
+                elif proof.failed:
+                    failed_tests += 1
+                progress.update(
+                    task,
+                    summary=f'{done_tests}/{len(tests)} completed. {passed_tests} passed. {failed_tests} failed.',
+                )
 
-    return proofs
+            with Pool(processes=options.workers) as process_pool:
+                results = [
+                    process_pool.apply_async(
+                        init_and_run_proof, args=(test,), callback=partial(update_status_bar, test.id)
+                    )
+                    for test in tests
+                ]
+
+                process_pool.close()
+                process_pool.join()
+            if not options.hide_status_bar:
+                if progress is not None:
+                    progress.update(task, status='Finished', advance=1)
+            failure_infos = [result.get() for result in results]
+        else:
+            failure_infos = []
+            for test in tests:
+                failure_infos.append(init_and_run_proof(test, None if options.hide_status_bar else progress))
+
+        proofs = [foundry.get_apr_proof(test.id) for test in tests]
+
+        # Reconstruct the proof from the subprocess
+        for proof, failure_info in zip(proofs, failure_infos, strict=True):
+            assert proof.failure_info is None  # Refactor once this fails
+            assert proof.error_info is None
+            if isinstance(failure_info, Exception):
+                proof.error_info = failure_info
+            elif isinstance(failure_info, APRFailureInfo):
+                proof.failure_info = failure_info
+
+        return proofs
 
 
 def method_to_apr_proof(
@@ -789,6 +878,7 @@ def recorded_state_to_account_cells(
                 KEVM.parse_bytestack(stringToken(accounts[addr]['code'])),
                 map_of(accounts[addr]['storage']),
                 map_empty(),
+                map_empty(),
                 intToken(accounts[addr]['nonce']),
             )
         )
@@ -897,9 +987,10 @@ def _init_cterm(
         'ISEVENTEXPECTED_CELL': FALSE,
         'ISCALLWHITELISTACTIVE_CELL': FALSE,
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
-        'ADDRESSSET_CELL': set_empty(),
-        'STORAGESLOTSET_CELL': set_empty(),
+        'ADDRESSLIST_CELL': list_empty(),
+        'STORAGESLOTLIST_CELL': list_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
+        'MOCKFUNCTIONS_CELL': KApply('.MockFunctionCellMap'),
         'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,
         'TRACESTORAGE_CELL': TRUE if trace_options.trace_storage else FALSE,
         'TRACEWORDSTACK_CELL': TRUE if trace_options.trace_wordstack else FALSE,
@@ -927,6 +1018,13 @@ def _init_cterm(
         }
         init_subst.update(init_subst_test)
     else:
+        # CSE needs to be agnostic of the following Kontrol cells
+        del init_subst['ACTIVE_CELL']
+        del init_subst['ISEVENTEXPECTED_CELL']
+        del init_subst['ISREVERTEXPECTED_CELL']
+        del init_subst['RECORDEVENT_CELL']
+        del init_subst['SINGLECALL_CELL']
+
         accounts: list[KInner] = []
         contract_account_name = Foundry.symbolic_contract_name(contract_name)
 
@@ -1009,6 +1107,7 @@ def _create_initial_account_list(
         program,
         map_empty(),
         map_empty(),
+        map_empty(),
         intToken(1),
     )
     init_account_list: list[KInner] = [
@@ -1056,15 +1155,20 @@ def _create_cse_accounts(
         field_name = contract_name + '_' + field.label.upper()
         if field.data_type.startswith('enum'):
             enum_name = field.data_type.split(' ')[1]
-            enum_max = foundry.enums[enum_name]
-            new_account_constraints.append(
-                mlEqualsTrue(
-                    ltInt(
-                        KEVM.lookup(storage_map, intToken(field.slot)),
-                        intToken(enum_max),
+            if enum_name not in foundry.enums:
+                _LOGGER.info(
+                    f'Skipping adding constraint for {enum_name} because it is not tracked by Kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
+                )
+            else:
+                enum_max = foundry.enums[enum_name]
+                new_account_constraints.append(
+                    mlEqualsTrue(
+                        ltInt(
+                            KEVM.lookup(storage_map, intToken(field.slot)),
+                            intToken(enum_max),
+                        )
                     )
                 )
-            )
         # Processing of strings
         if field.data_type == 'string':
             string_contents = KVariable(field_name + '_S_CONTENTS', sort=KSort('Bytes'))
@@ -1136,10 +1240,55 @@ def _create_cse_accounts(
                             '_Map_', [map_item(intToken(field.slot), contract_account_variable), storage_map]
                         )
                     else:
-                        # TODO: Support shared slots for contract variables
-                        raise (
-                            ValueError(
-                                'Unsupported: CSE for contracts with contract or interface fields in shared slots.'
+                        slot_var_before = KVariable(f'{field_name}_SLOT_BEFORE', sort=KSort('Bytes'))
+                        slot_var_after = KVariable(f'{field_name}_SLOT_AFTER', sort=KSort('Bytes'))
+                        masked_contract_account_var = KApply(
+                            'asWord',
+                            [
+                                KApply(
+                                    '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                    [
+                                        slot_var_before,
+                                        KApply(
+                                            '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes',
+                                            [
+                                                KEVM.buf(intToken(20), contract_account_variable),
+                                                slot_var_after,
+                                            ],
+                                        ),
+                                    ],
+                                )
+                            ],
+                        )
+                        storage_map = KApply(
+                            '_Map_', [map_item(intToken(field.slot), masked_contract_account_var), storage_map]
+                        )
+                        new_account_constraints.append(
+                            mlEqualsTrue(
+                                KApply(
+                                    '_==K_',
+                                    [
+                                        KApply(
+                                            'lengthBytes(_)_BYTES-HOOKED_Int_Bytes',
+                                            [slot_var_after],
+                                        ),
+                                        intToken(field.offset),
+                                    ],
+                                )
+                            )
+                        )
+                        new_account_constraints.append(
+                            mlEqualsTrue(
+                                KApply(
+                                    '_==K_',
+                                    [
+                                        KApply(
+                                            'lengthBytes(_)_BYTES-HOOKED_Int_Bytes',
+                                            [slot_var_before],
+                                        ),
+                                        intToken(32 - 20 - field.offset),
+                                    ],
+                                )
                             )
                         )
 
@@ -1204,6 +1353,7 @@ def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) 
         program,
         KVariable('ACCT_STORAGE_FINAL'),
         KVariable('ACCT_ORIGSTORAGE_FINAL'),
+        KVariable('ACCT_TRANSIENTSTORAGE_FINAL'),
         KVariable('ACCT_NONCE_FINAL'),
     )
     final_subst = {
@@ -1216,8 +1366,8 @@ def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) 
         'ISEVENTEXPECTED_CELL': KVariable('ISEVENTEXPECTED_FINAL'),
         'ISCALLWHITELISTACTIVE_CELL': KVariable('ISCALLWHITELISTACTIVE_FINAL'),
         'ISSTORAGEWHITELISTACTIVE_CELL': KVariable('ISSTORAGEWHITELISTACTIVE_FINAL'),
-        'ADDRESSSET_CELL': KVariable('ADDRESSSET_FINAL'),
-        'STORAGESLOTSET_CELL': KVariable('STORAGESLOTSET_FINAL'),
+        'ADDRESSLIST_CELL': KVariable('ADDRESSLIST_FINAL'),
+        'STORAGESLOTLIST_CELL': KVariable('STORAGESLOTLIST_FINAL'),
     }
 
     if config_type == ConfigType.TEST_CONFIG:
@@ -1245,7 +1395,7 @@ def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) 
             KVariable('ISEVENTEXPECTED_FINAL'),
             KVariable('ISCALLWHITELISTACTIVE_FINAL'),
             KVariable('ISSTORAGEWHITELISTACTIVE_FINAL'),
-            KVariable('ADDRESSSET_FINAL'),
-            KVariable('STORAGESLOTSET_FINAL'),
+            KVariable('ADDRESSLIST_FINAL'),
+            KVariable('STORAGESLOTLIST_FINAL'),
         ],
     )

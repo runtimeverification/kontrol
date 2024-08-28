@@ -29,6 +29,12 @@ def pytest_addoption(parser: Parser) -> None:
         default=False,
         help='Use the kore-rpc binary instead of kore-rpc-booster',
     )
+    parser.addoption(
+        '--force-sequential',
+        default=False,
+        action='store_true',
+        help='Use sequential, single-threaded proof loop.',
+    )
 
 
 @pytest.fixture(scope='session')
@@ -44,3 +50,8 @@ def update_expected_output(request: FixtureRequest) -> bool:
 @pytest.fixture(scope='session')
 def no_use_booster(request: FixtureRequest) -> bool:
     return request.config.getoption('--no-use-booster')
+
+
+@pytest.fixture(scope='session')
+def force_sequential(request: FixtureRequest) -> bool:
+    return request.config.getoption('--force-sequential')

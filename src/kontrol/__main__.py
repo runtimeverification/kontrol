@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 from collections.abc import Iterable
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
@@ -13,12 +14,14 @@ from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from pyk.rpc.rpc import ServeRpcOptions
-from pyk.utils import run_process
+from rich.highlighter import NullHighlighter
+from rich.logging import RichHandler
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
 from .foundry import (
     Foundry,
+    foundry_clean,
     foundry_get_model,
     foundry_list,
     foundry_merge_nodes,
@@ -47,7 +50,6 @@ from .utils import _rv_blue, _rv_yellow, console
 
 if TYPE_CHECKING:
     from argparse import Namespace
-    from pathlib import Path
     from typing import Any, Final, TypeVar
 
     from pyk.cterm import CTerm
@@ -93,9 +95,21 @@ def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
         args.pop(arg)
 
 
-def _load_foundry(foundry_root: Path, bug_report: BugReport | None = None, use_hex_encoding: bool = False) -> Foundry:
+def _load_foundry(
+    foundry_root: Path,
+    bug_report: BugReport | None = None,
+    use_hex_encoding: bool = False,
+    add_enum_constraints: bool = False,
+    expand_config: bool = False,
+) -> Foundry:
     try:
-        foundry = Foundry(foundry_root=foundry_root, bug_report=bug_report, use_hex_encoding=use_hex_encoding)
+        foundry = Foundry(
+            foundry_root=foundry_root,
+            bug_report=bug_report,
+            use_hex_encoding=use_hex_encoding,
+            add_enum_constraints=add_enum_constraints,
+            expand_config=expand_config,
+        )
     except FileNotFoundError:
         print(
             f'File foundry.toml not found in: {str(foundry_root)!r}. Are you running kontrol in a Foundry project?',
@@ -109,8 +123,21 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
+    args.config_file = _config_file_path(args)
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
-    logging.basicConfig(level=_loglevel(args), format=_LOG_FORMAT)
+    logging.basicConfig(
+        level=_loglevel(args, toml_args),
+        format=_LOG_FORMAT,
+        handlers=[
+            RichHandler(
+                level=_loglevel(args, toml_args),
+                show_level=False,
+                show_time=False,
+                show_path=False,
+                highlighter=NullHighlighter(),
+            ),
+        ],
+    )
 
     _check_k_version()
 
@@ -158,7 +185,7 @@ def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
 def exec_load_state(options: LoadStateOptions) -> None:
     foundry_state_load(
         options=options,
-        foundry=_load_foundry(options.foundry_root),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
     )
 
 
@@ -177,7 +204,9 @@ def exec_solc_to_k(options: SolcToKOptions) -> None:
 
 
 def exec_build(options: BuildOptions) -> None:
-    if options.verbose:
+    _LOGGER.debug(options)
+
+    if options.verbose or options.debug:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer:[/{_rv_blue()}]'
     else:
         building_message = f'[{_rv_blue()}]:hammer: [bold]Building [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] project[/bold] :hammer: \n Add `--verbose` to `kontrol build` for more details![/{_rv_blue()}]'
@@ -185,7 +214,7 @@ def exec_build(options: BuildOptions) -> None:
         console.print(building_message)
         foundry_kompile(
             options=options,
-            foundry=_load_foundry(options.foundry_root),
+            foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         )
         console.print(
             ':white_heavy_check_mark: [bold green]Success![/bold green] [bold]Kontrol project built[/bold] :muscle:'
@@ -195,6 +224,8 @@ def exec_build(options: BuildOptions) -> None:
 
 
 def exec_prove(options: ProveOptions) -> None:
+    _LOGGER.debug(options)
+
     if options.recorded_diff_state_path and options.recorded_dump_state_path:
         raise AssertionError('Provide only one file for recorded state updates')
 
@@ -205,14 +236,16 @@ def exec_prove(options: ProveOptions) -> None:
         read_recorded_state_dump(options.recorded_dump_state_path) if options.recorded_dump_state_path else None
     )
 
-    if options.verbose:
+    if options.verbose or options.debug:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
     else:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running: \n Add `--verbose` to `kontrol prove` for more details![/{_rv_blue()}]'
     try:
         console.print(proving_message)
         results = foundry_prove(
-            foundry=_load_foundry(options.foundry_root, options.bug_report),
+            foundry=_load_foundry(
+                options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints
+            ),
             options=options,
             recorded_state_entries=recorded_dump_entries if recorded_dump_entries else recorded_diff_entries,
         )
@@ -257,14 +290,19 @@ def exec_prove(options: ProveOptions) -> None:
 
 def exec_show(options: ShowOptions) -> None:
     output = foundry_show(
-        foundry=_load_foundry(options.foundry_root, use_hex_encoding=options.use_hex_encoding),
+        foundry=_load_foundry(
+            options.foundry_root,
+            use_hex_encoding=options.use_hex_encoding,
+            add_enum_constraints=options.enum_constraints,
+            expand_config=options.expand_config,
+        ),
         options=options,
     )
     print(output)
 
 
 def exec_refute_node(options: RefuteNodeOptions) -> None:
-    foundry = _load_foundry(options.foundry_root)
+    foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
     refutation = foundry_refute_node(foundry=foundry, options=options)
 
     if refutation:
@@ -278,14 +316,14 @@ def exec_refute_node(options: RefuteNodeOptions) -> None:
 
 def exec_unrefute_node(options: UnrefuteNodeOptions) -> None:
     foundry_unrefute_node(
-        foundry=_load_foundry(options.foundry_root),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
 
 def exec_split_node(options: SplitNodeOptions) -> None:
     node_ids = foundry_split_node(
-        foundry=_load_foundry(options.foundry_root),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
@@ -293,16 +331,21 @@ def exec_split_node(options: SplitNodeOptions) -> None:
 
 
 def exec_to_dot(options: ToDotOptions) -> None:
-    foundry_to_dot(foundry=_load_foundry(options.foundry_root), options=options)
+    foundry_to_dot(
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+        options=options,
+    )
 
 
 def exec_list(options: ListOptions) -> None:
-    stats = foundry_list(foundry=_load_foundry(options.foundry_root))
+    stats = foundry_list(foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints))
     print('\n'.join(stats))
 
 
 def exec_view_kcfg(options: ViewKcfgOptions) -> None:
-    foundry = _load_foundry(options.foundry_root, use_hex_encoding=True)
+    foundry = _load_foundry(
+        options.foundry_root, use_hex_encoding=options.use_hex_encoding, add_enum_constraints=options.enum_constraints
+    )
     test_id = foundry.get_test_id(options.test, options.version)
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
@@ -319,12 +362,15 @@ def exec_view_kcfg(options: ViewKcfgOptions) -> None:
 
 
 def exec_minimize_proof(options: MinimizeProofOptions) -> None:
-    foundry_minimize_proof(foundry=_load_foundry(options.foundry_root), options=options)
+    foundry_minimize_proof(
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
+        options=options,
+    )
 
 
 def exec_remove_node(options: RemoveNodeOptions) -> None:
     foundry_remove_node(
-        foundry=_load_foundry(options.foundry_root),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
@@ -332,7 +378,7 @@ def exec_remove_node(options: RemoveNodeOptions) -> None:
 def exec_simplify_node(options: SimplifyNodeOptions) -> None:
 
     pretty_term = foundry_simplify_node(
-        foundry=_load_foundry(options.foundry_root, options.bug_report),
+        foundry=_load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints),
         options=options,
     )
     print(f'Simplified:\n{pretty_term}')
@@ -340,14 +386,14 @@ def exec_simplify_node(options: SimplifyNodeOptions) -> None:
 
 def exec_step_node(options: StepNodeOptions) -> None:
     foundry_step_node(
-        foundry=_load_foundry(options.foundry_root, options.bug_report),
+        foundry=_load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
 
 def exec_merge_nodes(options: MergeNodesOptions) -> None:
     foundry_merge_nodes(
-        foundry=_load_foundry(options.foundry_root),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
@@ -355,7 +401,7 @@ def exec_merge_nodes(options: MergeNodesOptions) -> None:
 def exec_section_edge(options: SectionEdgeOptions) -> None:
 
     foundry_section_edge(
-        foundry=_load_foundry(options.foundry_root, options.bug_report),
+        foundry=_load_foundry(options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints),
         options=options,
     )
 
@@ -363,14 +409,14 @@ def exec_section_edge(options: SectionEdgeOptions) -> None:
 def exec_get_model(options: GetModelOptions) -> None:
 
     output = foundry_get_model(
-        foundry=_load_foundry(options.foundry_root),
+        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
         options=options,
     )
     print(output)
 
 
 def exec_clean(options: CleanOptions) -> None:
-    run_process(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)
+    foundry_clean(foundry=_load_foundry(options.foundry_root), options=options)
 
 
 def exec_vm(options: VMOptions) -> None:
@@ -385,14 +431,28 @@ def exec_init(options: InitOptions) -> None:
 
 
 # Helpers
-def _loglevel(args: Namespace) -> int:
-    if hasattr(args, 'debug') and args.debug:
+def _loglevel(args: Namespace, toml_args: dict) -> int:
+    def is_attr_used(attr_name: str) -> bool | None:
+        return getattr(args, attr_name, None) or toml_args.get(attr_name)
+
+    if is_attr_used('debug'):
         return logging.DEBUG
 
-    if hasattr(args, 'verbose') and args.verbose:
+    if is_attr_used('verbose'):
         return logging.INFO
 
     return logging.WARNING
+
+
+def _config_file_path(args: Namespace) -> Path:
+    return (
+        Path.joinpath(
+            Path('.') if not getattr(args, 'foundry_root', None) else args.foundry_root,
+            'kontrol.toml',
+        )
+        if not getattr(args, 'config_file', None)
+        else args.config_file
+    )
 
 
 if __name__ == '__main__':

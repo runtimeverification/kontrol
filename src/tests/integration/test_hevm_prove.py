@@ -36,6 +36,7 @@ def test_hevm_prove_passing(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -52,6 +53,7 @@ def test_hevm_prove_passing(
                 'hevm': True,
                 'port': server.port,
                 'tests': [(test, None)],
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -72,6 +74,7 @@ def test_hevm_prove_failing(
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
+    force_sequential: bool,
 ) -> None:
     if no_use_booster:
         pytest.skip()
@@ -88,6 +91,7 @@ def test_hevm_prove_failing(
                 'bug_report': bug_report,
                 'hevm': True,
                 'port': server.port,
+                'force_sequential': force_sequential,
             }
         ),
     )

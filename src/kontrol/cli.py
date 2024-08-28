@@ -149,7 +149,7 @@ class ConfigArgs:
             '--config-file',
             dest='config_file',
             type=file_path,
-            default=Path('./kontrol.toml'),
+            default=None,
             help='Path to Pyk config file.',
         )
         args.add_argument(
@@ -170,6 +170,13 @@ class KontrolCLIArgs(KEVMCLIArgs):
             dest='foundry_root',
             type=dir_path,
             help='Path to Foundry project root directory.',
+        )
+        args.add_argument(
+            '--enum-constraints',
+            dest='enum_constraints',
+            default=None,
+            action='store_true',
+            help='Add constraints for enum function arguments and storage slots.',
         )
         return args
 
@@ -212,8 +219,15 @@ class KontrolCLIArgs(KEVMCLIArgs):
     def rpc_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
         args.add_argument(
-            '--trace-rewrites',
-            dest='trace_rewrites',
+            '--no-log-rewrites',
+            dest='log_succ_rewrites',
+            default=None,
+            action='store_false',
+            help='Do not log traces of any simplification and rewrite rule application.',
+        )
+        args.add_argument(
+            '--log-fail-rewrites',
+            dest='log_fail_rewrites',
             default=None,
             action='store_true',
             help='Log traces of all simplification and rewrite rule applications.',
@@ -324,6 +338,27 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Do not silence K compiler warnings.',
+    )
+    build.add_argument(
+        '--no-metadata',
+        dest='no_metadata',
+        default=None,
+        action='store_true',
+        help='Do not append cbor or bytecode_hash metadata to bytecode.',
+    )
+    build.add_argument(
+        '--no-keccak-lemmas',
+        dest='keccak_lemmas',
+        default=None,
+        action='store_false',
+        help='Do not include assumptions on keccak properties.',
+    )
+    build.add_argument(
+        '--auxiliary-lemmas',
+        dest='auxiliary_lemmas',
+        default=None,
+        action='store_true',
+        help='Include auxiliary Kontrol lemmas.',
     )
 
     state_diff_args = command_parser.add_parser(
@@ -440,6 +475,13 @@ def _create_argument_parser() -> ArgumentParser:
         '--config-type', default=None, type=ConfigType, help='Config type', choices=list(ConfigType)
     )
     prove_args.add_argument(
+        '--hide-status-bar',
+        dest='hide_status_bar',
+        default=None,
+        action='store_true',
+        help='Disables the proof status bar.',
+    )
+    prove_args.add_argument(
         '--break-on-cheatcodes',
         dest='break_on_cheatcodes',
         default=None,
@@ -479,7 +521,9 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Generate a JUnit XML report',
     )
-    prove_args.add_argument('--cse', dest='cse', action='store_true', help='Use Compositional Symbolic Execution')
+    prove_args.add_argument(
+        '--cse', dest='cse', action='store_true', default=None, help='Use Compositional Symbolic Execution'
+    )
     prove_args.add_argument(
         '--hevm',
         dest='hevm',
@@ -517,6 +561,24 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_false',
         help='If tracing is active, avoid storing memory information.',
+    )
+    prove_args.add_argument(
+        '--remove-old-proofs',
+        dest='remove_old_proofs',
+        default=None,
+        action='store_true',
+        help='Remove all outdated KCFGs.',
+    )
+    prove_args.add_argument(
+        '--optimize-performance',
+        type=int,
+        default=None,
+        dest='optimize_performance',
+        help=(
+            'Optimize performance for proof execution. Takes the number of parallel threads to be used.'
+            "Will overwrite other settings of 'assume-defined', 'log-success-rewrites', 'max-frontier-parallel',"
+            "'maintenance-rate', 'smt-timeout', 'smt-retry-limit', 'max-depth', and 'max-iterations'."
+        ),
     )
 
     show_args = command_parser.add_parser(
@@ -559,6 +621,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Print elements in hexadecimal encoding.',
     )
+    show_args.add_argument(
+        '--expand-config',
+        dest='expand_config',
+        default=None,
+        action='store_true',
+        help='When printing nodes, always show full bytecode in  code and program cells, and do not hide jumpDests cell.',
+    )
 
     command_parser.add_parser(
         'to-dot',
@@ -582,7 +651,7 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
 
-    command_parser.add_parser(
+    view_kcfg_args = command_parser.add_parser(
         'view-kcfg',
         help='Explore a given proof in the KCFG visualizer.',
         parents=[
@@ -591,6 +660,14 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.foundry_args,
             config_args.config_args,
         ],
+    )
+
+    view_kcfg_args.add_argument(
+        '--use-hex-encoding',
+        dest='use_hex_encoding',
+        default=None,
+        action='store_true',
+        help='Print elements in hexadecimal encoding.',
     )
 
     command_parser.add_parser(
@@ -748,7 +825,7 @@ def _create_argument_parser() -> ArgumentParser:
     get_model.add_argument(
         '--failing', dest='failing', default=None, action='store_true', help='Also display models of failing nodes'
     )
-    command_parser.add_parser(
+    clean = command_parser.add_parser(
         'clean',
         help='Remove the build artifacts and cache directories.',
         parents=[
@@ -756,6 +833,20 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.foundry_args,
             config_args.config_args,
         ],
+    )
+    clean.add_argument(
+        '--proofs',
+        dest='proofs',
+        action='store_true',
+        default=None,
+        help='Clean proofs directory.',
+    )
+    clean.add_argument(
+        '--old-proofs',
+        dest='old_proofs',
+        action='store_true',
+        default=None,
+        help='Clean outdated proofs.',
     )
     init = command_parser.add_parser(
         'init',
