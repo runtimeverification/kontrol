@@ -857,7 +857,12 @@ def foundry_show(
         proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
 
         sentences = [
-            edge.to_rule('BASIC-BLOCK', claim=(not options.to_kevm_rules), definition=foundry.kevm.definition)
+            edge.to_rule(
+                'BASIC-BLOCK',
+                claim=(not options.to_kevm_rules),
+                definition=foundry.kevm.definition,
+                minimize=options.minimize,
+            )
             for edge in proof.kcfg.edges()
         ]
         sentences = [sent for sent in sentences if not _contains_foundry_klabel(sent.body)]
