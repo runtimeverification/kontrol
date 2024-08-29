@@ -860,7 +860,7 @@ def foundry_show(
             edge.to_rule(
                 'BASIC-BLOCK',
                 claim=(not options.to_kevm_rules),
-                definition=foundry.kevm.definition,
+                defunc_with=foundry.kevm.definition,
                 minimize=options.minimize,
             )
             for edge in proof.kcfg.edges()
