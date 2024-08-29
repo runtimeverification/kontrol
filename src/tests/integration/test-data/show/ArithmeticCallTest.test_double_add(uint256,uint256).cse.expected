@@ -44,7 +44,7 @@
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (486 steps)
-┃  └─ 15 (leaf, terminal)
+┃  └─ 17 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2474
 ┃      callDepth: 0
@@ -118,7 +118,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                NORMAL
              </mode>
              <schedule>
-               SHANGHAI
+               CANCUN
              </schedule>
              <useGas>
                false
@@ -497,7 +497,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                NORMAL
              </mode>
              <schedule>
-               SHANGHAI
+               CANCUN
              </schedule>
              <useGas>
                false
@@ -881,7 +881,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                ))))
       [priority(20), label(BASIC-BLOCK-1-TO-7)]
     
-    rule [BASIC-BLOCK-21-TO-15]: <foundry>
+    rule [BASIC-BLOCK-21-TO-17]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -894,7 +894,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                NORMAL
              </mode>
              <schedule>
-               SHANGHAI
+               CANCUN
              </schedule>
              <useGas>
                false
@@ -1260,7 +1260,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
        andBool ( ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
                ))))))))))))))))))
        ensures ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int pow256
-      [priority(20), label(BASIC-BLOCK-21-TO-15)]
+      [priority(20), label(BASIC-BLOCK-21-TO-17)]
     
     rule [BASIC-BLOCK-24-TO-18]: <foundry>
            <kevm>
@@ -1275,7 +1275,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                NORMAL
              </mode>
              <schedule>
-               SHANGHAI
+               CANCUN
              </schedule>
              <useGas>
                false
@@ -1657,7 +1657,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                NORMAL
              </mode>
              <schedule>
-               SHANGHAI
+               CANCUN
              </schedule>
              <useGas>
                false
