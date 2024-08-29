@@ -411,6 +411,7 @@ def _run_cfg_group(
                     active_symbolik=options.with_non_general_state,
                     hevm=options.hevm,
                     config_type=options.config_type,
+                    schedule=options.schedule,
                     trace_options=TraceOptions(
                         {
                             'active_tracing': options.active_tracing,
@@ -552,6 +553,7 @@ def method_to_apr_proof(
     foundry: Foundry,
     kcfg_explore: KCFGExplore,
     config_type: ConfigType,
+    schedule: str,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     use_gas: bool = False,
@@ -585,6 +587,7 @@ def method_to_apr_proof(
         hevm=hevm,
         trace_options=trace_options,
         config_type=config_type,
+        schedule=schedule,
     )
 
     apr_proof = APRProof(
@@ -621,6 +624,7 @@ def _method_to_initialized_cfg(
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
     config_type: ConfigType,
+    schedule: str,
     *,
     setup_proof: APRProof | None = None,
     graft_setup_proof: bool = False,
@@ -644,6 +648,7 @@ def _method_to_initialized_cfg(
         recorded_state_entries,
         active_symbolik,
         config_type=config_type,
+        schedule=schedule,
         hevm=hevm,
         trace_options=trace_options,
     )
@@ -680,6 +685,7 @@ def _method_to_cfg(
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
     active_symbolik: bool,
     config_type: ConfigType,
+    schedule: str,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int]:
@@ -711,6 +717,7 @@ def _method_to_cfg(
         active_symbolik=active_symbolik,
         trace_options=trace_options,
         config_type=config_type,
+        schedule=schedule,
     )
     new_node_ids = []
 
@@ -950,6 +957,7 @@ def _init_cterm(
     method: Contract.Method | Contract.Constructor,
     use_gas: bool,
     config_type: ConfigType,
+    schedule: str,
     active_symbolik: bool,
     *,
     calldata: KInner | None = None,
@@ -957,7 +965,8 @@ def _init_cterm(
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     trace_options: TraceOptions | None = None,
 ) -> CTerm:
-    schedule = KApply('SHANGHAI_EVM')
+    schedule = '_'.join(schedule.split()).upper() + '_EVM'
+    schedule_name = KApply(schedule)
     contract_name = contract_name.upper()
 
     if not trace_options:
@@ -967,7 +976,7 @@ def _init_cterm(
     init_subst = {
         'MODE_CELL': KApply('NORMAL'),
         'USEGAS_CELL': TRUE if use_gas else FALSE,
-        'SCHEDULE_CELL': schedule,
+        'SCHEDULE_CELL': schedule_name,
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': bytesToken(program),
         'JUMPDESTS_CELL': jumpdests,

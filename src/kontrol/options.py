@@ -369,6 +369,7 @@ class ProveOptions(
     hide_status_bar: bool
     remove_old_proofs: bool
     optimize_performance: int | None
+    schedule: str
 
     def __init__(self, args: dict[str, Any]) -> None:
         super().__init__(args)
@@ -397,6 +398,7 @@ class ProveOptions(
             'hide_status_bar': False,
             'remove_old_proofs': False,
             'optimize_performance': None,
+            'schedule': 'Shanghai',
         }
 
     @staticmethod

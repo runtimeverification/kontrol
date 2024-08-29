@@ -577,6 +577,17 @@ def _create_argument_parser() -> ArgumentParser:
             "'maintenance-rate', 'smt-timeout', 'smt-retry-limit', 'max-depth', and 'max-iterations'."
         ),
     )
+    prove_args.add_argument(
+        '--schedule',
+        type=str,
+        default='Shanghai',
+        dest='schedule',
+        help=(
+            'Specify the name of the EVM hardfork to use during verification. '
+            'Available options: Cancun, Shanghai, Merge, London, Berlin, Istanbul, Petersburg, Constantinople, '
+            'Byzantium, Spurious Dragon, Tangerine Whistle, Homestead, Frontier, Default.'
+        ),
+    )
 
     show_args = command_parser.add_parser(
         'show',
