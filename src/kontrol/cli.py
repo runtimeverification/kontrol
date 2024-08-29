@@ -617,6 +617,13 @@ def _create_argument_parser() -> ArgumentParser:
         help='Generate a K module which can be run directly as KEVM claims for the given KCFG (best-effort).',
     )
     show_args.add_argument(
+        '--to-kevm-rules',
+        dest='to_kevm_rules',
+        default=None,
+        action='store_true',
+        help='Generate a K module which can be used to optimize KEVM execution (best-effort).',
+    )
+    show_args.add_argument(
         '--kevm-claim-dir',
         dest='kevm_claim_dir',
         type=ensure_dir_path,
@@ -635,6 +642,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='When printing nodes, always show full bytecode in  code and program cells, and do not hide jumpDests cell.',
+    )
+    show_args.add_argument(
+        '--minimize-kcfg',
+        dest='minimize_kcfg',
+        default=None,
+        action='store_true',
+        help='Run KCFG minimization routine before displaying it.',
     )
 
     command_parser.add_parser(
