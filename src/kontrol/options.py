@@ -571,19 +571,23 @@ class ShowOptions(
 ):
     omit_unstable_output: bool
     to_kevm_claims: bool
+    to_kevm_rules: bool
     kevm_claim_dir: Path | None
     use_hex_encoding: bool
     expand_config: bool
+    minimize_kcfg: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'omit_unstable_output': False,
             'to_kevm_claims': False,
+            'to_kevm_rules': False,
             'kevm_claim_dir': None,
             'use_hex_encoding': False,
             'counterexample_info': True,
             'expand_config': False,
+            'minimize_kcfg': False,
         }
 
     @staticmethod
