@@ -957,7 +957,7 @@ def _init_cterm(
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     trace_options: TraceOptions | None = None,
 ) -> CTerm:
-    schedule = KApply('SHANGHAI_EVM')
+    schedule = KApply('CANCUN_EVM')
     contract_name = contract_name.upper()
 
     if not trace_options:
