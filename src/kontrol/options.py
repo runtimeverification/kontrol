@@ -4,7 +4,16 @@ from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from kevm_pyk.cli import DisplayOptions, ExploreOptions, KCFGShowOptions, KOptions, KProveOptions, list_of, node_id_like
+from kevm_pyk.cli import (
+    DisplayOptions,
+    EVMChainOptions,
+    ExploreOptions,
+    KCFGShowOptions,
+    KOptions,
+    KProveOptions,
+    list_of,
+    node_id_like,
+)
 from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.args import BugReportOptions, KompileOptions, LoggingOptions, Options, ParallelOptions, SMTOptions
@@ -348,12 +357,12 @@ class ProveOptions(
     ExploreOptions,
     FoundryOptions,
     TraceOptions,
+    EVMChainOptions,
 ):
     tests: list[tuple[str, int | None]]
     reinit: bool
     bmc_depth: int | None
     run_constructor: bool
-    use_gas: bool
     setup_version: int | None
     break_on_cheatcodes: bool
     recorded_diff_state_path: Path | None
@@ -369,7 +378,6 @@ class ProveOptions(
     hide_status_bar: bool
     remove_old_proofs: bool
     optimize_performance: int | None
-    schedule: str
 
     def __init__(self, args: dict[str, Any]) -> None:
         super().__init__(args)
@@ -382,7 +390,7 @@ class ProveOptions(
             'reinit': False,
             'bmc_depth': None,
             'run_constructor': False,
-            'use_gas': False,
+            'usegas': False,
             'break_on_cheatcodes': False,
             'recorded_diff_state_path': None,
             'recorded_dump_state_path': None,
@@ -398,7 +406,6 @@ class ProveOptions(
             'hide_status_bar': False,
             'remove_old_proofs': False,
             'optimize_performance': None,
-            'schedule': 'Shanghai',
         }
 
     @staticmethod
@@ -414,6 +421,7 @@ class ProveOptions(
             | ExploreOptions.from_option_string()
             | FoundryOptions.from_option_string()
             | TraceOptions.from_option_string()
+            | EVMChainOptions.from_option_string()
             | {
                 'match-test': 'tests',
                 'init-node-from-diff': 'recorded_diff_state_path',
@@ -435,6 +443,7 @@ class ProveOptions(
             | ExploreOptions.get_argument_type()
             | FoundryOptions.get_argument_type()
             | TraceOptions.get_argument_type()
+            | EVMChainOptions.get_argument_type()
             | {
                 'match-test': list_of(parse_test_version_tuple),
                 'init-node-from': file_path,

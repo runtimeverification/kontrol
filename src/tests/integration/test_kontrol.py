@@ -109,7 +109,7 @@ def test_kontrol_end_to_end(
                 'tests': [(test_id, None)],
                 'bug_report': bug_report,
                 'break_on_calls': False,
-                'use_gas': False,
+                'usegas': False,
                 'port': server_end_to_end.port,
                 'force_sequential': force_sequential,
             }

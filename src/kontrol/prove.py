@@ -9,6 +9,7 @@ from functools import partial
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
+from kevm_pyk.cli import EVMChainOptions
 from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from multiprocess.pool import Pool  # type: ignore
@@ -405,13 +406,19 @@ def _run_cfg_group(
                     kcfg_explore=create_kcfg_explore(),
                     bmc_depth=options.bmc_depth,
                     run_constructor=options.run_constructor,
-                    use_gas=options.use_gas,
                     recorded_state_entries=recorded_state_entries,
                     summary_ids=summary_ids,
                     active_symbolik=options.with_non_general_state,
                     hevm=options.hevm,
                     config_type=options.config_type,
-                    schedule=options.schedule,
+                    evm_chain_options=EVMChainOptions(
+                        {
+                            'schedule': options.schedule,
+                            'chainid': options.chainid,
+                            'mode': options.mode,
+                            'usegas': options.usegas,
+                        }
+                    ),
                     trace_options=TraceOptions(
                         {
                             'active_tracing': options.active_tracing,
@@ -553,10 +560,9 @@ def method_to_apr_proof(
     foundry: Foundry,
     kcfg_explore: KCFGExplore,
     config_type: ConfigType,
-    schedule: str,
+    evm_chain_options: EVMChainOptions,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
-    use_gas: bool = False,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     summary_ids: Iterable[str] = (),
     active_symbolik: bool = False,
@@ -581,13 +587,12 @@ def method_to_apr_proof(
         kcfg_explore=kcfg_explore,
         setup_proof=setup_proof,
         graft_setup_proof=((setup_proof is not None) and not setup_proof_is_constructor),
-        use_gas=use_gas,
+        evm_chain_options=evm_chain_options,
         recorded_state_entries=recorded_state_entries,
         active_symbolik=active_symbolik,
         hevm=hevm,
         trace_options=trace_options,
         config_type=config_type,
-        schedule=schedule,
     )
 
     apr_proof = APRProof(
@@ -624,11 +629,10 @@ def _method_to_initialized_cfg(
     test: FoundryTest,
     kcfg_explore: KCFGExplore,
     config_type: ConfigType,
-    schedule: str,
+    evm_chain_options: EVMChainOptions,
     *,
     setup_proof: APRProof | None = None,
     graft_setup_proof: bool = False,
-    use_gas: bool = False,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     active_symbolik: bool = False,
     hevm: bool = False,
@@ -644,11 +648,10 @@ def _method_to_initialized_cfg(
         test.method,
         setup_proof,
         graft_setup_proof,
-        use_gas,
+        evm_chain_options,
         recorded_state_entries,
         active_symbolik,
         config_type=config_type,
-        schedule=schedule,
         hevm=hevm,
         trace_options=trace_options,
     )
@@ -681,11 +684,10 @@ def _method_to_cfg(
     method: Contract.Method | Contract.Constructor,
     setup_proof: APRProof | None,
     graft_setup_proof: bool,
-    use_gas: bool,
+    evm_chain_options: EVMChainOptions,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
     active_symbolik: bool,
     config_type: ConfigType,
-    schedule: str,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int]:
@@ -710,14 +712,13 @@ def _method_to_cfg(
         contract_code=bytesToken(contract_code),
         storage_fields=contract.fields,
         method=method,
-        use_gas=use_gas,
+        evm_chain_options=evm_chain_options,
         recorded_state_entries=recorded_state_entries,
         calldata=calldata,
         callvalue=callvalue,
         active_symbolik=active_symbolik,
         trace_options=trace_options,
         config_type=config_type,
-        schedule=schedule,
     )
     new_node_ids = []
 
@@ -955,18 +956,16 @@ def _init_cterm(
     contract_code: KInner,
     storage_fields: tuple[StorageField, ...],
     method: Contract.Method | Contract.Constructor,
-    use_gas: bool,
     config_type: ConfigType,
-    schedule: str,
     active_symbolik: bool,
+    evm_chain_options: EVMChainOptions,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     trace_options: TraceOptions | None = None,
 ) -> CTerm:
-    schedule = '_'.join(schedule.split()).upper() + '_EVM'
-    schedule_name = KApply(schedule)
+    schedule = KApply(evm_chain_options.schedule + '_EVM')
     contract_name = contract_name.upper()
 
     if not trace_options:
@@ -974,9 +973,10 @@ def _init_cterm(
 
     jumpdests = bytesToken(_process_jumpdests(bytecode=program))
     init_subst = {
-        'MODE_CELL': KApply('NORMAL'),
-        'USEGAS_CELL': TRUE if use_gas else FALSE,
-        'SCHEDULE_CELL': schedule_name,
+        'MODE_CELL': KApply(evm_chain_options.mode),
+        'USEGAS_CELL': TRUE if evm_chain_options.usegas else FALSE,
+        'SCHEDULE_CELL': schedule,
+        'CHAINID_CELL': intToken(evm_chain_options.chainid),
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
         'PROGRAM_CELL': bytesToken(program),
         'JUMPDESTS_CELL': jumpdests,
@@ -1064,7 +1064,7 @@ def _init_cterm(
     if callvalue is not None:
         init_subst['CALLVALUE_CELL'] = callvalue
 
-    if not use_gas:
+    if not evm_chain_options.usegas:
         init_subst['GAS_CELL'] = intToken(0)
         init_subst['CALLGAS_CELL'] = intToken(0)
         init_subst['REFUND_CELL'] = intToken(0)
