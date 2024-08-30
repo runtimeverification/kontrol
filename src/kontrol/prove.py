@@ -22,7 +22,7 @@ from pyk.kore.rpc import KoreClient, TransportType, kore_server
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_item, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
-from pyk.prelude.kbool import FALSE, TRUE, notBool
+from pyk.prelude.kbool import FALSE, TRUE, boolToken, notBool
 from pyk.prelude.kint import eqInt, intToken, leInt, ltInt
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
