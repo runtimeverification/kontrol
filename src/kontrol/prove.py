@@ -974,7 +974,7 @@ def _init_cterm(
     jumpdests = bytesToken(_process_jumpdests(bytecode=program))
     init_subst = {
         'MODE_CELL': KApply(evm_chain_options.mode),
-        'USEGAS_CELL': TRUE if evm_chain_options.usegas else FALSE,
+        'USEGAS_CELL': boolToken(evm_chain_options.usegas),
         'SCHEDULE_CELL': schedule,
         'CHAINID_CELL': intToken(evm_chain_options.chainid),
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
