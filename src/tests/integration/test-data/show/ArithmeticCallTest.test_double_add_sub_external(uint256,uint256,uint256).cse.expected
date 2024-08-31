@@ -44,7 +44,7 @@
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
-┃  └─ 13 (leaf, terminal)
+┃  └─ 16 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 1584
 ┃      callDepth: 0
@@ -85,7 +85,7 @@
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (503 steps)
-┃  └─ 21 (leaf, terminal)
+┃  └─ 19 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 1708
 ┃      callDepth: 0
@@ -535,7 +535,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-12)]
     
-    rule [BASIC-BLOCK-10-TO-13]: <foundry>
+    rule [BASIC-BLOCK-10-TO-16]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -917,7 +917,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-10-TO-13)]
+      [priority(20), label(BASIC-BLOCK-10-TO-16)]
     
     rule [BASIC-BLOCK-1-TO-7]: <foundry>
            <kevm>
@@ -1711,7 +1711,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ))
       [priority(20), label(BASIC-BLOCK-25-TO-18)]
     
-    rule [BASIC-BLOCK-26-TO-21]: <foundry>
+    rule [BASIC-BLOCK-26-TO-19]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -2098,7 +2098,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        ensures ( 0 <=Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
        andBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <Int pow256
                ))
-      [priority(20), label(BASIC-BLOCK-26-TO-21)]
+      [priority(20), label(BASIC-BLOCK-26-TO-19)]
     
     rule [BASIC-BLOCK-29-TO-22]: <foundry>
            <kevm>
