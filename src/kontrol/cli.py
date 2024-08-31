@@ -419,6 +419,7 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.bug_report_args,
             kontrol_cli_args.explore_args,
             kontrol_cli_args.foundry_args,
+            kontrol_cli_args.evm_chain_args,
             config_args.config_args,
         ],
     )
@@ -466,7 +467,7 @@ def _create_argument_parser() -> ArgumentParser:
         help='Include the contract constructor in the test execution.',
     )
     prove_args.add_argument(
-        '--use-gas', dest='use_gas', default=None, action='store_true', help='Enables gas computation in KEVM.'
+        '--use-gas', dest='usegas', default=None, action='store_true', help='Enables gas computation in KEVM.'
     )
     prove_args.add_argument(
         '--config-type', default=None, type=ConfigType, help='Config type', choices=list(ConfigType)
