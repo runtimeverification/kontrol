@@ -25,7 +25,7 @@
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
-┃  └─ 13 (leaf, terminal)
+┃  └─ 11 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2357
 ┃      callDepth: 0
@@ -105,7 +105,7 @@
 module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-9-TO-13]: <foundry>
+    rule [BASIC-BLOCK-9-TO-11]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -485,7 +485,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-13)]
+      [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-1-TO-7]: <foundry>
            <kevm>
