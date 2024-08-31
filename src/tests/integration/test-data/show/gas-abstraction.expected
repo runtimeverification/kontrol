@@ -49,7 +49,6 @@
     EXCESSBLOBGAS_CELL <- EXCESSBLOBGAS_CELL:Int
     BEACONROOT_CELL <- BEACONROOT_CELL:Int
     OMMERBLOCKHEADERS_CELL <- OMMERBLOCKHEADERS_CELL:JSON
-    CHAINID_CELL <- CHAINID_CELL:Int
     TXORDER_CELL <- TXORDER_CELL:List
     TXPENDING_CELL <- TXPENDING_CELL:List
     MESSAGES_CELL <- MESSAGES_CELL:MessageCellMap
@@ -268,7 +267,7 @@ Node 6:
         </evm>
         <network>
           <chainID>
-            CHAINID_CELL:Int
+            1
           </chainID>
           <accounts>
             ( <account>
@@ -548,6 +547,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -777,6 +779,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -1006,6 +1011,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>

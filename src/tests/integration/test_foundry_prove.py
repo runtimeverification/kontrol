@@ -117,7 +117,7 @@ def test_foundry_prove(
                 'tests': [(test_id, None)],
                 'bug_report': bug_report,
                 'break_on_calls': test_id in SHOW_TESTS,
-                'use_gas': test_id in GAS_TESTS,
+                'usegas': test_id in GAS_TESTS,
                 'port': server.port,
                 'force_sequential': force_sequential,
             }
@@ -589,7 +589,7 @@ def test_foundry_auto_abstraction(
                 'auto_abstract_gas': True,
                 'bug_report': bug_report,
                 'break_on_calls': True,
-                'use_gas': True,
+                'usegas': True,
                 'port': server.port,
                 'force_sequential': force_sequential,
             }
