@@ -4,13 +4,10 @@ import json
 import logging
 import sys
 from collections.abc import Iterable
-from pathlib import Path
 from typing import TYPE_CHECKING
 
-import pyk
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
-from pyk.kbuild.utils import KVersion, k_version
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
 from rich.highlighter import NullHighlighter
@@ -44,11 +41,11 @@ from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
 from .solc_to_k import solc_compile, solc_to_k
-from .utils import _rv_blue, _rv_yellow, console
+from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
 
 if TYPE_CHECKING:
-    from argparse import Namespace
-    from typing import Any, Final, TypeVar
+    from pathlib import Path
+    from typing import Final, TypeVar
 
     from pyk.cterm import CTerm
     from pyk.kcfg.tui import KCFGElem
@@ -82,14 +79,6 @@ if TYPE_CHECKING:
     T = TypeVar('T')
 
 _LOGGER: Final = logging.getLogger(__name__)
-_LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
-
-
-def _ignore_arg(args: dict[str, Any], arg: str, cli_option: str) -> None:
-    if arg in args:
-        if args[arg] is not None:
-            _LOGGER.warning(f'Ignoring command-line option: {cli_option}')
-        args.pop(arg)
 
 
 def _load_foundry(
@@ -120,14 +109,14 @@ def main() -> None:
     sys.setrecursionlimit(15000000)
     parser = _create_argument_parser()
     args = parser.parse_args()
-    args.config_file = _config_file_path(args)
+    args.config_file = config_file_path(args)
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
     logging.basicConfig(
-        level=_loglevel(args, toml_args),
+        level=loglevel(args, toml_args),
         format=_LOG_FORMAT,
         handlers=[
             RichHandler(
-                level=_loglevel(args, toml_args),
+                level=loglevel(args, toml_args),
                 show_level=False,
                 show_time=False,
                 show_path=False,
@@ -136,7 +125,7 @@ def main() -> None:
         ],
     )
 
-    _check_k_version()
+    check_k_version()
 
     stripped_args = toml_args | {
         key: val for (key, val) in vars(args).items() if val is not None and not (isinstance(val, Iterable) and not val)
@@ -149,31 +138,6 @@ def main() -> None:
 
     execute = globals()[executor_name]
     execute(options)
-
-
-def _check_k_version() -> None:
-    expected_k_version = KVersion.parse(f'v{pyk.__version__}')
-    actual_k_version = k_version()
-
-    if not _compare_versions(expected_k_version, actual_k_version):
-        _LOGGER.warning(
-            f'K version {expected_k_version.text} was expected but K version {actual_k_version.text} is being used.'
-        )
-
-
-def _compare_versions(ver1: KVersion, ver2: KVersion) -> bool:
-    if ver1.major != ver2.major or ver1.minor != ver2.minor or ver1.patch != ver2.patch:
-        return False
-
-    if ver1.git == ver2.git:
-        return True
-
-    if ver1.git and ver2.git:
-        return False
-
-    git = ver1.git or ver2.git
-    assert git  # git is not None for exactly one of ver1 and ver2
-    return not git.ahead and not git.dirty
 
 
 # Command implementation
@@ -418,31 +382,6 @@ def exec_clean(options: CleanOptions) -> None:
 
 def exec_init(options: InitOptions) -> None:
     init_project(project_root=options.project_root, skip_forge=options.skip_forge)
-
-
-# Helpers
-def _loglevel(args: Namespace, toml_args: dict) -> int:
-    def is_attr_used(attr_name: str) -> bool | None:
-        return getattr(args, attr_name, None) or toml_args.get(attr_name)
-
-    if is_attr_used('debug'):
-        return logging.DEBUG
-
-    if is_attr_used('verbose'):
-        return logging.INFO
-
-    return logging.WARNING
-
-
-def _config_file_path(args: Namespace) -> Path:
-    return (
-        Path.joinpath(
-            Path('.') if not getattr(args, 'foundry_root', None) else args.foundry_root,
-            'kontrol.toml',
-        )
-        if not getattr(args, 'config_file', None)
-        else args.config_file
-    )
 
 
 if __name__ == '__main__':
