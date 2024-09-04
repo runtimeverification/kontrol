@@ -2,13 +2,11 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.706";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.707";
     nixpkgs.follows = "kevm/nixpkgs";
-    nixpkgs-pyk.follows = "kevm/nixpkgs-pyk";
     k-framework.follows = "kevm/k-framework";
     flake-utils.follows = "kevm/flake-utils";
     rv-utils.follows = "kevm/rv-utils";
-    pyk.follows = "kevm/pyk";
     poetry2nix.follows = "kevm/poetry2nix";
     foundry = {
       url =
@@ -23,23 +21,19 @@
     };
   };
   outputs = { self, k-framework, nixpkgs, flake-utils, poetry2nix, kevm
-    , rv-utils, pyk, foundry, solc, ... }@inputs:
+    , rv-utils, foundry, solc, ... }@inputs:
     let
       nixLibs = pkgs:
         with pkgs;
         "-I${openssl.dev}/include -L${openssl.out}/lib -I${secp256k1}/include -L${secp256k1}/lib";
       overlay = final: prev:
         let
-          nixpkgs-pyk = import inputs.nixpkgs-pyk {
-            system = prev.system;
-            overlays = [ pyk.overlay ];
-          };
           poetry2nix =
-            inputs.poetry2nix.lib.mkPoetry2Nix { pkgs = nixpkgs-pyk; };
+            inputs.poetry2nix.lib.mkPoetry2Nix { pkgs = prev; };
 
           kontrol-pyk = { solc_version ? null }:
             (poetry2nix.mkPoetryApplication {
-              python = nixpkgs-pyk.python310;
+              python = prev.python310;
               projectDir = ./.;
 
               postPatch = ''
@@ -53,13 +47,8 @@
 
               overrides = poetry2nix.overrides.withDefaults
                 (finalPython: prevPython: {
-                  pyk = nixpkgs-pyk.pyk-python310;
+                  pyk = prev.pyk-python310;
                   kevm-pyk = prev.kevm-pyk;
-                  xdg-base-dirs = prevPython.xdg-base-dirs.overridePythonAttrs
-                    (old: {
-                      propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
-                        ++ [ finalPython.poetry ];
-                    });
                 });
               groups = [ ];
               # We remove `"dev"` from `checkGroups`, so that poetry2nix does not try to resolve dev dependencies.
@@ -140,6 +129,7 @@
           overlays = [
             (final: prev: { llvm-backend-release = false; })
             k-framework.overlay
+            k-framework.overlays.pyk
             foundry.overlay
             solc.overlay
             kevm.overlays.default
