@@ -417,7 +417,7 @@ def test_foundry_merge_nodes(
     )
     check_pending(foundry, test, [6, 7])
 
-    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [6, 7], 'include_disjunct': True}))
+    foundry_merge_nodes(foundry, MergeNodesOptions({'test': test, 'nodes': [6, 7]}))
 
     check_pending(foundry, test, [8])
 
