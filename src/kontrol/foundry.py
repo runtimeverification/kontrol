@@ -1131,8 +1131,14 @@ def foundry_merge_nodes(
     anti_unification = nodes[0].cterm
     for node in nodes[1:]:
         anti_unification, csubst1, csubst2 = anti_unification.anti_unify(node.cterm, kdef=foundry.kevm.definition)
-        constraint1 = andBool([csubst1.subst.pred] + list(map(ml_pred_to_bool, csubst1.constraints)))
-        constraint2 = andBool([csubst2.subst.pred] + list(map(ml_pred_to_bool, csubst2.constraints)))
+        constraint1 = andBool(
+            [csubst1.pred(constraints=False, sort_with=foundry.kevm.definition)]
+            + list(map(ml_pred_to_bool, csubst1.constraints))
+        )
+        constraint2 = andBool(
+            [csubst2.pred(constraints=False, sort_with=foundry.kevm.definition)]
+            + list(map(ml_pred_to_bool, csubst2.constraints))
+        )
         anti_unification.add_constraint(mlEqualsTrue(orBool([constraint1, constraint2])))
 
     new_node = apr_proof.kcfg.create_node(anti_unification)
