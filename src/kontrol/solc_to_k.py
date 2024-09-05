@@ -217,6 +217,7 @@ class Input:
 
     def flattened(self) -> list[Input]:
         components = []
+        sub_components: tuple[Input, ...] = ()
 
         if self.type.endswith('[]'):
             if self.array_lengths is None:
@@ -224,18 +225,33 @@ class Input:
 
             base_type = self.type.rstrip('[]')
             if base_type == 'tuple':
-                components = [
-                    Input(
-                        f'{_c.name}_{i}',
-                        _c.type,
-                        _c.components,
-                        _c.idx,
-                        array_lengths=_c.array_lengths,
-                        dynamic_type_length=_c.dynamic_type_length,
-                    )
-                    for i in range(self.array_lengths[0])
-                    for _c in self.components
-                ]
+                for i in range(self.array_lengths[0]):
+                    for _c in self.components:
+                        # If this component is a tuple, append `_{i}` to its elements' names
+                        if _c.type == 'tuple':
+                            sub_components = tuple(
+                                Input(
+                                    f'{sub_component.name}_{i}',
+                                    sub_component.type,
+                                    sub_component.components,
+                                    sub_component.idx,
+                                    array_lengths=sub_component.array_lengths,
+                                    dynamic_type_length=sub_component.dynamic_type_length,
+                                )
+                                for sub_component in _c.components
+                            )
+                        else:
+                            sub_components = _c.components
+
+                        component = Input(
+                            f'{_c.name}_{i}',
+                            _c.type,
+                            sub_components,
+                            _c.idx,
+                            array_lengths=_c.array_lengths,
+                            dynamic_type_length=_c.dynamic_type_length,
+                        )
+                        components.append(component)
             else:
                 components = [Input(f'{self.name}_{i}', base_type, idx=self.idx) for i in range(self.array_lengths[0])]
         elif self.type == 'tuple':
@@ -679,8 +695,8 @@ class Contract:
                 if input.internal_type is not None and input.internal_type.startswith('enum '):
                     enum_name = input.internal_type.split(' ')[1]
                     if enum_name not in enums:
-                        _LOGGER.warning(
-                            f'Skipping adding constraint for {enum_name} because it is not tracked by kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
+                        _LOGGER.info(
+                            f'Skipping adding constraint for {enum_name} because it is not tracked by Kontrol. It can be automatically constrained to its possible values by adding --enum-constraints.'
                         )
                     else:
                         enum_max = enums[enum_name]
@@ -755,7 +771,7 @@ class Contract:
         self.link_ranges = [
             (rng['start'], rng['length'])
             for ref in deployed_bytecode.get('linkReferences', {}).values()
-            for rng_grp in ref
+            for rng_grp in ref.values()
             for rng in rng_grp
         ]
 

@@ -27,26 +27,39 @@
           "k-framework",
           "flake-utils"
         ],
+        "k-framework": "k-framework",
         "libff": "libff",
         "nixpkgs": [
           "kevm",
           "k-framework",
           "nixpkgs"
         ],
+        "poetry2nix": [
+          "kevm",
+          "blockchain-k-plugin",
+          "k-framework",
+          "poetry2nix"
+        ],
+        "rv-utils": [
+          "kevm",
+          "blockchain-k-plugin",
+          "k-framework",
+          "rv-utils"
+        ],
         "xbyak": "xbyak"
       },
       "locked": {
-        "lastModified": 1711321833,
-        "narHash": "sha256-p0HqLxjrYYYHx2BMODp0N/O2KQf0TAGenMFYmToLPrE=",
+        "lastModified": 1724870545,
+        "narHash": "sha256-OVT3nyAQI59zQSALEOazE8q7WYRyDc7SbL7ilMAPjHc=",
         "owner": "runtimeverification",
         "repo": "blockchain-k-plugin",
-        "rev": "5aa6993fab90675d971b8b98b3430d11f1ec2a2b",
+        "rev": "300c9cf567eba4c8c88675ff67ebd859795ee169",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
         "repo": "blockchain-k-plugin",
-        "rev": "5aa6993fab90675d971b8b98b3430d11f1ec2a2b",
+        "rev": "300c9cf567eba4c8c88675ff67ebd859795ee169",
         "type": "github"
       }
     },
@@ -100,6 +113,22 @@
         "type": "github"
       }
     },
+    "flake-compat_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1696426674,
+        "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "0f9255e01c2351cc7d116c072cb317785dd33b33",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems_2"
@@ -120,7 +149,7 @@
     },
     "flake-utils_2": {
       "inputs": {
-        "systems": "systems_4"
+        "systems": "systems_5"
       },
       "locked": {
         "lastModified": 1694529238,
@@ -153,6 +182,23 @@
         "type": "github"
       }
     },
+    "fmt-src_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1661615830,
+        "narHash": "sha256-rP6ymyRc7LnKxUXwPpzhHOQvpJkpnRFOt2ctvUNlYI0=",
+        "owner": "fmtlib",
+        "repo": "fmt",
+        "rev": "a33701196adfad74917046096bf5a2aa0ab0bb50",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fmtlib",
+        "ref": "9.1.0",
+        "repo": "fmt",
+        "type": "github"
+      }
+    },
     "foundry": {
       "inputs": {
         "flake-utils": [
@@ -163,11 +209,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1722589890,
-        "narHash": "sha256-v+uc/7JyG3oXQRwyRAwz9z6keTTsngh1TM7EJylKbIg=",
+        "lastModified": 1725354688,
+        "narHash": "sha256-KHHFemVt6C/hbGoMzIq7cpxmjdp+KZVZaqbvx02aliY=",
         "owner": "shazow",
         "repo": "foundry.nix",
-        "rev": "ffcc2e156987c5d66b6f8552c3671b91f20f2158",
+        "rev": "671672bd60a0d2e5f6757638fdf27e806df755a4",
         "type": "github"
       },
       "original": {
@@ -181,6 +227,40 @@
       "inputs": {
         "nixpkgs": [
           "kevm",
+          "blockchain-k-plugin",
+          "k-framework",
+          "llvm-backend",
+          "nixpkgs"
+        ],
+        "rv-utils": [
+          "kevm",
+          "blockchain-k-plugin",
+          "k-framework",
+          "llvm-backend",
+          "rv-utils"
+        ],
+        "stacklock2nix": "stacklock2nix",
+        "z3": "z3"
+      },
+      "locked": {
+        "lastModified": 1724225719,
+        "narHash": "sha256-gR5GDTXdHksn773+pKqvdGaXvBMtVLujFURrEQClfJw=",
+        "owner": "runtimeverification",
+        "repo": "haskell-backend",
+        "rev": "ae2da4aa2abc7a1cf64bc97119cc0a60ee4f8615",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "ref": "v0.1.76",
+        "repo": "haskell-backend",
+        "type": "github"
+      }
+    },
+    "haskell-backend_2": {
+      "inputs": {
+        "nixpkgs": [
+          "kevm",
           "k-framework",
           "llvm-backend",
           "nixpkgs"
@@ -191,20 +271,20 @@
           "llvm-backend",
           "rv-utils"
         ],
-        "stacklock2nix": "stacklock2nix",
-        "z3": "z3"
+        "stacklock2nix": "stacklock2nix_2",
+        "z3": "z3_2"
       },
       "locked": {
-        "lastModified": 1722260205,
-        "narHash": "sha256-Yi7m1bLuAzcP75w8Px0BinjlNcekOSj8g9KjVNDSw6c=",
+        "lastModified": 1724225719,
+        "narHash": "sha256-gR5GDTXdHksn773+pKqvdGaXvBMtVLujFURrEQClfJw=",
         "owner": "runtimeverification",
         "repo": "haskell-backend",
-        "rev": "082335a00314bf32392cb668414e7d8c7bddc800",
+        "rev": "ae2da4aa2abc7a1cf64bc97119cc0a60ee4f8615",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v0.1.51",
+        "ref": "v0.1.76",
         "repo": "haskell-backend",
         "type": "github"
       }
@@ -226,10 +306,28 @@
         "type": "github"
       }
     },
+    "immer-src_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1708038459,
+        "narHash": "sha256-aV/mQFuPzioy1PxROc85ypeP7/d0nn+xcBPzy9taw2s=",
+        "owner": "runtimeverification",
+        "repo": "immer",
+        "rev": "4b0914f0b2acb33befe0ba4cd3a7954f2687e9bb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "repo": "immer",
+        "rev": "4b0914f0b2acb33befe0ba4cd3a7954f2687e9bb",
+        "type": "github"
+      }
+    },
     "k-framework": {
       "inputs": {
         "flake-utils": [
           "kevm",
+          "blockchain-k-plugin",
           "k-framework",
           "llvm-backend",
           "utils"
@@ -238,11 +336,52 @@
         "llvm-backend": "llvm-backend",
         "nixpkgs": [
           "kevm",
+          "blockchain-k-plugin",
           "k-framework",
           "llvm-backend",
           "nixpkgs"
         ],
         "poetry2nix": "poetry2nix",
+        "rv-utils": [
+          "kevm",
+          "blockchain-k-plugin",
+          "k-framework",
+          "llvm-backend",
+          "rv-utils"
+        ]
+      },
+      "locked": {
+        "lastModified": 1724866053,
+        "narHash": "sha256-NtHMCcG5pRszS7+vSrwGDE8B3QoW7+JxbVYaxxwZ+Zw=",
+        "owner": "runtimeverification",
+        "repo": "k",
+        "rev": "85c8bcbea25dcef0945ed3ece01bdd8bb7a946a5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "ref": "v7.1.123",
+        "repo": "k",
+        "type": "github"
+      }
+    },
+    "k-framework_2": {
+      "inputs": {
+        "flake-utils": [
+          "kevm",
+          "k-framework",
+          "llvm-backend",
+          "utils"
+        ],
+        "haskell-backend": "haskell-backend_2",
+        "llvm-backend": "llvm-backend_2",
+        "nixpkgs": [
+          "kevm",
+          "k-framework",
+          "llvm-backend",
+          "nixpkgs"
+        ],
+        "poetry2nix": "poetry2nix_2",
         "rv-utils": [
           "kevm",
           "k-framework",
@@ -251,16 +390,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1722356902,
-        "narHash": "sha256-doCj/xyy8E9tU/d84paHoLbL+YecfsvE2S3wHdXCZAw=",
+        "lastModified": 1725395202,
+        "narHash": "sha256-UCMS6H8zIjFzN4xAXdCNcW7UChAp9knpRnscTg5z+jA=",
         "owner": "runtimeverification",
         "repo": "k",
-        "rev": "7485b9660c628041680e012d38dba3fdeca2ec90",
+        "rev": "42e03545c319847e7df84e6fbc196b2f51c148a0",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v7.1.89",
+        "ref": "v7.1.131",
         "repo": "k",
         "type": "github"
       }
@@ -278,23 +417,17 @@
           "k-framework",
           "haskell-backend"
         ],
-        "k-framework": "k-framework",
+        "k-framework": "k-framework_2",
         "nixpkgs": [
           "kevm",
           "k-framework",
           "nixpkgs"
         ],
-        "nixpkgs-pyk": [
-          "kevm",
-          "pyk",
-          "nixpkgs"
-        ],
         "poetry2nix": [
           "kevm",
-          "pyk",
+          "k-framework",
           "poetry2nix"
         ],
-        "pyk": "pyk",
         "rv-utils": [
           "kevm",
           "k-framework",
@@ -302,16 +435,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1722589829,
-        "narHash": "sha256-LEKenKaOtZe8+Qdj87i0yp39CvBq7vYUlFtOYKHla6Y=",
+        "lastModified": 1725445595,
+        "narHash": "sha256-BA310hwjtZl4D6G1TtJnSoJk3Nc1tYJmQNZQHnJtb9Y=",
         "owner": "runtimeverification",
         "repo": "evm-semantics",
-        "rev": "14c9d291ea52ef267725dc163f23b0ee6ab91028",
+        "rev": "6be9c545754b61169be827da056cfb8623de02a3",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v1.0.663",
+        "ref": "v1.0.707",
         "repo": "evm-semantics",
         "type": "github"
       }
@@ -340,6 +473,7 @@
         "immer-src": "immer-src",
         "nixpkgs": [
           "kevm",
+          "blockchain-k-plugin",
           "k-framework",
           "llvm-backend",
           "rv-utils",
@@ -351,16 +485,48 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1721983376,
-        "narHash": "sha256-pP56X9zoqV+x6QdjIHWH7gcXcwhz+Q08yD8RwBqiIRQ=",
+        "lastModified": 1724355360,
+        "narHash": "sha256-wy+g2rVUn2dYoZ/JSA8x0cWNWYDxnxLpAzaucjUBciQ=",
         "owner": "runtimeverification",
         "repo": "llvm-backend",
-        "rev": "79011fff66455dd451d39821534bd58f5468227b",
+        "rev": "b9d2a6da360e2b14a60a22928d625f43fb71ae02",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v0.1.64",
+        "ref": "v0.1.84",
+        "repo": "llvm-backend",
+        "type": "github"
+      }
+    },
+    "llvm-backend_2": {
+      "inputs": {
+        "flake-compat": "flake-compat_2",
+        "fmt-src": "fmt-src_2",
+        "immer-src": "immer-src_2",
+        "nixpkgs": [
+          "kevm",
+          "k-framework",
+          "llvm-backend",
+          "rv-utils",
+          "nixpkgs"
+        ],
+        "pybind11-src": "pybind11-src_2",
+        "rapidjson-src": "rapidjson-src_2",
+        "rv-utils": "rv-utils_2",
+        "utils": "utils_2"
+      },
+      "locked": {
+        "lastModified": 1724355360,
+        "narHash": "sha256-wy+g2rVUn2dYoZ/JSA8x0cWNWYDxnxLpAzaucjUBciQ=",
+        "owner": "runtimeverification",
+        "repo": "llvm-backend",
+        "rev": "b9d2a6da360e2b14a60a22928d625f43fb71ae02",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "ref": "v0.1.84",
         "repo": "llvm-backend",
         "type": "github"
       }
@@ -369,6 +535,7 @@
       "inputs": {
         "nixpkgs": [
           "kevm",
+          "blockchain-k-plugin",
           "k-framework",
           "poetry2nix",
           "nixpkgs"
@@ -392,7 +559,7 @@
       "inputs": {
         "nixpkgs": [
           "kevm",
-          "pyk",
+          "k-framework",
           "poetry2nix",
           "nixpkgs"
         ]
@@ -449,6 +616,7 @@
         "nix-github-actions": "nix-github-actions",
         "nixpkgs": [
           "kevm",
+          "blockchain-k-plugin",
           "k-framework",
           "llvm-backend",
           "nixpkgs"
@@ -477,24 +645,25 @@
         "nix-github-actions": "nix-github-actions_2",
         "nixpkgs": [
           "kevm",
-          "pyk",
+          "k-framework",
+          "llvm-backend",
           "nixpkgs"
         ],
-        "systems": "systems_5",
+        "systems": "systems_6",
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1698640399,
-        "narHash": "sha256-mXzyx79/iFLZ0UDuSkqgFfejYRcSJfsCnJ9WlMusaI0=",
+        "lastModified": 1725253878,
+        "narHash": "sha256-HwXut4WbOUAjmybhui2eNSE6+Wb0nigYgDzBBOZaPG4=",
         "owner": "nix-community",
         "repo": "poetry2nix",
-        "rev": "626111646fe236cb1ddc8191a48c75e072a82b7c",
+        "rev": "0d3fad5740d892487805cd2d60d8e4ed828486e9",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
+        "ref": "2024.9.219347",
         "repo": "poetry2nix",
-        "rev": "626111646fe236cb1ddc8191a48c75e072a82b7c",
         "type": "github"
       }
     },
@@ -515,41 +684,41 @@
         "type": "github"
       }
     },
-    "pyk": {
-      "inputs": {
-        "flake-utils": [
-          "kevm",
-          "pyk",
-          "poetry2nix",
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "kevm",
-          "pyk",
-          "rv-utils",
-          "nixpkgs"
-        ],
-        "poetry2nix": "poetry2nix_2",
-        "rv-utils": "rv-utils_2"
-      },
+    "pybind11-src_2": {
+      "flake": false,
       "locked": {
-        "dir": "pyk",
-        "lastModified": 1722356902,
-        "narHash": "sha256-doCj/xyy8E9tU/d84paHoLbL+YecfsvE2S3wHdXCZAw=",
-        "owner": "runtimeverification",
-        "repo": "k",
-        "rev": "7485b9660c628041680e012d38dba3fdeca2ec90",
+        "lastModified": 1657936673,
+        "narHash": "sha256-/X8DZPFsNrKGbhjZ1GFOj17/NU6p4R+saCW3pLKVNeA=",
+        "owner": "pybind",
+        "repo": "pybind11",
+        "rev": "0ba639d6177659c5dc2955ac06ad7b5b0d22e05c",
         "type": "github"
       },
       "original": {
-        "dir": "pyk",
-        "owner": "runtimeverification",
-        "ref": "v7.1.89",
-        "repo": "k",
+        "owner": "pybind",
+        "repo": "pybind11",
+        "rev": "0ba639d6177659c5dc2955ac06ad7b5b0d22e05c",
         "type": "github"
       }
     },
     "rapidjson-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1472111945,
+        "narHash": "sha256-SxUXSOQDZ0/3zlFI4R84J56/1fkw2jhge4mexNF6Pco=",
+        "owner": "Tencent",
+        "repo": "rapidjson",
+        "rev": "f54b0e47a08782a6131cc3d60f94d038fa6e0a51",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Tencent",
+        "repo": "rapidjson",
+        "rev": "f54b0e47a08782a6131cc3d60f94d038fa6e0a51",
+        "type": "github"
+      }
+    },
+    "rapidjson-src_2": {
       "flake": false,
       "locked": {
         "lastModified": 1472111945,
@@ -582,17 +751,9 @@
           "kevm",
           "nixpkgs"
         ],
-        "nixpkgs-pyk": [
-          "kevm",
-          "nixpkgs-pyk"
-        ],
         "poetry2nix": [
           "kevm",
           "poetry2nix"
-        ],
-        "pyk": [
-          "kevm",
-          "pyk"
         ],
         "rv-utils": [
           "kevm",
@@ -688,6 +849,21 @@
         "type": "github"
       }
     },
+    "stacklock2nix_2": {
+      "locked": {
+        "lastModified": 1705051190,
+        "narHash": "sha256-xgH0gaD3dNtOzZzX3A40hZTiHJP5cIGmifbmfcS2OGI=",
+        "owner": "cdepillabout",
+        "repo": "stacklock2nix",
+        "rev": "22676dfc45fa1c33899ba1da1a23665172a18ba7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cdepillabout",
+        "repo": "stacklock2nix",
+        "type": "github"
+      }
+    },
     "systems": {
       "locked": {
         "lastModified": 1681028828,
@@ -757,6 +933,21 @@
         "type": "github"
       },
       "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_6": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
         "id": "systems",
         "type": "indirect"
       }
@@ -765,6 +956,7 @@
       "inputs": {
         "nixpkgs": [
           "kevm",
+          "blockchain-k-plugin",
           "k-framework",
           "poetry2nix",
           "nixpkgs"
@@ -788,7 +980,7 @@
       "inputs": {
         "nixpkgs": [
           "kevm",
-          "pyk",
+          "k-framework",
           "poetry2nix",
           "nixpkgs"
         ]
@@ -825,6 +1017,24 @@
         "type": "github"
       }
     },
+    "utils_2": {
+      "inputs": {
+        "systems": "systems_4"
+      },
+      "locked": {
+        "lastModified": 1705309234,
+        "narHash": "sha256-uNRRNRKmJyCRC/8y1RqBkqWBLM034y4qN7EprSdmgyA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "1ef2e671c3b0c19053962c07dbda38332dcebf26",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "xbyak": {
       "flake": false,
       "locked": {
@@ -845,16 +1055,33 @@
     "z3": {
       "flake": false,
       "locked": {
-        "lastModified": 1674011426,
-        "narHash": "sha256-7cuUf29TMpX62PwO1ab3ZuzmzlcrRjTKB1CyXnYgYus=",
+        "lastModified": 1709835916,
+        "narHash": "sha256-MIbP3QgKIGF/qUMTupaO7xD46LbmH69kF/394Sajhkg=",
         "owner": "Z3Prover",
         "repo": "z3",
-        "rev": "3012293c35eadbfd73e5b94adbe50b0cc44ffb83",
+        "rev": "3049f578a8f98a0b0992eca193afe57a73b30ca3",
         "type": "github"
       },
       "original": {
         "owner": "Z3Prover",
-        "ref": "z3-4.12.1",
+        "ref": "z3-4.13.0",
+        "repo": "z3",
+        "type": "github"
+      }
+    },
+    "z3_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1709835916,
+        "narHash": "sha256-MIbP3QgKIGF/qUMTupaO7xD46LbmH69kF/394Sajhkg=",
+        "owner": "Z3Prover",
+        "repo": "z3",
+        "rev": "3049f578a8f98a0b0992eca193afe57a73b30ca3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Z3Prover",
+        "ref": "z3-4.13.0",
         "repo": "z3",
         "type": "github"
       }

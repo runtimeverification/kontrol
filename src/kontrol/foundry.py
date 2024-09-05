@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import re
+import shutil
 import sys
 import traceback
 import xml.etree.ElementTree as Et
@@ -23,6 +24,7 @@ from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
 from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
+from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
 from pyk.prelude.k import DOTS
@@ -60,6 +62,7 @@ if TYPE_CHECKING:
     from pyk.utils import BugReport
 
     from .options import (
+        CleanOptions,
         GetModelOptions,
         LoadStateOptions,
         MergeNodesOptions,
@@ -263,7 +266,9 @@ class Foundry:
 
         return _contracts
 
-    def mk_proofs_dir(self) -> None:
+    def mk_proofs_dir(self, reinit: bool = False, remove_existing_proofs: bool = False) -> None:
+        if remove_existing_proofs and self.proofs_dir.exists():
+            self.remove_old_proofs(reinit)
         self.proofs_dir.mkdir(exist_ok=True)
 
     def method_digest(self, contract_name: str, method_sig: str) -> str:
@@ -389,9 +394,12 @@ class Foundry:
             return list(element.rules)
         return ['NO DATA 3']
 
-    def build(self) -> None:
+    def build(self, no_metadata: bool) -> None:
+        forge_build_args = ['forge', 'build', '--build-info', '--root', str(self._root)] + (
+            ['--no-metadata'] if no_metadata else []
+        )
         try:
-            run_process_2(['forge', 'build', '--build-info', '--root', str(self._root)], logger=_LOGGER)
+            run_process_2(forge_build_args, logger=_LOGGER)
         except FileNotFoundError as err:
             raise RuntimeError(
                 "Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH."
@@ -752,6 +760,24 @@ class Foundry:
         latest_version = self.latest_proof_version(test)
         return latest_version + 1 if latest_version is not None else 0
 
+    def remove_old_proofs(self, force_remove: bool = False) -> bool:
+        if force_remove or any(
+            # We need to check only the methods that get written to the digest file
+            # Otherwise we'd get vacuous positives
+            (method.is_test or method.is_testfail or method.is_setup)
+            and not method.contract_up_to_date(Path(self.digest_file))
+            for contract in self.contracts.values()
+            for method in contract.methods
+        ):
+            shutil.rmtree(self.proofs_dir.absolute())
+            return True
+        else:
+            return False
+
+    def remove_proofs_dir(self) -> None:
+        if self.proofs_dir.exists():
+            shutil.rmtree(self.proofs_dir.absolute())
+
 
 def foundry_show(
     foundry: Foundry,
@@ -781,6 +807,9 @@ def foundry_show(
     )
     proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
 
+    if options.minimize_kcfg:
+        KCFGMinimizer(proof.kcfg).minimize()
+
     res_lines = proof_show.show(
         proof,
         nodes=nodes,
@@ -807,7 +836,7 @@ def foundry_show(
             res_lines += print_failure_info(proof, kcfg_explore, options.counterexample_info)
             res_lines += Foundry.help_info()
 
-    if options.to_kevm_claims:
+    if options.to_kevm_claims or options.to_kevm_rules:
         _foundry_labels = [
             prod.klabel
             for prod in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].productions
@@ -818,7 +847,10 @@ def foundry_show(
             kevm_config_pattern = KApply(
                 '<generatedTop>',
                 [
-                    KApply('<foundry>', [KVariable('KEVM_CELL'), KVariable('CHEATCODES_CELL')]),
+                    KApply(
+                        '<foundry>',
+                        [KVariable('KEVM_CELL'), KVariable('CHEATCODES_CELL'), KVariable('KEVMTRACING_CELL')],
+                    ),
                     KVariable('GENERATEDCOUNTER_CELL'),
                 ],
             )
@@ -845,17 +877,25 @@ def foundry_show(
         # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
         proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
 
-        claims = [edge.to_rule('BASIC-BLOCK', claim=True) for edge in proof.kcfg.edges()]
-        claims = [claim for claim in claims if not _contains_foundry_klabel(claim.body)]
-        claims = [
-            claim for claim in claims if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(claim.body)))
+        sentences = [
+            edge.to_rule(
+                'BASIC-BLOCK',
+                claim=(not options.to_kevm_rules),
+                defunc_with=foundry.kevm.definition,
+                minimize=options.minimize,
+            )
+            for edge in proof.kcfg.edges()
         ]
-        if len(claims) == 0:
-            _LOGGER.warning(f'No claims retained for proof {proof.id}')
+        sentences = [sent for sent in sentences if not _contains_foundry_klabel(sent.body)]
+        sentences = [
+            sent for sent in sentences if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(sent.body)))
+        ]
+        if len(sentences) == 0:
+            _LOGGER.warning(f'No claims or rules retained for proof {proof.id}')
 
         else:
             module_name = Contract.escaped(proof.id.upper() + '-SPEC', '')
-            module = KFlatModule(module_name, sentences=claims, imports=[KImport('VERIFICATION')])
+            module = KFlatModule(module_name, sentences=sentences, imports=[KImport('VERIFICATION')])
             defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
 
             defn_lines = foundry.kevm.pretty_print(defn, in_module='EVM').split('\n')
@@ -863,8 +903,8 @@ def foundry_show(
             res_lines += defn_lines
 
             if options.kevm_claim_dir is not None:
-                kevm_claims_file = options.kevm_claim_dir / (module_name.lower() + '.k')
-                kevm_claims_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
+                kevm_sentences_file = options.kevm_claim_dir / (module_name.lower() + '.k')
+                kevm_sentences_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
 
     return '\n'.join([line.rstrip() for line in res_lines])
 
@@ -1057,7 +1097,8 @@ def foundry_simplify_node(
         smt_timeout=options.smt_timeout,
         smt_retry_limit=options.smt_retry_limit,
         smt_tactic=options.smt_tactic,
-        trace_rewrites=options.trace_rewrites,
+        log_succ_rewrites=options.log_succ_rewrites,
+        log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
         maude_port=options.maude_port,
@@ -1145,7 +1186,8 @@ def foundry_step_node(
         smt_timeout=options.smt_timeout,
         smt_retry_limit=options.smt_retry_limit,
         smt_tactic=options.smt_tactic,
-        trace_rewrites=options.trace_rewrites,
+        log_succ_rewrites=options.log_succ_rewrites,
+        log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
         maude_port=options.maude_port,
@@ -1221,7 +1263,8 @@ def foundry_section_edge(
         smt_timeout=options.smt_timeout,
         smt_retry_limit=options.smt_retry_limit,
         smt_tactic=options.smt_tactic,
-        trace_rewrites=options.trace_rewrites,
+        log_succ_rewrites=options.log_succ_rewrites,
+        log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
         maude_port=options.maude_port,
@@ -1272,7 +1315,8 @@ def foundry_get_model(
         smt_timeout=options.smt_timeout,
         smt_retry_limit=options.smt_retry_limit,
         smt_tactic=options.smt_tactic,
-        trace_rewrites=options.trace_rewrites,
+        log_succ_rewrites=options.log_succ_rewrites,
+        log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
         maude_port=options.maude_port,
@@ -1389,3 +1433,14 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
         logger=_LOGGER,
         cwd=root,
     )
+
+
+def foundry_clean(foundry: Foundry, options: CleanOptions) -> None:
+    if options.proofs and options.old_proofs:
+        raise AttributeError('Use --proofs or --old-proofs, but not both!')
+    if options.proofs:
+        foundry.remove_proofs_dir()
+    elif options.old_proofs:
+        foundry.remove_old_proofs()
+    else:
+        run_process_2(['forge', 'clean', '--root', str(options.foundry_root)], logger=_LOGGER)

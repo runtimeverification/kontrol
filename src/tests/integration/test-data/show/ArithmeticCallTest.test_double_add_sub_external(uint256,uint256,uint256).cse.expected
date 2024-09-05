@@ -364,6 +364,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -511,15 +514,15 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256
@@ -746,6 +749,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -893,15 +899,15 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256
@@ -1124,6 +1130,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -1292,14 +1301,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))
@@ -1526,6 +1535,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -1673,15 +1685,15 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256
@@ -1913,6 +1925,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -2060,15 +2075,15 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256
@@ -2299,6 +2314,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -2446,15 +2464,15 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256
@@ -2687,6 +2705,9 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -2834,15 +2855,15 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( 0 <=Int VV2_z_114b9705:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( VV2_z_114b9705:Int <Int pow256

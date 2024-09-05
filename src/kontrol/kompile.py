@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import shutil
+import stat
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -44,7 +46,7 @@ def foundry_kompile(
     requires_paths: dict[str, str] = {}
 
     if not options.no_forge_build:
-        foundry.build()
+        foundry.build(options.no_metadata)
 
     if not options.no_silence_warnings:
         options.ignore_warnings = _silenced_warnings()
@@ -57,7 +59,12 @@ def foundry_kompile(
         regen = True
         foundry_up_to_date = False
 
-    for r in options.requires:
+    requires = (
+        options.requires
+        + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
+        + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
+    )
+    for r in tuple(requires):
         req = Path(r)
         if not req.exists():
             raise ValueError(f'No such file: {req}')
@@ -65,11 +72,17 @@ def foundry_kompile(
             raise ValueError(
                 f'Required K files have conflicting names: {r} and {requires_paths[req.name]}. Consider changing the name of one of these files.'
             )
-        requires_paths[req.name] = r  # noqa: B909
+        requires_paths[req.name] = str(r)
         req_path = foundry_requires_dir / req.name
         if regen or not req_path.exists():
             _LOGGER.info(f'Copying requires path: {req} -> {req_path}')
             shutil.copy(req, req_path)
+            # If the copied file is not writeable
+            if not os.access(req_path, os.W_OK):
+                # Fetch current permissions
+                current_permissions = req_path.stat().st_mode
+                # Grant write permissions
+                req_path.chmod(current_permissions | stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
             regen = True
 
     _imports: dict[str, list[str]] = {contract.name_with_path: [] for contract in foundry.contracts.values()}
@@ -86,7 +99,7 @@ def foundry_kompile(
     if regen or not foundry_contracts_file.exists() or not foundry.main_file.exists():
         if regen and foundry_up_to_date:
             console.print(
-                f'[{_rv_blue()}][bold]--regen[/bold] option provied. Rebuilding Kontrol Project.[/{_rv_blue()}]'
+                f'[{_rv_blue()}][bold]--regen[/bold] option provided. Rebuilding Kontrol Project.[/{_rv_blue()}]'
             )
 
         copied_requires = []
@@ -106,6 +119,8 @@ def foundry_kompile(
             contracts=foundry.contracts.values(),
             requires=(['contracts.k'] + copied_requires),
             imports=_imports,
+            keccak_lemmas=options.keccak_lemmas,
+            auxiliary_lemmas=options.auxiliary_lemmas,
         )
 
         kevm = KEVM(
@@ -132,6 +147,7 @@ def foundry_kompile(
         digest_dict = _read_digest_file(foundry.digest_file)
         digest_dict['kompilation'] = kompilation_digest()
         digest_dict['kontrol'] = VERSION
+        digest_dict['build-options'] = str(options)
         foundry.digest_file.write_text(json.dumps(digest_dict, indent=4))
 
         _LOGGER.info('Updated Kompilation digest')
@@ -188,6 +204,8 @@ def _foundry_to_main_def(
     empty_config: KInner,
     requires: Iterable[str],
     imports: dict[str, list[str]],
+    keccak_lemmas: bool,
+    auxiliary_lemmas: bool,
 ) -> KDefinition:
     modules = [
         contract_to_verification_module(contract, empty_config, imports=imports[contract.name_with_path])
@@ -195,7 +213,11 @@ def _foundry_to_main_def(
     ]
     _main_module = KFlatModule(
         main_module,
-        imports=(KImport(mname) for mname in [_m.name for _m in modules]),
+        imports=tuple(
+            [KImport(mname) for mname in (_m.name for _m in modules)]
+            + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
+            + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
+        ),
     )
 
     return KDefinition(

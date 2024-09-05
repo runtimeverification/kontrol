@@ -24,13 +24,13 @@
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   method: test%CSETest.test_add_const(uint256,uint256)
 ┃  │
-┃  │  (464 steps)
+┃  │  (193 steps)
 ┃  └─ 12 (vacuous, leaf)
-┃      k: #execute ~> #return 128 0 ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
-┃      pc: 0
-┃      callDepth: 1
+┃      k: #assume ( VV0_x_114b9705:Int <Int pow64 ) ~> #cheatcode_return 128 0 ~> #pc [ ST ...
+┃      pc: 737
+┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
-┃      method: src%cse%AddConst.setConst(uint256)
+┃      method: test%CSETest.test_add_const(uint256,uint256)
 ┃
 ┗━━┓ constraint: VV0_x_114b9705:Int <Int pow64
    │
@@ -67,9 +67,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
            <kevm>
              <k>
                ( JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int )
-               ~> #pc [ JUMPI ] => #execute
-               ~> #return 128 0
-               ~> #pc [ CALL ] )
+               ~> #pc [ JUMPI ] => #assume ( VV0_x_114b9705:Int <Int pow64 )
+               ~> #cheatcode_return 128 0
+               ~> #pc [ STATICCALL ] )
                ~> #execute
                ~> _CONTINUATION
              </k>
@@ -88,190 +88,32 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                    b""
                  </output>
                  <callStack>
-                   ( .List => ListItem ( <callState>
-                     <id>
-                       728815563385977040452943777879061427756277306518
-                     </id>
-                     <caller>
-                       CALLER_ID:Int
-                     </caller>
-                     <callData>
-                       b"\x0f\xee)\xd1" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
-                     </callData>
-                     <callValue>
-                       0
-                     </callValue>
-                     <wordStack>
-                       ( 164 : ( selector ( "setConst(uint256)" ) : ( 263400868551549723330807389252719309078400616203 : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) )
-                     </wordStack>
-                     <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe9\x19\xcf\x83" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
-                     </localMem>
-                     <memoryUsed>
-                       0
-                     </memoryUsed>
-                     <callGas>
-                       0
-                     </callGas>
-                     <static>
-                       false
-                     </static>
-                     <callDepth>
-                       0
-                     </callDepth>
-                     ...
-                   </callState> ) )
+                   .List
                  </callStack>
                  <interimStates>
-                   ( .List => ListItem ( { <accounts>
-                     ( <account>
-                       <acctID>
-                         1405310203571408291950365054053061012934685786634
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         263400868551549723330807389252719309078400616203
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         491460923342184218035706888008750043977755113263
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         1
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         645326474426547203313410069153905908525362434349
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         .Map
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         0
-                       </nonce>
-                       ...
-                     </account>
-                     <account>
-                       <acctID>
-                         728815563385977040452943777879061427756277306518
-                       </acctID>
-                       <balance>
-                         0
-                       </balance>
-                       <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
-                         ( ( 29 |-> 1405310203571408291950365054053061012934685786634 )
-                         ( 7 |-> 1 ) ) ) ) )
-                       </storage>
-                       <origStorage>
-                         .Map
-                       </origStorage>
-                       <transientStorage>
-                         .Map
-                       </transientStorage>
-                       <nonce>
-                         4
-                       </nonce>
-                       ...
-                     </account> ) ) ) )
-                   </accounts> | <substate>
-                     <selfDestruct>
-                       SELFDESTRUCT_CELL:Set
-                     </selfDestruct>
-                     <log>
-                       .List
-                     </log>
-                     <refund>
-                       0
-                     </refund>
-                     <accessedAccounts>
-                       ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 645326474426547203313410069153905908525362434349 ) )
-                     </accessedAccounts>
-                     <accessedStorage>
-                       .Map
-                     </accessedStorage>
-                   </substate> } ) )
+                   .List
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   .Set
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 728815563385977040452943777879061427756277306518 => 263400868551549723330807389252719309078400616203 )
+                     728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
+                     CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\x0f\xee)\xd1" => b"\xe9\x19\xcf\x83" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes ( #buf ( 32 , VV1_y_114b9705:Int ) => b"" )
+                     b"\x0f\xee)\xd1" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( VV0_x_114b9705:Int <Int pow64 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
+                     ( ( bool2Word ( VV0_x_114b9705:Int <Int pow64 ) => 164 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"" )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_x_114b9705:Int <Int pow64 ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -283,14 +125,11 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      false
                    </static>
                    <callDepth>
-                     ( 0 => 1 )
+                     0
                    </callDepth>
                    ...
                  </callState>
                  <substate>
-                   <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct>
                    <log>
                      .List
                    </log>
@@ -298,11 +137,12 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   ...
                  </substate>
                  <origin>
                    ORIGIN_ID:Int
@@ -319,6 +159,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -510,15 +353,15 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( pow64 <=Int VV0_x_114b9705:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -526,7 +369,6 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
-       ensures #buf ( 32 , bool2Word ( VV0_x_114b9705:Int <Int pow64 ) ) +Bytes b"" ~> .K ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" ~> .K
       [priority(20), label(BASIC-BLOCK-10-TO-12)]
     
     rule [BASIC-BLOCK-11-TO-13]: <foundry>
@@ -626,6 +468,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -817,15 +662,15 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int VV1_y_114b9705:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( VV0_x_114b9705:Int <Int pow64
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( VV1_y_114b9705:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -932,6 +777,9 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -1144,14 +992,14 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))

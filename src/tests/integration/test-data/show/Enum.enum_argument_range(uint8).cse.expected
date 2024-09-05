@@ -99,6 +99,9 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -192,13 +195,15 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( VV0_letter_114b9705:Int <Int 6
        andBool ( 0 <=Int VV0_letter_114b9705:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( VV0_letter_114b9705:Int <Int 256
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
@@ -214,8 +219,6 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int

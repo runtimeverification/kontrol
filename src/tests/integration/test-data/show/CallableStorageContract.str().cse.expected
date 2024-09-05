@@ -134,6 +134,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -211,8 +214,10 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
       requires ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
@@ -227,8 +232,6 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_CALLABLESTORAGECONTRACT_ID:Int
@@ -257,7 +260,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) , 0 , ( ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int -32 ) , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int 224 ) ) -Int ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) ) +Int -160 ) ) ) )
+                   ( _OUTPUT_CELL => #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int -32 ) , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int 224 ) ) -Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int -160 ) ) ) )
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
@@ -279,7 +282,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                      ( .WordStack => ( 95 : ( selector ( "str()" ) : .WordStack ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( #buf ( 32 , chop ( ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes ) *Int 256 ) ) ) , 0 , ( ( ( ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) *Int 32 ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -310,6 +313,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -386,9 +392,11 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int =/=Int 0
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
@@ -403,8 +411,6 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
        andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_CALLABLESTORAGECONTRACT_ID:Int

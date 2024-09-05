@@ -99,6 +99,9 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
                  ...
                </evm>
                <network>
+                 <chainID>
+                   1
+                 </chainID>
                  <accounts>
                    ( <account>
                      <acctID>
@@ -171,12 +174,14 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
          </foundry>
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int NUMBER_CELL:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
-       andBool ( 0 <=Int TIMESTAMP_CELL:Int
        andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( C_IDENTITY_NONCE:Int <Int maxUInt64
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -184,9 +189,7 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
-       andBool ( NUMBER_CELL:Int <=Int maxSInt256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
-       andBool ( TIMESTAMP_CELL:Int <Int pow256
        andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
