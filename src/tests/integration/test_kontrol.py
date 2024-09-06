@@ -114,6 +114,7 @@ def test_kontrol_end_to_end(
                 'usegas': False,
                 'port': server_end_to_end.port,
                 'force_sequential': force_sequential,
+                'schedule': 'CANCUN',
             }
         ),
     )
