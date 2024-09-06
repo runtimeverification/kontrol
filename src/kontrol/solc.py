@@ -86,10 +86,6 @@ class Instruction:
         return self.data.pc
 
     @property
-    def bytes(self) -> bytes:
-        return self.data.bytes
-
-    @property
     def operand_size(self) -> int:
         return self.data.operand_size
 
@@ -124,12 +120,6 @@ class Instruction:
             return node
         except Exception as error:
             raise Exception('Node not found.') from error
-
-    def is_jump_in(self) -> bool:
-        return self.source_map_entry[3] == 'i'
-
-    def is_jump_out(self) -> bool:
-        return self.source_map_entry[3] == 'o'
 
 
 class AstNode:
@@ -175,206 +165,6 @@ class AstNode:
     def children(self) -> list[AstNode]:
         return list(self._children())
 
-    def descendants(self) -> Iterator[AstNode]:
-        """Iterate all descendants in breadth-first order."""
-        queue = deque(self.children())
-        while len(queue) > 0:
-            current = queue.popleft()
-            yield current
-            queue.extend(current.children())
-        return
-
-    def ancestors(self) -> Iterator[AstNode]:
-        """Iterate all ancestor nodes from younger to older"""
-        current = self.parent
-        while current is not None:
-            yield current
-            current = current.parent
-        return
-
-    def root(self) -> AstNode:
-        """Return the root node"""
-        current = self
-        while current.parent is not None:
-            current = current.parent
-        return current
-
-    def closest_block(self) -> AstNode | None:
-        """Find the closest surrounding block."""
-        if self.is_block():
-            return self
-        for ancestor in self.ancestors():
-            if ancestor.is_block():
-                return ancestor
-        return None
-
-    def closest_for_loop(self) -> AstNode | None:
-        """Find the closest surrounding for loop."""
-        if self.is_for_loop():
-            return self
-        for ancestor in self.ancestors():
-            if ancestor.is_for_loop():
-                return ancestor
-        return None
-
-    def enclosing_block(self) -> AstNode | None:
-        """Find the closest surrounding block."""
-        for ancestor in self.ancestors():
-            if ancestor.is_block():
-                return ancestor
-        return None
-
-    def closest_stmt(self) -> AstNode | None:
-        """Find the closest parent statement."""
-        if self.is_solidity_statement():
-            return self
-        for ancestor in self.ancestors():
-            if ancestor.is_solidity_statement():
-                return ancestor
-        return None
-
-    def closest_stmt_or_block(self) -> AstNode | None:
-        """Find the closest parent statement or block."""
-        if self.is_statement() or self.is_block():
-            return self
-        for ancestor in self.ancestors():
-            if ancestor.is_statement() or ancestor.is_block():
-                return ancestor
-        return None
-
-    def closest_function_definition(self) -> AstNode | None:
-        """Find the closest parent function definition"""
-        if self.is_function_definition() or self.is_modifier_definition():
-            return self
-        for ancestor in self.ancestors():
-            if ancestor.is_function_definition() or ancestor.is_modifier_definition():
-                return ancestor
-        return None
-
-    def closest_contract_definition(self) -> AstNode | None:
-        """Find the closest parent contract definition"""
-        if self.json.get('nodeType') == 'ContractDefinition':
-            return self
-        for ancestor in self.ancestors():
-            if ancestor.json.get('nodeType') == 'ContractDefinition':
-                return ancestor
-        return None
-
-    def is_first_in_block(self) -> bool:
-        """Check if the node is the first in a block"""
-        block = self.enclosing_block()
-        if block is None:
-            return False
-        children = list(block.children())
-        return children[0] == self
-
-    def is_first_in_for_loop(self) -> bool:
-        """Check if the node is the first in a for loop"""
-        loop = self.closest_for_loop()
-        if loop is None:
-            return False
-        initialization_expression = AstNode(loop.json.get('initializationExpression', {}), self.source, loop)
-        return self == initialization_expression
-
-    def is_last_in_block(self) -> bool:
-        """Check if the node is the last in a block"""
-        block = self.enclosing_block()
-        if block is None:
-            return False
-        children = list(block.children())
-        return children[-1] == self
-
-    def first_stmt(self) -> AstNode | None:
-        """
-        Find the first stmt in the function body if any.
-        """
-        if not self.is_function_definition():
-            return None
-
-        stmts = self.json.get('body', {}).get('statements', [])
-        if len(stmts) > 0:
-            return AstNode(stmts[0], self.source, self)
-        return None
-
-    def nearest_stmt(self) -> AstNode | None:
-        """
-        Find the nearest statement.
-
-        If the current node is inside a statement, we return the closest stmt.
-        Otherwise, if the current node is in the initialization of a function,
-        we return the first statement.
-
-        Otherwise, if the current node is at the end of a function,
-        we return the last statement.
-        """
-        stmt = self.closest_stmt()
-        if stmt is not None:
-            return stmt
-
-        f = self.closest_function_definition()
-        if f is None:
-            return None
-        stmt = f.first_stmt()
-        return stmt
-
-    def variable_declarations(self) -> Iterator[AstNode]:
-        """Iterate all descendant variable declarations"""
-        for descendant in self.descendants():
-            if descendant.is_variable_declaration():
-                yield descendant
-        return
-
-    def declaring_scope(self) -> AstNode | None:
-        """If this node is a variable declaration, return it's declaring scope."""
-        if not self.is_variable_declaration():
-            return None
-        scope_id = self.json.get('scope')
-        if isinstance(scope_id, int):
-            return self.root().find_by_id(scope_id)
-        raise TypeError('AstNode.scope is not an int.')
-
-    def local_variable_declarations(self) -> Iterator[AstNode]:
-        if not self.is_block():
-            return
-        scope_id = self.json.get('id')
-        for declaration in self.variable_declarations():
-            if declaration.json.get('scope', None) == scope_id:
-                yield declaration
-        return
-
-    def for_variable_declarations(self) -> Iterator[AstNode]:
-        if not self.is_for_loop():
-            return
-        scope_id = self.json.get('id')
-        for declaration in self.variable_declarations():
-            if declaration.json.get('scope', None) == scope_id:
-                yield declaration
-        return
-
-    def variable_info(self) -> tuple[str, str]:
-        if not self.is_variable_declaration():
-            return '', ''
-        else:
-            return (
-                self.json.get('typeDescriptions', {}).get('typeIdentifier', ''),
-                self.json.get('storageLocation', ''),
-            )
-
-    def variable_reference_declaration_id(self) -> int:
-        if not self.is_variable_declaration():
-            return -1
-        else:
-            return self.json.get('typeName', {}).get('referencedDeclaration', -1)
-
-    def find_by_id(self, node_id: int) -> AstNode | None:  # type: ignore
-        """Search all descendants for the given node id."""
-        if self.json.get('id') == node_id:
-            return self
-
-        for descendant in self.descendants():
-            if descendant.json.get('id') == node_id:
-                return descendant
-
     @cache  # noqa: B019
     def sourcemap(self) -> AstNodeSourceMapEntry:
         """Return the source map associated with this node.
@@ -386,11 +176,6 @@ class AstNode:
         parts = self.json['src'].split(':')
         start, length, source_id = (int(part) for part in parts)
         return (start, length, source_id)
-
-    def source_text(self) -> str:
-        """Return the source text associated with this node."""
-        start, length, source_id = self.sourcemap()
-        return self.source.source_text[start : start + length]
 
     def find_by_range(self, range_start: int, range_end: int) -> AstNode | None:
         """Find the inner-most AstNode surrounding the given source range"""
@@ -409,53 +194,10 @@ class AstNode:
                 closest = current
         return closest
 
-    def find_in_line(self, line: int) -> list[AstNode]:
-        """Find all AstNodes starting in the given source line
-
-        The line and column numbers start at 1.
-        """
-        line_offset = self.source.position_to_offset((line, 1))
-        next_line_offset = self.source.position_to_offset((line + 1, 1))
-        result: list[AstNode] = []
-        queue = deque(self.descendants())
-        while len(queue) > 0:
-            current = queue.popleft()
-            node_offset, _, _ = current.sourcemap()
-            if line_offset <= node_offset and node_offset < next_line_offset:
-                result.append(current)
-        return result
-
-    @cached_property
-    def line(self) -> int | None:
-        """Return the line number of this node."""
-        start, _, _ = self.sourcemap()
-        return self.source.offset_to_position(start)[0]
-
-    @cached_property
-    def column(self) -> int | None:
-        """Return the column number of this node."""
-        start, _, _ = self.sourcemap()
-        return self.source.offset_to_position(start)[1]
-
     def source_range(self) -> SourceRange:
         start, l, _ = self.sourcemap()
         range = self.source.offset_to_position(start) + self.source.offset_to_position(start + l - 1)
         return range
-
-    def find_in_offset(self, line_offset: int) -> list[AstNode]:
-        """Find all AstNodes starting in the given source line
-
-        The line and column numbers start at 1.
-        """
-        # line_offset = self.source.position_to_offset((line, 1))xw
-        result: list[AstNode] = []
-        queue = deque(self.descendants())
-        while len(queue) > 0:
-            current = queue.popleft()
-            node_offset, _, _ = current.sourcemap()
-            if line_offset <= node_offset and node_offset < (line_offset + 1):
-                result.append(current)
-        return result
 
     def get(self, name: str, default: Any) -> Any:
         if name in self.json:
@@ -466,9 +208,6 @@ class AstNode:
     ###########################################################################
     # Type Checking
 
-    def is_constructor(self) -> bool:
-        return self.is_function_definition() and self.json.get('kind') == 'constructor'
-
     @staticmethod
     def is_node_like(node: Any) -> bool:
         return isinstance(node, dict) and 'nodeType' in node and isinstance(node['nodeType'], str)
@@ -476,71 +215,6 @@ class AstNode:
     @staticmethod
     def is_solidity_node_like(node: Any) -> bool:
         return AstNode.is_node_like(node) and not node['nodeType'].startswith('Yul')
-
-    def is_statement(self) -> bool:
-        return self.is_solidity_statement() or self.is_yul_statement()
-
-    def is_solidity_statement(self) -> bool:
-        node_type = self.json['nodeType']
-        is_pure_statement = node_type.endswith('Statement')
-        is_yul = node_type.startswith('Yul')
-        if is_pure_statement and not is_yul:
-            return node_type not in ('ForStatement', 'WhileStatement', 'IfStatement')
-        if node_type == 'Return':
-            return True
-        if self.is_condition():
-            return True
-        return False
-
-    def is_yul_statement(self) -> bool:
-        return self.json['nodeType'] in (
-            'YulAssignment',
-            'YulExpressionStatement',
-            'YulIf',
-            'YulSwitch',
-            'YulForLoop',
-            'YulLeave',
-            'YulBreak',
-            'YulContinue',
-            'YulFunctionCall',
-        )
-
-    def is_function_definition(self) -> bool:
-        return self.is_yul_function_definition() or self.is_solidity_function_definition()
-
-    def is_yul_function_definition(self) -> bool:
-        return self.json['nodeType'] == 'YulFunctionDefinition'
-
-    def is_solidity_function_definition(self) -> bool:
-        return self.json['nodeType'] == 'FunctionDefinition'
-
-    def is_modifier_definition(self) -> bool:
-        return self.json['nodeType'] == 'ModifierDefinition'
-
-    def is_block(self) -> bool:
-        return self.json['nodeType'] == 'Block'
-
-    def is_if(self) -> bool:
-        return self.json['nodeType'] == 'IfStatement'
-
-    def is_for_loop(self) -> bool:
-        return self.json['nodeType'] == 'ForStatement'
-
-    def is_condition(self) -> bool:
-        if self.parent is None:
-            return False
-        if not 'condition' in self.parent.json:
-            return False
-        return self.json == self.parent.json['condition']
-
-    def is_while_loop(self) -> bool:
-        return self.json['nodeType'] == 'WhileStatement'
-
-    def is_variable_declaration(self) -> bool:
-        return self.json['nodeType'] == 'VariableDeclaration'
-
-    def is_variable_declaration_statement(self) -> bool:
-        return self.json['nodeType'] == 'VariableDeclarationStatement'
 
 
 class Source:
@@ -691,13 +365,6 @@ class ContractSource:
         """
         return self._uuid
 
-    @property
-    def file_path(self) -> str:
-        """
-        The file path for the contract.
-        """
-        return self._file_path
-
     @cached_property
     def generated_sources(self) -> dict[int, Source]:
         """
@@ -778,23 +445,6 @@ class ContractSource:
         ref = self._json.get('evm') if 'evm' in self._json else self._json
         raw = ref.get('bytecode').get('object').removeprefix('0x')
         return bytes.fromhex(raw)
-
-    @property
-    def get_source_map(self) -> ContractSourceMap:
-        """Map from instruction to source map entries
-
-        See: https://docs.soliditylang.org/en/latest/internals/source_mappings.html
-        """
-        return self._source_map
-
-    def get_storage(self) -> list[dict[str, Any]]:
-        return self._json.get('storageLayout', {}).get('storage', [])
-
-    def offset_to_source_map_entry(self, offset: int) -> ContractSourceMapEntry:
-        return self._source_map.get(offset, (-1, -1, -1, '-', 0))
-
-    def offset_to_init_source_map_entry(self, offset: int) -> ContractSourceMapEntry:
-        return self._init_source_map.get(offset, (-1, -1, -1, '-', 0))
 
     def _cache_source_map(self) -> None:
         ref = self._json.get('evm') if 'evm' in self._json else self._json
@@ -882,9 +532,6 @@ class CompilationUnit:
 
         return compilation_unit
 
-    def contracts(self) -> list[ContractSource]:
-        return list(self._contracts.values())
-
     def get_instruction(self, contract_bytecode: bytes, pc: int) -> Instruction:
         # First try to match init bytecode 1-to-1
         try:
@@ -938,22 +585,6 @@ class CompilationUnit:
             if source.id == source_id:
                 return source
         raise KeyError('Source not found.')
-
-    def get_source_by_uuid(self, source_uuid: int) -> Source | None:
-        return self._sources.get(source_uuid, None)
-
-    def get_ast_node(self, ast_node_id: int) -> AstNode | None:
-        for source in self._sources.values():
-            ast_node = source.ast.find_by_id(ast_node_id)
-            if ast_node is not None:
-                return ast_node
-        return None
-
-    def get_source_from_path(self, path: Path) -> Source | None:
-        for source in self._sources.values():
-            if source._name == str(path):
-                return source
-        return None
 
 
 def to_uuid(s: str) -> int:
