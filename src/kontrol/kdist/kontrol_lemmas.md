@@ -105,24 +105,6 @@ module KONTROL-AUX-LEMMAS
     rule B ==K false => notBool B [simplification(30), comm]
     rule B ==K true  =>         B [simplification(30), comm]
 
-    // bool2Word
-    rule bool2Word(X)  ==Int 0 => notBool X [simplification(30), comm]
-    rule bool2Word(X) =/=Int 0 => X         [simplification(30), comm]
-    rule bool2Word(X)  ==Int 1 => X         [simplification(30), comm]
-    rule bool2Word(X) =/=Int 1 => notBool X [simplification(30), comm]
-
-    rule [bool2Word-lt-true]:  bool2Word(_:Bool) <Int X:Int => true      requires 1 <Int X [simplification(30), concrete(X)]
-    rule [bool2Word-lt-one]:   bool2Word(B:Bool) <Int 1     => notBool B                   [simplification(30)]
-    rule [bool2Word-gt-zero]:  0 <Int bool2Word(B:Bool)     => B                           [simplification(30)]
-    rule [bool2Word-gt-false]: X:Int <Int bool2Word(_:Bool) => false     requires 1 <Int X [simplification(30), concrete(X)]
-
-    rule 0 <=Int bool2Word(X) => true [simplification, smt-lemma]
-    rule bool2Word(X) <=Int 1 => true [simplification, smt-lemma]
-
-    rule bool2Word ( X ) xorInt bool2Word ( Y ) => bool2Word ( (X andBool notBool Y) orBool (notBool X andBool Y) ) [simplification]
-    rule 1 xorInt bool2Word ( X ) => 1 -Int bool2Word ( X ) [simplification, comm]
-    rule 0 xorInt bool2Word ( X ) => bool2Word ( X ) [simplification, comm]
-
     //
     // .Bytes
     //
@@ -315,13 +297,6 @@ module KONTROL-AUX-LEMMAS
       M:Bytes [ N:Int ] => #asWord ( #range(M, N, 1) )
       requires 0 <=Int N andBool N <Int lengthBytes(M)
       [simplification(60), symbolic(M), concrete(N), preserves-definedness]
-
-    rule bool2Word(B) *Int C <=Int A => notBool B orBool (B andBool C <=Int A)
-      requires 0 <=Int A
-      [simplification]
-
-    rule bool2Word(X) *Int Y ==Int Z => (X andBool (Y ==Int Z)) orBool ((notBool X) andBool Z ==Int 0)
-      [simplification]
 
     rule X *Int Y <=Int Z => Y <Int ( Z +Int 1 ) /Int X
       requires 0 <Int X andBool 0 <=Int Z andBool ( Z +Int 1) modInt X ==Int 0
