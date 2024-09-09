@@ -13,6 +13,7 @@ from kontrol.foundry import Foundry, init_project
 from kontrol.kompile import foundry_kompile
 from kontrol.options import BuildOptions, ProveOptions
 from kontrol.prove import foundry_prove
+from kontrol.utils import append_to_file, foundry_toml_cancun_schedule
 
 from .utils import TEST_DATA_DIR, assert_pass
 
@@ -59,6 +60,7 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
         if not foundry_root.is_dir():
             init_project(project_root=foundry_root, skip_forge=False)
             copy_tree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'))
+            append_to_file(foundry_root / 'foundry.toml', foundry_toml_cancun_schedule())
 
             foundry_kompile(
                 BuildOptions(
@@ -112,6 +114,7 @@ def test_kontrol_end_to_end(
                 'usegas': False,
                 'port': server_end_to_end.port,
                 'force_sequential': force_sequential,
+                'schedule': 'CANCUN',
             }
         ),
     )
