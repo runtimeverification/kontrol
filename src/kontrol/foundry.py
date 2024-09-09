@@ -376,15 +376,8 @@ class Foundry:
                         bytecode = ast.literal_eval(program_cell.token)
                         instruction = compilation_unit.get_instruction(bytecode, int(pc_cell.token))
                         node = instruction.node()
-                        # closest_stmt = instruction_node.closest_stmt()
-                        # node = closest_stmt if closest_stmt is not None else instruction_node
-                        start_line, _, end_line, _ = instruction.source_range()
-                        start_line1, _, end_line1, _ = node.source_range()
-                        return (  [f"contract_name: {instruction.contract._file_path}\n"]
-                                + [f"start: {start_line}  end:{end_line}\n"]
-                                + [f"source_name: {node.source.name}\n"]
-                                + [f"start: {start_line1}  end:{end_line1}\n"]
-                                + self.solidity_src_print(Path(node.source.name), start_line1 - 1, end_line1))
+                        start_line, _, end_line, _ = node.source_range()
+                        return self.solidity_src_print(Path(node.source.name), start_line - 1, end_line)
                     except Exception as e:
                         return [str(e)]
                 return ['NO DATA 2']
