@@ -446,7 +446,8 @@ class ProveOptions(
             | EVMChainOptions.get_argument_type()
             | {
                 'match-test': list_of(parse_test_version_tuple),
-                'init-node-from': file_path,
+                'init-node-from-diff': file_path,
+                'init-node-from-dump': file_path,
                 'include-summary': list_of(parse_test_version_tuple),
             }
         )
