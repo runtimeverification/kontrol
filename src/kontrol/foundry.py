@@ -37,6 +37,7 @@ from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
+from .solc import CompilationUnit
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
 from .utils import (
@@ -77,8 +78,6 @@ if TYPE_CHECKING:
         ToDotOptions,
         UnrefuteNodeOptions,
     )
-    from .solc import CompilationUnit
-
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -378,7 +377,7 @@ class Foundry:
                         node = instruction.node()
                         start_line, _, end_line, _ = node.source_range()
                         return self.solidity_src_print(Path(node.source.name), start_line - 1, end_line)
-                    except Exception as e:
+                    except Exception:
                         return [f'No sourcemap data for contract at pc {contract_name}: {int(pc_cell.token)}']
                 return ['NO DATA']
         elif type(element) is KCFG.Edge:
@@ -1347,24 +1346,32 @@ class FoundryNodePrinter(KEVMNodePrinter):
     foundry: Foundry
     contract_name: str
     omit_unstable_output: bool
+    compilation_unit: CompilationUnit
 
     def __init__(self, foundry: Foundry, contract_name: str, omit_unstable_output: bool = False):
         KEVMNodePrinter.__init__(self, foundry.kevm)
         self.foundry = foundry
         self.contract_name = contract_name
         self.omit_unstable_output = omit_unstable_output
+        self.compilation_unit = CompilationUnit.load_build_info(foundry._root)
 
     def print_node(self, kcfg: KCFG, node: KCFG.Node) -> list[str]:
         ret_strs = super().print_node(kcfg, node)
         _pc = node.cterm.try_cell('PC_CELL')
+        program_cell = node.cterm.try_cell('PROGRAM_CELL')
+
         if type(_pc) is KToken and _pc.sort == INT:
-            srcmap_data = self.foundry.srcmap_data(self.contract_name, int(_pc.token))
-            if not self.omit_unstable_output and srcmap_data is not None:
-                path, start, end = srcmap_data
-                ret_strs.append(f'src: {str(path)}:{start}:{end}')
+            if type(program_cell) is KToken:
+                try:
+                    bytecode = ast.literal_eval(program_cell.token)
+                    instruction = self.compilation_unit.get_instruction(bytecode, int(_pc.token))
+                    ast_node = instruction.node()
+                    start_line, _, end_line, _ = ast_node.source_range()
+                    ret_strs.append(f'src: {str(Path(ast_node.source.name))}:{start_line}:{end_line}')
+                except Exception:
+                    pass
 
         calldata_cell = node.cterm.try_cell('CALLDATA_CELL')
-        program_cell = node.cterm.try_cell('PROGRAM_CELL')
 
         if type(program_cell) is KToken:
             selector_bytes = None
