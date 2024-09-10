@@ -248,6 +248,12 @@ extra_output = ['storageLayout']
 """
 
 
+def foundry_toml_cancun_schedule() -> str:
+    return """
+evm_version = "cancun"
+"""
+
+
 def _rv_yellow() -> str:
     return '#ffcc07'
 
