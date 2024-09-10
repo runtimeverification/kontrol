@@ -379,13 +379,13 @@ class Foundry:
                         start_line, _, end_line, _ = node.source_range()
                         return self.solidity_src_print(Path(node.source.name), start_line - 1, end_line)
                     except Exception as e:
-                        return [str(e)]
-                return ['NO DATA 2']
+                        return [f'No sourcemap data for contract at pc {contract_name}: {int(pc_cell.token)}']
+                return ['NO DATA']
         elif type(element) is KCFG.Edge:
             return list(element.rules)
         elif type(element) is KCFG.NDBranch:
             return list(element.rules)
-        return ['NO DATA 3']
+        return ['NO DATA']
 
     def build(self, no_metadata: bool) -> None:
         forge_build_args = ['forge', 'build', '--build-info', '--root', str(self._root)] + (
