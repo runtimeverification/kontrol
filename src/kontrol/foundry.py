@@ -387,11 +387,23 @@ class Foundry:
         return ['NO DATA']
 
     def build(self, no_metadata: bool) -> None:
-        forge_build_args = ['forge', 'build', '--build-info', '--root', str(self._root)] + (
-            ['--no-metadata'] if no_metadata else []
-        )
+        forge_build_args = ['forge', 'build', '--root', str(self._root)]
+        env = {
+            'FOUNDRY_OPTIMIZER': 'false',
+            'FOUNDRY_BUILD_INFO': 'true',
+            'FOUNDRY_EXTRA_OUTPUT': '["storageLayout", "evm.bytecode.generatedSources"]',
+            'FOUNDRY_BYTECODE_HASH': 'ipfs',
+            'FOUNDRY_CBOR_METADATA': 'true',
+        }
+        if no_metadata:
+            forge_build_args += ['--no-metadata']
+            env = env = {
+                'FOUNDRY_OPTIMIZER': 'false',
+                'FOUNDRY_BUILD_INFO': 'true',
+                'FOUNDRY_EXTRA_OUTPUT': '["storageLayout", "evm.bytecode.generatedSources"]',
+            }
         try:
-            run_process_2(forge_build_args, logger=_LOGGER)
+            run_process_2(forge_build_args, env=env, logger=_LOGGER)
         except FileNotFoundError as err:
             raise RuntimeError(
                 "Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH."
