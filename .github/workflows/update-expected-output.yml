@@ -28,8 +28,8 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
       - name: 'Run integration tests'
         run: |
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS='--numprocesses=6 --update-expected-output -vv -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)"'
-          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS='--numprocesses=6 --update-expected-output -vv -k "test_kontrol_cse or test_foundry_minimize_proof"'
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS='--numprocesses=6 --update-expected-output -vv -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)"' || true
+          docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS='--numprocesses=6 --update-expected-output -vv -k "test_kontrol_cse or test_foundry_minimize_proof"' || true
       - name: 'Copy updated files to host'
         run: |
           docker cp kontrol-ci-integration-${GITHUB_SHA}:/home/user/src/tests/integration/test-data/show ./src/tests/integration/test-data/show
