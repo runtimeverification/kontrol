@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.setUp()
 │
 │  (182 steps)
@@ -12,6 +13,7 @@
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 │   method: test%AssertTest.setUp()
 │
 │  (1 step)
@@ -20,6 +22,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 │
 │  (366 steps)
@@ -28,6 +31,7 @@
 │   pc: 1590
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
 │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃
 ┃ (branch)
@@ -38,6 +42,7 @@
 ┃  │   pc: 1590
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
 ┃  │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃  │
 ┃  │  (72 steps)
@@ -71,6 +76,7 @@
    │   pc: 1590
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
    │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
    │  (37 steps)
@@ -79,6 +85,7 @@
    │   pc: 328
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
    │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
    │  (1 step)
@@ -87,6 +94,7 @@
    │   pc: 328
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
    │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
    │  (2 steps)
@@ -95,6 +103,7 @@
        pc: 328
        callDepth: 0
        statusCode: EVMC_SUCCESS
+       src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
        method: test%AssertTest.test_revert_branch(uint256,uint256)
 
 

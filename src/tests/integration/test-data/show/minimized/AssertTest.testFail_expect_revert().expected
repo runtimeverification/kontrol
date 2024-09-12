@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.setUp()
 │
 │  (1272 steps)
@@ -12,6 +13,7 @@
     pc: 328
     callDepth: 0
     statusCode: EVMC_SUCCESS
+    src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
     method: test%AssertTest.testFail_expect_revert()
 
 
@@ -267,7 +269,7 @@ Node 20:
 
 
 
-module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
+module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():1
     
     
     rule [BASIC-BLOCK-1-TO-20]: <foundry>

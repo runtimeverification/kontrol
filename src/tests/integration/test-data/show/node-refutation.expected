@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%MergeTest.test_branch_merge(uint256)
 │
 │  (324 steps)
@@ -12,6 +13,7 @@
 │   pc: 525
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:90:90
 │   method: test%MergeTest.test_branch_merge(uint256)
 ┃
 ┃ (branch)
@@ -22,6 +24,7 @@
 ┃      pc: 525
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
+┃      src: lib/forge-std/src/StdInvariant.sol:90:90
 ┃      method: test%MergeTest.test_branch_merge(uint256)
 ┃
 ┗━━┓ constraint: VV0_x_114b9705:Int <Int 10
@@ -31,6 +34,7 @@
    │   pc: 525
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:90:90
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (90 steps)
@@ -39,6 +43,7 @@
    │   pc: 235
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:77:79
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (1 step)
@@ -47,6 +52,7 @@
    │   pc: 235
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   src: lib/forge-std/src/StdInvariant.sol:77:79
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (2 steps)
@@ -55,6 +61,7 @@
    │   pc: 235
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   src: lib/forge-std/src/StdInvariant.sol:77:79
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    ┊  constraint: true

@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%SetUpDeployTest.setUp()
 │
 │  (876 steps)
@@ -12,6 +13,7 @@
 │   pc: 194
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:69:71
 │   method: test%SetUpDeployTest.setUp()
 │
 │  (1 step)
@@ -20,6 +22,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%SetUpDeployTest.test_extcodesize()
 │
 │  (348 steps)
@@ -28,6 +31,7 @@
 │   pc: 194
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:69:71
 │   method: test%SetUpDeployTest.test_extcodesize()
 │
 │  (1 step)
@@ -36,6 +40,7 @@
 │   pc: 194
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:69:71
 │   method: test%SetUpDeployTest.test_extcodesize()
 │
 │  (2 steps)
@@ -44,6 +49,7 @@
 │   pc: 194
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:69:71
 │   method: test%SetUpDeployTest.test_extcodesize()
 │
 ┊  constraint: true
