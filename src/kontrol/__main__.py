@@ -381,7 +381,7 @@ def exec_clean(options: CleanOptions) -> None:
 
 
 def exec_init(options: InitOptions) -> None:
-    init_project(project_root=options.project_root, skip_forge=options.skip_forge)
+    init_project(project_root=options.project_root, skip_forge_init=options.skip_forge_init)
 
 
 if __name__ == '__main__':

@@ -58,7 +58,7 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
     foundry_root = root_tmp_dir / 'kontrol-test-project'
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
-            init_project(project_root=foundry_root, skip_forge=False)
+            init_project(project_root=foundry_root, skip_forge_init=False)
             copy_tree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'))
             append_to_file(foundry_root / 'foundry.toml', foundry_toml_cancun_schedule())
 

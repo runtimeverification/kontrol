@@ -876,8 +876,8 @@ def _create_argument_parser() -> ArgumentParser:
     )
 
     init.add_argument(
-        '--skip-forge',
-        dest='skip_forge',
+        '--skip-forge-init',
+        dest='skip_forge_init',
         default=None,
         action='store_true',
         help='Skip Forge initialisation and add only the files required for Kontrol (for already existing Forge projects).',

@@ -16,6 +16,7 @@ from pathlib import Path
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
+from kontrol.__main__ import _load_foundry
 import tomlkit
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
@@ -41,9 +42,7 @@ from .solc_to_k import Contract, _contract_name_from_bytecode
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
 from .utils import (
     _read_digest_file,
-    append_to_file,
     empty_lemmas_file_contents,
-    foundry_toml_extra_contents,
     kontrol_file_contents,
     kontrol_toml_file_contents,
     kontrol_up_to_date,
@@ -1391,27 +1390,54 @@ def foundry_node_printer(
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
 
 
-def init_project(project_root: Path, *, skip_forge: bool) -> None:
+def init_project(project_root: Path, *, skip_forge_init: bool) -> None:
     """
     Wrapper around `forge init` that creates new Foundry projects compatible with Kontrol.
 
-    :param skip_forge: Skip the `forge init` process, if there already exists a Foundry project.
+    :param skip_forge_init: Skip the `forge init` process, if there already exists a Foundry project.
     :param project_root: Name of the new project that is created.
     """
 
-    if not skip_forge:
+    if not skip_forge_init:
         run_process_2(['forge', 'init', str(project_root), '--no-git'], logger=_LOGGER)
 
     root = ensure_dir_path(project_root)
+    foundry = _load_foundry(root)
+
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
-    append_to_file(root / 'foundry.toml', foundry_toml_extra_contents())
+    update_foundry_toml_file(root / 'foundry.toml')
     run_process_2(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,
         cwd=root,
     )
+
+
+# TODO: consider 'configuration' 
+def update_foundry_toml_file(foundry: Foundry, foundry_toml_path: Path) -> None:
+    try:
+        with (foundry_toml_path).open('r') as f:
+            config = tomlkit.load(f)
+
+        if 'extra_output' in config:
+            extra_output = config['extra_output']
+            if isinstance(extra_output, list):
+                # `extra_output` is a list, but doesn't contain `storageLayout`
+                if 'storageLayout' not in extra_output:
+                    extra_output.append('storageLayout')
+            else:
+                # `extra_output` is not a list
+                config['extra_output'] = ['storageLayout']
+        else:
+            # 'extra_output' does not exist
+            config['extra_output'] = ['storageLayout']
+
+        # Write the updated configuration back to `foundry.toml`
+        write_to_file(foundry_toml_path, tomlkit.dumps(config))
+    except Exception as e:
+        print(f"Error updating `foundry.toml`: {e}")
 
 
 def foundry_clean(foundry: Foundry, options: CleanOptions) -> None:

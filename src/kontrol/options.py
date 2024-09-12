@@ -182,13 +182,13 @@ class GetModelOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
 
 class InitOptions(LoggingOptions):
     project_root: Path
-    skip_forge: bool
+    skip_forge_init: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
         return {
             'project_root': Path.cwd(),
-            'skip_forge': False,
+            'skip_forge_init': False,
         }
 
     @staticmethod
