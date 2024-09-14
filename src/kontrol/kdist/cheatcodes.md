@@ -328,15 +328,17 @@ This rule then takes from the function call data the account using `#asWord(#ran
 
 ```
 function symbolicStorage(address) external;
+function setArbitraryStorage(address) external;
 ```
 
-`cheatcode.call.symbolicStorage` will match when the `symbolicStorage` cheat code function is called.
+`cheatcode.call.symbolicStorage` will match when either of the `symbolicStorage` or `setArbitraryStorage` cheat code functions are called.
 This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes its storage completely symbolic.
 
 ```k
     rule [cheatcode.call.symbolicStorage]:
          <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setSymbolicStorage #asWord(ARGS) ... </k>
       requires SELECTOR ==Int selector ( "symbolicStorage(address)" )
+        orBool SELECTOR ==Int selector ( "setArbitraryStorage(address)")
 ```
 
 #### `copyStorage` - Copies the storage of one account into another.
@@ -1585,6 +1587,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "expectEmit(bool,bool,bool,bool,address)" )  => 2176505587 )
     rule ( selector ( "sign(uint256,bytes32)" )                    => 3812747940 )
     rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
+    rule ( selector ( "setArbitraryStorage(address)" )             => 3781367863 )
     rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
