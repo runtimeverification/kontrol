@@ -19,7 +19,7 @@
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (539 steps)
-┃  ├─ 9 (terminal)
+┃  ├─ 7 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 295
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -130,7 +130,7 @@
 module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-17-TO-9]: <foundry>
+    rule [BASIC-BLOCK-17-TO-7]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -311,7 +311,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-17-TO-9)]
+      [priority(20), label(BASIC-BLOCK-17-TO-7)]
     
     rule [BASIC-BLOCK-23-TO-11]: <foundry>
            <kevm>
