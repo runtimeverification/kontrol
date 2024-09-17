@@ -63,13 +63,6 @@ module SYMBOLIC-BYTES-LEMMAS
       [simplification(80), concrete(B, N)]
 
     //
-    // Equality of #asWord
-    //
-    rule { X:Int #Equals #asWord ( B:Bytes ) } => { #buf ( 32, X ) #Equals B }
-      requires #rangeUInt(256, X) andBool lengthBytes( B ) ==Int 32
-      [simplification, concrete(X), preserves-definedness]
-
-    //
     // String-related manipulation
     //
     rule [bitwise-and-to-right]:

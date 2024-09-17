@@ -50,7 +50,7 @@ module PAUSABILITY-LEMMAS [symbolic]
 
     // Cancellativity #6
     rule (A -Int B) -Int (C -Int B) => A -Int C [simplification]
-  
+
     // Upper bound on (pow256 - 32) &Int lengthBytes(X)
     rule notMaxUInt5 &Int Y <=Int Y => true
       requires 0 <=Int Y
@@ -67,25 +67,8 @@ module PAUSABILITY-LEMMAS [symbolic]
     rule notMaxUInt5 &Int X +Int 31 <Int X +Int 32 => true requires 0 <=Int X [simplification]
 
     //
-    // #asWord
+    // #asInteger
     //
-
-    // Move to function parameters
-    rule { #asWord ( X ) #Equals #asWord ( Y ) } => #Top
-      requires X ==K Y
-      [simplification]
-
-    // #asWord ignores leading zeros
-    rule #asWord ( BA1 +Bytes BA2 ) => #asWord ( BA2 )
-      requires #asInteger(BA1) ==Int 0
-      [simplification, concrete(BA1)]
-
-
-    // Equality and #range
-    rule #asWord ( #range ( #buf ( 32 , _X:Int ) , S:Int , W:Int ) ) ==Int Y:Int => false
-        requires S +Int W <=Int 32
-         andBool (2 ^Int (8 *Int W)) <=Int Y
-        [concrete(S, W, Y), simplification]
 
     // Conversion from bytes always yields a non-negative integer
     rule 0 <=Int #asInteger ( _ ) => true [simplification]

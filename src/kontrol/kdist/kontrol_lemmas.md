@@ -75,18 +75,6 @@ module KONTROL-AUX-LEMMAS
     // modInt
     rule (X *Int Y) modInt Z => 0 requires X modInt Z ==Int 0 [simplification, concrete(X, Z), preserves-definedness]
 
-    // Further generalization of: maxUIntXXX &Int #asWord ( BA )
-    rule X &Int #asWord ( BA ) => #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) )
-    requires #rangeUInt(256, X)
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool (log2Int (X +Int 1)) /Int 8 <=Int lengthBytes(BA) andBool lengthBytes(BA) <=Int 32
-     [simplification, concrete(X), preserves-definedness]
-
-    rule #asWord( BA ) >>Int N => #asWord( #range ( BA, 0, lengthBytes( BA ) -Int ( N /Int 8 ) ) )
-    requires 0 <=Int N andBool N modInt 8 ==Int 0
-    [simplification, concrete(N), preserves-definedness]
-
     // >>Int
     rule [shift-to-div]: X >>Int N => X /Int (2 ^Int N)
       requires 0 <=Int X andBool 0 <=Int N [simplification(60), concrete(N)]
@@ -149,48 +137,6 @@ module KONTROL-AUX-LEMMAS
     //
     // Specific simplifications
     //
-    rule X &Int #asWord ( BA ) ==Int Y:Int => true
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) ==Int Y:Int
-     [simplification, concrete(X), comm, preserves-definedness]
-
-    rule X &Int #asWord ( BA ) ==Int Y:Int => false
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool notBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) ==Int Y:Int
-     [simplification, concrete(X), comm, preserves-definedness]
-
-    rule X &Int #asWord ( BA ) <Int Y:Int => true
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) <Int Y:Int
-     [simplification, concrete(X), preserves-definedness]
-
-    rule X &Int #asWord ( BA ) <Int Y:Int => false
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool notBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) <Int Y:Int
-     [simplification, concrete(X), preserves-definedness]
-
-    rule X &Int #asWord ( BA ) <=Int Y:Int => true
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) <=Int Y:Int
-     [simplification, concrete(X), preserves-definedness]
-
-    rule X &Int #asWord ( BA ) <=Int Y:Int => false
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool notBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) <=Int Y:Int
-     [simplification, concrete(X), preserves-definedness]
-
     rule X &Int ( Y *Int Z ) => 0
     requires 0 <=Int X andBool 0 <=Int Y andBool 0 <=Int Z
      andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
