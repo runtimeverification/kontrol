@@ -557,6 +557,17 @@ classify-imports = "*"
 flake8 = "*"
 
 [[package]]
+name = "future"
+version = "1.0.0"
+description = "Clean single-source support for Python 3 and 2"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
+files = [
+    {file = "future-1.0.0-py3-none-any.whl", hash = "sha256:929292d34f5872e70396626ef385ec22355a1fae8ad29e1a734c3e43f9fbc216"},
+    {file = "future-1.0.0.tar.gz", hash = "sha256:bd2968309307861edae1458a4f8a4f3598c03be43b97521076aebf5d94c07b05"},
+]
+
+[[package]]
 name = "graphviz"
 version = "0.20.3"
 description = "Simple Python interface for Graphviz"
@@ -1081,6 +1092,24 @@ files = [
 ]
 
 [[package]]
+name = "pyevmasm"
+version = "0.2.3"
+description = "Ethereum Virtual Machine (EVM) assembler and disassembler"
+optional = false
+python-versions = ">2.7"
+files = [
+    {file = "pyevmasm-0.2.3-py2-none-any.whl", hash = "sha256:6dbc96f7251a5287cc2af868c96c760c2343c882afe99d01996f8133a5769355"},
+    {file = "pyevmasm-0.2.3-py3-none-any.whl", hash = "sha256:57eeb2b8482a56b215402780e97c175ba11b34584d2ad0914deab146b37be540"},
+    {file = "pyevmasm-0.2.3.tar.gz", hash = "sha256:1b3334e2d25bfbc4fac5e14a5d7b814999256c12dbc4c34796b9982dad73fcf6"},
+]
+
+[package.dependencies]
+future = "*"
+
+[package.extras]
+dev = ["coverage", "flake8", "nose"]
+
+[[package]]
 name = "pyflakes"
 version = "3.2.0"
 description = "passive checker of Python programs"
@@ -1413,4 +1442,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "02efe427eb9e145af589b4f52107c76045cc039757787459ce61286e5baf36e5"
+content-hash = "797a08803d0dccb9509b3e208e29d940c15bebd59974f3722107aa80444fdf0e"

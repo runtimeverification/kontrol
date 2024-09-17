@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%CSETest.setUp()
 │
 │  (1550 steps)
@@ -12,6 +13,7 @@
 │   pc: 669
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:82:82
 │   method: test%CSETest.test_add_const(uint256,uint256)
 ┃
 ┃ (branch)
@@ -22,6 +24,7 @@
 ┃  │   pc: 669
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/forge-std/src/StdInvariant.sol:82:82
 ┃  │   method: test%CSETest.test_add_const(uint256,uint256)
 ┃  │
 ┃  │  (193 steps)
@@ -30,6 +33,7 @@
 ┃      pc: 737
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
+┃      src: lib/forge-std/src/StdInvariant.sol:78:78
 ┃      method: test%CSETest.test_add_const(uint256,uint256)
 ┃
 ┗━━┓ constraint: VV0_x_114b9705:Int <Int pow64
@@ -39,6 +43,7 @@
    │   pc: 669
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:82:82
    │   method: test%CSETest.test_add_const(uint256,uint256)
    │
    │  (1123 steps)
@@ -47,6 +52,7 @@
    │   pc: 221
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   src: lib/forge-std/src/StdInvariant.sol:89:91
    │   method: test%CSETest.test_add_const(uint256,uint256)
    │
    ┊  constraint: true
