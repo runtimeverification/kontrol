@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃
 ┃ (branch)
@@ -14,6 +15,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (539 steps)
@@ -22,6 +24,7 @@
 ┃  │   pc: 295
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_REVERT
+┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
@@ -41,6 +44,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (552 steps)
@@ -49,6 +53,7 @@
 ┃  │   pc: 295
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_REVERT
+┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
@@ -69,6 +74,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (921 steps)
@@ -77,6 +83,7 @@
 ┃  │   pc: 128
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  ┊  constraint: OMITTED CONSTRAINT
@@ -97,6 +104,7 @@
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
+   │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
    │
    │  (844 steps)
@@ -105,6 +113,7 @@
    │   pc: 550
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
+   │   src: lib/forge-std/src/StdInvariant.sol:90:90
    │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
    │
    ┊  constraint: OMITTED CONSTRAINT
