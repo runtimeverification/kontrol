@@ -37,6 +37,7 @@ from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
+from .solc import CompilationUnit
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
 from .utils import (
@@ -77,7 +78,6 @@ if TYPE_CHECKING:
         ToDotOptions,
         UnrefuteNodeOptions,
     )
-
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -339,6 +339,13 @@ class Foundry:
         _, start, end = byte_offset_to_lines(src_contract_text.split('\n'), s, l)
         return (src_contract_path, start, end)
 
+    def solidity_src_print(self, path: Path, start: int, end: int) -> Iterable[str]:
+        lines = path.read_text().split('\n')
+        prefix_lines = [f'   {l}' for l in lines[:start]]
+        actual_lines = [f' | {l}' for l in lines[start:end]]
+        suffix_lines = [f'   {l}' for l in lines[end:]]
+        return prefix_lines + actual_lines + suffix_lines
+
     def solidity_src(self, contract_name: str, pc: int) -> Iterable[str]:
         srcmap_data = self.srcmap_data(contract_name, pc)
         if srcmap_data is None:
@@ -346,11 +353,7 @@ class Foundry:
         contract_path, start, end = srcmap_data
         if not (contract_path.exists() and contract_path.is_file()):
             return [f'No file at path for contract {contract_name}: {contract_path}']
-        lines = contract_path.read_text().split('\n')
-        prefix_lines = [f'   {l}' for l in lines[:start]]
-        actual_lines = [f' | {l}' for l in lines[start:end]]
-        suffix_lines = [f'   {l}' for l in lines[end:]]
-        return prefix_lines + actual_lines + suffix_lines
+        return self.solidity_src_print(contract_path, start, end)
 
     def short_info_for_contract(self, contract_name: str, cterm: CTerm) -> list[str]:
         ret_strs = self.kevm.short_info(cterm)
@@ -362,11 +365,21 @@ class Foundry:
                 ret_strs.append(f'src: {str(path)}:{start}:{end}')
         return ret_strs
 
-    def custom_view(self, contract_name: str, element: KCFGElem) -> Iterable[str]:
+    def custom_view(self, contract_name: str, element: KCFGElem, compilation_unit: CompilationUnit) -> Iterable[str]:
         if type(element) is KCFG.Node:
             pc_cell = element.cterm.try_cell('PC_CELL')
+            program_cell = element.cterm.try_cell('PROGRAM_CELL')
             if type(pc_cell) is KToken and pc_cell.sort == INT:
-                return self.solidity_src(contract_name, int(pc_cell.token))
+                if type(program_cell) is KToken:
+                    try:
+                        bytecode = ast.literal_eval(program_cell.token)
+                        instruction = compilation_unit.get_instruction(bytecode, int(pc_cell.token))
+                        node = instruction.node()
+                        start_line, _, end_line, _ = node.source_range()
+                        return self.solidity_src_print(Path(node.source.name), start_line - 1, end_line)
+                    except Exception:
+                        return [f'No sourcemap data for contract at pc {contract_name}: {int(pc_cell.token)}']
+                return ['NO DATA']
         elif type(element) is KCFG.Edge:
             return list(element.rules)
         elif type(element) is KCFG.NDBranch:
@@ -374,11 +387,22 @@ class Foundry:
         return ['NO DATA']
 
     def build(self, no_metadata: bool) -> None:
-        forge_build_args = ['forge', 'build', '--build-info', '--root', str(self._root)] + (
-            ['--no-metadata'] if no_metadata else []
-        )
+        forge_build_args = [
+            'forge',
+            'build',
+            '--build-info',
+            '--extra-output',
+            'storageLayout',
+            'evm.bytecode.generatedSources',
+            'evm.deployedBytecode.generatedSources',
+            '--root',
+            str(self._root),
+        ] + (['--no-metadata'] if no_metadata else [])
         try:
-            run_process_2(forge_build_args, logger=_LOGGER)
+            run_process_2(
+                forge_build_args,
+                logger=_LOGGER,
+            )
         except FileNotFoundError as err:
             raise RuntimeError(
                 "Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH."
@@ -1333,24 +1357,32 @@ class FoundryNodePrinter(KEVMNodePrinter):
     foundry: Foundry
     contract_name: str
     omit_unstable_output: bool
+    compilation_unit: CompilationUnit
 
     def __init__(self, foundry: Foundry, contract_name: str, omit_unstable_output: bool = False):
         KEVMNodePrinter.__init__(self, foundry.kevm)
         self.foundry = foundry
         self.contract_name = contract_name
         self.omit_unstable_output = omit_unstable_output
+        self.compilation_unit = CompilationUnit.load_build_info(foundry._root)
 
     def print_node(self, kcfg: KCFG, node: KCFG.Node) -> list[str]:
         ret_strs = super().print_node(kcfg, node)
         _pc = node.cterm.try_cell('PC_CELL')
+        program_cell = node.cterm.try_cell('PROGRAM_CELL')
+
         if type(_pc) is KToken and _pc.sort == INT:
-            srcmap_data = self.foundry.srcmap_data(self.contract_name, int(_pc.token))
-            if not self.omit_unstable_output and srcmap_data is not None:
-                path, start, end = srcmap_data
-                ret_strs.append(f'src: {str(path)}:{start}:{end}')
+            if type(program_cell) is KToken:
+                try:
+                    bytecode = ast.literal_eval(program_cell.token)
+                    instruction = self.compilation_unit.get_instruction(bytecode, int(_pc.token))
+                    ast_node = instruction.node()
+                    start_line, _, end_line, _ = ast_node.source_range()
+                    ret_strs.append(f'src: {str(Path(ast_node.source.name))}:{start_line}:{end_line}')
+                except Exception:
+                    pass
 
         calldata_cell = node.cterm.try_cell('CALLDATA_CELL')
-        program_cell = node.cterm.try_cell('PROGRAM_CELL')
 
         if type(program_cell) is KToken:
             selector_bytes = None

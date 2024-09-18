@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssumeTest.test_assume_false(uint256,uint256)
 │
 │  (571 steps)
@@ -52,6 +53,7 @@
 │   pc: 281
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:61:63
 │   method: test%AssumeTest.test_assume_false(uint256,uint256)
 │
 │  (1 step)
@@ -60,6 +62,7 @@
 │   pc: 281
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:61:63
 │   method: test%AssumeTest.test_assume_false(uint256,uint256)
 │
 │  (2 steps)
@@ -68,6 +71,7 @@
     pc: 281
     callDepth: 0
     statusCode: EVMC_SUCCESS
+    src: lib/forge-std/src/StdInvariant.sol:61:63
     method: test%AssumeTest.test_assume_false(uint256,uint256)
 
 

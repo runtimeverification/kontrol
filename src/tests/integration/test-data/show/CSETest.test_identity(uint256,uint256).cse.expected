@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%CSETest.setUp()
 │
 │  (1556 steps)
@@ -47,6 +48,7 @@
    │   pc: 221
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   src: lib/forge-std/src/StdInvariant.sol:89:91
    │   method: test%CSETest.test_identity(uint256,uint256)
    │
    ┊  constraint: true
