@@ -17,7 +17,9 @@
 │   method: test%MergeTest.test_branch_merge(uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: 10 <=Int VV0_x_114b9705:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     10 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  └─ 4 (leaf, refuted)
 ┃      k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -27,7 +29,9 @@
 ┃      src: lib/forge-std/src/StdInvariant.sol:90:90
 ┃      method: test%MergeTest.test_branch_merge(uint256)
 ┃
-┗━━┓ constraint: VV0_x_114b9705:Int <Int 10
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     VV0_x_114b9705:Int <Int 10
    │
    ├─ 5
    │   k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -65,7 +69,7 @@
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    ┊  constraint: true
-   ┊  subst: OMITTED SUBST
+   ┊  subst: ...
    └─ 2 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K
        pc: PC_CELL_5d410f2a:Int
