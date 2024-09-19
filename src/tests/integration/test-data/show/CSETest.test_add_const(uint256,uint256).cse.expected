@@ -17,7 +17,9 @@
 │   method: test%CSETest.test_add_const(uint256,uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: pow64 <=Int VV0_x_114b9705:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     pow64 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 10
 ┃  │   k: JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
@@ -36,7 +38,9 @@
 ┃      src: lib/forge-std/src/StdInvariant.sol:78:78
 ┃      method: test%CSETest.test_add_const(uint256,uint256)
 ┃
-┗━━┓ constraint: VV0_x_114b9705:Int <Int pow64
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     VV0_x_114b9705:Int <Int pow64
    │
    ├─ 11
    │   k: JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
@@ -56,7 +60,7 @@
    │   method: test%CSETest.test_add_const(uint256,uint256)
    │
    ┊  constraint: true
-   ┊  subst: OMITTED SUBST
+   ┊  subst: ...
    └─ 8 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K
        pc: PC_CELL_5d410f2a:Int

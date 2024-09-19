@@ -17,7 +17,8 @@
 │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  │
@@ -38,7 +39,9 @@
 ┃      src: lib/forge-std/lib/ds-test/src/test.sol:48:48
 ┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃
-┣━━┓ constraint: ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 10
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -57,7 +60,8 @@
 ┃      src: lib/forge-std/lib/ds-test/src/test.sol:48:48
 ┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
 ┃  ┃     ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
@@ -80,7 +84,8 @@
 ┃      src: lib/forge-std/lib/ds-test/src/test.sol:54:57
 ┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
 ┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
@@ -102,7 +107,8 @@
 ┃      src: lib/forge-std/lib/ds-test/src/test.sol:54:57
 ┃      method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
 ┃  ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
@@ -127,14 +133,15 @@
 ┃  │   method: test%ArithmeticCallTest.test_double_add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  ┊  constraint: true
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  subst: ...
 ┃  └─ 6 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraints:
+┗━━┓ subst: .Subst
+   ┃ constraint:
    ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
    ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
    ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )

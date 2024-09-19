@@ -17,7 +17,9 @@
 │   method: test%BMCLoopsTest.test_bmc(uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: VV0_n_114b9705:Int <=Int 0
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     VV0_n_114b9705:Int <=Int 0
 ┃  │
 ┃  ├─ 4
 ┃  │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -27,8 +29,9 @@
 ┃  │   src: lib/forge-std/src/StdInvariant.sol:62:62
 ┃  │   method: test%BMCLoopsTest.test_bmc(uint256)
 ┃  │
-┃  ┊  constraint: OMITTED CONSTRAINT
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  constraint:
+┃  ┊      ( ( 0 <=Int CALLER_ID:Int andBool ( 0 <=Int ORIGIN_ID:Int andBool ( 0 <=Int VV0_n_114b9705:Int andBool ( VV0_n_114b9705:Int <=Int 0 andBool ( pow24 <Int NUMBER_CELL:Int andBool ( NUMBER_CELL:Int <Int pow32 andBool ( 1073741824 <Int TIMESTAMP_CELL:Int andBool ( TIMESTAMP_CELL:Int <Int 34359738368 andBool ( CALLER_ID:Int <Int pow160 andBool ( ORIGIN_ID:Int <Int pow160 andBool ( VV0_n_114b9705:Int <Int pow256 andBool ( ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) andBool ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) impliesBool ( ( 0 ==K V_45741f39:Int andBool ( ( V_45741f39 ==K 0 andBool VV0_n_114b9705:Int <=Int 0 ) orBool ( V_45741f39 ==K 1 andBool #range ( 0 < VV0_n_114b9705:Int <= 1 ) ) ) ) orBool ( 0 ==K 2 andBool ( 0 <Int VV0_n_114b9705:Int andBool ( 1 <Int VV0_n_114b9705:Int andBool ( VV0_n_114b9705:Int <=Int 2 andBool ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) ) ) ) ) ) )
+┃  ┊  subst: ...
 ┃  ├─ 20
 ┃  │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI  ...
 ┃  │   pc: 1449
@@ -46,7 +49,9 @@
 ┃      src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 ┃      method: test%BMCLoopsTest.test_bmc(uint256)
 ┃
-┗━━┓ constraint: 0 <Int VV0_n_114b9705:Int
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     0 <Int VV0_n_114b9705:Int
    │
    ├─ 5
    │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -66,7 +71,9 @@
    │   method: test%BMCLoopsTest.test_bmc(uint256)
    ┃
    ┃ (branch)
-   ┣━━┓ constraint: VV0_n_114b9705:Int <=Int 1
+   ┣━━┓ subst: .Subst
+   ┃  ┃ constraint:
+   ┃  ┃     VV0_n_114b9705:Int <=Int 1
    ┃  │
    ┃  ├─ 9
    ┃  │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -76,8 +83,9 @@
    ┃  │   src: lib/forge-std/src/StdInvariant.sol:62:62
    ┃  │   method: test%BMCLoopsTest.test_bmc(uint256)
    ┃  │
-   ┃  ┊  constraint: OMITTED CONSTRAINT
-   ┃  ┊  subst: OMITTED SUBST
+   ┃  ┊  constraint:
+   ┃  ┊      ( ( 0 <=Int CALLER_ID:Int andBool ( 0 <=Int ORIGIN_ID:Int andBool ( 0 <Int VV0_n_114b9705:Int andBool ( 0 <=Int VV0_n_114b9705:Int andBool ( VV0_n_114b9705:Int <=Int 1 andBool ( pow24 <Int NUMBER_CELL:Int andBool ( NUMBER_CELL:Int <Int pow32 andBool ( 1073741824 <Int TIMESTAMP_CELL:Int andBool ( TIMESTAMP_CELL:Int <Int 34359738368 andBool ( CALLER_ID:Int <Int pow160 andBool ( ORIGIN_ID:Int <Int pow160 andBool ( VV0_n_114b9705:Int <Int pow256 andBool ( ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) andBool ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) impliesBool ( ( 1 ==K V_45741f39:Int andBool ( ( V_45741f39 ==K 0 andBool VV0_n_114b9705:Int <=Int 0 ) orBool ( V_45741f39 ==K 1 andBool #range ( 0 < VV0_n_114b9705:Int <= 1 ) ) ) ) orBool ( 1 ==K 2 andBool ( 0 <Int VV0_n_114b9705:Int andBool ( 1 <Int VV0_n_114b9705:Int andBool ( VV0_n_114b9705:Int <=Int 2 andBool ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) ) ) ) ) ) )
+   ┃  ┊  subst: ...
    ┃  └─ 20
    ┃      k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI  ...
    ┃      pc: 1449
@@ -87,7 +95,9 @@
    ┃      method: test%BMCLoopsTest.test_bmc(uint256)
    ┃     (continues as previously)
    ┃
-   ┗━━┓ constraint: 1 <Int VV0_n_114b9705:Int
+   ┗━━┓ subst: .Subst
+      ┃ constraint:
+      ┃     1 <Int VV0_n_114b9705:Int
       │
       ├─ 10
       │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -107,7 +117,9 @@
       │   method: test%BMCLoopsTest.test_bmc(uint256)
       ┃
       ┃ (branch)
-      ┣━━┓ constraint: VV0_n_114b9705:Int <=Int 2
+      ┣━━┓ subst: .Subst
+      ┃  ┃ constraint:
+      ┃  ┃     VV0_n_114b9705:Int <=Int 2
       ┃  │
       ┃  ├─ 15
       ┃  │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -117,8 +129,9 @@
       ┃  │   src: lib/forge-std/src/StdInvariant.sol:62:62
       ┃  │   method: test%BMCLoopsTest.test_bmc(uint256)
       ┃  │
-      ┃  ┊  constraint: OMITTED CONSTRAINT
-      ┃  ┊  subst: OMITTED SUBST
+      ┃  ┊  constraint:
+      ┃  ┊      ( ( 0 <=Int CALLER_ID:Int andBool ( 0 <=Int ORIGIN_ID:Int andBool ( 0 <Int VV0_n_114b9705:Int andBool ( 1 <Int VV0_n_114b9705:Int andBool ( 0 <=Int VV0_n_114b9705:Int andBool ( VV0_n_114b9705:Int <=Int 2 andBool ( pow24 <Int NUMBER_CELL:Int andBool ( NUMBER_CELL:Int <Int pow32 andBool ( 1073741824 <Int TIMESTAMP_CELL:Int andBool ( TIMESTAMP_CELL:Int <Int 34359738368 andBool ( CALLER_ID:Int <Int pow160 andBool ( ORIGIN_ID:Int <Int pow160 andBool ( VV0_n_114b9705:Int <Int pow256 andBool ( ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) andBool ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) impliesBool ( ( 2 ==K V_45741f39:Int andBool ( ( V_45741f39 ==K 0 andBool VV0_n_114b9705:Int <=Int 0 ) orBool ( V_45741f39 ==K 1 andBool #range ( 0 < VV0_n_114b9705:Int <= 1 ) ) ) ) orBool ( 2 ==K 2 andBool ( 0 <Int VV0_n_114b9705:Int andBool ( 1 <Int VV0_n_114b9705:Int andBool ( VV0_n_114b9705:Int <=Int 2 andBool ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) ) ) ) ) ) )
+      ┃  ┊  subst: ...
       ┃  └─ 20
       ┃      k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI  ...
       ┃      pc: 1449
@@ -128,7 +141,9 @@
       ┃      method: test%BMCLoopsTest.test_bmc(uint256)
       ┃     (continues as previously)
       ┃
-      ┗━━┓ constraint: 2 <Int VV0_n_114b9705:Int
+      ┗━━┓ subst: .Subst
+         ┃ constraint:
+         ┃     2 <Int VV0_n_114b9705:Int
          │
          ├─ 16
          │   k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -148,7 +163,9 @@
          │   method: test%BMCLoopsTest.test_bmc(uint256)
          ┃
          ┃ (branch)
-         ┣━━┓ constraint: VV0_n_114b9705:Int <=Int 3
+         ┣━━┓ subst: .Subst
+         ┃  ┃ constraint:
+         ┃  ┃     VV0_n_114b9705:Int <=Int 3
          ┃  │
          ┃  └─ 21 (leaf, pending)
          ┃      k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 3 ) ~> #pc [ JUMPI ] ~> #execute ...
@@ -158,7 +175,9 @@
          ┃      src: lib/forge-std/src/StdInvariant.sol:62:62
          ┃      method: test%BMCLoopsTest.test_bmc(uint256)
          ┃
-         ┗━━┓ constraint: 3 <Int VV0_n_114b9705:Int
+         ┗━━┓ subst: .Subst
+            ┃ constraint:
+            ┃     3 <Int VV0_n_114b9705:Int
             │
             └─ 22 (leaf, pending)
                 k: JUMPI 1478 bool2Word ( VV0_n_114b9705:Int <=Int 3 ) ~> #pc [ JUMPI ] ~> #execute ...

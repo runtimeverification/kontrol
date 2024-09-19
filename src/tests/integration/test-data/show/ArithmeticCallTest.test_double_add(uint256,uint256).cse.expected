@@ -17,7 +17,9 @@
 │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 9
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -35,7 +37,8 @@
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add(uint256,uint256)
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
 ┃  │
@@ -55,7 +58,8 @@
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add(uint256,uint256)
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV0_x_114b9705:Int <Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int )
@@ -78,14 +82,15 @@
 ┃  │   method: test%ArithmeticCallTest.test_double_add(uint256,uint256)
 ┃  │
 ┃  ┊  constraint: true
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  subst: ...
 ┃  └─ 6 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraints:
+┗━━┓ subst: .Subst
+   ┃ constraint:
    ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
    ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
    ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) <=Int VV0_x_114b9705:Int

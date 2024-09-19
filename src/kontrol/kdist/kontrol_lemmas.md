@@ -33,16 +33,6 @@ module KONTROL-AUX-LEMMAS
     rule ethUpperBound => 2 ^Int ethMaxWidth
  // ----------------------------------------
 
-    // chop and +Int
-    rule [chop-plus]: chop (A +Int B) ==Int 0 => A ==Int (-1) *Int B
-      requires #rangeUInt(256, A) andBool #rangeUInt(256, (-1) *Int B)
-      [concrete(B), simplification, comm]
-
-    // chop and -Int
-    rule [chop-zero-minus]: chop (0 -Int A) ==Int B => A ==Int (pow256 -Int B) modInt pow256
-      requires #rangeUInt(256, A) andBool #rangeUInt(256, B)
-      [concrete(B), simplification, comm, preserves-definedness]
-
     // ==Int
     rule [int-eq-refl]: X ==Int X => true [simplification]
 
@@ -84,18 +74,6 @@ module KONTROL-AUX-LEMMAS
 
     // modInt
     rule (X *Int Y) modInt Z => 0 requires X modInt Z ==Int 0 [simplification, concrete(X, Z), preserves-definedness]
-
-    // Further generalization of: maxUIntXXX &Int #asWord ( BA )
-    rule X &Int #asWord ( BA ) => #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) )
-    requires #rangeUInt(256, X)
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool (log2Int (X +Int 1)) /Int 8 <=Int lengthBytes(BA) andBool lengthBytes(BA) <=Int 32
-     [simplification, concrete(X), preserves-definedness]
-
-    rule #asWord( BA ) >>Int N => #asWord( #range ( BA, 0, lengthBytes( BA ) -Int ( N /Int 8 ) ) )
-    requires 0 <=Int N andBool N modInt 8 ==Int 0
-    [simplification, concrete(N), preserves-definedness]
 
     // >>Int
     rule [shift-to-div]: X >>Int N => X /Int (2 ^Int N)
@@ -159,69 +137,12 @@ module KONTROL-AUX-LEMMAS
     //
     // Specific simplifications
     //
-    rule X &Int #asWord ( BA ) ==Int Y:Int => true
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) ==Int Y:Int
-     [simplification, concrete(X), comm, preserves-definedness]
-
-    rule X &Int #asWord ( BA ) ==Int Y:Int => false
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool notBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) ==Int Y:Int
-     [simplification, concrete(X), comm, preserves-definedness]
-
-    rule X &Int #asWord ( BA ) <Int Y:Int => true
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) <Int Y:Int
-     [simplification, concrete(X), preserves-definedness]
-
-    rule X &Int #asWord ( BA ) <Int Y:Int => false
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool notBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) <Int Y:Int
-     [simplification, concrete(X), preserves-definedness]
-
-    rule X &Int #asWord ( BA ) <=Int Y:Int => true
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) <=Int Y:Int
-     [simplification, concrete(X), preserves-definedness]
-
-    rule X &Int #asWord ( BA ) <=Int Y:Int => false
-    requires 0 <=Int X andBool X <Int 2 ^Int (8 *Int lengthBytes(BA))
-     andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
-     andBool log2Int (X +Int 1) modInt 8 ==Int 0
-     andBool notBool #asWord ( #range(BA, lengthBytes(BA) -Int (log2Int(X +Int 1) /Int 8), log2Int(X +Int 1) /Int 8) ) <=Int Y:Int
-     [simplification, concrete(X), preserves-definedness]
-
     rule X &Int ( Y *Int Z ) => 0
     requires 0 <=Int X andBool 0 <=Int Y andBool 0 <=Int Z
      andBool X +Int 1 ==Int 2 ^Int log2Int(X +Int 1)
      andBool Y ==Int 2 ^Int log2Int(Y)
      andBool log2Int(X +Int 1) <=Int log2Int(Y)
      [simplification, concrete(X, Y), preserves-definedness]
-
-    rule chop ( X *Int Y ) => X *Int Y
-      requires 0 <=Int X andBool X <Int ethUpperBound
-       andBool 0 <=Int Y andBool Y <Int 2 ^Int ( 256 -Int ethMaxWidth )
-       [simplification]
-
-    rule [mul-overflow-check]:
-      X ==Int chop ( X *Int Y ) /Int Y => X *Int Y <Int pow256
-      requires #rangeUInt(256, X) andBool 0 <Int Y
-      [simplification, comm, preserves-definedness]
-
-    rule [mul-overflow-check-ML]:
-      { X #Equals chop ( X *Int Y ) /Int Y } => { true #Equals X *Int Y <Int pow256 }
-      requires #rangeUInt(256, X) andBool 0 <Int Y
-      [simplification, preserves-definedness]
 
     rule [mul-cancel-10-le]:
       A *Int B <=Int C *Int D => (A /Int 10) *Int B <=Int (C /Int 10) *Int D
@@ -244,12 +165,6 @@ module KONTROL-AUX-LEMMAS
     rule X <Int A +Int B => true requires X <=Int 0 andBool 0 <=Int A andBool 0  <Int B [concrete(X), simplification]
     rule X <Int A *Int B => true requires X <=Int 0 andBool 0  <Int A andBool 0  <Int B [concrete(X), simplification]
 
-    rule [chop-no-overflow-add-l]: X:Int <=Int chop ( X +Int Y:Int ) => X +Int Y <Int pow256 requires #rangeUInt(256, X) andBool #rangeUInt(256, Y)             [simplification]
-    rule [chop-no-overflow-add-r]: X:Int <=Int chop ( Y +Int X:Int ) => X +Int Y <Int pow256 requires #rangeUInt(256, X) andBool #rangeUInt(256, Y)             [simplification]
-    rule [chop-no-overflow-mul-l]: X:Int <=Int chop ( X *Int Y:Int ) => X *Int Y <Int pow256 requires #rangeUInt(256, X) andBool #rangeUInt(256, Y)             [simplification]
-    rule [chop-no-overflow-mul-r]: X:Int <=Int chop ( Y *Int X:Int ) => X *Int Y <Int pow256 requires #rangeUInt(256, X) andBool #rangeUInt(256, Y)             [simplification]
-    rule [chop-no-overflow-div]:   X:Int <=Int chop ( X /Int Y:Int ) => X /Int Y <Int pow256 requires #rangeUInt(256, X) andBool 0 <Int Y andBool Y <Int pow256 [simplification]
-
     //
     // #lookup
     //
@@ -263,12 +178,6 @@ module KONTROL-AUX-LEMMAS
 
     rule lengthBytes ( #padToWidth ( 32 , #asByteStack ( VALUE ) ) ) => 32
         requires #rangeUInt(256, VALUE)
-        [simplification]
-
-    rule chop ( X -Int Y ) => X -Int Y
-        requires #rangeUInt(256, X)
-         andBool #rangeUInt(256, Y)
-         andBool Y <=Int X
         [simplification]
 
     rule X -Int Y <=Int Z => true
