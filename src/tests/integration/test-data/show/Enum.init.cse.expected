@@ -12,8 +12,11 @@
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: EVMC_SUCCESS
 │
-┊  constraint: OMITTED CONSTRAINT
-┊  subst: OMITTED SUBST
+┊  constraint:
+┊      ( notBool <acctID>
+  C_ENUM_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┊  subst: ...
 └─ 2 (leaf, target, terminal)
     k: #halt ~> CONTINUATION:K
     pc: PC_CELL_5d410f2a:Int

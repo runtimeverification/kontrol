@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%ArithmeticCallTest.setUp()
 │
 │  (1045 steps)
@@ -12,16 +13,20 @@
 │   pc: 0
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 9
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
@@ -32,7 +37,8 @@
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
 ┃  │
@@ -41,6 +47,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (486 steps)
@@ -51,7 +58,8 @@
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
@@ -61,6 +69,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (907 steps)
@@ -71,7 +80,8 @@
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
@@ -82,6 +92,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (1320 steps)
@@ -92,7 +103,8 @@
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
@@ -104,6 +116,7 @@
 ┃  │   pc: 0
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (1576 steps)
@@ -112,17 +125,19 @@
 ┃  │   pc: 248
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: lib/forge-std/src/StdInvariant.sol:77:79
 ┃  │   method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
 ┃  │
 ┃  ┊  constraint: true
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  subst: ...
 ┃  └─ 6 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraints:
+┗━━┓ subst: .Subst
+   ┃ constraint:
    ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
    ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
    ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
@@ -134,6 +149,7 @@
    │   pc: 0
    │   callDepth: 1
    │   statusCode: STATUSCODE:StatusCode
+   │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: src%ArithmeticContract.add(uint256,uint256)
    │
    │  (1579 steps)

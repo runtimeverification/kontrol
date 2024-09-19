@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.setUp()
 │
 │  (182 steps)
@@ -12,6 +13,7 @@
 │   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 │   method: test%AssertTest.setUp()
 │
 │  (1 step)
@@ -20,6 +22,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.test_failing_branch(uint256)
 │
 │  (360 steps)
@@ -28,16 +31,20 @@
 │   pc: 1116
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:74:74
 │   method: test%AssertTest.test_failing_branch(uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: 100 <=Int VV0_x_114b9705:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     100 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 9
 ┃  │   k: JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...
 ┃  │   pc: 1116
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/forge-std/src/StdInvariant.sol:74:74
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  │  (39 steps)
@@ -46,6 +53,7 @@
 ┃  │   pc: 328
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  │  (1 step)
@@ -54,6 +62,7 @@
 ┃  │   pc: 328
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  │  (2 steps)
@@ -62,23 +71,27 @@
 ┃  │   pc: 328
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  ┊  constraint: true
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  subst: ...
 ┃  └─ 7 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraint: VV0_x_114b9705:Int <Int 100
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     VV0_x_114b9705:Int <Int 100
    │
    ├─ 10
    │   k: JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execu ...
    │   pc: 1116
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:74:74
    │   method: test%AssertTest.test_failing_branch(uint256)
    │
    │  (63 steps)

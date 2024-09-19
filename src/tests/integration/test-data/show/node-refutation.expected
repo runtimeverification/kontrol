@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%MergeTest.test_branch_merge(uint256)
 │
 │  (324 steps)
@@ -12,25 +13,32 @@
 │   pc: 525
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:90:90
 │   method: test%MergeTest.test_branch_merge(uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: 10 <=Int VV0_x_114b9705:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     10 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  └─ 4 (leaf, refuted)
 ┃      k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
 ┃      pc: 525
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
+┃      src: lib/forge-std/src/StdInvariant.sol:90:90
 ┃      method: test%MergeTest.test_branch_merge(uint256)
 ┃
-┗━━┓ constraint: VV0_x_114b9705:Int <Int 10
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     VV0_x_114b9705:Int <Int 10
    │
    ├─ 5
    │   k: JUMPI 535 bool2Word ( 10 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #execute ...
    │   pc: 525
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:90:90
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (90 steps)
@@ -39,6 +47,7 @@
    │   pc: 235
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:77:79
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (1 step)
@@ -47,6 +56,7 @@
    │   pc: 235
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   src: lib/forge-std/src/StdInvariant.sol:77:79
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (2 steps)
@@ -55,10 +65,11 @@
    │   pc: 235
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   src: lib/forge-std/src/StdInvariant.sol:77:79
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    ┊  constraint: true
-   ┊  subst: OMITTED SUBST
+   ┊  subst: ...
    └─ 2 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K
        pc: PC_CELL_5d410f2a:Int

@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%PrankTest.setUp()
 │
 │  (601 steps)
@@ -12,6 +13,7 @@
 │   pc: 292
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
 │   method: test%PrankTest.setUp()
 │
 │  (1 step)
@@ -20,6 +22,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%PrankTest.testSymbolicStartPrank(address)
 │
 │  (585 steps)
@@ -39,7 +42,9 @@
 │   method: test%PrankTest.testSymbolicStartPrank(address)
 ┃
 ┃ (branch)
-┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263
 ┃  │
 ┃  └─ 70 (leaf, refuted)
 ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -48,7 +53,9 @@
 ┃      statusCode: STATUSCODE:StatusCode
 ┃      method: test%PrankTest.testSymbolicStartPrank(address)
 ┃
-┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 )
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     ( notBool VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 )
    │
    ├─ 71 (split)
    │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -58,7 +65,9 @@
    │   method: test%PrankTest.testSymbolicStartPrank(address)
    ┃
    ┃ (branch)
-   ┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349
+   ┣━━┓ subst: .Subst
+   ┃  ┃ constraint:
+   ┃  ┃     VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349
    ┃  │
    ┃  └─ 72 (leaf, refuted)
    ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -67,7 +76,9 @@
    ┃      statusCode: STATUSCODE:StatusCode
    ┃      method: test%PrankTest.testSymbolicStartPrank(address)
    ┃
-   ┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 )
+   ┗━━┓ subst: .Subst
+      ┃ constraint:
+      ┃     ( notBool VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 )
       │
       ├─ 73 (split)
       │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -77,7 +88,9 @@
       │   method: test%PrankTest.testSymbolicStartPrank(address)
       ┃
       ┃ (branch)
-      ┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518
+      ┣━━┓ subst: .Subst
+      ┃  ┃ constraint:
+      ┃  ┃     VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518
       ┃  │
       ┃  └─ 74 (leaf, refuted)
       ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -86,7 +99,9 @@
       ┃      statusCode: STATUSCODE:StatusCode
       ┃      method: test%PrankTest.testSymbolicStartPrank(address)
       ┃
-      ┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 )
+      ┗━━┓ subst: .Subst
+         ┃ constraint:
+         ┃     ( notBool VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 )
          │
          ├─ 75
          │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -117,6 +132,7 @@
          │   pc: 0
          │   callDepth: 1
          │   statusCode: STATUSCODE:StatusCode
+         │   src: test/nested/SimpleNested.t.sol:7:11
          │   method: src%Prank.msgSender()
          │
          │  (1 step)
@@ -125,6 +141,7 @@
          │   pc: 0
          │   callDepth: 1
          │   statusCode: STATUSCODE:StatusCode
+         │   src: test/nested/SimpleNested.t.sol:7:11
          │   method: src%Prank.msgSender()
          │
          │  (320 steps)
@@ -133,6 +150,7 @@
          │   pc: 130
          │   callDepth: 1
          │   statusCode: STATUSCODE:StatusCode
+         │   src: test/nested/SimpleNested.t.sol:7:11
          │   method: src%Prank.msgSender()
          │
          │  (1 step)
@@ -141,6 +159,7 @@
          │   pc: 130
          │   callDepth: 1
          │   statusCode: EVMC_SUCCESS
+         │   src: test/nested/SimpleNested.t.sol:7:11
          │   method: src%Prank.msgSender()
          │
          │  (2 steps)
@@ -149,6 +168,7 @@
          │   pc: 130
          │   callDepth: 1
          │   statusCode: EVMC_SUCCESS
+         │   src: test/nested/SimpleNested.t.sol:7:11
          │   method: src%Prank.msgSender()
          │
          │  (1 step)
@@ -157,6 +177,7 @@
          │   pc: 130
          │   callDepth: 1
          │   statusCode: EVMC_SUCCESS
+         │   src: test/nested/SimpleNested.t.sol:7:11
          │   method: src%Prank.msgSender()
          │
          │  (549 steps)
@@ -165,6 +186,7 @@
          │   pc: 1578
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
          │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (1 step)
@@ -173,6 +195,7 @@
          │   pc: 1578
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
          │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (102 steps)
@@ -181,6 +204,7 @@
          │   pc: 292
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
          │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (1 step)
@@ -189,6 +213,7 @@
          │   pc: 292
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
          │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
          │  (2 steps)
@@ -197,10 +222,14 @@
          │   pc: 292
          │   callDepth: 0
          │   statusCode: EVMC_SUCCESS
+         │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
          │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
-         ┊  constraint: OMITTED CONSTRAINT
-         ┊  subst: OMITTED SUBST
+         ┊  constraint:
+         ┊      ( notBool VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 )
+         ┊      ( notBool VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 )
+         ┊      ( notBool VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 )
+         ┊  subst: ...
          └─ 10 (leaf, target, terminal)
              k: #halt ~> CONTINUATION:K
              pc: PC_CELL_5d410f2a:Int

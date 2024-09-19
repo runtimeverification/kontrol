@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssumeTest.testFail_assume_true(uint256,uint256)
 │
 │  (547 steps)
@@ -52,6 +53,7 @@
 │   pc: 281
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:61:63
 │   method: test%AssumeTest.testFail_assume_true(uint256,uint256)
 │
 │  (1 step)
@@ -60,6 +62,7 @@
 │   pc: 281
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:61:63
 │   method: test%AssumeTest.testFail_assume_true(uint256,uint256)
 │
 │  (2 steps)
@@ -68,10 +71,11 @@
 │   pc: 281
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:61:63
 │   method: test%AssumeTest.testFail_assume_true(uint256,uint256)
 │
 ┊  constraint: true
-┊  subst: OMITTED SUBST
+┊  subst: ...
 └─ 2 (leaf, target, terminal)
     k: #halt ~> CONTINUATION:K
     pc: PC_CELL_5d410f2a:Int

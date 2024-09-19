@@ -4,6 +4,7 @@
 │   pc: 0
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%CSETest.setUp()
 │
 │  (1556 steps)
@@ -15,7 +16,9 @@
 │   method: test%CSETest.test_identity(uint256,uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: pow64 <=Int VV0_x_114b9705:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     pow64 <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 10
 ┃  │   k: JUMPI 2519 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
@@ -32,7 +35,9 @@
 ┃      statusCode: STATUSCODE:StatusCode
 ┃      method: test%CSETest.test_identity(uint256,uint256)
 ┃
-┗━━┓ constraint: VV0_x_114b9705:Int <Int pow64
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     VV0_x_114b9705:Int <Int pow64
    │
    ├─ 11
    │   k: JUMPI 2519 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exe ...
@@ -47,10 +52,11 @@
    │   pc: 221
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
+   │   src: lib/forge-std/src/StdInvariant.sol:89:91
    │   method: test%CSETest.test_identity(uint256,uint256)
    │
    ┊  constraint: true
-   ┊  subst: OMITTED SUBST
+   ┊  subst: ...
    └─ 8 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K
        pc: PC_CELL_5d410f2a:Int
