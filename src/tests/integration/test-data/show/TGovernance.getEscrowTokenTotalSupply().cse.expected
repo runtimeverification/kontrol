@@ -8,7 +8,9 @@
 │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃
 ┃ (branch)
-┣━━┓ constraint: 1024 <=Int CALLDEPTH_CELL:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     1024 <=Int CALLDEPTH_CELL:Int
 ┃  │
 ┃  ├─ 13
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -27,15 +29,30 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  │
-┃  ┊  constraint: OMITTED CONSTRAINT
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  constraint:
+┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1023
 ┃  │
@@ -56,15 +73,30 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  │
-┃  ┊  constraint: OMITTED CONSTRAINT
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  constraint:
+┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraints:
+┗━━┓ subst: .Subst
+   ┃ constraint:
    ┃     CALLDEPTH_CELL:Int <Int 1024
    ┃     1023 <=Int CALLDEPTH_CELL:Int
    │
@@ -85,8 +117,22 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%TGovernance.getEscrowTokenTotalSupply()
    │
-   ┊  constraint: OMITTED CONSTRAINT
-   ┊  subst: OMITTED SUBST
+   ┊  constraint:
+   ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+   ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+   ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+   ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+   ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+   ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
+   ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+   ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+   ┊  subst: ...
    └─ 2 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K
        pc: PC_CELL_5d410f2a:Int

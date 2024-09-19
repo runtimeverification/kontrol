@@ -8,7 +8,9 @@
 │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: 1024 <=Int CALLDEPTH_CELL:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     1024 <=Int CALLDEPTH_CELL:Int
 ┃  │
 ┃  ├─ 17
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -27,15 +29,19 @@
 ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
-┃  ┊  constraint: OMITTED CONSTRAINT
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  constraint:
+┃  ┊      ( notBool <acctID>
+  C_ARITHMETICCONTRACT_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
 ┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
 ┃  │
@@ -56,15 +62,19 @@
 ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
-┃  ┊  constraint: OMITTED CONSTRAINT
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  constraint:
+┃  ┊      ( notBool <acctID>
+  C_ARITHMETICCONTRACT_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┣━━┓ constraints:
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
@@ -86,15 +96,19 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
-┃  ┊  constraint: OMITTED CONSTRAINT
-┃  ┊  subst: OMITTED SUBST
+┃  ┊  constraint:
+┃  ┊      ( notBool <acctID>
+  C_ARITHMETICCONTRACT_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
 ┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓ constraints:
+┗━━┓ subst: .Subst
+   ┃ constraint:
    ┃     CALLDEPTH_CELL:Int <Int 1024
    ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
    ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
@@ -116,8 +130,11 @@
    │   src: lib/forge-std/src/StdInvariant.sol:90:90
    │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
    │
-   ┊  constraint: OMITTED CONSTRAINT
-   ┊  subst: OMITTED SUBST
+   ┊  constraint:
+   ┊      ( notBool <acctID>
+  C_ARITHMETICCONTRACT_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+   ┊  subst: ...
    └─ 2 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K
        pc: PC_CELL_5d410f2a:Int

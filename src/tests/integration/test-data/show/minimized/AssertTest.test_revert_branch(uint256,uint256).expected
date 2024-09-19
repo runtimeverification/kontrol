@@ -17,7 +17,9 @@
 │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃
 ┃ (branch)
-┣━━┓ constraint: VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
 ┃  │
 ┃  ├─ 9
 ┃  │   k: JUMPI 1594 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) ~> #pc [ JU ...
@@ -35,7 +37,9 @@
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃
-┗━━┓ constraint: VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
    │
    ├─ 10
    │   k: JUMPI 1594 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int ) ~> #pc [ JU ...

@@ -42,7 +42,9 @@
 │   method: test%PrankTest.testSymbolicStartPrank(address)
 ┃
 ┃ (branch)
-┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263
 ┃  │
 ┃  └─ 70 (leaf, refuted)
 ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -51,7 +53,9 @@
 ┃      statusCode: STATUSCODE:StatusCode
 ┃      method: test%PrankTest.testSymbolicStartPrank(address)
 ┃
-┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 )
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     ( notBool VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 )
    │
    ├─ 71 (split)
    │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -61,7 +65,9 @@
    │   method: test%PrankTest.testSymbolicStartPrank(address)
    ┃
    ┃ (branch)
-   ┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349
+   ┣━━┓ subst: .Subst
+   ┃  ┃ constraint:
+   ┃  ┃     VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349
    ┃  │
    ┃  └─ 72 (leaf, refuted)
    ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -70,7 +76,9 @@
    ┃      statusCode: STATUSCODE:StatusCode
    ┃      method: test%PrankTest.testSymbolicStartPrank(address)
    ┃
-   ┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 )
+   ┗━━┓ subst: .Subst
+      ┃ constraint:
+      ┃     ( notBool VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 )
       │
       ├─ 73 (split)
       │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -80,7 +88,9 @@
       │   method: test%PrankTest.testSymbolicStartPrank(address)
       ┃
       ┃ (branch)
-      ┣━━┓ constraint: VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518
+      ┣━━┓ subst: .Subst
+      ┃  ┃ constraint:
+      ┃  ┃     VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518
       ┃  │
       ┃  └─ 74 (leaf, refuted)
       ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -89,7 +99,9 @@
       ┃      statusCode: STATUSCODE:StatusCode
       ┃      method: test%PrankTest.testSymbolicStartPrank(address)
       ┃
-      ┗━━┓ constraint: ( notBool VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 )
+      ┗━━┓ subst: .Subst
+         ┃ constraint:
+         ┃     ( notBool VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 )
          │
          ├─ 75
          │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
@@ -213,8 +225,11 @@
          │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
          │   method: test%PrankTest.testSymbolicStartPrank(address)
          │
-         ┊  constraint: OMITTED CONSTRAINT
-         ┊  subst: OMITTED SUBST
+         ┊  constraint:
+         ┊      ( notBool VV0_addr_114b9705:Int ==Int 491460923342184218035706888008750043977755113263 )
+         ┊      ( notBool VV0_addr_114b9705:Int ==Int 645326474426547203313410069153905908525362434349 )
+         ┊      ( notBool VV0_addr_114b9705:Int ==Int 728815563385977040452943777879061427756277306518 )
+         ┊  subst: ...
          └─ 10 (leaf, target, terminal)
              k: #halt ~> CONTINUATION:K
              pc: PC_CELL_5d410f2a:Int
