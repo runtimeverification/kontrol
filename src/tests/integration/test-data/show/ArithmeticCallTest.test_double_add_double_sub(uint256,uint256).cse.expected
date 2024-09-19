@@ -30,7 +30,7 @@
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
-┃  └─ 13 (leaf, terminal)
+┃  └─ 11 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2613
 ┃      callDepth: 0
@@ -40,7 +40,7 @@
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( VV0_x_114b9705:Int +Int VV1_...
+┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
 ┃  │
 ┃  ├─ 29
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -61,7 +61,7 @@
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1...
+┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
 ┃  │
 ┃  ├─ 37
@@ -83,7 +83,7 @@
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1...
+┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
 ┃  ┃     ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) <Int VV1_y_114b9705:Int
 ┃  │
@@ -106,10 +106,10 @@
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1...
+┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
 ┃  ┃     VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
-┃  ┃     ( notBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_11...
+┃  ┃     ( notBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) ) ==Int 0 )
 ┃  │
 ┃  ├─ 46
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -139,10 +139,10 @@
 ┗━━┓ subst: .Subst
    ┃ constraint:
    ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-   ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1...
+   ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
    ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
    ┃     VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
-   ┃     0 ==Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b...
+   ┃     0 ==Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
    │
    ├─ 47
    │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -166,7 +166,7 @@
 module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-9-TO-13]: <foundry>
+    rule [BASIC-BLOCK-9-TO-11]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -546,7 +546,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-13)]
+      [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-1-TO-7]: <foundry>
            <kevm>

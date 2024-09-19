@@ -10,7 +10,7 @@
 ┃ (branch)
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( C_ADDCONST_STORAGE:Ma...
+┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int #lookup ( C_ADDCONST_STORAGE:Map , 0 ) )
 ┃  │
 ┃  ├─ 8
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -32,7 +32,7 @@
 ┃  ┊  constraint:
 ┃  ┊      ( notBool <acctID>
   C_ADDCONST_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:A...
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
@@ -42,7 +42,7 @@
 ┃
 ┗━━┓ subst: .Subst
    ┃ constraint:
-   ┃     ( maxUInt256 -Int #lookup ( C_ADDCONST_STORAGE:Map , 0 ) ) <Int VV0_x_114b...
+   ┃     ( maxUInt256 -Int #lookup ( C_ADDCONST_STORAGE:Map , 0 ) ) <Int VV0_x_114b9705:Int
    │
    ├─ 9
    │   k: #execute ~> CONTINUATION:K
@@ -64,7 +64,7 @@
    ┊  constraint:
    ┊      ( notBool <acctID>
   C_ADDCONST_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:A...
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
    ┊  subst: ...
    └─ 2 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K

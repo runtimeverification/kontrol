@@ -32,7 +32,7 @@
 ┃  ┊  constraint:
 ┃  ┊      ( notBool <acctID>
   C_ARITHMETICCONTRACT_ID:Int
-</acctID> in_keys ( ACCOU...
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
@@ -65,7 +65,7 @@
 ┃  ┊  constraint:
 ┃  ┊      ( notBool <acctID>
   C_ARITHMETICCONTRACT_ID:Int
-</acctID> in_keys ( ACCOU...
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
@@ -99,7 +99,7 @@
 ┃  ┊  constraint:
 ┃  ┊      ( notBool <acctID>
   C_ARITHMETICCONTRACT_ID:Int
-</acctID> in_keys ( ACCOU...
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
@@ -133,7 +133,7 @@
    ┊  constraint:
    ┊      ( notBool <acctID>
   C_ARITHMETICCONTRACT_ID:Int
-</acctID> in_keys ( ACCOU...
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
    ┊  subst: ...
    └─ 2 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K

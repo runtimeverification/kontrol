@@ -30,7 +30,7 @@
 ┃  │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃  │
 ┃  │  (75 steps)
-┃  └─ 14 (leaf, terminal)
+┃  └─ 15 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 2995
 ┃      callDepth: 0
@@ -49,9 +49,9 @@
    │   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
    │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
-   │  (38 steps)
-   └─ 15 (leaf, pending)
-       k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+   │  (40 steps)
+   └─ 16 (leaf, pending)
+       k: #halt ~> CONTINUATION:K
        pc: 328
        callDepth: 0
        statusCode: EVMC_SUCCESS
@@ -66,15 +66,13 @@
 │   statusCode: STATUSCODE_FINAL:StatusCode
 
 
-Node 15:
+Node 16:
 
 ( <generatedTop>
   <foundry>
     <kevm>
       <k>
         #halt
-        ~> #pc [ STOP ]
-        ~> #execute
         ~> CONTINUATION:K
       </k>
       <mode>
@@ -313,7 +311,7 @@ Node 15:
 
 
 
-Node 14:
+Node 15:
 
 ( <generatedTop>
   <foundry>
@@ -801,7 +799,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                ))))
       [priority(20), label(BASIC-BLOCK-1-TO-8)]
     
-    rule [BASIC-BLOCK-9-TO-14]: <foundry>
+    rule [BASIC-BLOCK-9-TO-15]: <foundry>
            <kevm>
              <k>
                ( JUMPI 1594 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int )
@@ -1041,15 +1039,14 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-14)]
+      [priority(20), label(BASIC-BLOCK-9-TO-15)]
     
-    rule [BASIC-BLOCK-10-TO-15]: <foundry>
+    rule [BASIC-BLOCK-10-TO-16]: <foundry>
            <kevm>
              <k>
                ( JUMPI 1594 bool2Word ( VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int )
-               ~> #pc [ JUMPI ] => #halt
-               ~> #pc [ STOP ] )
-               ~> #execute
+               ~> #pc [ JUMPI ]
+               ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -1284,18 +1281,18 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-10-TO-15)]
+      [priority(20), label(BASIC-BLOCK-10-TO-16)]
 
 endmodule
 2 Failure nodes. (1 pending and 1 failing)
 
 Pending nodes:
 
-ID: 15:
+ID: 16:
 
 Failing nodes:
 
-  Node id: 14
+  Node id: 15
   Failure reason:
     Matching failed.
     The remaining implication is:

@@ -33,7 +33,7 @@
 ┃  ┊      ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
 ┃  ┊      ( notBool <acctID>
   C_CALLABLESTORAGECONTRACT_ID:Int
-</acctID> in_keys ( ...
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
 ┃  ┊  subst: ...
 ┃  └─ 2 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
@@ -66,7 +66,7 @@
    ┊      ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
    ┊      ( notBool <acctID>
   C_CALLABLESTORAGECONTRACT_ID:Int
-</acctID> in_keys ( ...
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
    ┊  subst: ...
    └─ 2 (leaf, target, terminal)
        k: #halt ~> CONTINUATION:K

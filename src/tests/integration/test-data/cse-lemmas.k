@@ -50,6 +50,10 @@ module CSE-LEMMAS
        andBool X +Int 1 <=Int A
        [concrete(X), simplification, preserves-definedness]
 
+    rule [powByteLen-compute]:
+      #powByteLen(SIZE) => 2 ^Int (8 *Int SIZE)
+      [simplification, concrete(SIZE)]
+
 endmodule
 
 module CSE-LEMMAS-SPEC

@@ -30,7 +30,7 @@
 ┃  │   method: test%AssertTest.test_failing_branch(uint256)
 ┃  │
 ┃  │  (42 steps)
-┃  ├─ 14 (terminal)
+┃  ├─ 15 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 328
 ┃  │   callDepth: 0
@@ -552,7 +552,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
                ))
       [priority(20), label(BASIC-BLOCK-1-TO-8)]
     
-    rule [BASIC-BLOCK-9-TO-14]: <foundry>
+    rule [BASIC-BLOCK-9-TO-15]: <foundry>
            <kevm>
              <k>
                ( JUMPI 1124 bool2Word ( 100 <=Int VV0_x_114b9705:Int )
@@ -790,7 +790,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-FAILING-BRANCH(UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-14)]
+      [priority(20), label(BASIC-BLOCK-9-TO-15)]
     
     rule [BASIC-BLOCK-10-TO-16]: <foundry>
            <kevm>
