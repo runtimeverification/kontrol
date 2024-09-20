@@ -212,6 +212,10 @@ class Foundry:
     def contracts_file(self) -> Path:
         return self.kompiled / 'contracts.k'
 
+    @property
+    def build_info(self) -> Path:
+        return self._root / self.profile.get('build_info_path', '')
+
     @cached_property
     def kevm(self) -> KEVM:
         use_directory = self.out / 'tmp'
@@ -1364,7 +1368,7 @@ class FoundryNodePrinter(KEVMNodePrinter):
         self.foundry = foundry
         self.contract_name = contract_name
         self.omit_unstable_output = omit_unstable_output
-        self.compilation_unit = CompilationUnit.load_build_info(foundry._root)
+        self.compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
 
     def print_node(self, kcfg: KCFG, node: KCFG.Node) -> list[str]:
         ret_strs = super().print_node(kcfg, node)
