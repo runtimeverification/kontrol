@@ -987,6 +987,7 @@ def _init_cterm(
         'ACTIVE_CELL': FALSE,
         'MEMORYUSED_CELL': intToken(0),
         'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
+        'WORDSTACKSIZE_CELL': intToken(0),
         'PC_CELL': intToken(0),
         'GAS_CELL': KEVM.inf_gas(KVariable('VGAS')),
         'K_CELL': KSequence([KEVM.sharp_execute(), KVariable('CONTINUATION')]),

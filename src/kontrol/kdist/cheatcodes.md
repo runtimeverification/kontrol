@@ -792,9 +792,10 @@ Any change to the rule in evm-semantics needs to be included here as well.
         </expectEmit>
          <id> ACCT </id>
          <wordStack> WS => #drop(N, WS) </wordStack>
+         <wordStackSize> WSSize => WSSize -Int N </wordStackSize>
          <localMem> LM </localMem>
          <log> L => L ListItem({ ACCT | WordStack2List(#take(N, WS)) | #range(LM, MEMSTART, MEMWIDTH) }) </log>
-      requires #sizeWordStack(WS) >=Int N
+      requires WSSize >=Int N
       [priority(40)]
 ```
 
@@ -815,8 +816,9 @@ Regardless if the events match or not, the canon `LOG(N)` [rule from evm-semanti
           <expectedEventAddress> ADDR </expectedEventAddress>
         </expectEmit>
         <wordStack> WS </wordStack>
+        <wordStackSize> WSSize </wordStackSize>
         <localMem> LM </localMem>
-      requires #sizeWordStack(WS) >=Int N
+      requires WSSize >=Int N
        andBool  #checkTopics(CHECKS, TOPICS, WordStack2List(#take(N, WS)))
        andBool ((notBool CHECKDATA) orBool (#asWord(DATA) ==Int #asWord(#range(LM, MEMSTART, MEMWIDTH))))
        andBool (ADDR ==K .Account orBool ADDR ==K ACCT)
@@ -969,6 +971,7 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
          <k> #next [ OP:CallOp ] => #execMockCall RETSTART RETWIDTH RETURNDATA ~> #pc [ OP ] ... </k>
          <localMem> LM </localMem>
          <wordStack> _ : ACCTTO : _ : ARGSTART : _ : RETSTART : RETWIDTH : WS => WS </wordStack>
+         <wordStackSize> WSSize => WSSize -Int 7 </wordStackSize>
          <mockCall>
            <mockAddress> ACCTTO </mockAddress>
            <mockValues>...  CALLDATA |-> RETURNDATA ...</mockValues>
@@ -980,6 +983,7 @@ We use `#next[OP]` to identify OpCodes that represent function calls. If there i
          <k> #next [ OP:CallSixOp ] => #execMockCall RETSTART RETWIDTH RETURNDATA ~> #pc [ OP ] ... </k>
          <localMem> LM </localMem>
          <wordStack> _ : ACCTTO : ARGSTART : _ : RETSTART : RETWIDTH : WS => WS </wordStack>
+         <wordStackSize> WSSize => WSSize -Int 6 </wordStackSize>
          <mockCall>
            <mockAddress> ACCTTO </mockAddress>
            <mockValues>...  CALLDATA |-> RETURNDATA ...</mockValues>

@@ -4,7 +4,7 @@ module SUM-TO-N-INVARIANT
 
   imports S2KtestZModLoopsTest-CONTRACT
 
-  rule N xorInt maxUInt256 => maxUInt256 -Int N 
+  rule N xorInt maxUInt256 => maxUInt256 -Int N
   requires #rangeUInt(256, N)
   [simplification]
 
@@ -33,12 +33,15 @@ module SUM-TO-N-INVARIANT
           </jumpDests>
           <wordStack>
               (S => (S +Int ((N *Int (N +Int 1)) /Int 2)))
-            : 0 
+            : 0
             : (N => 0)
-            : 459 
-            : 2123244496 
+            : 459
+            : 2123244496
             : .WordStack
           </wordStack>
+          <wordStackSize>
+            5
+          </wordStackSize>
           <pc>
             2393
           </pc>
