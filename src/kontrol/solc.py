@@ -495,8 +495,8 @@ class CompilationUnit:
         return self._id
 
     @staticmethod
-    def load_build_info(foundry_root: Path) -> CompilationUnit:
-        build_info_files = (foundry_root / 'out' / 'build-info').glob('*.json')
+    def load_build_info(foundry_build_info: Path) -> CompilationUnit:
+        build_info_files = foundry_build_info.glob('*.json')
         build_info = json.loads(max(build_info_files, key=os.path.getmtime).read_text())
         sources: dict[int, Source] = {}  # Source id => Source
         contracts: dict[bytes, ContractSource] = {}  # CBOR metadata => contract

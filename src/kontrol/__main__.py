@@ -312,7 +312,7 @@ def exec_view_kcfg(options: ViewKcfgOptions) -> None:
     contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
 
-    compilation_unit = CompilationUnit.load_build_info(options.foundry_root)
+    compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
 
     def _short_info(cterm: CTerm) -> Iterable[str]:
         return foundry.short_info_for_contract(contract_name, cterm)
