@@ -182,7 +182,11 @@ class Foundry:
     @property
     def profile(self) -> dict[str, Any]:
         profile_name = os.getenv('FOUNDRY_PROFILE', default='default')
-        return self._toml['profile'][profile_name]
+        
+        current_profile = self._toml['profile'].get(profile_name, {})
+        default_profile = self._toml['profile'].get('default', {})
+        
+        return {**default_profile, **current_profile}
 
     @property
     def out(self) -> Path:
