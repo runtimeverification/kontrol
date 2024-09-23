@@ -1216,6 +1216,19 @@ def _create_cse_accounts(
                 address_range_ub = ltInt(field_variable, intToken(1461501637330902918203684832716283019655932542976))
                 new_account_constraints.append(mlEqualsTrue(address_range_lb))
                 new_account_constraints.append(mlEqualsTrue(address_range_ub))
+                # Address is not the cheatcode contract address
+                new_account_constraints.append(
+                    mlEqualsFalse(
+                        KApply(
+                            '_==Int_',
+                            [
+                                field_variable,
+                                Foundry.address_CHEATCODE(),
+                            ],
+                        )
+                    )
+                )
+                # TODO(palina): assume it's not a precompiled address
         # Processing of contracts
         if field.data_type.startswith('contract '):
             if field.linked_interface:
