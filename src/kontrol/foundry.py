@@ -218,7 +218,12 @@ class Foundry:
 
     @property
     def build_info(self) -> Path:
-        return self._root / self.profile.get('build_info_path', '')
+        build_info_path = self.profile.get('build_info_path')
+
+        if build_info_path:
+            return self._root / build_info_path
+        else:
+            return self.out / 'build-info'
 
     @cached_property
     def kevm(self) -> KEVM:
