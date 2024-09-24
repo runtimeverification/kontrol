@@ -434,7 +434,6 @@ class Contract:
         def encoded_args(self, enums: dict[str, int]) -> tuple[KInner, list[KInner]]:
             args: list[KInner] = []
             type_constraints: list[KInner] = []
-            tuple_array_sub_components: tuple[Input, ...] = ()
             for input in self.inputs:
                 abi_type = input.to_abi()
                 args.append(abi_type)
@@ -443,10 +442,10 @@ class Contract:
                     components = input.components
 
                     if input.type.endswith('[]'):
-                        components = []
                         if input.array_lengths is None:
                             raise ValueError(f'Array length bounds missing for {input.name}')
 
+                        tuple_array_components: list[Input] = []
                         for i in range(input.array_lengths[0]):
                             for _c in input.components:
                                 # If this component is a tuple, append `_{i}` to its elements' names
@@ -464,7 +463,7 @@ class Contract:
                                     )
                                 else:
                                     tuple_array_sub_components = _c.components
-                                
+
                                 tuple_array_component = Input(
                                     f'{_c.name}_{i}',
                                     _c.type,
@@ -473,7 +472,8 @@ class Contract:
                                     array_lengths=_c.array_lengths,
                                     dynamic_type_length=_c.dynamic_type_length,
                                 )
-                                components.append(tuple_array_component)
+                                tuple_array_components.append(tuple_array_component)
+                        components = tuple(tuple_array_components)
                     for sub_input in components:
                         _abi_type = sub_input.to_abi()
                         rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
@@ -679,8 +679,7 @@ class Contract:
                         if input.array_lengths is None:
                             raise ValueError(f'Array length bounds missing for {input.name}')
 
-                        components = []
-
+                        tuple_array_components: list[Input] = []
                         for i in range(input.array_lengths[0]):
                             for _c in input.components:
                                 # If this component is a tuple, append `_{i}` to its elements' names
@@ -698,7 +697,7 @@ class Contract:
                                     )
                                 else:
                                     tuple_array_sub_components = _c.components
-                                
+
                                 tuple_array_component = Input(
                                     f'{_c.name}_{i}',
                                     _c.type,
@@ -707,7 +706,8 @@ class Contract:
                                     array_lengths=_c.array_lengths,
                                     dynamic_type_length=_c.dynamic_type_length,
                                 )
-                                components.append(tuple_array_component)
+                                tuple_array_components.append(tuple_array_component)
+                        components = tuple(tuple_array_components)
 
                     for sub_input in components:
                         _abi_type = sub_input.to_abi()
