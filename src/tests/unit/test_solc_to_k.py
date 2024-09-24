@@ -207,7 +207,7 @@ DEVDOCS_DATA: list[tuple[str, dict, dict, tuple[int, ...] | None, int | None]] =
         'test_3',
         {'kontrol-array-length-equals': {'nestedArray': [10, 10]}, 'kontrol-bytes-length-equals': {'nestedArray': 320}},
         {'name': 'nestedArray', 'type': 'bytes[][][]'},
-        (10, 10, 2),
+        (10, 10, 1),
         320,
     ),
 ]
