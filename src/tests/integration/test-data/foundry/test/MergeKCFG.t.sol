@@ -9,6 +9,8 @@ contract MergeKCFGTest is Test {
     function test_branch_merge(uint256 x, uint256 y, bool z) external view{
         vm.assume(x + y < 2 ** 64);
         try c.f(x, y, z) returns (uint256 res) {
+            // This check will fail if the backend cannot recover the preds in the merged postcondition
+            // If so, assert res == x + y | res == x * y will pass
             if (z) {
                 assert(res == x + y);
             } else {
