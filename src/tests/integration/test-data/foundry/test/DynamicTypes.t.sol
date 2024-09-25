@@ -51,16 +51,16 @@ contract DynamicTypesTest is Test {
     }
 
     function test_nested_struct_array(ComplexType[][] memory ctValues) public {
-        require(ctValues[0].length == 2, "DynamicTypes: invalid default lengths for two-dimensional ComplexType[][]");
+        require(ctValues[0].length == 1, "DynamicTypes: invalid default lengths for two-dimensional ComplexType[][]");
     }
 
     function test_dynamic_nested_struct_array(ComplexNestedType memory cntValues) public {
-        require(cntValues.values.length == 2, "DynamicTypes: invalid default length for ComplexType[] in ComplexNestedType");
+        require(cntValues.values.length == 1, "DynamicTypes: invalid default length for ComplexType[] in ComplexNestedType");
     }
 
     function test_dynamic_struct_nested_array(ComplexTypeArray memory ctaValues) public {
-        require(ctaValues.assets.length == 2, "DynamicTypes: invalid default length for assets in ComplexTypeArray");
-        require(ctaValues.maxAmountsIn.length == 2, "DynamicTypes: invalid default length for maxAmountsIn in ComplexTypeArray");
+        require(ctaValues.assets.length == 1, "DynamicTypes: invalid default length for assets in ComplexTypeArray");
+        require(ctaValues.maxAmountsIn.length == 1, "DynamicTypes: invalid default length for maxAmountsIn in ComplexTypeArray");
     }
 
     function test_dynamic_byte_read(bytes memory data, uint256 offset) public {

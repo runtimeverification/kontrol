@@ -578,7 +578,7 @@ module S2KtestZModAmbiguousTest-CONTRACT
     
     syntax S2KtestZModAmbiguousTestMethod ::= "S2KtestZUndarrayZUndtype" "(" Int ":" "uint256" ")" [symbol("method_test%AmbiguousTest_S2KtestZUndarrayZUndtype_uint256")]
     
-    syntax S2KtestZModAmbiguousTestMethod ::= "S2KtestZUndarrayZUndtype" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%AmbiguousTest_S2KtestZUndarrayZUndtype_uint256_uint256")]
+    syntax S2KtestZModAmbiguousTestMethod ::= "S2KtestZUndarrayZUndtype" "(" Int ":" "uint256" ")" [symbol("method_test%AmbiguousTest_S2KtestZUndarrayZUndtype_uint256")]
     
     syntax S2KtestZModAmbiguousTestMethod ::= "S2KtestZUndassertZUndtrue" "(" ")" [symbol("method_test%AmbiguousTest_S2KtestZUndassertZUndtrue_")]
     
@@ -590,10 +590,8 @@ module S2KtestZModAmbiguousTest-CONTRACT
        ensures #rangeUInt ( 256 , V0_ )
       
     
-    rule  ( S2KtestZModAmbiguousTest . S2KtestZUndarrayZUndtype ( V0_numbers_0 : uint256 , V0_numbers_1 : uint256 ) => #abiCallData ( "test_array_type" , ( #array ( #uint256 ( V0_numbers_0 ) , 2 , ( #uint256 ( V0_numbers_0 ) , ( #uint256 ( V0_numbers_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
-       ensures ( #rangeUInt ( 256 , V0_numbers_0 )
-       andBool ( #rangeUInt ( 256 , V0_numbers_1 )
-               ))
+    rule  ( S2KtestZModAmbiguousTest . S2KtestZUndarrayZUndtype ( V0_numbers_0 : uint256 ) => #abiCallData ( "test_array_type" , ( #array ( #uint256 ( V0_numbers_0 ) , 1 , ( #uint256 ( V0_numbers_0 ) , .TypedArgs ) ) , .TypedArgs ) ) )
+       ensures #rangeUInt ( 256 , V0_numbers_0 )
       
     
     rule  ( S2KtestZModAmbiguousTest . S2KtestZUndassertZUndtrue ( ) => #abiCallData ( "test_assert_true" , .TypedArgs ) )
@@ -3651,13 +3649,13 @@ module S2KtestZModDynamicTypesTest-CONTRACT
     
     syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUnddynamicZUndbyteZUndread" "(" Bytes ":" "bytes" "," Int ":" "uint256" ")" [symbol("method_test%DynamicTypesTest_S2KtestZUnddynamicZUndbyteZUndread_bytes_uint256")]
     
-    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUnddynamicZUndnestedZUndstructZUndarray" "(" Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" ")" [symbol("method_test%DynamicTypesTest_S2KtestZUnddynamicZUndnestedZUndstructZUndarray_uint256_bytes_uint256_bytes_uint256")]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUnddynamicZUndnestedZUndstructZUndarray" "(" Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" ")" [symbol("method_test%DynamicTypesTest_S2KtestZUnddynamicZUndnestedZUndstructZUndarray_uint256_bytes_uint256")]
     
     syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUnddynamicZUndstructZUndarray" "(" Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol("method_test%DynamicTypesTest_S2KtestZUnddynamicZUndstructZUndarray_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes_uint256_bytes")]
     
-    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUnddynamicZUndstructZUndnestedZUndarray" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "bool" ")" [symbol("method_test%DynamicTypesTest_S2KtestZUnddynamicZUndstructZUndnestedZUndarray_address_address_uint256_uint256_bytes_bool")]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUnddynamicZUndstructZUndnestedZUndarray" "(" Int ":" "address" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "bool" ")" [symbol("method_test%DynamicTypesTest_S2KtestZUnddynamicZUndstructZUndnestedZUndarray_address_uint256_bytes_bool")]
     
-    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUndnestedZUndstructZUndarray" "(" Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol("method_test%DynamicTypesTest_S2KtestZUndnestedZUndstructZUndarray_uint256_bytes_uint256_bytes")]
+    syntax S2KtestZModDynamicTypesTestMethod ::= "S2KtestZUndnestedZUndstructZUndarray" "(" Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol("method_test%DynamicTypesTest_S2KtestZUndnestedZUndstructZUndarray_uint256_bytes")]
     
     rule  ( S2KtestZModDynamicTypesTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
@@ -3746,13 +3744,11 @@ module S2KtestZModDynamicTypesTest-CONTRACT
                ))
       
     
-    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUnddynamicZUndnestedZUndstructZUndarray ( V0_id_0 : uint256 , V1_content_0 : bytes , V0_id_1 : uint256 , V1_content_1 : bytes , V2_nonce : uint256 ) => #abiCallData ( "test_dynamic_nested_struct_array" , ( #tuple ( ( #array ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , 2 , ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_1 ) , ( #bytes ( V1_content_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , ( #uint256 ( V2_nonce ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUnddynamicZUndnestedZUndstructZUndarray ( V0_id_0 : uint256 , V1_content_0 : bytes , V1_nonce : uint256 ) => #abiCallData ( "test_dynamic_nested_struct_array" , ( #tuple ( ( #array ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , ( #uint256 ( V1_nonce ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
        ensures ( #rangeUInt ( 256 , V0_id_0 )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_0 ) )
-       andBool ( #rangeUInt ( 256 , V0_id_1 )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_1 ) )
-       andBool ( #rangeUInt ( 256 , V2_nonce )
-               )))))
+       andBool ( #rangeUInt ( 256 , V1_nonce )
+               )))
       
     
     rule  ( S2KtestZModDynamicTypesTest . S2KtestZUnddynamicZUndstructZUndarray ( V0_id_0 : uint256 , V1_content_0 : bytes , V0_id_1 : uint256 , V1_content_1 : bytes , V0_id_2 : uint256 , V1_content_2 : bytes , V0_id_3 : uint256 , V1_content_3 : bytes , V0_id_4 : uint256 , V1_content_4 : bytes , V0_id_5 : uint256 , V1_content_5 : bytes , V0_id_6 : uint256 , V1_content_6 : bytes , V0_id_7 : uint256 , V1_content_7 : bytes , V0_id_8 : uint256 , V1_content_8 : bytes , V0_id_9 : uint256 , V1_content_9 : bytes ) => #abiCallData ( "test_dynamic_struct_array" , ( #array ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , 10 , ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_1 ) , ( #bytes ( V1_content_1 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_2 ) , ( #bytes ( V1_content_2 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_3 ) , ( #bytes ( V1_content_3 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_4 ) , ( #bytes ( V1_content_4 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_5 ) , ( #bytes ( V1_content_5 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_6 ) , ( #bytes ( V1_content_6 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_7 ) , ( #bytes ( V1_content_7 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_8 ) , ( #bytes ( V1_content_8 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_9 ) , ( #bytes ( V1_content_9 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) ) ) ) ) ) ) ) , .TypedArgs ) ) )
@@ -3779,22 +3775,18 @@ module S2KtestZModDynamicTypesTest-CONTRACT
                ))))))))))))))))))))
       
     
-    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUnddynamicZUndstructZUndnestedZUndarray ( V0_assets_0 : address , V0_assets_1 : address , V1_maxAmountsIn_0 : uint256 , V1_maxAmountsIn_1 : uint256 , V2_userData : bytes , V3_fromInternalBalance : bool ) => #abiCallData ( "test_dynamic_struct_nested_array" , ( #tuple ( ( #array ( #address ( V0_assets_0 ) , 2 , ( #address ( V0_assets_0 ) , ( #address ( V0_assets_1 ) , .TypedArgs ) ) ) , ( #array ( #uint256 ( V1_maxAmountsIn_0 ) , 2 , ( #uint256 ( V1_maxAmountsIn_0 ) , ( #uint256 ( V1_maxAmountsIn_1 ) , .TypedArgs ) ) ) , ( #bytes ( V2_userData ) , ( #bool ( V3_fromInternalBalance ) , .TypedArgs ) ) ) ) ) , .TypedArgs ) ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUnddynamicZUndstructZUndnestedZUndarray ( V0_assets_0 : address , V1_maxAmountsIn_0 : uint256 , V2_userData : bytes , V3_fromInternalBalance : bool ) => #abiCallData ( "test_dynamic_struct_nested_array" , ( #tuple ( ( #array ( #address ( V0_assets_0 ) , 1 , ( #address ( V0_assets_0 ) , .TypedArgs ) ) , ( #array ( #uint256 ( V1_maxAmountsIn_0 ) , 1 , ( #uint256 ( V1_maxAmountsIn_0 ) , .TypedArgs ) ) , ( #bytes ( V2_userData ) , ( #bool ( V3_fromInternalBalance ) , .TypedArgs ) ) ) ) ) , .TypedArgs ) ) )
        ensures ( #rangeAddress ( V0_assets_0 )
-       andBool ( #rangeAddress ( V0_assets_1 )
        andBool ( #rangeUInt ( 256 , V1_maxAmountsIn_0 )
-       andBool ( #rangeUInt ( 256 , V1_maxAmountsIn_1 )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V2_userData ) )
        andBool ( #rangeBool ( V3_fromInternalBalance )
-               ))))))
+               ))))
       
     
-    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUndnestedZUndstructZUndarray ( V0_id_0 : uint256 , V1_content_0 : bytes , V0_id_1 : uint256 , V1_content_1 : bytes ) => #abiCallData ( "test_nested_struct_array" , ( #array ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , 2 , ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #uint256 ( V0_id_1 ) , ( #bytes ( V1_content_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+    rule  ( S2KtestZModDynamicTypesTest . S2KtestZUndnestedZUndstructZUndarray ( V0_id_0 : uint256 , V1_content_0 : bytes ) => #abiCallData ( "test_nested_struct_array" , ( #array ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #uint256 ( V0_id_0 ) , ( #bytes ( V1_content_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) )
        ensures ( #rangeUInt ( 256 , V0_id_0 )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_0 ) )
-       andBool ( #rangeUInt ( 256 , V0_id_1 )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_content_1 ) )
-               ))))
+               ))
       
     
     rule  ( selector ( "IS_TEST()" ) => 4202047188 )
@@ -6083,13 +6075,13 @@ module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     
     syntax Bytes ::= S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Contract "." S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method [function, symbol("method_lib%forge-std%src%interfaces%IMulticall3")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate" "(" Int ":" "address" "," Bytes ":" "bytes" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate_address_bytes_address_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate" "(" Int ":" "address" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate_address_bytes")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3" "(" Int ":" "address" "," Int ":" "bool" "," Bytes ":" "bytes" "," Int ":" "address" "," Int ":" "bool" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate3_address_bool_bytes_address_bool_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3" "(" Int ":" "address" "," Int ":" "bool" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate3_address_bool_bytes")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3Value" "(" Int ":" "address" "," Int ":" "bool" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "address" "," Int ":" "bool" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate3Value_address_bool_uint256_bytes_address_bool_uint256_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2Kaggregate3Value" "(" Int ":" "address" "," Int ":" "bool" "," Int ":" "uint256" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2Kaggregate3Value_address_bool_uint256_bytes")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KblockAndAggregate" "(" Int ":" "address" "," Bytes ":" "bytes" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2KblockAndAggregate_address_bytes_address_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KblockAndAggregate" "(" Int ":" "address" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2KblockAndAggregate_address_bytes")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KgetBasefee" "(" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2KgetBasefee_")]
     
@@ -6111,46 +6103,35 @@ module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KgetLastBlockHash" "(" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2KgetLastBlockHash_")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2KtryAggregate_bool_address_bytes_address_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2KtryAggregate_bool_address_bytes")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryBlockAndAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2KtryBlockAndAggregate_bool_address_bytes_address_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3Method ::= "S2KtryBlockAndAggregate" "(" Int ":" "bool" "," Int ":" "address" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%interfaces%IMulticall3_S2KtryBlockAndAggregate_bool_address_bytes")]
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2Kaggregate ( V0_target_0 : address , V1_callData_0 : bytes , V0_target_1 : address , V1_callData_1 : bytes ) => #abiCallData ( "aggregate" , ( #array ( #tuple ( ( #address ( V0_target_0 ) , ( #bytes ( V1_callData_0 ) , .TypedArgs ) ) ) , 2 , ( #tuple ( ( #address ( V0_target_0 ) , ( #bytes ( V1_callData_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #address ( V0_target_1 ) , ( #bytes ( V1_callData_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2Kaggregate ( V0_target_0 : address , V1_callData_0 : bytes ) => #abiCallData ( "aggregate" , ( #array ( #tuple ( ( #address ( V0_target_0 ) , ( #bytes ( V1_callData_0 ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #address ( V0_target_0 ) , ( #bytes ( V1_callData_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) )
        ensures ( #rangeAddress ( V0_target_0 )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V1_callData_0 ) )
-       andBool ( #rangeAddress ( V0_target_1 )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_callData_1 ) )
-               ))))
+               ))
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2Kaggregate3 ( V0_target_0 : address , V1_allowFailure_0 : bool , V2_callData_0 : bytes , V0_target_1 : address , V1_allowFailure_1 : bool , V2_callData_1 : bytes ) => #abiCallData ( "aggregate3" , ( #array ( #tuple ( ( #address ( V0_target_0 ) , ( #bool ( V1_allowFailure_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) ) , 2 , ( #tuple ( ( #address ( V0_target_0 ) , ( #bool ( V1_allowFailure_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) ) , ( #tuple ( ( #address ( V0_target_1 ) , ( #bool ( V1_allowFailure_1 ) , ( #bytes ( V2_callData_1 ) , .TypedArgs ) ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2Kaggregate3 ( V0_target_0 : address , V1_allowFailure_0 : bool , V2_callData_0 : bytes ) => #abiCallData ( "aggregate3" , ( #array ( #tuple ( ( #address ( V0_target_0 ) , ( #bool ( V1_allowFailure_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) ) , 1 , ( #tuple ( ( #address ( V0_target_0 ) , ( #bool ( V1_allowFailure_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) )
        ensures ( #rangeAddress ( V0_target_0 )
        andBool ( #rangeBool ( V1_allowFailure_0 )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V2_callData_0 ) )
-       andBool ( #rangeAddress ( V0_target_1 )
-       andBool ( #rangeBool ( V1_allowFailure_1 )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V2_callData_1 ) )
-               ))))))
+               )))
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2Kaggregate3Value ( V0_target_0 : address , V1_allowFailure_0 : bool , V2_value_0 : uint256 , V3_callData_0 : bytes , V0_target_1 : address , V1_allowFailure_1 : bool , V2_value_1 : uint256 , V3_callData_1 : bytes ) => #abiCallData ( "aggregate3Value" , ( #array ( #tuple ( ( #address ( V0_target_0 ) , ( #bool ( V1_allowFailure_0 ) , ( #uint256 ( V2_value_0 ) , ( #bytes ( V3_callData_0 ) , .TypedArgs ) ) ) ) ) , 2 , ( #tuple ( ( #address ( V0_target_0 ) , ( #bool ( V1_allowFailure_0 ) , ( #uint256 ( V2_value_0 ) , ( #bytes ( V3_callData_0 ) , .TypedArgs ) ) ) ) ) , ( #tuple ( ( #address ( V0_target_1 ) , ( #bool ( V1_allowFailure_1 ) , ( #uint256 ( V2_value_1 ) , ( #bytes ( V3_callData_1 ) , .TypedArgs ) ) ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2Kaggregate3Value ( V0_target_0 : address , V1_allowFailure_0 : bool , V2_value_0 : uint256 , V3_callData_0 : bytes ) => #abiCallData ( "aggregate3Value" , ( #array ( #tuple ( ( #address ( V0_target_0 ) , ( #bool ( V1_allowFailure_0 ) , ( #uint256 ( V2_value_0 ) , ( #bytes ( V3_callData_0 ) , .TypedArgs ) ) ) ) ) , 1 , ( #tuple ( ( #address ( V0_target_0 ) , ( #bool ( V1_allowFailure_0 ) , ( #uint256 ( V2_value_0 ) , ( #bytes ( V3_callData_0 ) , .TypedArgs ) ) ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) )
        ensures ( #rangeAddress ( V0_target_0 )
        andBool ( #rangeBool ( V1_allowFailure_0 )
        andBool ( #rangeUInt ( 256 , V2_value_0 )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V3_callData_0 ) )
-       andBool ( #rangeAddress ( V0_target_1 )
-       andBool ( #rangeBool ( V1_allowFailure_1 )
-       andBool ( #rangeUInt ( 256 , V2_value_1 )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V3_callData_1 ) )
-               ))))))))
+               ))))
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KblockAndAggregate ( V0_target_0 : address , V1_callData_0 : bytes , V0_target_1 : address , V1_callData_1 : bytes ) => #abiCallData ( "blockAndAggregate" , ( #array ( #tuple ( ( #address ( V0_target_0 ) , ( #bytes ( V1_callData_0 ) , .TypedArgs ) ) ) , 2 , ( #tuple ( ( #address ( V0_target_0 ) , ( #bytes ( V1_callData_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #address ( V0_target_1 ) , ( #bytes ( V1_callData_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KblockAndAggregate ( V0_target_0 : address , V1_callData_0 : bytes ) => #abiCallData ( "blockAndAggregate" , ( #array ( #tuple ( ( #address ( V0_target_0 ) , ( #bytes ( V1_callData_0 ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #address ( V0_target_0 ) , ( #bytes ( V1_callData_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) )
        ensures ( #rangeAddress ( V0_target_0 )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V1_callData_0 ) )
-       andBool ( #rangeAddress ( V0_target_1 )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V1_callData_1 ) )
-               ))))
+               ))
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KgetBasefee ( ) => #abiCallData ( "getBasefee" , .TypedArgs ) )
@@ -6185,22 +6166,18 @@ module S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3-CONTRACT
     rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KgetLastBlockHash ( ) => #abiCallData ( "getLastBlockHash" , .TypedArgs ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KtryAggregate ( V0_requireSuccess : bool , V1_target_0 : address , V2_callData_0 : bytes , V1_target_1 : address , V2_callData_1 : bytes ) => #abiCallData ( "tryAggregate" , ( #bool ( V0_requireSuccess ) , ( #array ( #tuple ( ( #address ( V1_target_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) , 2 , ( #tuple ( ( #address ( V1_target_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #address ( V1_target_1 ) , ( #bytes ( V2_callData_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KtryAggregate ( V0_requireSuccess : bool , V1_target_0 : address , V2_callData_0 : bytes ) => #abiCallData ( "tryAggregate" , ( #bool ( V0_requireSuccess ) , ( #array ( #tuple ( ( #address ( V1_target_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #address ( V1_target_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) ) )
        ensures ( #rangeBool ( V0_requireSuccess )
        andBool ( #rangeAddress ( V1_target_0 )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V2_callData_0 ) )
-       andBool ( #rangeAddress ( V1_target_1 )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V2_callData_1 ) )
-               )))))
+               )))
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KtryBlockAndAggregate ( V0_requireSuccess : bool , V1_target_0 : address , V2_callData_0 : bytes , V1_target_1 : address , V2_callData_1 : bytes ) => #abiCallData ( "tryBlockAndAggregate" , ( #bool ( V0_requireSuccess ) , ( #array ( #tuple ( ( #address ( V1_target_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) , 2 , ( #tuple ( ( #address ( V1_target_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #address ( V1_target_1 ) , ( #bytes ( V2_callData_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModinterfacesZModIMulticall3 . S2KtryBlockAndAggregate ( V0_requireSuccess : bool , V1_target_0 : address , V2_callData_0 : bytes ) => #abiCallData ( "tryBlockAndAggregate" , ( #bool ( V0_requireSuccess ) , ( #array ( #tuple ( ( #address ( V1_target_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #address ( V1_target_0 ) , ( #bytes ( V2_callData_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) ) )
        ensures ( #rangeBool ( V0_requireSuccess )
        andBool ( #rangeAddress ( V1_target_0 )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V2_callData_0 ) )
-       andBool ( #rangeAddress ( V1_target_1 )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V2_callData_1 ) )
-               )))))
+               )))
       
     
     rule  ( selector ( "aggregate((address,bytes)[])" ) => 623753794 )
@@ -6991,15 +6968,15 @@ module S2KtestZModLoopsTest-CONTRACT
     
     syntax S2KtestZModLoopsTestMethod ::= "S2KtestIsPrimeOpt" "(" Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestIsPrimeOpt_uint256")]
     
-    syntax S2KtestZModLoopsTestMethod ::= "S2KtestMax" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestMax_uint256_uint256")]
+    syntax S2KtestZModLoopsTestMethod ::= "S2KtestMax" "(" Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestMax_uint256")]
     
-    syntax S2KtestZModLoopsTestMethod ::= "S2KtestMaxBroken" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestMaxBroken_uint256_uint256")]
+    syntax S2KtestZModLoopsTestMethod ::= "S2KtestMaxBroken" "(" Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestMaxBroken_uint256")]
     
     syntax S2KtestZModLoopsTestMethod ::= "S2KtestNthPrime" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestNthPrime_uint256_uint256")]
     
-    syntax S2KtestZModLoopsTestMethod ::= "S2KtestSort" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestSort_uint256_uint256")]
+    syntax S2KtestZModLoopsTestMethod ::= "S2KtestSort" "(" Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestSort_uint256")]
     
-    syntax S2KtestZModLoopsTestMethod ::= "S2KtestSortBroken" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestSortBroken_uint256_uint256")]
+    syntax S2KtestZModLoopsTestMethod ::= "S2KtestSortBroken" "(" Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestSortBroken_uint256")]
     
     syntax S2KtestZModLoopsTestMethod ::= "S2KtestSqrt" "(" Int ":" "uint256" ")" [symbol("method_test%LoopsTest_S2KtestSqrt_uint256")]
     
@@ -7070,16 +7047,12 @@ module S2KtestZModLoopsTest-CONTRACT
        ensures #rangeUInt ( 256 , V0_n )
       
     
-    rule  ( S2KtestZModLoopsTest . S2KtestMax ( V0_numbers_0 : uint256 , V0_numbers_1 : uint256 ) => #abiCallData ( "testMax" , ( #array ( #uint256 ( V0_numbers_0 ) , 2 , ( #uint256 ( V0_numbers_0 ) , ( #uint256 ( V0_numbers_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
-       ensures ( #rangeUInt ( 256 , V0_numbers_0 )
-       andBool ( #rangeUInt ( 256 , V0_numbers_1 )
-               ))
+    rule  ( S2KtestZModLoopsTest . S2KtestMax ( V0_numbers_0 : uint256 ) => #abiCallData ( "testMax" , ( #array ( #uint256 ( V0_numbers_0 ) , 1 , ( #uint256 ( V0_numbers_0 ) , .TypedArgs ) ) , .TypedArgs ) ) )
+       ensures #rangeUInt ( 256 , V0_numbers_0 )
       
     
-    rule  ( S2KtestZModLoopsTest . S2KtestMaxBroken ( V0_numbers_0 : uint256 , V0_numbers_1 : uint256 ) => #abiCallData ( "testMaxBroken" , ( #array ( #uint256 ( V0_numbers_0 ) , 2 , ( #uint256 ( V0_numbers_0 ) , ( #uint256 ( V0_numbers_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
-       ensures ( #rangeUInt ( 256 , V0_numbers_0 )
-       andBool ( #rangeUInt ( 256 , V0_numbers_1 )
-               ))
+    rule  ( S2KtestZModLoopsTest . S2KtestMaxBroken ( V0_numbers_0 : uint256 ) => #abiCallData ( "testMaxBroken" , ( #array ( #uint256 ( V0_numbers_0 ) , 1 , ( #uint256 ( V0_numbers_0 ) , .TypedArgs ) ) , .TypedArgs ) ) )
+       ensures #rangeUInt ( 256 , V0_numbers_0 )
       
     
     rule  ( S2KtestZModLoopsTest . S2KtestNthPrime ( V0_n : uint256 , V1_i : uint256 ) => #abiCallData ( "testNthPrime" , ( #uint256 ( V0_n ) , ( #uint256 ( V1_i ) , .TypedArgs ) ) ) )
@@ -7088,16 +7061,12 @@ module S2KtestZModLoopsTest-CONTRACT
                ))
       
     
-    rule  ( S2KtestZModLoopsTest . S2KtestSort ( V0_numbers_0 : uint256 , V0_numbers_1 : uint256 ) => #abiCallData ( "testSort" , ( #array ( #uint256 ( V0_numbers_0 ) , 2 , ( #uint256 ( V0_numbers_0 ) , ( #uint256 ( V0_numbers_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
-       ensures ( #rangeUInt ( 256 , V0_numbers_0 )
-       andBool ( #rangeUInt ( 256 , V0_numbers_1 )
-               ))
+    rule  ( S2KtestZModLoopsTest . S2KtestSort ( V0_numbers_0 : uint256 ) => #abiCallData ( "testSort" , ( #array ( #uint256 ( V0_numbers_0 ) , 1 , ( #uint256 ( V0_numbers_0 ) , .TypedArgs ) ) , .TypedArgs ) ) )
+       ensures #rangeUInt ( 256 , V0_numbers_0 )
       
     
-    rule  ( S2KtestZModLoopsTest . S2KtestSortBroken ( V0_numbers_0 : uint256 , V0_numbers_1 : uint256 ) => #abiCallData ( "testSortBroken" , ( #array ( #uint256 ( V0_numbers_0 ) , 2 , ( #uint256 ( V0_numbers_0 ) , ( #uint256 ( V0_numbers_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
-       ensures ( #rangeUInt ( 256 , V0_numbers_0 )
-       andBool ( #rangeUInt ( 256 , V0_numbers_1 )
-               ))
+    rule  ( S2KtestZModLoopsTest . S2KtestSortBroken ( V0_numbers_0 : uint256 ) => #abiCallData ( "testSortBroken" , ( #array ( #uint256 ( V0_numbers_0 ) , 1 , ( #uint256 ( V0_numbers_0 ) , .TypedArgs ) ) , .TypedArgs ) ) )
+       ensures #rangeUInt ( 256 , V0_numbers_0 )
       
     
     rule  ( S2KtestZModLoopsTest . S2KtestSqrt ( V0_x : uint256 ) => #abiCallData ( "testSqrt" , ( #uint256 ( V0_x ) , .TypedArgs ) ) )
@@ -8322,7 +8291,9 @@ module S2KtestZModNestedStructsTest-CONTRACT
     
     syntax S2KtestZModNestedStructsTestMethod ::= "S2Kfailed" "(" ")" [symbol("method_test%NestedStructsTest_S2Kfailed_")]
     
-    syntax S2KtestZModNestedStructsTestMethod ::= "S2KproveZUndfourfoldZUndnestedZUndstruct" "(" Int ":" "uint8" "," Int ":" "uint256" "," Int ":" "bytes32" "," Int ":" "uint8" "," Int ":" "uint256" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol("method_test%NestedStructsTest_S2KproveZUndfourfoldZUndnestedZUndstruct_uint8_uint256_bytes32_uint8_uint256_bytes32_bytes32")]
+    syntax S2KtestZModNestedStructsTestMethod ::= "S2KproveZUndfourfoldZUndnestedZUndstruct" "(" Int ":" "uint8" "," Int ":" "uint256" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol("method_test%NestedStructsTest_S2KproveZUndfourfoldZUndnestedZUndstruct_uint8_uint256_bytes32_bytes32")]
+    
+    syntax S2KtestZModNestedStructsTestMethod ::= "S2KproveZUndfourfoldZUndnestedZUndstructZUndarray" "(" Int ":" "uint8" "," Int ":" "uint256" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol("method_test%NestedStructsTest_S2KproveZUndfourfoldZUndnestedZUndstructZUndarray_uint8_uint256_bytes32_bytes32")]
     
     syntax S2KtestZModNestedStructsTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol("method_test%NestedStructsTest_S2KtargetArtifactSelectors_")]
     
@@ -8349,15 +8320,20 @@ module S2KtestZModNestedStructsTest-CONTRACT
     rule  ( S2KtestZModNestedStructsTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModNestedStructsTest . S2KproveZUndfourfoldZUndnestedZUndstruct ( V0_pointerType_0 : uint8 , V1_value_0 : uint256 , V1_root_0 : bytes32 , V0_pointerType_1 : uint8 , V1_value_1 : uint256 , V1_root_1 : bytes32 , V2_hash : bytes32 ) => #abiCallData ( "prove_fourfold_nested_struct" , ( #tuple ( ( #tuple ( ( #array ( #tuple ( ( #tuple ( ( #uint8 ( V0_pointerType_0 ) , ( #uint256 ( V1_value_0 ) , .TypedArgs ) ) ) , ( #bytes32 ( V1_root_0 ) , .TypedArgs ) ) ) , 2 , ( #tuple ( ( #tuple ( ( #uint8 ( V0_pointerType_0 ) , ( #uint256 ( V1_value_0 ) , .TypedArgs ) ) ) , ( #bytes32 ( V1_root_0 ) , .TypedArgs ) ) ) , ( #tuple ( ( #tuple ( ( #uint8 ( V0_pointerType_1 ) , ( #uint256 ( V1_value_1 ) , .TypedArgs ) ) ) , ( #bytes32 ( V1_root_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , ( #bytes32 ( V2_hash ) , .TypedArgs ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) )
+    rule  ( S2KtestZModNestedStructsTest . S2KproveZUndfourfoldZUndnestedZUndstruct ( V0_pointerType_0 : uint8 , V1_value_0 : uint256 , V1_root_0 : bytes32 , V1_hash : bytes32 ) => #abiCallData ( "prove_fourfold_nested_struct" , ( #tuple ( ( #tuple ( ( #array ( #tuple ( ( #tuple ( ( #uint8 ( V0_pointerType_0 ) , ( #uint256 ( V1_value_0 ) , .TypedArgs ) ) ) , ( #bytes32 ( V1_root_0 ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #tuple ( ( #uint8 ( V0_pointerType_0 ) , ( #uint256 ( V1_value_0 ) , .TypedArgs ) ) ) , ( #bytes32 ( V1_root_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , ( #bytes32 ( V1_hash ) , .TypedArgs ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) )
        ensures ( #rangeUInt ( 8 , V0_pointerType_0 )
        andBool ( #rangeUInt ( 256 , V1_value_0 )
        andBool ( #rangeBytes ( 32 , V1_root_0 )
-       andBool ( #rangeUInt ( 8 , V0_pointerType_1 )
-       andBool ( #rangeUInt ( 256 , V1_value_1 )
-       andBool ( #rangeBytes ( 32 , V1_root_1 )
-       andBool ( #rangeBytes ( 32 , V2_hash )
-               )))))))
+       andBool ( #rangeBytes ( 32 , V1_hash )
+               ))))
+      
+    
+    rule  ( S2KtestZModNestedStructsTest . S2KproveZUndfourfoldZUndnestedZUndstructZUndarray ( V0_pointerType_0 : uint8 , V1_value_0 : uint256 , V1_root_0 : bytes32 , V1_hash_0 : bytes32 ) => #abiCallData ( "prove_fourfold_nested_struct_array" , ( #array ( #tuple ( ( #tuple ( ( #array ( #tuple ( ( #tuple ( ( #uint8 ( V0_pointerType_0 ) , ( #uint256 ( V1_value_0 ) , .TypedArgs ) ) ) , ( #bytes32 ( V1_root_0 ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #tuple ( ( #uint8 ( V0_pointerType_0 ) , ( #uint256 ( V1_value_0 ) , .TypedArgs ) ) ) , ( #bytes32 ( V1_root_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , ( #bytes32 ( V1_hash_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , 1 , ( #tuple ( ( #tuple ( ( #array ( #tuple ( ( #tuple ( ( #uint8 ( V0_pointerType_0 ) , ( #uint256 ( V1_value_0 ) , .TypedArgs ) ) ) , ( #bytes32 ( V1_root_0 ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #tuple ( ( #uint8 ( V0_pointerType_0 ) , ( #uint256 ( V1_value_0 ) , .TypedArgs ) ) ) , ( #bytes32 ( V1_root_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , ( #bytes32 ( V1_hash_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) , .TypedArgs ) ) )
+       ensures ( #rangeUInt ( 8 , V0_pointerType_0 )
+       andBool ( #rangeUInt ( 256 , V1_value_0 )
+       andBool ( #rangeBytes ( 32 , V1_root_0 )
+       andBool ( #rangeBytes ( 32 , V1_hash_0 )
+               ))))
       
     
     rule  ( S2KtestZModNestedStructsTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
@@ -8391,6 +8367,9 @@ module S2KtestZModNestedStructsTest-CONTRACT
       
     
     rule  ( selector ( "prove_fourfold_nested_struct(((((uint8,uint256),bytes32)[],bytes32)))" ) => 1548118009 )
+      
+    
+    rule  ( selector ( "prove_fourfold_nested_struct_array(((((uint8,uint256),bytes32)[],bytes32))[])" ) => 1095840184 )
       
     
     rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
@@ -8869,9 +8848,9 @@ module S2KsrcZModPortal-CONTRACT
     
     syntax Bytes ::= S2KsrcZModPortalContract "." S2KsrcZModPortalMethod [function, symbol("method_src%Portal")]
     
-    syntax S2KsrcZModPortalMethod ::= "S2KproveWithdrawalTransaction" "(" Int ":" "uint256" "," Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol("method_src%Portal_S2KproveWithdrawalTransaction_uint256_address_address_uint256_uint256_bytes_uint256_bytes32_bytes32_bytes32_bytes32_bytes_bytes")]
+    syntax S2KsrcZModPortalMethod ::= "S2KproveWithdrawalTransaction" "(" Int ":" "uint256" "," Int ":" "address" "," Int ":" "address" "," Int ":" "uint256" "," Int ":" "uint256" "," Bytes ":" "bytes" "," Int ":" "uint256" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Int ":" "bytes32" "," Bytes ":" "bytes" ")" [symbol("method_src%Portal_S2KproveWithdrawalTransaction_uint256_address_address_uint256_uint256_bytes_uint256_bytes32_bytes32_bytes32_bytes32_bytes")]
     
-    rule  ( S2KsrcZModPortal . S2KproveWithdrawalTransaction ( V0_nonce : uint256 , V1_sender : address , V2_target : address , V3_value : uint256 , V4_gasLimit : uint256 , V5_data : bytes , V6__l2OutputIndex : uint256 , V7_version : bytes32 , V8_stateRoot : bytes32 , V9_messagePasserStorageRoot : bytes32 , V10_latestBlockhash : bytes32 , V11__withdrawalProof_0 : bytes , V11__withdrawalProof_1 : bytes ) => #abiCallData ( "proveWithdrawalTransaction" , ( #tuple ( ( #uint256 ( V0_nonce ) , ( #address ( V1_sender ) , ( #address ( V2_target ) , ( #uint256 ( V3_value ) , ( #uint256 ( V4_gasLimit ) , ( #bytes ( V5_data ) , .TypedArgs ) ) ) ) ) ) ) , ( #uint256 ( V6__l2OutputIndex ) , ( #tuple ( ( #bytes32 ( V7_version ) , ( #bytes32 ( V8_stateRoot ) , ( #bytes32 ( V9_messagePasserStorageRoot ) , ( #bytes32 ( V10_latestBlockhash ) , .TypedArgs ) ) ) ) ) , ( #array ( #bytes ( V11__withdrawalProof_0 ) , 2 , ( #bytes ( V11__withdrawalProof_0 ) , ( #bytes ( V11__withdrawalProof_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) ) )
+    rule  ( S2KsrcZModPortal . S2KproveWithdrawalTransaction ( V0_nonce : uint256 , V1_sender : address , V2_target : address , V3_value : uint256 , V4_gasLimit : uint256 , V5_data : bytes , V6__l2OutputIndex : uint256 , V7_version : bytes32 , V8_stateRoot : bytes32 , V9_messagePasserStorageRoot : bytes32 , V10_latestBlockhash : bytes32 , V11__withdrawalProof_0 : bytes ) => #abiCallData ( "proveWithdrawalTransaction" , ( #tuple ( ( #uint256 ( V0_nonce ) , ( #address ( V1_sender ) , ( #address ( V2_target ) , ( #uint256 ( V3_value ) , ( #uint256 ( V4_gasLimit ) , ( #bytes ( V5_data ) , .TypedArgs ) ) ) ) ) ) ) , ( #uint256 ( V6__l2OutputIndex ) , ( #tuple ( ( #bytes32 ( V7_version ) , ( #bytes32 ( V8_stateRoot ) , ( #bytes32 ( V9_messagePasserStorageRoot ) , ( #bytes32 ( V10_latestBlockhash ) , .TypedArgs ) ) ) ) ) , ( #array ( #bytes ( V11__withdrawalProof_0 ) , 1 , ( #bytes ( V11__withdrawalProof_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) ) )
        ensures ( #rangeUInt ( 256 , V0_nonce )
        andBool ( #rangeAddress ( V1_sender )
        andBool ( #rangeAddress ( V2_target )
@@ -8884,8 +8863,7 @@ module S2KsrcZModPortal-CONTRACT
        andBool ( #rangeBytes ( 32 , V9_messagePasserStorageRoot )
        andBool ( #rangeBytes ( 32 , V10_latestBlockhash )
        andBool ( #rangeUInt ( 64 , lengthBytes ( V11__withdrawalProof_0 ) )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V11__withdrawalProof_1 ) )
-               )))))))))))))
+               ))))))))))))
       
     
     rule  ( selector ( "proveWithdrawalTransaction((uint256,address,address,uint256,uint256,bytes),uint256,(bytes32,bytes32,bytes32,bytes32),bytes[])" ) => 1215318383 )
@@ -13099,19 +13077,19 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_address_address")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_address")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_bool_bool")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_bool")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_bytes32_bytes32")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_bytes32")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_bytes_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_bytes")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_int256_int256")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_int256")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_string_string")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_string")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_uint256_uint256")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_string_uint256")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KenvOr" "(" String ":" "string" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%Vm_S2KenvOr_string_uint256")]
     
@@ -13161,7 +13139,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2Kfee" "(" Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%Vm_S2Kfee_uint256")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2Kffi" "(" String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2Kffi_string_string")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2Kffi" "(" String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2Kffi_string")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KfsMetadata" "(" String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2KfsMetadata_string")]
     
@@ -13187,7 +13165,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KmakePersistent" "(" Int ":" "address" "," Int ":" "address" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KmakePersistent_address_address_address")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KmakePersistent" "(" Int ":" "address" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KmakePersistent_address_address")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KmakePersistent" "(" Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KmakePersistent_address")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KmockCall" "(" Int ":" "address" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%Vm_S2KmockCall_address_bytes_bytes")]
     
@@ -13285,7 +13263,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KrevokePersistent" "(" Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KrevokePersistent_address")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KrevokePersistent" "(" Int ":" "address" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KrevokePersistent_address_address")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KrevokePersistent" "(" Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KrevokePersistent_address")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2Kroll" "(" Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%Vm_S2Kroll_uint256")]
     
@@ -13307,31 +13285,31 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeAddress_string_string_address")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeAddress_string_string_address_address")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeAddress_string_string_address")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeBool_string_string_bool")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeBool_string_string_bool_bool")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeBool_string_string_bool")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeBytes_string_string_bytes")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeBytes_string_string_bytes_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeBytes_string_string_bytes")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeBytes32_string_string_bytes32")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeBytes32_string_string_bytes32_bytes32")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeBytes32_string_string_bytes32")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeInt_string_string_int256")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeInt_string_string_int256_int256")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeInt_string_string_int256")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeString_string_string_string")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeString_string_string_string_string")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeString_string_string_string")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeUint_string_string_uint256")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeUint_string_string_uint256_uint256")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%Vm_S2KserializeUint_string_string_uint256")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmMethod ::= "S2KsetEnv" "(" String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%Vm_S2KsetEnv_string_string")]
     
@@ -13539,43 +13517,31 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_defaultValue : string ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_defaultValue ) , .TypedArgs ) ) ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : address , V2_defaultValue_1 : address ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #address ( V2_defaultValue_0 ) , 2 , ( #address ( V2_defaultValue_0 ) , ( #address ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeAddress ( V2_defaultValue_0 )
-       andBool ( #rangeAddress ( V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : address ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #address ( V2_defaultValue_0 ) , 1 , ( #address ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeAddress ( V2_defaultValue_0 )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bool , V2_defaultValue_1 : bool ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bool ( V2_defaultValue_0 ) , 2 , ( #bool ( V2_defaultValue_0 ) , ( #bool ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeBool ( V2_defaultValue_0 )
-       andBool ( #rangeBool ( V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bool ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bool ( V2_defaultValue_0 ) , 1 , ( #bool ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeBool ( V2_defaultValue_0 )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bytes32 , V2_defaultValue_1 : bytes32 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bytes32 ( V2_defaultValue_0 ) , 2 , ( #bytes32 ( V2_defaultValue_0 ) , ( #bytes32 ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeBytes ( 32 , V2_defaultValue_0 )
-       andBool ( #rangeBytes ( 32 , V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bytes32 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bytes32 ( V2_defaultValue_0 ) , 1 , ( #bytes32 ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeBytes ( 32 , V2_defaultValue_0 )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bytes , V2_defaultValue_1 : bytes ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bytes ( V2_defaultValue_0 ) , 2 , ( #bytes ( V2_defaultValue_0 ) , ( #bytes ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeUInt ( 64 , lengthBytes ( V2_defaultValue_0 ) )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V2_defaultValue_1 ) )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bytes ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bytes ( V2_defaultValue_0 ) , 1 , ( #bytes ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeUInt ( 64 , lengthBytes ( V2_defaultValue_0 ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : int256 , V2_defaultValue_1 : int256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #int256 ( V2_defaultValue_0 ) , 2 , ( #int256 ( V2_defaultValue_0 ) , ( #int256 ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeSInt ( 256 , V2_defaultValue_0 )
-       andBool ( #rangeSInt ( 256 , V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : int256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #int256 ( V2_defaultValue_0 ) , 1 , ( #int256 ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeSInt ( 256 , V2_defaultValue_0 )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : string , V2_defaultValue_1 : string ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #string ( V2_defaultValue_0 ) , 2 , ( #string ( V2_defaultValue_0 ) , ( #string ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : string ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #string ( V2_defaultValue_0 ) , 1 , ( #string ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : uint256 , V2_defaultValue_1 : uint256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #uint256 ( V2_defaultValue_0 ) , 2 , ( #uint256 ( V2_defaultValue_0 ) , ( #uint256 ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeUInt ( 256 , V2_defaultValue_0 )
-       andBool ( #rangeUInt ( 256 , V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : uint256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #uint256 ( V2_defaultValue_0 ) , 1 , ( #uint256 ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeUInt ( 256 , V2_defaultValue_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KenvOr ( V0_name : string , V1_defaultValue : uint256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #uint256 ( V1_defaultValue ) , .TypedArgs ) ) ) )
@@ -13713,7 +13679,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
        ensures #rangeUInt ( 256 , V0_newBasefee )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2Kffi ( V0_commandInput_0 : string , V0_commandInput_1 : string ) => #abiCallData ( "ffi" , ( #array ( #string ( V0_commandInput_0 ) , 2 , ( #string ( V0_commandInput_0 ) , ( #string ( V0_commandInput_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2Kffi ( V0_commandInput_0 : string ) => #abiCallData ( "ffi" , ( #array ( #string ( V0_commandInput_0 ) , 1 , ( #string ( V0_commandInput_0 ) , .TypedArgs ) ) , .TypedArgs ) ) )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KfsMetadata ( V0_path : string ) => #abiCallData ( "fsMetadata" , ( #string ( V0_path ) , .TypedArgs ) ) )
@@ -13767,10 +13733,8 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
                )))
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KmakePersistent ( V0_accounts_0 : address , V0_accounts_1 : address ) => #abiCallData ( "makePersistent" , ( #array ( #address ( V0_accounts_0 ) , 2 , ( #address ( V0_accounts_0 ) , ( #address ( V0_accounts_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
-       ensures ( #rangeAddress ( V0_accounts_0 )
-       andBool ( #rangeAddress ( V0_accounts_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KmakePersistent ( V0_accounts_0 : address ) => #abiCallData ( "makePersistent" , ( #array ( #address ( V0_accounts_0 ) , 1 , ( #address ( V0_accounts_0 ) , .TypedArgs ) ) , .TypedArgs ) ) )
+       ensures #rangeAddress ( V0_accounts_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KmockCall ( V0_callee : address , V1_data : bytes , V2_returnData : bytes ) => #abiCallData ( "mockCall" , ( #address ( V0_callee ) , ( #bytes ( V1_data ) , ( #bytes ( V2_returnData ) , .TypedArgs ) ) ) ) )
@@ -13949,10 +13913,8 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
        ensures #rangeAddress ( V0_account )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KrevokePersistent ( V0_accounts_0 : address , V0_accounts_1 : address ) => #abiCallData ( "revokePersistent" , ( #array ( #address ( V0_accounts_0 ) , 2 , ( #address ( V0_accounts_0 ) , ( #address ( V0_accounts_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
-       ensures ( #rangeAddress ( V0_accounts_0 )
-       andBool ( #rangeAddress ( V0_accounts_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KrevokePersistent ( V0_accounts_0 : address ) => #abiCallData ( "revokePersistent" , ( #array ( #address ( V0_accounts_0 ) , 1 , ( #address ( V0_accounts_0 ) , .TypedArgs ) ) , .TypedArgs ) ) )
+       ensures #rangeAddress ( V0_accounts_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2Kroll ( V0_newHeight : uint256 ) => #abiCallData ( "roll" , ( #uint256 ( V0_newHeight ) , .TypedArgs ) ) )
@@ -13996,66 +13958,54 @@ module S2KlibZModforgeZSubstdZModsrcZModVm-CONTRACT
        ensures #rangeAddress ( V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeAddress ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : address , V2_values_1 : address ) => #abiCallData ( "serializeAddress" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #address ( V2_values_0 ) , 2 , ( #address ( V2_values_0 ) , ( #address ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeAddress ( V2_values_0 )
-       andBool ( #rangeAddress ( V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeAddress ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : address ) => #abiCallData ( "serializeAddress" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #address ( V2_values_0 ) , 1 , ( #address ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeAddress ( V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeBool ( V0_objectKey : string , V1_valueKey : string , V2_value : bool ) => #abiCallData ( "serializeBool" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #bool ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeBool ( V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeBool ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bool , V2_values_1 : bool ) => #abiCallData ( "serializeBool" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bool ( V2_values_0 ) , 2 , ( #bool ( V2_values_0 ) , ( #bool ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeBool ( V2_values_0 )
-       andBool ( #rangeBool ( V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeBool ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bool ) => #abiCallData ( "serializeBool" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bool ( V2_values_0 ) , 1 , ( #bool ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeBool ( V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeBytes ( V0_objectKey : string , V1_valueKey : string , V2_value : bytes ) => #abiCallData ( "serializeBytes" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #bytes ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeUInt ( 64 , lengthBytes ( V2_value ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeBytes ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bytes , V2_values_1 : bytes ) => #abiCallData ( "serializeBytes" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bytes ( V2_values_0 ) , 2 , ( #bytes ( V2_values_0 ) , ( #bytes ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeUInt ( 64 , lengthBytes ( V2_values_0 ) )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V2_values_1 ) )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeBytes ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bytes ) => #abiCallData ( "serializeBytes" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bytes ( V2_values_0 ) , 1 , ( #bytes ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeUInt ( 64 , lengthBytes ( V2_values_0 ) )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeBytes32 ( V0_objectKey : string , V1_valueKey : string , V2_value : bytes32 ) => #abiCallData ( "serializeBytes32" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #bytes32 ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeBytes ( 32 , V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeBytes32 ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bytes32 , V2_values_1 : bytes32 ) => #abiCallData ( "serializeBytes32" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bytes32 ( V2_values_0 ) , 2 , ( #bytes32 ( V2_values_0 ) , ( #bytes32 ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeBytes ( 32 , V2_values_0 )
-       andBool ( #rangeBytes ( 32 , V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeBytes32 ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bytes32 ) => #abiCallData ( "serializeBytes32" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bytes32 ( V2_values_0 ) , 1 , ( #bytes32 ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeBytes ( 32 , V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeInt ( V0_objectKey : string , V1_valueKey : string , V2_value : int256 ) => #abiCallData ( "serializeInt" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #int256 ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeSInt ( 256 , V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeInt ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : int256 , V2_values_1 : int256 ) => #abiCallData ( "serializeInt" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #int256 ( V2_values_0 ) , 2 , ( #int256 ( V2_values_0 ) , ( #int256 ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeSInt ( 256 , V2_values_0 )
-       andBool ( #rangeSInt ( 256 , V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeInt ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : int256 ) => #abiCallData ( "serializeInt" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #int256 ( V2_values_0 ) , 1 , ( #int256 ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeSInt ( 256 , V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeString ( V0_objectKey : string , V1_valueKey : string , V2_value : string ) => #abiCallData ( "serializeString" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #string ( V2_value ) , .TypedArgs ) ) ) ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeString ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : string , V2_values_1 : string ) => #abiCallData ( "serializeString" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #string ( V2_values_0 ) , 2 , ( #string ( V2_values_0 ) , ( #string ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeString ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : string ) => #abiCallData ( "serializeString" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #string ( V2_values_0 ) , 1 , ( #string ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeUint ( V0_objectKey : string , V1_valueKey : string , V2_value : uint256 ) => #abiCallData ( "serializeUint" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #uint256 ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeUInt ( 256 , V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeUint ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : uint256 , V2_values_1 : uint256 ) => #abiCallData ( "serializeUint" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #uint256 ( V2_values_0 ) , 2 , ( #uint256 ( V2_values_0 ) , ( #uint256 ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeUInt ( 256 , V2_values_0 )
-       andBool ( #rangeUInt ( 256 , V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KserializeUint ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : uint256 ) => #abiCallData ( "serializeUint" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #uint256 ( V2_values_0 ) , 1 , ( #uint256 ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeUInt ( 256 , V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVm . S2KsetEnv ( V0_name : string , V1_value : string ) => #abiCallData ( "setEnv" , ( #string ( V0_name ) , ( #string ( V1_value ) , .TypedArgs ) ) ) )
@@ -14806,19 +14756,19 @@ module S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_address_address")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_address")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bool_bool")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bool")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bytes32_bytes32")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bytes32")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bytes_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_bytes")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_int256_int256")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_int256")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_string_string")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_string")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_uint256_uint256")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_string_uint256")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvOr" "(" String ":" "string" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvOr_string_uint256")]
     
@@ -14830,7 +14780,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KenvUint" "(" String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KenvUint_string_string")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2Kffi" "(" String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2Kffi_string_string")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2Kffi" "(" String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2Kffi_string")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KfsMetadata" "(" String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KfsMetadata_string")]
     
@@ -14930,31 +14880,31 @@ module S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeAddress_string_string_address")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeAddress_string_string_address_address")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeAddress" "(" String ":" "string" "," String ":" "string" "," Int ":" "address" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeAddress_string_string_address")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeBool_string_string_bool")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeBool_string_string_bool_bool")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBool" "(" String ":" "string" "," String ":" "string" "," Int ":" "bool" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeBool_string_string_bool")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeBytes_string_string_bytes")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeBytes_string_string_bytes_bytes")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes" "(" String ":" "string" "," String ":" "string" "," Bytes ":" "bytes" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeBytes_string_string_bytes")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeBytes32_string_string_bytes32")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeBytes32_string_string_bytes32_bytes32")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeBytes32" "(" String ":" "string" "," String ":" "string" "," Int ":" "bytes32" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeBytes32_string_string_bytes32")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeInt_string_string_int256")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeInt_string_string_int256_int256")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeInt" "(" String ":" "string" "," String ":" "string" "," Int ":" "int256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeInt_string_string_int256")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeString_string_string_string")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeString_string_string_string_string")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeString" "(" String ":" "string" "," String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeString_string_string_string")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeUint_string_string_uint256")]
     
-    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeUint_string_string_uint256_uint256")]
+    syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KserializeUint" "(" String ":" "string" "," String ":" "string" "," Int ":" "uint256" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KserializeUint_string_string_uint256")]
     
     syntax S2KlibZModforgeZSubstdZModsrcZModVmSafeMethod ::= "S2KsetEnv" "(" String ":" "string" "," String ":" "string" ")" [symbol("method_lib%forge-std%src%VmSafe_S2KsetEnv_string_string")]
     
@@ -15088,43 +15038,31 @@ module S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_defaultValue : string ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_defaultValue ) , .TypedArgs ) ) ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : address , V2_defaultValue_1 : address ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #address ( V2_defaultValue_0 ) , 2 , ( #address ( V2_defaultValue_0 ) , ( #address ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeAddress ( V2_defaultValue_0 )
-       andBool ( #rangeAddress ( V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : address ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #address ( V2_defaultValue_0 ) , 1 , ( #address ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeAddress ( V2_defaultValue_0 )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bool , V2_defaultValue_1 : bool ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bool ( V2_defaultValue_0 ) , 2 , ( #bool ( V2_defaultValue_0 ) , ( #bool ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeBool ( V2_defaultValue_0 )
-       andBool ( #rangeBool ( V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bool ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bool ( V2_defaultValue_0 ) , 1 , ( #bool ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeBool ( V2_defaultValue_0 )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bytes32 , V2_defaultValue_1 : bytes32 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bytes32 ( V2_defaultValue_0 ) , 2 , ( #bytes32 ( V2_defaultValue_0 ) , ( #bytes32 ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeBytes ( 32 , V2_defaultValue_0 )
-       andBool ( #rangeBytes ( 32 , V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bytes32 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bytes32 ( V2_defaultValue_0 ) , 1 , ( #bytes32 ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeBytes ( 32 , V2_defaultValue_0 )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bytes , V2_defaultValue_1 : bytes ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bytes ( V2_defaultValue_0 ) , 2 , ( #bytes ( V2_defaultValue_0 ) , ( #bytes ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeUInt ( 64 , lengthBytes ( V2_defaultValue_0 ) )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V2_defaultValue_1 ) )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : bytes ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #bytes ( V2_defaultValue_0 ) , 1 , ( #bytes ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeUInt ( 64 , lengthBytes ( V2_defaultValue_0 ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : int256 , V2_defaultValue_1 : int256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #int256 ( V2_defaultValue_0 ) , 2 , ( #int256 ( V2_defaultValue_0 ) , ( #int256 ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeSInt ( 256 , V2_defaultValue_0 )
-       andBool ( #rangeSInt ( 256 , V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : int256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #int256 ( V2_defaultValue_0 ) , 1 , ( #int256 ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeSInt ( 256 , V2_defaultValue_0 )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : string , V2_defaultValue_1 : string ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #string ( V2_defaultValue_0 ) , 2 , ( #string ( V2_defaultValue_0 ) , ( #string ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : string ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #string ( V2_defaultValue_0 ) , 1 , ( #string ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : uint256 , V2_defaultValue_1 : uint256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #uint256 ( V2_defaultValue_0 ) , 2 , ( #uint256 ( V2_defaultValue_0 ) , ( #uint256 ( V2_defaultValue_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeUInt ( 256 , V2_defaultValue_0 )
-       andBool ( #rangeUInt ( 256 , V2_defaultValue_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_delim : string , V2_defaultValue_0 : uint256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #string ( V1_delim ) , ( #array ( #uint256 ( V2_defaultValue_0 ) , 1 , ( #uint256 ( V2_defaultValue_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeUInt ( 256 , V2_defaultValue_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvOr ( V0_name : string , V1_defaultValue : uint256 ) => #abiCallData ( "envOr" , ( #string ( V0_name ) , ( #uint256 ( V1_defaultValue ) , .TypedArgs ) ) ) )
@@ -15143,7 +15081,7 @@ module S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KenvUint ( V0_name : string , V1_delim : string ) => #abiCallData ( "envUint" , ( #string ( V0_name ) , ( #string ( V1_delim ) , .TypedArgs ) ) ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2Kffi ( V0_commandInput_0 : string , V0_commandInput_1 : string ) => #abiCallData ( "ffi" , ( #array ( #string ( V0_commandInput_0 ) , 2 , ( #string ( V0_commandInput_0 ) , ( #string ( V0_commandInput_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2Kffi ( V0_commandInput_0 : string ) => #abiCallData ( "ffi" , ( #array ( #string ( V0_commandInput_0 ) , 1 , ( #string ( V0_commandInput_0 ) , .TypedArgs ) ) , .TypedArgs ) ) )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KfsMetadata ( V0_path : string ) => #abiCallData ( "fsMetadata" , ( #string ( V0_path ) , .TypedArgs ) ) )
@@ -15306,66 +15244,54 @@ module S2KlibZModforgeZSubstdZModsrcZModVmSafe-CONTRACT
        ensures #rangeAddress ( V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeAddress ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : address , V2_values_1 : address ) => #abiCallData ( "serializeAddress" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #address ( V2_values_0 ) , 2 , ( #address ( V2_values_0 ) , ( #address ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeAddress ( V2_values_0 )
-       andBool ( #rangeAddress ( V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeAddress ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : address ) => #abiCallData ( "serializeAddress" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #address ( V2_values_0 ) , 1 , ( #address ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeAddress ( V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeBool ( V0_objectKey : string , V1_valueKey : string , V2_value : bool ) => #abiCallData ( "serializeBool" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #bool ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeBool ( V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeBool ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bool , V2_values_1 : bool ) => #abiCallData ( "serializeBool" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bool ( V2_values_0 ) , 2 , ( #bool ( V2_values_0 ) , ( #bool ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeBool ( V2_values_0 )
-       andBool ( #rangeBool ( V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeBool ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bool ) => #abiCallData ( "serializeBool" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bool ( V2_values_0 ) , 1 , ( #bool ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeBool ( V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeBytes ( V0_objectKey : string , V1_valueKey : string , V2_value : bytes ) => #abiCallData ( "serializeBytes" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #bytes ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeUInt ( 64 , lengthBytes ( V2_value ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeBytes ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bytes , V2_values_1 : bytes ) => #abiCallData ( "serializeBytes" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bytes ( V2_values_0 ) , 2 , ( #bytes ( V2_values_0 ) , ( #bytes ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeUInt ( 64 , lengthBytes ( V2_values_0 ) )
-       andBool ( #rangeUInt ( 64 , lengthBytes ( V2_values_1 ) )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeBytes ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bytes ) => #abiCallData ( "serializeBytes" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bytes ( V2_values_0 ) , 1 , ( #bytes ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeUInt ( 64 , lengthBytes ( V2_values_0 ) )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeBytes32 ( V0_objectKey : string , V1_valueKey : string , V2_value : bytes32 ) => #abiCallData ( "serializeBytes32" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #bytes32 ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeBytes ( 32 , V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeBytes32 ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bytes32 , V2_values_1 : bytes32 ) => #abiCallData ( "serializeBytes32" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bytes32 ( V2_values_0 ) , 2 , ( #bytes32 ( V2_values_0 ) , ( #bytes32 ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeBytes ( 32 , V2_values_0 )
-       andBool ( #rangeBytes ( 32 , V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeBytes32 ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : bytes32 ) => #abiCallData ( "serializeBytes32" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #bytes32 ( V2_values_0 ) , 1 , ( #bytes32 ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeBytes ( 32 , V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeInt ( V0_objectKey : string , V1_valueKey : string , V2_value : int256 ) => #abiCallData ( "serializeInt" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #int256 ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeSInt ( 256 , V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeInt ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : int256 , V2_values_1 : int256 ) => #abiCallData ( "serializeInt" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #int256 ( V2_values_0 ) , 2 , ( #int256 ( V2_values_0 ) , ( #int256 ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeSInt ( 256 , V2_values_0 )
-       andBool ( #rangeSInt ( 256 , V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeInt ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : int256 ) => #abiCallData ( "serializeInt" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #int256 ( V2_values_0 ) , 1 , ( #int256 ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeSInt ( 256 , V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeString ( V0_objectKey : string , V1_valueKey : string , V2_value : string ) => #abiCallData ( "serializeString" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #string ( V2_value ) , .TypedArgs ) ) ) ) )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeString ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : string , V2_values_1 : string ) => #abiCallData ( "serializeString" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #string ( V2_values_0 ) , 2 , ( #string ( V2_values_0 ) , ( #string ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeString ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : string ) => #abiCallData ( "serializeString" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #string ( V2_values_0 ) , 1 , ( #string ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeUint ( V0_objectKey : string , V1_valueKey : string , V2_value : uint256 ) => #abiCallData ( "serializeUint" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #uint256 ( V2_value ) , .TypedArgs ) ) ) ) )
        ensures #rangeUInt ( 256 , V2_value )
       
     
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeUint ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : uint256 , V2_values_1 : uint256 ) => #abiCallData ( "serializeUint" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #uint256 ( V2_values_0 ) , 2 , ( #uint256 ( V2_values_0 ) , ( #uint256 ( V2_values_1 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) ) )
-       ensures ( #rangeUInt ( 256 , V2_values_0 )
-       andBool ( #rangeUInt ( 256 , V2_values_1 )
-               ))
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KserializeUint ( V0_objectKey : string , V1_valueKey : string , V2_values_0 : uint256 ) => #abiCallData ( "serializeUint" , ( #string ( V0_objectKey ) , ( #string ( V1_valueKey ) , ( #array ( #uint256 ( V2_values_0 ) , 1 , ( #uint256 ( V2_values_0 ) , .TypedArgs ) ) , .TypedArgs ) ) ) ) )
+       ensures #rangeUInt ( 256 , V2_values_0 )
       
     
     rule  ( S2KlibZModforgeZSubstdZModsrcZModVmSafe . S2KsetEnv ( V0_name : string , V1_value : string ) => #abiCallData ( "setEnv" , ( #string ( V0_name ) , ( #string ( V1_value ) , .TypedArgs ) ) ) )
