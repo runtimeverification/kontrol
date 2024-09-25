@@ -29,6 +29,10 @@ contract NestedStructsTest is Test {
     }
 
     function prove_fourfold_nested_struct(Processor calldata initialProcessor) external pure {
-        assert(initialProcessor.windows.frames.length == 2);
+        assert(initialProcessor.windows.frames.length == 1);
+    }
+
+    function prove_fourfold_nested_struct_array(Processor[] calldata initialProcessor) external pure {
+        assert(initialProcessor[0].windows.frames.length == 1);
     }
 }
