@@ -287,7 +287,7 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, .
     In case of dynamic types such as `string` and `bytes` the length bound is stored in its own variable.
     As a convention, the length of a one-dimensional array (`bytes[]`), the length is represented as a single integer.
     For a nested array, the length is represented as a sequence of whitespace-separated integers, e.g., `10 10 10`.
-    If an array length is missing, the default value will be `2` to avoid generating symbolic variables.
+    If an array length is missing, the default value will be `1` to avoid generating symbolic variables.
     The dynamic type length is optional, ommiting it may cause branchings in symbolic execution.
     """
     _name: str = input_dict['name']
@@ -303,11 +303,11 @@ def process_length_equals(input_dict: dict, lengths: dict) -> tuple[tuple[int, .
         if this_array_lengths is not None:
             array_lengths = [this_array_lengths] if isinstance(this_array_lengths, int) else this_array_lengths
         else:
-            array_lengths = [2] * array_dimensions
+            array_lengths = [1] * array_dimensions
 
-        # If an insufficient number of lengths was provided, add default length `2` for every missing dimension
+        # If an insufficient number of lengths was provided, add default length `1` for every missing dimension
         if len(array_lengths) < array_dimensions:
-            array_lengths.extend([2] * (array_dimensions - len(array_lengths)))
+            array_lengths.extend([1] * (array_dimensions - len(array_lengths)))
 
     input_array_lengths = tuple(array_lengths) if array_lengths else None
 
@@ -445,21 +445,35 @@ class Contract:
                         if input.array_lengths is None:
                             raise ValueError(f'Array length bounds missing for {input.name}')
 
-                        tuple_array_components = [
-                            Input(
-                                f'{_c.name}_{i}',
-                                _c.type,
-                                _c.components,
-                                _c.idx,
-                                _c.internal_type,
-                                _c.array_lengths,
-                                _c.dynamic_type_length,
-                            )
-                            for i in range(input.array_lengths[0])
-                            for _c in components
-                        ]
-                        components = tuple(tuple_array_components)
+                        tuple_array_components: list[Input] = []
+                        for i in range(input.array_lengths[0]):
+                            for _c in input.components:
+                                # If this component is a tuple, append `_{i}` to its elements' names
+                                if _c.type == 'tuple':
+                                    tuple_array_sub_components = tuple(
+                                        Input(
+                                            f'{sub_component.name}_{i}',
+                                            sub_component.type,
+                                            sub_component.components,
+                                            sub_component.idx,
+                                            array_lengths=sub_component.array_lengths,
+                                            dynamic_type_length=sub_component.dynamic_type_length,
+                                        )
+                                        for sub_component in _c.components
+                                    )
+                                else:
+                                    tuple_array_sub_components = _c.components
 
+                                tuple_array_component = Input(
+                                    f'{_c.name}_{i}',
+                                    _c.type,
+                                    tuple_array_sub_components,
+                                    _c.idx,
+                                    array_lengths=_c.array_lengths,
+                                    dynamic_type_length=_c.dynamic_type_length,
+                                )
+                                tuple_array_components.append(tuple_array_component)
+                        components = tuple(tuple_array_components)
                     for sub_input in components:
                         _abi_type = sub_input.to_abi()
                         rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
@@ -665,19 +679,34 @@ class Contract:
                         if input.array_lengths is None:
                             raise ValueError(f'Array length bounds missing for {input.name}')
 
-                        tuple_array_components = [
-                            Input(
-                                f'{_c.name}_{i}',
-                                _c.type,
-                                _c.components,
-                                _c.idx,
-                                _c.internal_type,
-                                _c.array_lengths,
-                                _c.dynamic_type_length,
-                            )
-                            for i in range(input.array_lengths[0])
-                            for _c in components
-                        ]
+                        tuple_array_components: list[Input] = []
+                        for i in range(input.array_lengths[0]):
+                            for _c in input.components:
+                                # If this component is a tuple, append `_{i}` to its elements' names
+                                if _c.type == 'tuple':
+                                    tuple_array_sub_components = tuple(
+                                        Input(
+                                            f'{sub_component.name}_{i}',
+                                            sub_component.type,
+                                            sub_component.components,
+                                            sub_component.idx,
+                                            array_lengths=sub_component.array_lengths,
+                                            dynamic_type_length=sub_component.dynamic_type_length,
+                                        )
+                                        for sub_component in _c.components
+                                    )
+                                else:
+                                    tuple_array_sub_components = _c.components
+
+                                tuple_array_component = Input(
+                                    f'{_c.name}_{i}',
+                                    _c.type,
+                                    tuple_array_sub_components,
+                                    _c.idx,
+                                    array_lengths=_c.array_lengths,
+                                    dynamic_type_length=_c.dynamic_type_length,
+                                )
+                                tuple_array_components.append(tuple_array_component)
                         components = tuple(tuple_array_components)
 
                     for sub_input in components:
