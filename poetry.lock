@@ -680,7 +680,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.730"
+version = "1.0.731"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -688,26 +688,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.150"
+kframework = "7.1.151"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.730"
-resolved_reference = "67669714df697ae2f59da204f082dca57dfd5bc0"
+reference = "v1.0.731"
+resolved_reference = "0876d49ef788c4ee281e93826b841845fc20b2ec"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.150"
+version = "7.1.151"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.150-py3-none-any.whl", hash = "sha256:e31fd668ac7cb7d44d36c4abbacaecee293a056744a8aff5a67ccde5725409ce"},
-    {file = "kframework-7.1.150.tar.gz", hash = "sha256:d3bcf827091bdac8ae885c304c327da9779ee6f013d78c764741eebc87fe4729"},
+    {file = "kframework-7.1.151-py3-none-any.whl", hash = "sha256:8ac212711a7b9e0ae8953884b779a0b215ef7c4145816dbd588342f5c3b00268"},
+    {file = "kframework-7.1.151.tar.gz", hash = "sha256:057025b23bbdb0903c9abf5fcd57bddd667643b23d22fa9fd1b1b0d2786011de"},
 ]
 
 [package.dependencies]
@@ -1449,4 +1449,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "7d8936ef327c01ba81a2c16dda61cb3df49ae6f897479979bb9b47c9efd52a48"
+content-hash = "cb7c373bf80363caa952b5e6a4f1acce13aa3e3684feae7ebcab567986a6952f"
