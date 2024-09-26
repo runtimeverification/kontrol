@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import sys
-from distutils.dir_util import copy_tree
+from shutil import copytree
 from typing import TYPE_CHECKING
 
 import pytest
@@ -59,7 +59,7 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
             init_project(project_root=foundry_root, skip_forge=False)
-            copy_tree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'))
+            copytree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'))
             append_to_file(foundry_root / 'foundry.toml', foundry_toml_cancun_schedule())
 
             foundry_kompile(
@@ -74,7 +74,7 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
             )
 
     session_foundry_root = tmp_path_factory.mktemp('kontrol-test-project')
-    copy_tree(str(foundry_root), str(session_foundry_root))
+    copytree(str(foundry_root), str(session_foundry_root))
     return Foundry(session_foundry_root)
 
 
