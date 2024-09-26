@@ -1044,7 +1044,7 @@ def _init_cterm(
         else:
             # Symbolic accounts of all relevant contracts
             accounts, storage_constraints = _create_cse_accounts(
-                foundry, storage_fields, contract_account_name, contract_code
+                foundry, storage_fields, contract_account_name, contract_code, schedule
             )
 
         accounts.append(KVariable('ACCOUNTS_REST', sort=KSort('AccountCellMap')))
@@ -1135,6 +1135,7 @@ def _create_cse_accounts(
     storage_fields: tuple[StorageField, ...],
     contract_name: str,
     contract_code: KInner,
+    schedule: KApply,
 ) -> tuple[list[KInner], list[KApply]]:
     """
     Recursively generates a list of new accounts corresponding to `contract` fields, each having <code> and <storage> cell (partially) set up.
@@ -1228,7 +1229,18 @@ def _create_cse_accounts(
                         )
                     )
                 )
-                # TODO(palina): assume it's not a precompiled address
+                # Address is not a precompiled contract address
+                # _account_constraints.append(
+                #     mlEqualsFalse(KEVM.is_precompiled_account(acct_id.args[0], cterm.cell('SCHEDULE_CELL')))
+                # )
+                new_account_constraints.append(
+                    mlEqualsFalse(
+                        KEVM.is_precompiled_account(
+                            field_variable,
+                            schedule,
+                        )
+                    )
+                )
         # Processing of contracts
         if field.data_type.startswith('contract '):
             if field.linked_interface:
