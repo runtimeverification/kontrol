@@ -767,7 +767,7 @@ class Contract:
     contract_path: str
     deployed_bytecode: str
     immutable_ranges: list[tuple[int, int]]
-    link_ranges: list[tuple[int, int]]
+    link_refs: list[tuple[str,str, int, int]]
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
@@ -797,12 +797,14 @@ class Contract:
             for rng in ref
         ]
 
-        self.link_ranges = [
-            (rng['start'], rng['length'])
-            for ref in deployed_bytecode.get('linkReferences', {}).values()
-            for rng_grp in ref.values()
-            for rng in rng_grp
+        self.link_refs = [
+            (path, contract_name, rng['start'], rng['length'])
+            for path, ref in deployed_bytecode.get('linkReferences', {}).items()
+            for contract_name, ranges in ref.items()
+            for rng in ranges
         ]
+
+        self.link_ranges = [(ref.start, ref.length) for ref in self.link_refs]
 
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
@@ -1112,6 +1114,7 @@ class Contract:
     @property
     def method_by_sig(self) -> dict[str, Contract.Method]:
         return {method.signature: method for method in self.methods}
+
 
 
 def solc_compile(contract_file: Path) -> dict[str, Any]:
