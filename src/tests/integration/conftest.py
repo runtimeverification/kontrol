@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from shutil import copytree
 from functools import partial
+from shutil import copytree
 from typing import TYPE_CHECKING
 
 import pytest
