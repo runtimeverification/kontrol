@@ -694,12 +694,12 @@ def _method_to_cfg(
     calldata = None
     callvalue = None
 
-    for (ref_path, ref_name, ref_start, ref_len) in contract.link_refs:
-        #TODO: find the path of the json path of the ref_name libKApply account
-        #TODO: read that json and fetch the deployed bytecode
-        #TODO: put that in a KApply account, with a random address
-        #TODO: save the KApply account in a KApply list that gets passed to _init_cterm
-        #TODO: replace the contract.deployed_bytecode[ref_start, ref_len] with the lib address
+    for ref_path, ref_name, ref_start, ref_len in contract.link_refs:
+        # TODO: find the path of the json path of the ref_name libKApply account
+        # TODO: read that json and fetch the deployed bytecode
+        # TODO: put that in a KApply account, with a random address
+        # TODO: save the KApply account in a KApply list that gets passed to _init_cterm
+        # TODO: replace the contract.deployed_bytecode[ref_start, ref_len] with the lib address
         pass
 
     contract_code = bytes.fromhex(contract.deployed_bytecode)

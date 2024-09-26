@@ -767,7 +767,8 @@ class Contract:
     contract_path: str
     deployed_bytecode: str
     immutable_ranges: list[tuple[int, int]]
-    link_refs: list[tuple[str,str, int, int]]
+    link_ranges: list[tuple[int, int]]
+    link_refs: list[tuple[str, str, int, int]]
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
@@ -1114,7 +1115,6 @@ class Contract:
     @property
     def method_by_sig(self) -> dict[str, Contract.Method]:
         return {method.signature: method for method in self.methods}
-
 
 
 def solc_compile(contract_file: Path) -> dict[str, Any]:
