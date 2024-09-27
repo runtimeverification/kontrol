@@ -8705,6 +8705,8 @@ module S2KtestZModPlainPrankTest-CONTRACT
     
     syntax S2KtestZModPlainPrankTestMethod ::= "S2KtestZUndstartPrankWithOriginZUndtrue" "(" ")" [symbol("method_test%PlainPrankTest_S2KtestZUndstartPrankWithOriginZUndtrue_")]
     
+    syntax S2KtestZModPlainPrankTestMethod ::= "S2KtestZUndstartPrankZUndconsecutive" "(" ")" [symbol("method_test%PlainPrankTest_S2KtestZUndstartPrankZUndconsecutive_")]
+    
     syntax S2KtestZModPlainPrankTestMethod ::= "S2KtestZUndstartPrankZUndtrue" "(" ")" [symbol("method_test%PlainPrankTest_S2KtestZUndstartPrankZUndtrue_")]
     
     syntax S2KtestZModPlainPrankTestMethod ::= "S2KtestZUndstartPrankZUndzeroAddressZUndtrue" "(" ")" [symbol("method_test%PlainPrankTest_S2KtestZUndstartPrankZUndzeroAddressZUndtrue_")]
@@ -8763,6 +8765,9 @@ module S2KtestZModPlainPrankTest-CONTRACT
       
     
     rule  ( S2KtestZModPlainPrankTest . S2KtestZUndstartPrankWithOriginZUndtrue ( ) => #abiCallData ( "test_startPrankWithOrigin_true" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModPlainPrankTest . S2KtestZUndstartPrankZUndconsecutive ( ) => #abiCallData ( "test_startPrank_consecutive" , .TypedArgs ) )
       
     
     rule  ( S2KtestZModPlainPrankTest . S2KtestZUndstartPrankZUndtrue ( ) => #abiCallData ( "test_startPrank_true" , .TypedArgs ) )
@@ -8826,6 +8831,9 @@ module S2KtestZModPlainPrankTest-CONTRACT
       
     
     rule  ( selector ( "test_startPrankWithOrigin_true()" ) => 1559633499 )
+      
+    
+    rule  ( selector ( "test_startPrank_consecutive()" ) => 2693862981 )
       
     
     rule  ( selector ( "test_startPrank_true()" ) => 243527947 )
