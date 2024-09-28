@@ -6,6 +6,7 @@ from abc import abstractmethod
 from collections import Counter
 from copy import copy
 from functools import partial
+from os import urandom
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
@@ -35,7 +36,7 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElaps
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
-from .solc_to_k import Contract, hex_string_to_int
+from .solc_to_k import Contract, contract_name_with_path, hex_string_to_int
 from .state_record import StateDiffEntry, StateDumpEntry
 from .utils import console, parse_test_version_tuple
 
@@ -693,14 +694,38 @@ def _method_to_cfg(
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
+    dynamic_lib_accounts: list[KApply] = []
 
-    for ref_path, ref_name, ref_start, ref_len in contract.link_refs:
-        # TODO: find the path of the json file of the ref_name lib
-        # TODO: read that json and fetch the deployed bytecode
-        # TODO: put that in a KApply account, with a random address
-        # TODO: save the KApply account in a KApply list that gets passed to _init_cterm
-        # TODO: replace the contract.deployed_bytecode[ref_start, ref_len] with the lib address
-        pass
+    if not contract.processed_link_refs:
+        for ref_path, ref_name, ref_start, ref_len in contract.link_refs:
+            ref_name_with_path = contract_name_with_path(ref_path, ref_name)
+            ref_contract: Contract | None = foundry.contracts.get(ref_name_with_path, None)
+            if ref_contract is None:
+                raise ValueError(f'External library not found for {ref_name} at {ref_path}')
+            random_address_bytes = urandom(20)
+            new_address_as_kinner = intToken(int.from_bytes(random_address_bytes, 'big'))
+            new_address_as_hex = random_address_bytes.hex().zfill(40)
+
+            _LOGGER.info(f'Deploying external library {ref_name} at address 0x{new_address_as_hex}')
+
+            placeholder_start = ref_start * 2
+            placeholder_len = ref_len * 2
+            code_before_placeholder = contract.deployed_bytecode[:placeholder_start]
+            code_after_placeholder = contract.deployed_bytecode[placeholder_start + placeholder_len :]
+            contract.deployed_bytecode = code_before_placeholder + new_address_as_hex + code_after_placeholder
+            ref_code = bytesToken(bytes.fromhex(ref_contract.deployed_bytecode))
+            dynamic_lib_accounts.append(
+                KEVM.account_cell(
+                    id=new_address_as_kinner,
+                    balance=intToken(0),
+                    code=ref_code,
+                    storage=map_empty(),
+                    orig_storage=map_empty(),
+                    transient_storage=map_empty(),
+                    nonce=intToken(0),
+                )
+            )
+        contract.processed_link_refs = True
 
     contract_code = bytes.fromhex(contract.deployed_bytecode)
     if isinstance(method, Contract.Constructor):
@@ -727,6 +752,7 @@ def _method_to_cfg(
         active_symbolik=active_symbolik,
         trace_options=trace_options,
         config_type=config_type,
+        additional_accounts=dynamic_lib_accounts,
     )
     new_node_ids = []
 
@@ -780,6 +806,7 @@ def _method_to_cfg(
         config_type=config_type,
         is_test=method.is_test,
         hevm=hevm,
+        additional_accounts=dynamic_lib_accounts,
     )
     target_node = cfg.create_node(final_cterm)
 
@@ -967,6 +994,7 @@ def _init_cterm(
     config_type: ConfigType,
     active_symbolik: bool,
     evm_chain_options: EVMChainOptions,
+    additional_accounts: list[KApply],
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -1020,7 +1048,7 @@ def _init_cterm(
     storage_constraints: list[KApply] = []
 
     if config_type == ConfigType.TEST_CONFIG or active_symbolik:
-        init_account_list = _create_initial_account_list(contract_code, recorded_state_entries)
+        init_account_list = _create_initial_account_list(contract_code, additional_accounts, recorded_state_entries)
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
             'CALLSTACK_CELL': list_empty(),
@@ -1117,7 +1145,9 @@ def _init_cterm(
 
 
 def _create_initial_account_list(
-    program: KInner, recorded_state: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None
+    program: KInner,
+    additional_accounts: list[KApply],
+    recorded_state: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
 ) -> list[KInner]:
     _contract = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
@@ -1135,6 +1165,7 @@ def _create_initial_account_list(
     if recorded_state is not None:
         init_account_list.extend(recorded_state_to_account_cells(recorded_state))
 
+    init_account_list.extend(additional_accounts)
     return init_account_list
 
 
@@ -1326,12 +1357,13 @@ def _final_cterm(
     empty_config: KInner,
     program: KInner,
     config_type: ConfigType,
+    additional_accounts: list[KApply],
     *,
     failing: bool,
     is_test: bool = True,
     hevm: bool = False,
 ) -> CTerm:
-    final_term = _final_term(empty_config, program, config_type=config_type)
+    final_term = _final_term(empty_config, program, additional_accounts, config_type=config_type)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     final_cterm = CTerm.from_kast(final_term)
     if is_test:
@@ -1364,7 +1396,9 @@ def _final_cterm(
     return final_cterm
 
 
-def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) -> KInner:
+def _final_term(
+    empty_config: KInner, program: KInner, additional_accounts: list[KApply], config_type: ConfigType
+) -> KInner:
     post_account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
         KVariable('ACCT_BALANCE_FINAL'),
@@ -1389,15 +1423,15 @@ def _final_term(empty_config: KInner, program: KInner, config_type: ConfigType) 
     }
 
     if config_type == ConfigType.TEST_CONFIG:
+        account_list: list[KInner] = [
+            post_account_cell,
+            Foundry.account_CHEATCODE_ADDRESS(KVariable('CHEATCODE_STORAGE_FINAL')),
+        ]
+        account_list.extend(additional_accounts)
+        account_list.append(KVariable('ACCOUNTS_FINAL'))
         final_subst_test = {
             'ID_CELL': Foundry.address_TEST_CONTRACT(),
-            'ACCOUNTS_CELL': KEVM.accounts(
-                [
-                    post_account_cell,  # test contract address
-                    Foundry.account_CHEATCODE_ADDRESS(KVariable('CHEATCODE_STORAGE_FINAL')),
-                    KVariable('ACCOUNTS_FINAL'),
-                ]
-            ),
+            'ACCOUNTS_CELL': KEVM.accounts(account_list),
         }
         final_subst.update(final_subst_test)
 

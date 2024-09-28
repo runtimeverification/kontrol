@@ -769,6 +769,7 @@ class Contract:
     immutable_ranges: list[tuple[int, int]]
     link_ranges: list[tuple[int, int]]
     link_refs: list[tuple[str, str, int, int]]
+    processed_link_refs: bool
     bytecode: str
     raw_sourcemap: str | None
     methods: tuple[Method, ...]
@@ -804,8 +805,8 @@ class Contract:
             for contract_name, ranges in ref.items()
             for rng in ranges
         ]
-
-        self.link_ranges = [(ref.start, ref.length) for ref in self.link_refs]
+        self.processed_link_refs = len(self.link_refs) == 0
+        self.link_ranges = [(ref[2], ref[3]) for ref in self.link_refs]
 
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
@@ -872,8 +873,7 @@ class Contract:
 
     @cached_property
     def name_with_path(self) -> str:
-        contract_path_without_filename = '%'.join(self.contract_path.split('/')[0:-1])
-        return self._name if contract_path_without_filename == '' else contract_path_without_filename + '%' + self._name
+        return contract_name_with_path(self.contract_path, self._name)
 
     @cached_property
     def digest(self) -> str:
@@ -1470,3 +1470,10 @@ def process_storage_layout(storage_layout: dict, interface_annotations: dict) ->
             _LOGGER.error(f'Error processing field {field}: {e}')
 
     return tuple(fields_list)
+
+
+def contract_name_with_path(contract_path: str, contract_name: str) -> str:
+    contract_path_without_filename = '%'.join(contract_path.split('/')[0:-1])
+    return (
+        contract_name if contract_path_without_filename == '' else contract_path_without_filename + '%' + contract_name
+    )
