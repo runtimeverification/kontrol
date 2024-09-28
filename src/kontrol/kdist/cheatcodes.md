@@ -1328,7 +1328,7 @@ Will also return true if REASON is `.Bytes`.
            <prevOrigin> _ => OG </prevOrigin>
            <newCaller> _ => NEWCALLER </newCaller>
            <newOrigin> _ => NEWORIGIN </newOrigin>
-           <active> false => true </active>
+           <active> _ => true </active>
            <depth> _ => CD </depth>
            <singleCall> _ => SINGLEPRANK </singleCall>
          </prank>
