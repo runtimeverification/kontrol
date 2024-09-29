@@ -769,6 +769,7 @@ class Contract:
     immutable_ranges: list[tuple[int, int]]
     link_ranges: list[tuple[int, int]]
     link_refs: list[tuple[str, str, int, int]]
+    external_lib_refs: dict[str, Any]
     processed_link_refs: bool
     bytecode: str
     raw_sourcemap: str | None
@@ -799,14 +800,15 @@ class Contract:
             for rng in ref
         ]
 
-        self.link_refs = [
-            (path, contract_name, rng['start'], rng['length'])
-            for path, ref in deployed_bytecode.get('linkReferences', {}).items()
-            for contract_name, ranges in ref.items()
-            for rng in ranges
-        ]
-        self.processed_link_refs = len(self.link_refs) == 0
-        self.link_ranges = [(ref[2], ref[3]) for ref in self.link_refs]
+        self.external_lib_refs = {}
+
+        for path, ref in deployed_bytecode.get('linkReferences', {}).items():
+            for contract_name, ranges in ref.items():
+                ref_name_with_path = contract_name_with_path(path, contract_name)
+                ranges_list = [(rng['start'], rng['length']) for rng in ranges]
+                self.external_lib_refs.setdefault(ref_name_with_path, []).extend(ranges_list)
+
+        self.processed_link_refs = len(self.external_lib_refs) == 0
 
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None

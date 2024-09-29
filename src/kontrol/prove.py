@@ -27,6 +27,7 @@ from pyk.prelude.kbool import FALSE, TRUE, boolToken, notBool
 from pyk.prelude.kint import eqInt, intToken, leInt, ltInt
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.prelude.string import stringToken
+from pyk.prelude.utils import token
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
@@ -36,7 +37,7 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElaps
 from .foundry import Foundry, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
-from .solc_to_k import Contract, contract_name_with_path, hex_string_to_int
+from .solc_to_k import Contract, hex_string_to_int
 from .state_record import StateDiffEntry, StateDumpEntry
 from .utils import console, parse_test_version_tuple
 
@@ -694,37 +695,10 @@ def _method_to_cfg(
 ) -> tuple[KCFG, list[int], int, int]:
     calldata = None
     callvalue = None
-    dynamic_lib_accounts: list[KApply] = []
+    external_libs: list[KInner] = []
 
     if not contract.processed_link_refs:
-        for ref_path, ref_name, ref_start, ref_len in contract.link_refs:
-            ref_name_with_path = contract_name_with_path(ref_path, ref_name)
-            ref_contract: Contract | None = foundry.contracts.get(ref_name_with_path, None)
-            if ref_contract is None:
-                raise ValueError(f'External library not found for {ref_name} at {ref_path}')
-            random_address_bytes = urandom(20)
-            new_address_as_kinner = intToken(int.from_bytes(random_address_bytes, 'big'))
-            new_address_as_hex = random_address_bytes.hex().zfill(40)
-
-            _LOGGER.info(f'Deploying external library {ref_name} at address 0x{new_address_as_hex}')
-
-            placeholder_start = ref_start * 2
-            placeholder_len = ref_len * 2
-            code_before_placeholder = contract.deployed_bytecode[:placeholder_start]
-            code_after_placeholder = contract.deployed_bytecode[placeholder_start + placeholder_len :]
-            contract.deployed_bytecode = code_before_placeholder + new_address_as_hex + code_after_placeholder
-            ref_code = bytesToken(bytes.fromhex(ref_contract.deployed_bytecode))
-            dynamic_lib_accounts.append(
-                KEVM.account_cell(
-                    id=new_address_as_kinner,
-                    balance=intToken(0),
-                    code=ref_code,
-                    storage=map_empty(),
-                    orig_storage=map_empty(),
-                    transient_storage=map_empty(),
-                    nonce=intToken(0),
-                )
-            )
+        external_libs = _process_external_library_references(contract, foundry.contracts)
         contract.processed_link_refs = True
 
     contract_code = bytes.fromhex(contract.deployed_bytecode)
@@ -752,7 +726,7 @@ def _method_to_cfg(
         active_symbolik=active_symbolik,
         trace_options=trace_options,
         config_type=config_type,
-        additional_accounts=dynamic_lib_accounts,
+        additional_accounts=external_libs,
     )
     new_node_ids = []
 
@@ -806,7 +780,7 @@ def _method_to_cfg(
         config_type=config_type,
         is_test=method.is_test,
         hevm=hevm,
-        additional_accounts=dynamic_lib_accounts,
+        additional_accounts=external_libs,
     )
     target_node = cfg.create_node(final_cterm)
 
@@ -994,7 +968,7 @@ def _init_cterm(
     config_type: ConfigType,
     active_symbolik: bool,
     evm_chain_options: EVMChainOptions,
-    additional_accounts: list[KApply],
+    additional_accounts: list[KInner],
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -1146,7 +1120,7 @@ def _init_cterm(
 
 def _create_initial_account_list(
     program: KInner,
-    additional_accounts: list[KApply],
+    additional_accounts: list[KInner],
     recorded_state: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
 ) -> list[KInner]:
     _contract = KEVM.account_cell(
@@ -1357,7 +1331,7 @@ def _final_cterm(
     empty_config: KInner,
     program: KInner,
     config_type: ConfigType,
-    additional_accounts: list[KApply],
+    additional_accounts: list[KInner],
     *,
     failing: bool,
     is_test: bool = True,
@@ -1397,7 +1371,7 @@ def _final_cterm(
 
 
 def _final_term(
-    empty_config: KInner, program: KInner, additional_accounts: list[KApply], config_type: ConfigType
+    empty_config: KInner, program: KInner, additional_accounts: list[KInner], config_type: ConfigType
 ) -> KInner:
     post_account_cell = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
@@ -1451,3 +1425,59 @@ def _final_term(
             KVariable('STORAGESLOTLIST_FINAL'),
         ],
     )
+
+
+def _process_external_library_references(contract: Contract, foundry_contracts: dict[str, Contract]) -> list[KInner]:
+    """Create a list of KInner accounts for external libraries used in the given contract.
+
+    This function identifies external library placeholders within the contract's deployed bytecode,
+    deploys the required external libraries at random addresses, replaces the placeholders with the
+    actual addresses of the deployed libraries, and returns a list of KEVM account cells representing
+    the deployed external libraries.
+
+    :param contract: The contract object containing the deployed bytecode and external library references.
+    :param foundry_contracts: A dictionary mapping library names to Contract instances, representing all
+                             available contracts including external libraries.
+    :raises ValueError: If an external library referenced in the contract's bytecode is not found in foundry_contracts.
+    :return:  A list of KEVM account cells representing the deployed external libraries.
+    """
+    external_libs: list[KInner] = []
+    address_list: dict[str, str] = {}
+
+    for lib, ref_locations in contract.external_lib_refs.items():
+        ref_contract = foundry_contracts.get(lib)
+        if ref_contract is None:
+            raise ValueError(f'External library not found: {lib}')
+
+        if lib not in address_list:
+            random_address_bytes = urandom(20)
+            new_address_int = int.from_bytes(random_address_bytes, 'big')
+            new_address_hex = random_address_bytes.hex().zfill(40)
+            _LOGGER.info(f'Deploying external library {lib} at address 0x{new_address_hex}')
+
+            ref_code = token(bytes.fromhex(ref_contract.deployed_bytecode))
+            external_libs.append(
+                KEVM.account_cell(
+                    id=token(new_address_int),
+                    balance=token(0),
+                    code=ref_code,
+                    storage=map_empty(),
+                    orig_storage=map_empty(),
+                    transient_storage=map_empty(),
+                    nonce=token(0),
+                )
+            )
+            address_list[lib] = new_address_hex
+        else:
+            new_address_hex = address_list[lib]
+
+        for ref_start, ref_len in ref_locations:
+            placeholder_start = ref_start * 2
+            placeholder_len = ref_len * 2
+            contract.deployed_bytecode = (
+                contract.deployed_bytecode[:placeholder_start]
+                + new_address_hex
+                + contract.deployed_bytecode[placeholder_start + placeholder_len :]
+            )
+
+    return external_libs

@@ -447,9 +447,7 @@ class ContractSource:
         for ref_start, ref_len in link_refs:
             placeholder_start = ref_start * 2
             placeholder_len = ref_len * 2
-            code_before_placeholder = raw[:placeholder_start]
-            code_after_placeholder = raw[placeholder_start + placeholder_len :]
-            raw = code_before_placeholder + ''.zfill(40) + code_after_placeholder
+            raw = raw[:placeholder_start] + ''.zfill(40) + raw[placeholder_start + placeholder_len :]
 
         return bytes.fromhex(raw)
 
