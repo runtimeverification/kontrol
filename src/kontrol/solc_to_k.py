@@ -801,12 +801,14 @@ class Contract:
         ]
 
         self.external_lib_refs = {}
+        self.link_ranges = []
 
         for path, ref in deployed_bytecode.get('linkReferences', {}).items():
             for contract_name, ranges in ref.items():
                 ref_name_with_path = contract_name_with_path(path, contract_name)
-                ranges_list = [(rng['start'], rng['length']) for rng in ranges]
-                self.external_lib_refs.setdefault(ref_name_with_path, []).extend(ranges_list)
+                ranges = [(rng['start'], rng['length']) for rng in ranges]
+                self.link_ranges.extend(ranges)
+                self.external_lib_refs.setdefault(ref_name_with_path, []).extend(ranges)
 
         self.processed_link_refs = len(self.external_lib_refs) == 0
 

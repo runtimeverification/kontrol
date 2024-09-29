@@ -14,6 +14,6 @@ contract ExternalLibTest is Test {
     function testSquare(uint256 n) public {
         vm.assume(msg.sender == address(110));
         vm.assume(n <= type(uint128).max);
-        assertEq(SimpleMath.square(n), n ** 2);
+        assertEq(SimpleMath.square(n), n * n);
     }
 }
