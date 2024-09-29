@@ -768,8 +768,7 @@ class Contract:
     deployed_bytecode: str
     immutable_ranges: list[tuple[int, int]]
     link_ranges: list[tuple[int, int]]
-    link_refs: list[tuple[str, str, int, int]]
-    external_lib_refs: dict[str, Any]
+    external_lib_refs: dict[str, list[tuple[int, int]]]
     processed_link_refs: bool
     bytecode: str
     raw_sourcemap: str | None
