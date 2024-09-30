@@ -198,7 +198,7 @@ jobs:
           docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git runtimeverification/kontrol-cheatcodes@a5dd4b0
           docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge build
       - name: 'Run kontrol build'
-        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol build
+        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol build -O2
       - name: 'Run kontrol prove'
         run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --match-test 'AssertTest.test_assert_true()'
       - name: 'Run kontrol show'
