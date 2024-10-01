@@ -160,6 +160,15 @@ def foundry_kompile(
 
     if should_rekompile():
         output_dir = foundry.kompiled
+
+        optimization = 0
+        if options.o1:
+            optimization = 1
+        if options.o2:
+            optimization = 2
+        if options.o3:
+            optimization = 3
+
         kevm_kompile(
             target=options.target,
             output_dir=output_dir,
@@ -172,6 +181,7 @@ def foundry_kompile(
             debug=options.debug,
             verbose=options.verbose,
             ignore_warnings=options.ignore_warnings,
+            optimization=optimization,
         )
 
     update_kompilation_digest()
