@@ -2,9 +2,15 @@
 pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract AccountParamsTest is Test {
+contract EtchTest {
+    function testEtch() public pure returns (bool) {
+        return true;
+    }
+}
 
+contract AccountParamsTest is Test, KontrolCheats {
     function testDealConcrete() public {
         vm.deal(address(505), 256);
         assertEq(address(505).balance, 256);
@@ -15,15 +21,25 @@ contract AccountParamsTest is Test {
         assertEq(address(328).balance, value);
     }
 
-    function testEtchConcrete() public {
+    function testEtchConcreteCode() public {
         bytes memory code = bytes("this should be EVM bytecode");
         vm.etch(address(124), code);
         assertEq(address(124).code, code);
     }
 
-    function testEtchSymbolic(bytes calldata code) public {
+    function testEtchSymbolicCode(bytes calldata code) public {
         vm.etch(address(124), code);
         assertEq(address(124).code, code);
+    }
+
+    function testEtchSymbolicAddress() public {
+        address etchAddr = kevm.freshAddress();
+        bytes memory etchCode = bytes(hex"6080604052348015600f57600080fd5b506004361060285760003560e01c80631a9f8ff714602d575b600080fd5b604080516001815290519081900360200190f3fea2646970667358221220c2310c11ffdfaaecbc61aff49cac6de28e626e3aef1fcf4857565c0e6a87715c64736f6c634300080d0033");
+
+        vm.etch(etchAddr, etchCode);
+      
+        bool result = EtchTest(etchAddr).testEtch();
+        assertTrue(result);
     }
 
     function testNonceSymbolic(uint64 newNonce) public {
