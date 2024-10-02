@@ -6,7 +6,6 @@ from abc import abstractmethod
 from collections import Counter
 from copy import copy
 from functools import partial
-from os import urandom
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
@@ -31,7 +30,7 @@ from pyk.prelude.utils import token
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.utils import run_process_2, unique
+from pyk.utils import hash_str, run_process_2, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from .foundry import Foundry, foundry_to_xml
@@ -1450,9 +1449,8 @@ def _process_external_library_references(contract: Contract, foundry_contracts: 
             raise ValueError(f'External library not found: {lib}')
 
         if lib not in address_list:
-            random_address_bytes = urandom(20)
-            new_address_int = int.from_bytes(random_address_bytes, 'big')
-            new_address_hex = random_address_bytes.hex().zfill(40)
+            new_address_hex = hash_str(ref_contract.deployed_bytecode)[:40].ljust(40, '0')
+            new_address_int = int(new_address_hex, 16)
             _LOGGER.info(f'Deploying external library {lib} at address 0x{new_address_hex}')
 
             ref_code = token(bytes.fromhex(ref_contract.deployed_bytecode))
