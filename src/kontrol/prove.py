@@ -1430,7 +1430,7 @@ def _process_external_library_references(contract: Contract, foundry_contracts: 
     """Create a list of KInner accounts for external libraries used in the given contract.
 
     This function identifies external library placeholders within the contract's deployed bytecode,
-    deploys the required external libraries at random addresses, replaces the placeholders with the
+    deploys the required external libraries at the address generated based on the first 20 bytes of the hash of the library's bytecode, replaces the placeholders with the
     actual addresses of the deployed libraries, and returns a list of KEVM account cells representing
     the deployed external libraries.
 
