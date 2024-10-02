@@ -190,7 +190,11 @@ class Foundry:
     @property
     def profile(self) -> dict[str, Any]:
         profile_name = os.getenv('FOUNDRY_PROFILE', default='default')
-        return self._toml['profile'][profile_name]
+
+        current_profile = self._toml['profile'].get(profile_name, {})
+        default_profile = self._toml['profile'].get('default', {})
+
+        return {**default_profile, **current_profile}
 
     @property
     def out(self) -> Path:
@@ -219,6 +223,15 @@ class Foundry:
     @property
     def contracts_file(self) -> Path:
         return self.kompiled / 'contracts.k'
+
+    @property
+    def build_info(self) -> Path:
+        build_info_path = self.profile.get('build_info_path')
+
+        if build_info_path:
+            return self._root / build_info_path
+        else:
+            return self.out / 'build-info'
 
     @cached_property
     def kevm(self) -> KEVM:
@@ -1382,7 +1395,7 @@ class FoundryNodePrinter(KEVMNodePrinter):
         self.foundry = foundry
         self.contract_name = contract_name
         self.omit_unstable_output = omit_unstable_output
-        self.compilation_unit = CompilationUnit.load_build_info(foundry._root)
+        self.compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
 
     def print_node(self, kcfg: KCFG, node: KCFG.Node) -> list[str]:
         ret_strs = super().print_node(kcfg, node)
