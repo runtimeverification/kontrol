@@ -3,7 +3,6 @@ pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
 
-
 library SimpleMath {
     function square(uint256 x) public pure returns (uint256) {
         return x * x;
