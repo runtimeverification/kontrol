@@ -34,6 +34,9 @@ contract AccountParamsTest is Test, KontrolCheats {
 
     function testEtchSymbolicAddress() public {
         address etchAddr = kevm.freshAddress();
+        // `etchAddr` is not 0 or precompiled address
+        vm.assume(etchAddr > address(9));
+      
         bytes memory etchCode = bytes(hex"6080604052348015600f57600080fd5b506004361060285760003560e01c80631a9f8ff714602d575b600080fd5b604080516001815290519081900360200190f3fea2646970667358221220c2310c11ffdfaaecbc61aff49cac6de28e626e3aef1fcf4857565c0e6a87715c64736f6c634300080d0033");
 
         vm.etch(etchAddr, etchCode);
