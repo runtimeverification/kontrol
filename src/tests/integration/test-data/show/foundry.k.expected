@@ -16,6 +16,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModArithmeticCallTest-VERIFICATION
     imports public S2KsrcZModArithmeticContract-VERIFICATION
     imports public S2KtestZModAssumeTest-VERIFICATION
+    imports public S2KtestZModBMCBoundTest-VERIFICATION
     imports public S2KtestZModBMCLoopsTest-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModCommonBase-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModScriptBase-VERIFICATION
@@ -236,6 +237,13 @@ endmodule
 
 module S2KtestZModAssumeTest-VERIFICATION
     imports public S2KtestZModAssumeTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModBMCBoundTest-VERIFICATION
+    imports public S2KtestZModBMCBoundTest-CONTRACT
     
     
 

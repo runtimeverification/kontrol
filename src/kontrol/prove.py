@@ -582,7 +582,7 @@ def method_to_apr_proof(
         setup_proof = _load_constructor_proof(foundry, test.contract)
         setup_proof_is_constructor = True
 
-    kcfg, init_node_id, target_node_id = _method_to_initialized_cfg(
+    kcfg, init_node_id, target_node_id, bounded_node_ids = _method_to_initialized_cfg(
         foundry=foundry,
         test=test,
         kcfg_explore=kcfg_explore,
@@ -603,6 +603,7 @@ def method_to_apr_proof(
         init_node_id,
         target_node_id,
         {},
+        bounded=set(bounded_node_ids),
         bmc_depth=bmc_depth,
         proof_dir=foundry.proofs_dir,
         subproof_ids=summary_ids,
@@ -638,11 +639,11 @@ def _method_to_initialized_cfg(
     active_symbolik: bool = False,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
-) -> tuple[KCFG, int, int]:
+) -> tuple[KCFG, int, int, Iterable[int]]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
     empty_config = foundry.kevm.definition.empty_config(GENERATED_TOP_CELL)
-    kcfg, new_node_ids, init_node_id, target_node_id = _method_to_cfg(
+    kcfg, new_node_ids, init_node_id, target_node_id, bounded_node_ids = _method_to_cfg(
         foundry,
         empty_config,
         test.contract,
@@ -675,7 +676,7 @@ def _method_to_initialized_cfg(
     _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
     kcfg_explore.simplify(kcfg, {})
 
-    return kcfg, init_node_id, target_node_id
+    return kcfg, init_node_id, target_node_id, bounded_node_ids
 
 
 def _method_to_cfg(
@@ -691,7 +692,7 @@ def _method_to_cfg(
     config_type: ConfigType,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
-) -> tuple[KCFG, list[int], int, int]:
+) -> tuple[KCFG, list[int], int, int, Iterable[int]]:
     calldata = None
     callvalue = None
     external_libs: list[KInner] = []
@@ -728,6 +729,7 @@ def _method_to_cfg(
         additional_accounts=external_libs,
     )
     new_node_ids = []
+    bounded_node_ids = []
 
     if setup_proof:
         if setup_proof.pending:
@@ -745,6 +747,7 @@ def _method_to_cfg(
         init_node_id = setup_proof.init
         # Copy KCFG and minimize it
         if graft_setup_proof:
+            bounded_node_ids = [node.id for node in setup_proof.bounded]
             cfg = KCFG.from_dict(setup_proof.kcfg.to_dict())
             KCFGMinimizer(cfg).minimize()
             cfg.remove_node(setup_proof.target)
@@ -783,7 +786,7 @@ def _method_to_cfg(
     )
     target_node = cfg.create_node(final_cterm)
 
-    return cfg, new_node_ids, init_node_id, target_node.id
+    return cfg, new_node_ids, init_node_id, target_node.id, set(bounded_node_ids)
 
 
 def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigType) -> CTerm:
