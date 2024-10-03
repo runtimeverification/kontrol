@@ -664,17 +664,14 @@ def _method_to_initialized_cfg(
         init_term = KDefinition__expand_macros(foundry.kevm.definition, init_term)
         init_cterm = CTerm.from_kast(init_term)
         _LOGGER.info(f'Computing definedness constraint for node {node_id} for test: {test.name}')
-        init_cterm = kcfg_explore.cterm_symbolic.assume_defined(init_cterm)
+        init_cterm, _ = kcfg_explore.cterm_symbolic.simplify(kcfg_explore.cterm_symbolic.assume_defined(init_cterm))
         kcfg.let_node(node_id, cterm=init_cterm)
 
     _LOGGER.info(f'Expanding macros in target state for test: {test.name}')
     target_term = kcfg.node(target_node_id).cterm.kast
     target_term = KDefinition__expand_macros(foundry.kevm.definition, target_term)
-    target_cterm = CTerm.from_kast(target_term)
+    target_cterm, _ = kcfg_explore.cterm_symbolic.simplify(CTerm.from_kast(target_term))
     kcfg.let_node(target_node_id, cterm=target_cterm)
-
-    _LOGGER.info(f'Simplifying KCFG for test: {test.name}')
-    kcfg_explore.simplify(kcfg, {})
 
     return kcfg, init_node_id, target_node_id, bounded_node_ids
 
