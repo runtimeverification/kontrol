@@ -274,6 +274,7 @@ skipped_bmc_tests: Final = set((TEST_DATA_DIR / 'foundry-bmc-skip').read_text().
 def test_foundry_bmc(
     test_id: str,
     foundry: Foundry,
+    update_expected_output: bool,
     bug_report: BugReport | None,
     server: KoreServer,
     no_use_booster: bool,
@@ -304,6 +305,29 @@ def test_foundry_bmc(
 
     # Then
     assert_pass(test_id, single(prove_res))
+
+    if test_id not in SHOW_TESTS:
+        return
+
+    # And when
+    show_res = foundry_show(
+        foundry=foundry,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server.port,
+            }
+        ),
+    )
+
+    # Then
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)
 
 
 MINIMIZE_TESTS = tuple((TEST_DATA_DIR / 'foundry-minimize').read_text().splitlines())
