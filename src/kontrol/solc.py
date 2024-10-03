@@ -438,6 +438,17 @@ class ContractSource:
     def get_deployed_bytecode(self) -> bytes:
         ref = self._json.get('evm') if 'evm' in self._json else self._json
         raw = ref.get('deployedBytecode').get('object').removeprefix('0x')
+        link_refs = [
+            (rng['start'], rng['length'])
+            for _, lref in ref.get('deployedBytecode').get('linkReferences', {}).items()
+            for _, ranges in lref.items()
+            for rng in ranges
+        ]
+        for ref_start, ref_len in link_refs:
+            placeholder_start = ref_start * 2
+            placeholder_len = ref_len * 2
+            raw = raw[:placeholder_start] + ''.zfill(40) + raw[placeholder_start + placeholder_len :]
+
         return bytes.fromhex(raw)
 
     @cached_property
