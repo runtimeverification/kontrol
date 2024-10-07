@@ -758,14 +758,13 @@ def _method_to_cfg(
 
         # When minimizing constraints, we need to make sure not to forget any variables
         # that might have been instantiated by a branching in the setup KCFG
-        keep_vars: set[str] = set().union(
-            *[
-                free_vars(constraint)
-                for split in cfg.splits()
-                for _, csubst in split.splits.items()
-                for constraint in csubst.constraints
-            ]
-        )
+        keep_vars: set[str] = {
+            var
+            for split in cfg.splits()
+            for _, csubst in split.splits.items()
+            for constraint in csubst.constraints
+            for var in free_vars(constraint)
+        }
 
         for final_node in final_states:
             new_init_cterm = _update_cterm_from_node(init_cterm, final_node, config_type, keep_vars)
