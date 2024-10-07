@@ -64,8 +64,6 @@ def foundry_kompile(
         + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
         + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
         + ([KSRC_DIR / 'evm_rule_optimizations.md'] if options.evm_rule_optimizations else [])
-        + []
-        + []
     )
     for r in tuple(requires):
         req = Path(r)
