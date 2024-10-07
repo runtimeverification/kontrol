@@ -17,6 +17,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModArithmeticCallTest-VERIFICATION
     imports public S2KsrcZModArithmeticContract-VERIFICATION
     imports public S2KtestZModAssumeTest-VERIFICATION
+    imports public S2KtestZModBMCBoundTest-VERIFICATION
     imports public S2KtestZModBMCLoopsTest-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModCommonBase-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModsrcZModScriptBase-VERIFICATION
@@ -63,6 +64,8 @@ module FOUNDRY-MAIN
     imports public S2KtestZModExpectRevertTest-VERIFICATION
     imports public S2KtestZModReverter-VERIFICATION
     imports public S2KtestZModReverterWithReturn-VERIFICATION
+    imports public S2KtestZModExternalLibTest-VERIFICATION
+    imports public S2KtestZModSimpleMath-VERIFICATION
     imports public S2KtestZModFfiTest-VERIFICATION
     imports public S2KtestZModFilesTest-VERIFICATION
     imports public S2KtestZModForkTest-VERIFICATION
@@ -242,6 +245,13 @@ endmodule
 
 module S2KtestZModAssumeTest-VERIFICATION
     imports public S2KtestZModAssumeTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModBMCBoundTest-VERIFICATION
+    imports public S2KtestZModBMCBoundTest-CONTRACT
     
     
 
@@ -565,6 +575,20 @@ endmodule
 
 module S2KtestZModReverterWithReturn-VERIFICATION
     imports public S2KtestZModReverterWithReturn-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModExternalLibTest-VERIFICATION
+    imports public S2KtestZModExternalLibTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModSimpleMath-VERIFICATION
+    imports public S2KtestZModSimpleMath-CONTRACT
     
     
 
