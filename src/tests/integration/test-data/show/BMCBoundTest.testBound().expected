@@ -2865,7 +2865,9 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int ?WORD:Int
+       andBool ( ?WORD:Int <=Int 0
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -2875,9 +2877,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ?WORD:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))
+               )))))))))))))))
       [priority(20), label(BASIC-BLOCK-32-TO-37)]
     
     rule [BASIC-BLOCK-33-TO-38]: <foundry>
@@ -3100,7 +3103,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <Int ?WORD:Int
+       andBool ( 0 <=Int ?WORD:Int
+       andBool ( ?WORD:Int <=Int 1
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -3110,9 +3116,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ?WORD:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))
+               ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-33-TO-38)]
     
     rule [BASIC-BLOCK-34-TO-39]: <foundry>
@@ -3335,7 +3342,11 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <Int ?WORD:Int
+       andBool ( 1 <Int ?WORD:Int
+       andBool ( 0 <=Int ?WORD:Int
+       andBool ( ?WORD:Int <=Int 2
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -3345,9 +3356,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ?WORD:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))
+               )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-34-TO-39)]
     
     rule [BASIC-BLOCK-35-TO-40]: <foundry>
@@ -3570,7 +3582,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <Int ?WORD:Int
+       andBool ( 1 <Int ?WORD:Int
+       andBool ( 2 <Int ?WORD:Int
+       andBool ( 0 <=Int ?WORD:Int
+       andBool ( ?WORD:Int <=Int 3
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -3580,9 +3597,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( ?WORD:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))
+               ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-35-TO-40)]
 
 endmodule
