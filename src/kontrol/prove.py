@@ -15,7 +15,7 @@ from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_p
 from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
-from pyk.kast.manip import flatten_label, set_cell
+from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
@@ -756,8 +756,19 @@ def _method_to_cfg(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )
 
+        # When minimizing constraints, we need to make sure not to forget any variables
+        # that might have been instantiated by a branching in the setup KCFG
+        keep_vars: set[str] = set().union(
+            *[
+                free_vars(constraint)
+                for split in cfg.splits()
+                for _, csubst in split.splits.items()
+                for constraint in csubst.constraints
+            ]
+        )
+
         for final_node in final_states:
-            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, config_type)
+            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, config_type, keep_vars)
             new_node = cfg.create_node(new_init_cterm)
             if graft_setup_proof:
                 cfg.create_edge(final_node.id, new_node.id, depth=1)
@@ -786,7 +797,7 @@ def _method_to_cfg(
     return cfg, new_node_ids, init_node_id, target_node.id, set(bounded_node_ids)
 
 
-def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigType) -> CTerm:
+def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigType, keep_vars: Iterable[str]) -> CTerm:
     if config_type == ConfigType.TEST_CONFIG:
         cell_names = [
             'ACCOUNTS_CELL',
@@ -863,7 +874,7 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
         new_init_cterm = new_init_cterm.add_constraint(constraint)
     new_init_cterm = KEVM.add_invariant(new_init_cterm)
 
-    new_init_cterm = new_init_cterm.remove_useless_constraints()
+    new_init_cterm = new_init_cterm.remove_useless_constraints(keep_vars)
 
     return new_init_cterm
 
