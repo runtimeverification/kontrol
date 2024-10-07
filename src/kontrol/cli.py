@@ -362,7 +362,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='evm_rule_optimizations',
         default=None,
         action='store_true',
-        help='Include optimized KEVM rules.',
+        help='Optimize KEVM execution. Assumes running Solidity-compiled bytecode cannot result in a stack overflow/underflow.',
     )
 
     state_diff_args = command_parser.add_parser(
