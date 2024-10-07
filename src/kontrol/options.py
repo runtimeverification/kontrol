@@ -839,6 +839,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
     no_metadata: bool
     keccak_lemmas: bool
     auxiliary_lemmas: bool
+    evm_rule_optimizations: bool
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -850,6 +851,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             'no_metadata': False,
             'keccak_lemmas': True,
             'auxiliary_lemmas': False,
+            'evm_rule_optimizations': False,
         }
 
     @staticmethod

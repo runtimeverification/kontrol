@@ -357,6 +357,13 @@ def _create_argument_parser() -> ArgumentParser:
         action='store_true',
         help='Include auxiliary Kontrol lemmas.',
     )
+    build.add_argument(
+        '--evm-rule-optimizations',
+        dest='evm_rule_optimizations',
+        default=None,
+        action='store_true',
+        help='Include optimized KEVM rules.',
+    )
 
     state_diff_args = command_parser.add_parser(
         'load-state',
