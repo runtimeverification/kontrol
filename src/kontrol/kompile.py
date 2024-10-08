@@ -63,7 +63,7 @@ def foundry_kompile(
         options.requires
         + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
         + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
-        + ([KSRC_DIR / 'evm_rule_optimizations.md'] if options.evm_rule_optimizations else [])
+        + ([KSRC_DIR / 'no_stack_checks.md'])
     )
     for r in tuple(requires):
         req = Path(r)
@@ -122,7 +122,6 @@ def foundry_kompile(
             imports=_imports,
             keccak_lemmas=options.keccak_lemmas,
             auxiliary_lemmas=options.auxiliary_lemmas,
-            evm_rule_optimizations=options.evm_rule_optimizations,
         )
 
         kevm = KEVM(
@@ -218,7 +217,6 @@ def _foundry_to_main_def(
     imports: dict[str, list[str]],
     keccak_lemmas: bool,
     auxiliary_lemmas: bool,
-    evm_rule_optimizations: bool,
 ) -> KDefinition:
     modules = [
         contract_to_verification_module(contract, empty_config, imports=imports[contract.name_with_path])
@@ -230,7 +228,7 @@ def _foundry_to_main_def(
             [KImport(mname) for mname in (_m.name for _m in modules)]
             + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
             + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
-            + ([KImport('EVM-RULE-OPTIMIZATIONS')] if evm_rule_optimizations else [])
+            + ([KImport('NO-STACK-CHECKS')])
         ),
     )
 
