@@ -60,9 +60,9 @@
 ┃
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
+┃  ┃     VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
 ┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     VV0_x_114b9705:Int <Int VV1_y_114b9705:Int
 ┃  │
 ┃  ├─ 37
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -82,10 +82,10 @@
 ┃
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
 ┃  ┃     ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) <Int VV1_y_114b9705:Int
+┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  │
 ┃  ├─ 43
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -105,10 +105,10 @@
 ┃
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
 ┃  ┃     VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
+┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
 ┃  ┃     ( notBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) ) ==Int 0 )
 ┃  │
 ┃  ├─ 46
@@ -138,10 +138,10 @@
 ┃
 ┗━━┓ subst: .Subst
    ┃ constraint:
-   ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-   ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
    ┃     VV1_y_114b9705:Int <=Int VV0_x_114b9705:Int
    ┃     VV1_y_114b9705:Int <=Int ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int )
+   ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
    ┃     0 ==Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int ( ( VV0_x_114b9705:Int -Int VV1_y_114b9705:Int ) -Int VV1_y_114b9705:Int ) )
    │
    ├─ 47
