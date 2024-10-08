@@ -131,7 +131,7 @@ module NO-STACK-CHECKS
       <wordStack> WS </wordStack>
       <static> STATIC:Bool </static>
       requires notBool ( STATIC andBool #changesState(OP, WS) )
-      [priority(31)]
+      [priority(36)]
 
     rule [super.optimized.next.smv]:
       <k> ( #next [ OP ] => #end EVMC_STATIC_MODE_VIOLATION ) ... </k>
@@ -139,7 +139,7 @@ module NO-STACK-CHECKS
       <wordStack> WS </wordStack>
       <static> STATIC:Bool </static>
       requires STATIC andBool #changesState(OP, WS)
-      [priority(32)]
+      [priority(38)]
 
 endmodule
 ```
