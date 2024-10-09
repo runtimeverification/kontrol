@@ -480,13 +480,18 @@ class ProveOptions(
         The first line collects all attributes that are directly set on the instance.
         The loop is required to iterate over all parent classes and fetch attributes set by the `default` method.
 
+        Default values from parent classes will only be used if the attribute is not explicitly set.
+
         :return: String representation of the instance.
         """
         options_dict = {**self.__dict__}
 
         for parent in self.__class__.__bases__:
             if hasattr(parent, 'default'):
-                options_dict.update(parent.default())
+                parent_defaults = parent.default()
+                for key, value in parent_defaults.items():
+                    if key not in options_dict:
+                        options_dict[key] = value
 
         options_str = ', '.join(f'{key}: {value}' for key, value in options_dict.items())
         return f'ProveOptions({options_str})'
@@ -884,13 +889,18 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
         The first line collects all attributes that are directly set on the instance.
         The loop is required to iterate over all parent classes and fetch attributes set by the `default` method.
 
+        Default values from parent classes will only be used if the attribute is not explicitly set.
+
         :return: String representation of the instance.
         """
         options_dict = {**self.__dict__}
 
         for parent in self.__class__.__bases__:
             if hasattr(parent, 'default'):
-                options_dict.update(parent.default())
+                parent_defaults = parent.default()
+                for key, value in parent_defaults.items():
+                    if key not in options_dict:
+                        options_dict[key] = value
 
         options_str = ', '.join(f'{key}: {value}' for key, value in options_dict.items())
         return f'BuildOptions({options_str})'
