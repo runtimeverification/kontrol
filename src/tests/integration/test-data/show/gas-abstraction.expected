@@ -275,6 +275,9 @@ Node 6:
         </network>
       </ethereum>
     </kevm>
+    <stackChecks>
+      true
+    </stackChecks>
     <cheatcodes>
       <prank>
         <prevCaller>
@@ -549,6 +552,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
              </ethereum>
              ...
            </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
            <cheatcodes>
              <prank>
                <active>
@@ -781,6 +787,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
              </ethereum>
              ...
            </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
            <cheatcodes>
              <prank>
                <active>
@@ -1013,6 +1022,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
              </ethereum>
              ...
            </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
            <cheatcodes>
              <prank>
                <active>
