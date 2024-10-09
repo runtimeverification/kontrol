@@ -143,6 +143,7 @@ def foundry_prove(
             recorded_state_entries=recorded_state_entries,
         )
 
+    constructor_results: list[APRProof] = []
     if options.run_constructor:
         constructor_tests = collect_constructors(foundry, contracts, reinit=options.reinit)
         constructor_names = [test.name for test in constructor_tests]
@@ -156,8 +157,8 @@ def foundry_prove(
         else:
             console.print(f'[bold]Running initialization code for contracts in parallel:[/bold] {constructor_names}')
 
-        results = _run_prover(constructor_tests, include_summaries=False)
-        failed = [proof for proof in results if not proof.passed]
+        constructor_results = _run_prover(constructor_tests, include_summaries=False)
+        failed = [proof for proof in constructor_results if not proof.passed]
         if failed:
             raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
 
@@ -166,9 +167,9 @@ def foundry_prove(
     else:
         separator = '\n\t\t\t\t     '  # ad-hoc separator for the string "Running setup functions in parallel: " below
         console.print(f'[bold]Running setup functions in parallel:[/bold] {separator.join(setup_method_names)}')
-    results = _run_prover(setup_method_tests, include_summaries=False)
+    setup_results = _run_prover(setup_method_tests, include_summaries=False)
 
-    failed = [proof for proof in results if not proof.passed]
+    failed = [proof for proof in setup_results if not proof.passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
@@ -177,12 +178,12 @@ def foundry_prove(
     else:
         separator = '\n\t\t\t\t    '  # ad-hoc separator for the string "Running test functions in parallel: " below
         console.print(f'[bold]Running test functions in parallel:[/bold] {separator.join(test_names)}')
-    results = _run_prover(test_suite, include_summaries=True)
+    test_results = _run_prover(test_suite, include_summaries=True)
 
     if options.xml_test_report:
-        foundry_to_xml(foundry, results)
+        foundry_to_xml(foundry, constructor_results + setup_results + test_results)
 
-    return results
+    return test_results
 
 
 class FoundryTest(NamedTuple):
