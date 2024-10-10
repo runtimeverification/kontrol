@@ -97,17 +97,6 @@ module KONTROL-AUX-LEMMAS
     rule [concat-neutral-right]: B:Bytes +Bytes b"" => B:Bytes [simplification]
 
     //
-    // Alternative memory update
-    //
-    rule [memUpdate-concat-in-right]: (B1 +Bytes B2) [ S := B ] => B1 +Bytes (B2 [ S -Int lengthBytes(B1) := B ])
-      requires lengthBytes(B1) <=Int S
-      [simplification(40)]
-
-    rule [memUpdate-concat-in-left]: (B1 +Bytes B2) [ S := B ] => (B1 [S := B]) +Bytes B2
-      requires 0 <=Int S andBool S +Int lengthBytes(B) <=Int lengthBytes(B1)
-      [simplification(45)]
-
-    //
     // Equality of +Bytes
     //
     rule { B:Bytes #Equals B1:Bytes +Bytes B2:Bytes } =>
