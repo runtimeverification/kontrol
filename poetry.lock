@@ -571,13 +571,13 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.114.0"
+version = "6.114.1"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "hypothesis-6.114.0-py3-none-any.whl", hash = "sha256:2ae632ad856fa2609a32cd762179760af83288d581b07eb0e448c17f1923de5a"},
-    {file = "hypothesis-6.114.0.tar.gz", hash = "sha256:cdded8b9e3f8a8088a444ad525c06ac67a4d4f6605f672535c41fd9a49cd128f"},
+    {file = "hypothesis-6.114.1-py3-none-any.whl", hash = "sha256:117f2d065d3f2ec5b2b37c89150c2350be7feb43dfb9ccc30f30d5293b34e607"},
+    {file = "hypothesis-6.114.1.tar.gz", hash = "sha256:15ea6e4bb297276351ada18f172c60049c117a91040154ea620c632cc4c53e88"},
 ]
 
 [package.dependencies]
@@ -586,10 +586,10 @@ exceptiongroup = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 sortedcontainers = ">=2.1.0,<3.0.0"
 
 [package.extras]
-all = ["black (>=19.10b0)", "click (>=7.0)", "crosshair-tool (>=0.0.73)", "django (>=4.2)", "dpcontracts (>=0.4)", "hypothesis-crosshair (>=0.0.14)", "lark (>=0.10.1)", "libcst (>=0.3.16)", "numpy (>=1.19.3)", "pandas (>=1.1)", "pytest (>=4.6)", "python-dateutil (>=1.4)", "pytz (>=2014.1)", "redis (>=3.0.0)", "rich (>=9.0.0)", "tzdata (>=2024.2)"]
+all = ["black (>=19.10b0)", "click (>=7.0)", "crosshair-tool (>=0.0.74)", "django (>=4.2)", "dpcontracts (>=0.4)", "hypothesis-crosshair (>=0.0.16)", "lark (>=0.10.1)", "libcst (>=0.3.16)", "numpy (>=1.19.3)", "pandas (>=1.1)", "pytest (>=4.6)", "python-dateutil (>=1.4)", "pytz (>=2014.1)", "redis (>=3.0.0)", "rich (>=9.0.0)", "tzdata (>=2024.2)"]
 cli = ["black (>=19.10b0)", "click (>=7.0)", "rich (>=9.0.0)"]
 codemods = ["libcst (>=0.3.16)"]
-crosshair = ["crosshair-tool (>=0.0.73)", "hypothesis-crosshair (>=0.0.14)"]
+crosshair = ["crosshair-tool (>=0.0.74)", "hypothesis-crosshair (>=0.0.16)"]
 dateutil = ["python-dateutil (>=1.4)"]
 django = ["django (>=4.2)"]
 dpcontracts = ["dpcontracts (>=0.4)"]
@@ -652,7 +652,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.740"
+version = "1.0.742"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -660,26 +660,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.156"
+kframework = "7.1.157"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.740"
-resolved_reference = "71287d59f7ea4b20bc1cfbe153af237579dd25cd"
+reference = "v1.0.742"
+resolved_reference = "f62ec956853ba6049d663795a94c1e638bbfc9e2"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.156"
+version = "7.1.157"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.156-py3-none-any.whl", hash = "sha256:3dfd7f4c27cf36f9ee07e1ff3163b436776739dd190a6a060125ed35a7671149"},
-    {file = "kframework-7.1.156.tar.gz", hash = "sha256:1cec1caf7e9e1ba5837937436e961079013de355229e0d8da955db0dea65fc50"},
+    {file = "kframework-7.1.157-py3-none-any.whl", hash = "sha256:db15775cd3ed3ef16280e411b03cf7498af52aebc7948367a10a312f9b5ffb69"},
+    {file = "kframework-7.1.157.tar.gz", hash = "sha256:a6c7bb69db583ed19eda202f700506ed9cac2d075ac2038634b8198f688698f2"},
 ]
 
 [package.dependencies]
@@ -1426,4 +1426,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "307250aec21ee76f3382b25d03c45fd599698df5fdc250796f640ca339cf7ea4"
+content-hash = "da893bb7ab869e84b5d43f08db1f13235637302fe8181cabfe86bd75b32323ec"
