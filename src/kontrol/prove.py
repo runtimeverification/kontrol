@@ -15,7 +15,7 @@ from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_p
 from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
-from pyk.kast.manip import flatten_label, set_cell
+from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.kore.rpc import KoreClient, TransportType, kore_server
@@ -143,6 +143,7 @@ def foundry_prove(
             recorded_state_entries=recorded_state_entries,
         )
 
+    constructor_results: list[APRProof] = []
     if options.run_constructor:
         constructor_tests = collect_constructors(foundry, contracts, reinit=options.reinit)
         constructor_names = [test.name for test in constructor_tests]
@@ -156,8 +157,8 @@ def foundry_prove(
         else:
             console.print(f'[bold]Running initialization code for contracts in parallel:[/bold] {constructor_names}')
 
-        results = _run_prover(constructor_tests, include_summaries=False)
-        failed = [proof for proof in results if not proof.passed]
+        constructor_results = _run_prover(constructor_tests, include_summaries=False)
+        failed = [proof for proof in constructor_results if not proof.passed]
         if failed:
             raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
 
@@ -166,9 +167,9 @@ def foundry_prove(
     else:
         separator = '\n\t\t\t\t     '  # ad-hoc separator for the string "Running setup functions in parallel: " below
         console.print(f'[bold]Running setup functions in parallel:[/bold] {separator.join(setup_method_names)}')
-    results = _run_prover(setup_method_tests, include_summaries=False)
+    setup_results = _run_prover(setup_method_tests, include_summaries=False)
 
-    failed = [proof for proof in results if not proof.passed]
+    failed = [proof for proof in setup_results if not proof.passed]
     if failed:
         raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
 
@@ -177,12 +178,12 @@ def foundry_prove(
     else:
         separator = '\n\t\t\t\t    '  # ad-hoc separator for the string "Running test functions in parallel: " below
         console.print(f'[bold]Running test functions in parallel:[/bold] {separator.join(test_names)}')
-    results = _run_prover(test_suite, include_summaries=True)
+    test_results = _run_prover(test_suite, include_summaries=True)
 
     if options.xml_test_report:
-        foundry_to_xml(foundry, results)
+        foundry_to_xml(foundry, constructor_results + setup_results + test_results)
 
-    return results
+    return test_results
 
 
 class FoundryTest(NamedTuple):
@@ -756,8 +757,18 @@ def _method_to_cfg(
                 f'Initial state proof {setup_proof.id} for {contract.name_with_path}.{method.signature} has no passing branches to build on. Method will not be executed.'
             )
 
+        # When minimizing constraints, we need to make sure not to forget any variables
+        # that might have been instantiated by a branching in the setup KCFG
+        keep_vars: set[str] = {
+            var
+            for split in cfg.splits()
+            for _, csubst in split.splits.items()
+            for constraint in csubst.constraints
+            for var in free_vars(constraint)
+        }
+
         for final_node in final_states:
-            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, config_type)
+            new_init_cterm = _update_cterm_from_node(init_cterm, final_node, config_type, keep_vars)
             new_node = cfg.create_node(new_init_cterm)
             if graft_setup_proof:
                 cfg.create_edge(final_node.id, new_node.id, depth=1)
@@ -786,7 +797,7 @@ def _method_to_cfg(
     return cfg, new_node_ids, init_node_id, target_node.id, set(bounded_node_ids)
 
 
-def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigType) -> CTerm:
+def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigType, keep_vars: Iterable[str]) -> CTerm:
     if config_type == ConfigType.TEST_CONFIG:
         cell_names = [
             'ACCOUNTS_CELL',
@@ -863,7 +874,7 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
         new_init_cterm = new_init_cterm.add_constraint(constraint)
     new_init_cterm = KEVM.add_invariant(new_init_cterm)
 
-    new_init_cterm = new_init_cterm.remove_useless_constraints()
+    new_init_cterm = new_init_cterm.remove_useless_constraints(keep_vars)
 
     return new_init_cterm
 
