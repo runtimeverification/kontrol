@@ -161,7 +161,9 @@ def foundry_prove(
         failed = [proof for proof in constructor_results if not proof.passed]
         failed_contract_names = [proof.id.split('.')[0] for proof in failed]
         if failed:
-            raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {', '.join(failed_contract_names)}')
+            raise ValueError(
+                f'Running initialization code failed for {len(failed)} contracts: {', '.join(failed_contract_names)}'
+            )
 
     if options.verbose:
         _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')

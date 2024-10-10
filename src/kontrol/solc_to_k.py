@@ -805,16 +805,16 @@ class Contract:
         self.deployed_bytecode_external_lib_refs = {}
         self.link_ranges = []
 
-        def process_references(bytecode, target_lib_refs, update_link_ranges=False):
+        def process_references(bytecode: dict, target_lib_refs: dict, update_link_ranges: bool = False) -> None:
             for path, references in bytecode.get('linkReferences', {}).items():
                 for contract_name, ranges in references.items():
                     ref_name_with_path = contract_name_with_path(path, contract_name)
                     ranges = [(rng['start'], rng['length']) for rng in ranges]
 
                     target_lib_refs.setdefault(ref_name_with_path, []).extend(ranges)
-                    
+
                     if update_link_ranges:
-                            self.link_ranges.extend(ranges)
+                        self.link_ranges.extend(ranges)
 
         process_references(bytecode, self.bytecode_external_lib_refs)
         process_references(deployed_bytecode, self.deployed_bytecode_external_lib_refs, update_link_ranges=True)
