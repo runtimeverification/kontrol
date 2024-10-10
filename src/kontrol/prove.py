@@ -1469,7 +1469,7 @@ def _process_external_library_references(contract: Contract, foundry_contracts: 
                 new_address_int = int(new_address_hex, 16)
                 _LOGGER.info(f'Deploying external library {lib} at address 0x{new_address_hex}')
 
-                # `bdeployed_bytecode` libraries are a subset of `bytecode` libraries
+                # `deployed_bytecode` libraries are a subset of `bytecode` libraries
                 if ref_contract.bytecode_external_lib_refs:
                     external_libs.extend(_process_external_library_references(ref_contract, foundry_contracts))
 
