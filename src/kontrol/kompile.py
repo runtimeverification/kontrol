@@ -63,6 +63,7 @@ def foundry_kompile(
         options.requires
         + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
         + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
+        + ([KSRC_DIR / 'no_stack_checks.md'])
     )
     for r in tuple(requires):
         req = Path(r)
@@ -227,6 +228,7 @@ def _foundry_to_main_def(
             [KImport(mname) for mname in (_m.name for _m in modules)]
             + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
             + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
+            + ([KImport('NO-STACK-CHECKS')])
         ),
     )
 

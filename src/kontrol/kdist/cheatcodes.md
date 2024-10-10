@@ -470,7 +470,7 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-      [priority(38)]
+      [priority(32)]
 
     rule [foundry.set.expectrevert.2]:
          <k> #next [ _OP:CallSixOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
@@ -481,7 +481,7 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-      [priority(38)]
+      [priority(32)]
 
     rule [foundry.set.expectrevert.3]:
          <k> #next [ OP:OpCode ] ~> (.K => #checkRevert) ~> #execute ... </k>
@@ -492,7 +492,7 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
            ...
          </expectedRevert>
       requires (OP ==K CREATE orBool OP ==K CREATE2)
-      [priority(38)]
+      [priority(32)]
 ```
 
 If the `expectRevert()` selector is matched, call the `#setExpectRevert` production to initialize the `<expectedRevert>` subconfiguration.
@@ -656,7 +656,7 @@ The last point is required in order to prevent overwriting the caller for subcal
       requires ACCT =/=K NCL
        andBool ACCTTO =/=K #address(FoundryCheat)
        andBool (OP ==K CALL orBool OP ==K CALLCODE orBool OP ==K STATICCALL orBool OP ==K CREATE orBool OP ==K CREATE2)
-      [priority(40)]
+      [priority(34)]
 ```
 
 #### `startPrank` - Sets `msg.sender` and `tx.origin` for all subsequent calls until `stopPrank` is called.

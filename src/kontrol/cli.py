@@ -575,7 +575,17 @@ def _create_argument_parser() -> ArgumentParser:
         help=(
             'Optimize performance for proof execution. Takes the number of parallel threads to be used.'
             "Will overwrite other settings of 'assume-defined', 'log-success-rewrites', 'max-frontier-parallel',"
-            "'maintenance-rate', 'smt-timeout', 'smt-retry-limit', 'max-depth', and 'max-iterations'."
+            "'maintenance-rate', 'smt-timeout', 'smt-retry-limit', 'max-depth', 'max-iterations', and 'no-stack-checks'."
+        ),
+    )
+    prove_args.add_argument(
+        '--no-stack-checks',
+        dest='no_stack_checks',
+        default=None,
+        action='store_true',
+        help=(
+            'Optimize KEVM execution by removing stack overflow/underflow checks.'
+            'Assumes running Solidity-compiled bytecode cannot result in a stack overflow/underflow.'
         ),
     )
 
