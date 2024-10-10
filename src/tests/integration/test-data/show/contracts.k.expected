@@ -38,6 +38,8 @@ module S2KtestZModAccountParamsTest-CONTRACT
     
     syntax S2KtestZModAccountParamsTestMethod ::= "S2Kfailed" "(" ")" [symbol("method_test%AccountParamsTest_S2Kfailed_")]
     
+    syntax S2KtestZModAccountParamsTestMethod ::= "S2Kkevm" "(" ")" [symbol("method_test%AccountParamsTest_S2Kkevm_")]
+    
     syntax S2KtestZModAccountParamsTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol("method_test%AccountParamsTest_S2KtargetArtifactSelectors_")]
     
     syntax S2KtestZModAccountParamsTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol("method_test%AccountParamsTest_S2KtargetArtifacts_")]
@@ -52,9 +54,11 @@ module S2KtestZModAccountParamsTest-CONTRACT
     
     syntax S2KtestZModAccountParamsTestMethod ::= "S2KtestDealSymbolic" "(" Int ":" "uint256" ")" [symbol("method_test%AccountParamsTest_S2KtestDealSymbolic_uint256")]
     
-    syntax S2KtestZModAccountParamsTestMethod ::= "S2KtestEtchConcrete" "(" ")" [symbol("method_test%AccountParamsTest_S2KtestEtchConcrete_")]
+    syntax S2KtestZModAccountParamsTestMethod ::= "S2KtestEtchConcreteCode" "(" ")" [symbol("method_test%AccountParamsTest_S2KtestEtchConcreteCode_")]
     
-    syntax S2KtestZModAccountParamsTestMethod ::= "S2KtestEtchSymbolic" "(" Bytes ":" "bytes" ")" [symbol("method_test%AccountParamsTest_S2KtestEtchSymbolic_bytes")]
+    syntax S2KtestZModAccountParamsTestMethod ::= "S2KtestEtchSymbolicAddress" "(" ")" [symbol("method_test%AccountParamsTest_S2KtestEtchSymbolicAddress_")]
+    
+    syntax S2KtestZModAccountParamsTestMethod ::= "S2KtestEtchSymbolicCode" "(" Bytes ":" "bytes" ")" [symbol("method_test%AccountParamsTest_S2KtestEtchSymbolicCode_bytes")]
     
     syntax S2KtestZModAccountParamsTestMethod ::= "S2KtestFailZUndGetNonceZUndfalse" "(" ")" [symbol("method_test%AccountParamsTest_S2KtestFailZUndGetNonceZUndfalse_")]
     
@@ -87,6 +91,9 @@ module S2KtestZModAccountParamsTest-CONTRACT
     rule  ( S2KtestZModAccountParamsTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
       
     
+    rule  ( S2KtestZModAccountParamsTest . S2Kkevm ( ) => #abiCallData ( "kevm" , .TypedArgs ) )
+      
+    
     rule  ( S2KtestZModAccountParamsTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
       
     
@@ -109,10 +116,13 @@ module S2KtestZModAccountParamsTest-CONTRACT
        ensures #rangeUInt ( 256 , V0_value )
       
     
-    rule  ( S2KtestZModAccountParamsTest . S2KtestEtchConcrete ( ) => #abiCallData ( "testEtchConcrete" , .TypedArgs ) )
+    rule  ( S2KtestZModAccountParamsTest . S2KtestEtchConcreteCode ( ) => #abiCallData ( "testEtchConcreteCode" , .TypedArgs ) )
       
     
-    rule  ( S2KtestZModAccountParamsTest . S2KtestEtchSymbolic ( V0_code : bytes ) => #abiCallData ( "testEtchSymbolic" , ( #bytes ( V0_code ) , .TypedArgs ) ) )
+    rule  ( S2KtestZModAccountParamsTest . S2KtestEtchSymbolicAddress ( ) => #abiCallData ( "testEtchSymbolicAddress" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModAccountParamsTest . S2KtestEtchSymbolicCode ( V0_code : bytes ) => #abiCallData ( "testEtchSymbolicCode" , ( #bytes ( V0_code ) , .TypedArgs ) ) )
        ensures #rangeUInt ( 64 , lengthBytes ( V0_code ) )
       
     
@@ -157,6 +167,9 @@ module S2KtestZModAccountParamsTest-CONTRACT
     rule  ( selector ( "failed()" ) => 3124842406 )
       
     
+    rule  ( selector ( "kevm()" ) => 3601001590 )
+      
+    
     rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
       
     
@@ -178,10 +191,13 @@ module S2KtestZModAccountParamsTest-CONTRACT
     rule  ( selector ( "testDealSymbolic(uint256)" ) => 2584982624 )
       
     
-    rule  ( selector ( "testEtchConcrete()" ) => 807503996 )
+    rule  ( selector ( "testEtchConcreteCode()" ) => 1609952251 )
       
     
-    rule  ( selector ( "testEtchSymbolic(bytes)" ) => 2109411263 )
+    rule  ( selector ( "testEtchSymbolicAddress()" ) => 4275836419 )
+      
+    
+    rule  ( selector ( "testEtchSymbolicCode(bytes)" ) => 2871126377 )
       
     
     rule  ( selector ( "testFail_GetNonce_false()" ) => 2393877859 )
@@ -206,6 +222,25 @@ module S2KtestZModAccountParamsTest-CONTRACT
       
     
     rule  ( selector ( "test_getNonce_unknownSymbolic(address)" ) => 3941547284 )
+      
+
+endmodule
+
+module S2KtestZModEtchTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModEtchTestContract
+    
+    syntax S2KtestZModEtchTestContract ::= "S2KtestZModEtchTest" [symbol("contract_test%EtchTest")]
+    
+    syntax Bytes ::= S2KtestZModEtchTestContract "." S2KtestZModEtchTestMethod [function, symbol("method_test%EtchTest")]
+    
+    syntax S2KtestZModEtchTestMethod ::= "S2KtestEtch" "(" ")" [symbol("method_test%EtchTest_S2KtestEtch_")]
+    
+    rule  ( S2KtestZModEtchTest . S2KtestEtch ( ) => #abiCallData ( "testEtch" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "testEtch()" ) => 446664695 )
       
 
 endmodule
