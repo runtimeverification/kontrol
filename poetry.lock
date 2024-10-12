@@ -652,7 +652,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.742"
+version = "1.0.743"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -660,26 +660,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.157"
+kframework = "7.1.158"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.742"
-resolved_reference = "f62ec956853ba6049d663795a94c1e638bbfc9e2"
+reference = "v1.0.743"
+resolved_reference = "1791e043b6dc4323c3c841e66b7488433d6eae0f"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.157"
+version = "7.1.158"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.157-py3-none-any.whl", hash = "sha256:db15775cd3ed3ef16280e411b03cf7498af52aebc7948367a10a312f9b5ffb69"},
-    {file = "kframework-7.1.157.tar.gz", hash = "sha256:a6c7bb69db583ed19eda202f700506ed9cac2d075ac2038634b8198f688698f2"},
+    {file = "kframework-7.1.158-py3-none-any.whl", hash = "sha256:2a3fafdfb8e39a1e6a6fe1f766069dc226cf3b51a57fbcf45a13e4e19bd5598a"},
+    {file = "kframework-7.1.158.tar.gz", hash = "sha256:17d5ee9f3095b123888c64b09694ef5fc863d6c7f6c46c934473c104e1a366ea"},
 ]
 
 [package.dependencies]
@@ -1231,13 +1231,13 @@ testing = ["filelock"]
 
 [[package]]
 name = "pyupgrade"
-version = "3.17.0"
+version = "3.18.0"
 description = "A tool to automatically upgrade syntax for newer versions."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pyupgrade-3.17.0-py2.py3-none-any.whl", hash = "sha256:cbc8f67a61d3f4e7ca9c2ef57b9aae67f023d3780ce30c99fccec78401723754"},
-    {file = "pyupgrade-3.17.0.tar.gz", hash = "sha256:d5dd1dcaf9a016c31508bb9d3d09fd335d736578092f91df52bb26ac30c37919"},
+    {file = "pyupgrade-3.18.0-py2.py3-none-any.whl", hash = "sha256:74dbca15f715342393d20e31575d846643fdeb32c6fe8d9598c41645bab3f762"},
+    {file = "pyupgrade-3.18.0.tar.gz", hash = "sha256:894cf4c64c17c020f86adaab55a82449a7add29b1ea4a1b9e659ed48c922d3ae"},
 ]
 
 [package.dependencies]
@@ -1426,4 +1426,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "da893bb7ab869e84b5d43f08db1f13235637302fe8181cabfe86bd75b32323ec"
+content-hash = "03f2ac846ff0410fe83439d97a7344452c1a7806960f5a580e3afdede640e513"
