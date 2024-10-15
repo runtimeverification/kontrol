@@ -9,6 +9,7 @@ requires "requires/no_stack_checks.md"
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
     imports public S2KtestZModAccountParamsTest-VERIFICATION
+    imports public S2KtestZModEtchTest-VERIFICATION
     imports public S2KtestZModAddrTest-VERIFICATION
     imports public S2KtestZModAllowChangesTest-VERIFICATION
     imports public S2KtestZModValueStore-VERIFICATION
@@ -185,6 +186,13 @@ endmodule
 
 module S2KtestZModAccountParamsTest-VERIFICATION
     imports public S2KtestZModAccountParamsTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModEtchTest-VERIFICATION
+    imports public S2KtestZModEtchTest-CONTRACT
     
     
 
