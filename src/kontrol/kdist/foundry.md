@@ -30,6 +30,7 @@ module FOUNDRY
     configuration
       <foundry>
         <kevm/>
+        <stackChecks> true </stackChecks>
         <cheatcodes/>
         <KEVMTracing/>
       </foundry>

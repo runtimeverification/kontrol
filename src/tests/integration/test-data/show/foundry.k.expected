@@ -4,6 +4,7 @@ requires "requires/cse-lemmas.k"
 requires "requires/pausability-lemmas.k"
 requires "requires/symbolic-bytes-lemmas.k"
 requires "requires/keccak.md"
+requires "requires/no_stack_checks.md"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
@@ -66,6 +67,9 @@ module FOUNDRY-MAIN
     imports public S2KtestZModReverterWithReturn-VERIFICATION
     imports public S2KtestZModExternalLibTest-VERIFICATION
     imports public S2KtestZModSimpleMath-VERIFICATION
+    imports public S2KtestZModExternalNestedLibraryTest-VERIFICATION
+    imports public S2KtestZModLibraryEq-VERIFICATION
+    imports public S2KtestZModLibrarySum-VERIFICATION
     imports public S2KtestZModFfiTest-VERIFICATION
     imports public S2KtestZModFilesTest-VERIFICATION
     imports public S2KtestZModForkTest-VERIFICATION
@@ -167,6 +171,7 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModsrcZModsafeconsole-VERIFICATION
     imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
     imports public KECCAK-LEMMAS
+    imports public NO-STACK-CHECKS
     
     
 
@@ -589,6 +594,27 @@ endmodule
 
 module S2KtestZModSimpleMath-VERIFICATION
     imports public S2KtestZModSimpleMath-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModExternalNestedLibraryTest-VERIFICATION
+    imports public S2KtestZModExternalNestedLibraryTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModLibraryEq-VERIFICATION
+    imports public S2KtestZModLibraryEq-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModLibrarySum-VERIFICATION
+    imports public S2KtestZModLibrarySum-CONTRACT
     
     
 

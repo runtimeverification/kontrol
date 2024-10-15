@@ -159,8 +159,11 @@ def foundry_prove(
 
         constructor_results = _run_prover(constructor_tests, include_summaries=False)
         failed = [proof for proof in constructor_results if not proof.passed]
+        failed_contract_names = [proof.id.split('.')[0] for proof in failed]
         if failed:
-            raise ValueError(f'Running initialization code failed for {len(failed)} contracts: {failed}')
+            raise ValueError(
+                f"Running initialization code failed for {len(failed)} contracts: {', '.join(failed_contract_names)}"
+            )
 
     if options.verbose:
         _LOGGER.info(f'Running setup functions in parallel: {setup_method_names}')
@@ -170,8 +173,9 @@ def foundry_prove(
     setup_results = _run_prover(setup_method_tests, include_summaries=False)
 
     failed = [proof for proof in setup_results if not proof.passed]
+    failed_contract_names = [proof.id.split('.')[0] for proof in failed]
     if failed:
-        raise ValueError(f'Running setUp method failed for {len(failed)} contracts: {failed}')
+        raise ValueError(f"Running setUp method failed for {len(failed)} contracts: {', '.join(failed_contract_names)}")
 
     if options.verbose:
         _LOGGER.info(f'Running test functions in parallel: {test_names}')
@@ -421,6 +425,7 @@ def _run_cfg_group(
                             'usegas': options.usegas,
                         }
                     ),
+                    no_stack_checks=options.no_stack_checks,
                     trace_options=TraceOptions(
                         {
                             'active_tracing': options.active_tracing,
@@ -563,6 +568,7 @@ def method_to_apr_proof(
     kcfg_explore: KCFGExplore,
     config_type: ConfigType,
     evm_chain_options: EVMChainOptions,
+    no_stack_checks: bool,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
@@ -590,6 +596,7 @@ def method_to_apr_proof(
         setup_proof=setup_proof,
         graft_setup_proof=((setup_proof is not None) and not setup_proof_is_constructor),
         evm_chain_options=evm_chain_options,
+        no_stack_checks=no_stack_checks,
         recorded_state_entries=recorded_state_entries,
         active_symbolik=active_symbolik,
         hevm=hevm,
@@ -633,6 +640,7 @@ def _method_to_initialized_cfg(
     kcfg_explore: KCFGExplore,
     config_type: ConfigType,
     evm_chain_options: EVMChainOptions,
+    no_stack_checks: bool,
     *,
     setup_proof: APRProof | None = None,
     graft_setup_proof: bool = False,
@@ -655,6 +663,7 @@ def _method_to_initialized_cfg(
         recorded_state_entries,
         active_symbolik,
         config_type=config_type,
+        no_stack_checks=no_stack_checks,
         hevm=hevm,
         trace_options=trace_options,
     )
@@ -688,6 +697,7 @@ def _method_to_cfg(
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
     active_symbolik: bool,
     config_type: ConfigType,
+    no_stack_checks: bool,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int, Iterable[int]]:
@@ -725,6 +735,7 @@ def _method_to_cfg(
         trace_options=trace_options,
         config_type=config_type,
         additional_accounts=external_libs,
+        no_stack_checks=no_stack_checks,
     )
     new_node_ids = []
     bounded_node_ids = []
@@ -979,6 +990,7 @@ def _init_cterm(
     active_symbolik: bool,
     evm_chain_options: EVMChainOptions,
     additional_accounts: list[KInner],
+    no_stack_checks: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -995,6 +1007,7 @@ def _init_cterm(
     init_subst = {
         'MODE_CELL': KApply(evm_chain_options.mode),
         'USEGAS_CELL': boolToken(evm_chain_options.usegas),
+        'STACKCHECKS_CELL': boolToken(not no_stack_checks),
         'SCHEDULE_CELL': schedule,
         'CHAINID_CELL': intToken(evm_chain_options.chainid),
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
@@ -1440,7 +1453,7 @@ def _final_term(
 def _process_external_library_references(contract: Contract, foundry_contracts: dict[str, Contract]) -> list[KInner]:
     """Create a list of KInner accounts for external libraries used in the given contract.
 
-    This function identifies external library placeholders within the contract's deployed bytecode,
+    This function identifies external library placeholders within the contract's bytecode and deployed bytecode,
     deploys the required external libraries at the address generated based on the first 20 bytes of the hash of the
     unique id, replaces the placeholders with the actual addresses of the deployed libraries, and returns a list of
     KEVM account cells representing the deployed external libraries.
@@ -1454,39 +1467,51 @@ def _process_external_library_references(contract: Contract, foundry_contracts: 
     external_libs: list[KInner] = []
     address_list: dict[str, str] = {}
 
-    for lib, ref_locations in contract.external_lib_refs.items():
-        ref_contract = foundry_contracts.get(lib)
-        if ref_contract is None:
-            raise ValueError(f'External library not found: {lib}')
+    for ref_type in ['bytecode_external_lib_refs', 'deployed_bytecode_external_lib_refs']:
+        lib_refs = getattr(contract, ref_type, {})
 
-        if lib not in address_list:
-            new_address_hex = hash_str(lib)[:40].ljust(40, '0')
-            new_address_int = int(new_address_hex, 16)
-            _LOGGER.info(f'Deploying external library {lib} at address 0x{new_address_hex}')
+        for lib, ref_locations in lib_refs.items():
+            ref_contract = foundry_contracts.get(lib)
+            if ref_contract is None:
+                raise ValueError(f'External library not found: {lib}')
 
-            ref_code = token(bytes.fromhex(ref_contract.deployed_bytecode))
-            external_libs.append(
-                KEVM.account_cell(
-                    id=token(new_address_int),
-                    balance=token(0),
-                    code=ref_code,
-                    storage=map_empty(),
-                    orig_storage=map_empty(),
-                    transient_storage=map_empty(),
-                    nonce=token(0),
+            if lib not in address_list:
+                new_address_hex = hash_str(lib)[:40].ljust(40, '0')
+                new_address_int = int(new_address_hex, 16)
+                _LOGGER.info(f'Deploying external library {lib} at address 0x{new_address_hex}')
+
+                # `deployed_bytecode` libraries are a subset of `bytecode` libraries
+                if ref_contract.bytecode_external_lib_refs:
+                    external_libs.extend(_process_external_library_references(ref_contract, foundry_contracts))
+
+                ref_code = token(bytes.fromhex(ref_contract.deployed_bytecode))
+                external_libs.append(
+                    KEVM.account_cell(
+                        id=token(new_address_int),
+                        balance=token(0),
+                        code=ref_code,
+                        storage=map_empty(),
+                        orig_storage=map_empty(),
+                        transient_storage=map_empty(),
+                        nonce=token(0),
+                    )
                 )
-            )
-            address_list[lib] = new_address_hex
-        else:
-            new_address_hex = address_list[lib]
+                address_list[lib] = new_address_hex
+            else:
+                new_address_hex = address_list[lib]
 
-        for ref_start, ref_len in ref_locations:
-            placeholder_start = ref_start * 2
-            placeholder_len = ref_len * 2
-            contract.deployed_bytecode = (
-                contract.deployed_bytecode[:placeholder_start]
-                + new_address_hex
-                + contract.deployed_bytecode[placeholder_start + placeholder_len :]
-            )
+            bytecode_field = 'bytecode' if ref_type == 'bytecode_external_lib_refs' else 'deployed_bytecode'
+
+            for ref_start, ref_len in ref_locations:
+                placeholder_start = ref_start * 2
+                placeholder_len = ref_len * 2
+
+                current_bytecode = getattr(contract, bytecode_field)
+                updated_bytecode = (
+                    current_bytecode[:placeholder_start]
+                    + new_address_hex
+                    + current_bytecode[placeholder_start + placeholder_len :]
+                )
+                setattr(contract, bytecode_field, updated_bytecode)
 
     return external_libs

@@ -768,7 +768,8 @@ class Contract:
     deployed_bytecode: str
     immutable_ranges: list[tuple[int, int]]
     link_ranges: list[tuple[int, int]]
-    external_lib_refs: dict[str, list[tuple[int, int]]]
+    bytecode_external_lib_refs: dict[str, list[tuple[int, int]]]
+    deployed_bytecode_external_lib_refs: dict[str, list[tuple[int, int]]]
     processed_link_refs: bool
     bytecode: str
     raw_sourcemap: str | None
@@ -792,6 +793,7 @@ class Contract:
         evm = self.contract_json['evm'] if not foundry else self.contract_json
 
         deployed_bytecode = evm['deployedBytecode']
+        bytecode = evm['bytecode']
 
         self.immutable_ranges = [
             (rng['start'], rng['length'])
@@ -799,22 +801,30 @@ class Contract:
             for rng in ref
         ]
 
-        self.external_lib_refs = {}
+        self.bytecode_external_lib_refs = {}
+        self.deployed_bytecode_external_lib_refs = {}
         self.link_ranges = []
 
-        for path, ref in deployed_bytecode.get('linkReferences', {}).items():
-            for contract_name, ranges in ref.items():
-                ref_name_with_path = contract_name_with_path(path, contract_name)
-                ranges = [(rng['start'], rng['length']) for rng in ranges]
-                self.link_ranges.extend(ranges)
-                self.external_lib_refs.setdefault(ref_name_with_path, []).extend(ranges)
+        def process_references(bytecode: dict, target_lib_refs: dict, update_link_ranges: bool = False) -> None:
+            for path, references in bytecode.get('linkReferences', {}).items():
+                for contract_name, ranges in references.items():
+                    ref_name_with_path = contract_name_with_path(path, contract_name)
+                    ranges = [(rng['start'], rng['length']) for rng in ranges]
 
-        self.processed_link_refs = len(self.external_lib_refs) == 0
+                    target_lib_refs.setdefault(ref_name_with_path, []).extend(ranges)
+
+                    if update_link_ranges:
+                        self.link_ranges.extend(ranges)
+
+        process_references(bytecode, self.bytecode_external_lib_refs)
+        process_references(deployed_bytecode, self.deployed_bytecode_external_lib_refs, update_link_ranges=True)
+
+        # `deployed_bytecode_external_lib_refs` is a subset of `bytecode_external_lib_refs`
+        self.processed_link_refs = len(self.bytecode_external_lib_refs) == 0
 
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
         self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
 
-        bytecode = evm['bytecode']
         self.bytecode = bytecode['object'].replace('0x', '')
         self.constructor = None
 
