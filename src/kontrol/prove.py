@@ -425,6 +425,7 @@ def _run_cfg_group(
                             'usegas': options.usegas,
                         }
                     ),
+                    no_stack_checks=options.no_stack_checks,
                     trace_options=TraceOptions(
                         {
                             'active_tracing': options.active_tracing,
@@ -567,6 +568,7 @@ def method_to_apr_proof(
     kcfg_explore: KCFGExplore,
     config_type: ConfigType,
     evm_chain_options: EVMChainOptions,
+    no_stack_checks: bool,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
@@ -594,6 +596,7 @@ def method_to_apr_proof(
         setup_proof=setup_proof,
         graft_setup_proof=((setup_proof is not None) and not setup_proof_is_constructor),
         evm_chain_options=evm_chain_options,
+        no_stack_checks=no_stack_checks,
         recorded_state_entries=recorded_state_entries,
         active_symbolik=active_symbolik,
         hevm=hevm,
@@ -637,6 +640,7 @@ def _method_to_initialized_cfg(
     kcfg_explore: KCFGExplore,
     config_type: ConfigType,
     evm_chain_options: EVMChainOptions,
+    no_stack_checks: bool,
     *,
     setup_proof: APRProof | None = None,
     graft_setup_proof: bool = False,
@@ -659,6 +663,7 @@ def _method_to_initialized_cfg(
         recorded_state_entries,
         active_symbolik,
         config_type=config_type,
+        no_stack_checks=no_stack_checks,
         hevm=hevm,
         trace_options=trace_options,
     )
@@ -692,6 +697,7 @@ def _method_to_cfg(
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
     active_symbolik: bool,
     config_type: ConfigType,
+    no_stack_checks: bool,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int, Iterable[int]]:
@@ -729,6 +735,7 @@ def _method_to_cfg(
         trace_options=trace_options,
         config_type=config_type,
         additional_accounts=external_libs,
+        no_stack_checks=no_stack_checks,
     )
     new_node_ids = []
     bounded_node_ids = []
@@ -983,6 +990,7 @@ def _init_cterm(
     active_symbolik: bool,
     evm_chain_options: EVMChainOptions,
     additional_accounts: list[KInner],
+    no_stack_checks: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -999,6 +1007,7 @@ def _init_cterm(
     init_subst = {
         'MODE_CELL': KApply(evm_chain_options.mode),
         'USEGAS_CELL': boolToken(evm_chain_options.usegas),
+        'STACKCHECKS_CELL': boolToken(not no_stack_checks),
         'SCHEDULE_CELL': schedule,
         'CHAINID_CELL': intToken(evm_chain_options.chainid),
         'STATUSCODE_CELL': KVariable('STATUSCODE'),
