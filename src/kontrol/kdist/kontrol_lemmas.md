@@ -14,18 +14,6 @@ module KONTROL-AUX-LEMMAS
     imports MAP-SYMBOLIC
     imports SET-SYMBOLIC
 
-    syntax StepSort ::= Int
-                      | Bool
-                      | Bytes
-                      | Map
-                      | Set
- // -------------------------
-
-    syntax KItem ::= runLemma ( StepSort )
-                   | doneLemma( StepSort )
- // --------------------------------------
-    rule <k> runLemma(T) => doneLemma(T) ... </k>
-
     syntax Int ::= "ethMaxWidth" [macro]
     syntax Int ::= "ethUpperBound" [macro]
  // --------------------------------------

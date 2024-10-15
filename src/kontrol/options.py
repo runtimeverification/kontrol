@@ -378,6 +378,7 @@ class ProveOptions(
     hide_status_bar: bool
     remove_old_proofs: bool
     optimize_performance: int | None
+    no_stack_checks: bool
 
     def __init__(self, args: dict[str, Any]) -> None:
         super().__init__(args)
@@ -406,6 +407,7 @@ class ProveOptions(
             'hide_status_bar': False,
             'remove_old_proofs': False,
             'optimize_performance': None,
+            'no_stack_checks': False,
         }
 
     @staticmethod
@@ -464,11 +466,12 @@ class ProveOptions(
             self.assume_defined = True
             self.log_succ_rewrites = False
             self.max_frontier_parallel = self.optimize_performance
-            self.maintenance_rate = 2 * self.optimize_performance
+            self.maintenance_rate = 64
             self.smt_timeout = 120000
             self.smt_retry_limit = 0
             self.max_depth = 100000
             self.max_iterations = 10000
+            self.no_stack_checks = True
 
     def __str__(self) -> str:
         """
