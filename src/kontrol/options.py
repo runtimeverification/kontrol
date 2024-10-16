@@ -471,7 +471,7 @@ class ProveOptions(
             self.smt_retry_limit = 0
             self.max_depth = 100000
             self.max_iterations = 10000
-            self.stack_checks = True
+            self.stack_checks = False
 
     def __str__(self) -> str:
         """
