@@ -230,6 +230,7 @@ break-on-storage           = false
 break-on-basic-blocks      = false
 break-on-cheatcodes        = false
 run-constructor            = false
+no-stack-checks            = true
 
 [show.default]
 foundry-project-root       = '.'

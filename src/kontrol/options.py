@@ -378,7 +378,7 @@ class ProveOptions(
     hide_status_bar: bool
     remove_old_proofs: bool
     optimize_performance: int | None
-    no_stack_checks: bool
+    stack_checks: bool
 
     def __init__(self, args: dict[str, Any]) -> None:
         super().__init__(args)
@@ -407,7 +407,7 @@ class ProveOptions(
             'hide_status_bar': False,
             'remove_old_proofs': False,
             'optimize_performance': None,
-            'no_stack_checks': False,
+            'stack_checks': True,
         }
 
     @staticmethod
@@ -471,7 +471,7 @@ class ProveOptions(
             self.smt_retry_limit = 0
             self.max_depth = 100000
             self.max_iterations = 10000
-            self.no_stack_checks = True
+            self.stack_checks = False
 
     def __str__(self) -> str:
         """
@@ -842,9 +842,9 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
 class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
     regen: bool
     rekompile: bool
-    no_forge_build: bool
-    no_silence_warnings: bool
-    no_metadata: bool
+    forge_build: bool
+    silence_warnings: bool
+    metadata: bool
     keccak_lemmas: bool
     auxiliary_lemmas: bool
 
@@ -853,9 +853,9 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
         return {
             'regen': False,
             'rekompile': False,
-            'no_forge_build': False,
-            'no_silence_warnings': False,
-            'no_metadata': False,
+            'forge_build': True,
+            'silence_warnings': True,
+            'metadata': True,
             'keccak_lemmas': True,
             'auxiliary_lemmas': False,
         }

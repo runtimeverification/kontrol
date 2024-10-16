@@ -399,7 +399,7 @@ class Foundry:
             return list(element.rules)
         return ['NO DATA']
 
-    def build(self, no_metadata: bool) -> None:
+    def build(self, metadata: bool) -> None:
         forge_build_args = [
             'forge',
             'build',
@@ -410,7 +410,7 @@ class Foundry:
             'evm.deployedBytecode.generatedSources',
             '--root',
             str(self._root),
-        ] + (['--no-metadata'] if no_metadata else [])
+        ] + (['--no-metadata'] if not metadata else [])
         try:
             run_process_2(
                 forge_build_args,

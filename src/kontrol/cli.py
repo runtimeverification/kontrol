@@ -324,23 +324,23 @@ def _create_argument_parser() -> ArgumentParser:
     )
     build.add_argument(
         '--no-forge-build',
-        dest='no_forge_build',
+        dest='forge_build',
         default=None,
-        action='store_true',
+        action='store_false',
         help="Do not call 'forge build' during kompilation.",
     )
     build.add_argument(
         '--no-silence-warnings',
-        dest='no_silence_warnings',
+        dest='silence_warnings',
         default=None,
-        action='store_true',
+        action='store_false',
         help='Do not silence K compiler warnings.',
     )
     build.add_argument(
         '--no-metadata',
-        dest='no_metadata',
+        dest='metadata',
         default=None,
-        action='store_true',
+        action='store_false',
         help='Do not append cbor or bytecode_hash metadata to bytecode.',
     )
     build.add_argument(
@@ -580,9 +580,9 @@ def _create_argument_parser() -> ArgumentParser:
     )
     prove_args.add_argument(
         '--no-stack-checks',
-        dest='no_stack_checks',
+        dest='stack_checks',
         default=None,
-        action='store_true',
+        action='store_false',
         help=(
             'Optimize KEVM execution by removing stack overflow/underflow checks.'
             'Assumes running Solidity-compiled bytecode cannot result in a stack overflow/underflow.'
