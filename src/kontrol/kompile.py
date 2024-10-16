@@ -45,10 +45,10 @@ def foundry_kompile(
 
     requires_paths: dict[str, str] = {}
 
-    if not options.no_forge_build:
-        foundry.build(options.no_metadata)
+    if options.forge_build:
+        foundry.build(options.metadata)
 
-    if not options.no_silence_warnings:
+    if options.silence_warnings:
         options.ignore_warnings = _silenced_warnings()
 
     regen = options.regen
