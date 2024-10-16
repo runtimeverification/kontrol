@@ -29,7 +29,7 @@ def test_foundy_prove(
     with profile('kompile.prof', sort_keys=('cumtime', 'tottime'), limit=15):
         foundry_kompile(
             BuildOptions(
-                {'includes': (), 'no_metadata': True},
+                {'includes': (), 'metadata': False},
             ),
             foundry=foundry,
         )
