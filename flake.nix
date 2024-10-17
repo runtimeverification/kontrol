@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.745";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.746";
     nixpkgs.follows = "kevm/nixpkgs";
     k-framework.follows = "kevm/k-framework";
     flake-utils.follows = "kevm/flake-utils";
