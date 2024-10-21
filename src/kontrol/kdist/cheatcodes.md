@@ -1558,7 +1558,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 Selectors
 ---------
 
-Selectors for cheat code functions.
+Selectors for **implemented** cheat code functions.
 
 ```k
     rule ( selector ( "assume(bool)" )                             => 1281615202 )
@@ -1606,7 +1606,7 @@ Selectors for cheat code functions.
     rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
 ```
 
-Selectors for unimplemented cheat code functions.
+Selectors for **unimplemented** cheat code functions.
 
 ```k
     rule selector ( "expectRegularCall(address,bytes)" )        => 3178868520
