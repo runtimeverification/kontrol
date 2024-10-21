@@ -1555,7 +1555,10 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
          <wordStack> _ : WS => 1 : WS </wordStack>
 ```
 
-- selectors for cheat code functions.
+Selectors
+---------
+
+Selectors for cheat code functions.
 
 ```k
     rule ( selector ( "assume(bool)" )                             => 1281615202 )
@@ -1603,7 +1606,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
 ```
 
-- selectors for unimplemented cheat code functions.
+Selectors for unimplemented cheat code functions.
 
 ```k
     rule selector ( "expectRegularCall(address,bytes)" )        => 3178868520
@@ -1665,7 +1668,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule selector ( "deriveKey(string,uint32)" )                => 1646872971
 ```
 
-- selector for Solidity built-in Error
+Selector for Solidity built-in Error
 
 ```k
     rule ( selector ( "Error(string)" ) => 147028384 )
