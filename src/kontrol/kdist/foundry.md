@@ -70,6 +70,10 @@ Then, we define helpers in K which can:
  // ------------------------------------------------------------
     rule <k> #assume(B) => .K ... </k> ensures B
 
+    syntax KItem ::= #getCode ( Bytes ) [symbol(cheatcode_getCode)]
+ // ------------------------------------------------------------
+    rule [cheatcode.getCode]: <k> #getCode(B) => .K ... </k>
+
      syntax KItem ::= "#markAsFailed" [symbol(foundry_markAsFailed)]
   // ---------------------------------------------------------------
      rule <k> #markAsFailed => .K ... </k>

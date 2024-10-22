@@ -97,6 +97,15 @@ module FOUNDRY-CHEAT-CODES
 
 Below, we define rules for the `#cheatcode_call` production, handling the cheat codes.
 
+#### `getCode` - Returns the creation bytecode for a contract in the project given the path to the contract.
+
+```k
+    rule [cheatcode.call.getCode]:
+         <k> #cheatcode_call SELECTOR ARGS => #getCode(ARGS) ... </k>
+      requires SELECTOR ==Int selector ( "getCode(string)" )
+      [preserves-definedness]
+```
+
 #### `assume` - Insert a condition
 
 ```

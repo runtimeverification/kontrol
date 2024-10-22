@@ -442,6 +442,8 @@ def _run_cfg_group(
                 options.break_on_basic_blocks,
                 options.break_on_load_program,
             )
+            cut_point_rules.append('FOUNDRY-ACCOUNTS.cheatcode.getCode')
+            
             if options.break_on_cheatcodes:
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].rules
