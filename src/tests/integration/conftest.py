@@ -64,7 +64,6 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
     foundry_root = root_tmp_dir / 'foundry'
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
-            print(str(foundry_root))
             copytree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root), dirs_exist_ok=True)
 
             run_process_2(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
