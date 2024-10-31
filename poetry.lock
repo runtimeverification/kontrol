@@ -107,25 +107,25 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
 name = "cmd2"
-version = "2.4.3"
+version = "2.5.0"
 description = "cmd2 - quickly build feature-rich and user-friendly interactive command line applications in Python"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.8"
 files = [
-    {file = "cmd2-2.4.3-py3-none-any.whl", hash = "sha256:f1988ff2fff0ed812a2d25218a081b0fa0108d45b48ba2a9272bb98091b654e6"},
-    {file = "cmd2-2.4.3.tar.gz", hash = "sha256:71873c11f72bd19e2b1db578214716f0d4f7c8fa250093c601265a9a717dee52"},
+    {file = "cmd2-2.5.0-py3-none-any.whl", hash = "sha256:77aa9873259080a86f765bf466e0d9c9e145faacd129b56325940997cc36ca0c"},
+    {file = "cmd2-2.5.0.tar.gz", hash = "sha256:36292d144e5fd62549b50e94e5f36514557fb92e615155ac28763ea4bc13b954"},
 ]
 
 [package.dependencies]
-attrs = ">=16.3.0"
-pyperclip = ">=1.6"
+pyperclip = "*"
 pyreadline3 = {version = "*", markers = "sys_platform == \"win32\""}
-wcwidth = ">=0.1.7"
+wcwidth = "*"
 
 [package.extras]
-dev = ["codecov", "doc8", "flake8", "invoke", "mypy", "nox", "pytest (>=4.6)", "pytest-cov", "pytest-mock", "sphinx", "sphinx-autobuild", "sphinx-rtd-theme", "twine (>=1.11)"]
-test = ["codecov", "coverage", "gnureadline", "pytest (>=4.6)", "pytest-cov", "pytest-mock"]
-validate = ["flake8", "mypy", "types-pkg-resources"]
+dev = ["codecov", "doc8", "invoke", "mypy", "nox", "pytest (>=4.6)", "pytest-cov", "pytest-mock", "ruff", "sphinx", "sphinx-autobuild", "sphinx-rtd-theme", "twine"]
+docs = ["setuptools", "setuptools-scm", "sphinx", "sphinx-autobuild", "sphinx-rtd-theme"]
+test = ["codecov", "coverage", "gnureadline", "pytest", "pytest-cov", "pytest-mock"]
+validate = ["mypy", "ruff", "types-setuptools"]
 
 [[package]]
 name = "colorama"
@@ -487,13 +487,13 @@ dev = ["coverage", "hypothesis", "hypothesmith (>=0.2)", "pre-commit", "pytest",
 
 [[package]]
 name = "flake8-comprehensions"
-version = "3.15.0"
+version = "3.16.0"
 description = "A flake8 plugin to help you write better list/set/dict comprehensions."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "flake8_comprehensions-3.15.0-py3-none-any.whl", hash = "sha256:b7e027bbb52be2ceb779ee12484cdeef52b0ad3c1fcb8846292bdb86d3034681"},
-    {file = "flake8_comprehensions-3.15.0.tar.gz", hash = "sha256:923c22603e0310376a6b55b03efebdc09753c69f2d977755cba8bb73458a5d4d"},
+    {file = "flake8_comprehensions-3.16.0-py3-none-any.whl", hash = "sha256:7c1eadc9d22e765f39857798febe7766b4d9c519793c6c149e3e13bf99693f70"},
+    {file = "flake8_comprehensions-3.16.0.tar.gz", hash = "sha256:9cbf789905a8f03f9d350fb82b17b264d9a16c7ce3542b2a7b871ef568cafabe"},
 ]
 
 [package.dependencies]
@@ -571,13 +571,13 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.115.5"
+version = "6.115.6"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "hypothesis-6.115.5-py3-none-any.whl", hash = "sha256:b7733459ae9a93020fac3b91b41473c9b85e975139a152a70d88f3a5caa3fa3f"},
-    {file = "hypothesis-6.115.5.tar.gz", hash = "sha256:4768c5fb426b305462ed31032d6e216a31daaefb1dc3134fdf2795b7961d7cb3"},
+    {file = "hypothesis-6.115.6-py3-none-any.whl", hash = "sha256:d7b7173934753b9624680b38a85749de4fce367c44acb36c08b62765cc0a7a19"},
+    {file = "hypothesis-6.115.6.tar.gz", hash = "sha256:d4db48eef183591085676783967e943bb89fef4d596f78c3e4116c61fcc63a6b"},
 ]
 
 [package.dependencies]
@@ -652,7 +652,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.748"
+version = "1.0.750"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -660,26 +660,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.163"
+kframework = "7.1.169"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.748"
-resolved_reference = "fdeec21eebe85be1f275a540d57ba2cb8004e424"
+reference = "v1.0.750"
+resolved_reference = "e4e1d9a8ac6b2c86bafcfa5b7c124673689ea2a3"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.163"
+version = "7.1.169"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.163-py3-none-any.whl", hash = "sha256:811990c7bb1421928b2d823f38c652ae13c6e2618acd7de887d31c1da335011b"},
-    {file = "kframework-7.1.163.tar.gz", hash = "sha256:5ddf3d3041505eae2aaafeca75371d56cef4add54ad441e32aa5e49de9114d12"},
+    {file = "kframework-7.1.169-py3-none-any.whl", hash = "sha256:af0419d93285834568f2727bb66af4188736faf625a3bdfc331d9294ade1ea95"},
+    {file = "kframework-7.1.169.tar.gz", hash = "sha256:e8e432466fc0a99fff230d4db826a0f2296899ff4dbd4f1226ab07fded3ce884"},
 ]
 
 [package.dependencies]
@@ -1168,17 +1168,17 @@ testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "no
 
 [[package]]
 name = "pytest-cov"
-version = "5.0.0"
+version = "6.0.0"
 description = "Pytest plugin for measuring coverage."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "pytest-cov-5.0.0.tar.gz", hash = "sha256:5837b58e9f6ebd335b0f8060eecce69b662415b16dc503883a02f45dfeb14857"},
-    {file = "pytest_cov-5.0.0-py3-none-any.whl", hash = "sha256:4f0764a1219df53214206bf1feea4633c3b558a2925c8b59f144f682861ce652"},
+    {file = "pytest-cov-6.0.0.tar.gz", hash = "sha256:fde0b595ca248bb8e2d76f020b465f3b107c9632e6a1d1705f17834c89dcadc0"},
+    {file = "pytest_cov-6.0.0-py3-none-any.whl", hash = "sha256:eee6f1b9e61008bd34975a4d5bab25801eb31898b032dd55addc93e96fcaaa35"},
 ]
 
 [package.dependencies]
-coverage = {version = ">=5.2.1", extras = ["toml"]}
+coverage = {version = ">=7.5", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
@@ -1270,23 +1270,23 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "75.2.0"
+version = "75.3.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-75.2.0-py3-none-any.whl", hash = "sha256:a7fcb66f68b4d9e8e66b42f9876150a3371558f98fa32222ffaa5bced76406f8"},
-    {file = "setuptools-75.2.0.tar.gz", hash = "sha256:753bb6ebf1f465a1912e19ed1d41f403a79173a9acf66a42e7e6aec45c3c16ec"},
+    {file = "setuptools-75.3.0-py3-none-any.whl", hash = "sha256:f2504966861356aa38616760c0f66568e535562374995367b4e69c7143cf6bcd"},
+    {file = "setuptools-75.3.0.tar.gz", hash = "sha256:fba5dd4d766e97be1b1681d98712680ae8f2f26d7881245f2ce9e40714f1a686"},
 ]
 
 [package.extras]
 check = ["pytest-checkdocs (>=2.4)", "pytest-ruff (>=0.2.1)", "ruff (>=0.5.2)"]
-core = ["importlib-metadata (>=6)", "importlib-resources (>=5.10.2)", "jaraco.collections", "jaraco.functools", "jaraco.text (>=3.7)", "more-itertools", "more-itertools (>=8.8)", "packaging", "packaging (>=24)", "platformdirs (>=2.6.2)", "tomli (>=2.0.1)", "wheel (>=0.43.0)"]
+core = ["importlib-metadata (>=6)", "importlib-resources (>=5.10.2)", "jaraco.collections", "jaraco.functools", "jaraco.text (>=3.7)", "more-itertools", "more-itertools (>=8.8)", "packaging", "packaging (>=24)", "platformdirs (>=4.2.2)", "tomli (>=2.0.1)", "wheel (>=0.43.0)"]
 cover = ["pytest-cov"]
 doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "pyproject-hooks (!=1.1)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (>=1,<2)", "sphinx-reredirects", "sphinxcontrib-towncrier", "towncrier (<24.7)"]
 enabler = ["pytest-enabler (>=2.2)"]
-test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "ini2toml[lite] (>=0.14)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "jaraco.test", "packaging (>=23.2)", "pip (>=19.1)", "pyproject-hooks (!=1.1)", "pytest (>=6,!=8.1.*)", "pytest-home (>=0.5)", "pytest-perf", "pytest-subprocess", "pytest-timeout", "pytest-xdist (>=3)", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel (>=0.44.0)"]
-type = ["importlib-metadata (>=7.0.2)", "jaraco.develop (>=7.21)", "mypy (==1.11.*)", "pytest-mypy"]
+test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "ini2toml[lite] (>=0.14)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "jaraco.test (>=5.5)", "packaging (>=23.2)", "pip (>=19.1)", "pyproject-hooks (!=1.1)", "pytest (>=6,!=8.1.*)", "pytest-home (>=0.5)", "pytest-perf", "pytest-subprocess", "pytest-timeout", "pytest-xdist (>=3)", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel (>=0.44.0)"]
+type = ["importlib-metadata (>=7.0.2)", "jaraco.develop (>=7.21)", "mypy (==1.12.*)", "pytest-mypy"]
 
 [[package]]
 name = "sortedcontainers"
@@ -1432,4 +1432,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "82a3a26acb1a7057b668c6aa0b1eec975660a3eff51153d84cc00213b022645f"
+content-hash = "f4f559adfa8e674d2d0681bfcc500dafad7c350282eacc4996caecbb37d4e699"
