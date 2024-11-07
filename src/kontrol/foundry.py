@@ -21,14 +21,22 @@ from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
-from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
+from pyk.kast.manip import (
+    cell_label_to_var_name,
+    collect,
+    extract_lhs,
+    flatten_label,
+    minimize_term,
+    ml_pred_to_bool,
+    top_down,
+)
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
 from pyk.prelude.k import DOTS
-from pyk.prelude.kbool import notBool
+from pyk.prelude.kbool import andBool, notBool, orBool
 from pyk.prelude.kint import INT, intToken
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.proof.proof import Proof
@@ -1153,7 +1161,17 @@ def foundry_merge_nodes(
 
     anti_unification = nodes[0].cterm
     for node in nodes[1:]:
-        anti_unification, _, _ = anti_unification.anti_unify(node.cterm, keep_values=True, kdef=foundry.kevm.definition)
+        anti_unification, csubst1, csubst2 = anti_unification.anti_unify(node.cterm, kdef=foundry.kevm.definition)
+        constraint1 = andBool(
+            [csubst1.pred(constraints=False, sort_with=foundry.kevm.definition)]
+            + list(map(ml_pred_to_bool, csubst1.constraints))
+        )
+        constraint2 = andBool(
+            [csubst2.pred(constraints=False, sort_with=foundry.kevm.definition)]
+            + list(map(ml_pred_to_bool, csubst2.constraints))
+        )
+        anti_unification.add_constraint(mlEqualsTrue(orBool([constraint1, constraint2])))
+
     new_node = apr_proof.kcfg.create_node(anti_unification)
     for node in nodes:
         succ = apr_proof.kcfg.successors(node.id)
