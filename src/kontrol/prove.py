@@ -437,6 +437,7 @@ def _run_cfg_group(
                 )
             cut_point_rules = KEVMSemantics.cut_point_rules(
                 options.break_on_jumpi,
+                options.break_on_jump,
                 options.break_on_calls,
                 options.break_on_storage,
                 options.break_on_basic_blocks,
