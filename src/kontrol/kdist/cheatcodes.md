@@ -378,22 +378,22 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
        [preserves-definedness]
 ```
 
-#### `randomUInt` - Returns a single symbolic unsigned integer of a given size.
+#### `randomUint` - Returns a single symbolic unsigned integer of a given size.
 
 ```
-function randomUInt() external returns (uint256);
-function randomUInt(uint256) external returns (uint256);
+function randomUint() external returns (uint256);
+function randomUint(uint256) external returns (uint256);
 ```
 
-`cheatcode.call.randomUInt` will match when the `randomUInt` cheat code function is called.
+`cheatcode.call.randomUint` will match when the `randomUint` cheat code function is called.
 This rule returns a symbolic integer of up to the bit width that was sent as an argument.
 
 ```{.k .symbolic}
-    rule [cheatcode.call.randomUInt256]:
+    rule [cheatcode.call.randomUint]:
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 256
-       andBool SELECTOR ==Int selector ( "randomUInt(uint256)" )
+       andBool SELECTOR ==Int selector ( "randomUint(uint256)" )
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int #asWord(ARGS)
        [preserves-definedness]
 ```
@@ -401,10 +401,10 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
 The following rule returns a symbolic integer of 256 bytes.
 
 ```{.k .symbolic}
-    rule [cheatcode.call.randomUInt]:
+    rule [cheatcode.call.randomUint256]:
          <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
-      requires SELECTOR ==Int selector ( "randomUInt()" )
+      requires SELECTOR ==Int selector ( "randomUint()" )
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int 256
        [preserves-definedness]
 ```
@@ -1689,9 +1689,9 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
     rule ( selector ( "setArbitraryStorage(address)" )             => 3781367863 )
     rule ( selector ( "freshUInt(uint256)" )                       => 1430414212 )
-    rule ( selector ( "randomUInt(uint256)" )                      => 3628412988 )
-    rule ( selector ( "randomUInt()" )                             => 400045903  )
-    rule ( selector ( "randomUInt(uint256,uint256)" )              => 3592095003 )
+    rule ( selector ( "randomUint(uint256)" )                      => 3481396892 )
+    rule ( selector ( "randomUint()" )                             => 621954864  )
+    rule ( selector ( "randomUint(uint256,uint256)" )              => 3592095003 )
     rule ( selector ( "randomInt(uint256)" )                       => 310663526  )
     rule ( selector ( "randomInt()" )                              => 287248898  )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
