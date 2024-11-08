@@ -121,7 +121,7 @@ function deal(address who, uint256 newBalance) external;
 ```
 
 `cheatcode.call.deal` will match when the `deal` cheat code function is called.
-The rule then takes from the function call data the target account, using `#asWord(#range(ARGS, 0, 32)`, and the new balance, using `#asWord(#range(ARGS, 32, 32))`, and forwards them to the `#setBalance` production which updates the account accordingly.
+The rule then takes from the function call data the target account, using `#asWord(#range(ARGS, 0, 32))`, and the new balance, using `#asWord(#range(ARGS, 32, 32))`, and forwards them to the `#setBalance` production which updates the account accordingly.
 
 ```k
     rule [cheatcode.call.deal]:
@@ -362,19 +362,42 @@ This rule then takes the two addresses using `#asWord(#range(ARGS, 0, 32))` and 
 #### `freshUInt` - Returns a single symbolic unsigned integer.
 
 ```
-function freshUInt(uint8) external returns (uint256);
+function freshUInt(uint256) external returns (uint256);
+function randomUInt(uint256) external returns (uint256);
 ```
 
-`cheatcode.call.freshUInt` will match when the `freshUInt` cheat code function is called.
+`cheatcode.call.freshUInt` will match when the `freshUInt` or `randomUInt` cheat code function is called.
 This rule returns a symbolic integer of up to the bit width that was sent as an argument.
 
 ```{.k .symbolic}
     rule [cheatcode.call.freshUInt]:
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
-      requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
-       andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
-       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
+      requires 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
+       andBool ( SELECTOR ==Int selector ( "freshUInt(uint256)" )
+         orBool SELECTOR ==Int selector ( "randomUInt(uint256)" ) )
+       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int #asWord(ARGS)
+       [preserves-definedness]
+```
+
+#### `freshUint(uint256 min, uint256 max) - Returns a single symbolic uint256 value between the provided range.
+
+```
+function randomUint(uint256,uint256) external returns (uint256)
+```
+
+`cheatcode.call.freshUIntRange` will match when the `randomUInt(uint256,uint256)` cheat code function is called.
+This rule returns a symbolic unsigned integer between the provided range.
+
+```{.k .symbolic}
+    rule [cheatcode.call.freshUIntRange]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int 3592095003 // selector ( "randomUint(uint256,uint256)" )
+       andBool 0 <Int #asWord(#range(ARGS, 0, 32)) andBool #asWord(#range(ARGS, 0, 32)) <=Int 2 ^Int 256
+       andBool 0 <Int #asWord(#range(ARGS, 32, 32)) andBool #asWord(#range(ARGS, 32, 32)) <=Int 2 ^Int 256
+       andBool #asWord(#range(ARGS, 0, 32)) <=Int #asWord(#range(ARGS, 32, 32))
+      ensures #asWord(#range(ARGS, 0, 32)) <=Int ?WORD andBool ?WORD <=Int #asWord(#range(ARGS, 32, 32))
        [preserves-definedness]
 ```
 
@@ -382,9 +405,10 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
 
 ```
 function freshBool() external returns (bool);
+function randomBool() external returns (bool);
 ```
 
-`cheatcode.call.freshBool` will match when the `freshBool` cheat code function is called.
+`cheatcode.call.freshBool` will match when the `freshBool` or `randomBool` cheat code function is called.
 This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 
 ```{.k .symbolic}
@@ -392,6 +416,7 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
          <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
+         orBool SELECTOR ==Int selector ( "randomBool()" )
        ensures #rangeBool(?WORD)
        [preserves-definedness]
 ```
@@ -400,9 +425,10 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 
 ```
 function freshBytes(uint256) external returns (bytes memory);
+function randomBytes(uint256) external returns (bytes memory);
 ```
 
-`cheatcode.call.freshBytes` will match when the `freshBytes` cheat code function is called.
+`cheatcode.call.freshBytes` will match when the `freshBytes` or `randomBytes` cheat code function is called.
 This rule returns a fully symbolic byte array value of the given length.
 
 ```{.k .symbolic}
@@ -413,6 +439,7 @@ This rule returns a fully symbolic byte array value of the given length.
             +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 )
          </output>
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
+         orBool SELECTOR ==Int selector ( "randomBytes(uint256)" )
       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
       [preserves-definedness]
 ```
@@ -421,9 +448,10 @@ This rule returns a fully symbolic byte array value of the given length.
 
 ```
 function freshAddress() external returns (address);
+function randomAddress() external returns (address);
 ```
 
-`foundry.call.freshAddress` will match when the `freshAddress` cheat code function is called.
+`foundry.call.freshAddress` will match when the `freshAddress` or `randomAddress` cheat code function is called.
 This rule returns a symbolic address value.
 
 ```{.k .symbolic}
@@ -431,6 +459,7 @@ This rule returns a symbolic address value.
          <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshAddress()" )
+         orBool SELECTOR ==Int selector ( "randomAddress()" )
        ensures #rangeAddress(?WORD) andBool ?WORD =/=Int #address(FoundryTest) andBool ?WORD =/=Int #address(FoundryCheat)
        [preserves-definedness]
 ```
@@ -1591,10 +1620,15 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "sign(uint256,bytes32)" )                    => 3812747940 )
     rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
     rule ( selector ( "setArbitraryStorage(address)" )             => 3781367863 )
-    rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
+    rule ( selector ( "freshUInt(uint256)" )                       => 1430414212 )
+    rule ( selector ( "randomUInt(uint256)" )                      => 3628412988 )
+    rule ( selector ( "randomUint(uint256,uint256)" )              => 3592095003 )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
+    rule ( selector ( "randomBool()" )                             => 3451987645 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
+    rule ( selector ( "randomBytes(uint256)" )                     => 1818047145 )
     rule ( selector ( "freshAddress()" )                           => 2363359817 )
+    rule ( selector ( "randomAddress()" )                          => 3586058741 )
     rule ( selector ( "prank(address)" )                           => 3395723175 )
     rule ( selector ( "prank(address,address)" )                   => 1206193358 )
     rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )
