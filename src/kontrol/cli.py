@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from kevm_pyk.cli import KEVMCLIArgs, node_id_like
-from kevm_pyk.kompile import KompileTarget
 from kevm_pyk.utils import arg_pair_of
 from pyk.cli.utils import dir_path, file_path
 from pyk.utils import ensure_dir_path
@@ -202,17 +201,6 @@ class KontrolCLIArgs(KEVMCLIArgs):
         return args
 
     @cached_property
-    def kompile_target_args(self) -> ArgumentParser:
-        args = ArgumentParser(add_help=False)
-        args.add_argument(
-            '--target',
-            type=KompileTarget,
-            choices=[KompileTarget.HASKELL, KompileTarget.MAUDE],
-            help='[haskell|maude]',
-        )
-        return args
-
-    @cached_property
     def rpc_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
         args.add_argument(
@@ -254,12 +242,6 @@ class KontrolCLIArgs(KEVMCLIArgs):
             dest='port',
             type=int,
             help='Use existing RPC server on named port.',
-        )
-        args.add_argument(
-            '--maude-port',
-            dest='maude_port',
-            type=int,
-            help='Use existing Maude RPC server on named port.',
         )
         return args
 
@@ -304,7 +286,6 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.k_gen_args,
             kontrol_cli_args.kompile_args,
             kontrol_cli_args.foundry_args,
-            kontrol_cli_args.kompile_target_args,
             config_args.config_args,
         ],
     )

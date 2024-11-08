@@ -18,7 +18,7 @@ from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, free_vars, set_cell
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kcfg.minimize import KCFGMinimizer
-from pyk.kore.rpc import KoreClient, TransportType, kore_server
+from pyk.kore.rpc import KoreClient, kore_server
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import list_empty, map_empty, map_item, map_of, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
@@ -364,24 +364,12 @@ def _run_cfg_group(
         with select_server() as server:
 
             def create_kcfg_explore() -> KCFGExplore:
-                if options.maude_port is None:
-                    dispatch = None
-                else:
-                    dispatch = {
-                        'execute': [('localhost', options.maude_port, TransportType.HTTP)],
-                        'simplify': [('localhost', options.maude_port, TransportType.HTTP)],
-                        'add-module': [
-                            ('localhost', options.maude_port, TransportType.HTTP),
-                            ('localhost', server.port(), TransportType.SINGLE_SOCKET),
-                        ],
-                    }
                 bug_report_id = None if options.bug_report is None else test.id
                 client = KoreClient(
                     'localhost',
                     server.port(),
                     bug_report=options.bug_report,
                     bug_report_id=bug_report_id,
-                    dispatch=dispatch,
                 )
                 cterm_symbolic = CTermSymbolic(
                     client,
