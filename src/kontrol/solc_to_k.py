@@ -76,7 +76,8 @@ class Input:
 
     @cached_property
     def arg_name(self) -> str:
-        return f'V{self.idx}_{self.name.replace("-", "_")}'
+        prefix = f'KV{self.idx}_' if self.name and self.name[0].isalpha() else f'KV{self.idx}'
+        return f'{prefix}{self.name}'
 
     @staticmethod
     def from_dict(input: dict, idx: int = 0, natspec_lengths: dict | None = None) -> Input:
