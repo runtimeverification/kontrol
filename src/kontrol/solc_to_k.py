@@ -11,7 +11,6 @@ from typing import TYPE_CHECKING, NamedTuple
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
-from pyk.kast.manip import abstract_term_safely
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
@@ -425,11 +424,7 @@ class Contract:
 
         @cached_property
         def callvalue_cell(self) -> KInner:
-            return (
-                intToken(0)
-                if not self.payable
-                else abstract_term_safely(KVariable('_###CALLVALUE###_'), base_name='CALLVALUE')
-            )
+            return intToken(0) if not self.payable else KVariable('CALLVALUE')
 
         def encoded_args(self, enums: dict[str, int]) -> tuple[KInner, list[KInner]]:
             args: list[KInner] = []
@@ -742,11 +737,7 @@ class Contract:
 
         @cached_property
         def callvalue_cell(self) -> KInner:
-            return (
-                intToken(0)
-                if not self.payable
-                else abstract_term_safely(KVariable('_###CALLVALUE###_'), base_name='CALLVALUE')
-            )
+            return intToken(0) if not self.payable else KVariable('CALLVALUE')
 
         def calldata_cell(self, contract: Contract) -> KInner:
             return KApply(contract.klabel_method, [KApply(contract.klabel), self.application])
@@ -755,10 +746,7 @@ class Contract:
         def application(self) -> KInner:
             klabel = self.klabel
             assert klabel is not None
-            args = [
-                abstract_term_safely(KVariable('_###SOLIDITY_ARG_VAR###_'), base_name=f'V{name}')
-                for name in self.arg_names
-            ]
+            args = [KVariable(name) for name in self.arg_names]
             return klabel(args)
 
     _name: str

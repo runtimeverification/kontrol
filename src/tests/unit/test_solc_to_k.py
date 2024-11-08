@@ -135,6 +135,7 @@ def test_escaping(test_id: str, prefix: str, input: str, output: str) -> None:
 
 INPUT_DATA: list[tuple[str, Input, KApply]] = [
     ('single_type', Input('RV', 'uint256'), KApply('abi_type_uint256', [KVariable('V0_RV')])),
+    ('single_type', Input('_x', 'uint256'), KApply('abi_type_uint256', [KVariable('V0__x')])),
     (
         'empty_tuple',
         Input('EmptyStruct', 'tuple'),
