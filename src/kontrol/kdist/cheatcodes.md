@@ -363,10 +363,9 @@ This rule then takes the two addresses using `#asWord(#range(ARGS, 0, 32))` and 
 
 ```
 function freshUInt(uint256) external returns (uint256);
-function randomUInt(uint256) external returns (uint256);
 ```
 
-`cheatcode.call.freshUInt` will match when the `freshUInt` or `randomUInt` cheat code function is called.
+`cheatcode.call.freshUInt` will match when the `freshUInt` cheat code function is called.
 This rule returns a symbolic integer of up to the bit width that was sent as an argument.
 
 ```{.k .symbolic}
@@ -374,30 +373,69 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
-       andBool ( SELECTOR ==Int selector ( "freshUInt(uint256)" )
-         orBool SELECTOR ==Int selector ( "randomUInt(uint256)" ) )
+       andBool SELECTOR ==Int selector ( "freshUInt(uint256)" )
+       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
+       [preserves-definedness]
+```
+
+#### `randomUInt` - Returns a single symbolic unsigned integer of a given size.
+
+```
+function randomUInt() external returns (uint256);
+function randomUInt(uint256) external returns (uint256);
+```
+
+`cheatcode.call.randomUInt` will match when the `randomUInt` cheat code function is called.
+This rule returns a symbolic integer of up to the bit width that was sent as an argument.
+
+```{.k .symbolic}
+    rule [cheatcode.call.randomUInt256]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 256
+       andBool SELECTOR ==Int selector ( "randomUInt(uint256)" )
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int #asWord(ARGS)
        [preserves-definedness]
 ```
 
-#### `freshUint(uint256 min, uint256 max) - Returns a single symbolic uint256 value between the provided range.
-
-```
-function randomUInt(uint256,uint256) external returns (uint256)
-```
-
-`cheatcode.call.freshUIntRange` will match when the `randomUInt(uint256,uint256)` cheat code function is called.
-This rule returns a symbolic unsigned integer between the provided range.
+The following rule returns a symbolic integer of 256 bytes.
 
 ```{.k .symbolic}
-    rule [cheatcode.call.freshUIntRange]:
+    rule [cheatcode.call.randomUInt]:
+         <k> #cheatcode_call SELECTOR _ => .K ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "randomUInt()" )
+       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int 256
+       [preserves-definedness]
+```
+
+#### `randomInt` - Returns a single symbolic int256 value.
+
+```
+function randomInt(uint256) external returns (int256)
+function randomInt() external returns (int256)
+```
+
+`cheatcode.call.randomInt` will match when the `randomInt()` or `randomInt()` cheat code function is called.
+This rule returns a symbolic signed integer.
+
+```{.k .symbolic}
+    rule [cheatcode.call.randomInt256]:
+         <k> #cheatcode_call SELECTOR _ => .K ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "randomInt()" )
+       ensures -2 ^Int 255 <=Int ?WORD andBool ?WORD <Int 2 ^Int 255
+              [preserves-definedness]
+```
+
+```{.k .symbolic}
+    rule [cheatcode.call.randomInt]:
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
-      requires SELECTOR ==Int selector ( "randomUInt(uint256,uint256)" )
-       andBool 0 <Int #asWord(#range(ARGS, 0, 32)) andBool #asWord(#range(ARGS, 0, 32)) <Int 2 ^Int 256
-       andBool 0 <Int #asWord(#range(ARGS, 32, 32)) andBool #asWord(#range(ARGS, 32, 32)) <Int 2 ^Int 256
-       andBool #asWord(#range(ARGS, 0, 32)) <=Int #asWord(#range(ARGS, 32, 32))
-      ensures #asWord(#range(ARGS, 0, 32)) <=Int ?WORD andBool ?WORD <=Int #asWord(#range(ARGS, 32, 32))
+      requires SELECTOR ==Int selector ( "randomInt(uint256)" )
+       andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 256
+       ensures -2 ^Int (#asWord(ARGS) -Int 1) <=Int ?WORD
+        andBool ?WORD <Int 2 ^Int (#asWord(ARGS) -Int 1)
        [preserves-definedness]
 ```
 
@@ -426,6 +464,8 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
 ```
 function freshBytes(uint256) external returns (bytes memory);
 function randomBytes(uint256) external returns (bytes memory);
+function randomBytes4() external view returns (bytes4);
+function randomBytes8() external view returns (bytes8);
 ```
 
 `cheatcode.call.freshBytes` will match when the `freshBytes` or `randomBytes` cheat code function is called.
@@ -440,7 +480,35 @@ This rule returns a fully symbolic byte array value of the given length.
          </output>
       requires SELECTOR ==Int selector ( "freshBytes(uint256)" )
          orBool SELECTOR ==Int selector ( "randomBytes(uint256)" )
-      ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
+       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
+      [preserves-definedness]
+```
+
+This rule returns a fully symbolic byte array value of length 4.
+
+```{.k .symbolic}
+    rule [cheatcode.call.randomBytes4]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <output> _ =>
+            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES
+            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 )
+         </output>
+      requires SELECTOR ==Int selector ( "randomBytes4()" )
+       ensures lengthBytes(?BYTES) ==Int 4
+      [preserves-definedness]
+```
+
+This rule returns a fully symbolic byte array value of length 8.
+
+```{.k .symbolic}
+    rule [cheatcode.call.randomBytes8]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <output> _ =>
+            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES
+            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 )
+         </output>
+      requires SELECTOR ==Int selector ( "randomBytes8()" )
+       ensures lengthBytes(?BYTES) ==Int 8
       [preserves-definedness]
 ```
 
@@ -1622,11 +1690,16 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "setArbitraryStorage(address)" )             => 3781367863 )
     rule ( selector ( "freshUInt(uint256)" )                       => 1430414212 )
     rule ( selector ( "randomUInt(uint256)" )                      => 3628412988 )
+    rule ( selector ( "randomUInt()" )                             => 400045903  )
     rule ( selector ( "randomUInt(uint256,uint256)" )              => 3592095003 )
+    rule ( selector ( "randomInt(uint256)" )                       => 310663526  )
+    rule ( selector ( "randomInt()" )                              => 287248898  )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
     rule ( selector ( "randomBool()" )                             => 3451987645 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
     rule ( selector ( "randomBytes(uint256)" )                     => 1818047145 )
+    rule ( selector ( "randomBytes4()" )                           => 2608649593 )
+    rule ( selector ( "randomBytes8()" )                           => 77050021   )
     rule ( selector ( "freshAddress()" )                           => 2363359817 )
     rule ( selector ( "randomAddress()" )                          => 3586058741 )
     rule ( selector ( "prank(address)" )                           => 3395723175 )
