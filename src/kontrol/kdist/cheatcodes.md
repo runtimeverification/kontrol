@@ -488,10 +488,10 @@ This rule returns a fully symbolic byte array value of length 4.
 
 ```{.k .symbolic}
     rule [cheatcode.call.randomBytes4]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ =>
-            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES
-            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 )
+            #buf( 32, 32 ) +Bytes #buf( 32, 4 ) +Bytes ?BYTES
+            +Bytes #buf ( 28 , 0 )
          </output>
       requires SELECTOR ==Int selector ( "randomBytes4()" )
        ensures lengthBytes(?BYTES) ==Int 4
@@ -502,10 +502,10 @@ This rule returns a fully symbolic byte array value of length 8.
 
 ```{.k .symbolic}
     rule [cheatcode.call.randomBytes8]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ =>
-            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES
-            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 )
+            #buf( 32, 32 ) +Bytes #buf( 32, 8 ) +Bytes ?BYTES
+            +Bytes #buf ( 24 , 0 )
          </output>
       requires SELECTOR ==Int selector ( "randomBytes8()" )
        ensures lengthBytes(?BYTES) ==Int 8

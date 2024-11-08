@@ -39,7 +39,7 @@ contract RandomVarTest is Test {
         vm.assume(x <= 256);
 
         int256 minInt256 = -2 ** (x - 1);
-        int256 maxInt256 = -2 ** (x - 1);
+        int256 maxInt256 = int256(2 ** (x - 1) - 1);
 
         int256 freshInt = vm.randomInt(x);
 
