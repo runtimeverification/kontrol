@@ -43,7 +43,7 @@
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
-┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+┃  ┃     ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
 ┃  │
 ┃  ├─ 23
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -76,8 +76,8 @@
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
-┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
 ┃  │
 ┃  ├─ 26
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -110,8 +110,8 @@
 ┗━━┓ subst: .Subst
    ┃ constraint:
    ┃     CALLDEPTH_CELL:Int <Int 1024
-   ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
-   ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+   ┃     ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
+   ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
    │
    ├─ 27
    │   k: #execute ~> CONTINUATION:K
@@ -178,16 +178,16 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -300,11 +300,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( 1024 <=Int CALLDEPTH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -320,9 +320,9 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
        andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_ARITHMETICCONTRACT_ID:Int
@@ -367,16 +367,16 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -489,11 +489,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -509,14 +509,14 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
        andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+       andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
@@ -541,7 +541,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) )
+                   ( _OUTPUT_CELL => #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) )
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
@@ -557,7 +557,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
@@ -566,7 +566,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      ( .WordStack => ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) +Bytes #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) +Bytes #range ( #buf ( 32 , VV1_y_114b9705:Int ) , 28 , 4 ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) +Bytes #range ( #buf ( 32 , KV1_y:Int ) , 28 , 4 ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -679,11 +679,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -699,15 +699,15 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
        andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
        andBool ( ( notBool <acctID>
           C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
@@ -748,16 +748,16 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 618 : ( 0 : ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) : ( VV2_z_114b9705:Int : ( 344 : ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 618 : ( 0 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( KV2_z:Int : ( 344 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) ) +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -870,11 +870,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -890,15 +890,15 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
        andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
        andBool ( ( notBool <acctID>
           C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
-       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )

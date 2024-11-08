@@ -10,7 +10,7 @@
 ┃ (branch)
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
+┃  ┃     #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int KV0_x:Int )
 ┃  │
 ┃  ├─ 8
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -42,7 +42,7 @@
 ┃
 ┗━━┓ subst: .Subst
    ┃ constraint:
-   ┃     ( maxUInt256 -Int VV0_x_114b9705:Int ) <Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
+   ┃     ( maxUInt256 -Int KV0_x:Int ) <Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
    │
    ├─ 9
    │   k: #execute ~> CONTINUATION:K
@@ -109,10 +109,10 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x10\x03\xe2\xd2" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
+                     b"\x10\x03\xe2\xd2" +Bytes #buf ( 32 , KV0_x:Int )
                    </callData>
                    <callValue>
-                     CALLVALUE_79cb2bc6:Int
+                     CALLVALUE:Int
                    </callValue>
                    <wordStack>
                      ( .WordStack => ( selector ( "add(uint256)" ) : .WordStack ) )
@@ -164,7 +164,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                        C_IMPORTEDCONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       ( C_IMPORTEDCONTRACT_STORAGE:Map => C_IMPORTEDCONTRACT_STORAGE:Map [ 0 <- ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) +Int VV0_x_114b9705:Int ) ] )
+                       ( C_IMPORTEDCONTRACT_STORAGE:Map => C_IMPORTEDCONTRACT_STORAGE:Map [ 0 <- ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) +Int KV0_x:Int ) ] )
                      </storage>
                      <nonce>
                        C_IMPORTEDCONTRACT_NONCE:Int
@@ -231,11 +231,11 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int CALLVALUE:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CALLVALUE_79cb2bc6:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_ID:Int
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_BAL:Int
@@ -249,8 +249,8 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( CALLVALUE_79cb2bc6:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( CALLVALUE:Int <Int pow256
        andBool ( C_IMPORTEDCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_IMPORTEDCONTRACT_ID:Int
@@ -258,7 +258,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 9 ) )
-       andBool ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
+       andBool ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int KV0_x:Int )
                ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
@@ -293,13 +293,13 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x10\x03\xe2\xd2" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
+                     b"\x10\x03\xe2\xd2" +Bytes #buf ( 32 , KV0_x:Int )
                    </callData>
                    <callValue>
-                     CALLVALUE_79cb2bc6:Int
+                     CALLVALUE:Int
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) : ( VV0_x_114b9705:Int : ( 147 : ( VV0_x_114b9705:Int : ( 106 : ( selector ( "add(uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 0 : ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) : ( KV0_x:Int : ( 147 : ( KV0_x:Int : ( 106 : ( selector ( "add(uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -415,11 +415,11 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int CALLVALUE:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int CALLVALUE_79cb2bc6:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_ID:Int
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_BAL:Int
@@ -433,8 +433,8 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( CALLVALUE_79cb2bc6:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( CALLVALUE:Int <Int pow256
        andBool ( C_IMPORTEDCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_IMPORTEDCONTRACT_ID:Int
@@ -442,7 +442,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 9 ) )
-       andBool ( ( maxUInt256 -Int VV0_x_114b9705:Int ) <Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
+       andBool ( ( maxUInt256 -Int KV0_x:Int ) <Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
                ))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 

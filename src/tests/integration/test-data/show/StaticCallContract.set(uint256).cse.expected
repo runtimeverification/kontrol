@@ -64,7 +64,7 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"`\xfeG\xb1" +Bytes #buf ( 32 , VV0_y_114b9705:Int )
+                     b"`\xfeG\xb1" +Bytes #buf ( 32 , KV0_y:Int )
                    </callData>
                    <callValue>
                      0
@@ -119,7 +119,7 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
                        C_STATICCALLCONTRACT_BAL:Int
                      </balance>
                      <storage>
-                       ( C_STATICCALLCONTRACT_STORAGE:Map => C_STATICCALLCONTRACT_STORAGE:Map [ 0 <- VV0_y_114b9705:Int ] )
+                       ( C_STATICCALLCONTRACT_STORAGE:Map => C_STATICCALLCONTRACT_STORAGE:Map [ 0 <- KV0_y:Int ] )
                      </storage>
                      <nonce>
                        C_STATICCALLCONTRACT_NONCE:Int
@@ -186,9 +186,9 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_y:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_y_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -203,7 +203,7 @@ module SUMMARY-TEST%STATICCALLCONTRACT.SET(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_STATICCALLCONTRACT_ID:Int <Int pow160
-       andBool ( VV0_y_114b9705:Int <Int pow256
+       andBool ( KV0_y:Int <Int pow256
        andBool ( C_STATICCALLCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_STATICCALLCONTRACT_ID:Int
