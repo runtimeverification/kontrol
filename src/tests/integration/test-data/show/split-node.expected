@@ -112,7 +112,7 @@
          │
          │  (3 steps)
          ├─ 76
-         │   k: #loadAccount V0_addr:Int ~> #setPrank V0_addr:Int .Account false ~> #cheatcode_r ...
+         │   k: #loadAccount KV0_addr:Int ~> #setPrank KV0_addr:Int .Account false ~> #cheatcode ...
          │   pc: 3272
          │   callDepth: 0
          │   statusCode: STATUSCODE:StatusCode
@@ -518,7 +518,7 @@
          ┗━━┓
             │
             ├─ 80
-            │   k: #newAccount V0_addr:Int ~> #accessAccounts V0_addr:Int ~> #setPrank V0_addr:Int  ...
+            │   k: #newAccount KV0_addr:Int ~> #accessAccounts KV0_addr:Int ~> #setPrank KV0_addr:I ...
             │   pc: 3272
             │   callDepth: 0
             │   statusCode: STATUSCODE:StatusCode
@@ -534,7 +534,7 @@
             │
             │  (1 step)
             ├─ 88
-            │   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall V ...
+            │   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall K ...
             │   pc: 3369
             │   callDepth: 0
             │   statusCode: STATUSCODE:StatusCode
@@ -640,9 +640,9 @@
             │   method: test%PrankTest.testSymbolicStartPrank(address)
             │
             ┊  constraint:
-            ┊      ( notBool V0_addr:Int ==Int 491460923342184218035706888008750043977755113263 )
-            ┊      ( notBool V0_addr:Int ==Int 645326474426547203313410069153905908525362434349 )
-            ┊      ( notBool V0_addr:Int ==Int 728815563385977040452943777879061427756277306518 )
+            ┊      ( notBool KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263 )
+            ┊      ( notBool KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349 )
+            ┊      ( notBool KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518 )
             ┊  subst: ...
             └─ 10 (leaf, target, terminal)
                 k: #halt ~> CONTINUATION:K
@@ -976,7 +976,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"h\xc6\xc8\x93" +Bytes #buf ( 32 , ?V0_addr ) )
+                     ( b"\n\x92T\xe4" => b"h\xc6\xc8\x93" +Bytes #buf ( 32 , ?KV0_addr ) )
                    </callData>
                    <callValue>
                      0
@@ -1194,8 +1194,8 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-       ensures ( 0 <=Int ?V0_addr
-       andBool ( ?V0_addr <Int pow160
+       ensures ( 0 <=Int ?KV0_addr
+       andBool ( ?KV0_addr <Int pow160
                ))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
@@ -1238,16 +1238,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( .WordStack => ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" +Bytes #buf ( 32 , V0_addr:Int ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -1442,7 +1442,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -1451,7 +1451,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -1464,7 +1464,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                ( CALL 0 645326474426547203313410069153905908525362434349 0 128 36 128 0 ~> .K => #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
-               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\x06D}V" +Bytes #buf ( 32 , V0_addr:Int ) false
+               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int ) false
                ~> #return 128 0 )
                ~> #pc [ CALL ]
                ~> #execute
@@ -1501,16 +1501,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
+                     ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int )
                    </localMem>
                    <memoryUsed>
                      0
@@ -1705,14 +1705,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -1727,9 +1727,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <k>
                ( #accessAccounts 645326474426547203313410069153905908525362434349
                ~> #checkCall 728815563385977040452943777879061427756277306518 0
-               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\x06D}V" +Bytes #buf ( 32 , V0_addr:Int ) false
-               ~> #return 128 0 => #loadAccount V0_addr:Int
-               ~> #setPrank V0_addr:Int .Account false
+               ~> #call 728815563385977040452943777879061427756277306518 645326474426547203313410069153905908525362434349 645326474426547203313410069153905908525362434349 0 0 b"\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int ) false
+               ~> #return 128 0 => #loadAccount KV0_addr:Int
+               ~> #setPrank KV0_addr:Int .Account false
                ~> #cheatcode_return 128 0 )
                ~> #pc [ CALL ]
                ~> #execute
@@ -1766,16 +1766,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
+                     ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int )
                    </localMem>
                    <memoryUsed>
                      0
@@ -1970,14 +1970,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -2250,7 +2250,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2530,7 +2530,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2810,7 +2810,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2832,9 +2832,9 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
     rule [BASIC-BLOCK-80-TO-84]: <foundry>
            <kevm>
              <k>
-               ( #newAccount V0_addr:Int
-               ~> #accessAccounts V0_addr:Int
-               ~> #setPrank V0_addr:Int .Account false
+               ( #newAccount KV0_addr:Int
+               ~> #accessAccounts KV0_addr:Int
+               ~> #setPrank KV0_addr:Int .Account false
                ~> #cheatcode_return 128 0
                ~> #pc [ CALL ] => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
                ~> #pc [ STATICCALL ]
@@ -2867,22 +2867,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( 728815563385977040452943777879061427756277306518 => V0_addr:Int )
+                     ( 728815563385977040452943777879061427756277306518 => KV0_addr:Int )
                    </id>
                    <caller>
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( V0_addr:Int : ( ( 291 => V0_addr:Int ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 291 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( KV0_addr:Int : ( ( 291 => KV0_addr:Int ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 291 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes ( #buf ( 32 , V0_addr:Int ) => #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 ) )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes ( #buf ( 32 , KV0_addr:Int ) => #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -2906,7 +2906,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) => SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) )
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) => SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -3017,7 +3017,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -3054,7 +3054,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( _PREVORIGIN_CELL => ORIGIN_ID:Int )
                </prevOrigin>
                <newCaller>
-                 ( _NEWCALLER_CELL => V0_addr:Int )
+                 ( _NEWCALLER_CELL => KV0_addr:Int )
                </newCaller>
                <newOrigin>
                  ( _NEWORIGIN_CELL => .Account )
@@ -3132,19 +3132,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -3415,7 +3415,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -3695,7 +3695,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -3975,7 +3975,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -3998,8 +3998,8 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> .K => #accessAccounts 491460923342184218035706888008750043977755113263
-               ~> #checkCall V0_addr:Int 0
-               ~> #call V0_addr:Int 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
+               ~> #checkCall KV0_addr:Int 0
+               ~> #call KV0_addr:Int 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true
                ~> #return 128 32 )
                ~> #pc [ STATICCALL ]
                ~> #endPrank
@@ -4031,22 +4031,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  </touchedAccounts>
                  <callState>
                    <id>
-                     V0_addr:Int
+                     KV0_addr:Int
                    </id>
                    <caller>
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( V0_addr:Int : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
                    </localMem>
                    <memoryUsed>
                      0
@@ -4070,7 +4070,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -4161,7 +4161,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -4198,7 +4198,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ORIGIN_ID:Int
                </prevOrigin>
                <newCaller>
-                 V0_addr:Int
+                 KV0_addr:Int
                </newCaller>
                <newOrigin>
                  .Account
@@ -4276,19 +4276,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -4674,7 +4674,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -5069,7 +5069,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -5464,7 +5464,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -5487,8 +5487,8 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( #accessAccounts 491460923342184218035706888008750043977755113263
-               ~> #checkCall V0_addr:Int 0
-               ~> #call V0_addr:Int 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true => #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI )
+               ~> #checkCall KV0_addr:Int 0
+               ~> #call KV0_addr:Int 491460923342184218035706888008750043977755113263 491460923342184218035706888008750043977755113263 0 0 b"\xd77\xd0\xc7" true => #precompiled? ( 491460923342184218035706888008750043977755113263 , SHANGHAI )
                ~> #execute )
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
@@ -5513,22 +5513,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  <callStack>
                    ( .List => ListItem ( <callState>
                      <id>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </id>
                      <caller>
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( V0_addr:Int : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
                      </localMem>
                      <memoryUsed>
                        0
@@ -5612,7 +5612,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      </account>
                      <account>
                        <acctID>
-                         V0_addr:Int
+                         KV0_addr:Int
                        </acctID>
                        <balance>
                          0
@@ -5642,7 +5642,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </refund>
                      <accessedAccounts>
-                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -5650,26 +5650,26 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </substate> } ) )
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                   ( .Set => SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) )
                  </touchedAccounts>
                  <callState>
                    <id>
-                     ( V0_addr:Int => 491460923342184218035706888008750043977755113263 )
+                     ( KV0_addr:Int => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
-                     ( CALLER_ID:Int => V0_addr:Int )
+                     ( CALLER_ID:Int => KV0_addr:Int )
                    </caller>
                    <callData>
-                     ( b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int ) => b"\xd77\xd0\xc7" )
+                     ( b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int ) => b"\xd77\xd0\xc7" )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( V0_addr:Int : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
+                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 ) => b"" )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 ) => b"" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -5696,7 +5696,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) => SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) ) |Set SetItem ( ( V0_addr:Int => 491460923342184218035706888008750043977755113263 ) )
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) => SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) ) |Set SetItem ( ( KV0_addr:Int => 491460923342184218035706888008750043977755113263 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -5786,7 +5786,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -5823,7 +5823,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ORIGIN_ID:Int
                </prevOrigin>
                <newCaller>
-                 V0_addr:Int
+                 KV0_addr:Int
                </newCaller>
                <newOrigin>
                  .Account
@@ -5901,19 +5901,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -6297,7 +6297,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -6690,7 +6690,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -7083,7 +7083,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -7130,22 +7130,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  <callStack>
                    ListItem ( <callState>
                      <id>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </id>
                      <caller>
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( V0_addr:Int : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
                      </localMem>
                      <memoryUsed>
                        0
@@ -7229,7 +7229,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      </account>
                      <account>
                        <acctID>
-                         V0_addr:Int
+                         KV0_addr:Int
                        </acctID>
                        <balance>
                          0
@@ -7259,7 +7259,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </refund>
                      <accessedAccounts>
-                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -7267,14 +7267,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </substate> } )
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
                      491460923342184218035706888008750043977755113263
                    </id>
                    <caller>
-                     V0_addr:Int
+                     KV0_addr:Int
                    </caller>
                    <callData>
                      b"\xd77\xd0\xc7"
@@ -7313,7 +7313,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -7403,7 +7403,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -7440,7 +7440,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ORIGIN_ID:Int
                </prevOrigin>
                <newCaller>
-                 V0_addr:Int
+                 KV0_addr:Int
                </newCaller>
                <newOrigin>
                  .Account
@@ -7518,19 +7518,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -7915,7 +7915,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -8309,7 +8309,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -8703,7 +8703,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -8746,27 +8746,27 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <ethereum>
                <evm>
                  <output>
-                   ( b"" => #buf ( 32 , V0_addr:Int ) )
+                   ( b"" => #buf ( 32 , KV0_addr:Int ) )
                  </output>
                  <callStack>
                    ListItem ( <callState>
                      <id>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </id>
                      <caller>
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( V0_addr:Int : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
                      </localMem>
                      <memoryUsed>
                        0
@@ -8850,7 +8850,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      </account>
                      <account>
                        <acctID>
-                         V0_addr:Int
+                         KV0_addr:Int
                        </acctID>
                        <balance>
                          0
@@ -8880,7 +8880,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </refund>
                      <accessedAccounts>
-                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -8888,14 +8888,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </substate> } )
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
                      491460923342184218035706888008750043977755113263
                    </id>
                    <caller>
-                     V0_addr:Int
+                     KV0_addr:Int
                    </caller>
                    <callData>
                      b"\xd77\xd0\xc7"
@@ -8907,7 +8907,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( .WordStack => ( selector ( "msgSender()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , V0_addr:Int ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -8934,7 +8934,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -9024,7 +9024,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -9061,7 +9061,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ORIGIN_ID:Int
                </prevOrigin>
                <newCaller>
-                 V0_addr:Int
+                 KV0_addr:Int
                </newCaller>
                <newOrigin>
                  .Account
@@ -9139,19 +9139,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -9539,7 +9539,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -9936,7 +9936,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -10333,7 +10333,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -10376,7 +10376,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <ethereum>
                <evm>
                  <output>
-                   #buf ( 32 , V0_addr:Int )
+                   #buf ( 32 , KV0_addr:Int )
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
@@ -10384,22 +10384,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  <callStack>
                    ListItem ( <callState>
                      <id>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </id>
                      <caller>
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( V0_addr:Int : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
                      </localMem>
                      <memoryUsed>
                        0
@@ -10483,7 +10483,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      </account>
                      <account>
                        <acctID>
-                         V0_addr:Int
+                         KV0_addr:Int
                        </acctID>
                        <balance>
                          0
@@ -10513,7 +10513,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </refund>
                      <accessedAccounts>
-                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -10521,14 +10521,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </substate> } )
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
                      491460923342184218035706888008750043977755113263
                    </id>
                    <caller>
-                     V0_addr:Int
+                     KV0_addr:Int
                    </caller>
                    <callData>
                      b"\xd77\xd0\xc7"
@@ -10540,7 +10540,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( selector ( "msgSender()" ) : .WordStack )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int )
                    </localMem>
                    <memoryUsed>
                      0
@@ -10567,7 +10567,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -10657,7 +10657,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -10694,7 +10694,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ORIGIN_ID:Int
                </prevOrigin>
                <newCaller>
-                 V0_addr:Int
+                 KV0_addr:Int
                </newCaller>
                <newOrigin>
                  .Account
@@ -10772,19 +10772,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -11172,7 +11172,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -11569,7 +11569,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -11966,7 +11966,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -12009,7 +12009,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <ethereum>
                <evm>
                  <output>
-                   #buf ( 32 , V0_addr:Int )
+                   #buf ( 32 , KV0_addr:Int )
                  </output>
                  <statusCode>
                    EVMC_SUCCESS
@@ -12017,22 +12017,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  <callStack>
                    ListItem ( <callState>
                      <id>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </id>
                      <caller>
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( V0_addr:Int : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
                      </localMem>
                      <memoryUsed>
                        0
@@ -12116,7 +12116,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      </account>
                      <account>
                        <acctID>
-                         V0_addr:Int
+                         KV0_addr:Int
                        </acctID>
                        <balance>
                          0
@@ -12146,7 +12146,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </refund>
                      <accessedAccounts>
-                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -12154,14 +12154,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </substate> } )
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
                      491460923342184218035706888008750043977755113263
                    </id>
                    <caller>
-                     V0_addr:Int
+                     KV0_addr:Int
                    </caller>
                    <callData>
                      b"\xd77\xd0\xc7"
@@ -12173,7 +12173,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( selector ( "msgSender()" ) : .WordStack )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int )
                    </localMem>
                    <memoryUsed>
                      0
@@ -12200,7 +12200,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -12290,7 +12290,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -12327,7 +12327,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ORIGIN_ID:Int
                </prevOrigin>
                <newCaller>
-                 V0_addr:Int
+                 KV0_addr:Int
                </newCaller>
                <newOrigin>
                  .Account
@@ -12405,19 +12405,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -12808,7 +12808,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -13208,7 +13208,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -13608,7 +13608,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -13636,7 +13636,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> 1
                ~> #push
                ~> #refund 0
-               ~> #setLocalMem 128 32 #buf ( 32 , V0_addr:Int ) )
+               ~> #setLocalMem 128 32 #buf ( 32 , KV0_addr:Int ) )
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
@@ -13654,7 +13654,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <ethereum>
                <evm>
                  <output>
-                   #buf ( 32 , V0_addr:Int )
+                   #buf ( 32 , KV0_addr:Int )
                  </output>
                  <statusCode>
                    EVMC_SUCCESS
@@ -13662,22 +13662,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  <callStack>
                    ListItem ( <callState>
                      <id>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </id>
                      <caller>
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( V0_addr:Int : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
                      </localMem>
                      <memoryUsed>
                        0
@@ -13761,7 +13761,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      </account>
                      <account>
                        <acctID>
-                         V0_addr:Int
+                         KV0_addr:Int
                        </acctID>
                        <balance>
                          0
@@ -13791,7 +13791,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </refund>
                      <accessedAccounts>
-                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -13799,14 +13799,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </substate> } )
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
                      491460923342184218035706888008750043977755113263
                    </id>
                    <caller>
-                     V0_addr:Int
+                     KV0_addr:Int
                    </caller>
                    <callData>
                      b"\xd77\xd0\xc7"
@@ -13818,7 +13818,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( selector ( "msgSender()" ) : .WordStack )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int )
                    </localMem>
                    <memoryUsed>
                      0
@@ -13845,7 +13845,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -13935,7 +13935,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -13972,7 +13972,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ORIGIN_ID:Int
                </prevOrigin>
                <newCaller>
-                 V0_addr:Int
+                 KV0_addr:Int
                </newCaller>
                <newOrigin>
                  .Account
@@ -14050,19 +14050,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -14453,7 +14453,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -14853,7 +14853,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -15253,7 +15253,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -15280,7 +15280,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> 1
                ~> #push
                ~> #refund 0
-               ~> #setLocalMem 128 32 #buf ( 32 , V0_addr:Int )
+               ~> #setLocalMem 128 32 #buf ( 32 , KV0_addr:Int )
                ~> #pc [ STATICCALL ]
                ~> #endPrank => CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0
                ~> #pc [ CALL ] )
@@ -15299,7 +15299,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <ethereum>
                <evm>
                  <output>
-                   #buf ( 32 , V0_addr:Int )
+                   #buf ( 32 , KV0_addr:Int )
                  </output>
                  <statusCode>
                    EVMC_SUCCESS
@@ -15307,22 +15307,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  <callStack>
                    ( ListItem ( <callState>
                      <id>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </id>
                      <caller>
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                       b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( V0_addr:Int : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , V0_addr:Int ) , 28 , 4 )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
                      </localMem>
                      <memoryUsed>
                        0
@@ -15406,7 +15406,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      </account>
                      <account>
                        <acctID>
-                         V0_addr:Int
+                         KV0_addr:Int
                        </acctID>
                        <balance>
                          0
@@ -15436,7 +15436,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </refund>
                      <accessedAccounts>
-                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                       SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                      </accessedAccounts>
                      <accessedStorage>
                        .Map
@@ -15444,26 +15444,26 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </substate> } ) => .List )
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( V0_addr:Int => CALLER_ID:Int )
+                     ( KV0_addr:Int => CALLER_ID:Int )
                    </caller>
                    <callData>
-                     ( b"\xd77\xd0\xc7" => b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int ) )
+                     ( b"\xd77\xd0\xc7" => b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int ) )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes ( #buf ( 32 , V0_addr:Int ) => #buf ( 32 , V0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes ( #buf ( 32 , KV0_addr:Int ) => #buf ( 32 , KV0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -15490,7 +15490,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) => SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) ) |Set SetItem ( ( V0_addr:Int => 491460923342184218035706888008750043977755113263 ) ) |Set SetItem ( ( 491460923342184218035706888008750043977755113263 => 645326474426547203313410069153905908525362434349 ) )
+                     ( SetItem ( 645326474426547203313410069153905908525362434349 ) => SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) ) |Set SetItem ( ( KV0_addr:Int => 491460923342184218035706888008750043977755113263 ) ) |Set SetItem ( ( 491460923342184218035706888008750043977755113263 => 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -15580,7 +15580,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -15617,7 +15617,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ORIGIN_ID:Int
                </prevOrigin>
                <newCaller>
-                 V0_addr:Int
+                 KV0_addr:Int
                </newCaller>
                <newOrigin>
                  .Account
@@ -15695,19 +15695,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -15981,7 +15981,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -16263,7 +16263,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -16545,7 +16545,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -16587,7 +16587,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <ethereum>
                <evm>
                  <output>
-                   #buf ( 32 , V0_addr:Int )
+                   #buf ( 32 , KV0_addr:Int )
                  </output>
                  <statusCode>
                    EVMC_SUCCESS
@@ -16599,7 +16599,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -16609,16 +16609,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
+                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , V0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
                    </localMem>
                    <memoryUsed>
                      0
@@ -16642,7 +16642,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) |Set SetItem ( 645326474426547203313410069153905908525362434349 )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) |Set SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -16733,7 +16733,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -16770,7 +16770,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ORIGIN_ID:Int
                </prevOrigin>
                <newCaller>
-                 V0_addr:Int
+                 KV0_addr:Int
                </newCaller>
                <newOrigin>
                  .Account
@@ -16848,19 +16848,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -17135,7 +17135,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -17418,7 +17418,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -17701,7 +17701,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -17744,7 +17744,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              <ethereum>
                <evm>
                  <output>
-                   ( #buf ( 32 , V0_addr:Int ) => b"" )
+                   ( #buf ( 32 , KV0_addr:Int ) => b"" )
                  </output>
                  <statusCode>
                    EVMC_SUCCESS
@@ -17756,7 +17756,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -17766,16 +17766,16 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( V0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
+                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , V0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
                    </localMem>
                    <memoryUsed>
                      0
@@ -17799,7 +17799,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) |Set SetItem ( 645326474426547203313410069153905908525362434349 )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) |Set SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -17890,7 +17890,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -17927,7 +17927,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( ORIGIN_ID:Int => .Account )
                </prevOrigin>
                <newCaller>
-                 ( V0_addr:Int => .Account )
+                 ( KV0_addr:Int => .Account )
                </newCaller>
                <newOrigin>
                  .Account
@@ -18005,19 +18005,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -18288,7 +18288,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -18567,7 +18567,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -18846,7 +18846,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -18897,7 +18897,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -18907,7 +18907,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                    </callData>
                    <callValue>
                      0
@@ -18916,7 +18916,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , V0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
                    </localMem>
                    <memoryUsed>
                      0
@@ -18940,7 +18940,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) |Set SetItem ( 645326474426547203313410069153905908525362434349 )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) |Set SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -19031,7 +19031,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -19146,19 +19146,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
@@ -19429,7 +19429,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -19708,7 +19708,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -19987,7 +19987,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _V0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -20038,7 +20038,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
+                   SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 )
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -20048,7 +20048,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , V0_addr:Int )
+                     b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
                    </callData>
                    <callValue>
                      0
@@ -20057,7 +20057,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , V0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
                    </localMem>
                    <memoryUsed>
                      0
@@ -20081,7 +20081,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </refund>
                    <accessedAccounts>
-                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( V0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) |Set SetItem ( 645326474426547203313410069153905908525362434349 )
+                     SetItem ( 645326474426547203313410069153905908525362434349 ) |Set SetItem ( KV0_addr:Int ) |Set SetItem ( 491460923342184218035706888008750043977755113263 ) |Set SetItem ( 645326474426547203313410069153905908525362434349 )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -20172,7 +20172,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </account>
                    <account>
                      <acctID>
-                       V0_addr:Int
+                       KV0_addr:Int
                      </acctID>
                      <balance>
                        0
@@ -20287,19 +20287,19 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int V0_addr:Int
+      requires ( 0 <=Int KV0_addr:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( V0_addr:Int <Int pow160
+       andBool ( KV0_addr:Int <Int pow160
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( V0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
-       andBool ( V0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( V0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
+       andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
+       andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
