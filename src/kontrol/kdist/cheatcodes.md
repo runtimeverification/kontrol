@@ -383,7 +383,7 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
 #### `freshUint(uint256 min, uint256 max) - Returns a single symbolic uint256 value between the provided range.
 
 ```
-function randomUint(uint256,uint256) external returns (uint256)
+function randomUInt(uint256,uint256) external returns (uint256)
 ```
 
 `cheatcode.call.freshUIntRange` will match when the `randomUInt(uint256,uint256)` cheat code function is called.
@@ -393,9 +393,9 @@ This rule returns a symbolic unsigned integer between the provided range.
     rule [cheatcode.call.freshUIntRange]:
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
-      requires SELECTOR ==Int 3592095003 // selector ( "randomUint(uint256,uint256)" )
-       andBool 0 <Int #asWord(#range(ARGS, 0, 32)) andBool #asWord(#range(ARGS, 0, 32)) <=Int 2 ^Int 256
-       andBool 0 <Int #asWord(#range(ARGS, 32, 32)) andBool #asWord(#range(ARGS, 32, 32)) <=Int 2 ^Int 256
+      requires SELECTOR ==Int selector ( "randomUInt(uint256,uint256)" )
+       andBool 0 <Int #asWord(#range(ARGS, 0, 32)) andBool #asWord(#range(ARGS, 0, 32)) <Int 2 ^Int 256
+       andBool 0 <Int #asWord(#range(ARGS, 32, 32)) andBool #asWord(#range(ARGS, 32, 32)) <Int 2 ^Int 256
        andBool #asWord(#range(ARGS, 0, 32)) <=Int #asWord(#range(ARGS, 32, 32))
       ensures #asWord(#range(ARGS, 0, 32)) <=Int ?WORD andBool ?WORD <=Int #asWord(#range(ARGS, 32, 32))
        [preserves-definedness]
@@ -1622,7 +1622,7 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "setArbitraryStorage(address)" )             => 3781367863 )
     rule ( selector ( "freshUInt(uint256)" )                       => 1430414212 )
     rule ( selector ( "randomUInt(uint256)" )                      => 3628412988 )
-    rule ( selector ( "randomUint(uint256,uint256)" )              => 3592095003 )
+    rule ( selector ( "randomUInt(uint256,uint256)" )              => 3592095003 )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
     rule ( selector ( "randomBool()" )                             => 3451987645 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
