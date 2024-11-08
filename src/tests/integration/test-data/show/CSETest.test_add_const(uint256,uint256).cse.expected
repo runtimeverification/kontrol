@@ -9,7 +9,7 @@
 │
 │  (1550 steps)
 ├─ 9 (split)
-│   k: JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
+│   k: JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CO ...
 │   pc: 669
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
@@ -19,10 +19,10 @@
 ┃ (branch)
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     pow64 <=Int VV0_x_114b9705:Int
+┃  ┃     pow64 <=Int KV0_x:Int
 ┃  │
 ┃  ├─ 10
-┃  │   k: JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
+┃  │   k: JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CO ...
 ┃  │   pc: 669
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
@@ -31,7 +31,7 @@
 ┃  │
 ┃  │  (193 steps)
 ┃  └─ 12 (vacuous, leaf)
-┃      k: #assume ( VV0_x_114b9705:Int <Int pow64 ) ~> #cheatcode_return 128 0 ~> #pc [ ST ...
+┃      k: #assume ( KV0_x:Int <Int pow64 ) ~> #cheatcode_return 128 0 ~> #pc [ STATICCALL  ...
 ┃      pc: 737
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
@@ -40,10 +40,10 @@
 ┃
 ┗━━┓ subst: .Subst
    ┃ constraint:
-   ┃     VV0_x_114b9705:Int <Int pow64
+   ┃     KV0_x:Int <Int pow64
    │
    ├─ 11
-   │   k: JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int ) ~> #pc [ JUMPI ] ~> #exec ...
+   │   k: JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CO ...
    │   pc: 669
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
@@ -76,8 +76,8 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
     rule [BASIC-BLOCK-10-TO-12]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int )
-               ~> #pc [ JUMPI ] => #assume ( VV0_x_114b9705:Int <Int pow64 )
+               ( JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int )
+               ~> #pc [ JUMPI ] => #assume ( KV0_x:Int <Int pow64 )
                ~> #cheatcode_return 128 0
                ~> #pc [ STATICCALL ] )
                ~> #execute
@@ -114,16 +114,16 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x0f\xee)\xd1" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
+                     b"\x0f\xee)\xd1" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( VV0_x_114b9705:Int <Int pow64 ) => 164 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) )
+                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 164 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( VV0_x_114b9705:Int <Int pow64 ) ) )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( KV0_x:Int <Int pow64 ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -364,19 +364,19 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( pow64 <=Int VV0_x_114b9705:Int
+       andBool ( pow64 <=Int KV0_x:Int
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -387,7 +387,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
     rule [BASIC-BLOCK-11-TO-13]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 678 bool2Word ( pow64 <=Int VV0_x_114b9705:Int )
+               ( JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
@@ -426,16 +426,16 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x0f\xee)\xd1" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int )
+                     b"\x0f\xee)\xd1" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( VV0_x_114b9705:Int <Int pow64 ) => selector ( "test_add_const(uint256,uint256)" ) ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) => .WordStack ) )
+                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => selector ( "test_add_const(uint256,uint256)" ) ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( VV1_y_114b9705:Int +Int VV0_x_114b9705:Int ) ) +Bytes #range ( #buf ( 32 , VV1_y_114b9705:Int ) , 28 , 4 ) )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV1_y:Int +Int KV0_x:Int ) ) +Bytes #range ( #buf ( 32 , KV1_y:Int ) , 28 , 4 ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -514,7 +514,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 0 |-> VV0_x_114b9705:Int ) )
+                       ( .Map => ( 0 |-> KV0_x:Int ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -676,33 +676,33 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( KV0_x:Int <Int pow64
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( VV0_x_114b9705:Int <Int pow64
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
-       ensures ( VV1_y_114b9705:Int <Int pow64
-       andBool ( VV1_y_114b9705:Int <=Int ( maxUInt256 -Int VV0_x_114b9705:Int )
+       ensures ( KV1_y:Int <Int pow64
+       andBool ( KV1_y:Int <=Int ( maxUInt256 -Int KV0_x:Int )
                ))
       [priority(20), label(BASIC-BLOCK-11-TO-13)]
     
     rule [BASIC-BLOCK-1-TO-9]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 678 bool2Word ( pow64 <=Int ?VV0_x_114b9705 )
+               ( .K => JUMPI 678 bool2Word ( pow64 <=Int ?KV0_x )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION
@@ -738,13 +738,13 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"\x0f\xee)\xd1" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) +Bytes #buf ( 32 , ?VV1_y_114b9705 ) )
+                     ( b"\n\x92T\xe4" => b"\x0f\xee)\xd1" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( bool2Word ( ?VV0_x_114b9705 <Int pow64 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?VV1_y_114b9705 : ( ?VV0_x_114b9705 : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( bool2Word ( ?KV0_x <Int pow64 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?KV1_y : ( ?KV0_x : ( 220 : ( selector ( "test_add_const(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -1022,10 +1022,10 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))
-       ensures ( 0 <=Int ?VV0_x_114b9705
-       andBool ( 0 <=Int ?VV1_y_114b9705
-       andBool ( ?VV0_x_114b9705 <Int pow256
-       andBool ( ?VV1_y_114b9705 <Int pow256
+       ensures ( 0 <=Int ?KV0_x
+       andBool ( 0 <=Int ?KV1_y
+       andBool ( ?KV0_x <Int pow256
+       andBool ( ?KV1_y <Int pow256
                ))))
       [priority(20), label(BASIC-BLOCK-1-TO-9)]
 

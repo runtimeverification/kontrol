@@ -19,10 +19,9 @@
 ┃ (branch)
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
-┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
 ┃  │
-┃  ├─ 9
+┃  ├─ 8
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: 1
@@ -31,7 +30,7 @@
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (73 steps)
-┃  └─ 12 (leaf, terminal)
+┃  └─ 11 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 1584
 ┃      callDepth: 0
@@ -41,7 +40,8 @@
 ┃
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+┃  ┃     ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
+┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
 ┃  │
 ┃  ├─ 10
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -62,12 +62,11 @@
 ┃
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
-┃  ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  ┃     ( maxUInt256 -Int KV1_y:Int ) <Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
 ┃  │
-┃  ├─ 25
+┃  ├─ 24
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: 1
@@ -76,7 +75,7 @@
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  │  (503 steps)
-┃  └─ 18 (leaf, terminal)
+┃  └─ 17 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: 1708
 ┃      callDepth: 0
@@ -86,9 +85,10 @@
 ┃
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
+┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  ┃     ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) <Int KV2_z:Int
+┃  ┃     ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
 ┃  │
 ┃  ├─ 26
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -109,11 +109,11 @@
 ┃
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-┃  ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     VV2_z_114b9705:Int <=Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int )
-┃  ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-┃  ┃     VV0_x_114b9705:Int <Int ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
+┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  ┃     KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
+┃  ┃     ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  ┃     KV0_x:Int <Int ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int )
 ┃  │
 ┃  ├─ 29
 ┃  │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -142,11 +142,11 @@
 ┃
 ┗━━┓ subst: .Subst
    ┃ constraint:
-   ┃     VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-   ┃     VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-   ┃     VV2_z_114b9705:Int <=Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int )
-   ┃     ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-   ┃     ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int VV0_x_114b9705:Int
+   ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+   ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+   ┃     KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
+   ┃     ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
+   ┃     ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int KV0_x:Int
    │
    ├─ 30
    │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
@@ -170,7 +170,7 @@
 module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-9-TO-12]: <foundry>
+    rule [BASIC-BLOCK-8-TO-11]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -205,16 +205,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"\x922\xed\x8c" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </localMem>
                      <memoryUsed>
                        0
@@ -327,16 +327,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
                    </caller>
                    <callData>
-                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int ) )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -535,28 +535,27 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
-       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+       andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               ))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-12)]
+               )))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-8-TO-11)]
     
     rule [BASIC-BLOCK-10-TO-13]: <foundry>
            <kevm>
@@ -593,16 +592,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"\x922\xed\x8c" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </localMem>
                      <memoryUsed>
                        0
@@ -715,16 +714,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
                    </caller>
                    <callData>
-                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , VV0_x_114b9705:Int ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int ) )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -923,26 +922,27 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int VV0_x_114b9705:Int
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-               )))))))))))))))))))
+               ))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-13)]
     
     rule [BASIC-BLOCK-1-TO-7]: <foundry>
@@ -977,16 +977,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"\x922\xed\x8c" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) +Bytes #buf ( 32 , ?VV1_y_114b9705 ) +Bytes #buf ( 32 , ?VV2_z_114b9705 )
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ?VV2_z_114b9705 : ( ?VV1_y_114b9705 : ( ?VV0_x_114b9705 : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ?KV2_z : ( ?KV1_y : ( ?KV0_x : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) +Bytes #buf ( 32 , ?VV1_y_114b9705 ) +Bytes #buf ( 32 , ?VV2_z_114b9705 )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z )
                      </localMem>
                      <memoryUsed>
                        0
@@ -1099,7 +1099,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"\x9c&\xe07" +Bytes #buf ( 32 , ?VV0_x_114b9705 ) +Bytes #buf ( 32 , ?VV1_y_114b9705 ) +Bytes #buf ( 32 , ?VV2_z_114b9705 ) )
+                     ( b"\n\x92T\xe4" => b"\x9c&\xe07" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z ) )
                    </callData>
                    <callValue>
                      0
@@ -1341,16 +1341,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))
-       ensures ( 0 <=Int ?VV0_x_114b9705
-       andBool ( 0 <=Int ?VV1_y_114b9705
-       andBool ( 0 <=Int ?VV2_z_114b9705
-       andBool ( ?VV0_x_114b9705 <Int pow256
-       andBool ( ?VV1_y_114b9705 <Int pow256
-       andBool ( ?VV2_z_114b9705 <Int pow256
+       ensures ( 0 <=Int ?KV0_x
+       andBool ( 0 <=Int ?KV1_y
+       andBool ( 0 <=Int ?KV2_z
+       andBool ( ?KV0_x <Int pow256
+       andBool ( ?KV1_y <Int pow256
+       andBool ( ?KV2_z <Int pow256
                ))))))
       [priority(20), label(BASIC-BLOCK-1-TO-7)]
     
-    rule [BASIC-BLOCK-25-TO-18]: <foundry>
+    rule [BASIC-BLOCK-24-TO-17]: <foundry>
            <kevm>
              <k>
                ( #execute
@@ -1385,16 +1385,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"\x922\xed\x8c" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </localMem>
                      <memoryUsed>
                        0
@@ -1507,16 +1507,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
                    </caller>
                    <callData>
-                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 260 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 260 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) +Bytes b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int ) )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) +Bytes b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -1715,33 +1715,32 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+       andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) <Int VV2_z_114b9705:Int
-       andBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-               ))))))))))))))))))))))
-       ensures ( 0 <=Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
-       andBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <Int pow256
+       andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
+               )))))))))))))))))))))
+       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
+       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
                ))
-      [priority(20), label(BASIC-BLOCK-25-TO-18)]
+      [priority(20), label(BASIC-BLOCK-24-TO-17)]
     
     rule [BASIC-BLOCK-26-TO-19]: <foundry>
            <kevm>
@@ -1778,16 +1777,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"\x922\xed\x8c" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </localMem>
                      <memoryUsed>
                        0
@@ -1900,16 +1899,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
                    </caller>
                    <callData>
-                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 260 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 260 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) +Bytes b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int ) )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) +Bytes b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -2108,30 +2107,31 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+       andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( maxUInt256 -Int VV1_y_114b9705:Int ) <Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
-               )))))))))))))))))))))
-       ensures ( 0 <=Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
-       andBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <Int pow256
+       andBool ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) <Int KV2_z:Int
+       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
+               ))))))))))))))))))))))
+       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
+       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
                ))
       [priority(20), label(BASIC-BLOCK-26-TO-19)]
     
@@ -2170,16 +2170,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"\x922\xed\x8c" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </localMem>
                      <memoryUsed>
                        0
@@ -2292,7 +2292,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
                    </caller>
                    <callData>
-                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
@@ -2301,7 +2301,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( .WordStack => ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) +Bytes #buf ( 32 , ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) +Bytes #range ( #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) +Bytes #buf ( 32 , ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int ) ) +Bytes #range ( #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -2500,32 +2500,32 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+       andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( VV2_z_114b9705:Int <=Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int )
-       andBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-       andBool ( VV0_x_114b9705:Int <Int ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
+       andBool ( KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
+       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
+       andBool ( KV0_x:Int <Int ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int )
                )))))))))))))))))))))))
-       ensures ( 0 <=Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
-       andBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <Int pow256
+       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
+       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
                ))
       [priority(20), label(BASIC-BLOCK-29-TO-22)]
     
@@ -2564,16 +2564,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"\x922\xed\x8c" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                      </localMem>
                      <memoryUsed>
                        0
@@ -2686,16 +2686,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
                    </caller>
                    <callData>
-                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , VV0_x_114b9705:Int ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int )
+                     ( b"\x9c&\xe07" => b"\x922\xed\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1762 : ( ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) : ( VV2_z_114b9705:Int : ( VV1_y_114b9705:Int : ( VV0_x_114b9705:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1762 : ( ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int ) : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) +Bytes #buf ( 32 , ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) +Bytes #range ( #buf ( 32 , ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , VV1_y_114b9705:Int ) +Bytes #buf ( 32 , VV2_z_114b9705:Int ) )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) +Bytes #buf ( 32 , ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int ) ) +Bytes #range ( #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -2894,32 +2894,32 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
-       andBool ( 0 <=Int VV1_y_114b9705:Int
-       andBool ( 0 <=Int VV2_z_114b9705:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( VV0_x_114b9705:Int <Int pow256
-       andBool ( VV1_y_114b9705:Int <Int pow256
-       andBool ( VV2_z_114b9705:Int <Int pow256
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( VV2_z_114b9705:Int <=Int ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int )
-       andBool ( VV0_x_114b9705:Int <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
+       andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( VV2_z_114b9705:Int <=Int ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int )
-       andBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int ( maxUInt256 -Int VV1_y_114b9705:Int )
-       andBool ( ( ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <=Int VV0_x_114b9705:Int
+       andBool ( KV2_z:Int <=Int ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int )
+       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
+       andBool ( ( ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) +Int KV1_y:Int ) -Int KV2_z:Int ) <=Int KV0_x:Int
                )))))))))))))))))))))))
-       ensures ( 0 <=Int ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int )
-       andBool ( ( ( VV0_x_114b9705:Int +Int VV1_y_114b9705:Int ) -Int VV2_z_114b9705:Int ) <Int pow256
+       ensures ( 0 <=Int ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int )
+       andBool ( ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) <Int pow256
                ))
       [priority(20), label(BASIC-BLOCK-30-TO-23)]
 
