@@ -179,13 +179,13 @@ module SUMMARY-TEST%ENUM.INIT:0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( V0_letter:Int <Int 6
-       andBool ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int V0_letter:Int
+       andBool ( KV0_letter:Int <Int 6
        andBool ( 0 <=Int C_ENUM_BAL:Int
-       andBool ( V0_letter:Int <Int 256
+       andBool ( 0 <=Int KV0_letter:Int
+       andBool ( KV0_letter:Int <Int 256
        andBool ( 0 <=Int C_ENUM_NONCE:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32

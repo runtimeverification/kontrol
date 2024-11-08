@@ -51,7 +51,7 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #buf ( 32 , VV0_x_114b9705:Int ) )
+                   ( _OUTPUT_CELL => #buf ( 32 , KV0_x:Int ) )
                  </output>
                  <statusCode>
                    ( _STATUSCODE => EVMC_SUCCESS )
@@ -64,7 +64,7 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\xac7\xee\xbb" +Bytes #buf ( 32 , VV0_x_114b9705:Int )
+                     b"\xac7\xee\xbb" +Bytes #buf ( 32 , KV0_x:Int )
                    </callData>
                    <callValue>
                      0
@@ -73,7 +73,7 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
                      ( .WordStack => ( selector ( "identity(uint256)" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , VV0_x_114b9705:Int ) )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_x:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -180,11 +180,11 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_IDENTITY_ID:Int
        andBool ( 0 <=Int C_IDENTITY_BAL:Int
-       andBool ( 0 <=Int VV0_x_114b9705:Int
        andBool ( 0 <=Int C_IDENTITY_NONCE:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -197,8 +197,8 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IDENTITY_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
        andBool ( C_IDENTITY_BAL:Int <Int pow256
-       andBool ( VV0_x_114b9705:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_IDENTITY_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )

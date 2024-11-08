@@ -134,7 +134,9 @@ def test_escaping(test_id: str, prefix: str, input: str, output: str) -> None:
 
 
 INPUT_DATA: list[tuple[str, Input, KApply]] = [
-    ('single_type', Input('RV', 'uint256'), KApply('abi_type_uint256', [KVariable('V0_RV')])),
+    ('single_type', Input('RV', 'uint256'), KApply('abi_type_uint256', [KVariable('KV0_RV')])),
+    ('underscore_type', Input('_x', 'uint256'), KApply('abi_type_uint256', [KVariable('KV0_x')])),
+    ('empty_type', Input('', 'uint256'), KApply('abi_type_uint256', [KVariable('KV0')])),
     (
         'empty_tuple',
         Input('EmptyStruct', 'tuple'),
@@ -147,10 +149,10 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
             'abi_type_tuple',
             KApply(
                 'typedArgs',
-                KApply('abi_type_uint256', [KVariable('V0_RV1')]),
+                KApply('abi_type_uint256', [KVariable('KV0_RV1')]),
                 KApply(
                     'typedArgs',
-                    KApply('abi_type_uint256', [KVariable('V1_RV2')]),
+                    KApply('abi_type_uint256', [KVariable('KV1_RV2')]),
                     KApply(
                         '.List{"typedArgs"}',
                     ),
@@ -169,14 +171,14 @@ INPUT_DATA: list[tuple[str, Input, KApply]] = [
             'abi_type_tuple',
             KApply(
                 'typedArgs',
-                KApply('abi_type_uint256', [KVariable('V0_RV')]),
+                KApply('abi_type_uint256', [KVariable('KV0_RV')]),
                 KApply(
                     'typedArgs',
                     KApply(
                         'abi_type_tuple',
                         KApply(
                             'typedArgs',
-                            KApply('abi_type_uint256', [KVariable('V1_RV')]),
+                            KApply('abi_type_uint256', [KVariable('KV1_RV')]),
                             KApply(
                                 '.List{"typedArgs"}',
                             ),
