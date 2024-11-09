@@ -331,7 +331,7 @@ def test_foundry_bmc(
 
 
 MINIMIZE_TESTS = tuple((TEST_DATA_DIR / 'foundry-minimize').read_text().splitlines())
-
+MINIMIZE_MERGE_TESTS = tuple((TEST_DATA_DIR / 'foundry-minimize-merge').read_text().splitlines())
 
 @pytest.mark.parametrize('test_id', MINIMIZE_TESTS)
 def test_foundry_minimize_proof(
@@ -343,6 +343,8 @@ def test_foundry_minimize_proof(
     server: KoreServer,
     force_sequential: bool,
 ) -> None:
+    merge = test_id in MINIMIZE_MERGE_TESTS
+    
     if no_use_booster:
         pytest.skip()
 
@@ -363,7 +365,7 @@ def test_foundry_minimize_proof(
     # When
     foundry_prove(foundry=foundry, options=options)
 
-    foundry_minimize_proof(foundry, options=MinimizeProofOptions({'test': test_id}))
+    foundry_minimize_proof(foundry, options=MinimizeProofOptions({'test': test_id, 'merge': merge}))
 
     show_res = foundry_show(
         foundry=foundry,
