@@ -10,6 +10,7 @@ from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
+from rich.console import Console
 from rich.highlighter import NullHighlighter
 from rich.logging import RichHandler
 
@@ -112,11 +113,13 @@ def main() -> None:
     args = parser.parse_args()
     args.config_file = config_file_path(args)
     toml_args = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
+    console = Console(file=sys.stderr, force_terminal=False, width=1500)
     logging.basicConfig(
         level=loglevel(args, toml_args),
         format=_LOG_FORMAT,
         handlers=[
             RichHandler(
+                console=console,
                 level=loglevel(args, toml_args),
                 show_level=False,
                 show_time=False,
