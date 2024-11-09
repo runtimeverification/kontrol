@@ -183,6 +183,7 @@ def exec_build(options: BuildOptions) -> None:
         )
     except Exception as e:
         console.print(f'[bold red]An error occurred while building your Kontrol project:[/bold red] [black]{e}[/black]')
+        raise e
 
 
 def exec_prove(options: ProveOptions) -> None:
