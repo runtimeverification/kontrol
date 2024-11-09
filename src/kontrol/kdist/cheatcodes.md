@@ -362,7 +362,7 @@ This rule then takes the two addresses using `#asWord(#range(ARGS, 0, 32))` and 
 #### `freshUInt` - Returns a single symbolic unsigned integer.
 
 ```
-function freshUInt(uint256) external returns (uint256);
+function freshUInt(uint8) external returns (uint256);
 ```
 
 `cheatcode.call.freshUInt` will match when the `freshUInt` cheat code function is called.
@@ -373,7 +373,7 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
-       andBool SELECTOR ==Int selector ( "freshUInt(uint256)" )
+       andBool SELECTOR ==Int selector ( "freshUInt(uint8)" )
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
        [preserves-definedness]
 ```
@@ -1688,7 +1688,7 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "sign(uint256,bytes32)" )                    => 3812747940 )
     rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
     rule ( selector ( "setArbitraryStorage(address)" )             => 3781367863 )
-    rule ( selector ( "freshUInt(uint256)" )                       => 1430414212 )
+    rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
     rule ( selector ( "randomUint(uint256)" )                      => 3481396892 )
     rule ( selector ( "randomUint()" )                             => 621954864  )
     rule ( selector ( "randomUint(uint256,uint256)" )              => 3592095003 )
