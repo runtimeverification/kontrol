@@ -333,6 +333,7 @@ def test_foundry_bmc(
 MINIMIZE_TESTS = tuple((TEST_DATA_DIR / 'foundry-minimize').read_text().splitlines())
 MINIMIZE_MERGE_TESTS = tuple((TEST_DATA_DIR / 'foundry-minimize-merge').read_text().splitlines())
 
+
 @pytest.mark.parametrize('test_id', MINIMIZE_TESTS)
 def test_foundry_minimize_proof(
     test_id: str,
@@ -344,7 +345,7 @@ def test_foundry_minimize_proof(
     force_sequential: bool,
 ) -> None:
     merge = test_id in MINIMIZE_MERGE_TESTS
-    
+
     if no_use_booster:
         pytest.skip()
 
