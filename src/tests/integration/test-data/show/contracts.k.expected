@@ -2214,6 +2214,29 @@ module S2KtestZModWarpTest-CONTRACT
 
 endmodule
 
+module S2KsrcZModBranches-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KsrcZModBranchesContract
+    
+    syntax S2KsrcZModBranchesContract ::= "S2KsrcZModBranches" [symbol("contract_src%Branches")]
+    
+    syntax Bytes ::= S2KsrcZModBranchesContract "." S2KsrcZModBranchesMethod [function, symbol("method_src%Branches")]
+    
+    syntax S2KsrcZModBranchesMethod ::= "S2KapplyOp" "(" Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "bool" ")" [symbol("method_src%Branches_S2KapplyOp_uint256_uint256_bool")]
+    
+    rule  ( S2KsrcZModBranches . S2KapplyOp ( KV0_x : uint256 , KV1_y : uint256 , KV2_z : bool ) => #abiCallData ( "applyOp" , ( #uint256 ( KV0_x ) , ( #uint256 ( KV1_y ) , ( #bool ( KV2_z ) , .TypedArgs ) ) ) ) )
+       ensures ( #rangeUInt ( 256 , KV0_x )
+       andBool ( #rangeUInt ( 256 , KV1_y )
+       andBool ( #rangeBool ( KV2_z )
+               )))
+      
+    
+    rule  ( selector ( "applyOp(uint256,uint256,bool)" ) => 3766377623 )
+      
+
+endmodule
+
 module S2KtestZModBroadcastTest-CONTRACT
     imports public FOUNDRY
     
@@ -7654,6 +7677,117 @@ module S2KtestZModMergeTest-CONTRACT
 
 endmodule
 
+module S2KtestZModMergeKCFGTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModMergeKCFGTestContract
+    
+    syntax S2KtestZModMergeKCFGTestContract ::= "S2KtestZModMergeKCFGTest" [symbol("contract_test%MergeKCFGTest")]
+    
+    syntax Bytes ::= S2KtestZModMergeKCFGTestContract "." S2KtestZModMergeKCFGTestMethod [function, symbol("method_test%MergeKCFGTest")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol("method_test%MergeKCFGTest_S2KISZUndTEST_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol("method_test%MergeKCFGTest_S2KexcludeArtifacts_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol("method_test%MergeKCFGTest_S2KexcludeContracts_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol("method_test%MergeKCFGTest_S2KexcludeSenders_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2Kfailed" "(" ")" [symbol("method_test%MergeKCFGTest_S2Kfailed_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KsetUp" "(" ")" [symbol("method_test%MergeKCFGTest_S2KsetUp_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol("method_test%MergeKCFGTest_S2KtargetArtifactSelectors_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol("method_test%MergeKCFGTest_S2KtargetArtifacts_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KtargetContracts" "(" ")" [symbol("method_test%MergeKCFGTest_S2KtargetContracts_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol("method_test%MergeKCFGTest_S2KtargetSelectors_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KtargetSenders" "(" ")" [symbol("method_test%MergeKCFGTest_S2KtargetSenders_")]
+    
+    syntax S2KtestZModMergeKCFGTestMethod ::= "S2KtestZUndbranchZUndmerge" "(" Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "bool" ")" [symbol("method_test%MergeKCFGTest_S2KtestZUndbranchZUndmerge_uint256_uint256_bool")]
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KsetUp ( ) => #abiCallData ( "setUp" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModMergeKCFGTest . S2KtestZUndbranchZUndmerge ( KV0_x : uint256 , KV1_y : uint256 , KV2_z : bool ) => #abiCallData ( "test_branch_merge" , ( #uint256 ( KV0_x ) , ( #uint256 ( KV1_y ) , ( #bool ( KV2_z ) , .TypedArgs ) ) ) ) )
+       ensures ( #rangeUInt ( 256 , KV0_x )
+       andBool ( #rangeUInt ( 256 , KV1_y )
+       andBool ( #rangeBool ( KV2_z )
+               )))
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "setUp()" ) => 177362148 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "test_branch_merge(uint256,uint256,bool)" ) => 357868196 )
+      
+
+endmodule
+
 module S2KtestZModMethodDisambiguateTest-CONTRACT
     imports public FOUNDRY
     
@@ -11871,97 +12005,6 @@ module S2KtestZModSymbolicStore-CONTRACT
     syntax Contract ::= S2KtestZModSymbolicStoreContract
     
     syntax S2KtestZModSymbolicStoreContract ::= "S2KtestZModSymbolicStore" [symbol("contract_test%SymbolicStore")]
-
-endmodule
-
-module S2KlibZModforgeZSubstdZModsrcZModTest-CONTRACT
-    imports public FOUNDRY
-    
-    syntax Contract ::= S2KlibZModforgeZSubstdZModsrcZModTestContract
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestContract ::= "S2KlibZModforgeZSubstdZModsrcZModTest" [symbol("contract_lib%forge-std%src%Test")]
-    
-    syntax Bytes ::= S2KlibZModforgeZSubstdZModsrcZModTestContract "." S2KlibZModforgeZSubstdZModsrcZModTestMethod [function, symbol("method_lib%forge-std%src%Test")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KISZUndTEST_")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KexcludeArtifacts_")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KexcludeContracts_")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KexcludeSenders_")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2Kfailed" "(" ")" [symbol("method_lib%forge-std%src%Test_S2Kfailed_")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetArtifactSelectors_")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetArtifacts_")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetContracts" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetContracts_")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetSelectors_")]
-    
-    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetSenders" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetSenders_")]
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
-      
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
-      
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
-      
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
-      
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
-      
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
-      
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
-      
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
-      
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
-      
-    
-    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
-      
-    
-    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
-      
-    
-    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
-      
-    
-    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
-      
-    
-    rule  ( selector ( "excludeSenders()" ) => 517440284 )
-      
-    
-    rule  ( selector ( "failed()" ) => 3124842406 )
-      
-    
-    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
-      
-    
-    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
-      
-    
-    rule  ( selector ( "targetContracts()" ) => 1064470260 )
-      
-    
-    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
-      
-    
-    rule  ( selector ( "targetSenders()" ) => 1046363171 )
-      
 
 endmodule
 
@@ -16264,6 +16307,97 @@ module S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-CONTRACT
       
     
     rule  ( selector ( "failed()" ) => 3124842406 )
+      
+
+endmodule
+
+module S2KlibZModforgeZSubstdZModsrcZModTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KlibZModforgeZSubstdZModsrcZModTestContract
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestContract ::= "S2KlibZModforgeZSubstdZModsrcZModTest" [symbol("contract_lib%forge-std%src%Test")]
+    
+    syntax Bytes ::= S2KlibZModforgeZSubstdZModsrcZModTestContract "." S2KlibZModforgeZSubstdZModsrcZModTestMethod [function, symbol("method_lib%forge-std%src%Test")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KISZUndTEST_")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KexcludeArtifacts_")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KexcludeContracts_")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KexcludeSenders_")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2Kfailed" "(" ")" [symbol("method_lib%forge-std%src%Test_S2Kfailed_")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetArtifactSelectors_")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetArtifacts_")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetContracts" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetContracts_")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetSelectors_")]
+    
+    syntax S2KlibZModforgeZSubstdZModsrcZModTestMethod ::= "S2KtargetSenders" "(" ")" [symbol("method_lib%forge-std%src%Test_S2KtargetSenders_")]
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KlibZModforgeZSubstdZModsrcZModTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
       
 
 endmodule
