@@ -12005,10 +12005,7 @@ module S2KtestZModSymbolicStore-CONTRACT
     syntax Contract ::= S2KtestZModSymbolicStoreContract
     
     syntax S2KtestZModSymbolicStoreContract ::= "S2KtestZModSymbolicStore" [symbol("contract_test%SymbolicStore")]
-
-endmodule
       
-
 endmodule
 
 module S2KlibZModforgeZSubstdZModsrcZModTest-CONTRACT
@@ -16401,4 +16398,6 @@ module S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-CONTRACT
       
     
     rule  ( selector ( "failed()" ) => 3124842406 )
+    
 
+endmodule
