@@ -569,6 +569,15 @@ def _create_argument_parser() -> ArgumentParser:
             'Assumes running Solidity-compiled bytecode cannot result in a stack overflow/underflow.'
         ),
     )
+    prove_args.add_argument(
+        '--extra-module',
+        dest='extra_module',
+        default=None,
+        help=(
+            'File and extra module to include for verification (which must import FOUNDRY-MAIN module).'
+            'Format is <file>:<module name>.'
+        ),
+    )
 
     show_args = command_parser.add_parser(
         'show',
