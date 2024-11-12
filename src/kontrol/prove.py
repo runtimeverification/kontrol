@@ -503,12 +503,13 @@ def _run_cfg_group(
         redirect_stdout=True,
     ) as progress:
 
+        display_status_bar = not (options.hide_status_bar or options.verbose or options.debug)
         failure_infos: list[APRFailureInfo | Exception | None]
         if options.workers > 1 and len(tests) > 1:
             done_tests = 0
             failed_tests = 0
             passed_tests = 0
-            if not options.hide_status_bar:
+            if display_status_bar:
                 task = progress.add_task(
                     f'Multi-proof Mode ({options.workers} workers)',
                     status='Running',
@@ -517,7 +518,7 @@ def _run_cfg_group(
 
             def update_status_bar(test_id: str, result: Any) -> None:
                 nonlocal done_tests, failed_tests, passed_tests, progress
-                if options.hide_status_bar or progress is None:
+                if not display_status_bar or progress is None:
                     return
                 done_tests += 1
                 proof = foundry.get_apr_proof(test_id)
@@ -540,14 +541,14 @@ def _run_cfg_group(
 
                 process_pool.close()
                 process_pool.join()
-            if not options.hide_status_bar:
+            if display_status_bar:
                 if progress is not None:
                     progress.update(task, status='Finished', advance=1)
             failure_infos = [result.get() for result in results]
         else:
             failure_infos = []
             for test in tests:
-                failure_infos.append(init_and_run_proof(test, None if options.hide_status_bar else progress))
+                failure_infos.append(init_and_run_proof(test, None if not display_status_bar else progress))
 
         proofs = [foundry.get_apr_proof(test.id) for test in tests]
 
