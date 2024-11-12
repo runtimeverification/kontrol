@@ -10,8 +10,6 @@ from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.tui import APRProofViewer
-from rich.highlighter import NullHighlighter
-from rich.logging import RichHandler
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -115,15 +113,6 @@ def main() -> None:
     logging.basicConfig(
         level=loglevel(args, toml_args),
         format=_LOG_FORMAT,
-        handlers=[
-            RichHandler(
-                level=loglevel(args, toml_args),
-                show_level=False,
-                show_time=False,
-                show_path=False,
-                highlighter=NullHighlighter(),
-            ),
-        ],
     )
 
     check_k_version()
