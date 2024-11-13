@@ -707,7 +707,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='merge',
         default=None,
         action='store_true',
-        help='Merge the nodes of the KCFG into a normal branch and a revert branch.',
+        help='Merge the nodes of the KCFG into a successful branch and a revert branch.',
     )
 
     remove_node = command_parser.add_parser(
