@@ -328,6 +328,13 @@ class MergeNodesOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
 
 
 class MinimizeProofOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
+    merge: bool
+
+    @staticmethod
+    def default() -> dict[str, Any]:
+        return {
+            'merge': False,
+        }
 
     @staticmethod
     def from_option_string() -> dict[str, str]:
