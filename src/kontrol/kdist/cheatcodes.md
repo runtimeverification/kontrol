@@ -415,7 +415,7 @@ The following rule returns a symbolic integer of 256 bytes.
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "randomUint(uint256,uint256)" )
-       ensures 0 <=Int #asWord(#range(ARGS, 0, 32)) andBool ?WORD <=Int #asWord(#range(ARGS, 32, 32))
+       ensures #asWord(#range(ARGS, 0, 32)) <=Int ?WORD andBool ?WORD <=Int #asWord(#range(ARGS, 32, 32))
        [preserves-definedness]
 ```
 
