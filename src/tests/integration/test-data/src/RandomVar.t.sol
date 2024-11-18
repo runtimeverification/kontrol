@@ -47,4 +47,10 @@ contract RandomVarTest is Test {
         assertTrue(rand >= min, "rand >= min");
         assertTrue(rand <= max, "rand <= max");
     }
+
+    function test_randomUint() public {
+        uint256 rand = vm.randomUint();
+        assertTrue(rand >= type(uint256).min);
+        assertTrue(rand <= type(uint256).max);
+    }
 }
