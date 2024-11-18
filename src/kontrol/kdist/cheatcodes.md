@@ -490,8 +490,7 @@ This rule returns a fully symbolic byte array value of length 4.
     rule [cheatcode.call.randomBytes4]:
          <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ =>
-            #buf( 32, 32 ) +Bytes #buf( 32, 4 ) +Bytes ?BYTES
-            +Bytes #buf ( 28 , 0 )
+            ?BYTES +Bytes #buf ( 28 , 0 )
          </output>
       requires SELECTOR ==Int selector ( "randomBytes4()" )
        ensures lengthBytes(?BYTES) ==Int 4
@@ -504,8 +503,7 @@ This rule returns a fully symbolic byte array value of length 8.
     rule [cheatcode.call.randomBytes8]:
          <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ =>
-            #buf( 32, 32 ) +Bytes #buf( 32, 8 ) +Bytes ?BYTES
-            +Bytes #buf ( 24 , 0 )
+            ?BYTES +Bytes #buf ( 24 , 0 )
          </output>
       requires SELECTOR ==Int selector ( "randomBytes8()" )
        ensures lengthBytes(?BYTES) ==Int 8
