@@ -383,6 +383,7 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
 ```
 function randomUint() external returns (uint256);
 function randomUint(uint256) external returns (uint256);
+function randomUint(uint256,uint256) external returns (uint256);
 ```
 
 `cheatcode.call.randomUint` will match when the `randomUint` cheat code function is called.
@@ -406,6 +407,15 @@ The following rule returns a symbolic integer of 256 bytes.
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "randomUint()" )
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int 256
+       [preserves-definedness]
+```
+
+```{.k .symbolic}
+    rule [cheatcode.call.randomUint256Range]:
+         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "randomUint(uint256,uint256)" )
+       ensures 0 <=Int #asWord(#range(ARGS, 0, 32)) andBool ?WORD <=Int #asWord(#range(ARGS, 32, 32))
        [preserves-definedness]
 ```
 
