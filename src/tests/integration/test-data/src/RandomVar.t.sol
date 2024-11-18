@@ -40,4 +40,11 @@ contract RandomVarTest is Test {
         assert(0 <= randomUint192);
         assert(randomUint192 <= type(uint192).max);
     }
+
+    function test_randomUint_Range(uint256 min, uint256 max) public {
+        vm.assume(max >= min);
+        uint256 rand = vm.randomUint(min, max);
+        assertTrue(rand >= min, "rand >= min");
+        assertTrue(rand <= max, "rand <= max");
+    }
 }
