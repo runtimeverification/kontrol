@@ -372,8 +372,8 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
     rule [cheatcode.call.freshUInt]:
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
-      requires 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
-       andBool SELECTOR ==Int selector ( "freshUInt(uint8)" )
+      requires SELECTOR ==Int selector ( "freshUInt(uint8)" )
+       andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
        [preserves-definedness]
 ```
@@ -416,36 +416,6 @@ The following rule returns a symbolic integer of 256 bytes.
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "randomUint(uint256,uint256)" )
        ensures #asWord(#range(ARGS, 0, 32)) <=Int ?WORD andBool ?WORD <=Int #asWord(#range(ARGS, 32, 32))
-       [preserves-definedness]
-```
-
-#### `randomInt` - Returns a single symbolic int256 value.
-
-```
-function randomInt(uint256) external returns (int256)
-function randomInt() external returns (int256)
-```
-
-`cheatcode.call.randomInt` will match when the `randomInt()` or `randomInt()` cheat code function is called.
-This rule returns a symbolic signed integer.
-
-```{.k .symbolic}
-    rule [cheatcode.call.randomInt256]:
-         <k> #cheatcode_call SELECTOR _ => .K ... </k>
-         <output> _ => #buf(32, ?WORD) </output>
-      requires SELECTOR ==Int selector ( "randomInt()" )
-       ensures -2 ^Int 255 <=Int ?WORD andBool ?WORD <Int 2 ^Int 255
-              [preserves-definedness]
-```
-
-```{.k .symbolic}
-    rule [cheatcode.call.randomInt]:
-         <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
-         <output> _ => #buf(32, ?WORD) </output>
-      requires SELECTOR ==Int selector ( "randomInt(uint256)" )
-       andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 256
-       ensures -2 ^Int (#asWord(ARGS) -Int 1) <=Int ?WORD
-        andBool ?WORD <Int 2 ^Int (#asWord(ARGS) -Int 1)
        [preserves-definedness]
 ```
 
@@ -1700,8 +1670,6 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "randomUint(uint256)" )                      => 3481396892 )
     rule ( selector ( "randomUint()" )                             => 621954864  )
     rule ( selector ( "randomUint(uint256,uint256)" )              => 3592095003 )
-    rule ( selector ( "randomInt(uint256)" )                       => 310663526  )
-    rule ( selector ( "randomInt()" )                              => 287248898  )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
     rule ( selector ( "randomBool()" )                             => 3451987645 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
