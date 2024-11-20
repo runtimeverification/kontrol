@@ -386,11 +386,11 @@ function randomUint(uint256) external returns (uint256);
 function randomUint(uint256,uint256) external returns (uint256);
 ```
 
-`cheatcode.call.randomUint` will match when the `randomUint` cheat code function is called.
+`cheatcode.call.randomUintWidth` will match when the `randomUint(uint256)` cheat code function is called.
 This rule returns a symbolic integer of up to the bit width that was sent as an argument.
 
 ```{.k .symbolic}
-    rule [cheatcode.call.randomUint]:
+    rule [cheatcode.call.randomUintWidth]:
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 256
@@ -399,7 +399,8 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
        [preserves-definedness]
 ```
 
-The following rule returns a symbolic integer of 256 bytes.
+The following rule will match when the `randomUint()` cheat code function is called.
+This rule returns a symbolic integer of 256 bytes.
 
 ```{.k .symbolic}
     rule [cheatcode.call.randomUint256]:
@@ -409,6 +410,9 @@ The following rule returns a symbolic integer of 256 bytes.
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int 256
        [preserves-definedness]
 ```
+
+The following rule will match when the `randomUint(uint256,uint256)` cheat code function is called.
+This rule returns a symbolic integer of 256 bytes which is greater than or equal to the first argument and less than or equal to the second argument.
 
 ```{.k .symbolic}
     rule [cheatcode.call.randomUint256Range]:
