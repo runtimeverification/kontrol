@@ -12,7 +12,7 @@
 ┃  ┃ constraint:
 ┃  ┃     3 <=Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
 ┃  │
-┃  ├─ 8
+┃  ├─ 12
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -21,7 +21,7 @@
 ┃  │   method: test%ImportedContract.set(uint256)
 ┃  │
 ┃  │  (373 steps)
-┃  ├─ 6 (terminal)
+┃  ├─ 10 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 107
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -44,7 +44,7 @@
    ┃ constraint:
    ┃     #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <Int 3
    │
-   ├─ 9
+   ├─ 13
    │   k: #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
@@ -53,7 +53,7 @@
    │   method: test%ImportedContract.set(uint256)
    │
    │  (362 steps)
-   ├─ 7 (terminal)
+   ├─ 11 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 107
    │   callDepth: CALLDEPTH_CELL:Int
@@ -78,7 +78,7 @@
 module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
     
     
-    rule [BASIC-BLOCK-8-TO-6]: <foundry>
+    rule [BASIC-BLOCK-12-TO-10]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -258,9 +258,9 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-8-TO-6)]
+      [priority(20), label(BASIC-BLOCK-12-TO-10)]
     
-    rule [BASIC-BLOCK-9-TO-7]: <foundry>
+    rule [BASIC-BLOCK-13-TO-11]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -440,6 +440,6 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-7)]
+      [priority(20), label(BASIC-BLOCK-13-TO-11)]
 
 endmodule

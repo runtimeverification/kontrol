@@ -12,7 +12,7 @@
 ┃  ┃ constraint:
 ┃  ┃     C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
 ┃  │
-┃  ├─ 8
+┃  ├─ 12
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -21,7 +21,7 @@
 ┃  │   method: test%CallableStorageContract.str()
 ┃  │
 ┃  │  (867 steps)
-┃  ├─ 6 (terminal)
+┃  ├─ 10 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 86
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -45,7 +45,7 @@
    ┃ constraint:
    ┃     ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
    │
-   ├─ 9
+   ├─ 13
    │   k: #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
@@ -54,7 +54,7 @@
    │   method: test%CallableStorageContract.str()
    │
    │  (1033 steps)
-   ├─ 7 (terminal)
+   ├─ 11 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 86
    │   callDepth: CALLDEPTH_CELL:Int
@@ -80,7 +80,7 @@
 module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
     
     
-    rule [BASIC-BLOCK-8-TO-6]: <foundry>
+    rule [BASIC-BLOCK-12-TO-10]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -260,9 +260,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-8-TO-6)]
+      [priority(20), label(BASIC-BLOCK-12-TO-10)]
     
-    rule [BASIC-BLOCK-9-TO-7]: <foundry>
+    rule [BASIC-BLOCK-13-TO-11]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -442,6 +442,6 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-7)]
+      [priority(20), label(BASIC-BLOCK-13-TO-11)]
 
 endmodule
