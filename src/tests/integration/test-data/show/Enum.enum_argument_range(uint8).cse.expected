@@ -8,7 +8,7 @@
 │   method: test%Enum.enum_argument_range(uint8)
 │
 │  (514 steps)
-├─ 3 (terminal)
+├─ 5 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 68
 │   callDepth: CALLDEPTH_CELL:Int
@@ -38,7 +38,7 @@
 module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
     
     
-    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+    rule [BASIC-BLOCK-1-TO-5]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -245,6 +245,6 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+      [priority(20), label(BASIC-BLOCK-1-TO-5)]
 
 endmodule

@@ -12,7 +12,7 @@
 ┃  ┃ constraint:
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
 ┃  │
-┃  ├─ 8
+┃  ├─ 28
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -21,7 +21,7 @@
 ┃  │   method: test%Enum.enum_storage_range()
 ┃  │
 ┃  │  (1242 steps)
-┃  ├─ 6 (terminal)
+┃  ├─ 27 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 68
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -49,7 +49,7 @@
    ┃ constraint:
    ┃     1024 <=Int CALLDEPTH_CELL:Int
    │
-   ├─ 9
+   ├─ 29
    │   k: #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
@@ -58,7 +58,7 @@
    │   method: test%Enum.enum_storage_range()
    │
    │  (348 steps)
-   ├─ 7 (terminal)
+   ├─ 21 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 161
    │   callDepth: CALLDEPTH_CELL:Int
@@ -88,7 +88,7 @@
 module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
     
     
-    rule [BASIC-BLOCK-8-TO-6]: <foundry>
+    rule [BASIC-BLOCK-28-TO-27]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -302,9 +302,9 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-8-TO-6)]
+      [priority(20), label(BASIC-BLOCK-28-TO-27)]
     
-    rule [BASIC-BLOCK-9-TO-7]: <foundry>
+    rule [BASIC-BLOCK-29-TO-21]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -515,6 +515,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-7)]
+      [priority(20), label(BASIC-BLOCK-29-TO-21)]
 
 endmodule

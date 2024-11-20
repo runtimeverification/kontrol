@@ -12,7 +12,7 @@
 ┃  ┃ constraint:
 ┃  ┃     1024 <=Int CALLDEPTH_CELL:Int
 ┃  │
-┃  ├─ 13
+┃  ├─ 30
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -21,7 +21,7 @@
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  │
 ┃  │  (376 steps)
-┃  ├─ 7 (terminal)
+┃  ├─ 26 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 153
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -56,7 +56,7 @@
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1023
 ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
 ┃  │
-┃  ├─ 16
+┃  ├─ 33
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -65,7 +65,7 @@
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  │
 ┃  │  (638 steps)
-┃  ├─ 10 (terminal)
+┃  ├─ 27 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 68
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -100,7 +100,7 @@
    ┃     CALLDEPTH_CELL:Int <Int 1024
    ┃     1023 <=Int CALLDEPTH_CELL:Int
    │
-   ├─ 17
+   ├─ 34
    │   k: #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
@@ -109,7 +109,7 @@
    │   method: test%TGovernance.getEscrowTokenTotalSupply()
    │
    │  (389 steps)
-   ├─ 11 (terminal)
+   ├─ 28 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 153
    │   callDepth: CALLDEPTH_CELL:Int
@@ -145,7 +145,7 @@
 module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
     
     
-    rule [BASIC-BLOCK-13-TO-7]: <foundry>
+    rule [BASIC-BLOCK-30-TO-26]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -387,9 +387,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 9 ) )
                )))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-13-TO-7)]
+      [priority(20), label(BASIC-BLOCK-30-TO-26)]
     
-    rule [BASIC-BLOCK-16-TO-10]: <foundry>
+    rule [BASIC-BLOCK-33-TO-27]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -638,9 +638,9 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-16-TO-10)]
+      [priority(20), label(BASIC-BLOCK-33-TO-27)]
     
-    rule [BASIC-BLOCK-17-TO-11]: <foundry>
+    rule [BASIC-BLOCK-34-TO-28]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -886,6 +886,6 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-17-TO-11)]
+      [priority(20), label(BASIC-BLOCK-34-TO-28)]
 
 endmodule
