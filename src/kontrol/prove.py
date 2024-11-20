@@ -481,7 +481,7 @@ def _run_cfg_group(
                 progress.update(task, advance=1, status='Finished')
 
             if options.minimize_proofs or options.config_type == ConfigType.SUMMARY_CONFIG:
-                proof.minimize_kcfg()
+                proof.minimize_kcfg(merge=True)
 
             if start_time is not None:
                 end_time = time.time()
