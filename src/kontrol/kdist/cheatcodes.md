@@ -434,7 +434,7 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
          <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
-         orBool SELECTOR ==Int selector ( "randomBool()" )
+        orBool SELECTOR ==Int selector ( "randomBool()" )
        ensures #rangeBool(?WORD)
        [preserves-definedness]
 ```
