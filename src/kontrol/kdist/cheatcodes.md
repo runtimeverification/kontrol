@@ -505,7 +505,7 @@ This rule returns a symbolic address value.
          <k> #cheatcode_call SELECTOR _ => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshAddress()" )
-         orBool SELECTOR ==Int selector ( "randomAddress()" )
+        orBool SELECTOR ==Int selector ( "randomAddress()" )
        ensures #rangeAddress(?WORD) andBool ?WORD =/=Int #address(FoundryTest) andBool ?WORD =/=Int #address(FoundryCheat)
        [preserves-definedness]
 ```
