@@ -421,7 +421,7 @@ class Foundry:
                 "Error: 'forge' command not found. Please ensure that 'forge' is installed and added to your PATH."
             ) from err
         except CalledProcessError as err:
-            raise RuntimeError("Couldn't forge build!") from err
+            raise RuntimeError(f"Couldn't forge build! Error: {err.stderr.strip()}") from err
 
     @cached_property
     def all_tests(self) -> list[str]:
