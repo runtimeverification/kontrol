@@ -10,9 +10,9 @@
 ┃ (branch)
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     1024 <=Int CALLDEPTH_CELL:Int
+┃  ┃     ( 1024 <=Int CALLDEPTH_CELL:Int orBool ( CALLDEPTH_CELL:Int <Int 1024 andBool 1023 <=Int CALLDEPTH_CELL:Int ) )
 ┃  │
-┃  ├─ 30
+┃  ├─ 35
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -20,87 +20,91 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  │
-┃  │  (376 steps)
-┃  ├─ 26 (terminal)
+┃  │  (376|389 steps)
+┃  ├─ 36 (split)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 153
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_REVERT
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  │
-┃  ┊  constraint:
-┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-┃  ┊      ( notBool <acctID>
+┃  ┃
+┃  ┃ (branch)
+┃  ┣━━┓ subst: ...
+┃  ┃  ┃ constraint:
+┃  ┃  ┃     1024 <=Int CALLDEPTH_CELL:Int
+┃  ┃  │
+┃  ┃  ├─ 26 (terminal)
+┃  ┃  │   k: #halt ~> CONTINUATION:K
+┃  ┃  │   pc: 153
+┃  ┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  ┃  │   statusCode: EVMC_REVERT
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  ┃  │
+┃  ┃  ┊  constraint:
+┃  ┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+┃  ┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+┃  ┃  ┊      ( notBool <acctID>
   C_TGOVERNANCE_ESCROW_ID:Int
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊      ( notBool <acctID>
+┃  ┃  ┊      ( notBool <acctID>
   C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊      ( notBool <acctID>
+┃  ┃  ┊      ( notBool <acctID>
   C_TGOVERNANCE_ID:Int
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
-┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
-┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
-┃  ┊  subst: ...
-┃  └─ 2 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
-┃      pc: PC_CELL_5d410f2a:Int
-┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃      statusCode: STATUSCODE_FINAL:StatusCode
-┃
-┣━━┓ subst: .Subst
-┃  ┃ constraint:
-┃  ┃     CALLDEPTH_CELL:Int <Int 1023
-┃  ┃     CALLDEPTH_CELL:Int <Int 1024
-┃  │
-┃  ├─ 33
-┃  │   k: #execute ~> CONTINUATION:K
-┃  │   pc: 0
-┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  │
-┃  │  (638 steps)
-┃  ├─ 27 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 68
-┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  │
-┃  ┊  constraint:
-┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-┃  ┊      ( notBool <acctID>
+┃  ┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
+┃  ┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┃  ┊  subst: ...
+┃  ┃  └─ 2 (leaf, target, terminal)
+┃  ┃      k: #halt ~> CONTINUATION:K
+┃  ┃      pc: PC_CELL_5d410f2a:Int
+┃  ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃  ┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃  ┃
+┃  ┗━━┓ subst: ...
+┃     ┃ constraint:
+┃     ┃     CALLDEPTH_CELL:Int <Int 1024
+┃     ┃     1023 <=Int CALLDEPTH_CELL:Int
+┃     │
+┃     ├─ 28 (terminal)
+┃     │   k: #halt ~> CONTINUATION:K
+┃     │   pc: 153
+┃     │   callDepth: CALLDEPTH_CELL:Int
+┃     │   statusCode: EVMC_REVERT
+┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃     │   method: test%TGovernance.getEscrowTokenTotalSupply()
+┃     │
+┃     ┊  constraint:
+┃     ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+┃     ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+┃     ┊      ( notBool <acctID>
   C_TGOVERNANCE_ESCROW_ID:Int
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊      ( notBool <acctID>
+┃     ┊      ( notBool <acctID>
   C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊      ( notBool <acctID>
+┃     ┊      ( notBool <acctID>
   C_TGOVERNANCE_ID:Int
 </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
-┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
-┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
-┃  ┊  subst: ...
-┃  └─ 2 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
-┃      pc: PC_CELL_5d410f2a:Int
-┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃     ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
+┃     ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃     ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃     ┊  subst: ...
+┃     └─ 2 (leaf, target, terminal)
+┃         k: #halt ~> CONTINUATION:K
+┃         pc: PC_CELL_5d410f2a:Int
+┃         callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃         statusCode: STATUSCODE_FINAL:StatusCode
 ┃
 ┗━━┓ subst: .Subst
    ┃ constraint:
+   ┃     CALLDEPTH_CELL:Int <Int 1023
    ┃     CALLDEPTH_CELL:Int <Int 1024
-   ┃     1023 <=Int CALLDEPTH_CELL:Int
    │
-   ├─ 34
+   ├─ 33
    │   k: #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
@@ -108,12 +112,12 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%TGovernance.getEscrowTokenTotalSupply()
    │
-   │  (389 steps)
-   ├─ 28 (terminal)
+   │  (638 steps)
+   ├─ 27 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 153
+   │   pc: 68
    │   callDepth: CALLDEPTH_CELL:Int
-   │   statusCode: EVMC_REVERT
+   │   statusCode: EVMC_SUCCESS
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%TGovernance.getEscrowTokenTotalSupply()
    │
@@ -144,250 +148,6 @@
 
 module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
     
-    
-    rule [BASIC-BLOCK-30-TO-26]: <foundry>
-           <kevm>
-             <k>
-               ( #execute => #halt )
-               ~> _CONTINUATION
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               SHANGHAI
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( _OUTPUT_CELL => b"" )
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
-                 </statusCode>
-                 <callState>
-                   <id>
-                     C_TGOVERNANCE_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( .WordStack => ( 1 : ( 132 : ( selector ( "getTokenTotalSupply()" ) : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( selector ( "getEscrowTokenTotalSupply()" ) : .WordStack ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     CALLDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <addressList>
-                 .List
-               </addressList>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( 1024 <=Int CALLDEPTH_CELL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 9 ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-30-TO-26)]
     
     rule [BASIC-BLOCK-33-TO-27]: <foundry>
            <kevm>
@@ -640,7 +400,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                ))))))))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-33-TO-27)]
     
-    rule [BASIC-BLOCK-34-TO-28]: <foundry>
+    rule [BASIC-BLOCK-35-TO-36]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -664,7 +424,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                    ( _STATUSCODE => EVMC_REVERT )
                  </statusCode>
                  <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
+                   ( TOUCHEDACCOUNTS_CELL:Set => ?V_3ac8252a )
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -834,9 +594,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
       requires ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( CALLDEPTH_CELL:Int <Int 1024
        andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( 1023 <=Int CALLDEPTH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -885,7 +643,20 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 9 ) )
-               ))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-34-TO-28)]
+       andBool ( ( 1024 <=Int CALLDEPTH_CELL:Int
+          orBool ( ( CALLDEPTH_CELL:Int <Int 1024
+           andBool ( 1023 <=Int CALLDEPTH_CELL:Int
+                   ))
+                 ))
+               )))))))))))))))))))))))))))))))))))))))))))))))
+       ensures ( ( ?V_3ac8252a ==K TOUCHEDACCOUNTS_CELL:Set
+         andBool ( 1024 <=Int CALLDEPTH_CELL:Int
+                 ))
+        orBool ( ( ?V_3ac8252a ==K TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int )
+         andBool ( CALLDEPTH_CELL:Int <Int 1024
+         andBool ( 1023 <=Int CALLDEPTH_CELL:Int
+                 )))
+               ))
+      [priority(20), label(BASIC-BLOCK-35-TO-36)]
 
 endmodule
