@@ -1,0 +1,888 @@
+
+┌─ 1 (root, split, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: src%Branches.applyOp(uint256,uint256,bool)
+┃
+┃ (branch)
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     KV2_z:Int ==Int 0
+┃  ┃     ( notBool ( ( notBool KV0_x:Int ==Int 0 ) andBool maxUInt256 /Word KV0_x:Int <Int KV1_y:Int ) )
+┃  │
+┃  ├─ 30
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: src%Branches.applyOp(uint256,uint256,bool)
+┃  │
+┃  │  (651 steps)
+┃  ├─ 20 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 77
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: src%Branches.applyOp(uint256,uint256,bool)
+┃  │
+┃  ┊  constraint:
+┃  ┊      ( notBool <acctID>
+  C_BRANCHES_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊  subst: ...
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     KV2_z:Int ==Int 0
+┃  ┃     ( notBool KV0_x:Int ==Int 0 )
+┃  ┃     maxUInt256 /Word KV0_x:Int <Int KV1_y:Int
+┃  │
+┃  ├─ 31
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: src%Branches.applyOp(uint256,uint256,bool)
+┃  │
+┃  │  (556 steps)
+┃  ├─ 21 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 195
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_REVERT
+┃  │   src: lib/forge-std/src/StdInvariant.sol:69:71
+┃  │   method: src%Branches.applyOp(uint256,uint256,bool)
+┃  │
+┃  ┊  constraint:
+┃  ┊      ( notBool <acctID>
+  C_BRANCHES_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊  subst: ...
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     ( notBool KV2_z:Int ==Int 0 )
+┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+┃  │
+┃  ├─ 32
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: src%Branches.applyOp(uint256,uint256,bool)
+┃  │
+┃  │  (606 steps)
+┃  ├─ 22 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 77
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: src%Branches.applyOp(uint256,uint256,bool)
+┃  │
+┃  ┊  constraint:
+┃  ┊      ( notBool <acctID>
+  C_BRANCHES_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊  subst: ...
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     ( notBool KV2_z:Int ==Int 0 )
+   ┃     ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
+   │
+   ├─ 33
+   │   k: #execute ~> CONTINUATION:K
+   │   pc: 0
+   │   callDepth: CALLDEPTH_CELL:Int
+   │   statusCode: STATUSCODE:StatusCode
+   │   src: test/nested/SimpleNested.t.sol:7:11
+   │   method: src%Branches.applyOp(uint256,uint256,bool)
+   │
+   │  (517 steps)
+   ├─ 23 (terminal)
+   │   k: #halt ~> CONTINUATION:K
+   │   pc: 195
+   │   callDepth: CALLDEPTH_CELL:Int
+   │   statusCode: EVMC_REVERT
+   │   src: lib/forge-std/src/StdInvariant.sol:69:71
+   │   method: src%Branches.applyOp(uint256,uint256,bool)
+   │
+   ┊  constraint:
+   ┊      ( notBool <acctID>
+  C_BRANCHES_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+   ┊  subst: ...
+   └─ 2 (leaf, target, terminal)
+       k: #halt ~> CONTINUATION:K
+       pc: PC_CELL_5d410f2a:Int
+       callDepth: CALLDEPTH_CELL_5d410f2a:Int
+       statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
+
+module SUMMARY-SRC%BRANCHES.APPLYOP(UINT256,UINT256,BOOL):0
+    
+    
+    rule [BASIC-BLOCK-30-TO-20]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => #buf ( 32 , chop ( ( KV0_x:Int *Int KV1_y:Int ) ) ) )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     C_BRANCHES_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\xe0~\\\x97" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes ( #buf ( 32 , KV2_z:Int ) => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( selector ( "applyOp(uint256,uint256,bool)" ) : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , chop ( ( KV0_x:Int *Int KV1_y:Int ) ) ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_BRANCHES_ID:Int
+                     </acctID>
+                     <balance>
+                       C_BRANCHES_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_BRANCHES_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( KV2_z:Int ==Int 0
+       andBool ( KV2_z:Int <Int 2
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_BRANCHES_ID:Int
+       andBool ( 0 <=Int C_BRANCHES_BAL:Int
+       andBool ( 0 <=Int C_BRANCHES_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( C_BRANCHES_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_BRANCHES_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_BRANCHES_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( C_BRANCHES_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_BRANCHES_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_BRANCHES_ID:Int <= 9 ) )
+       andBool ( ( notBool ( KV0_x:Int =/=Int 0 andBool maxUInt256 /Word KV0_x:Int <Int KV1_y:Int ) )
+               )))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-30-TO-20)]
+    
+    rule [BASIC-BLOCK-31-TO-21]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_REVERT )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     C_BRANCHES_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\xe0~\\\x97" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes ( #buf ( 32 , KV2_z:Int ) => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 240 : ( 0 : ( KV0_x:Int : ( KV1_y:Int : ( 93 : ( 0 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 60 : ( selector ( "applyOp(uint256,uint256,bool)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_BRANCHES_ID:Int
+                     </acctID>
+                     <balance>
+                       C_BRANCHES_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_BRANCHES_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( KV2_z:Int ==Int 0
+       andBool ( KV0_x:Int =/=Int 0
+       andBool ( KV2_z:Int <Int 2
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_BRANCHES_ID:Int
+       andBool ( 0 <=Int C_BRANCHES_BAL:Int
+       andBool ( 0 <=Int C_BRANCHES_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( C_BRANCHES_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_BRANCHES_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_BRANCHES_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( C_BRANCHES_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_BRANCHES_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( maxUInt256 /Word KV0_x:Int <Int KV1_y:Int
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_BRANCHES_ID:Int <= 9 ) )
+               ))))))))))))))))))))))))))))))
+       ensures ( maxUInt256 /Int KV0_x:Int ) <Int KV1_y:Int
+      [priority(20), label(BASIC-BLOCK-31-TO-21)]
+    
+    rule [BASIC-BLOCK-32-TO-22]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     C_BRANCHES_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\xe0~\\\x97" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( selector ( "applyOp(uint256,uint256,bool)" ) : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_BRANCHES_ID:Int
+                     </acctID>
+                     <balance>
+                       C_BRANCHES_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_BRANCHES_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( KV2_z:Int =/=Int 0
+       andBool ( KV2_z:Int <Int 2
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_BRANCHES_ID:Int
+       andBool ( 0 <=Int C_BRANCHES_BAL:Int
+       andBool ( 0 <=Int C_BRANCHES_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( C_BRANCHES_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_BRANCHES_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_BRANCHES_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( C_BRANCHES_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_BRANCHES_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_BRANCHES_ID:Int <= 9 ) )
+               )))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-32-TO-22)]
+    
+    rule [BASIC-BLOCK-33-TO-23]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_REVERT )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     C_BRANCHES_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\xe0~\\\x97" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 212 : ( 0 : ( KV0_x:Int : ( KV1_y:Int : ( 93 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 60 : ( selector ( "applyOp(uint256,uint256,bool)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_BRANCHES_ID:Int
+                     </acctID>
+                     <balance>
+                       C_BRANCHES_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_BRANCHES_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( KV2_z:Int =/=Int 0
+       andBool ( KV2_z:Int <Int 2
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_BRANCHES_ID:Int
+       andBool ( 0 <=Int C_BRANCHES_BAL:Int
+       andBool ( 0 <=Int C_BRANCHES_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( C_BRANCHES_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_BRANCHES_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_BRANCHES_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( C_BRANCHES_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_BRANCHES_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_BRANCHES_ID:Int <= 9 ) )
+               )))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-33-TO-23)]
+
+endmodule
