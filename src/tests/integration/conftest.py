@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from distutils.dir_util import copy_tree
 from functools import partial
+from shutil import copytree
 from typing import TYPE_CHECKING
 
 import pytest
@@ -64,7 +64,7 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
     foundry_root = root_tmp_dir / 'foundry'
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
-            copy_tree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root))
+            copytree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root), dirs_exist_ok=True)
 
             run_process_2(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
             run_process_2(
@@ -98,5 +98,5 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
             )
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
-    copy_tree(str(foundry_root), str(session_foundry_root))
+    copytree(str(foundry_root), str(session_foundry_root), dirs_exist_ok=True)
     return Foundry(session_foundry_root, add_enum_constraints=True)

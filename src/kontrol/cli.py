@@ -682,7 +682,7 @@ def _create_argument_parser() -> ArgumentParser:
         help='Print elements in hexadecimal encoding.',
     )
 
-    command_parser.add_parser(
+    minimize_proof_args = command_parser.add_parser(
         'minimize-proof',
         help='Minimize the KCFG of the proof for a given test.',
         parents=[
@@ -691,6 +691,13 @@ def _create_argument_parser() -> ArgumentParser:
             kontrol_cli_args.foundry_args,
             config_args.config_args,
         ],
+    )
+    minimize_proof_args.add_argument(
+        '--merge',
+        dest='merge',
+        default=None,
+        action='store_true',
+        help='Merge the nodes of the KCFG into a successful branch and a revert branch.',
     )
 
     remove_node = command_parser.add_parser(
