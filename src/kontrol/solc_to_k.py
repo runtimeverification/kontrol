@@ -822,7 +822,9 @@ class Contract:
             for node in self.contract_json['ast']['nodes']
             if node['nodeType'] == 'ContractDefinition' and node['name'] == self._name
         ]
-        contract_ast, contract_kind = single(contract_ast_nodes) if len(contract_ast_nodes) > 0 else ({'nodes': []}, None)
+        contract_ast, contract_kind = (
+            single(contract_ast_nodes) if len(contract_ast_nodes) > 0 else ({'nodes': []}, None)
+        )
         function_asts = {
             node['functionSelector']: node
             for node in contract_ast['nodes']
