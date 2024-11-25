@@ -818,11 +818,11 @@ class Contract:
         self.constructor = None
 
         contract_ast_nodes = [
-            node
+            (node, node.get('contractKind'))
             for node in self.contract_json['ast']['nodes']
             if node['nodeType'] == 'ContractDefinition' and node['name'] == self._name
         ]
-        contract_ast = single(contract_ast_nodes) if len(contract_ast_nodes) > 0 else {'nodes': []}
+        contract_ast, contract_kind = single(contract_ast_nodes) if len(contract_ast_nodes) > 0 else ({'nodes': []}, None)
         function_asts = {
             node['functionSelector']: node
             for node in contract_ast['nodes']
@@ -843,7 +843,7 @@ class Contract:
 
         for method in contract_json['abi']:
             if method['type'] == 'function':
-                msig = method_sig_from_abi(method)
+                msig = method_sig_from_abi(method, contract_kind == 'library')
                 method_selector: str = str(evm['methodIdentifiers'][msig])
                 mid = int(method_selector, 16)
                 method_ast = function_asts[method_selector] if method_selector in function_asts else {}
@@ -1334,7 +1334,7 @@ def _range_predicate_bytes(term: KInner, type_label: str) -> tuple[bool, KApply 
     return (False, None)
 
 
-def method_sig_from_abi(method_json: dict) -> str:
+def method_sig_from_abi(method_json: dict, is_library: bool = False) -> str:
     def unparse_input(input_json: dict) -> str:
         array_sizes = []
         base_type = input_json['type']
@@ -1343,12 +1343,16 @@ def method_sig_from_abi(method_json: dict) -> str:
             array_sizes.append(array_size_str if array_size_str != '' else '')
             base_type = base_type.rpartition('[')[0]
         if base_type == 'tuple':
-            input_type = '('
-            for i, component in enumerate(input_json['components']):
-                if i != 0:
-                    input_type += ','
-                input_type += unparse_input(component)
-            input_type += ')'
+            # If the contract is a library, structs are not unpacked
+            if not is_library:
+                input_type = '('
+                for i, component in enumerate(input_json['components']):
+                    if i != 0:
+                        input_type += ','
+                    input_type += unparse_input(component)
+                input_type += ')'
+            else:
+                input_type = input_json['internalType'].split(' ')[1]
         else:
             input_type = base_type
         for array_size in reversed(array_sizes):
