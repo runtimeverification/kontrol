@@ -9,12 +9,12 @@ library SimpleMath {
         address elementTwo;
     }
 
-    function square(uint256 x) public pure returns (uint256) {
-        return x * x;
-    }
-
     function structInput(LibStruct memory s) public pure returns (uint256) {
         return s.elementOne;
+    }
+
+    function square(uint256 x) public pure returns (uint256) {
+        return x * x;
     }
 }
 
