@@ -4,6 +4,15 @@ pragma solidity =0.8.13;
 import "forge-std/Test.sol";
 
 library SimpleMath {
+    struct LibStruct {
+        uint256 elementOne;
+        address elementTwo;
+    }
+
+    function structInput(LibStruct memory s) public pure returns (uint256) {
+        return s.elementOne;
+    }
+
     function square(uint256 x) public pure returns (uint256) {
         return x * x;
     }

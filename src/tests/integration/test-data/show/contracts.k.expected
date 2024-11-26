@@ -4931,11 +4931,22 @@ module S2KtestZModSimpleMath-CONTRACT
     
     syntax S2KtestZModSimpleMathMethod ::= "S2Ksquare" "(" Int ":" "uint256" ")" [symbol("method_test%SimpleMath_S2Ksquare_uint256")]
     
+    syntax S2KtestZModSimpleMathMethod ::= "S2KstructInput" "(" Int ":" "uint256" "," Int ":" "address" ")" [symbol("method_test%SimpleMath_S2KstructInput_uint256_address")]
+    
     rule  ( S2KtestZModSimpleMath . S2Ksquare ( KV0_x : uint256 ) => #abiCallData ( "square" , ( #uint256 ( KV0_x ) , .TypedArgs ) ) )
        ensures #rangeUInt ( 256 , KV0_x )
       
     
+    rule  ( S2KtestZModSimpleMath . S2KstructInput ( KV0_elementOne : uint256 , KV1_elementTwo : address ) => #abiCallData ( "structInput" , ( #tuple ( ( #uint256 ( KV0_elementOne ) , ( #address ( KV1_elementTwo ) , .TypedArgs ) ) ) , .TypedArgs ) ) )
+       ensures ( #rangeUInt ( 256 , KV0_elementOne )
+       andBool ( #rangeAddress ( KV1_elementTwo )
+               ))
+      
+    
     rule  ( selector ( "square(uint256)" ) => 2066295049 )
+      
+    
+    rule  ( selector ( "structInput(SimpleMath.LibStruct)" ) => 1313163024 )
       
 
 endmodule
