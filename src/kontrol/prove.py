@@ -1377,12 +1377,12 @@ def _final_cterm(
                 KVariable('RECORDEVENT_FINAL'),
                 KVariable('ISEVENTEXPECTED_FINAL'),
             )
-            if not failing or is_setup:
+            if not failing:
                 return final_cterm.add_constraint(mlEqualsTrue(foundry_success))
             else:
                 return final_cterm.add_constraint(mlEqualsTrue(notBool(foundry_success)))
         else:
-            if not failing or is_setup:
+            if not failing:
                 return final_cterm.add_constraint(
                     mlEqualsTrue(
                         Hevm.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL'))
