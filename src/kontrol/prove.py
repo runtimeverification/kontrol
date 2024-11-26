@@ -414,7 +414,8 @@ def _run_cfg_group(
                     run_constructor=options.run_constructor,
                     recorded_state_entries=recorded_state_entries,
                     summary_ids=summary_ids,
-                    active_symbolik=options.with_non_general_state,
+                    active_simbolik=options.with_non_general_state,
+                    symbolic_storage=options.symbolic_storage,
                     hevm=options.hevm,
                     config_type=options.config_type,
                     evm_chain_options=EVMChainOptions(
@@ -575,7 +576,8 @@ def method_to_apr_proof(
     run_constructor: bool = False,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     summary_ids: Iterable[str] = (),
-    active_symbolik: bool = False,
+    active_simbolik: bool = False,
+    symbolic_storage: bool = False,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> APRProof:
@@ -600,7 +602,8 @@ def method_to_apr_proof(
         evm_chain_options=evm_chain_options,
         stack_checks=stack_checks,
         recorded_state_entries=recorded_state_entries,
-        active_symbolik=active_symbolik,
+        active_simbolik=active_simbolik,
+        symbolic_storage=symbolic_storage,
         hevm=hevm,
         trace_options=trace_options,
         config_type=config_type,
@@ -647,7 +650,8 @@ def _method_to_initialized_cfg(
     setup_proof: APRProof | None = None,
     graft_setup_proof: bool = False,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
-    active_symbolik: bool = False,
+    active_simbolik: bool = False,
+    symbolic_storage: bool = False,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, int, int, Iterable[int]]:
@@ -663,7 +667,8 @@ def _method_to_initialized_cfg(
         graft_setup_proof,
         evm_chain_options,
         recorded_state_entries,
-        active_symbolik,
+        active_simbolik,
+        symbolic_storage,
         config_type=config_type,
         stack_checks=stack_checks,
         hevm=hevm,
@@ -697,7 +702,8 @@ def _method_to_cfg(
     graft_setup_proof: bool,
     evm_chain_options: EVMChainOptions,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
-    active_symbolik: bool,
+    active_simbolik: bool,
+    symbolic_storage: bool,
     config_type: ConfigType,
     stack_checks: bool,
     hevm: bool = False,
@@ -733,7 +739,8 @@ def _method_to_cfg(
         recorded_state_entries=recorded_state_entries,
         calldata=calldata,
         callvalue=callvalue,
-        active_symbolik=active_symbolik,
+        active_simbolik=active_simbolik,
+        symbolic_storage=symbolic_storage,
         trace_options=trace_options,
         config_type=config_type,
         additional_accounts=external_libs,
@@ -989,7 +996,8 @@ def _init_cterm(
     storage_fields: tuple[StorageField, ...],
     method: Contract.Method | Contract.Constructor,
     config_type: ConfigType,
-    active_symbolik: bool,
+    active_simbolik: bool,
+    symbolic_storage: bool,
     evm_chain_options: EVMChainOptions,
     additional_accounts: list[KInner],
     stack_checks: bool,
@@ -1046,8 +1054,8 @@ def _init_cterm(
 
     storage_constraints: list[KApply] = []
 
-    if config_type == ConfigType.TEST_CONFIG or active_symbolik:
-        init_account_list = _create_initial_account_list(contract_code, additional_accounts, recorded_state_entries)
+    if config_type == ConfigType.TEST_CONFIG or active_simbolik:
+        init_account_list = _create_initial_account_list(contract_code, additional_accounts, recorded_state_entries, symbolic_storage)
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
             'CALLSTACK_CELL': list_empty(),
@@ -1124,7 +1132,7 @@ def _init_cterm(
         init_cterm = init_cterm.add_constraint(constraint)
 
     # The calling contract is assumed to be in the present accounts for non-tests
-    if not (config_type == ConfigType.TEST_CONFIG or active_symbolik):
+    if not (config_type == ConfigType.TEST_CONFIG or active_simbolik):
         init_cterm.add_constraint(
             mlEqualsTrue(
                 KApply(
@@ -1147,12 +1155,13 @@ def _create_initial_account_list(
     program: KInner,
     additional_accounts: list[KInner],
     recorded_state: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
+    symbolic_storage: bool,
 ) -> list[KInner]:
     _contract = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
         intToken(0),
         program,
-        map_empty(),
+        KVariable('STORAGE_TEST_CONTRACT', sort=KSort('Map')) if symbolic_storage else map_empty(),
         map_empty(),
         map_empty(),
         intToken(1),

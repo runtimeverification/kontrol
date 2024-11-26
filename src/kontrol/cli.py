@@ -513,6 +513,13 @@ def _create_argument_parser() -> ArgumentParser:
         help='Flag used by Simbolik to initialise the state of a non test function as if it was a test function.',
     )
     prove_args.add_argument(
+        '--symbolic-storage',
+        dest='symbolic_storage',
+        default=False,
+        action='store_true',
+        help='Start exection from a fully symbolic storage. This is mainly for compatibility with Halmos and HEVM. The preferred way to start from a symbolic storage is to use the symbolicStorage cheatcode.'
+    ),
+    prove_args.add_argument(
         '--xml-test-report',
         dest='xml_test_report',
         default=None,

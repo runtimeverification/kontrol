@@ -376,6 +376,7 @@ class ProveOptions(
     recorded_dump_state_path: Path | None
     include_summaries: list[tuple[str, int | None]]
     with_non_general_state: bool
+    symbolic_storage: bool
     xml_test_report: bool
     cse: bool
     hevm: bool
@@ -405,6 +406,7 @@ class ProveOptions(
             'setup_version': None,
             'include_summaries': [],
             'with_non_general_state': False,
+            'symbolic_storage': False,
             'xml_test_report': False,
             'cse': False,
             'hevm': False,
