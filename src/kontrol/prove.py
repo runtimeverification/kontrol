@@ -805,6 +805,7 @@ def _method_to_cfg(
         failing=method.is_testfail,
         config_type=config_type,
         is_test=method.is_test,
+        is_setup=method.is_setup,
         hevm=hevm,
         additional_accounts=external_libs,
     )
@@ -1363,12 +1364,13 @@ def _final_cterm(
     *,
     failing: bool,
     is_test: bool = True,
+    is_setup: bool = False,
     hevm: bool = False,
 ) -> CTerm:
     final_term = _final_term(empty_config, program, additional_accounts, config_type=config_type)
     dst_failed_post = KEVM.lookup(KVariable('CHEATCODE_STORAGE_FINAL'), Foundry.loc_FOUNDRY_FAILED())
     final_cterm = CTerm.from_kast(final_term)
-    if is_test:
+    if is_test or is_setup:
         if not hevm:
             foundry_success = Foundry.success(
                 KVariable('STATUSCODE_FINAL'),
