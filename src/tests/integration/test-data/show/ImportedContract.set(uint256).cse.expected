@@ -64,6 +64,22 @@
        statusCode: STATUSCODE_FINAL:StatusCode
 
 
+┌─ 12 (root, leaf, pending)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%ImportedContract.set(uint256)
+
+┌─ 13 (root, leaf, pending)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%ImportedContract.set(uint256)
+
 
 
 module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0

@@ -136,6 +136,30 @@
        statusCode: STATUSCODE_FINAL:StatusCode
 
 
+┌─ 36 (root, leaf, pending)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+
+┌─ 42 (root, leaf, pending)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+
+┌─ 46 (root, leaf, pending)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+
 
 
 module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):0

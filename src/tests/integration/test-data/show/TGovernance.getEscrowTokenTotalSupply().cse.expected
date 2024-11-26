@@ -144,6 +144,22 @@
        statusCode: STATUSCODE_FINAL:StatusCode
 
 
+┌─ 30 (root, leaf, pending)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%TGovernance.getEscrowTokenTotalSupply()
+
+┌─ 34 (root, leaf, pending)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%TGovernance.getEscrowTokenTotalSupply()
+
 
 
 module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
