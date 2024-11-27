@@ -451,7 +451,7 @@ def _run_cfg_group(
                 extra_lemmas_module = single(module for module in modules.modules if module.name == extra_module_name)
                 non_rule_sentences = [sent for sent in extra_lemmas_module.sentences if not isinstance(sent, KRule)]
                 if non_rule_sentences:
-                    raise ValueError(f'Supplie --extra-module contains non-Rule sentences: {non_rule_sentences}')
+                    raise ValueError(f'Supplied --extra-module contains non-Rule sentences: {non_rule_sentences}')
 
             if progress is not None and task is not None:
                 progress.update(
