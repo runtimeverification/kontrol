@@ -985,6 +985,40 @@ def test_foundry_refute_node(
     assert_pass(test, single(prove_res_3))
 
 
+def test_foundry_extra_lemmas(
+    foundry: Foundry,
+    update_expected_output: bool,
+    bug_report: BugReport | None,
+    server: KoreServer,
+    no_use_booster: bool,
+    force_sequential: bool,
+) -> None:
+    if no_use_booster:
+        pytest.skip()
+
+    test = 'ArithmeticTest.test_xor(uint256,uint256)'
+    lemmas_file = 'xor-lemmas.k'
+
+    if bug_report is not None:
+        server._populate_bug_report(bug_report)
+
+    prove_res = foundry_prove(
+        foundry=foundry,
+        options=ProveOptions(
+            {
+                'tests': [(test, None)],
+                'bug_report': bug_report,
+                'break_on_calls': True,
+                'port': server.port,
+                'force_sequential': force_sequential,
+                'extra_module': f'{TEST_DATA_DIR / lemmas_file}:XOR-LEMMAS',
+            }
+        ),
+    )
+
+    assert_pass(test, single(prove_res))
+
+
 def test_foundry_xml_report(
     foundry: Foundry,
     bug_report: BugReport | None,
