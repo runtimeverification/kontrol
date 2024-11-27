@@ -59,11 +59,14 @@ def foundry_kompile(
         regen = True
         foundry_up_to_date = False
 
+    options.requires = [str(foundry._root / r) for r in options.requires]
+
     requires = (
         options.requires
         + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
         + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
         + ([KSRC_DIR / 'no_stack_checks.md'])
+        + ([KSRC_DIR / 'no_code_size_checks.md'])
     )
     for r in tuple(requires):
         req = Path(r)
@@ -229,6 +232,7 @@ def _foundry_to_main_def(
             + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
             + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
             + ([KImport('NO-STACK-CHECKS')])
+            + ([KImport('NO-CODE-SIZE-CHECKS')])
         ),
     )
 
