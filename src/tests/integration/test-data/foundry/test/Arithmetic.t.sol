@@ -23,6 +23,12 @@ contract ArithmeticTest is Test {
         assertEq(c + 1, a);
     }
 
+    function test_xor(uint256 a, uint256 b) external {
+        vm.assume(a == b);
+        uint256 res = a ^ b;
+        assertEq(res, 0);
+    }
+
     function max2(uint256 x, uint256 y) internal pure returns (uint256) {
         if (x < y && x != 2**100 - 1337) {
             return y;

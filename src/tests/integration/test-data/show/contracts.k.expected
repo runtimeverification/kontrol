@@ -677,6 +677,8 @@ module S2KtestZModArithmeticTest-CONTRACT
     
     syntax S2KtestZModArithmeticTestMethod ::= "S2KtestZUndwmulZUndweaklyZUndincreasingZUndpositive" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%ArithmeticTest_S2KtestZUndwmulZUndweaklyZUndincreasingZUndpositive_uint256_uint256")]
     
+    syntax S2KtestZModArithmeticTestMethod ::= "S2KtestZUndxor" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%ArithmeticTest_S2KtestZUndxor_uint256_uint256")]
+    
     rule  ( S2KtestZModArithmeticTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
     
@@ -785,6 +787,12 @@ module S2KtestZModArithmeticTest-CONTRACT
                ))
       
     
+    rule  ( S2KtestZModArithmeticTest . S2KtestZUndxor ( KV0_a : uint256 , KV1_b : uint256 ) => #abiCallData ( "test_xor" , ( #uint256 ( KV0_a ) , ( #uint256 ( KV1_b ) , .TypedArgs ) ) ) )
+       ensures ( #rangeUInt ( 256 , KV0_a )
+       andBool ( #rangeUInt ( 256 , KV1_b )
+               ))
+      
+    
     rule  ( selector ( "IS_TEST()" ) => 4202047188 )
       
     
@@ -852,6 +860,9 @@ module S2KtestZModArithmeticTest-CONTRACT
       
     
     rule  ( selector ( "test_wmul_weakly_increasing_positive(uint256,uint256)" ) => 1421647895 )
+      
+    
+    rule  ( selector ( "test_xor(uint256,uint256)" ) => 2156875273 )
       
 
 endmodule
