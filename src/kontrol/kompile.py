@@ -59,7 +59,7 @@ def foundry_kompile(
         regen = True
         foundry_up_to_date = False
 
-    options.requires = [foundry._root / r for r in options.requires]
+    options.requires = [str(foundry._root / r) for r in options.requires]
 
     requires = (
         options.requires

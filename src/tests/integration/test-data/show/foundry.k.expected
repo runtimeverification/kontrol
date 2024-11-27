@@ -5,6 +5,7 @@ requires "requires/pausability-lemmas.k"
 requires "requires/symbolic-bytes-lemmas.k"
 requires "requires/keccak.md"
 requires "requires/no_stack_checks.md"
+requires "requires/no_code_size_checks.md"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
@@ -173,6 +174,7 @@ module FOUNDRY-MAIN
     imports public S2KlibZModforgeZSubstdZModlibZModdsZSubtestZModsrcZModDSTest-VERIFICATION
     imports public KECCAK-LEMMAS
     imports public NO-STACK-CHECKS
+    imports public NO-CODE-SIZE-CHECKS
     
     
 
