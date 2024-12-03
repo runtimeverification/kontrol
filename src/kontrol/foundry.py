@@ -105,22 +105,22 @@ class FOUNDRYSemantics(KEVMSemantics):
         self._cached_subst = load_pattern.match(cterm.cell('K_CELL'))
         return self._cached_subst is not None
 
-    def _check_abstract_pattern(self, cterm: CTerm) -> bool:
-        """Given a CTerm, check if the rule 'FOUNDRY.abstract' is at the top of the K_CELL.
+    def _check_forget_pattern(self, cterm: CTerm) -> bool:
+        """Given a CTerm, check if the rule 'FOUNDRY-ACCOUNTS.forget' is at the top of the K_CELL.
 
-        This method checks if the `FOUNDRY.abstract` rule is at the top of the `K_CELL` in the given `cterm`.
+        This method checks if the 'FOUNDRY-ACCOUNTS.forget' rule is at the top of the `K_CELL` in the given `cterm`.
         If the rule matches, the resulting substitution is cached in `_cached_subst` for later use in `custom_step`
         :param cterm: The CTerm representing the current state of the proof node.
         :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
         """
         abstract_pattern = KSequence(
             [
-                KApply('cheatcode_abstract', [KVariable('###CONDITION1'), KVariable('###CONDITION2')]),
+                KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
                 KVariable('###CONTINUATION'),
             ]
         )
         self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
-        print('CHECKING ABSTRACT PATTERN')
+        print('CHECKING FORGET PATTERN')
         return self._cached_subst is not None
 
     def custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
@@ -138,14 +138,27 @@ class FOUNDRYSemantics(KEVMSemantics):
             new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'PROGRAM_CELL', subst['###BYTECODE']))
             new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
             return Step(new_cterm, 1, (), ['EVM.program.load'], cut=True)
-        elif self._check_abstract_pattern(cterm):
-            print('ABSTRACT PATTERN CONFIRMED')
+
+        elif self._check_forget_pattern(cterm):
+            _operators = ['_==Int_','_!=Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
+            print('FORGET PATTERN CONFIRMED')
             subst = self._cached_subst
             assert subst is not None
-            fst_condition = subst['###CONDITION1']
-            snd_condition = subst['###CONDITION2']
-            print('fst', fst_condition)
-            print('snd', snd_condition)
+            fst_term = subst['###TERM1']
+            snd_term = subst['###TERM2']
+            operator = subst['###OPERATOR']
+            print('fst', fst_term)
+            print('snd', snd_term)
+            print('operator', operator)
+            assert type(operator) is KToken
+            eq = KApply(_operators[int(operator.token)],fst_term, snd_term)
+            print('kapply',eq)
+            print('cterms', cterm.constraints)
+            print(eq in cterm.constraints)
+            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+            new_constraints = ( c for c in cterm.constraints if c is not eq )
+            return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+
         return None
 
 

@@ -441,7 +441,7 @@ def _run_cfg_group(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
 
-            cut_point_rules.append('FOUNDRY-ACCOUNTS.abstract')
+            cut_point_rules.append('FOUNDRY-ACCOUNTS.forget')
             print('CUT POINT RULES')
             print(cut_point_rules)
 

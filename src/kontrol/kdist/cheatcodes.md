@@ -1110,19 +1110,20 @@ Mock functions
 Abstraction functions
 ---------------------
 
-#### `abstract` - replaces the first condition in the current constraints with the second one provided.
+#### `forgetBranch` - removes a given path constraint.
 
 ```
-    function abstract(bool cond1, bool cond2) external;
+    function forgetBranch(uint256 op1, ComparisonOperator op, uint256 op2) external;
 ```
 
 ```k
     rule [cheatcode.call.abstract]:
          <k> #cheatcode_call SELECTOR ARGS
-          => #abstract ( #range(ARGS,0,32), #range(ARGS,32,32))
+          => #forget ( #asWord(#range(ARGS,0,32)), #asWord(#range(ARGS,32,32)), #asWord(#range(ARGS,64,32)))
           ...
          </k>
-      requires SELECTOR ==Int selector ( "replace_constraint(bool,bool)" )
+      requires SELECTOR ==Int selector ( "forgetBranch(uint256,uint8,uint256)" )
+
 ```
 
 Utils
@@ -1710,8 +1711,8 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "mockCall(address,bytes,bytes)" )            => 3110212580 )
     rule ( selector ( "mockFunction(address,address,bytes)" )      => 2918731041 )
     rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
-    rule ( selector ( "replace_constraint(bool,bool)" )            => 1408652492 )
-    rule ( selector ( "forget(bool)" )                             => 589442177  )
+    rule ( selector ( "replaceConstraint(uint256,uint8,uint256,bool)" ) => 1408652492 )
+    rule ( selector ( "forgetBranch(uint256,uint8,uint256)" )      => 1720990067 )
 ```
 
 Selectors for **unimplemented** cheat code functions.
