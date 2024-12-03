@@ -1106,6 +1106,25 @@ Mock functions
       [priority(30)]
 ```
 
+
+Abstraction functions
+---------------------
+
+#### `abstract` - replaces the first condition in the current constraints with the second one provided.
+
+```
+    function abstract(bool cond1, bool cond2) external;
+```
+
+```k
+    rule [cheatcode.call.abstract]:
+         <k> #cheatcode_call SELECTOR ARGS
+          => #abstract ( #range(ARGS,0,32), #range(ARGS,32,32))
+          ...
+         </k>
+      requires SELECTOR ==Int selector ( "replace_constraint(bool,bool)" )
+```
+
 Utils
 -----
 
@@ -1691,6 +1710,8 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "mockCall(address,bytes,bytes)" )            => 3110212580 )
     rule ( selector ( "mockFunction(address,address,bytes)" )      => 2918731041 )
     rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
+    rule ( selector ( "replace_constraint(bool,bool)" )            => 1408652492 )
+    rule ( selector ( "forget(bool)" )                             => 589442177  )
 ```
 
 Selectors for **unimplemented** cheat code functions.

@@ -78,6 +78,10 @@ Then, we define helpers in K which can:
              <storage> STORAGE => STORAGE [ #loc(FoundryCheat . Failed) <- 1 ] </storage>
              ...
            </account>
+
+    syntax KItem ::= #abstract ( Bytes , Bytes ) [symbol(cheatcode_abstract)]
+ // -----------------------------------------------------------------------
+    rule [abstract]: <k> #abstract(_C1, _C2) => .K ... </k>
 ```
 
 #### Structure of execution

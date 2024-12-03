@@ -17,13 +17,22 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
-from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
+from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics, compute_jumpdests
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
-from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
+from pyk.kast.inner import KApply, KInner, KSequence, KSort, KToken, KVariable
+from pyk.kast.manip import (
+    cell_label_to_var_name,
+    collect,
+    extract_lhs,
+    flatten_label,
+    minimize_term,
+    set_cell,
+    top_down,
+)
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
+from pyk.kcfg.kcfg import Step
 from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
@@ -57,6 +66,7 @@ if TYPE_CHECKING:
 
     from pyk.kast.outer import KAst
     from pyk.kcfg.kcfg import NodeIdLike
+    from pyk.kcfg.semantics import KCFGExtendResult
     from pyk.kcfg.tui import KCFGElem
     from pyk.proof.implies import RefutationProof
     from pyk.proof.show import NodePrinter
@@ -80,6 +90,63 @@ if TYPE_CHECKING:
     )
 
 _LOGGER: Final = logging.getLogger(__name__)
+
+
+class FOUNDRYSemantics(KEVMSemantics):
+    def _check_load_pattern(self, cterm: CTerm) -> bool:
+        """Given a CTerm, check if the rule 'EVM.program.load' is at the top of the K_CELL.
+
+        This method checks if the `EVM.program.load` rule is at the top of the `K_CELL` in the given `cterm`.
+        If the rule matches, the resulting substitution is cached in `_cached_subst` for later use in `custom_step`
+        :param cterm: The CTerm representing the current state of the proof node.
+        :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
+        """
+        load_pattern = KSequence([KApply('loadProgram', KVariable('###BYTECODE')), KVariable('###CONTINUATION')])
+        self._cached_subst = load_pattern.match(cterm.cell('K_CELL'))
+        return self._cached_subst is not None
+
+    def _check_abstract_pattern(self, cterm: CTerm) -> bool:
+        """Given a CTerm, check if the rule 'FOUNDRY.abstract' is at the top of the K_CELL.
+
+        This method checks if the `FOUNDRY.abstract` rule is at the top of the `K_CELL` in the given `cterm`.
+        If the rule matches, the resulting substitution is cached in `_cached_subst` for later use in `custom_step`
+        :param cterm: The CTerm representing the current state of the proof node.
+        :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
+        """
+        abstract_pattern = KSequence(
+            [
+                KApply('cheatcode_abstract', [KVariable('###CONDITION1'), KVariable('###CONDITION2')]),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+        self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
+        print('CHECKING ABSTRACT PATTERN')
+        return self._cached_subst is not None
+
+    def custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
+        """Given a CTerm, update the JUMPDESTS_CELL and PROGRAM_CELL if the rule 'EVM.program.load' is at the top of the K_CELL.
+
+        :param cterm: CTerm of a proof node.
+        :return: If the K_CELL matches the load_pattern, a Step with depth 1 is returned together with the new configuration, also registering that the `EVM.program.load` rule has been applied. Otherwise, None is returned.
+        """
+        if self._check_load_pattern(cterm):
+            subst = self._cached_subst
+            assert subst is not None
+            bytecode_sections = flatten_label('_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes', subst['###BYTECODE'])
+            jumpdests_set = compute_jumpdests(bytecode_sections)
+            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'JUMPDESTS_CELL', jumpdests_set))
+            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'PROGRAM_CELL', subst['###BYTECODE']))
+            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+            return Step(new_cterm, 1, (), ['EVM.program.load'], cut=True)
+        elif self._check_abstract_pattern(cterm):
+            print('ABSTRACT PATTERN CONFIRMED')
+            subst = self._cached_subst
+            assert subst is not None
+            fst_condition = subst['###CONDITION1']
+            snd_condition = subst['###CONDITION2']
+            print('fst', fst_condition)
+            print('snd', snd_condition)
+        return None
 
 
 class FoundryKEVM(KEVM):
@@ -841,7 +908,7 @@ def foundry_show(
     if options.failure_info:
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=KEVMSemantics(),
+            kcfg_semantics=FOUNDRYSemantics(),
             id=test_id,
             smt_timeout=options.smt_timeout,
             smt_retry_limit=options.smt_retry_limit,
@@ -908,7 +975,7 @@ def foundry_show(
         ]
         sentences = [sent for sent in sentences if not _contains_foundry_klabel(sent.body)]
         sentences = [
-            sent for sent in sentences if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(sent.body)))
+            sent for sent in sentences if not FOUNDRYSemantics().is_terminal(CTerm.from_kast(extract_lhs(sent.body)))
         ]
         if len(sentences) == 0:
             _LOGGER.warning(f'No claims or rules retained for proof {proof.id}')
@@ -1098,7 +1165,7 @@ def foundry_simplify_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=FOUNDRYSemantics(),
         id=apr_proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
@@ -1146,7 +1213,7 @@ def foundry_merge_nodes(
     check_cells_ne = [check_cell for check_cell in check_cells if not check_cells_equal(check_cell, nodes)]
 
     if check_cells_ne:
-        if not all(KEVMSemantics().same_loop(nodes[0].cterm, nd.cterm) for nd in nodes):
+        if not all(FOUNDRYSemantics().same_loop(nodes[0].cterm, nd.cterm) for nd in nodes):
             raise ValueError(f'Nodes {options.nodes} cannot be merged because they differ in: {check_cells_ne}')
 
     anti_unification = nodes[0].cterm
@@ -1186,7 +1253,7 @@ def foundry_step_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=FOUNDRYSemantics(),
         id=apr_proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
@@ -1262,7 +1329,7 @@ def foundry_section_edge(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=FOUNDRYSemantics(),
         id=apr_proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
@@ -1313,7 +1380,7 @@ def foundry_get_model(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=FOUNDRYSemantics(),
         id=proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,

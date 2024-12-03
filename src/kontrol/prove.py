@@ -11,7 +11,7 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
 from kevm_pyk.cli import EVMChainOptions
-from kevm_pyk.kevm import KEVM, KEVMSemantics, _process_jumpdests
+from kevm_pyk.kevm import KEVM, _process_jumpdests
 from kevm_pyk.utils import KDefinition__expand_macros, abstract_cell_vars, run_prover
 from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
@@ -35,7 +35,7 @@ from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import hash_str, run_process_2, single, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
-from .foundry import Foundry, foundry_to_xml
+from .foundry import Foundry, FOUNDRYSemantics, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
@@ -381,7 +381,7 @@ def _run_cfg_group(
                 )
                 return KCFGExplore(
                     cterm_symbolic,
-                    kcfg_semantics=KEVMSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                    kcfg_semantics=FOUNDRYSemantics(auto_abstract_gas=options.auto_abstract_gas),
                     id=test.id,
                 )
 
@@ -425,7 +425,7 @@ def _run_cfg_group(
                         }
                     ),
                 )
-            cut_point_rules = KEVMSemantics.cut_point_rules(
+            cut_point_rules = FOUNDRYSemantics.cut_point_rules(
                 options.break_on_jumpi,
                 options.break_on_jump,
                 options.break_on_calls,
@@ -440,6 +440,10 @@ def _run_cfg_group(
                 cut_point_rules.extend(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
+
+            cut_point_rules.append('FOUNDRY-ACCOUNTS.abstract')
+            print('CUT POINT RULES')
+            print(cut_point_rules)
 
             extra_lemmas_module: KFlatModule | None = None
             if options.extra_module:
@@ -465,7 +469,7 @@ def _run_cfg_group(
                 max_depth=options.max_depth,
                 max_iterations=options.max_iterations,
                 cut_point_rules=cut_point_rules,
-                terminal_rules=KEVMSemantics.terminal_rules(options.break_every_step),
+                terminal_rules=FOUNDRYSemantics.terminal_rules(options.break_every_step),
                 counterexample_info=options.counterexample_info,
                 max_frontier_parallel=options.max_frontier_parallel,
                 fail_fast=options.fail_fast,
