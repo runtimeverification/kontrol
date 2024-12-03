@@ -136,29 +136,77 @@
        statusCode: STATUSCODE_FINAL:StatusCode
 
 
-┌─ 36 (root, leaf, pending)
+┌─ 36 (root)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+│
+│  (1 step)
+├─ 49 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: ?_PC_CELL_5d410f2a:Int
+│   callDepth: ?_CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: ?_STATUSCODE_FINAL:StatusCode
+│
+┊  constraint: true
+┊  subst: ...
+└─ 2 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
 
-┌─ 42 (root, leaf, pending)
-│   k: #execute ~> CONTINUATION:K
-│   pc: 0
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: STATUSCODE:StatusCode
-│   src: test/nested/SimpleNested.t.sol:7:11
-│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 
-┌─ 46 (root, leaf, pending)
+┌─ 42 (root)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+│
+│  (1 step)
+├─ 50 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: ?_PC_CELL_5d410f2a:Int
+│   callDepth: ?_CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: ?_STATUSCODE_FINAL:StatusCode
+│
+┊  constraint: true
+┊  subst: ...
+└─ 2 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
+
+
+┌─ 46 (root)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+│
+│  (1 step)
+├─ 51 (terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: ?_PC_CELL_5d410f2a:Int
+│   callDepth: ?_CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: ?_STATUSCODE_FINAL:StatusCode
+│
+┊  constraint: true
+┊  subst: ...
+└─ 2 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
+
 
 
 
@@ -355,6 +403,1023 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-45-TO-33)]
+    
+    rule [BASIC-BLOCK-36-TO-49]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <exit-code>
+               ( _EXITCODE_CELL => ?_?_EXIT_CODE_CELL_5d410f2a )
+             </exit-code>
+             <mode>
+               ( NORMAL => ?_?_MODE_CELL_5d410f2a )
+             </mode>
+             <schedule>
+               ( SHANGHAI => ?_?_SCHEDULE_CELL_5d410f2a )
+             </schedule>
+             <useGas>
+               ( false => ?_?_USEGAS_CELL_5d410f2a )
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => ?_?_OUTPUT_FINAL )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => ?_?_STATUSCODE_FINAL )
+                 </statusCode>
+                 <callStack>
+                   ( _CALLSTACK_CELL => ?_?_CALLSTACK_CELL_5d410f2a )
+                 </callStack>
+                 <interimStates>
+                   ( _INTERIMSTATES_CELL => ?_?_INTERIMSTATES_CELL_5d410f2a )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( _TOUCHEDACCOUNTS_CELL => ?_?_TOUCHEDACCOUNTS_CELL_5d410f2a )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( C_ARITHMETICCONTRACT_ID:Int => ?_?_ID_CELL_5d410f2a )
+                   </id>
+                   <caller>
+                     ( CALLER_ID:Int => ?_?_CALLER_CELL_5d410f2a )
+                   </caller>
+                   <callData>
+                     ( b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) => ?_?_CALLDATA_CELL_5d410f2a )
+                   </callData>
+                   <callValue>
+                     ( 0 => ?_?_CALLVALUE_CELL_5d410f2a )
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ?_?_WORDSTACK_CELL_5d410f2a )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => ?_?_LOCALMEM_CELL_5d410f2a )
+                   </localMem>
+                   <memoryUsed>
+                     ( 0 => ?_?_MEMORYUSED_CELL_5d410f2a )
+                   </memoryUsed>
+                   <callGas>
+                     ( 0 => ?_?_CALLGAS_CELL_5d410f2a )
+                   </callGas>
+                   <static>
+                     ( _STATIC_CELL => ?_?_STATIC_CELL_5d410f2a )
+                   </static>
+                   <callDepth>
+                     ( CALLDEPTH_CELL:Int => ?_?_CALLDEPTH_CELL_5d410f2a )
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     ( _SELFDESTRUCT_CELL => ?_?_SELFDESTRUCT_CELL_5d410f2a )
+                   </selfDestruct>
+                   <log>
+                     ( _LOG_CELL => ?_?_LOG_CELL_5d410f2a )
+                   </log>
+                   <refund>
+                     ( 0 => ?_?_REFUND_CELL_5d410f2a )
+                   </refund>
+                   <accessedAccounts>
+                     ( _ACCESSEDACCOUNTS_CELL => ?_?_ACCESSEDACCOUNTS_CELL_5d410f2a )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     ( _ACCESSEDSTORAGE_CELL => ?_?_ACCESSEDSTORAGE_CELL_5d410f2a )
+                   </accessedStorage>
+                 </substate>
+                 <gasPrice>
+                   ( _GASPRICE_CELL => ?_?_GASPRICE_CELL_5d410f2a )
+                 </gasPrice>
+                 <origin>
+                   ( ORIGIN_ID:Int => ?_?_ORIGIN_CELL_5d410f2a )
+                 </origin>
+                 <blockhashes>
+                   ( _BLOCKHASHES_CELL => ?_?_BLOCKHASHES_CELL_5d410f2a )
+                 </blockhashes>
+                 <block>
+                   <previousHash>
+                     ( _PREVIOUSHASH_CELL => ?_?_PREVIOUSHASH_CELL_5d410f2a )
+                   </previousHash>
+                   <ommersHash>
+                     ( _OMMERSHASH_CELL => ?_?_OMMERSHASH_CELL_5d410f2a )
+                   </ommersHash>
+                   <coinbase>
+                     ( _COINBASE_CELL => ?_?_COINBASE_CELL_5d410f2a )
+                   </coinbase>
+                   <stateRoot>
+                     ( _STATEROOT_CELL => ?_?_STATEROOT_CELL_5d410f2a )
+                   </stateRoot>
+                   <transactionsRoot>
+                     ( _TRANSACTIONSROOT_CELL => ?_?_TRANSACTIONSROOT_CELL_5d410f2a )
+                   </transactionsRoot>
+                   <receiptsRoot>
+                     ( _RECEIPTSROOT_CELL => ?_?_RECEIPTSROOT_CELL_5d410f2a )
+                   </receiptsRoot>
+                   <logsBloom>
+                     ( _LOGSBLOOM_CELL => ?_?_LOGSBLOOM_CELL_5d410f2a )
+                   </logsBloom>
+                   <difficulty>
+                     ( _DIFFICULTY_CELL => ?_?_DIFFICULTY_CELL_5d410f2a )
+                   </difficulty>
+                   <number>
+                     ( NUMBER_CELL:Int => ?_?_NUMBER_CELL_5d410f2a )
+                   </number>
+                   <gasLimit>
+                     ( _GASLIMIT_CELL => ?_?_GASLIMIT_CELL_5d410f2a )
+                   </gasLimit>
+                   <gasUsed>
+                     ( _GASUSED_CELL => ?_?_GASUSED_CELL_5d410f2a )
+                   </gasUsed>
+                   <timestamp>
+                     ( TIMESTAMP_CELL:Int => ?_?_TIMESTAMP_CELL_5d410f2a )
+                   </timestamp>
+                   <extraData>
+                     ( _EXTRADATA_CELL => ?_?_EXTRADATA_CELL_5d410f2a )
+                   </extraData>
+                   <mixHash>
+                     ( _MIXHASH_CELL => ?_?_MIXHASH_CELL_5d410f2a )
+                   </mixHash>
+                   <blockNonce>
+                     ( _BLOCKNONCE_CELL => ?_?_BLOCKNONCE_CELL_5d410f2a )
+                   </blockNonce>
+                   <baseFee>
+                     ( _BASEFEE_CELL => ?_?_BASEFEE_CELL_5d410f2a )
+                   </baseFee>
+                   <withdrawalsRoot>
+                     ( _WITHDRAWALSROOT_CELL => ?_?_WITHDRAWALSROOT_CELL_5d410f2a )
+                   </withdrawalsRoot>
+                   <blobGasUsed>
+                     ( _BLOBGASUSED_CELL => ?_?_BLOBGASUSED_CELL_5d410f2a )
+                   </blobGasUsed>
+                   <excessBlobGas>
+                     ( _EXCESSBLOBGAS_CELL => ?_?_EXCESSBLOBGAS_CELL_5d410f2a )
+                   </excessBlobGas>
+                   <beaconRoot>
+                     ( _BEACONROOT_CELL => ?_?_BEACONROOT_CELL_5d410f2a )
+                   </beaconRoot>
+                   <ommerBlockHeaders>
+                     ( _OMMERBLOCKHEADERS_CELL => ?_?_OMMERBLOCKHEADERS_CELL_5d410f2a )
+                   </ommerBlockHeaders>
+                 </block>
+               </evm>
+               <network>
+                 <chainID>
+                   ( 1 => ?_?_CHAINID_CELL_5d410f2a )
+                 </chainID>
+                 <accounts>
+                   ( ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) => ?_?_ACCOUNTS_CELL_5d410f2a )
+                 </accounts>
+                 <txOrder>
+                   ( _TXORDER_CELL => ?_?_TXORDER_CELL_5d410f2a )
+                 </txOrder>
+                 <txPending>
+                   ( _TXPENDING_CELL => ?_?_TXPENDING_CELL_5d410f2a )
+                 </txPending>
+                 <messages>
+                   ( _MESSAGES_CELL => ?_?_MESSAGES_CELL_5d410f2a )
+                 </messages>
+               </network>
+             </ethereum>
+           </kevm>
+           <stackChecks>
+             ( true => ?_?_STACKCHECKS_CELL_5d410f2a )
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <prevCaller>
+                 ( _PREVCALLER_CELL => ?_?_PREVCALLER_CELL_5d410f2a )
+               </prevCaller>
+               <prevOrigin>
+                 ( _PREVORIGIN_CELL => ?_?_PREVORIGIN_CELL_5d410f2a )
+               </prevOrigin>
+               <newCaller>
+                 ( _NEWCALLER_CELL => ?_?_NEWCALLER_CELL_5d410f2a )
+               </newCaller>
+               <newOrigin>
+                 ( _NEWORIGIN_CELL => ?_?_NEWORIGIN_CELL_5d410f2a )
+               </newOrigin>
+               <active>
+                 ( _ACTIVE_CELL => ?_?_ACTIVE_CELL_5d410f2a )
+               </active>
+               <depth>
+                 ( _DEPTH_CELL => ?_?_DEPTH_CELL_5d410f2a )
+               </depth>
+               <singleCall>
+                 ( _SINGLECALL_CELL => ?_?_SINGLECALL_CELL_5d410f2a )
+               </singleCall>
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ( _ISREVERTEXPECTED_CELL => ?_?_ISREVERTEXPECTED_FINAL )
+               </isRevertExpected>
+               <expectedReason>
+                 ( _EXPECTEDREASON_CELL => ?_?_EXPECTEDREASON_CELL_5d410f2a )
+               </expectedReason>
+               <expectedDepth>
+                 ( _EXPECTEDDEPTH_CELL => ?_?_EXPECTEDDEPTH_CELL_5d410f2a )
+               </expectedDepth>
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 ( false => ?_?_ISOPCODEEXPECTED_FINAL )
+               </isOpcodeExpected>
+               <expectedAddress>
+                 ( _EXPECTEDADDRESS_CELL => ?_?_EXPECTEDADDRESS_CELL_5d410f2a )
+               </expectedAddress>
+               <expectedValue>
+                 ( _EXPECTEDVALUE_CELL => ?_?_EXPECTEDVALUE_CELL_5d410f2a )
+               </expectedValue>
+               <expectedData>
+                 ( _EXPECTEDDATA_CELL => ?_?_EXPECTEDDATA_CELL_5d410f2a )
+               </expectedData>
+               <opcodeType>
+                 ( _OPCODETYPE_CELL => ?_?_OPCODETYPE_CELL_5d410f2a )
+               </opcodeType>
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 ( _RECORDEVENT_CELL => ?_?_RECORDEVENT_FINAL )
+               </recordEvent>
+               <isEventExpected>
+                 ( _ISEVENTEXPECTED_CELL => ?_?_ISEVENTEXPECTED_FINAL )
+               </isEventExpected>
+               <checkedTopics>
+                 ( _CHECKEDTOPICS_CELL => ?_?_CHECKEDTOPICS_CELL_5d410f2a )
+               </checkedTopics>
+               <checkedData>
+                 ( _CHECKEDDATA_CELL => ?_?_CHECKEDDATA_CELL_5d410f2a )
+               </checkedData>
+               <expectedEventAddress>
+                 ( _EXPECTEDEVENTADDRESS_CELL => ?_?_EXPECTEDEVENTADDRESS_CELL_5d410f2a )
+               </expectedEventAddress>
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 ( false => ?_?_ISCALLWHITELISTACTIVE_FINAL )
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 ( false => ?_?_ISSTORAGEWHITELISTACTIVE_FINAL )
+               </isStorageWhitelistActive>
+               <addressList>
+                 ( .List => ?_?_ADDRESSLIST_FINAL )
+               </addressList>
+               <storageSlotList>
+                 ( .List => ?_?_STORAGESLOTLIST_FINAL )
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               ( .MockCallCellMap => ?_?_MOCKCALLS_CELL_5d410f2a )
+             </mockCalls>
+             <mockFunctions>
+               ( .MockFunctionCellMap => ?_?_MOCKFUNCTIONS_CELL_5d410f2a )
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               ( false => ?_?_ACTIVETRACING_CELL_5d410f2a )
+             </activeTracing>
+             <traceStorage>
+               ( false => ?_?_TRACESTORAGE_CELL_5d410f2a )
+             </traceStorage>
+             <traceWordStack>
+               ( false => ?_?_TRACEWORDSTACK_CELL_5d410f2a )
+             </traceWordStack>
+             <traceMemory>
+               ( false => ?_?_TRACEMEMORY_CELL_5d410f2a )
+             </traceMemory>
+             <recordedTrace>
+               ( false => ?_?_RECORDEDTRACE_CELL_5d410f2a )
+             </recordedTrace>
+             <traceData>
+               ( .List => ?_?_TRACEDATA_CELL_5d410f2a )
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 1024 <=Int CALLDEPTH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
+               ))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-36-TO-49)]
+    
+    rule [BASIC-BLOCK-42-TO-50]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <exit-code>
+               ( _EXITCODE_CELL => ?_?_EXIT_CODE_CELL_5d410f2a )
+             </exit-code>
+             <mode>
+               ( NORMAL => ?_?_MODE_CELL_5d410f2a )
+             </mode>
+             <schedule>
+               ( SHANGHAI => ?_?_SCHEDULE_CELL_5d410f2a )
+             </schedule>
+             <useGas>
+               ( false => ?_?_USEGAS_CELL_5d410f2a )
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => ?_?_OUTPUT_FINAL )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => ?_?_STATUSCODE_FINAL )
+                 </statusCode>
+                 <callStack>
+                   ( _CALLSTACK_CELL => ?_?_CALLSTACK_CELL_5d410f2a )
+                 </callStack>
+                 <interimStates>
+                   ( _INTERIMSTATES_CELL => ?_?_INTERIMSTATES_CELL_5d410f2a )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( _TOUCHEDACCOUNTS_CELL => ?_?_TOUCHEDACCOUNTS_CELL_5d410f2a )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( C_ARITHMETICCONTRACT_ID:Int => ?_?_ID_CELL_5d410f2a )
+                   </id>
+                   <caller>
+                     ( CALLER_ID:Int => ?_?_CALLER_CELL_5d410f2a )
+                   </caller>
+                   <callData>
+                     ( b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) => ?_?_CALLDATA_CELL_5d410f2a )
+                   </callData>
+                   <callValue>
+                     ( 0 => ?_?_CALLVALUE_CELL_5d410f2a )
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ?_?_WORDSTACK_CELL_5d410f2a )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => ?_?_LOCALMEM_CELL_5d410f2a )
+                   </localMem>
+                   <memoryUsed>
+                     ( 0 => ?_?_MEMORYUSED_CELL_5d410f2a )
+                   </memoryUsed>
+                   <callGas>
+                     ( 0 => ?_?_CALLGAS_CELL_5d410f2a )
+                   </callGas>
+                   <static>
+                     ( _STATIC_CELL => ?_?_STATIC_CELL_5d410f2a )
+                   </static>
+                   <callDepth>
+                     ( CALLDEPTH_CELL:Int => ?_?_CALLDEPTH_CELL_5d410f2a )
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     ( _SELFDESTRUCT_CELL => ?_?_SELFDESTRUCT_CELL_5d410f2a )
+                   </selfDestruct>
+                   <log>
+                     ( _LOG_CELL => ?_?_LOG_CELL_5d410f2a )
+                   </log>
+                   <refund>
+                     ( 0 => ?_?_REFUND_CELL_5d410f2a )
+                   </refund>
+                   <accessedAccounts>
+                     ( _ACCESSEDACCOUNTS_CELL => ?_?_ACCESSEDACCOUNTS_CELL_5d410f2a )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     ( _ACCESSEDSTORAGE_CELL => ?_?_ACCESSEDSTORAGE_CELL_5d410f2a )
+                   </accessedStorage>
+                 </substate>
+                 <gasPrice>
+                   ( _GASPRICE_CELL => ?_?_GASPRICE_CELL_5d410f2a )
+                 </gasPrice>
+                 <origin>
+                   ( ORIGIN_ID:Int => ?_?_ORIGIN_CELL_5d410f2a )
+                 </origin>
+                 <blockhashes>
+                   ( _BLOCKHASHES_CELL => ?_?_BLOCKHASHES_CELL_5d410f2a )
+                 </blockhashes>
+                 <block>
+                   <previousHash>
+                     ( _PREVIOUSHASH_CELL => ?_?_PREVIOUSHASH_CELL_5d410f2a )
+                   </previousHash>
+                   <ommersHash>
+                     ( _OMMERSHASH_CELL => ?_?_OMMERSHASH_CELL_5d410f2a )
+                   </ommersHash>
+                   <coinbase>
+                     ( _COINBASE_CELL => ?_?_COINBASE_CELL_5d410f2a )
+                   </coinbase>
+                   <stateRoot>
+                     ( _STATEROOT_CELL => ?_?_STATEROOT_CELL_5d410f2a )
+                   </stateRoot>
+                   <transactionsRoot>
+                     ( _TRANSACTIONSROOT_CELL => ?_?_TRANSACTIONSROOT_CELL_5d410f2a )
+                   </transactionsRoot>
+                   <receiptsRoot>
+                     ( _RECEIPTSROOT_CELL => ?_?_RECEIPTSROOT_CELL_5d410f2a )
+                   </receiptsRoot>
+                   <logsBloom>
+                     ( _LOGSBLOOM_CELL => ?_?_LOGSBLOOM_CELL_5d410f2a )
+                   </logsBloom>
+                   <difficulty>
+                     ( _DIFFICULTY_CELL => ?_?_DIFFICULTY_CELL_5d410f2a )
+                   </difficulty>
+                   <number>
+                     ( NUMBER_CELL:Int => ?_?_NUMBER_CELL_5d410f2a )
+                   </number>
+                   <gasLimit>
+                     ( _GASLIMIT_CELL => ?_?_GASLIMIT_CELL_5d410f2a )
+                   </gasLimit>
+                   <gasUsed>
+                     ( _GASUSED_CELL => ?_?_GASUSED_CELL_5d410f2a )
+                   </gasUsed>
+                   <timestamp>
+                     ( TIMESTAMP_CELL:Int => ?_?_TIMESTAMP_CELL_5d410f2a )
+                   </timestamp>
+                   <extraData>
+                     ( _EXTRADATA_CELL => ?_?_EXTRADATA_CELL_5d410f2a )
+                   </extraData>
+                   <mixHash>
+                     ( _MIXHASH_CELL => ?_?_MIXHASH_CELL_5d410f2a )
+                   </mixHash>
+                   <blockNonce>
+                     ( _BLOCKNONCE_CELL => ?_?_BLOCKNONCE_CELL_5d410f2a )
+                   </blockNonce>
+                   <baseFee>
+                     ( _BASEFEE_CELL => ?_?_BASEFEE_CELL_5d410f2a )
+                   </baseFee>
+                   <withdrawalsRoot>
+                     ( _WITHDRAWALSROOT_CELL => ?_?_WITHDRAWALSROOT_CELL_5d410f2a )
+                   </withdrawalsRoot>
+                   <blobGasUsed>
+                     ( _BLOBGASUSED_CELL => ?_?_BLOBGASUSED_CELL_5d410f2a )
+                   </blobGasUsed>
+                   <excessBlobGas>
+                     ( _EXCESSBLOBGAS_CELL => ?_?_EXCESSBLOBGAS_CELL_5d410f2a )
+                   </excessBlobGas>
+                   <beaconRoot>
+                     ( _BEACONROOT_CELL => ?_?_BEACONROOT_CELL_5d410f2a )
+                   </beaconRoot>
+                   <ommerBlockHeaders>
+                     ( _OMMERBLOCKHEADERS_CELL => ?_?_OMMERBLOCKHEADERS_CELL_5d410f2a )
+                   </ommerBlockHeaders>
+                 </block>
+               </evm>
+               <network>
+                 <chainID>
+                   ( 1 => ?_?_CHAINID_CELL_5d410f2a )
+                 </chainID>
+                 <accounts>
+                   ( ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) => ?_?_ACCOUNTS_CELL_5d410f2a )
+                 </accounts>
+                 <txOrder>
+                   ( _TXORDER_CELL => ?_?_TXORDER_CELL_5d410f2a )
+                 </txOrder>
+                 <txPending>
+                   ( _TXPENDING_CELL => ?_?_TXPENDING_CELL_5d410f2a )
+                 </txPending>
+                 <messages>
+                   ( _MESSAGES_CELL => ?_?_MESSAGES_CELL_5d410f2a )
+                 </messages>
+               </network>
+             </ethereum>
+           </kevm>
+           <stackChecks>
+             ( true => ?_?_STACKCHECKS_CELL_5d410f2a )
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <prevCaller>
+                 ( _PREVCALLER_CELL => ?_?_PREVCALLER_CELL_5d410f2a )
+               </prevCaller>
+               <prevOrigin>
+                 ( _PREVORIGIN_CELL => ?_?_PREVORIGIN_CELL_5d410f2a )
+               </prevOrigin>
+               <newCaller>
+                 ( _NEWCALLER_CELL => ?_?_NEWCALLER_CELL_5d410f2a )
+               </newCaller>
+               <newOrigin>
+                 ( _NEWORIGIN_CELL => ?_?_NEWORIGIN_CELL_5d410f2a )
+               </newOrigin>
+               <active>
+                 ( _ACTIVE_CELL => ?_?_ACTIVE_CELL_5d410f2a )
+               </active>
+               <depth>
+                 ( _DEPTH_CELL => ?_?_DEPTH_CELL_5d410f2a )
+               </depth>
+               <singleCall>
+                 ( _SINGLECALL_CELL => ?_?_SINGLECALL_CELL_5d410f2a )
+               </singleCall>
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ( _ISREVERTEXPECTED_CELL => ?_?_ISREVERTEXPECTED_FINAL )
+               </isRevertExpected>
+               <expectedReason>
+                 ( _EXPECTEDREASON_CELL => ?_?_EXPECTEDREASON_CELL_5d410f2a )
+               </expectedReason>
+               <expectedDepth>
+                 ( _EXPECTEDDEPTH_CELL => ?_?_EXPECTEDDEPTH_CELL_5d410f2a )
+               </expectedDepth>
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 ( false => ?_?_ISOPCODEEXPECTED_FINAL )
+               </isOpcodeExpected>
+               <expectedAddress>
+                 ( _EXPECTEDADDRESS_CELL => ?_?_EXPECTEDADDRESS_CELL_5d410f2a )
+               </expectedAddress>
+               <expectedValue>
+                 ( _EXPECTEDVALUE_CELL => ?_?_EXPECTEDVALUE_CELL_5d410f2a )
+               </expectedValue>
+               <expectedData>
+                 ( _EXPECTEDDATA_CELL => ?_?_EXPECTEDDATA_CELL_5d410f2a )
+               </expectedData>
+               <opcodeType>
+                 ( _OPCODETYPE_CELL => ?_?_OPCODETYPE_CELL_5d410f2a )
+               </opcodeType>
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 ( _RECORDEVENT_CELL => ?_?_RECORDEVENT_FINAL )
+               </recordEvent>
+               <isEventExpected>
+                 ( _ISEVENTEXPECTED_CELL => ?_?_ISEVENTEXPECTED_FINAL )
+               </isEventExpected>
+               <checkedTopics>
+                 ( _CHECKEDTOPICS_CELL => ?_?_CHECKEDTOPICS_CELL_5d410f2a )
+               </checkedTopics>
+               <checkedData>
+                 ( _CHECKEDDATA_CELL => ?_?_CHECKEDDATA_CELL_5d410f2a )
+               </checkedData>
+               <expectedEventAddress>
+                 ( _EXPECTEDEVENTADDRESS_CELL => ?_?_EXPECTEDEVENTADDRESS_CELL_5d410f2a )
+               </expectedEventAddress>
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 ( false => ?_?_ISCALLWHITELISTACTIVE_FINAL )
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 ( false => ?_?_ISSTORAGEWHITELISTACTIVE_FINAL )
+               </isStorageWhitelistActive>
+               <addressList>
+                 ( .List => ?_?_ADDRESSLIST_FINAL )
+               </addressList>
+               <storageSlotList>
+                 ( .List => ?_?_STORAGESLOTLIST_FINAL )
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               ( .MockCallCellMap => ?_?_MOCKCALLS_CELL_5d410f2a )
+             </mockCalls>
+             <mockFunctions>
+               ( .MockFunctionCellMap => ?_?_MOCKFUNCTIONS_CELL_5d410f2a )
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               ( false => ?_?_ACTIVETRACING_CELL_5d410f2a )
+             </activeTracing>
+             <traceStorage>
+               ( false => ?_?_TRACESTORAGE_CELL_5d410f2a )
+             </traceStorage>
+             <traceWordStack>
+               ( false => ?_?_TRACEWORDSTACK_CELL_5d410f2a )
+             </traceWordStack>
+             <traceMemory>
+               ( false => ?_?_TRACEMEMORY_CELL_5d410f2a )
+             </traceMemory>
+             <recordedTrace>
+               ( false => ?_?_RECORDEDTRACE_CELL_5d410f2a )
+             </recordedTrace>
+             <traceData>
+               ( .List => ?_?_TRACEDATA_CELL_5d410f2a )
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( CALLDEPTH_CELL:Int <Int 1024
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
+               )))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-42-TO-50)]
+    
+    rule [BASIC-BLOCK-46-TO-51]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION
+             </k>
+             <exit-code>
+               ( _EXITCODE_CELL => ?_?_EXIT_CODE_CELL_5d410f2a )
+             </exit-code>
+             <mode>
+               ( NORMAL => ?_?_MODE_CELL_5d410f2a )
+             </mode>
+             <schedule>
+               ( SHANGHAI => ?_?_SCHEDULE_CELL_5d410f2a )
+             </schedule>
+             <useGas>
+               ( false => ?_?_USEGAS_CELL_5d410f2a )
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL => ?_?_OUTPUT_FINAL )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => ?_?_STATUSCODE_FINAL )
+                 </statusCode>
+                 <callStack>
+                   ( _CALLSTACK_CELL => ?_?_CALLSTACK_CELL_5d410f2a )
+                 </callStack>
+                 <interimStates>
+                   ( _INTERIMSTATES_CELL => ?_?_INTERIMSTATES_CELL_5d410f2a )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( _TOUCHEDACCOUNTS_CELL => ?_?_TOUCHEDACCOUNTS_CELL_5d410f2a )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( C_ARITHMETICCONTRACT_ID:Int => ?_?_ID_CELL_5d410f2a )
+                   </id>
+                   <caller>
+                     ( CALLER_ID:Int => ?_?_CALLER_CELL_5d410f2a )
+                   </caller>
+                   <callData>
+                     ( b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) => ?_?_CALLDATA_CELL_5d410f2a )
+                   </callData>
+                   <callValue>
+                     ( 0 => ?_?_CALLVALUE_CELL_5d410f2a )
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ?_?_WORDSTACK_CELL_5d410f2a )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => ?_?_LOCALMEM_CELL_5d410f2a )
+                   </localMem>
+                   <memoryUsed>
+                     ( 0 => ?_?_MEMORYUSED_CELL_5d410f2a )
+                   </memoryUsed>
+                   <callGas>
+                     ( 0 => ?_?_CALLGAS_CELL_5d410f2a )
+                   </callGas>
+                   <static>
+                     ( _STATIC_CELL => ?_?_STATIC_CELL_5d410f2a )
+                   </static>
+                   <callDepth>
+                     ( CALLDEPTH_CELL:Int => ?_?_CALLDEPTH_CELL_5d410f2a )
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     ( _SELFDESTRUCT_CELL => ?_?_SELFDESTRUCT_CELL_5d410f2a )
+                   </selfDestruct>
+                   <log>
+                     ( _LOG_CELL => ?_?_LOG_CELL_5d410f2a )
+                   </log>
+                   <refund>
+                     ( 0 => ?_?_REFUND_CELL_5d410f2a )
+                   </refund>
+                   <accessedAccounts>
+                     ( _ACCESSEDACCOUNTS_CELL => ?_?_ACCESSEDACCOUNTS_CELL_5d410f2a )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     ( _ACCESSEDSTORAGE_CELL => ?_?_ACCESSEDSTORAGE_CELL_5d410f2a )
+                   </accessedStorage>
+                 </substate>
+                 <gasPrice>
+                   ( _GASPRICE_CELL => ?_?_GASPRICE_CELL_5d410f2a )
+                 </gasPrice>
+                 <origin>
+                   ( ORIGIN_ID:Int => ?_?_ORIGIN_CELL_5d410f2a )
+                 </origin>
+                 <blockhashes>
+                   ( _BLOCKHASHES_CELL => ?_?_BLOCKHASHES_CELL_5d410f2a )
+                 </blockhashes>
+                 <block>
+                   <previousHash>
+                     ( _PREVIOUSHASH_CELL => ?_?_PREVIOUSHASH_CELL_5d410f2a )
+                   </previousHash>
+                   <ommersHash>
+                     ( _OMMERSHASH_CELL => ?_?_OMMERSHASH_CELL_5d410f2a )
+                   </ommersHash>
+                   <coinbase>
+                     ( _COINBASE_CELL => ?_?_COINBASE_CELL_5d410f2a )
+                   </coinbase>
+                   <stateRoot>
+                     ( _STATEROOT_CELL => ?_?_STATEROOT_CELL_5d410f2a )
+                   </stateRoot>
+                   <transactionsRoot>
+                     ( _TRANSACTIONSROOT_CELL => ?_?_TRANSACTIONSROOT_CELL_5d410f2a )
+                   </transactionsRoot>
+                   <receiptsRoot>
+                     ( _RECEIPTSROOT_CELL => ?_?_RECEIPTSROOT_CELL_5d410f2a )
+                   </receiptsRoot>
+                   <logsBloom>
+                     ( _LOGSBLOOM_CELL => ?_?_LOGSBLOOM_CELL_5d410f2a )
+                   </logsBloom>
+                   <difficulty>
+                     ( _DIFFICULTY_CELL => ?_?_DIFFICULTY_CELL_5d410f2a )
+                   </difficulty>
+                   <number>
+                     ( NUMBER_CELL:Int => ?_?_NUMBER_CELL_5d410f2a )
+                   </number>
+                   <gasLimit>
+                     ( _GASLIMIT_CELL => ?_?_GASLIMIT_CELL_5d410f2a )
+                   </gasLimit>
+                   <gasUsed>
+                     ( _GASUSED_CELL => ?_?_GASUSED_CELL_5d410f2a )
+                   </gasUsed>
+                   <timestamp>
+                     ( TIMESTAMP_CELL:Int => ?_?_TIMESTAMP_CELL_5d410f2a )
+                   </timestamp>
+                   <extraData>
+                     ( _EXTRADATA_CELL => ?_?_EXTRADATA_CELL_5d410f2a )
+                   </extraData>
+                   <mixHash>
+                     ( _MIXHASH_CELL => ?_?_MIXHASH_CELL_5d410f2a )
+                   </mixHash>
+                   <blockNonce>
+                     ( _BLOCKNONCE_CELL => ?_?_BLOCKNONCE_CELL_5d410f2a )
+                   </blockNonce>
+                   <baseFee>
+                     ( _BASEFEE_CELL => ?_?_BASEFEE_CELL_5d410f2a )
+                   </baseFee>
+                   <withdrawalsRoot>
+                     ( _WITHDRAWALSROOT_CELL => ?_?_WITHDRAWALSROOT_CELL_5d410f2a )
+                   </withdrawalsRoot>
+                   <blobGasUsed>
+                     ( _BLOBGASUSED_CELL => ?_?_BLOBGASUSED_CELL_5d410f2a )
+                   </blobGasUsed>
+                   <excessBlobGas>
+                     ( _EXCESSBLOBGAS_CELL => ?_?_EXCESSBLOBGAS_CELL_5d410f2a )
+                   </excessBlobGas>
+                   <beaconRoot>
+                     ( _BEACONROOT_CELL => ?_?_BEACONROOT_CELL_5d410f2a )
+                   </beaconRoot>
+                   <ommerBlockHeaders>
+                     ( _OMMERBLOCKHEADERS_CELL => ?_?_OMMERBLOCKHEADERS_CELL_5d410f2a )
+                   </ommerBlockHeaders>
+                 </block>
+               </evm>
+               <network>
+                 <chainID>
+                   ( 1 => ?_?_CHAINID_CELL_5d410f2a )
+                 </chainID>
+                 <accounts>
+                   ( ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) => ?_?_ACCOUNTS_CELL_5d410f2a )
+                 </accounts>
+                 <txOrder>
+                   ( _TXORDER_CELL => ?_?_TXORDER_CELL_5d410f2a )
+                 </txOrder>
+                 <txPending>
+                   ( _TXPENDING_CELL => ?_?_TXPENDING_CELL_5d410f2a )
+                 </txPending>
+                 <messages>
+                   ( _MESSAGES_CELL => ?_?_MESSAGES_CELL_5d410f2a )
+                 </messages>
+               </network>
+             </ethereum>
+           </kevm>
+           <stackChecks>
+             ( true => ?_?_STACKCHECKS_CELL_5d410f2a )
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <prevCaller>
+                 ( _PREVCALLER_CELL => ?_?_PREVCALLER_CELL_5d410f2a )
+               </prevCaller>
+               <prevOrigin>
+                 ( _PREVORIGIN_CELL => ?_?_PREVORIGIN_CELL_5d410f2a )
+               </prevOrigin>
+               <newCaller>
+                 ( _NEWCALLER_CELL => ?_?_NEWCALLER_CELL_5d410f2a )
+               </newCaller>
+               <newOrigin>
+                 ( _NEWORIGIN_CELL => ?_?_NEWORIGIN_CELL_5d410f2a )
+               </newOrigin>
+               <active>
+                 ( _ACTIVE_CELL => ?_?_ACTIVE_CELL_5d410f2a )
+               </active>
+               <depth>
+                 ( _DEPTH_CELL => ?_?_DEPTH_CELL_5d410f2a )
+               </depth>
+               <singleCall>
+                 ( _SINGLECALL_CELL => ?_?_SINGLECALL_CELL_5d410f2a )
+               </singleCall>
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ( _ISREVERTEXPECTED_CELL => ?_?_ISREVERTEXPECTED_FINAL )
+               </isRevertExpected>
+               <expectedReason>
+                 ( _EXPECTEDREASON_CELL => ?_?_EXPECTEDREASON_CELL_5d410f2a )
+               </expectedReason>
+               <expectedDepth>
+                 ( _EXPECTEDDEPTH_CELL => ?_?_EXPECTEDDEPTH_CELL_5d410f2a )
+               </expectedDepth>
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 ( false => ?_?_ISOPCODEEXPECTED_FINAL )
+               </isOpcodeExpected>
+               <expectedAddress>
+                 ( _EXPECTEDADDRESS_CELL => ?_?_EXPECTEDADDRESS_CELL_5d410f2a )
+               </expectedAddress>
+               <expectedValue>
+                 ( _EXPECTEDVALUE_CELL => ?_?_EXPECTEDVALUE_CELL_5d410f2a )
+               </expectedValue>
+               <expectedData>
+                 ( _EXPECTEDDATA_CELL => ?_?_EXPECTEDDATA_CELL_5d410f2a )
+               </expectedData>
+               <opcodeType>
+                 ( _OPCODETYPE_CELL => ?_?_OPCODETYPE_CELL_5d410f2a )
+               </opcodeType>
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 ( _RECORDEVENT_CELL => ?_?_RECORDEVENT_FINAL )
+               </recordEvent>
+               <isEventExpected>
+                 ( _ISEVENTEXPECTED_CELL => ?_?_ISEVENTEXPECTED_FINAL )
+               </isEventExpected>
+               <checkedTopics>
+                 ( _CHECKEDTOPICS_CELL => ?_?_CHECKEDTOPICS_CELL_5d410f2a )
+               </checkedTopics>
+               <checkedData>
+                 ( _CHECKEDDATA_CELL => ?_?_CHECKEDDATA_CELL_5d410f2a )
+               </checkedData>
+               <expectedEventAddress>
+                 ( _EXPECTEDEVENTADDRESS_CELL => ?_?_EXPECTEDEVENTADDRESS_CELL_5d410f2a )
+               </expectedEventAddress>
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 ( false => ?_?_ISCALLWHITELISTACTIVE_FINAL )
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 ( false => ?_?_ISSTORAGEWHITELISTACTIVE_FINAL )
+               </isStorageWhitelistActive>
+               <addressList>
+                 ( .List => ?_?_ADDRESSLIST_FINAL )
+               </addressList>
+               <storageSlotList>
+                 ( .List => ?_?_STORAGESLOTLIST_FINAL )
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               ( .MockCallCellMap => ?_?_MOCKCALLS_CELL_5d410f2a )
+             </mockCalls>
+             <mockFunctions>
+               ( .MockFunctionCellMap => ?_?_MOCKFUNCTIONS_CELL_5d410f2a )
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               ( false => ?_?_ACTIVETRACING_CELL_5d410f2a )
+             </activeTracing>
+             <traceStorage>
+               ( false => ?_?_TRACESTORAGE_CELL_5d410f2a )
+             </traceStorage>
+             <traceWordStack>
+               ( false => ?_?_TRACEWORDSTACK_CELL_5d410f2a )
+             </traceWordStack>
+             <traceMemory>
+               ( false => ?_?_TRACEMEMORY_CELL_5d410f2a )
+             </traceMemory>
+             <recordedTrace>
+               ( false => ?_?_RECORDEDTRACE_CELL_5d410f2a )
+             </recordedTrace>
+             <traceData>
+               ( .List => ?_?_TRACEDATA_CELL_5d410f2a )
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( CALLDEPTH_CELL:Int <Int 1024
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 9 ) )
+               ))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-46-TO-51)]
     
     rule [BASIC-BLOCK-47-TO-48]: <foundry>
            <kevm>
