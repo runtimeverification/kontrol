@@ -151,7 +151,7 @@ class FOUNDRYSemantics(KEVMSemantics):
             print('snd', snd_term)
             print('operator', operator)
             assert type(operator) is KToken
-            eq = KApply(_operators[int(operator.token)],fst_term, snd_term)
+            eq = mlEqualsTrue( KApply(_operators[int(operator.token)],fst_term, snd_term))
             print('kapply',eq)
             print('cterms', cterm.constraints)
             print(eq in cterm.constraints)
