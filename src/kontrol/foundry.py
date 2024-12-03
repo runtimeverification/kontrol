@@ -140,23 +140,24 @@ class FOUNDRYSemantics(KEVMSemantics):
             return Step(new_cterm, 1, (), ['EVM.program.load'], cut=True)
 
         elif self._check_forget_pattern(cterm):
-            _operators = ['_==Int_','_!=Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
-            print('FORGET PATTERN CONFIRMED')
+            _operators = ['_==Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
+            print('Custom step: Forget pattern confirmed')
             subst = self._cached_subst
             assert subst is not None
             fst_term = subst['###TERM1']
             snd_term = subst['###TERM2']
             operator = subst['###OPERATOR']
-            print('fst', fst_term)
-            print('snd', snd_term)
-            print('operator', operator)
+            print('LHS:', fst_term)
+            print('Operator:', operator)
+            print('RHS:', snd_term)
             assert type(operator) is KToken
-            eq = mlEqualsTrue( KApply(_operators[int(operator.token)],fst_term, snd_term))
-            print('kapply',eq)
-            print('cterms', cterm.constraints)
-            print(eq in cterm.constraints)
+            eq = mlEqualsTrue(KApply(_operators[int(operator.token)], fst_term, snd_term))
+            print('Constraint to forget:', eq)
+            print(f'Current constraints:\n{cterm.constraints}')
+            print(f'Constraint to forget found: {eq in cterm.constraints}')
             new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
-            new_constraints = ( c for c in cterm.constraints if c is not eq )
+            new_constraints: tuple[KInner, ...] = tuple(c for c in cterm.constraints if c != eq)
+            print(f'New constraints:\n{new_constraints}')
             return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
 
         return None
