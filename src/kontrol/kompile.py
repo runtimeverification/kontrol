@@ -15,7 +15,6 @@ from pyk.kdist import kdist
 from pyk.utils import ensure_dir_path, hash_str
 
 from . import VERSION
-from .foundry import Foundry
 from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
 from .utils import _read_digest_file, _rv_blue, console, kontrol_up_to_date
@@ -24,8 +23,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Final
 
-    from pyk.kast.inner import KInner
-
+    from .foundry import Foundry
     from .options import BuildOptions
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -108,10 +106,7 @@ def foundry_kompile(
 
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
-        kevm = KEVM(kdist.get('kontrol.foundry'))
-        empty_config = kevm.definition.empty_config(Foundry.Sorts.FOUNDRY_CELL)
         bin_runtime_definition = _foundry_to_contract_def(
-            empty_config=empty_config,
             contracts=foundry.contracts.values(),
             requires=['foundry.md'],
             enums=foundry.enums,
@@ -119,7 +114,6 @@ def foundry_kompile(
 
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
-            empty_config=empty_config,
             contracts=foundry.contracts.values(),
             requires=(['contracts.k'] + copied_requires),
             imports=_imports,
@@ -193,14 +187,11 @@ def foundry_kompile(
 
 
 def _foundry_to_contract_def(
-    empty_config: KInner,
     contracts: Iterable[Contract],
     requires: Iterable[str],
     enums: dict[str, int],
 ) -> KDefinition:
-    modules = [
-        contract_to_main_module(contract, empty_config, imports=['FOUNDRY'], enums=enums) for contract in contracts
-    ]
+    modules = [contract_to_main_module(contract, imports=['FOUNDRY'], enums=enums) for contract in contracts]
     # First module is chosen as main module arbitrarily, since the contract definition is just a set of
     # contract modules.
     main_module = Contract.contract_to_module_name(list(contracts)[0].name_with_path)
@@ -215,15 +206,13 @@ def _foundry_to_contract_def(
 def _foundry_to_main_def(
     main_module: str,
     contracts: Iterable[Contract],
-    empty_config: KInner,
     requires: Iterable[str],
     imports: dict[str, list[str]],
     keccak_lemmas: bool,
     auxiliary_lemmas: bool,
 ) -> KDefinition:
     modules = [
-        contract_to_verification_module(contract, empty_config, imports=imports[contract.name_with_path])
-        for contract in contracts
+        contract_to_verification_module(contract, imports=imports[contract.name_with_path]) for contract in contracts
     ]
     _main_module = KFlatModule(
         main_module,
