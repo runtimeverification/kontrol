@@ -12,7 +12,8 @@ module NO-CODE-SIZE-CHECKS
     imports EVM
     imports FOUNDRY
 
-    rule <k> #mkCodeDeposit ACCT
+    rule [deploy-no-codesize-limit]:
+         <k> #mkCodeDeposit ACCT
           => Gcodedeposit < SCHED > *Int lengthBytes(OUT) ~> #deductGas
           ~> #finishCodeDeposit ACCT OUT
          ...
@@ -21,6 +22,24 @@ module NO-CODE-SIZE-CHECKS
          <output> OUT => .Bytes </output>
       requires #isValidCode(OUT, SCHED)
    [priority(30)]
+
+    rule [create-valid-no-codesize-limit]:
+         <k> CREATE VALUE MEMSTART MEMWIDTH
+          => #accessAccounts #newAddr(ACCT, NONCE)
+          ~> #checkCreate ACCT VALUE
+          ~> #create ACCT #newAddr(ACCT, NONCE) VALUE #range(LM, MEMSTART, MEMWIDTH)
+          ~> #codeDeposit #newAddr(ACCT, NONCE)
+         ...
+         </k>
+         <id> ACCT </id>
+         <localMem> LM </localMem>
+         <account>
+           <acctID> ACCT </acctID>
+           <nonce> NONCE </nonce>
+           ...
+         </account>
+         <schedule> SCHED </schedule>
+      [preserves-definedness, priority(30)]
 
 endmodule
 ```
