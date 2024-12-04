@@ -442,8 +442,6 @@ def _run_cfg_group(
                 )
 
             cut_point_rules.append('FOUNDRY-ACCOUNTS.forget')
-            print('CUT POINT RULES')
-            print(cut_point_rules)
 
             extra_lemmas_module: KFlatModule | None = None
             if options.extra_module:
