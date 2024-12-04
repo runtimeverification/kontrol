@@ -120,7 +120,7 @@ class FOUNDRYSemantics(KEVMSemantics):
         :param cterm_symbolic: CTermSymbolic instance
         :return: If the K_CELL matches the forget_pattern and the constraint is successfully removed, returns a Step with depth 1 along with the new configuration, registering that the `cheatcode_forget` rule has been applied. If the constraint is not found, returns None.
         """
-        _operators = ['_==Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
+        _operators = ['_==Int_', '_!=Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
         _LOGGER.info('Custom step: Forget pattern confirmed')
         subst = self._cached_subst
         assert subst is not None
