@@ -17,7 +17,7 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
-from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics, compute_jumpdests
+from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSequence, KSort, KToken, KVariable
@@ -34,9 +34,10 @@ from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
 from pyk.kcfg.kcfg import Step
 from pyk.kcfg.minimize import KCFGMinimizer
+from pyk.kdist import kdist
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
-from pyk.prelude.k import DOTS
+from pyk.prelude.k import DOTS, GENERATED_TOP_CELL
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
@@ -64,6 +65,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Any, Final
 
+    from pyk.cterm import CTermSymbolic
     from pyk.kast.outer import KAst
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.semantics import KCFGExtendResult
@@ -93,17 +95,6 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 class FOUNDRYSemantics(KEVMSemantics):
-    def _check_load_pattern(self, cterm: CTerm) -> bool:
-        """Given a CTerm, check if the rule 'EVM.program.load' is at the top of the K_CELL.
-
-        This method checks if the `EVM.program.load` rule is at the top of the `K_CELL` in the given `cterm`.
-        If the rule matches, the resulting substitution is cached in `_cached_subst` for later use in `custom_step`
-        :param cterm: The CTerm representing the current state of the proof node.
-        :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
-        """
-        load_pattern = KSequence([KApply('loadProgram', KVariable('###BYTECODE')), KVariable('###CONTINUATION')])
-        self._cached_subst = load_pattern.match(cterm.cell('K_CELL'))
-        return self._cached_subst is not None
 
     def _check_forget_pattern(self, cterm: CTerm) -> bool:
         """Given a CTerm, check if the rule 'FOUNDRY-ACCOUNTS.forget' is at the top of the K_CELL.
@@ -120,47 +111,42 @@ class FOUNDRYSemantics(KEVMSemantics):
             ]
         )
         self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
-        print('CHECKING FORGET PATTERN')
         return self._cached_subst is not None
 
-    def custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
-        """Given a CTerm, update the JUMPDESTS_CELL and PROGRAM_CELL if the rule 'EVM.program.load' is at the top of the K_CELL.
+    def _exec_forget_custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult:
+        """Given a CTerm, remove the constraint that's placed at the top of the K_CELL in the 'FOUNDRY-ACCOUNTS.forget' cut-rule.
 
         :param cterm: CTerm of a proof node.
-        :return: If the K_CELL matches the load_pattern, a Step with depth 1 is returned together with the new configuration, also registering that the `EVM.program.load` rule has been applied. Otherwise, None is returned.
+        :cterm_symbolic: CTermSymbolic instance
+        :return: If the K_CELL matches the forget_pattern, a Step with depth 1 is returned together with the new configuration, also registering that the `FOUNDRY-ACCOUNTS.forget` rule has been applied.
         """
-        if self._check_load_pattern(cterm):
-            subst = self._cached_subst
-            assert subst is not None
-            bytecode_sections = flatten_label('_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes', subst['###BYTECODE'])
-            jumpdests_set = compute_jumpdests(bytecode_sections)
-            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'JUMPDESTS_CELL', jumpdests_set))
-            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'PROGRAM_CELL', subst['###BYTECODE']))
-            new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
-            return Step(new_cterm, 1, (), ['EVM.program.load'], cut=True)
+        _operators = ['_==Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
+        _LOGGER.info('Custom step: Forget pattern confirmed')
+        subst = self._cached_subst
+        assert subst is not None
+        fst_term = subst['###TERM1']
+        snd_term = subst['###TERM2']
+        operator = subst['###OPERATOR']
+        assert type(operator) is KToken
+        eq = mlEqualsTrue(KApply(_operators[int(operator.token)], fst_term, snd_term))
+        kevm = KEVM(kdist.get('kontrol.foundry'))
+        empty_config = kevm.definition.empty_config(GENERATED_TOP_CELL)
+        simplification_cterm = CTerm.from_kast(empty_config).add_constraint(eq)
+        result_cterm, _ = cterm_symbolic.simplify(simplification_cterm)
+        target_constraint = single(result_cterm.constraints)
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+        new_constraints: tuple[KInner, ...] = tuple(c for c in cterm.constraints if c != target_constraint)
+        _LOGGER.info(f'Custom step: removing constraint: {target_constraint}')
+        return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
 
-        elif self._check_forget_pattern(cterm):
-            _operators = ['_==Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
-            print('Custom step: Forget pattern confirmed')
-            subst = self._cached_subst
-            assert subst is not None
-            fst_term = subst['###TERM1']
-            snd_term = subst['###TERM2']
-            operator = subst['###OPERATOR']
-            print('LHS:', fst_term)
-            print('Operator:', operator)
-            print('RHS:', snd_term)
-            assert type(operator) is KToken
-            eq = mlEqualsTrue(KApply(_operators[int(operator.token)], fst_term, snd_term))
-            print('Constraint to forget:', eq)
-            print(f'Current constraints:\n{cterm.constraints}')
-            print(f'Constraint to forget found: {eq in cterm.constraints}')
-            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
-            new_constraints: tuple[KInner, ...] = tuple(c for c in cterm.constraints if c != eq)
-            print(f'New constraints:\n{new_constraints}')
-            return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+    def custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
+        if self._check_forget_pattern(cterm):
+            return self._exec_forget_custom_step(cterm, cterm_symbolic)
+        else:
+            return super().custom_step(cterm, cterm_symbolic)
 
-        return None
+    def can_make_custom_step(self, cterm: CTerm) -> bool:
+        return self._check_forget_pattern(cterm) or super().can_make_custom_step(cterm)
 
 
 class FoundryKEVM(KEVM):
