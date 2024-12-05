@@ -116,8 +116,6 @@ class KontrolSemantics(KEVMSemantics):
     def _check_rename_pattern(self, cterm: CTerm) -> bool:
         """Given a CTerm, check if the rule 'FOUNDRY-CHEAT-CODES.rename' is at the top of the K_CELL.
 
-        This method checks if the 'FOUNDRY-CHEAT-CODES.rename' rule is at the top of the `K_CELL` in the given `cterm`.
-        If the rule matches, the resulting substitution is cached in `_cached_subst` for later use in `custom_step`
         :param cterm: The CTerm representing the current state of the proof node.
         :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
         """
