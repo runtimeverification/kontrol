@@ -38,8 +38,8 @@ def ensure_name_is_unique(name: str, config: KInner) -> str:
     new_config = Subst({name: token(True)})(config)
     if new_config == config:
         return name
-    print (1,config)
-    print (2,new_config)
+    print(1, config)
+    print(2, new_config)
 
     index = 0
     new_config = Subst({f'{name}_{index}': token(True)})(config)
