@@ -94,7 +94,7 @@ if TYPE_CHECKING:
 _LOGGER: Final = logging.getLogger(__name__)
 
 
-class FOUNDRYSemantics(KEVMSemantics):
+class KontrolSemantics(KEVMSemantics):
 
     def _check_forget_pattern(self, cterm: CTerm) -> bool:
         """Given a CTerm, check if the rule 'FOUNDRY-ACCOUNTS.forget' is at the top of the K_CELL.
@@ -922,7 +922,7 @@ def foundry_show(
     if options.failure_info:
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=FOUNDRYSemantics(),
+            kcfg_semantics=KontrolSemantics(),
             id=test_id,
             smt_timeout=options.smt_timeout,
             smt_retry_limit=options.smt_retry_limit,
@@ -989,7 +989,7 @@ def foundry_show(
         ]
         sentences = [sent for sent in sentences if not _contains_foundry_klabel(sent.body)]
         sentences = [
-            sent for sent in sentences if not FOUNDRYSemantics().is_terminal(CTerm.from_kast(extract_lhs(sent.body)))
+            sent for sent in sentences if not KontrolSemantics().is_terminal(CTerm.from_kast(extract_lhs(sent.body)))
         ]
         if len(sentences) == 0:
             _LOGGER.warning(f'No claims or rules retained for proof {proof.id}')
@@ -1179,7 +1179,7 @@ def foundry_simplify_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=FOUNDRYSemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=apr_proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
@@ -1227,7 +1227,7 @@ def foundry_merge_nodes(
     check_cells_ne = [check_cell for check_cell in check_cells if not check_cells_equal(check_cell, nodes)]
 
     if check_cells_ne:
-        if not all(FOUNDRYSemantics().same_loop(nodes[0].cterm, nd.cterm) for nd in nodes):
+        if not all(KontrolSemantics().same_loop(nodes[0].cterm, nd.cterm) for nd in nodes):
             raise ValueError(f'Nodes {options.nodes} cannot be merged because they differ in: {check_cells_ne}')
 
     anti_unification = nodes[0].cterm
@@ -1267,7 +1267,7 @@ def foundry_step_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=FOUNDRYSemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=apr_proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
@@ -1343,7 +1343,7 @@ def foundry_section_edge(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=FOUNDRYSemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=apr_proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
@@ -1394,7 +1394,7 @@ def foundry_get_model(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=FOUNDRYSemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
