@@ -339,6 +339,13 @@ This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes 
          <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #setSymbolicStorage #asWord(ARGS) ... </k>
       requires SELECTOR ==Int selector ( "symbolicStorage(address)" )
         orBool SELECTOR ==Int selector ( "setArbitraryStorage(address)")
+
+
+    rule [cheatcode.call.withName.symbolicStorage]:
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS,0,32)) ~> #setSymbolicStorage #asWord(ARGS) Bytes2String(#range(ARGS, 96, #asWord(#range(ARGS, 64, 32)))) ... </k>
+      requires SELECTOR ==Int selector ( "symbolicStorage(address,string)" )
+        orBool SELECTOR ==Int selector ( "setArbitraryStorage(address,string)")
+```
 ```
 
 #### `copyStorage` - Copies the storage of one account into another.
@@ -376,6 +383,14 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
        andBool 0 <Int #asWord(ARGS) andBool #asWord(ARGS) <=Int 32
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(ARGS))
        [preserves-definedness]
+
+    rule [cheatcode.call.withName.freshUInt]:
+         <k> #cheatcode_call SELECTOR ARGS => #rename(?WORD, Bytes2String(#range(ARGS, 96, #asWord(#range(ARGS, 64, 32))))) ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "freshUInt(uint8,string)" )
+       andBool 0 <Int #asWord(#range(ARGS, 0, 32)) andBool #asWord(#range(ARGS, 0, 32)) <=Int 32
+       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int (8 *Int #asWord(#range(ARGS, 0, 32)))
+       [preserves-definedness]
 ```
 
 #### `randomUint` - Returns a single symbolic unsigned integer of a given size.
@@ -397,6 +412,14 @@ This rule returns a symbolic integer of up to the bit width that was sent as an 
        andBool SELECTOR ==Int selector ( "randomUint(uint256)" )
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int #asWord(ARGS)
        [preserves-definedness]
+
+    rule [cheatcode.call.withName.randomUintWidth]:
+         <k> #cheatcode_call SELECTOR ARGS => #rename(?WORD, Bytes2String(#range(ARGS, 96, #asWord(#range(ARGS, 64, 32))))) ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires 0 <Int #asWord(#range(ARGS, 0, 32)) andBool #asWord(#range(ARGS, 0, 32)) <=Int 256
+       andBool SELECTOR ==Int selector ( "randomUint(uint256,string)" )
+       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int #asWord(#range(ARGS, 0, 32))
+       [preserves-definedness]
 ```
 
 The following rule will match when the `randomUint()` cheat code function is called.
@@ -409,6 +432,13 @@ This rule returns a symbolic integer of 256 bytes.
       requires SELECTOR ==Int selector ( "randomUint()" )
        ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int 256
        [preserves-definedness]
+
+    rule [cheatcode.call.withName.randomUint256]:
+         <k> #cheatcode_call SELECTOR ARGS => #rename(?WORD, Bytes2String(#range(ARGS, 64, #asWord(#range(ARGS, 32, 32))))) ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "randomUint(string)" )
+       ensures 0 <=Int ?WORD andBool ?WORD <Int 2 ^Int 256
+       [preserves-definedness]
 ```
 
 The following rule will match when the `randomUint(uint256,uint256)` cheat code function is called.
@@ -419,6 +449,13 @@ This rule returns a symbolic integer of 256 bytes which is greater than or equal
          <k> #cheatcode_call SELECTOR ARGS => .K ... </k>
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "randomUint(uint256,uint256)" )
+       ensures #asWord(#range(ARGS, 0, 32)) <=Int ?WORD andBool ?WORD <=Int #asWord(#range(ARGS, 32, 32))
+       [preserves-definedness]
+
+    rule [cheatcode.call.withName.randomUint256Range]:
+         <k> #cheatcode_call SELECTOR ARGS => #rename(?WORD, Bytes2String(#range(ARGS, 128, #asWord(#range(ARGS, 96, 32))))) ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "randomUint(uint256,uint256,string)" )
        ensures #asWord(#range(ARGS, 0, 32)) <=Int ?WORD andBool ?WORD <=Int #asWord(#range(ARGS, 32, 32))
        [preserves-definedness]
 ```
@@ -439,6 +476,14 @@ This rule returns a symbolic boolean value being either 0 (false) or 1 (true).
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshBool()" )
         orBool SELECTOR ==Int selector ( "randomBool()" )
+       ensures #rangeBool(?WORD)
+       [preserves-definedness]
+
+    rule [cheatcode.call.withName.freshBool]:
+         <k> #cheatcode_call SELECTOR ARGS => #rename(?WORD, Bytes2String(#range(ARGS, 64, #asWord(#range(ARGS, 32, 32))))) ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "freshBool(string)" )
+        orBool SELECTOR ==Int selector ( "randomBool(string)" )
        ensures #rangeBool(?WORD)
        [preserves-definedness]
 ```
@@ -466,6 +511,17 @@ This rule returns a fully symbolic byte array value of the given length.
          orBool SELECTOR ==Int selector ( "randomBytes(uint256)" )
        ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
       [preserves-definedness]
+
+    rule [cheatcode.call.withName.freshBytes]:
+         <k> #cheatcode_call SELECTOR ARGS => #rename(?BYTES, Bytes2String(#range(ARGS, 96, #asWord(#range(ARGS, 64, 32))))) ... </k>
+         <output> _ =>
+            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES
+            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 )
+         </output>
+      requires SELECTOR ==Int selector ( "freshBytes(uint256,string)" )
+         orBool SELECTOR ==Int selector ( "randomBytes(uint256,string)" )
+       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
+      [preserves-definedness]
 ```
 
 This rule returns a fully symbolic byte array value of length 4.
@@ -479,6 +535,15 @@ This rule returns a fully symbolic byte array value of length 4.
       requires SELECTOR ==Int selector ( "randomBytes4()" )
        ensures lengthBytes(?BYTES) ==Int 4
       [preserves-definedness]
+
+    rule [cheatcode.call.withName.randomBytes4]:
+         <k> #cheatcode_call SELECTOR ARGS => #rename(?BYTES, Bytes2String(#range(ARGS, 64, #asWord(#range(ARGS, 32, 32))))) ... </k>
+         <output> _ =>
+            ?BYTES +Bytes #buf ( 28 , 0 )
+         </output>
+      requires SELECTOR ==Int selector ( "randomBytes4(string)" )
+       ensures lengthBytes(?BYTES) ==Int 4
+      [preserves-definedness]
 ```
 
 This rule returns a fully symbolic byte array value of length 8.
@@ -490,6 +555,15 @@ This rule returns a fully symbolic byte array value of length 8.
             ?BYTES +Bytes #buf ( 24 , 0 )
          </output>
       requires SELECTOR ==Int selector ( "randomBytes8()" )
+       ensures lengthBytes(?BYTES) ==Int 8
+      [preserves-definedness]
+
+    rule [cheatcode.call.withName.randomBytes8]:
+         <k> #cheatcode_call SELECTOR ARGS => #rename(?BYTES, Bytes2String(#range(ARGS, 64, #asWord(#range(ARGS, 32, 32))))) ... </k>
+         <output> _ =>
+            ?BYTES +Bytes #buf ( 24 , 0 )
+         </output>
+      requires SELECTOR ==Int selector ( "randomBytes8(string)" )
        ensures lengthBytes(?BYTES) ==Int 8
       [preserves-definedness]
 ```
@@ -510,6 +584,14 @@ This rule returns a symbolic address value.
          <output> _ => #buf(32, ?WORD) </output>
       requires SELECTOR ==Int selector ( "freshAddress()" )
         orBool SELECTOR ==Int selector ( "randomAddress()" )
+       ensures #rangeAddress(?WORD) andBool ?WORD =/=Int #address(FoundryTest) andBool ?WORD =/=Int #address(FoundryCheat)
+       [preserves-definedness]
+
+    rule [foundry.call.withName.freshAddress]:
+         <k> #cheatcode_call SELECTOR ARGS => #rename(?WORD, Bytes2String(#range(ARGS, 64, #asWord(#range(ARGS, 32, 32))))) ... </k>
+         <output> _ => #buf(32, ?WORD) </output>
+      requires SELECTOR ==Int selector ( "freshAddress(string)" )
+        orBool SELECTOR ==Int selector ( "randomAddress(string)" )
        ensures #rangeAddress(?WORD) andBool ?WORD =/=Int #address(FoundryTest) andBool ?WORD =/=Int #address(FoundryCheat)
        [preserves-definedness]
 ```
@@ -1109,6 +1191,16 @@ Mock functions
 Utils
 -----
 
+ - Defining a new production `#rename` for all the types for which we generate symbolic values.
+The wildcards in the `setName` rule will match any production defined.
+We don't care about the values because they will be processed in the `custom_step` function in Python.
+
+```k
+    syntax RenameTarget ::= Int | Bool | Bytes | Map
+    syntax KItem ::= #rename ( RenameTarget , String ) [symbol(foundry_rename)]
+ // ---------------------------------------------------------------------------
+    rule [rename]: <k> #rename(_,_) => .K ... </k>
+```
 - `#loadAccount ACCT` creates a new, empty account for `ACCT` if it does not already exist. Otherwise, it has no effect.
 
 ```k
@@ -1202,11 +1294,21 @@ Utils
 - `#setSymbolicStorage ACCTID` takes a given account and makes its storage fully symbolic.
 
 ```k
-     syntax KItem ::= "#setSymbolicStorage" Int [symbol(foundry_setSymbolicStorage)]
+    syntax KItem ::= "#setSymbolicStorage" Int [symbol(foundry_setSymbolicStorage)]
+                   | "#setSymbolicStorage" Int String [symbol(foundry_setSymbolicStorageWithName)]
+ // ----------------------------------------------------------------------------------------------
 ```
 
 ```{.k .symbolic}
     rule <k> #setSymbolicStorage ACCTID => .K ... </k>
+         <account>
+           <acctID> ACCTID </acctID>
+           <storage> _ => ?STORAGE </storage>
+           <origStorage> _ => ?STORAGE </origStorage>
+           ...
+         </account>
+
+    rule <k> #setSymbolicStorage ACCTID NAME => #rename(?STORAGE, NAME) ... </k>
          <account>
            <acctID> ACCTID </acctID>
            <storage> _ => ?STORAGE </storage>
@@ -1669,19 +1771,33 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "expectEmit(bool,bool,bool,bool,address)" )  => 2176505587 )
     rule ( selector ( "sign(uint256,bytes32)" )                    => 3812747940 )
     rule ( selector ( "symbolicStorage(address)" )                 => 769677742  )
+    rule ( selector ( "symbolicStorage(address,string)" )          => 745143816  )
     rule ( selector ( "setArbitraryStorage(address)" )             => 3781367863 )
+    rule ( selector ( "setArbitraryStorage(address,string)" )      => 3561024228 )
     rule ( selector ( "freshUInt(uint8)" )                         => 625253732  )
+    rule ( selector ( "freshUInt(uint8,string)" )                  => 1530912521 )
     rule ( selector ( "randomUint(uint256)" )                      => 3481396892 )
+    rule ( selector ( "randomUint(uint256,string)" )               => 1516105676 )
     rule ( selector ( "randomUint()" )                             => 621954864  )
+    rule ( selector ( "randomUint(string)" )                       => 801997266  )
     rule ( selector ( "randomUint(uint256,uint256)" )              => 3592095003 )
+    rule ( selector ( "randomUint(uint256,uint256,string)" )       => 2577262044 )
     rule ( selector ( "freshBool()" )                              => 2935720297 )
+    rule ( selector ( "freshBool(string)" )                        => 525694724  )
     rule ( selector ( "randomBool()" )                             => 3451987645 )
+    rule ( selector ( "randomBool(string)" )                       => 2950914382 )
     rule ( selector ( "freshBytes(uint256)" )                      => 1389402351 )
+    rule ( selector ( "freshBytes(uint256,string)" )               => 390682600  )
     rule ( selector ( "randomBytes(uint256)" )                     => 1818047145 )
+    rule ( selector ( "randomBytes(uint256,string)" )              => 3676772474 )
     rule ( selector ( "randomBytes4()" )                           => 2608649593 )
+    rule ( selector ( "randomBytes4(string)" )                     => 2292103670 )
     rule ( selector ( "randomBytes8()" )                           => 77050021   )
+    rule ( selector ( "randomBytes8(string)" )                     => 1081560197 )
     rule ( selector ( "freshAddress()" )                           => 2363359817 )
+    rule ( selector ( "freshAddress(string)" )                     => 1202084987 )
     rule ( selector ( "randomAddress()" )                          => 3586058741 )
+    rule ( selector ( "randomAddress(string)" )                    => 2763724220 )
     rule ( selector ( "prank(address)" )                           => 3395723175 )
     rule ( selector ( "prank(address,address)" )                   => 1206193358 )
     rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )
