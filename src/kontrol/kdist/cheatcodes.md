@@ -342,7 +342,7 @@ This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes 
 
 
     rule [cheatcode.call.withName.symbolicStorage]:
-         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS,0,32)) ~> #setSymbolicStorage #asWord(ARGS) Bytes2String(#range(ARGS, 96, #asWord(#range(ARGS, 64, 32)))) ... </k>
+         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS,0,32)) ~> #setSymbolicStorage #asWord(#range(ARGS,0,32)) Bytes2String(#range(ARGS, 96, #asWord(#range(ARGS, 64, 32)))) ... </k>
       requires SELECTOR ==Int selector ( "symbolicStorage(address,string)" )
         orBool SELECTOR ==Int selector ( "setArbitraryStorage(address,string)")
 ```
@@ -515,12 +515,12 @@ This rule returns a fully symbolic byte array value of the given length.
     rule [cheatcode.call.withName.freshBytes]:
          <k> #cheatcode_call SELECTOR ARGS => #rename(?BYTES, Bytes2String(#range(ARGS, 96, #asWord(#range(ARGS, 64, 32))))) ... </k>
          <output> _ =>
-            #buf(32, 32) +Bytes #buf(32, #asWord(ARGS)) +Bytes ?BYTES
-            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(ARGS) +Int maxUInt5 ) ) -Int #asWord(ARGS) ) , 0 )
+            #buf(32, 32) +Bytes #buf(32, #asWord(#range(ARGS, 0, 32))) +Bytes ?BYTES
+            +Bytes #buf ( ( ( notMaxUInt5 &Int ( #asWord(#range(ARGS, 0, 32)) +Int maxUInt5 ) ) -Int #asWord(#range(ARGS, 0, 32)) ) , 0 )
          </output>
       requires SELECTOR ==Int selector ( "freshBytes(uint256,string)" )
          orBool SELECTOR ==Int selector ( "randomBytes(uint256,string)" )
-       ensures lengthBytes(?BYTES) ==Int #asWord(ARGS)
+       ensures lengthBytes(?BYTES) ==Int #asWord(#range(ARGS, 0, 32))
       [preserves-definedness]
 ```
 
@@ -1192,11 +1192,10 @@ Utils
 -----
 
  - Defining a new production `#rename` for all the types for which we generate symbolic values.
-The wildcards in the `setName` rule will match any production defined.
 We don't care about the values because they will be processed in the `custom_step` function in Python.
 
 ```k
-    syntax RenameTarget ::= Int | Bool | Bytes | Map
+    syntax RenameTarget ::= Int | Bytes | Map
     syntax KItem ::= #rename ( RenameTarget , String ) [symbol(foundry_rename)]
  // ---------------------------------------------------------------------------
     rule [rename]: <k> #rename(_,_) => .K ... </k>
