@@ -612,13 +612,13 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.121.2"
+version = "6.122.1"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "hypothesis-6.121.2-py3-none-any.whl", hash = "sha256:43edc07f9f4758807fc6cf10309dd6a376f3d6d886a5ef345ca49fe80ca3d394"},
-    {file = "hypothesis-6.121.2.tar.gz", hash = "sha256:4c95ed50ef76cd073a43efab2d4c2297f0b3c85aafb6c1134aac0719dab56428"},
+    {file = "hypothesis-6.122.1-py3-none-any.whl", hash = "sha256:59e52da0f2529b40f0b7bd0c3c61d8b3fe3337102800bf3534c53d4a8bdf8a6d"},
+    {file = "hypothesis-6.122.1.tar.gz", hash = "sha256:23280e802eef88316b02cb32205d74b5bf2e3de4a378e2579a8974117c512b83"},
 ]
 
 [package.dependencies]
@@ -693,7 +693,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.757"
+version = "1.0.758"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -701,26 +701,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.180"
+kframework = "7.1.184"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.757"
-resolved_reference = "03b0358b7d74846fcd2c9e186d54886c3ca30a2b"
+reference = "v1.0.758"
+resolved_reference = "81810eac97121ed8518fb4f561d27b0b5ba52182"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.180"
+version = "7.1.184"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.180-py3-none-any.whl", hash = "sha256:9eaa81cc42c71efdee2edf5c6687410c732d489ebb5481f0a9c79484f0779ba0"},
-    {file = "kframework-7.1.180.tar.gz", hash = "sha256:e6e55d057d89c26a2760ee68d6be8836607d99f81847e456ba1d72bc6e9744e2"},
+    {file = "kframework-7.1.184-py3-none-any.whl", hash = "sha256:76739895f1947ed78ea9d59e54851daa705d5ca66edabde839cbf7dc1482ada9"},
+    {file = "kframework-7.1.184.tar.gz", hash = "sha256:abaea1c279d3367871b11324236ceb0625b5259877bde3de53f31e8d3bec25a8"},
 ]
 
 [package.dependencies]
@@ -1503,4 +1503,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "1fd61b5067bdd3289b17686faf73c59f081693e3c88013aa6fe39ab06e2640b3"
+content-hash = "335be980ee5184f6b0905784bf37c29b719df49c20533b81d038aa89cbb2e767"
