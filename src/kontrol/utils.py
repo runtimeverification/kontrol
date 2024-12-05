@@ -6,12 +6,14 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
+from pyk.kast.inner import Subst
 from pyk.kbuild.utils import KVersion, k_version
+from pyk.prelude.utils import token
 
 if TYPE_CHECKING:
     from typing import Final
     from argparse import Namespace
-
+    from pyk.kast.inner import KInner
 import os
 import stat
 
@@ -23,6 +25,29 @@ console = Console()
 
 _LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
 _LOGGER: Final = logging.getLogger(__name__)
+
+
+def ensure_name_is_unique(name: str, config: KInner) -> str:
+    """Ensure that a given name for a KVariable is unique within the context of a CTerm.
+
+    :param name: name of a KVariable
+    :param cterm: cterm
+    :return: Returns the name if it's not used, otherwise appends a suffix.
+    :rtype: str
+    """
+    new_config = Subst({name: token(True)})(config)
+    if new_config == config:
+        return name
+    print (1,config)
+    print (2,new_config)
+
+    index = 0
+    new_config = Subst({f'{name}_{index}': token(True)})(config)
+    while new_config != config:
+        index += 1
+        new_config = Subst({f'{name}_{index}': token(True)})(config)
+
+    return f'{name}_{index}'
 
 
 def check_k_version() -> None:
