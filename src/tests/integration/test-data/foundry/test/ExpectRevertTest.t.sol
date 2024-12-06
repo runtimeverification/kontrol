@@ -37,7 +37,7 @@ contract DepthReverter {
 
 contract ReverterWithReturn {
     function returnBytesUnless(bool revertInstead)
-        public
+        public pure
         returns (bytes memory)
     {
         if (revertInstead) {
@@ -48,7 +48,7 @@ contract ReverterWithReturn {
     }
 
     function returnTupleUnless(bool revertInstead)
-        public
+        public pure
         returns (uint256, uint256)
     {
         if (revertInstead) {
@@ -66,10 +66,10 @@ contract ExpectRevertTest is Test {
         require(false, "");
     }
 
-    function revertDepth2() public {
+    function revertDepth2() public pure {
         revert ("This should be at depth 2");
     }
-    function revertDepth1() public  {
+    function revertDepth1() public view {
         try this.revertDepth2()
         {} catch {}
         revert ("This should be at depth 1");

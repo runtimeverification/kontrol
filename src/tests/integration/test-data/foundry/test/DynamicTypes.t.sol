@@ -25,7 +25,7 @@ contract DynamicTypesTest is Test {
     /// @custom:kontrol-bytes-length-equals content: 10000,
     /// @custom:kontrol-array-length-equals ba: 10,
     /// @custom:kontrol-bytes-length-equals ba: 600,
-    function test_complex_type(ComplexType calldata ctValues, bytes[] calldata ba) public {
+    function test_complex_type(ComplexType calldata ctValues, bytes[] calldata ba) public pure {
         require (ba.length == 10, "DynamicTypes: invalid length for bytes[]");
         assert(ctValues.content.length == 10000);
         assert(ba[8].length == 600);
@@ -35,7 +35,7 @@ contract DynamicTypesTest is Test {
     /// @custom:kontrol-bytes-length-equals content: 10000,
     /// @custom:kontrol-array-length-equals ba: 10,
     /// @custom:kontrol-bytes-length-equals ba: 600,
-    function test_complex_type_array(ComplexType[] calldata ctValues, bytes[] calldata ba, uint256 offset) public {
+    function test_complex_type_array(ComplexType[] calldata ctValues, bytes[] calldata ba, uint256 offset) public pure {
         require (ctValues.length == 10, "DynamicTypes: invalid length for ComplexType[]");
         require (ba.length == 10, "DynamicTypes: invalid length for bytes[]");
         vm.assume(offset < 10);
@@ -45,25 +45,25 @@ contract DynamicTypesTest is Test {
 
     /// @custom:kontrol-array-length-equals ctValues: 10,
     /// @custom:kontrol-bytes-length-equals content: 10000,
-    function test_dynamic_struct_array(ComplexType[] calldata ctValues) public {
+    function test_dynamic_struct_array(ComplexType[] calldata ctValues) public pure{
         require (ctValues.length == 10, "DynamicTypes: invalid length for ComplexType[]");
         assert(ctValues[8].content.length == 10000);
     }
 
-    function test_nested_struct_array(ComplexType[][] memory ctValues) public {
+    function test_nested_struct_array(ComplexType[][] memory ctValues) public pure {
         require(ctValues[0].length == 1, "DynamicTypes: invalid default lengths for two-dimensional ComplexType[][]");
     }
 
-    function test_dynamic_nested_struct_array(ComplexNestedType memory cntValues) public {
+    function test_dynamic_nested_struct_array(ComplexNestedType memory cntValues) public pure {
         require(cntValues.values.length == 1, "DynamicTypes: invalid default length for ComplexType[] in ComplexNestedType");
     }
 
-    function test_dynamic_struct_nested_array(ComplexTypeArray memory ctaValues) public {
+    function test_dynamic_struct_nested_array(ComplexTypeArray memory ctaValues) public pure {
         require(ctaValues.assets.length == 1, "DynamicTypes: invalid default length for assets in ComplexTypeArray");
         require(ctaValues.maxAmountsIn.length == 1, "DynamicTypes: invalid default length for maxAmountsIn in ComplexTypeArray");
     }
 
-    function test_dynamic_byte_read(bytes memory data, uint256 offset) public {
+    function test_dynamic_byte_read(bytes memory data, uint256 offset) public pure {
         uint8 mydata = uint8(data[offset]);
         vm.assume(mydata < 3);
         assertTrue(mydata == 2 || mydata == 1 || mydata == 0);
