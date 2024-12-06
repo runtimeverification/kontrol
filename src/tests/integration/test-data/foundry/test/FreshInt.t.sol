@@ -9,9 +9,12 @@ contract FreshCheatcodes is Test, KontrolCheats {
     int128 constant max = 170141183460469231731687303715884105727;
 
     function test_bool() public {
-        uint256 fresh_uint256 = kevm.freshBool();
-        assertGe(fresh_uint256, 0);
-        assertLe(fresh_uint256, 1);
+        bool fresh_bool = kevm.freshBool();
+        if (fresh_bool){
+            assertTrue(fresh_bool);
+        } else {
+            assertFalse(fresh_bool);
+        }
     }
 
     function test_int128() public {

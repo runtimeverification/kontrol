@@ -9,7 +9,7 @@ contract InitCodeTest is Test {
     uint b = 100;
     uint c = 100;
 
-    constructor() public payable {
+    constructor() payable {
         b = 2;
         c = 200;
     }
@@ -18,10 +18,10 @@ contract InitCodeTest is Test {
         c = 1;
     }
 
-    function test_init() public {
+    function test_init() public view {
         assertEq(a + b + c, 7);
     }
-    function testFail_init() public {
+    function testFail_init() public view {
         assertEq(a + b + c, 8);
     }
 }

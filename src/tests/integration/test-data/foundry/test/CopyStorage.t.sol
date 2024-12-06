@@ -31,7 +31,7 @@ contract CopyStorageTest is Test, KontrolCheats {
         // `x` of second contract is uninitialized
         assert(csc_2.x() == 0);
         // Copy storage from first to second contract
-        kevm.copyStorage(address(csc_1), address(csc_2));
+        vm.copyStorage(address(csc_1), address(csc_2));
         // `x` of second contract is now the `x` of the first
         assert(csc_2.x() == x_1);
     }
