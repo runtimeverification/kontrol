@@ -5,38 +5,38 @@ import "forge-std/Test.sol";
 
 contract ToStringTest is Test {
 
-    function testAddressToString() public {
+    function testAddressToString() public pure {
         address addr = 0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8;
         string memory addrStr = vm.toString(addr);
         assertEq("0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8", addrStr);
     }
 
-    function testBytesToString() public {
+    function testBytesToString() public pure {
         bytes memory bts = hex"7109709ecfa91a80626ff3989d68f67f5b1dd12d";
         string memory btsStr = vm.toString(bts);
         assertEq("0x7109709ecfa91a80626ff3989d68f67f5b1dd12d", btsStr);
     }
 
-    function testBytes32ToString() public {
+    function testBytes32ToString() public pure {
         bytes32 bts = 0x00;
         string memory btsStr = vm.toString(bts);
         assertEq("0x0000000000000000000000000000000000000000000000000000000000000000", btsStr);
     }
 
-    function testBoolToString() public {
+    function testBoolToString() public pure {
         string memory boolStr = vm.toString(true);
         assertEq("true", boolStr);
         boolStr = vm.toString(false);
         assertEq("false", boolStr);
     }
 
-    function testUint256ToString() public {
+    function testUint256ToString() public pure {
         uint256 number = 1234;
         string memory numberStr = vm.toString(number);
         assertEq("1234", numberStr);
     }
 
-    function testIntToString() public {
+    function testIntToString() public pure {
         int number = -1234;
         string memory numberStr = vm.toString(number);
         assertEq("-1234", numberStr);

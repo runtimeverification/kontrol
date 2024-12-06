@@ -24,7 +24,7 @@ contract SetUpDeployTest is Test {
         token = new MyToken(address(0));
     }
 
-    function test_extcodesize() public {
+    function test_extcodesize() public view{
         uint size;
         address token_addr = address(token);
         assembly {

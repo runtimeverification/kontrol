@@ -3,11 +3,7 @@ pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
 import "kontrol-cheatcodes/KontrolCheats.sol";
-
-contract SymbolicStore {
-    uint256 private testNumber = 1337; // slot 0
-    constructor() {}
-}
+import {StoreContract} from "../src/StoreContract.sol";
 
 contract SymbolicStorageTest is Test, KontrolCheats { 
     function testFail_SymbolicStorage(uint256 slot) public {
@@ -19,14 +15,14 @@ contract SymbolicStorageTest is Test, KontrolCheats {
     }
 
     function testFail_SymbolicStorage1(uint256 slot) public {
-        SymbolicStore myStore = new SymbolicStore();
+        StoreContract myStore = new StoreContract();
         kevm.symbolicStorage(address(myStore));
         bytes32 value = vm.load(address(myStore), bytes32(uint256(slot)));
         require(value != 0);
         assertEq(uint256(value), 0);
     }
 
-    function testEmptyInitialStorage(uint256 slot) public {
+    function testEmptyInitialStorage(uint256 slot) public view {
         bytes32 storage_value = vm.load(address(vm), bytes32(slot));
         assertEq(uint256(storage_value), 0);
     }
