@@ -6,12 +6,16 @@ import "kontrol-cheatcodes/KontrolCheats.sol";
 
 contract AddrTest is Test, KontrolCheats {
 
-    function test_addr(uint256 pk) public pure {
+    function test_addr_true() public pure{
         address alice = vm.addr(1);
         assertEq(alice, 0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf);
+    }
+
+    function test_addr_symbolic(uint256 pk) public pure {
         vm.assume(pk != 0);
         vm.assume(pk < 115792089237316195423570985008687907852837564279074904382605163141518161494337);
-        address bob = vm.addr(pk);
+        address alice = vm.addr(pk);
+        assert(true);
     }
 
     function test_notBuiltinAddress(address addr) public pure {
