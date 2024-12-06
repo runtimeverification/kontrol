@@ -53,10 +53,11 @@ contract SetUpTest is Test, KontrolCheats {
       assert(data < 42);
     }
 
-    function test_setup() public {
+    function test_setup() public view {
         assertEq(a + b + c, 6);
     }
-    function testFail_setup() public {
+
+    function testFail_setup() public view {
         assertEq(a + b + c, 7);
     }
 }
