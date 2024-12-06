@@ -1,0 +1,159 @@
+
+┌─ 1 (root, init)
+│   k: #execute ~> CONTINUATION:K
+│   pc: 0
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%BMCLoopsTest.test_bmc(uint256)
+│
+│  (350 steps)
+├─ 3 (split)
+│   k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+│   pc: 1960
+│   callDepth: 0
+│   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:92:92
+│   method: test%BMCLoopsTest.test_bmc(uint256)
+┃
+┃ (branch)
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     KV0_n:Int <=Int 0
+┃  │
+┃  ├─ 4
+┃  │   k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+┃  │   pc: 1960
+┃  │   callDepth: 0
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/forge-std/src/StdInvariant.sol:92:92
+┃  │   method: test%BMCLoopsTest.test_bmc(uint256)
+┃  │
+┃  ┊  constraint:
+┃  ┊      KV0_n:Int <=Int 0
+┃  ┊      ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 )
+┃  ┊  subst: ...
+┃  └─ 21 (leaf, pending)
+┃      k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+┃      pc: 1960
+┃      callDepth: 0
+┃      statusCode: STATUSCODE:StatusCode
+┃      src: lib/forge-std/src/StdInvariant.sol:92:92
+┃      method: test%BMCLoopsTest.test_bmc(uint256)
+┃
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     0 <Int KV0_n:Int
+   │
+   ├─ 5
+   │   k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+   │   pc: 1960
+   │   callDepth: 0
+   │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:92:92
+   │   method: test%BMCLoopsTest.test_bmc(uint256)
+   │
+   │  (224 steps)
+   ├─ 7 (split)
+   │   k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+   │   pc: 1960
+   │   callDepth: 0
+   │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:92:92
+   │   method: test%BMCLoopsTest.test_bmc(uint256)
+   ┃
+   ┃ (branch)
+   ┣━━┓ subst: .Subst
+   ┃  ┃ constraint:
+   ┃  ┃     KV0_n:Int <=Int 1
+   ┃  │
+   ┃  ├─ 9
+   ┃  │   k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+   ┃  │   pc: 1960
+   ┃  │   callDepth: 0
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  │   src: lib/forge-std/src/StdInvariant.sol:92:92
+   ┃  │   method: test%BMCLoopsTest.test_bmc(uint256)
+   ┃  │
+   ┃  ┊  constraint:
+   ┃  ┊      0 <Int KV0_n:Int
+   ┃  ┊      KV0_n:Int <=Int 1
+   ┃  ┊      ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 )
+   ┃  ┊  subst: ...
+   ┃  └─ 21 (leaf, pending)
+   ┃      k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+   ┃      pc: 1960
+   ┃      callDepth: 0
+   ┃      statusCode: STATUSCODE:StatusCode
+   ┃      src: lib/forge-std/src/StdInvariant.sol:92:92
+   ┃      method: test%BMCLoopsTest.test_bmc(uint256)
+   ┃
+   ┗━━┓ subst: .Subst
+      ┃ constraint:
+      ┃     1 <Int KV0_n:Int
+      │
+      ├─ 10
+      │   k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+      │   pc: 1960
+      │   callDepth: 0
+      │   statusCode: STATUSCODE:StatusCode
+      │   src: lib/forge-std/src/StdInvariant.sol:92:92
+      │   method: test%BMCLoopsTest.test_bmc(uint256)
+      │
+      │  (224 steps)
+      ├─ 13 (split)
+      │   k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+      │   pc: 1960
+      │   callDepth: 0
+      │   statusCode: STATUSCODE:StatusCode
+      │   src: lib/forge-std/src/StdInvariant.sol:92:92
+      │   method: test%BMCLoopsTest.test_bmc(uint256)
+      ┃
+      ┃ (branch)
+      ┣━━┓ subst: .Subst
+      ┃  ┃ constraint:
+      ┃  ┃     KV0_n:Int <=Int 2
+      ┃  │
+      ┃  ├─ 16
+      ┃  │   k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+      ┃  │   pc: 1960
+      ┃  │   callDepth: 0
+      ┃  │   statusCode: STATUSCODE:StatusCode
+      ┃  │   src: lib/forge-std/src/StdInvariant.sol:92:92
+      ┃  │   method: test%BMCLoopsTest.test_bmc(uint256)
+      ┃  │
+      ┃  ┊  constraint:
+      ┃  ┊      0 <Int KV0_n:Int
+      ┃  ┊      1 <Int KV0_n:Int
+      ┃  ┊      KV0_n:Int <=Int 2
+      ┃  ┊      ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 )
+      ┃  ┊  subst: ...
+      ┃  └─ 21 (leaf, pending)
+      ┃      k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+      ┃      pc: 1960
+      ┃      callDepth: 0
+      ┃      statusCode: STATUSCODE:StatusCode
+      ┃      src: lib/forge-std/src/StdInvariant.sol:92:92
+      ┃      method: test%BMCLoopsTest.test_bmc(uint256)
+      ┃
+      ┗━━┓ subst: .Subst
+         ┃ constraint:
+         ┃     2 <Int KV0_n:Int
+         │
+         └─ 17 (leaf, pending)
+             k: JUMPI 1989 bool2Word ( KV0_n:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+             pc: 1960
+             callDepth: 0
+             statusCode: STATUSCODE:StatusCode
+             src: lib/forge-std/src/StdInvariant.sol:92:92
+             method: test%BMCLoopsTest.test_bmc(uint256)
+
+
+┌─ 2 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
+
+
+
