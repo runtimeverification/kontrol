@@ -35,8 +35,6 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 def solc_to_k(options: SolcToKOptions) -> str:
     definition_dir = kdist.get('evm-semantics.haskell')
-    kevm = KEVM(definition_dir)
-    empty_config = kevm.definition.empty_config(KEVM.Sorts.KEVM_CELL)
 
     solc_json = solc_compile(options.contract_file)
     contract_json = solc_json['contracts'][options.contract_file.name][options.contract_name]
@@ -49,7 +47,7 @@ def solc_to_k(options: SolcToKOptions) -> str:
 
     imports = list(options.imports)
     requires = list(options.requires)
-    contract_module = contract_to_main_module(contract, empty_config, enums={}, imports=['EDSL'] + imports)
+    contract_module = contract_to_main_module(contract, enums={}, imports=['EDSL'] + imports)
     _main_module = KFlatModule(
         options.main_module if options.main_module else 'MAIN',
         [],
@@ -1175,14 +1173,12 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     return result
 
 
-def contract_to_main_module(
-    contract: Contract, empty_config: KInner, enums: dict[str, int], imports: Iterable[str] = ()
-) -> KFlatModule:
+def contract_to_main_module(contract: Contract, enums: dict[str, int], imports: Iterable[str] = ()) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
     return KFlatModule(module_name, contract.sentences(enums), [KImport(i) for i in list(imports)])
 
 
-def contract_to_verification_module(contract: Contract, empty_config: KInner, imports: Iterable[str]) -> KFlatModule:
+def contract_to_verification_module(contract: Contract, imports: Iterable[str]) -> KFlatModule:
     main_module_name = Contract.contract_to_module_name(contract.name_with_path)
     verification_module_name = Contract.contract_to_verification_module_name(contract.name_with_path)
     return KFlatModule(verification_module_name, [], [KImport(main_module_name)] + [KImport(i) for i in list(imports)])
