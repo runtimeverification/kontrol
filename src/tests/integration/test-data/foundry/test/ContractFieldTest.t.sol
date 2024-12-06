@@ -9,7 +9,7 @@ contract TToken {
         totalSupply = _totalSupply;
     }
 
-    function getTotalSupply() public returns (uint256) {
+    function getTotalSupply() public view returns (uint256) {
       return 32 + uint256(totalSupply);
     }
 }
@@ -22,7 +22,7 @@ contract TEscrow {
         token = TToken(_token);
     }
 
-    function getTokenTotalSupply() public returns (uint256) {
+    function getTokenTotalSupply() public view returns (uint256) {
         return token.getTotalSupply() + 13;
     }
 }
@@ -34,7 +34,7 @@ contract TGovernance {
         escrow = TEscrow(_escrow);
     }
 
-    function getEscrowTokenTotalSupply() public returns (uint256) {
+    function getEscrowTokenTotalSupply() public view returns (uint256) {
         return escrow.getTokenTotalSupply();
     }
 }
@@ -51,7 +51,7 @@ contract ContractFieldTest is Test {
     /* Calling `getTokenTotalSupply` will summarize `totalSupply` and
        include `TestToken token` into the list of accounts in `getTokenTotalSupply`'s summary
     */
-    function testEscrowToken() public {
+    function testEscrowToken() public view {
         assert(escrow.getTokenTotalSupply() == 12345);
     }
 }
