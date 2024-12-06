@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 
 FORGE_STD_REF: Final = '051fb65'
-KONTROL_CHEATCODES_REF: Final = 'f42ba5f'
+KONTROL_CHEATCODES_REF: Final = 'c2bdec7'
 
 
 @pytest.fixture
@@ -99,4 +99,5 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
     copytree(str(foundry_root), str(session_foundry_root), dirs_exist_ok=True)
+    #copytree(str(foundry_root), str(TEST_DATA_DIR / 'foundry'),dirs_exist_ok=True)
     return Foundry(session_foundry_root, add_enum_constraints=True)
