@@ -7,13 +7,13 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%SetUpDeployTest.setUp()
 │
-│  (876 steps)
+│  (929 steps)
 ├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 194
+│   pc: 248
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:69:71
+│   src: lib/forge-std/src/StdInvariant.sol:95:97
 │   method: test%SetUpDeployTest.setUp()
 │
 │  (1 step)
@@ -25,31 +25,31 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%SetUpDeployTest.test_extcodesize()
 │
-│  (348 steps)
+│  (333 steps)
 ├─ 11
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 194
+│   pc: 248
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: lib/forge-std/src/StdInvariant.sol:69:71
+│   src: lib/forge-std/src/StdInvariant.sol:95:97
 │   method: test%SetUpDeployTest.test_extcodesize()
 │
 │  (1 step)
 ├─ 12
 │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 194
+│   pc: 248
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:69:71
+│   src: lib/forge-std/src/StdInvariant.sol:95:97
 │   method: test%SetUpDeployTest.test_extcodesize()
 │
 │  (2 steps)
 ├─ 13 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 194
+│   pc: 248
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:69:71
+│   src: lib/forge-std/src/StdInvariant.sol:95:97
 │   method: test%SetUpDeployTest.test_extcodesize()
 │
 ┊  constraint: true
@@ -235,7 +235,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -495,7 +495,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -754,7 +754,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -1015,7 +1015,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -1276,7 +1276,7 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map

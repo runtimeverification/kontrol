@@ -7,7 +7,7 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%ArithmeticCallTest.setUp()
 │
-│  (1045 steps)
+│  (1086 steps)
 ├─ 7 (split)
 │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 │   pc: 0
@@ -32,7 +32,7 @@
 ┃  │  (73 steps)
 ┃  └─ 11 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
-┃      pc: 2613
+┃      pc: 3249
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
@@ -50,10 +50,10 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
-┃  │  (486 steps)
+┃  │  (498 steps)
 ┃  └─ 15 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
-┃      pc: 2730
+┃      pc: 3371
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
@@ -72,10 +72,10 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
-┃  │  (907 steps)
+┃  │  (929 steps)
 ┃  └─ 19 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
-┃      pc: 2852
+┃      pc: 3497
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
@@ -95,10 +95,10 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
-┃  │  (1320 steps)
+┃  │  (1354 steps)
 ┃  └─ 23 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
-┃      pc: 2969
+┃      pc: 3619
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
@@ -119,13 +119,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
-┃  │  (1576 steps)
+┃  │  (1610 steps)
 ┃  ├─ 26 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 248
+┃  │   pc: 270
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:77:79
+┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
 ┃  │   method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
 ┃  │
 ┃  ┊  constraint: true
@@ -152,10 +152,10 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: src%ArithmeticContract.add(uint256,uint256)
    │
-   │  (1579 steps)
+   │  (1613 steps)
    └─ 27 (leaf, terminal)
        k: #halt ~> CONTINUATION:K
-       pc: 3736
+       pc: 4721
        callDepth: 0
        statusCode: EVMC_REVERT
        method: test%ArithmeticCallTest.test_double_add_double_sub(uint256,uint256)
@@ -207,7 +207,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -279,9 +279,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                          0
                        </balance>
                        <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
+                         ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                         ( 12 |-> 1 ) )
                        </storage>
                        <origStorage>
                          .Map
@@ -329,7 +328,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
@@ -434,9 +433,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
+                       ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -589,7 +587,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ?KV1_y : ( ?KV0_x : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ?KV1_y : ( ?KV0_x : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y )
@@ -661,9 +659,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                          0
                        </balance>
                        <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
+                         ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                         ( 12 |-> 1 ) )
                        </storage>
                        <origStorage>
                          .Map
@@ -795,8 +792,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( 7 |-> 1 ) )
+                       ( ( maxUInt5 |-> 1 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -837,9 +834,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
+                       ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -995,7 +991,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1067,9 +1063,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                          0
                        </balance>
                        <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
+                         ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                         ( 12 |-> 1 ) )
                        </storage>
                        <origStorage>
                          .Map
@@ -1117,7 +1112,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 228 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 228 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
@@ -1222,9 +1217,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
+                       ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -1382,7 +1376,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1454,9 +1448,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                          0
                        </balance>
                        <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
+                         ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                         ( 12 |-> 1 ) )
                        </storage>
                        <origStorage>
                          .Map
@@ -1504,7 +1497,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 260 : ( selector ( "sub(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 260 : ( selector ( "sub(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) ) +Bytes b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
@@ -1609,9 +1602,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
+                       ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -1770,7 +1762,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1842,9 +1834,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                          0
                        </balance>
                        <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
+                         ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                         ( 12 |-> 1 ) )
                        </storage>
                        <origStorage>
                          .Map
@@ -1892,7 +1883,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 292 : ( selector ( "sub(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( ( KV0_x:Int -Int KV1_y:Int ) : ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 292 : ( selector ( "sub(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( ( KV0_x:Int -Int KV1_y:Int ) : ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) ) +Bytes #buf ( 32 , ( KV0_x:Int -Int KV1_y:Int ) ) +Bytes b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , ( KV0_x:Int -Int KV1_y:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
@@ -1997,9 +1988,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
+                       ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -2162,7 +2152,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -2234,9 +2224,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                          0
                        </balance>
                        <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
+                         ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                         ( 12 |-> 1 ) )
                        </storage>
                        <origStorage>
                          .Map
@@ -2389,9 +2378,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
+                       ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -2556,7 +2544,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( selector ( "add(uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -2628,9 +2616,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                          0
                        </balance>
                        <storage>
-                         ( ( 11 |-> 1 )
-                         ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                         ( 7 |-> 1 ) ) )
+                         ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                         ( 12 |-> 1 ) )
                        </storage>
                        <origStorage>
                          .Map
@@ -2678,7 +2665,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1762 : ( ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) : ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 2290 : ( ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) : ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 269 : ( selector ( "test_double_add_double_sub(uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) ) +Bytes #buf ( 32 , ( KV0_x:Int -Int KV1_y:Int ) ) +Bytes #buf ( 32 , ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) ) +Bytes #range ( #buf ( 32 , ( KV0_x:Int -Int KV1_y:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
@@ -2783,9 +2770,8 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( 7 |-> 1 ) ) )
+                       ( ( maxUInt5 |-> 125813996375599159817140963330240011258305308995329 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map

@@ -31,15 +31,15 @@ contract ConstructorTest is Test {
         member_contract.set(4321);
     }
 
-    function test_constructor() public {
+    function test_constructor() public view {
         assert(flag);
     }
 
-    function testFail_constructor() public {
+    function testFail_constructor() public view {
         assert(!flag);
     }
 
-    function run_constructor() public {
+    function run_constructor() public view {
         assert(flag);
     }
 
@@ -65,7 +65,7 @@ contract ConstructorArgsTest is Test {
         count = _count;
     }
 
-    function test_constructor_args() public {
+    function test_constructor_args() public view{
         // `flag` is assigned a symbolic value in constructor
         vm.assume(flag);
         // the node is not vacuous

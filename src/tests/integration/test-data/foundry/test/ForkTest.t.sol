@@ -61,7 +61,7 @@ contract ForkTest is Test {
         assertEq(block.number, 17871134);
     }
 
-    function testRPCUrl() public {
+    function testRPCUrl() public view {
         string memory url = vm.rpcUrl("optimism");
         assertEq(url, "https://optimism.alchemyapi.io/v2/...");
     }
