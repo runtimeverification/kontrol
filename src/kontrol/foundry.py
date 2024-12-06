@@ -130,28 +130,30 @@ class KontrolSemantics(KEVMSemantics):
         snd_term = subst['###TERM2']
         operator = subst['###OPERATOR']
         assert isinstance(operator, KToken)
-        constraint = mlEqualsTrue(KApply(_operators[int(operator.token)], fst_term, snd_term))
+        pos_constraint = mlEqualsTrue(KApply(_operators[int(operator.token)], fst_term, snd_term))
+        neg_constraint = mlEqualsTrue(notBool(KApply(_operators[int(operator.token)], fst_term, snd_term)))
 
         # Simplify the constraint
         kevm = KEVM(kdist.get('kontrol.foundry'))
         empty_config = kevm.definition.empty_config(GENERATED_TOP_CELL)
-        simplification_cterm = CTerm.from_kast(empty_config).add_constraint(constraint)
-        result_cterm, _ = cterm_symbolic.simplify(simplification_cterm)
-        target_constraint = single(result_cterm.constraints)
+        for constraint in [pos_constraint, neg_constraint]:
+            simplification_cterm = CTerm.from_kast(empty_config).add_constraint(constraint)
+            result_cterm, _ = cterm_symbolic.simplify(simplification_cterm)
+            target_constraint = single(result_cterm.constraints)
 
-        # Remove the target constraint from the current constraints
-        new_constraints: tuple[KInner, ...] = tuple(c for c in cterm.constraints if c != target_constraint)
+            # Remove the target constraint from the current constraints
+            new_constraints: tuple[KInner, ...] = tuple(c for c in cterm.constraints if c != target_constraint)
 
-        # Check if the constraints have changed
-        if new_constraints == cterm.constraints:
-            _LOGGER.info('Custom step: Target constraint not found in path conditions; returning None')
-            return None
+            # Check if the constraints have changed
+            if new_constraints == cterm.constraints:
+                _LOGGER.info(f'Custom step: Target constraint:\n{target_constraint}\nnot found in current constraints')
+            else:
+                _LOGGER.info(f'Custom step: Removing constraint:\n{target_constraint}')
 
-        _LOGGER.info(f'Custom step: Removing constraint: {target_constraint}')
-
-        # Update the K_CELL with the continuation
-        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
-        return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+            # Update the K_CELL with the continuation
+            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+            return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+        return None
 
     def custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
         if self._check_forget_pattern(cterm):
