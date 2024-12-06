@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 
 contract BMCLoopsTest is Test {
 
-    function test_countdown_concrete() public pure returns (uint) {
+    function test_countdown_concrete() public pure {
         uint n = 3;
         while (n > 0) {
             n = n - 1;
@@ -13,7 +13,7 @@ contract BMCLoopsTest is Test {
         assert(n == 0);
     }
 
-    function test_countdown_symbolic(uint n) public pure returns (uint) {
+    function test_countdown_symbolic(uint n) public pure {
         vm.assume(n <= 3);
         while (n > 0) {
             n = n - 1;

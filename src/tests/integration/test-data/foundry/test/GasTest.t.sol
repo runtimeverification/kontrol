@@ -12,6 +12,7 @@ contract GasTest is Test, KontrolCheats {
         uint256 y = 928;
         uint256 z = y - x;
         uint256 gasLeftAfter  = gasleft();
+        assert(z == 583);
         assert(gasLeftBefore <= gasLeftAfter);
         assert(gasLeftAfter <= gasLeftBefore);
     }

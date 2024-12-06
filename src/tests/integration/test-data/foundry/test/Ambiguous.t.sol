@@ -18,7 +18,7 @@ contract AmbiguousTest {
         assert(true);
     }
 
-    function test_array_type(uint256[] calldata numbers) public pure {
+    function test_array_type(uint256[] calldata) public pure {
         assert(true);
     }
 }
