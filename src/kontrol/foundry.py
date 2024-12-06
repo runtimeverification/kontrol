@@ -150,9 +150,9 @@ class KontrolSemantics(KEVMSemantics):
             else:
                 _LOGGER.info(f'Custom step: Removing constraint:\n{target_constraint}')
 
-            # Update the K_CELL with the continuation
-            new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
-            return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+                # Update the K_CELL with the continuation
+                new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+                return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
         return None
 
     def custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
