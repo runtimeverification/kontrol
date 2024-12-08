@@ -20,14 +20,25 @@ import tomlkit
 from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KInner, KSort, KToken, KVariable
-from pyk.kast.manip import cell_label_to_var_name, collect, extract_lhs, flatten_label, minimize_term, top_down
+from pyk.kast.inner import KApply, KInner, KSequence, KSort, KToken, KVariable
+from pyk.kast.manip import (
+    cell_label_to_var_name,
+    collect,
+    extract_lhs,
+    flatten_label,
+    free_vars,
+    minimize_term,
+    set_cell,
+    top_down,
+)
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kcfg import KCFG
+from pyk.kcfg.kcfg import Step
 from pyk.kcfg.minimize import KCFGMinimizer
+from pyk.kdist import kdist
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
-from pyk.prelude.k import DOTS
+from pyk.prelude.k import DOTS, GENERATED_TOP_CELL
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
@@ -55,8 +66,10 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Any, Final
 
+    from pyk.cterm import CTermSymbolic
     from pyk.kast.outer import KAst
     from pyk.kcfg.kcfg import NodeIdLike
+    from pyk.kcfg.semantics import KCFGExtendResult
     from pyk.kcfg.tui import KCFGElem
     from pyk.proof.implies import RefutationProof
     from pyk.proof.show import NodePrinter
@@ -80,6 +93,108 @@ if TYPE_CHECKING:
     )
 
 _LOGGER: Final = logging.getLogger(__name__)
+
+
+class KontrolSemantics(KEVMSemantics):
+
+    def _check_forget_pattern(self, cterm: CTerm) -> bool:
+        """Given a CTerm, check if the rule 'FOUNDRY-ACCOUNTS.forget' is at the top of the K_CELL.
+
+        This method checks if the 'FOUNDRY-ACCOUNTS.forget' rule is at the top of the `K_CELL` in the given `cterm`.
+        If the rule matches, the resulting substitution is cached in `_cached_subst` for later use in `custom_step`
+        :param cterm: The CTerm representing the current state of the proof node.
+        :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
+        """
+        abstract_pattern = KSequence(
+            [
+                KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+        self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
+        return self._cached_subst is not None
+
+    def _exec_forget_custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
+        """Remove the constraint at the top of K_CELL of a given CTerm from its path constraints,
+           as part of the 'FOUNDRY-ACCOUNTS.forget' cut-rule.
+
+        :param cterm: CTerm representing a proof node
+        :param cterm_symbolic: CTermSymbolic instance
+        :return: A Step of depth 1 carrying a new configuration in which the constraint is consumed from the top
+                 of the K cell and is removed from the initial path constraints if it existed, together with
+                 information that the `cheatcode_forget` rule has been applied.
+        """
+        _LOGGER.info('forgetBranch: pattern confirmed')
+        _operators = ['_==Int_', '_!=Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
+        subst = self._cached_subst
+        assert subst is not None
+        # Extract the terms and operator from the substitution
+        fst_term = subst['###TERM1']
+        snd_term = subst['###TERM2']
+        operator = subst['###OPERATOR']
+        assert isinstance(operator, KToken)
+        # Construct the positive and negative constraints
+        pos_constraint = mlEqualsTrue(KApply(_operators[int(operator.token)], fst_term, snd_term))
+        neg_constraint = mlEqualsTrue(notBool(KApply(_operators[int(operator.token)], fst_term, snd_term)))
+        # To be able to better simplify, we maintain range constraints on the variables present in the constraint
+        constraint_vars: frozenset[str] = free_vars(fst_term).union(free_vars(snd_term))
+        range_patterns: list[KInner] = [
+            mlEqualsTrue(KApply('_<Int_', KVariable('###VARL', INT), KVariable('###VARR', INT))),
+            mlEqualsTrue(KApply('_<=Int_', KVariable('###VARL', INT), KVariable('###VARR', INT))),
+            mlEqualsTrue(notBool(KApply('_==Int_', KVariable('###VARL', INT), KVariable('###VARR', INT)))),
+        ]
+        constraints_to_keep: set[KInner] = set()
+        for constraint in cterm.constraints:
+            for pattern in range_patterns:
+                subst_rcp = pattern.match(constraint)
+                if subst_rcp is not None and (
+                    (
+                        type(subst_rcp['###VARL']) is KVariable
+                        and subst_rcp['###VARL'].name in constraint_vars
+                        and type(subst_rcp['###VARR']) is KToken
+                    )
+                    or (
+                        type(subst_rcp['###VARR']) is KVariable
+                        and subst_rcp['###VARR'].name in constraint_vars
+                        and type(subst_rcp['###VARL']) is KToken
+                    )
+                ):
+                    constraints_to_keep.add(constraint)
+                    break
+        # Set up initial configuration for constraint simplification, and simplify it to get all
+        # of the kept constraints in the form in which they will appear after constraint simplification
+        kevm = KEVM(kdist.get('kontrol.foundry'))
+        empty_config: CTerm = CTerm.from_kast(kevm.definition.empty_config(GENERATED_TOP_CELL))
+        new_constraints: set[KInner] = set(cterm.constraints)
+        initial_cterm, _ = cterm_symbolic.simplify(CTerm(empty_config.config, constraints_to_keep))
+        constraints_to_keep = set(initial_cterm.constraints)
+        # Simplify in the presence of constraints to keep, then remove the constraints to keep to
+        # reveal simplified constraint, then remove if present in original constraints
+        for constraint in [pos_constraint, neg_constraint]:
+            simplification_cterm = initial_cterm.add_constraint(constraint)
+            result_cterm, _ = cterm_symbolic.simplify(simplification_cterm)
+            result_constraints = set(result_cterm.constraints).difference(constraints_to_keep)
+            if len(result_constraints) == 1:
+                target_constraint = single(result_constraints)
+                # Remove the target constraint from the current constraints
+                if target_constraint in new_constraints:
+                    _LOGGER.info(f'forgetBranch: removing constraint: {target_constraint}')
+                    new_constraints.remove(target_constraint)
+                    break
+                else:
+                    _LOGGER.info(f'forgetBranch: constraint: {target_constraint} not found in current constraints')
+        # Update the K_CELL with the continuation
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+        return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+
+    def custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
+        if self._check_forget_pattern(cterm):
+            return self._exec_forget_custom_step(cterm, cterm_symbolic)
+        else:
+            return super().custom_step(cterm, cterm_symbolic)
+
+    def can_make_custom_step(self, cterm: CTerm) -> bool:
+        return self._check_forget_pattern(cterm) or super().can_make_custom_step(cterm)
 
 
 class FoundryKEVM(KEVM):
@@ -841,7 +956,7 @@ def foundry_show(
     if options.failure_info:
         with legacy_explore(
             foundry.kevm,
-            kcfg_semantics=KEVMSemantics(),
+            kcfg_semantics=KontrolSemantics(),
             id=test_id,
             smt_timeout=options.smt_timeout,
             smt_retry_limit=options.smt_retry_limit,
@@ -908,7 +1023,7 @@ def foundry_show(
         ]
         sentences = [sent for sent in sentences if not _contains_foundry_klabel(sent.body)]
         sentences = [
-            sent for sent in sentences if not KEVMSemantics().is_terminal(CTerm.from_kast(extract_lhs(sent.body)))
+            sent for sent in sentences if not KontrolSemantics().is_terminal(CTerm.from_kast(extract_lhs(sent.body)))
         ]
         if len(sentences) == 0:
             _LOGGER.warning(f'No claims or rules retained for proof {proof.id}')
@@ -1098,7 +1213,7 @@ def foundry_simplify_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=apr_proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
@@ -1146,7 +1261,7 @@ def foundry_merge_nodes(
     check_cells_ne = [check_cell for check_cell in check_cells if not check_cells_equal(check_cell, nodes)]
 
     if check_cells_ne:
-        if not all(KEVMSemantics().same_loop(nodes[0].cterm, nd.cterm) for nd in nodes):
+        if not all(KontrolSemantics().same_loop(nodes[0].cterm, nd.cterm) for nd in nodes):
             raise ValueError(f'Nodes {options.nodes} cannot be merged because they differ in: {check_cells_ne}')
 
     anti_unification = nodes[0].cterm
@@ -1186,7 +1301,7 @@ def foundry_step_node(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=apr_proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
@@ -1262,7 +1377,7 @@ def foundry_section_edge(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=apr_proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
@@ -1313,7 +1428,7 @@ def foundry_get_model(
 
     with legacy_explore(
         foundry.kevm,
-        kcfg_semantics=KEVMSemantics(),
+        kcfg_semantics=KontrolSemantics(),
         id=proof.id,
         bug_report=options.bug_report,
         kore_rpc_command=kore_rpc_command,
