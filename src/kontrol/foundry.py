@@ -115,17 +115,19 @@ class KontrolSemantics(KEVMSemantics):
         return self._cached_subst is not None
 
     def _exec_forget_custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
-        """Given a CTerm, remove the constraint that's placed at the top of the K_CELL in the 'FOUNDRY-ACCOUNTS.forget' cut-rule.
+        """Remove the constraint at the top of K_CELL of a given CTerm from its path constraints,
+           as part of the 'FOUNDRY-ACCOUNTS.forget' cut-rule.
 
-        :param cterm: CTerm of a proof node.
+        :param cterm: CTerm representing a proof node
         :param cterm_symbolic: CTermSymbolic instance
-        :return: If the K_CELL matches the forget_pattern and the constraint is successfully removed, returns a Step with depth 1 along with the new configuration, registering that the `cheatcode_forget` rule has been applied. If the constraint is not found, returns None.
+        :return: A Step of depth 1 carrying a new configuration in which the constraint is consumed from the top
+                 of the K cell and is removed from the initial path constraints if it existed, together with
+                 information that the `cheatcode_forget` rule has been applied.
         """
+        _LOGGER.info('forgetBranch: pattern confirmed')
         _operators = ['_==Int_', '_!=Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
-        _LOGGER.info('Custom step: Forget pattern confirmed')
         subst = self._cached_subst
         assert subst is not None
-
         # Extract the terms and operator from the substitution
         fst_term = subst['###TERM1']
         snd_term = subst['###TERM2']
@@ -134,52 +136,53 @@ class KontrolSemantics(KEVMSemantics):
         # Construct the positive and negative constraints
         pos_constraint = mlEqualsTrue(KApply(_operators[int(operator.token)], fst_term, snd_term))
         neg_constraint = mlEqualsTrue(notBool(KApply(_operators[int(operator.token)], fst_term, snd_term)))
-        # Pinpoint variables of interest
-        variables_to_look_for: frozenset[str] = free_vars(fst_term).union(free_vars(snd_term))
-        # Range-constraint patterns
-        range_constraint_patterns: list[KInner] = [
-            mlEqualsTrue(KApply('_<=Int_', KToken('###NUM', INT), KVariable('###VAR'))),
-            mlEqualsTrue(KApply('_<=Int_', KVariable('###VAR'), KToken('###NUM', INT))),
-            mlEqualsTrue(KApply('_<Int_', KToken('###NUM', INT), KVariable('###VAR'))),
-            mlEqualsTrue(KApply('_<Int_', KVariable('###VAR'), KToken('###NUM', INT))),
-            mlEqualsTrue(notBool(KApply('_==Int_', KToken('###NUM', INT), KVariable('###VAR')))),
-            mlEqualsTrue(notBool(KApply('_==Int_', KVariable('###VAR'), KToken('###NUM', INT)))),
+        # To be able to better simplify, we maintain range constraints on the variables present in the constraint
+        constraint_vars: frozenset[str] = free_vars(fst_term).union(free_vars(snd_term))
+        range_patterns: list[KInner] = [
+            mlEqualsTrue(KApply('_<Int_', KVariable('###VARL', INT), KVariable('###VARR', INT))),
+            mlEqualsTrue(KApply('_<=Int_', KVariable('###VARL', INT), KVariable('###VARR', INT))),
+            mlEqualsTrue(notBool(KApply('_==Int_', KVariable('###VARL', INT), KVariable('###VARR', INT)))),
         ]
-        # Preserve range constraints of variables of intereset
         constraints_to_keep: set[KInner] = set()
         for constraint in cterm.constraints:
-            if any(
-                subst['###VAR'] in variables_to_look_for
-                for pattern in range_constraint_patterns
-                if (subst := constraint.match(pattern)) and subst is not None
-            ):
-                _LOGGER.info(f'forgetBranch: keeping constraint: {constraint}')
-                constraints_to_keep.add(constraint)
-
-        # Set up analysis
+            for pattern in range_patterns:
+                subst_rcp = pattern.match(constraint)
+                if subst_rcp is not None and (
+                    (
+                        type(subst_rcp['###VARL']) is KVariable
+                        and subst_rcp['###VARL'].name in constraint_vars
+                        and type(subst_rcp['###VARR']) is KToken
+                    )
+                    or (
+                        type(subst_rcp['###VARR']) is KVariable
+                        and subst_rcp['###VARR'].name in constraint_vars
+                        and type(subst_rcp['###VARL']) is KToken
+                    )
+                ):
+                    constraints_to_keep.add(constraint)
+                    break
+        # Set up initial configuration for constraint simplification, and simplify it to get all
+        # of the kept constraints in the form in which they will appear after constraint simplification
         kevm = KEVM(kdist.get('kontrol.foundry'))
         empty_config: CTerm = CTerm.from_kast(kevm.definition.empty_config(GENERATED_TOP_CELL))
         new_constraints: set[KInner] = set(cterm.constraints)
         initial_cterm, _ = cterm_symbolic.simplify(CTerm(empty_config.config, constraints_to_keep))
         constraints_to_keep = set(initial_cterm.constraints)
-        found: bool = False
         # Simplify in the presence of constraints to keep, then remove the constraints to keep to
         # reveal simplified constraint, then remove if present in original constraints
         for constraint in [pos_constraint, neg_constraint]:
-            if not found:
-                simplification_cterm = initial_cterm.add_constraint(constraint)
-                result_cterm, _ = cterm_symbolic.simplify(simplification_cterm)
-                result_constraints = set(result_cterm.constraints).difference(constraints_to_keep)
-                if len(result_constraints) == 1:
-                    target_constraint = single(result_cterm.constraints)
-                    # Remove the target constraint from the current constraints
-                    if constraint in new_constraints:
-                        _LOGGER.info(f'forgetBranch: removing constraint: {target_constraint}')
-                        new_constraints.remove(constraint)
-                        found = True
-                    else:
-                        _LOGGER.info(f'forgetBranch: constraint: {target_constraint} not found in current constraints')
-
+            simplification_cterm = initial_cterm.add_constraint(constraint)
+            result_cterm, _ = cterm_symbolic.simplify(simplification_cterm)
+            result_constraints = set(result_cterm.constraints).difference(constraints_to_keep)
+            if len(result_constraints) == 1:
+                target_constraint = single(result_constraints)
+                # Remove the target constraint from the current constraints
+                if target_constraint in new_constraints:
+                    _LOGGER.info(f'forgetBranch: removing constraint: {target_constraint}')
+                    new_constraints.remove(target_constraint)
+                    break
+                else:
+                    _LOGGER.info(f'forgetBranch: constraint: {target_constraint} not found in current constraints')
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
