@@ -29,12 +29,12 @@ contract Enum {
         assert(uint(member_contract.letter()) >= 0);
     }
 
-    function enum_argument_range(Letter letter) public view {
+    function enum_argument_range(Letter letter) public pure {
         assert(uint(letter) <= 5);
         assert(uint(letter) >= 0);
     }
 
-    constructor(Letter letter) public {
+    constructor(Letter letter) {
         assert(uint(letter) <= 5);
         assert(uint(letter) >= 0);
     }

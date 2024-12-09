@@ -10,7 +10,7 @@ library LibrarySum {
 }
 
 library LibraryEq {
-    function eq(uint256 a, uint256 b, uint256 c) internal returns (bool res) {
+    function eq(uint256 a, uint256 b, uint256 c) internal pure returns (bool res) {
        uint256 sum = LibrarySum.sum(a, b);
        return (sum == c);
     }
@@ -19,7 +19,7 @@ library LibraryEq {
 contract ExternalNestedLibraryTest is Test {
     uint256 public z = 10;
 
-    function testExtLibs() public {
+    function testExtLibs() public view {
         uint256 x = 3;
         uint256 y = 7;
         bool res = LibraryEq.eq(x, y, z);

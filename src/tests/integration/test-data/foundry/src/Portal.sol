@@ -37,9 +37,9 @@ contract Portal  {
     /// @notice Proves a withdrawal transaction.
     function proveWithdrawalTransaction(
         Types.WithdrawalTransaction memory _tx,
-        uint256 _l2OutputIndex,
-        Types.OutputRootProof calldata _outputRootProof,
-        bytes[] calldata _withdrawalProof
+        uint256,
+        Types.OutputRootProof calldata,
+        bytes[] calldata
     )
         external
         whenNotPaused

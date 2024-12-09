@@ -11,7 +11,7 @@ contract MergeKCFGTest is Test {
         c = new Branches();
     }
 
-    function test_branch_merge(uint256 x, uint256 y, bool z) external{
+    function test_branch_merge(uint256 x, uint256 y, bool z) external view {
         vm.assume(x <= type(uint256).max - y);
         try c.applyOp(x, y, z) returns (uint256 res) {
             // This check will fail if the backend cannot recover the preds in the merged postcondition

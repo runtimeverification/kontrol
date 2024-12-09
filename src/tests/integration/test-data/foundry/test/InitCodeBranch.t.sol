@@ -9,7 +9,7 @@ contract InitCodeBranchTest is Test, KontrolCheats {
     uint a;
     uint b;
 
-    constructor() public payable {
+    constructor() payable {
         kevm.symbolicStorage(address(this));
         if(a <= 10) {
             b = 1;
@@ -19,7 +19,7 @@ contract InitCodeBranchTest is Test, KontrolCheats {
         }
     }
 
-    function test_branch() public {
+    function test_branch() public view {
         assertEq(b, 1);
     }
 }
