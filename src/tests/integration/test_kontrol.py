@@ -9,13 +9,13 @@ from filelock import FileLock
 from pyk.kore.rpc import kore_server
 from pyk.utils import single
 
-from kontrol.foundry import Foundry, init_project
+from kontrol.foundry import Foundry, foundry_show, init_project
 from kontrol.kompile import foundry_kompile
-from kontrol.options import BuildOptions, ProveOptions
+from kontrol.options import BuildOptions, ProveOptions, ShowOptions
 from kontrol.prove import foundry_prove
 from kontrol.utils import append_to_file, foundry_toml_cancun_schedule
 
-from .utils import TEST_DATA_DIR, assert_pass
+from .utils import TEST_DATA_DIR, assert_or_update_show_output, assert_pass
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -79,7 +79,8 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
 
 
 ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'end-to-end-prove-all').read_text().splitlines())
-SKIPPED_PROVE_TESTS: Final = set((TEST_DATA_DIR / 'end-to-end-prove-skip').read_text().splitlines())
+SKIPPED_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'end-to-end-prove-skip').read_text().splitlines())
+SHOW_TESTS: Final = tuple((TEST_DATA_DIR / 'end-to-end-prove-show').read_text().splitlines())
 
 
 @pytest.mark.parametrize('test_id', ALL_PROVE_TESTS)
@@ -96,7 +97,7 @@ def test_kontrol_end_to_end(
     if (
         test_id in SKIPPED_PROVE_TESTS
         or (no_use_booster and test_id in SKIPPED_PROVE_TESTS)
-        or (update_expected_output)
+        or (update_expected_output and test_id not in SHOW_TESTS)
     ):
         pytest.skip()
 
@@ -115,9 +116,33 @@ def test_kontrol_end_to_end(
                 'port': server_end_to_end.port,
                 'force_sequential': force_sequential,
                 'schedule': 'CANCUN',
+                'stack_checks': False,
             }
         ),
     )
 
     # Then
     assert_pass(test_id, single(prove_res))
+
+    if test_id not in SHOW_TESTS or no_use_booster:
+        return
+
+    # And when
+    show_res = foundry_show(
+        foundry=foundry_end_to_end,
+        options=ShowOptions(
+            {
+                'test': test_id,
+                'to_module': True,
+                'sort_collections': True,
+                'omit_unstable_output': True,
+                'pending': True,
+                'failing': True,
+                'failure_info': True,
+                'port': server_end_to_end.port,
+            }
+        ),
+    )
+
+    # Then
+    assert_or_update_show_output(show_res, TEST_DATA_DIR / f'show/{test_id}.expected', update=update_expected_output)

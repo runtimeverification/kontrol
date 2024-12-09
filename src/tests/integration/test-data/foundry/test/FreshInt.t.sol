@@ -49,16 +49,4 @@ contract FreshCheatcodes is Test, KontrolCheats {
         assert(0 <= freshUint192);
         assert(freshUint192 <= type(uint192).max);
     }
-
-    function test_custom_names() public {
-        bool x = kevm.freshBool("BOOLEAN");
-        bool y = kevm.freshBool("BOOLEAN");
-        vm.assume(x == true);
-        vm.assume(y == false);
-        uint256 slot = freshUInt256("NEW_SLOT");
-        address new_account = kevm.freshAddress("NEW_ACCOUNT");
-        kevm.setArbitraryStorage(new_account, "NEW_ACCOUNT_STORAGE");
-        bytes memory value = kevm.freshBytes(32, "NEW_BYTES");
-        vm.store(new_account, bytes32(slot), bytes32(value));
-    }
 }

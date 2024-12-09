@@ -65,6 +65,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from typing import Any, Final
 
+    from pyk.cterm import CTermSymbolic
     from pyk.kast.outer import KAst
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.semantics import KCFGExtendResult
@@ -154,11 +155,11 @@ class KontrolSemantics(KEVMSemantics):
         _LOGGER.info(f'Renaming {target_var.name} to {name}')
         return Step(CTerm(new_cterm.config, constraints), 1, (), ['foundry_rename'], cut=True)
 
-    def custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
+    def custom_step(self, cterm: CTerm, _cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
         if self._check_rename_pattern(cterm):
             return self._exec_rename_custom_step(cterm)
         else:
-            return super().custom_step(cterm)
+            return super().custom_step(cterm, _cterm_symbolic)
 
     def can_make_custom_step(self, cterm: CTerm) -> bool:
         return self._check_rename_pattern(cterm) or super().can_make_custom_step(cterm)

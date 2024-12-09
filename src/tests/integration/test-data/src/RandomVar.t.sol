@@ -2,8 +2,9 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
+import "kontrol-cheatcodes/KontrolCheats.sol";
 
-contract RandomVarTest is Test {
+contract RandomVarTest is Test, KontrolCheats {
     uint256 constant length_limit = 72;
 
     function test_randomBool() public view {
@@ -52,5 +53,16 @@ contract RandomVarTest is Test {
         uint256 rand = vm.randomUint();
         assertTrue(rand >= type(uint256).min);
         assertTrue(rand <= type(uint256).max);
+    }
+    function test_custom_names() public {
+        bool x = kevm.freshBool("BOOLEAN");
+        bool y = kevm.freshBool("BOOLEAN");
+        vm.assume(x == true);
+        vm.assume(y == false);
+        uint256 slot = freshUInt256("NEW_SLOT");
+        address new_account = kevm.freshAddress("NEW_ACCOUNT");
+        kevm.setArbitraryStorage(new_account, "NEW_ACCOUNT_STORAGE");
+        bytes memory value = kevm.freshBytes(32, "NEW_BYTES");
+        vm.store(new_account, bytes32(slot), bytes32(value));
     }
 }
