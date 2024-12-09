@@ -858,6 +858,7 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
     @staticmethod
     def default() -> dict[str, Any]:
         return {
+            'o2': True,
             'regen': False,
             'rekompile': False,
             'forge_build': True,

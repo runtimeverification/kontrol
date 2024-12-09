@@ -290,6 +290,13 @@ def _create_argument_parser() -> ArgumentParser:
         ],
     )
     build.add_argument(
+        '--no-O2',
+        dest='o2',
+        default=None,
+        action='store_false',
+        help='Do not use optimization level 2.',
+    )
+    build.add_argument(
         '--regen',
         dest='regen',
         default=None,
