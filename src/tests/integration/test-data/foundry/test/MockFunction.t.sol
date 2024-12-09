@@ -38,7 +38,7 @@ contract MockFunctionTest is Test, KontrolCheats {
     }
 
     function test_mock_function() public {
-        vm.mockFunction(
+        kevm.mockFunction(
             address(my_contract), 
             address(model_contract),
             abi.encodeWithSelector(MockFunctionContract.mocked_function.selector)
@@ -48,7 +48,7 @@ contract MockFunctionTest is Test, KontrolCheats {
     }
 
     function test_mock_function_concrete_args() public {
-        vm.mockFunction(
+        kevm.mockFunction(
             address(my_contract), 
             address(model_contract),
             abi.encodeWithSelector(MockFunctionContract.mocked_args_function.selector, 456)
@@ -61,7 +61,7 @@ contract MockFunctionTest is Test, KontrolCheats {
     }
 
     function test_mock_function_all_args() public {
-        vm.mockFunction(
+        kevm.mockFunction(
             address(my_contract), 
             address(model_contract),
             abi.encodeWithSelector(MockFunctionContract.mocked_args_function.selector)
