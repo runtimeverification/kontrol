@@ -232,6 +232,7 @@ debug                      = false
 require                    = 'lemmas.k'
 module-import              = 'TestBase:KONTROL-LEMMAS'
 auxiliary-lemmas           = true
+o2                         = true
 
 [prove.default]
 foundry-project-root       = '.'
