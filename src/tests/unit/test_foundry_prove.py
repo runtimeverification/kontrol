@@ -2,15 +2,19 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pyk.kast.inner import KApply, KLabel, KSort, KToken
+import pytest
+from pyk.cterm import CTerm
+from pyk.kast.inner import KApply, KLabel, KSequence, KSort, KToken, KVariable
 
 from kontrol.foundry import read_recorded_state_diff
 from kontrol.prove import recorded_state_to_account_cells
+from kontrol.utils import ensure_name_is_unique
 
 from .utils import TEST_DATA_DIR
 
 if TYPE_CHECKING:
     from typing import Final
+
 
 ACCESSES_INPUT_FILE: Final = TEST_DATA_DIR / 'accesses.json'
 ACCOUNTS_EXPECTED: Final = [
@@ -62,3 +66,25 @@ def test_recorded_state_to_account_cells() -> None:
 
     # Then
     assert actual == ACCOUNTS_EXPECTED
+
+
+TEST_DATA = [
+    ('single-var', 'NEWVAR', CTerm(KApply('<k>', KVariable('NEWVAR')), []), 'NEWVAR_0'),
+    (
+        'sequence-check',
+        'NEWVAR',
+        CTerm(KApply('<k>', KSequence(KApply('_+Int_', [KVariable('NEWVAR'), KVariable('NEWVAR_0')]))), []),
+        'NEWVAR_1',
+    ),
+]
+
+
+@pytest.mark.parametrize('test_id,name,config,expected', TEST_DATA, ids=[test_id for test_id, *_ in TEST_DATA])
+def test_ensure_name_is_unique(test_id: str, name: str, config: CTerm, expected: str) -> None:
+    # Given
+
+    # When
+    actual = ensure_name_is_unique(name, config)
+
+    # Then
+    assert actual == expected

@@ -10,6 +10,7 @@ from pyk.kbuild.utils import KVersion, k_version
 
 if TYPE_CHECKING:
     from typing import Final
+    from pyk.cterm import CTerm
     from argparse import Namespace
 
 import os
@@ -23,6 +24,21 @@ console = Console()
 
 _LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
 _LOGGER: Final = logging.getLogger(__name__)
+
+
+def ensure_name_is_unique(name: str, cterm: CTerm) -> str:
+    """Ensure that a given name for a KVariable is unique within the context of a CTerm.
+
+    :param name: name of a KVariable
+    :param cterm: cterm
+    :return: Returns the name if it's not used, otherwise appends a suffix.
+    :rtype: str
+    """
+    if name not in cterm.free_vars:
+        return name
+
+    index = next(i for i in range(len(cterm.free_vars) + 1) if f'{name}_{i}' not in cterm.free_vars)
+    return f'{name}_{index}'
 
 
 def check_k_version() -> None:
