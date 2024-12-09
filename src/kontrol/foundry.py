@@ -183,6 +183,13 @@ class KontrolSemantics(KEVMSemantics):
                     break
                 else:
                     _LOGGER.info(f'forgetBranch: constraint: {target_constraint} not found in current constraints')
+            else:
+                if len(result_constraints) == 0:
+                    _LOGGER.info(f'forgetBranch: constraint {constraint} entailed by remaining constraints')
+                else:
+                    _LOGGER.info(
+                        f'forgetBranch: more than one constraint found after simplification and removal:\n{result_constraints}'
+                    )
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
