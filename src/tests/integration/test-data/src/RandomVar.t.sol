@@ -61,7 +61,7 @@ contract RandomVarTest is Test, KontrolCheats {
         vm.assume(y == false);
         uint256 slot = freshUInt256("NEW_SLOT");
         address new_account = kevm.freshAddress("NEW_ACCOUNT");
-        kevm.setArbitraryStorage(new_account, "NEW_ACCOUNT_STORAGE");
+        kevm.symbolicStorage(new_account, "NEW_ACCOUNT_STORAGE");
         bytes memory value = kevm.freshBytes(32, "NEW_BYTES");
         vm.store(new_account, bytes32(slot), bytes32(value));
     }

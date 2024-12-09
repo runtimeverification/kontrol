@@ -6,14 +6,13 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pyk
-from pyk.kast.inner import Subst
 from pyk.kbuild.utils import KVersion, k_version
-from pyk.prelude.utils import token
 
 if TYPE_CHECKING:
     from typing import Final
+    from pyk.cterm import CTerm
     from argparse import Namespace
-    from pyk.kast.inner import KInner
+
 import os
 import stat
 
@@ -27,7 +26,7 @@ _LOG_FORMAT: Final = '%(levelname)s %(asctime)s %(name)s - %(message)s'
 _LOGGER: Final = logging.getLogger(__name__)
 
 
-def ensure_name_is_unique(name: str, config: KInner) -> str:
+def ensure_name_is_unique(name: str, cterm: CTerm) -> str:
     """Ensure that a given name for a KVariable is unique within the context of a CTerm.
 
     :param name: name of a KVariable
@@ -35,16 +34,10 @@ def ensure_name_is_unique(name: str, config: KInner) -> str:
     :return: Returns the name if it's not used, otherwise appends a suffix.
     :rtype: str
     """
-    new_config = Subst({name: token(True)})(config)
-    if new_config == config:
+    if name not in cterm.free_vars:
         return name
 
-    index = 0
-    new_config = Subst({f'{name}_{index}': token(True)})(config)
-    while new_config != config:
-        index += 1
-        new_config = Subst({f'{name}_{index}': token(True)})(config)
-
+    index = next(i for i in range(len(cterm.free_vars) + 1) if f'{name}_{i}' not in cterm.free_vars)
     return f'{name}_{index}'
 
 

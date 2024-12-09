@@ -340,7 +340,6 @@ This rule then takes the address using `#asWord(#range(ARGS, 0, 32))` and makes 
       requires SELECTOR ==Int selector ( "symbolicStorage(address)" )
         orBool SELECTOR ==Int selector ( "setArbitraryStorage(address)")
 
-
     rule [cheatcode.call.withName.symbolicStorage]:
          <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(#range(ARGS,0,32)) ~> #setSymbolicStorage #asWord(#range(ARGS,0,32)) Bytes2String(#range(ARGS, 96, #asWord(#range(ARGS, 64, 32)))) ... </k>
       requires SELECTOR ==Int selector ( "symbolicStorage(address,string)" )

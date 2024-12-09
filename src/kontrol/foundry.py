@@ -144,7 +144,7 @@ class KontrolSemantics(KEVMSemantics):
         if len(name_str) == 0:
             _LOGGER.warning('Name of symbolic variable cannot be empty. Reverting to the default name.')
             return None
-        name = ensure_name_is_unique(name_str, cterm.config)
+        name = ensure_name_is_unique(name_str, cterm)
 
         # Replace var in configuration and constraints
         rename_subst = Subst({target_var.name: KVariable(name, target_var.sort)})
