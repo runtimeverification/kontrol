@@ -441,8 +441,6 @@ def _run_cfg_group(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
 
-            cut_point_rules.append('FOUNDRY-ACCOUNTS.forget')
-
             extra_lemmas_module: KFlatModule | None = None
             if options.extra_module:
                 extra_module_file, extra_module_name, *_ = options.extra_module.split(':')
