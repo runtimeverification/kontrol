@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import {Test, console} from "forge-std/Test.sol";
 
 contract ERC20 {
-    function totalSupply() public view returns (uint256) { return 15; }
+    function totalSupply() public pure returns (uint256) { return 15; }
 }
 
 interface IERC20 {
@@ -22,7 +22,7 @@ contract InterfaceContract {
         token = IERC20(_token);
     }
 
-    function callToken() public returns (uint256) { return token.totalSupply();}
+    function callToken() public view returns (uint256) { return token.totalSupply();}
 }
 
 contract InterfaceTagTest is Test {
@@ -33,7 +33,7 @@ contract InterfaceTagTest is Test {
         intContract = new InterfaceContract(address(token));
     }
 
-    function testInterface() public {
+    function testInterface() public view {
         assert(intContract.callToken() == 15);
     }
 }

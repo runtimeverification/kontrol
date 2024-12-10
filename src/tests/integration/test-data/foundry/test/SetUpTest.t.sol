@@ -20,6 +20,9 @@ contract SetUpTest is Test, KontrolCheats {
 
     uint256 counter = 0;
     uint256 data;
+    uint256 a;
+    uint256 b;
+    uint256 c;
 
     constructor () {
         counter = 100;
@@ -29,21 +32,32 @@ contract SetUpTest is Test, KontrolCheats {
         counter++;
         data = uint256(kevm.freshUInt(32));
         vm.assume(data < 42);
+        a = 1;
+        b = 2;
+        c = 3;
     }
 
-    function testSetUpCalled() public {
+    function testSetUpCalled() public view {
         assertEq(counter, 101);
     }
 
     // We also want to cover a symbolic case
-    function testSetUpCalledSymbolic(uint256 x) public {
+    function testSetUpCalledSymbolic(uint256 x) public view {
         assertEq(counter, 101);
         // The following assertion is only here so that
         // x is used and not thrown away by the optimizer
         assertEq(x, x);
     }
 
-    function testSetupData() public {
+    function testSetupData() public view {
       assert(data < 42);
+    }
+
+    function test_setup() public view {
+        assertEq(a + b + c, 6);
+    }
+
+    function testFail_setup() public view {
+        assertEq(a + b + c, 7);
     }
 }

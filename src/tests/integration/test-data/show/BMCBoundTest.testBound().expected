@@ -7,12 +7,13 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%BMCBoundTest.setUp()
 │
-│  (598 steps)
+│  (620 steps)
 ├─ 3 (split)
-│   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-│   pc: 465
+│   k: JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+│   pc: 545
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:96:96
 │   method: test%BMCBoundTest.setUp()
 ┃
 ┃ (branch)
@@ -21,19 +22,20 @@
 ┃  ┃     ?WORD:Int <=Int 0
 ┃  │
 ┃  ├─ 4
-┃  │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-┃  │   pc: 465
+┃  │   k: JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+┃  │   pc: 545
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/forge-std/src/StdInvariant.sol:96:96
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
 ┃  │  (49 steps)
 ┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 221
+┃  │   pc: 259
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   src: lib/forge-std/src/StdInvariant.sol:95:97
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
 ┃  │  (1 step)
@@ -45,13 +47,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
-┃  │  (353 steps)
+┃  │  (561 steps)
 ┃  ├─ 37 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 221
+┃  │   pc: 259
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   src: lib/forge-std/src/StdInvariant.sol:95:97
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
 ┃  ┊  constraint: true
@@ -68,19 +70,20 @@
 ┃  ┃     ?WORD:Int <=Int 1
 ┃  │
 ┃  ├─ 20
-┃  │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-┃  │   pc: 465
+┃  │   k: JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+┃  │   pc: 545
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/forge-std/src/StdInvariant.sol:96:96
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
 ┃  │  (318 steps)
 ┃  ├─ 10 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 221
+┃  │   pc: 259
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   src: lib/forge-std/src/StdInvariant.sol:95:97
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
 ┃  │  (1 step)
@@ -92,13 +95,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
-┃  │  (353 steps)
+┃  │  (561 steps)
 ┃  ├─ 38 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 221
+┃  │   pc: 259
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   src: lib/forge-std/src/StdInvariant.sol:95:97
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
 ┃  ┊  constraint: true
@@ -116,19 +119,20 @@
 ┃  ┃     ?WORD:Int <=Int 2
 ┃  │
 ┃  ├─ 26
-┃  │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-┃  │   pc: 465
+┃  │   k: JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+┃  │   pc: 545
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/forge-std/src/StdInvariant.sol:96:96
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
 ┃  │  (587 steps)
 ┃  ├─ 14 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 221
+┃  │   pc: 259
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   src: lib/forge-std/src/StdInvariant.sol:95:97
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
 ┃  │  (1 step)
@@ -140,13 +144,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
-┃  │  (353 steps)
+┃  │  (561 steps)
 ┃  ├─ 39 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 221
+┃  │   pc: 259
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   src: lib/forge-std/src/StdInvariant.sol:95:97
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
 ┃  ┊  constraint: true
@@ -165,19 +169,20 @@
 ┃  ┃     ?WORD:Int <=Int 3
 ┃  │
 ┃  ├─ 30
-┃  │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-┃  │   pc: 465
+┃  │   k: JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+┃  │   pc: 545
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: lib/forge-std/src/StdInvariant.sol:96:96
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
 ┃  │  (856 steps)
 ┃  ├─ 18 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 221
+┃  │   pc: 259
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   src: lib/forge-std/src/StdInvariant.sol:95:97
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
 ┃  │  (1 step)
@@ -189,13 +194,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
-┃  │  (353 steps)
+┃  │  (561 steps)
 ┃  ├─ 40 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 221
+┃  │   pc: 259
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   src: lib/forge-std/src/StdInvariant.sol:95:97
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
 ┃  ┊  constraint: true
@@ -214,18 +219,20 @@
    ┃     3 <Int ?WORD:Int
    │
    ├─ 31
-   │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-   │   pc: 465
+   │   k: JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+   │   pc: 545
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
+   │   src: lib/forge-std/src/StdInvariant.sol:96:96
    │   method: test%BMCBoundTest.setUp()
    │
    │  (1076 steps)
    └─ 19 (leaf, bounded)
-       k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 4 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-       pc: 465
+       k: JUMPI 588 bool2Word ( ?WORD:Int <=Int 4 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+       pc: 545
        callDepth: 0
        statusCode: STATUSCODE:StatusCode
+       src: lib/forge-std/src/StdInvariant.sol:96:96
        method: test%BMCBoundTest.setUp()
 
 
@@ -237,7 +244,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 508 bool2Word ( ??WORD <=Int 0 )
+               ( .K => JUMPI 588 bool2Word ( ??WORD <=Int 0 )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION
@@ -279,7 +286,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( ??WORD : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) ) )
+                     ( .WordStack => ( 0 : ( ??WORD : ( 258 : ( selector ( "setUp()" ) : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ??WORD ) +Bytes b"\x00\x00\x00 " )
@@ -478,7 +485,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
     rule [BASIC-BLOCK-4-TO-6]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
+               ( JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
@@ -523,7 +530,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => selector ( "setUp()" ) ) : ( ( ?WORD:Int : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) => .WordStack ) )
+                     ( ( 0 => selector ( "setUp()" ) ) : ( ( ?WORD:Int : ( 258 : ( selector ( "setUp()" ) : .WordStack ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ?WORD:Int ) +Bytes b"\x00\x00\x00 "
@@ -722,7 +729,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
     rule [BASIC-BLOCK-20-TO-10]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
+               ( JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
@@ -767,7 +774,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => selector ( "setUp()" ) ) : ( ( ?WORD:Int : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) => .WordStack ) )
+                     ( ( 0 => selector ( "setUp()" ) ) : ( ( ?WORD:Int : ( 258 : ( selector ( "setUp()" ) : .WordStack ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ?WORD:Int ) +Bytes b"\x00\x00\x00 "
@@ -849,7 +856,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 27 |-> 1 ) )
+                       ( .Map => ( 32 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -967,7 +974,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
     rule [BASIC-BLOCK-26-TO-14]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
+               ( JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
@@ -1012,7 +1019,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => selector ( "setUp()" ) ) : ( ( ?WORD:Int : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) => .WordStack ) )
+                     ( ( 0 => selector ( "setUp()" ) ) : ( ( ?WORD:Int : ( 258 : ( selector ( "setUp()" ) : .WordStack ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ?WORD:Int ) +Bytes b"\x00\x00\x00 "
@@ -1094,7 +1101,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 27 |-> 2 ) )
+                       ( .Map => ( 32 |-> 2 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -1213,7 +1220,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
     rule [BASIC-BLOCK-30-TO-18]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
+               ( JUMPI 588 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION
@@ -1258,7 +1265,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => selector ( "setUp()" ) ) : ( ( ?WORD:Int : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) => .WordStack ) )
+                     ( ( 0 => selector ( "setUp()" ) ) : ( ( ?WORD:Int : ( 258 : ( selector ( "setUp()" ) : .WordStack ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ?WORD:Int ) +Bytes b"\x00\x00\x00 "
@@ -1340,7 +1347,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 27 |-> 3 ) )
+                       ( .Map => ( 32 |-> 3 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -1460,7 +1467,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
     rule [BASIC-BLOCK-31-TO-19]: <foundry>
            <kevm>
              <k>
-               JUMPI 508 bool2Word ( ?WORD:Int <=Int ( 0 => 4 ) )
+               JUMPI 588 bool2Word ( ?WORD:Int <=Int ( 0 => 4 ) )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> _CONTINUATION
@@ -1502,7 +1509,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 4 ) : ( ?WORD:Int : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) )
+                     ( ( 0 => 4 ) : ( ?WORD:Int : ( 258 : ( selector ( "setUp()" ) : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ?WORD:Int ) +Bytes b"\x00\x00\x00 "
@@ -1584,7 +1591,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 27 |-> 4 ) )
+                       ( .Map => ( 32 |-> 4 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -2071,7 +2078,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 1 )
+                       ( 32 |-> 1 )
                      </storage>
                      <origStorage>
                        .Map
@@ -2314,7 +2321,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 2 )
+                       ( 32 |-> 2 )
                      </storage>
                      <origStorage>
                        .Map
@@ -2558,7 +2565,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 3 )
+                       ( 32 |-> 3 )
                      </storage>
                      <origStorage>
                        .Map
@@ -2724,7 +2731,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      ( .WordStack => ( selector ( "testBound()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x84f\xf4\x15\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -2748,7 +2755,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -2965,7 +2972,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      ( .WordStack => ( selector ( "testBound()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x84f\xf4\x15\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -2989,7 +2996,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -3044,7 +3051,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 1 )
+                       ( 32 |-> 1 )
                      </storage>
                      <origStorage>
                        .Map
@@ -3207,7 +3214,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      ( .WordStack => ( selector ( "testBound()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x84f\xf4\x15\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -3231,7 +3238,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -3286,7 +3293,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 2 )
+                       ( 32 |-> 2 )
                      </storage>
                      <origStorage>
                        .Map
@@ -3450,7 +3457,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      ( .WordStack => ( selector ( "testBound()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x84f\xf4\x15\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -3474,7 +3481,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </refund>
                    <accessedAccounts>
-                     .Set
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -3529,7 +3536,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 3 )
+                       ( 32 |-> 3 )
                      </storage>
                      <origStorage>
                        .Map

@@ -14,7 +14,7 @@ contract BMCBoundTest is Test, KontrolCheats {
         }
     }
 
-    function testBound() public {
+    function testBound() public view {
         assertLe(x, 3);
     }
 }

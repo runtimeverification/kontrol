@@ -7,7 +7,7 @@ contract HevmTests is Test{
 
   // BYTECODE=$(jq .deployedBytecode.object -r out/HevmTests.t.sol/HevmTests.json)
 
-    function prove_assertEq_true(uint x) public {
+    function prove_assertEq_true(uint x) public pure {
       // Passes with `hevm symbolic --code $BYTECODE --sig "prove_assertEq_true(uint)"`
       // Passes with `hevm test`
       // Passes with `kontrol prove --hevm --match-test prove_assertEq_true`
@@ -15,7 +15,7 @@ contract HevmTests is Test{
       assertEq(x, 0);
     }
 
-    function prove_assertEq_false(uint x) public {
+    function prove_assertEq_false(uint x) public pure {
       // Passes with `hevm symbolic --code $BYTECODE --sig "prove_assertEq_false(uint)"`
       // Fails with `hevm test`
       // Fails with `kontrol prove --hevm --match-test prove_assertEq_false`
@@ -23,7 +23,7 @@ contract HevmTests is Test{
       assertEq(x, 1);
     }
 
-    function proveFail_assertEq(uint x) public {
+    function proveFail_assertEq(uint x) public pure {
       // Passes with `hevm symbolic --code $BYTECODE --sig "proveFail_assertEq(uint)"`
       // Passes with `hevm test`
       // Passes with `kontrol prove --hevm --match-test proveFail_assertEq`
@@ -31,7 +31,7 @@ contract HevmTests is Test{
       assertEq(x, 1);
     }
 
-    function prove_assertTrue(uint x) public {
+    function prove_assertTrue(uint x) public pure {
       // Passes with `hevm symbolic --code $BYTECODE --sig "prove_assertTrue(uint)"`
       // Passes with `hevm test`
       // Passes with `kontrol prove --hevm --match-test prove_assertTrue`
@@ -39,7 +39,7 @@ contract HevmTests is Test{
       assertTrue(x == 0);
     }
 
-    function prove_assertFalse(uint x) public {
+    function prove_assertFalse(uint x) public pure {
       // Passes with `hevm symbolic --code $BYTECODE --sig "prove_assertFalse(uint)"`
       // Fails with `hevm test`
       // Fails with `kontrol prove --hevm --match-test prove_assertFalse`
@@ -47,7 +47,7 @@ contract HevmTests is Test{
       assertFalse(x == 0);
     }
 
-    function proveFail_assertFalse(uint x) public {
+    function proveFail_assertFalse(uint x) public pure {
       // Passes with `hevm symbolic --code $BYTECODE --sig "proveFail_assertFalse(uint)"`
       // Passes with `hevm test`
       // Passes with `kontrol prove --hevm --match-test proveFail_assertFalse`

@@ -10,10 +10,10 @@
 │  (182 steps)
 ├─ 5 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 328
+│   pc: 350
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
+│   src: lib/forge-std/src/StdInvariant.sol:111:113
 │   method: test%AssertTest.setUp()
 │
 │  (1 step)
@@ -27,30 +27,30 @@
 │
 │  (366 steps)
 ├─ 8 (split)
-│   k: JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
-│   pc: 1590
+│   k: JUMPI 2106 bool2Word ( KV1_z:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
+│   pc: 2102
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
+│   src: lib/forge-std/src/StdInvariant.sol:92:92
 │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃
 ┃ (branch)
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     KV1_y:Int <=Int KV0_x:Int
+┃  ┃     KV1_z:Int <=Int KV0_x:Int
 ┃  │
 ┃  ├─ 9
-┃  │   k: JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
-┃  │   pc: 1590
+┃  │   k: JUMPI 2106 bool2Word ( KV1_z:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
+┃  │   pc: 2102
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
+┃  │   src: lib/forge-std/src/StdInvariant.sol:92:92
 ┃  │   method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃  │
 ┃  │  (72 steps)
 ┃  ├─ 11
 ┃  │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 2995
+┃  │   pc: 3935
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   method: test%AssertTest.test_revert_branch(uint256,uint256)
@@ -58,7 +58,7 @@
 ┃  │  (1 step)
 ┃  ├─ 13
 ┃  │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 2995
+┃  │   pc: 3935
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_REVERT
 ┃  │   method: test%AssertTest.test_revert_branch(uint256,uint256)
@@ -66,48 +66,48 @@
 ┃  │  (2 steps)
 ┃  └─ 15 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
-┃      pc: 2995
+┃      pc: 3935
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%AssertTest.test_revert_branch(uint256,uint256)
 ┃
 ┗━━┓ subst: .Subst
    ┃ constraint:
-   ┃     KV0_x:Int <Int KV1_y:Int
+   ┃     KV0_x:Int <Int KV1_z:Int
    │
    ├─ 10
-   │   k: JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
-   │   pc: 1590
+   │   k: JUMPI 2106 bool2Word ( KV1_z:Int <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute  ...
+   │   pc: 2102
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
-   │   src: lib/forge-std/lib/ds-test/src/test.sol:48:62
+   │   src: lib/forge-std/src/StdInvariant.sol:92:92
    │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
    │  (37 steps)
    ├─ 12
    │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-   │   pc: 328
+   │   pc: 350
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
-   │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
+   │   src: lib/forge-std/src/StdInvariant.sol:111:113
    │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
    │  (1 step)
    ├─ 14
    │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-   │   pc: 328
+   │   pc: 350
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
-   │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
+   │   src: lib/forge-std/src/StdInvariant.sol:111:113
    │   method: test%AssertTest.test_revert_branch(uint256,uint256)
    │
    │  (2 steps)
    └─ 16 (leaf, pending)
        k: #halt ~> CONTINUATION:K
-       pc: 328
+       pc: 350
        callDepth: 0
        statusCode: EVMC_SUCCESS
-       src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
+       src: lib/forge-std/src/StdInvariant.sol:111:113
        method: test%AssertTest.test_revert_branch(uint256,uint256)
 
 
@@ -161,7 +161,7 @@ Node 16:
               CALLER_ID:Int
             </caller>
             <callData>
-              b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+              b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_z:Int )
             </callData>
             <callValue>
               0
@@ -347,10 +347,10 @@ Node 16:
   ...
 </generatedTop>
 #And ( { true #Equals 0 <=Int KV0_x:Int }
-#And ( { true #Equals 0 <=Int KV1_y:Int }
+#And ( { true #Equals 0 <=Int KV1_z:Int }
 #And ( { true #Equals 0 <=Int CALLER_ID:Int }
 #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
-#And ( { true #Equals KV0_x:Int <Int KV1_y:Int }
+#And ( { true #Equals KV0_x:Int <Int KV1_z:Int }
 #And ( { true #Equals pow24 <Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <Int pow32 }
 #And ( { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
@@ -358,7 +358,7 @@ Node 16:
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals KV0_x:Int <Int pow256 }
-#And ( { true #Equals KV1_y:Int <Int pow256 }
+#And ( { true #Equals KV1_z:Int <Int pow256 }
 #And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
@@ -409,13 +409,13 @@ Node 15:
               CALLER_ID:Int
             </caller>
             <callData>
-              b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+              b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_z:Int )
             </callData>
             <callValue>
               0
             </callValue>
             <wordStack>
-              ( 1602 : ( KV1_y:Int : ( KV0_x:Int : ( 327 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) )
+              ( 2114 : ( KV1_z:Int : ( KV0_x:Int : ( 349 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) )
             </wordStack>
             <localMem>
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -595,10 +595,10 @@ Node 15:
   ...
 </generatedTop>
 #And ( { true #Equals 0 <=Int KV0_x:Int }
-#And ( { true #Equals 0 <=Int KV1_y:Int }
+#And ( { true #Equals 0 <=Int KV1_z:Int }
 #And ( { true #Equals 0 <=Int CALLER_ID:Int }
 #And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
-#And ( { true #Equals KV1_y:Int <=Int KV0_x:Int }
+#And ( { true #Equals KV1_z:Int <=Int KV0_x:Int }
 #And ( { true #Equals pow24 <Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <Int pow32 }
 #And ( { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
@@ -606,7 +606,7 @@ Node 15:
 #And ( { true #Equals CALLER_ID:Int <Int pow160 }
 #And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals KV0_x:Int <Int pow256 }
-#And ( { true #Equals KV1_y:Int <Int pow256 }
+#And ( { true #Equals KV1_z:Int <Int pow256 }
 #And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
@@ -896,7 +896,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) )
+                     ( b"\n\x92T\xe4" => b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_z ) )
                    </callData>
                    <callValue>
                      0
@@ -1094,16 +1094,16 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
        ensures ( 0 <=Int ?KV0_x
-       andBool ( 0 <=Int ?KV1_y
+       andBool ( 0 <=Int ?KV1_z
        andBool ( ?KV0_x <Int pow256
-       andBool ( ?KV1_y <Int pow256
+       andBool ( ?KV1_z <Int pow256
                ))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
+               ( .K => JUMPI 2106 bool2Word ( KV1_z:Int <=Int KV0_x:Int )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION
@@ -1139,13 +1139,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( KV1_y:Int : ( KV0_x:Int : ( 327 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) )
+                     ( .WordStack => ( KV1_z:Int : ( KV0_x:Int : ( 349 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -1323,7 +1323,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV1_z:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -1335,7 +1335,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV1_z:Int <Int pow256
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
@@ -1344,7 +1344,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
     rule [BASIC-BLOCK-9-TO-11]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
+               ( JUMPI 2106 bool2Word ( KV1_z:Int <=Int KV0_x:Int )
                ~> #pc [ JUMPI ] => #end EVMC_REVERT
                ~> #pc [ REVERT ] )
                ~> #execute
@@ -1381,13 +1381,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( KV1_y:Int => 1602 ) : ( ( KV0_x:Int => KV1_y:Int ) : ( ( 327 => KV0_x:Int ) : ( ( selector ( "test_revert_branch(uint256,uint256)" ) => 327 ) : ( .WordStack => ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) ) )
+                     ( ( KV1_z:Int => 2114 ) : ( ( KV0_x:Int => KV1_z:Int ) : ( ( 349 => KV0_x:Int ) : ( ( selector ( "test_revert_branch(uint256,uint256)" ) => 349 ) : ( .WordStack => ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -1565,10 +1565,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV1_z:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( KV1_y:Int <=Int KV0_x:Int
+       andBool ( KV1_z:Int <=Int KV0_x:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -1576,7 +1576,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV1_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -1587,7 +1587,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
     rule [BASIC-BLOCK-10-TO-12]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
+               ( JUMPI 2106 bool2Word ( KV1_z:Int <=Int KV0_x:Int )
                ~> #pc [ JUMPI ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
@@ -1624,13 +1624,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( ( KV1_y:Int => selector ( "test_revert_branch(uint256,uint256)" ) ) : ( ( KV0_x:Int : ( 327 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) => .WordStack ) )
+                     ( ( KV1_z:Int => selector ( "test_revert_branch(uint256,uint256)" ) ) : ( ( KV0_x:Int : ( 349 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1808,10 +1808,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV1_z:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( KV0_x:Int <Int KV1_y:Int
+       andBool ( KV0_x:Int <Int KV1_z:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -1819,7 +1819,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV1_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -1869,13 +1869,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( 1602 : ( KV1_y:Int : ( KV0_x:Int : ( 327 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) )
+                     ( 2114 : ( KV1_z:Int : ( KV0_x:Int : ( 349 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -2053,10 +2053,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV1_z:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( KV1_y:Int <=Int KV0_x:Int
+       andBool ( KV1_z:Int <=Int KV0_x:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -2064,7 +2064,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV1_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -2114,7 +2114,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_z:Int )
                    </callData>
                    <callValue>
                      0
@@ -2298,10 +2298,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV1_z:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( KV0_x:Int <Int KV1_y:Int
+       andBool ( KV0_x:Int <Int KV1_z:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -2309,7 +2309,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV1_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -2359,13 +2359,13 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_z:Int )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( 1602 : ( KV1_y:Int : ( KV0_x:Int : ( 327 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) )
+                     ( 2114 : ( KV1_z:Int : ( KV0_x:Int : ( 349 : ( selector ( "test_revert_branch(uint256,uint256)" ) : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -2543,10 +2543,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV1_z:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( KV1_y:Int <=Int KV0_x:Int
+       andBool ( KV1_z:Int <=Int KV0_x:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -2554,7 +2554,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV1_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -2604,7 +2604,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_z:Int )
                    </callData>
                    <callValue>
                      0
@@ -2788,10 +2788,10 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV1_z:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( KV0_x:Int <Int KV1_y:Int
+       andBool ( KV0_x:Int <Int KV1_z:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -2799,7 +2799,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV1_z:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -2821,10 +2821,10 @@ Failing nodes:
     Matching failed.
     The remaining implication is:
     { true #Equals 0 <=Int KV0_x:Int }
-    #And { true #Equals 0 <=Int KV1_y:Int }
+    #And { true #Equals 0 <=Int KV1_z:Int }
     #And { true #Equals 0 <=Int CALLER_ID:Int }
     #And { true #Equals 0 <=Int ORIGIN_ID:Int }
-    #And { true #Equals KV1_y:Int <=Int KV0_x:Int }
+    #And { true #Equals KV1_z:Int <=Int KV0_x:Int }
     #And { true #Equals pow24 <Int NUMBER_CELL:Int }
     #And { true #Equals NUMBER_CELL:Int <Int pow32 }
     #And { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
@@ -2834,15 +2834,15 @@ Failing nodes:
     #And { true #Equals CALLER_ID:Int <Int pow160 }
     #And { true #Equals ORIGIN_ID:Int <Int pow160 }
     #And { true #Equals KV0_x:Int <Int pow256 }
-    #And { true #Equals KV1_y:Int <Int pow256 }
+    #And { true #Equals KV1_z:Int <Int pow256 }
     #And { false #Equals #range ( 0 < CALLER_ID:Int <= 9 ) }
     #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 9 ) } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
-    { true #Equals KV1_y:Int <=Int KV0_x:Int }
+    { true #Equals KV1_z:Int <=Int KV0_x:Int }
   Model:
     CALLER_ID = 645326474426547203313410069153905908525362434350
     KV0_x = 0
-    KV1_y = 0
+    KV1_z = 0
     NUMBER_CELL = 16777217
     ORIGIN_ID = 645326474426547203313410069153905908525362434350
     TIMESTAMP_CELL = 1073741825
