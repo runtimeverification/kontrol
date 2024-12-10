@@ -53,2234 +53,67 @@
 │   method: test%CallableStorageContract.str()
 │
 │  (1 step)
-├─ 14 (split)
+├─ 14
 │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%CallableStorageContract.str()
-┃
-┃ (branch)
-┣━━┓ subst: .Subst
-┃  ┃ constraint:
-┃  ┃     ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
-┃  │
-┃  ├─ 15 (split)
-┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  │   pc: 0
-┃  │   callDepth: 1
-┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  │   method: test%CallableStorageContract.str()
-┃  ┃
-┃  ┃ (branch)
-┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃ constraint: true
-┃  ┃  │
-┃  ┃  ├─ 17 (split)
-┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  │   pc: 0
-┃  ┃  │   callDepth: 1
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%CallableStorageContract.str()
-┃  ┃  ┃
-┃  ┃  ┃ (branch)
-┃  ┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃  ┃ constraint: true
-┃  ┃  ┃  │
-┃  ┃  ┃  ├─ 21 (split)
-┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  │   pc: 0
-┃  ┃  ┃  │   callDepth: 1
-┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃
-┃  ┃  ┃  ┃ (branch)
-┃  ┃  ┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃  ┃  ┃ constraint: true
-┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ├─ 29 (split)
-┃  ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃  │   pc: 0
-┃  ┃  ┃  ┃  │   callDepth: 1
-┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃  ┃
-┃  ┃  ┃  ┃  ┃ (branch)
-┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃  ┃  ┃  ┃ constraint: true
-┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  ├─ 45 (split)
-┃  ┃  ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃  ┃  │   pc: 0
-┃  ┃  ┃  ┃  ┃  │   callDepth: 1
-┃  ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃  ┃  ┃
-┃  ┃  ┃  ┃  ┃  ┃ (branch)
-┃  ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
-┃  ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  ┃  ├─ 77 (split)
-┃  ┃  ┃  ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃  ┃  ┃  │   pc: 0
-┃  ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
-┃  ┃  ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃  ┃  ┃  ┃
-┃  ┃  ┃  ┃  ┃  ┃  ┃ (branch)
-┃  ┃  ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
-┃  ┃  ┃  ┃  ┃  ┃  ┃  │
-┃  ┃  ┃  ┃  ┃  ┃  ┃  └─ 141 (leaf, pending)
-┃  ┃  ┃  ┃  ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃  ┃  ┃  ┃      pc: 0
-┃  ┃  ┃  ┃  ┃  ┃  ┃      callDepth: 1
-┃  ┃  ┃  ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃  ┃  ┃  ┃      method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃  ┃  ┃  ┃
-┃  ┃  ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
-┃  ┃  ┃  ┃  ┃  ┃     ┃ constraint: true
-┃  ┃  ┃  ┃  ┃  ┃     │
-┃  ┃  ┃  ┃  ┃  ┃     └─ 142 (leaf, pending)
-┃  ┃  ┃  ┃  ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃  ┃  ┃         pc: 0
-┃  ┃  ┃  ┃  ┃  ┃         callDepth: 1
-┃  ┃  ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃  ┃  ┃         method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃  ┃  ┃
-┃  ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
-┃  ┃  ┃  ┃  ┃     ┃ constraint: true
-┃  ┃  ┃  ┃  ┃     │
-┃  ┃  ┃  ┃  ┃     ├─ 78 (split)
-┃  ┃  ┃  ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃  ┃     │   pc: 0
-┃  ┃  ┃  ┃  ┃     │   callDepth: 1
-┃  ┃  ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃  ┃     │   method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃  ┃     ┃
-┃  ┃  ┃  ┃  ┃     ┃ (branch)
-┃  ┃  ┃  ┃  ┃     ┣━━┓ subst: .Subst
-┃  ┃  ┃  ┃  ┃     ┃  ┃ constraint: true
-┃  ┃  ┃  ┃  ┃     ┃  │
-┃  ┃  ┃  ┃  ┃     ┃  └─ 143 (leaf, pending)
-┃  ┃  ┃  ┃  ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃  ┃     ┃      pc: 0
-┃  ┃  ┃  ┃  ┃     ┃      callDepth: 1
-┃  ┃  ┃  ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃  ┃     ┃      method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃  ┃     ┃
-┃  ┃  ┃  ┃  ┃     ┗━━┓ subst: .Subst
-┃  ┃  ┃  ┃  ┃        ┃ constraint: true
-┃  ┃  ┃  ┃  ┃        │
-┃  ┃  ┃  ┃  ┃        └─ 144 (leaf, pending)
-┃  ┃  ┃  ┃  ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃  ┃            pc: 0
-┃  ┃  ┃  ┃  ┃            callDepth: 1
-┃  ┃  ┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃  ┃            method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃  ┃
-┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
-┃  ┃  ┃  ┃     ┃ constraint: true
-┃  ┃  ┃  ┃     │
-┃  ┃  ┃  ┃     ├─ 46 (split)
-┃  ┃  ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃     │   pc: 0
-┃  ┃  ┃  ┃     │   callDepth: 1
-┃  ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃     │   method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃     ┃
-┃  ┃  ┃  ┃     ┃ (branch)
-┃  ┃  ┃  ┃     ┣━━┓ subst: .Subst
-┃  ┃  ┃  ┃     ┃  ┃ constraint: true
-┃  ┃  ┃  ┃     ┃  │
-┃  ┃  ┃  ┃     ┃  ├─ 79 (split)
-┃  ┃  ┃  ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃     ┃  │   pc: 0
-┃  ┃  ┃  ┃     ┃  │   callDepth: 1
-┃  ┃  ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃     ┃  │   method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃     ┃  ┃
-┃  ┃  ┃  ┃     ┃  ┃ (branch)
-┃  ┃  ┃  ┃     ┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃  ┃     ┃  ┃  ┃ constraint: true
-┃  ┃  ┃  ┃     ┃  ┃  │
-┃  ┃  ┃  ┃     ┃  ┃  └─ 145 (leaf, pending)
-┃  ┃  ┃  ┃     ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃     ┃  ┃      pc: 0
-┃  ┃  ┃  ┃     ┃  ┃      callDepth: 1
-┃  ┃  ┃  ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃     ┃  ┃      method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃     ┃  ┃
-┃  ┃  ┃  ┃     ┃  ┗━━┓ subst: .Subst
-┃  ┃  ┃  ┃     ┃     ┃ constraint: true
-┃  ┃  ┃  ┃     ┃     │
-┃  ┃  ┃  ┃     ┃     └─ 146 (leaf, pending)
-┃  ┃  ┃  ┃     ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃     ┃         pc: 0
-┃  ┃  ┃  ┃     ┃         callDepth: 1
-┃  ┃  ┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃     ┃         method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃     ┃
-┃  ┃  ┃  ┃     ┗━━┓ subst: .Subst
-┃  ┃  ┃  ┃        ┃ constraint: true
-┃  ┃  ┃  ┃        │
-┃  ┃  ┃  ┃        ├─ 80 (split)
-┃  ┃  ┃  ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃        │   pc: 0
-┃  ┃  ┃  ┃        │   callDepth: 1
-┃  ┃  ┃  ┃        │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃        │   method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃        ┃
-┃  ┃  ┃  ┃        ┃ (branch)
-┃  ┃  ┃  ┃        ┣━━┓ subst: .Subst
-┃  ┃  ┃  ┃        ┃  ┃ constraint: true
-┃  ┃  ┃  ┃        ┃  │
-┃  ┃  ┃  ┃        ┃  └─ 147 (leaf, pending)
-┃  ┃  ┃  ┃        ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃        ┃      pc: 0
-┃  ┃  ┃  ┃        ┃      callDepth: 1
-┃  ┃  ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃        ┃      method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃        ┃
-┃  ┃  ┃  ┃        ┗━━┓ subst: .Subst
-┃  ┃  ┃  ┃           ┃ constraint: true
-┃  ┃  ┃  ┃           │
-┃  ┃  ┃  ┃           └─ 148 (leaf, pending)
-┃  ┃  ┃  ┃               k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃  ┃               pc: 0
-┃  ┃  ┃  ┃               callDepth: 1
-┃  ┃  ┃  ┃               statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  ┃               src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  ┃               method: test%CallableStorageContract.str()
-┃  ┃  ┃  ┃
-┃  ┃  ┃  ┗━━┓ subst: .Subst
-┃  ┃  ┃     ┃ constraint: true
-┃  ┃  ┃     │
-┃  ┃  ┃     ├─ 30 (split)
-┃  ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃     │   pc: 0
-┃  ┃  ┃     │   callDepth: 1
-┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃     │   method: test%CallableStorageContract.str()
-┃  ┃  ┃     ┃
-┃  ┃  ┃     ┃ (branch)
-┃  ┃  ┃     ┣━━┓ subst: .Subst
-┃  ┃  ┃     ┃  ┃ constraint: true
-┃  ┃  ┃     ┃  │
-┃  ┃  ┃     ┃  ├─ 47 (split)
-┃  ┃  ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃     ┃  │   pc: 0
-┃  ┃  ┃     ┃  │   callDepth: 1
-┃  ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃     ┃  │   method: test%CallableStorageContract.str()
-┃  ┃  ┃     ┃  ┃
-┃  ┃  ┃     ┃  ┃ (branch)
-┃  ┃  ┃     ┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃     ┃  ┃  ┃ constraint: true
-┃  ┃  ┃     ┃  ┃  │
-┃  ┃  ┃     ┃  ┃  ├─ 81 (split)
-┃  ┃  ┃     ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃     ┃  ┃  │   pc: 0
-┃  ┃  ┃     ┃  ┃  │   callDepth: 1
-┃  ┃  ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃     ┃  ┃  │   method: test%CallableStorageContract.str()
-┃  ┃  ┃     ┃  ┃  ┃
-┃  ┃  ┃     ┃  ┃  ┃ (branch)
-┃  ┃  ┃     ┃  ┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃     ┃  ┃  ┃  ┃ constraint: true
-┃  ┃  ┃     ┃  ┃  ┃  │
-┃  ┃  ┃     ┃  ┃  ┃  └─ 149 (leaf, pending)
-┃  ┃  ┃     ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃     ┃  ┃  ┃      pc: 0
-┃  ┃  ┃     ┃  ┃  ┃      callDepth: 1
-┃  ┃  ┃     ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃     ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃     ┃  ┃  ┃      method: test%CallableStorageContract.str()
-┃  ┃  ┃     ┃  ┃  ┃
-┃  ┃  ┃     ┃  ┃  ┗━━┓ subst: .Subst
-┃  ┃  ┃     ┃  ┃     ┃ constraint: true
-┃  ┃  ┃     ┃  ┃     │
-┃  ┃  ┃     ┃  ┃     └─ 150 (leaf, pending)
-┃  ┃  ┃     ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃     ┃  ┃         pc: 0
-┃  ┃  ┃     ┃  ┃         callDepth: 1
-┃  ┃  ┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃     ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃     ┃  ┃         method: test%CallableStorageContract.str()
-┃  ┃  ┃     ┃  ┃
-┃  ┃  ┃     ┃  ┗━━┓ subst: .Subst
-┃  ┃  ┃     ┃     ┃ constraint: true
-┃  ┃  ┃     ┃     │
-┃  ┃  ┃     ┃     ├─ 82 (split)
-┃  ┃  ┃     ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃     ┃     │   pc: 0
-┃  ┃  ┃     ┃     │   callDepth: 1
-┃  ┃  ┃     ┃     │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃     ┃     │   method: test%CallableStorageContract.str()
-┃  ┃  ┃     ┃     ┃
-┃  ┃  ┃     ┃     ┃ (branch)
-┃  ┃  ┃     ┃     ┣━━┓ subst: .Subst
-┃  ┃  ┃     ┃     ┃  ┃ constraint: true
-┃  ┃  ┃     ┃     ┃  │
-┃  ┃  ┃     ┃     ┃  └─ 151 (leaf, pending)
-┃  ┃  ┃     ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃     ┃     ┃      pc: 0
-┃  ┃  ┃     ┃     ┃      callDepth: 1
-┃  ┃  ┃     ┃     ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃     ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃     ┃     ┃      method: test%CallableStorageContract.str()
-┃  ┃  ┃     ┃     ┃
-┃  ┃  ┃     ┃     ┗━━┓ subst: .Subst
-┃  ┃  ┃     ┃        ┃ constraint: true
-┃  ┃  ┃     ┃        │
-┃  ┃  ┃     ┃        └─ 152 (leaf, pending)
-┃  ┃  ┃     ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃     ┃            pc: 0
-┃  ┃  ┃     ┃            callDepth: 1
-┃  ┃  ┃     ┃            statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃     ┃            src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃     ┃            method: test%CallableStorageContract.str()
-┃  ┃  ┃     ┃
-┃  ┃  ┃     ┗━━┓ subst: .Subst
-┃  ┃  ┃        ┃ constraint: true
-┃  ┃  ┃        │
-┃  ┃  ┃        ├─ 48 (split)
-┃  ┃  ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃        │   pc: 0
-┃  ┃  ┃        │   callDepth: 1
-┃  ┃  ┃        │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃        │   method: test%CallableStorageContract.str()
-┃  ┃  ┃        ┃
-┃  ┃  ┃        ┃ (branch)
-┃  ┃  ┃        ┣━━┓ subst: .Subst
-┃  ┃  ┃        ┃  ┃ constraint: true
-┃  ┃  ┃        ┃  │
-┃  ┃  ┃        ┃  ├─ 83 (split)
-┃  ┃  ┃        ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃        ┃  │   pc: 0
-┃  ┃  ┃        ┃  │   callDepth: 1
-┃  ┃  ┃        ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃        ┃  │   method: test%CallableStorageContract.str()
-┃  ┃  ┃        ┃  ┃
-┃  ┃  ┃        ┃  ┃ (branch)
-┃  ┃  ┃        ┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃        ┃  ┃  ┃ constraint: true
-┃  ┃  ┃        ┃  ┃  │
-┃  ┃  ┃        ┃  ┃  └─ 153 (leaf, pending)
-┃  ┃  ┃        ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃        ┃  ┃      pc: 0
-┃  ┃  ┃        ┃  ┃      callDepth: 1
-┃  ┃  ┃        ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃        ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃        ┃  ┃      method: test%CallableStorageContract.str()
-┃  ┃  ┃        ┃  ┃
-┃  ┃  ┃        ┃  ┗━━┓ subst: .Subst
-┃  ┃  ┃        ┃     ┃ constraint: true
-┃  ┃  ┃        ┃     │
-┃  ┃  ┃        ┃     └─ 154 (leaf, pending)
-┃  ┃  ┃        ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃        ┃         pc: 0
-┃  ┃  ┃        ┃         callDepth: 1
-┃  ┃  ┃        ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃        ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃        ┃         method: test%CallableStorageContract.str()
-┃  ┃  ┃        ┃
-┃  ┃  ┃        ┗━━┓ subst: .Subst
-┃  ┃  ┃           ┃ constraint: true
-┃  ┃  ┃           │
-┃  ┃  ┃           ├─ 84 (split)
-┃  ┃  ┃           │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃           │   pc: 0
-┃  ┃  ┃           │   callDepth: 1
-┃  ┃  ┃           │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃           │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃           │   method: test%CallableStorageContract.str()
-┃  ┃  ┃           ┃
-┃  ┃  ┃           ┃ (branch)
-┃  ┃  ┃           ┣━━┓ subst: .Subst
-┃  ┃  ┃           ┃  ┃ constraint: true
-┃  ┃  ┃           ┃  │
-┃  ┃  ┃           ┃  └─ 155 (leaf, pending)
-┃  ┃  ┃           ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃           ┃      pc: 0
-┃  ┃  ┃           ┃      callDepth: 1
-┃  ┃  ┃           ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃           ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃           ┃      method: test%CallableStorageContract.str()
-┃  ┃  ┃           ┃
-┃  ┃  ┃           ┗━━┓ subst: .Subst
-┃  ┃  ┃              ┃ constraint: true
-┃  ┃  ┃              │
-┃  ┃  ┃              └─ 156 (leaf, pending)
-┃  ┃  ┃                  k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃  ┃                  pc: 0
-┃  ┃  ┃                  callDepth: 1
-┃  ┃  ┃                  statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃                  src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃                  method: test%CallableStorageContract.str()
-┃  ┃  ┃
-┃  ┃  ┗━━┓ subst: .Subst
-┃  ┃     ┃ constraint: true
-┃  ┃     │
-┃  ┃     ├─ 22 (split)
-┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     │   pc: 0
-┃  ┃     │   callDepth: 1
-┃  ┃     │   statusCode: STATUSCODE:StatusCode
-┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     │   method: test%CallableStorageContract.str()
-┃  ┃     ┃
-┃  ┃     ┃ (branch)
-┃  ┃     ┣━━┓ subst: .Subst
-┃  ┃     ┃  ┃ constraint: true
-┃  ┃     ┃  │
-┃  ┃     ┃  ├─ 31 (split)
-┃  ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃  │   pc: 0
-┃  ┃     ┃  │   callDepth: 1
-┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃  │   method: test%CallableStorageContract.str()
-┃  ┃     ┃  ┃
-┃  ┃     ┃  ┃ (branch)
-┃  ┃     ┃  ┣━━┓ subst: .Subst
-┃  ┃     ┃  ┃  ┃ constraint: true
-┃  ┃     ┃  ┃  │
-┃  ┃     ┃  ┃  ├─ 49 (split)
-┃  ┃     ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃  ┃  │   pc: 0
-┃  ┃     ┃  ┃  │   callDepth: 1
-┃  ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃  ┃  │   method: test%CallableStorageContract.str()
-┃  ┃     ┃  ┃  ┃
-┃  ┃     ┃  ┃  ┃ (branch)
-┃  ┃     ┃  ┃  ┣━━┓ subst: .Subst
-┃  ┃     ┃  ┃  ┃  ┃ constraint: true
-┃  ┃     ┃  ┃  ┃  │
-┃  ┃     ┃  ┃  ┃  ├─ 85 (split)
-┃  ┃     ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃  ┃  ┃  │   pc: 0
-┃  ┃     ┃  ┃  ┃  │   callDepth: 1
-┃  ┃     ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-┃  ┃     ┃  ┃  ┃  ┃
-┃  ┃     ┃  ┃  ┃  ┃ (branch)
-┃  ┃     ┃  ┃  ┃  ┣━━┓ subst: .Subst
-┃  ┃     ┃  ┃  ┃  ┃  ┃ constraint: true
-┃  ┃     ┃  ┃  ┃  ┃  │
-┃  ┃     ┃  ┃  ┃  ┃  └─ 157 (leaf, pending)
-┃  ┃     ┃  ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃  ┃  ┃  ┃      pc: 0
-┃  ┃     ┃  ┃  ┃  ┃      callDepth: 1
-┃  ┃     ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃  ┃  ┃  ┃      method: test%CallableStorageContract.str()
-┃  ┃     ┃  ┃  ┃  ┃
-┃  ┃     ┃  ┃  ┃  ┗━━┓ subst: .Subst
-┃  ┃     ┃  ┃  ┃     ┃ constraint: true
-┃  ┃     ┃  ┃  ┃     │
-┃  ┃     ┃  ┃  ┃     └─ 158 (leaf, pending)
-┃  ┃     ┃  ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃  ┃  ┃         pc: 0
-┃  ┃     ┃  ┃  ┃         callDepth: 1
-┃  ┃     ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃  ┃  ┃         method: test%CallableStorageContract.str()
-┃  ┃     ┃  ┃  ┃
-┃  ┃     ┃  ┃  ┗━━┓ subst: .Subst
-┃  ┃     ┃  ┃     ┃ constraint: true
-┃  ┃     ┃  ┃     │
-┃  ┃     ┃  ┃     ├─ 86 (split)
-┃  ┃     ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃  ┃     │   pc: 0
-┃  ┃     ┃  ┃     │   callDepth: 1
-┃  ┃     ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃  ┃     │   method: test%CallableStorageContract.str()
-┃  ┃     ┃  ┃     ┃
-┃  ┃     ┃  ┃     ┃ (branch)
-┃  ┃     ┃  ┃     ┣━━┓ subst: .Subst
-┃  ┃     ┃  ┃     ┃  ┃ constraint: true
-┃  ┃     ┃  ┃     ┃  │
-┃  ┃     ┃  ┃     ┃  └─ 159 (leaf, pending)
-┃  ┃     ┃  ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃  ┃     ┃      pc: 0
-┃  ┃     ┃  ┃     ┃      callDepth: 1
-┃  ┃     ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃  ┃     ┃      method: test%CallableStorageContract.str()
-┃  ┃     ┃  ┃     ┃
-┃  ┃     ┃  ┃     ┗━━┓ subst: .Subst
-┃  ┃     ┃  ┃        ┃ constraint: true
-┃  ┃     ┃  ┃        │
-┃  ┃     ┃  ┃        └─ 160 (leaf, pending)
-┃  ┃     ┃  ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃  ┃            pc: 0
-┃  ┃     ┃  ┃            callDepth: 1
-┃  ┃     ┃  ┃            statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃  ┃            method: test%CallableStorageContract.str()
-┃  ┃     ┃  ┃
-┃  ┃     ┃  ┗━━┓ subst: .Subst
-┃  ┃     ┃     ┃ constraint: true
-┃  ┃     ┃     │
-┃  ┃     ┃     ├─ 50 (split)
-┃  ┃     ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃     │   pc: 0
-┃  ┃     ┃     │   callDepth: 1
-┃  ┃     ┃     │   statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃     │   method: test%CallableStorageContract.str()
-┃  ┃     ┃     ┃
-┃  ┃     ┃     ┃ (branch)
-┃  ┃     ┃     ┣━━┓ subst: .Subst
-┃  ┃     ┃     ┃  ┃ constraint: true
-┃  ┃     ┃     ┃  │
-┃  ┃     ┃     ┃  ├─ 87 (split)
-┃  ┃     ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃     ┃  │   pc: 0
-┃  ┃     ┃     ┃  │   callDepth: 1
-┃  ┃     ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃     ┃  │   method: test%CallableStorageContract.str()
-┃  ┃     ┃     ┃  ┃
-┃  ┃     ┃     ┃  ┃ (branch)
-┃  ┃     ┃     ┃  ┣━━┓ subst: .Subst
-┃  ┃     ┃     ┃  ┃  ┃ constraint: true
-┃  ┃     ┃     ┃  ┃  │
-┃  ┃     ┃     ┃  ┃  └─ 161 (leaf, pending)
-┃  ┃     ┃     ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃     ┃  ┃      pc: 0
-┃  ┃     ┃     ┃  ┃      callDepth: 1
-┃  ┃     ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃     ┃  ┃      method: test%CallableStorageContract.str()
-┃  ┃     ┃     ┃  ┃
-┃  ┃     ┃     ┃  ┗━━┓ subst: .Subst
-┃  ┃     ┃     ┃     ┃ constraint: true
-┃  ┃     ┃     ┃     │
-┃  ┃     ┃     ┃     └─ 162 (leaf, pending)
-┃  ┃     ┃     ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃     ┃         pc: 0
-┃  ┃     ┃     ┃         callDepth: 1
-┃  ┃     ┃     ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃     ┃         method: test%CallableStorageContract.str()
-┃  ┃     ┃     ┃
-┃  ┃     ┃     ┗━━┓ subst: .Subst
-┃  ┃     ┃        ┃ constraint: true
-┃  ┃     ┃        │
-┃  ┃     ┃        ├─ 88 (split)
-┃  ┃     ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃        │   pc: 0
-┃  ┃     ┃        │   callDepth: 1
-┃  ┃     ┃        │   statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃        │   method: test%CallableStorageContract.str()
-┃  ┃     ┃        ┃
-┃  ┃     ┃        ┃ (branch)
-┃  ┃     ┃        ┣━━┓ subst: .Subst
-┃  ┃     ┃        ┃  ┃ constraint: true
-┃  ┃     ┃        ┃  │
-┃  ┃     ┃        ┃  └─ 163 (leaf, pending)
-┃  ┃     ┃        ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃        ┃      pc: 0
-┃  ┃     ┃        ┃      callDepth: 1
-┃  ┃     ┃        ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃        ┃      method: test%CallableStorageContract.str()
-┃  ┃     ┃        ┃
-┃  ┃     ┃        ┗━━┓ subst: .Subst
-┃  ┃     ┃           ┃ constraint: true
-┃  ┃     ┃           │
-┃  ┃     ┃           └─ 164 (leaf, pending)
-┃  ┃     ┃               k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃     ┃               pc: 0
-┃  ┃     ┃               callDepth: 1
-┃  ┃     ┃               statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃               src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃               method: test%CallableStorageContract.str()
-┃  ┃     ┃
-┃  ┃     ┗━━┓ subst: .Subst
-┃  ┃        ┃ constraint: true
-┃  ┃        │
-┃  ┃        ├─ 32 (split)
-┃  ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃        │   pc: 0
-┃  ┃        │   callDepth: 1
-┃  ┃        │   statusCode: STATUSCODE:StatusCode
-┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃        │   method: test%CallableStorageContract.str()
-┃  ┃        ┃
-┃  ┃        ┃ (branch)
-┃  ┃        ┣━━┓ subst: .Subst
-┃  ┃        ┃  ┃ constraint: true
-┃  ┃        ┃  │
-┃  ┃        ┃  ├─ 51 (split)
-┃  ┃        ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃        ┃  │   pc: 0
-┃  ┃        ┃  │   callDepth: 1
-┃  ┃        ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃        ┃  │   method: test%CallableStorageContract.str()
-┃  ┃        ┃  ┃
-┃  ┃        ┃  ┃ (branch)
-┃  ┃        ┃  ┣━━┓ subst: .Subst
-┃  ┃        ┃  ┃  ┃ constraint: true
-┃  ┃        ┃  ┃  │
-┃  ┃        ┃  ┃  ├─ 89 (split)
-┃  ┃        ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃        ┃  ┃  │   pc: 0
-┃  ┃        ┃  ┃  │   callDepth: 1
-┃  ┃        ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃        ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃        ┃  ┃  │   method: test%CallableStorageContract.str()
-┃  ┃        ┃  ┃  ┃
-┃  ┃        ┃  ┃  ┃ (branch)
-┃  ┃        ┃  ┃  ┣━━┓ subst: .Subst
-┃  ┃        ┃  ┃  ┃  ┃ constraint: true
-┃  ┃        ┃  ┃  ┃  │
-┃  ┃        ┃  ┃  ┃  └─ 165 (leaf, pending)
-┃  ┃        ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃        ┃  ┃  ┃      pc: 0
-┃  ┃        ┃  ┃  ┃      callDepth: 1
-┃  ┃        ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃        ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃        ┃  ┃  ┃      method: test%CallableStorageContract.str()
-┃  ┃        ┃  ┃  ┃
-┃  ┃        ┃  ┃  ┗━━┓ subst: .Subst
-┃  ┃        ┃  ┃     ┃ constraint: true
-┃  ┃        ┃  ┃     │
-┃  ┃        ┃  ┃     └─ 166 (leaf, pending)
-┃  ┃        ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃        ┃  ┃         pc: 0
-┃  ┃        ┃  ┃         callDepth: 1
-┃  ┃        ┃  ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃        ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃        ┃  ┃         method: test%CallableStorageContract.str()
-┃  ┃        ┃  ┃
-┃  ┃        ┃  ┗━━┓ subst: .Subst
-┃  ┃        ┃     ┃ constraint: true
-┃  ┃        ┃     │
-┃  ┃        ┃     ├─ 90 (split)
-┃  ┃        ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃        ┃     │   pc: 0
-┃  ┃        ┃     │   callDepth: 1
-┃  ┃        ┃     │   statusCode: STATUSCODE:StatusCode
-┃  ┃        ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃        ┃     │   method: test%CallableStorageContract.str()
-┃  ┃        ┃     ┃
-┃  ┃        ┃     ┃ (branch)
-┃  ┃        ┃     ┣━━┓ subst: .Subst
-┃  ┃        ┃     ┃  ┃ constraint: true
-┃  ┃        ┃     ┃  │
-┃  ┃        ┃     ┃  └─ 167 (leaf, pending)
-┃  ┃        ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃        ┃     ┃      pc: 0
-┃  ┃        ┃     ┃      callDepth: 1
-┃  ┃        ┃     ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃        ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃        ┃     ┃      method: test%CallableStorageContract.str()
-┃  ┃        ┃     ┃
-┃  ┃        ┃     ┗━━┓ subst: .Subst
-┃  ┃        ┃        ┃ constraint: true
-┃  ┃        ┃        │
-┃  ┃        ┃        └─ 168 (leaf, pending)
-┃  ┃        ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃        ┃            pc: 0
-┃  ┃        ┃            callDepth: 1
-┃  ┃        ┃            statusCode: STATUSCODE:StatusCode
-┃  ┃        ┃            src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃        ┃            method: test%CallableStorageContract.str()
-┃  ┃        ┃
-┃  ┃        ┗━━┓ subst: .Subst
-┃  ┃           ┃ constraint: true
-┃  ┃           │
-┃  ┃           ├─ 52 (split)
-┃  ┃           │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃           │   pc: 0
-┃  ┃           │   callDepth: 1
-┃  ┃           │   statusCode: STATUSCODE:StatusCode
-┃  ┃           │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃           │   method: test%CallableStorageContract.str()
-┃  ┃           ┃
-┃  ┃           ┃ (branch)
-┃  ┃           ┣━━┓ subst: .Subst
-┃  ┃           ┃  ┃ constraint: true
-┃  ┃           ┃  │
-┃  ┃           ┃  ├─ 91 (split)
-┃  ┃           ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃           ┃  │   pc: 0
-┃  ┃           ┃  │   callDepth: 1
-┃  ┃           ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃           ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃           ┃  │   method: test%CallableStorageContract.str()
-┃  ┃           ┃  ┃
-┃  ┃           ┃  ┃ (branch)
-┃  ┃           ┃  ┣━━┓ subst: .Subst
-┃  ┃           ┃  ┃  ┃ constraint: true
-┃  ┃           ┃  ┃  │
-┃  ┃           ┃  ┃  └─ 169 (leaf, pending)
-┃  ┃           ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃           ┃  ┃      pc: 0
-┃  ┃           ┃  ┃      callDepth: 1
-┃  ┃           ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃           ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃           ┃  ┃      method: test%CallableStorageContract.str()
-┃  ┃           ┃  ┃
-┃  ┃           ┃  ┗━━┓ subst: .Subst
-┃  ┃           ┃     ┃ constraint: true
-┃  ┃           ┃     │
-┃  ┃           ┃     └─ 170 (leaf, pending)
-┃  ┃           ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃           ┃         pc: 0
-┃  ┃           ┃         callDepth: 1
-┃  ┃           ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃           ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃           ┃         method: test%CallableStorageContract.str()
-┃  ┃           ┃
-┃  ┃           ┗━━┓ subst: .Subst
-┃  ┃              ┃ constraint: true
-┃  ┃              │
-┃  ┃              ├─ 92 (split)
-┃  ┃              │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃              │   pc: 0
-┃  ┃              │   callDepth: 1
-┃  ┃              │   statusCode: STATUSCODE:StatusCode
-┃  ┃              │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃              │   method: test%CallableStorageContract.str()
-┃  ┃              ┃
-┃  ┃              ┃ (branch)
-┃  ┃              ┣━━┓ subst: .Subst
-┃  ┃              ┃  ┃ constraint: true
-┃  ┃              ┃  │
-┃  ┃              ┃  └─ 171 (leaf, pending)
-┃  ┃              ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃              ┃      pc: 0
-┃  ┃              ┃      callDepth: 1
-┃  ┃              ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃              ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃              ┃      method: test%CallableStorageContract.str()
-┃  ┃              ┃
-┃  ┃              ┗━━┓ subst: .Subst
-┃  ┃                 ┃ constraint: true
-┃  ┃                 │
-┃  ┃                 └─ 172 (leaf, pending)
-┃  ┃                     k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃  ┃                     pc: 0
-┃  ┃                     callDepth: 1
-┃  ┃                     statusCode: STATUSCODE:StatusCode
-┃  ┃                     src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃                     method: test%CallableStorageContract.str()
-┃  ┃
-┃  ┗━━┓ subst: .Subst
-┃     ┃ constraint: true
-┃     │
-┃     ├─ 18 (split)
-┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     │   pc: 0
-┃     │   callDepth: 1
-┃     │   statusCode: STATUSCODE:StatusCode
-┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃     │   method: test%CallableStorageContract.str()
-┃     ┃
-┃     ┃ (branch)
-┃     ┣━━┓ subst: .Subst
-┃     ┃  ┃ constraint: true
-┃     ┃  │
-┃     ┃  ├─ 23 (split)
-┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  │   pc: 0
-┃     ┃  │   callDepth: 1
-┃     ┃  │   statusCode: STATUSCODE:StatusCode
-┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  │   method: test%CallableStorageContract.str()
-┃     ┃  ┃
-┃     ┃  ┃ (branch)
-┃     ┃  ┣━━┓ subst: .Subst
-┃     ┃  ┃  ┃ constraint: true
-┃     ┃  ┃  │
-┃     ┃  ┃  ├─ 33 (split)
-┃     ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃  │   pc: 0
-┃     ┃  ┃  │   callDepth: 1
-┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃  │   method: test%CallableStorageContract.str()
-┃     ┃  ┃  ┃
-┃     ┃  ┃  ┃ (branch)
-┃     ┃  ┃  ┣━━┓ subst: .Subst
-┃     ┃  ┃  ┃  ┃ constraint: true
-┃     ┃  ┃  ┃  │
-┃     ┃  ┃  ┃  ├─ 53 (split)
-┃     ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃  ┃  │   pc: 0
-┃     ┃  ┃  ┃  │   callDepth: 1
-┃     ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-┃     ┃  ┃  ┃  ┃
-┃     ┃  ┃  ┃  ┃ (branch)
-┃     ┃  ┃  ┃  ┣━━┓ subst: .Subst
-┃     ┃  ┃  ┃  ┃  ┃ constraint: true
-┃     ┃  ┃  ┃  ┃  │
-┃     ┃  ┃  ┃  ┃  ├─ 93 (split)
-┃     ┃  ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃  ┃  ┃  │   pc: 0
-┃     ┃  ┃  ┃  ┃  │   callDepth: 1
-┃     ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-┃     ┃  ┃  ┃  ┃  ┃
-┃     ┃  ┃  ┃  ┃  ┃ (branch)
-┃     ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
-┃     ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
-┃     ┃  ┃  ┃  ┃  ┃  │
-┃     ┃  ┃  ┃  ┃  ┃  └─ 173 (leaf, pending)
-┃     ┃  ┃  ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃  ┃  ┃  ┃      pc: 0
-┃     ┃  ┃  ┃  ┃  ┃      callDepth: 1
-┃     ┃  ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃  ┃  ┃  ┃      method: test%CallableStorageContract.str()
-┃     ┃  ┃  ┃  ┃  ┃
-┃     ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
-┃     ┃  ┃  ┃  ┃     ┃ constraint: true
-┃     ┃  ┃  ┃  ┃     │
-┃     ┃  ┃  ┃  ┃     └─ 174 (leaf, pending)
-┃     ┃  ┃  ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃  ┃  ┃         pc: 0
-┃     ┃  ┃  ┃  ┃         callDepth: 1
-┃     ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃  ┃  ┃         method: test%CallableStorageContract.str()
-┃     ┃  ┃  ┃  ┃
-┃     ┃  ┃  ┃  ┗━━┓ subst: .Subst
-┃     ┃  ┃  ┃     ┃ constraint: true
-┃     ┃  ┃  ┃     │
-┃     ┃  ┃  ┃     ├─ 94 (split)
-┃     ┃  ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃  ┃     │   pc: 0
-┃     ┃  ┃  ┃     │   callDepth: 1
-┃     ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃  ┃     │   method: test%CallableStorageContract.str()
-┃     ┃  ┃  ┃     ┃
-┃     ┃  ┃  ┃     ┃ (branch)
-┃     ┃  ┃  ┃     ┣━━┓ subst: .Subst
-┃     ┃  ┃  ┃     ┃  ┃ constraint: true
-┃     ┃  ┃  ┃     ┃  │
-┃     ┃  ┃  ┃     ┃  └─ 175 (leaf, pending)
-┃     ┃  ┃  ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃  ┃     ┃      pc: 0
-┃     ┃  ┃  ┃     ┃      callDepth: 1
-┃     ┃  ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃  ┃     ┃      method: test%CallableStorageContract.str()
-┃     ┃  ┃  ┃     ┃
-┃     ┃  ┃  ┃     ┗━━┓ subst: .Subst
-┃     ┃  ┃  ┃        ┃ constraint: true
-┃     ┃  ┃  ┃        │
-┃     ┃  ┃  ┃        └─ 176 (leaf, pending)
-┃     ┃  ┃  ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃  ┃            pc: 0
-┃     ┃  ┃  ┃            callDepth: 1
-┃     ┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃  ┃            method: test%CallableStorageContract.str()
-┃     ┃  ┃  ┃
-┃     ┃  ┃  ┗━━┓ subst: .Subst
-┃     ┃  ┃     ┃ constraint: true
-┃     ┃  ┃     │
-┃     ┃  ┃     ├─ 54 (split)
-┃     ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃     │   pc: 0
-┃     ┃  ┃     │   callDepth: 1
-┃     ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃     │   method: test%CallableStorageContract.str()
-┃     ┃  ┃     ┃
-┃     ┃  ┃     ┃ (branch)
-┃     ┃  ┃     ┣━━┓ subst: .Subst
-┃     ┃  ┃     ┃  ┃ constraint: true
-┃     ┃  ┃     ┃  │
-┃     ┃  ┃     ┃  ├─ 95 (split)
-┃     ┃  ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃     ┃  │   pc: 0
-┃     ┃  ┃     ┃  │   callDepth: 1
-┃     ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃     ┃  │   method: test%CallableStorageContract.str()
-┃     ┃  ┃     ┃  ┃
-┃     ┃  ┃     ┃  ┃ (branch)
-┃     ┃  ┃     ┃  ┣━━┓ subst: .Subst
-┃     ┃  ┃     ┃  ┃  ┃ constraint: true
-┃     ┃  ┃     ┃  ┃  │
-┃     ┃  ┃     ┃  ┃  └─ 177 (leaf, pending)
-┃     ┃  ┃     ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃     ┃  ┃      pc: 0
-┃     ┃  ┃     ┃  ┃      callDepth: 1
-┃     ┃  ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃     ┃  ┃      method: test%CallableStorageContract.str()
-┃     ┃  ┃     ┃  ┃
-┃     ┃  ┃     ┃  ┗━━┓ subst: .Subst
-┃     ┃  ┃     ┃     ┃ constraint: true
-┃     ┃  ┃     ┃     │
-┃     ┃  ┃     ┃     └─ 178 (leaf, pending)
-┃     ┃  ┃     ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃     ┃         pc: 0
-┃     ┃  ┃     ┃         callDepth: 1
-┃     ┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃     ┃         method: test%CallableStorageContract.str()
-┃     ┃  ┃     ┃
-┃     ┃  ┃     ┗━━┓ subst: .Subst
-┃     ┃  ┃        ┃ constraint: true
-┃     ┃  ┃        │
-┃     ┃  ┃        ├─ 96 (split)
-┃     ┃  ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃        │   pc: 0
-┃     ┃  ┃        │   callDepth: 1
-┃     ┃  ┃        │   statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃        │   method: test%CallableStorageContract.str()
-┃     ┃  ┃        ┃
-┃     ┃  ┃        ┃ (branch)
-┃     ┃  ┃        ┣━━┓ subst: .Subst
-┃     ┃  ┃        ┃  ┃ constraint: true
-┃     ┃  ┃        ┃  │
-┃     ┃  ┃        ┃  └─ 179 (leaf, pending)
-┃     ┃  ┃        ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃        ┃      pc: 0
-┃     ┃  ┃        ┃      callDepth: 1
-┃     ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃        ┃      method: test%CallableStorageContract.str()
-┃     ┃  ┃        ┃
-┃     ┃  ┃        ┗━━┓ subst: .Subst
-┃     ┃  ┃           ┃ constraint: true
-┃     ┃  ┃           │
-┃     ┃  ┃           └─ 180 (leaf, pending)
-┃     ┃  ┃               k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃  ┃               pc: 0
-┃     ┃  ┃               callDepth: 1
-┃     ┃  ┃               statusCode: STATUSCODE:StatusCode
-┃     ┃  ┃               src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  ┃               method: test%CallableStorageContract.str()
-┃     ┃  ┃
-┃     ┃  ┗━━┓ subst: .Subst
-┃     ┃     ┃ constraint: true
-┃     ┃     │
-┃     ┃     ├─ 34 (split)
-┃     ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃     │   pc: 0
-┃     ┃     │   callDepth: 1
-┃     ┃     │   statusCode: STATUSCODE:StatusCode
-┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃     │   method: test%CallableStorageContract.str()
-┃     ┃     ┃
-┃     ┃     ┃ (branch)
-┃     ┃     ┣━━┓ subst: .Subst
-┃     ┃     ┃  ┃ constraint: true
-┃     ┃     ┃  │
-┃     ┃     ┃  ├─ 55 (split)
-┃     ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃     ┃  │   pc: 0
-┃     ┃     ┃  │   callDepth: 1
-┃     ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-┃     ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃     ┃  │   method: test%CallableStorageContract.str()
-┃     ┃     ┃  ┃
-┃     ┃     ┃  ┃ (branch)
-┃     ┃     ┃  ┣━━┓ subst: .Subst
-┃     ┃     ┃  ┃  ┃ constraint: true
-┃     ┃     ┃  ┃  │
-┃     ┃     ┃  ┃  ├─ 97 (split)
-┃     ┃     ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃     ┃  ┃  │   pc: 0
-┃     ┃     ┃  ┃  │   callDepth: 1
-┃     ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃     ┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃     ┃  ┃  │   method: test%CallableStorageContract.str()
-┃     ┃     ┃  ┃  ┃
-┃     ┃     ┃  ┃  ┃ (branch)
-┃     ┃     ┃  ┃  ┣━━┓ subst: .Subst
-┃     ┃     ┃  ┃  ┃  ┃ constraint: true
-┃     ┃     ┃  ┃  ┃  │
-┃     ┃     ┃  ┃  ┃  └─ 181 (leaf, pending)
-┃     ┃     ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃     ┃  ┃  ┃      pc: 0
-┃     ┃     ┃  ┃  ┃      callDepth: 1
-┃     ┃     ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃     ┃     ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃     ┃  ┃  ┃      method: test%CallableStorageContract.str()
-┃     ┃     ┃  ┃  ┃
-┃     ┃     ┃  ┃  ┗━━┓ subst: .Subst
-┃     ┃     ┃  ┃     ┃ constraint: true
-┃     ┃     ┃  ┃     │
-┃     ┃     ┃  ┃     └─ 182 (leaf, pending)
-┃     ┃     ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃     ┃  ┃         pc: 0
-┃     ┃     ┃  ┃         callDepth: 1
-┃     ┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
-┃     ┃     ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃     ┃  ┃         method: test%CallableStorageContract.str()
-┃     ┃     ┃  ┃
-┃     ┃     ┃  ┗━━┓ subst: .Subst
-┃     ┃     ┃     ┃ constraint: true
-┃     ┃     ┃     │
-┃     ┃     ┃     ├─ 98 (split)
-┃     ┃     ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃     ┃     │   pc: 0
-┃     ┃     ┃     │   callDepth: 1
-┃     ┃     ┃     │   statusCode: STATUSCODE:StatusCode
-┃     ┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃     ┃     │   method: test%CallableStorageContract.str()
-┃     ┃     ┃     ┃
-┃     ┃     ┃     ┃ (branch)
-┃     ┃     ┃     ┣━━┓ subst: .Subst
-┃     ┃     ┃     ┃  ┃ constraint: true
-┃     ┃     ┃     ┃  │
-┃     ┃     ┃     ┃  └─ 183 (leaf, pending)
-┃     ┃     ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃     ┃     ┃      pc: 0
-┃     ┃     ┃     ┃      callDepth: 1
-┃     ┃     ┃     ┃      statusCode: STATUSCODE:StatusCode
-┃     ┃     ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃     ┃     ┃      method: test%CallableStorageContract.str()
-┃     ┃     ┃     ┃
-┃     ┃     ┃     ┗━━┓ subst: .Subst
-┃     ┃     ┃        ┃ constraint: true
-┃     ┃     ┃        │
-┃     ┃     ┃        └─ 184 (leaf, pending)
-┃     ┃     ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃     ┃            pc: 0
-┃     ┃     ┃            callDepth: 1
-┃     ┃     ┃            statusCode: STATUSCODE:StatusCode
-┃     ┃     ┃            src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃     ┃            method: test%CallableStorageContract.str()
-┃     ┃     ┃
-┃     ┃     ┗━━┓ subst: .Subst
-┃     ┃        ┃ constraint: true
-┃     ┃        │
-┃     ┃        ├─ 56 (split)
-┃     ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃        │   pc: 0
-┃     ┃        │   callDepth: 1
-┃     ┃        │   statusCode: STATUSCODE:StatusCode
-┃     ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃        │   method: test%CallableStorageContract.str()
-┃     ┃        ┃
-┃     ┃        ┃ (branch)
-┃     ┃        ┣━━┓ subst: .Subst
-┃     ┃        ┃  ┃ constraint: true
-┃     ┃        ┃  │
-┃     ┃        ┃  ├─ 99 (split)
-┃     ┃        ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃        ┃  │   pc: 0
-┃     ┃        ┃  │   callDepth: 1
-┃     ┃        ┃  │   statusCode: STATUSCODE:StatusCode
-┃     ┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃        ┃  │   method: test%CallableStorageContract.str()
-┃     ┃        ┃  ┃
-┃     ┃        ┃  ┃ (branch)
-┃     ┃        ┃  ┣━━┓ subst: .Subst
-┃     ┃        ┃  ┃  ┃ constraint: true
-┃     ┃        ┃  ┃  │
-┃     ┃        ┃  ┃  └─ 185 (leaf, pending)
-┃     ┃        ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃        ┃  ┃      pc: 0
-┃     ┃        ┃  ┃      callDepth: 1
-┃     ┃        ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃     ┃        ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃        ┃  ┃      method: test%CallableStorageContract.str()
-┃     ┃        ┃  ┃
-┃     ┃        ┃  ┗━━┓ subst: .Subst
-┃     ┃        ┃     ┃ constraint: true
-┃     ┃        ┃     │
-┃     ┃        ┃     └─ 186 (leaf, pending)
-┃     ┃        ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃        ┃         pc: 0
-┃     ┃        ┃         callDepth: 1
-┃     ┃        ┃         statusCode: STATUSCODE:StatusCode
-┃     ┃        ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃        ┃         method: test%CallableStorageContract.str()
-┃     ┃        ┃
-┃     ┃        ┗━━┓ subst: .Subst
-┃     ┃           ┃ constraint: true
-┃     ┃           │
-┃     ┃           ├─ 100 (split)
-┃     ┃           │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃           │   pc: 0
-┃     ┃           │   callDepth: 1
-┃     ┃           │   statusCode: STATUSCODE:StatusCode
-┃     ┃           │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃           │   method: test%CallableStorageContract.str()
-┃     ┃           ┃
-┃     ┃           ┃ (branch)
-┃     ┃           ┣━━┓ subst: .Subst
-┃     ┃           ┃  ┃ constraint: true
-┃     ┃           ┃  │
-┃     ┃           ┃  └─ 187 (leaf, pending)
-┃     ┃           ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃           ┃      pc: 0
-┃     ┃           ┃      callDepth: 1
-┃     ┃           ┃      statusCode: STATUSCODE:StatusCode
-┃     ┃           ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃           ┃      method: test%CallableStorageContract.str()
-┃     ┃           ┃
-┃     ┃           ┗━━┓ subst: .Subst
-┃     ┃              ┃ constraint: true
-┃     ┃              │
-┃     ┃              └─ 188 (leaf, pending)
-┃     ┃                  k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃     ┃                  pc: 0
-┃     ┃                  callDepth: 1
-┃     ┃                  statusCode: STATUSCODE:StatusCode
-┃     ┃                  src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃                  method: test%CallableStorageContract.str()
-┃     ┃
-┃     ┗━━┓ subst: .Subst
-┃        ┃ constraint: true
-┃        │
-┃        ├─ 24 (split)
-┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        │   pc: 0
-┃        │   callDepth: 1
-┃        │   statusCode: STATUSCODE:StatusCode
-┃        │   src: test/nested/SimpleNested.t.sol:7:11
-┃        │   method: test%CallableStorageContract.str()
-┃        ┃
-┃        ┃ (branch)
-┃        ┣━━┓ subst: .Subst
-┃        ┃  ┃ constraint: true
-┃        ┃  │
-┃        ┃  ├─ 35 (split)
-┃        ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃  │   pc: 0
-┃        ┃  │   callDepth: 1
-┃        ┃  │   statusCode: STATUSCODE:StatusCode
-┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃  │   method: test%CallableStorageContract.str()
-┃        ┃  ┃
-┃        ┃  ┃ (branch)
-┃        ┃  ┣━━┓ subst: .Subst
-┃        ┃  ┃  ┃ constraint: true
-┃        ┃  ┃  │
-┃        ┃  ┃  ├─ 57 (split)
-┃        ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃  ┃  │   pc: 0
-┃        ┃  ┃  │   callDepth: 1
-┃        ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃        ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃  ┃  │   method: test%CallableStorageContract.str()
-┃        ┃  ┃  ┃
-┃        ┃  ┃  ┃ (branch)
-┃        ┃  ┃  ┣━━┓ subst: .Subst
-┃        ┃  ┃  ┃  ┃ constraint: true
-┃        ┃  ┃  ┃  │
-┃        ┃  ┃  ┃  ├─ 101 (split)
-┃        ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃  ┃  ┃  │   pc: 0
-┃        ┃  ┃  ┃  │   callDepth: 1
-┃        ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃        ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-┃        ┃  ┃  ┃  ┃
-┃        ┃  ┃  ┃  ┃ (branch)
-┃        ┃  ┃  ┃  ┣━━┓ subst: .Subst
-┃        ┃  ┃  ┃  ┃  ┃ constraint: true
-┃        ┃  ┃  ┃  ┃  │
-┃        ┃  ┃  ┃  ┃  └─ 189 (leaf, pending)
-┃        ┃  ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃  ┃  ┃  ┃      pc: 0
-┃        ┃  ┃  ┃  ┃      callDepth: 1
-┃        ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃        ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃  ┃  ┃  ┃      method: test%CallableStorageContract.str()
-┃        ┃  ┃  ┃  ┃
-┃        ┃  ┃  ┃  ┗━━┓ subst: .Subst
-┃        ┃  ┃  ┃     ┃ constraint: true
-┃        ┃  ┃  ┃     │
-┃        ┃  ┃  ┃     └─ 190 (leaf, pending)
-┃        ┃  ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃  ┃  ┃         pc: 0
-┃        ┃  ┃  ┃         callDepth: 1
-┃        ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
-┃        ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃  ┃  ┃         method: test%CallableStorageContract.str()
-┃        ┃  ┃  ┃
-┃        ┃  ┃  ┗━━┓ subst: .Subst
-┃        ┃  ┃     ┃ constraint: true
-┃        ┃  ┃     │
-┃        ┃  ┃     ├─ 102 (split)
-┃        ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃  ┃     │   pc: 0
-┃        ┃  ┃     │   callDepth: 1
-┃        ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-┃        ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃  ┃     │   method: test%CallableStorageContract.str()
-┃        ┃  ┃     ┃
-┃        ┃  ┃     ┃ (branch)
-┃        ┃  ┃     ┣━━┓ subst: .Subst
-┃        ┃  ┃     ┃  ┃ constraint: true
-┃        ┃  ┃     ┃  │
-┃        ┃  ┃     ┃  └─ 191 (leaf, pending)
-┃        ┃  ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃  ┃     ┃      pc: 0
-┃        ┃  ┃     ┃      callDepth: 1
-┃        ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
-┃        ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃  ┃     ┃      method: test%CallableStorageContract.str()
-┃        ┃  ┃     ┃
-┃        ┃  ┃     ┗━━┓ subst: .Subst
-┃        ┃  ┃        ┃ constraint: true
-┃        ┃  ┃        │
-┃        ┃  ┃        └─ 192 (leaf, pending)
-┃        ┃  ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃  ┃            pc: 0
-┃        ┃  ┃            callDepth: 1
-┃        ┃  ┃            statusCode: STATUSCODE:StatusCode
-┃        ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃  ┃            method: test%CallableStorageContract.str()
-┃        ┃  ┃
-┃        ┃  ┗━━┓ subst: .Subst
-┃        ┃     ┃ constraint: true
-┃        ┃     │
-┃        ┃     ├─ 58 (split)
-┃        ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃     │   pc: 0
-┃        ┃     │   callDepth: 1
-┃        ┃     │   statusCode: STATUSCODE:StatusCode
-┃        ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃     │   method: test%CallableStorageContract.str()
-┃        ┃     ┃
-┃        ┃     ┃ (branch)
-┃        ┃     ┣━━┓ subst: .Subst
-┃        ┃     ┃  ┃ constraint: true
-┃        ┃     ┃  │
-┃        ┃     ┃  ├─ 103 (split)
-┃        ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃     ┃  │   pc: 0
-┃        ┃     ┃  │   callDepth: 1
-┃        ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-┃        ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃     ┃  │   method: test%CallableStorageContract.str()
-┃        ┃     ┃  ┃
-┃        ┃     ┃  ┃ (branch)
-┃        ┃     ┃  ┣━━┓ subst: .Subst
-┃        ┃     ┃  ┃  ┃ constraint: true
-┃        ┃     ┃  ┃  │
-┃        ┃     ┃  ┃  └─ 193 (leaf, pending)
-┃        ┃     ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃     ┃  ┃      pc: 0
-┃        ┃     ┃  ┃      callDepth: 1
-┃        ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃        ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃     ┃  ┃      method: test%CallableStorageContract.str()
-┃        ┃     ┃  ┃
-┃        ┃     ┃  ┗━━┓ subst: .Subst
-┃        ┃     ┃     ┃ constraint: true
-┃        ┃     ┃     │
-┃        ┃     ┃     └─ 194 (leaf, pending)
-┃        ┃     ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃     ┃         pc: 0
-┃        ┃     ┃         callDepth: 1
-┃        ┃     ┃         statusCode: STATUSCODE:StatusCode
-┃        ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃     ┃         method: test%CallableStorageContract.str()
-┃        ┃     ┃
-┃        ┃     ┗━━┓ subst: .Subst
-┃        ┃        ┃ constraint: true
-┃        ┃        │
-┃        ┃        ├─ 104 (split)
-┃        ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃        │   pc: 0
-┃        ┃        │   callDepth: 1
-┃        ┃        │   statusCode: STATUSCODE:StatusCode
-┃        ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃        │   method: test%CallableStorageContract.str()
-┃        ┃        ┃
-┃        ┃        ┃ (branch)
-┃        ┃        ┣━━┓ subst: .Subst
-┃        ┃        ┃  ┃ constraint: true
-┃        ┃        ┃  │
-┃        ┃        ┃  └─ 195 (leaf, pending)
-┃        ┃        ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃        ┃      pc: 0
-┃        ┃        ┃      callDepth: 1
-┃        ┃        ┃      statusCode: STATUSCODE:StatusCode
-┃        ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃        ┃      method: test%CallableStorageContract.str()
-┃        ┃        ┃
-┃        ┃        ┗━━┓ subst: .Subst
-┃        ┃           ┃ constraint: true
-┃        ┃           │
-┃        ┃           └─ 196 (leaf, pending)
-┃        ┃               k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃        ┃               pc: 0
-┃        ┃               callDepth: 1
-┃        ┃               statusCode: STATUSCODE:StatusCode
-┃        ┃               src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃               method: test%CallableStorageContract.str()
-┃        ┃
-┃        ┗━━┓ subst: .Subst
-┃           ┃ constraint: true
-┃           │
-┃           ├─ 36 (split)
-┃           │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃           │   pc: 0
-┃           │   callDepth: 1
-┃           │   statusCode: STATUSCODE:StatusCode
-┃           │   src: test/nested/SimpleNested.t.sol:7:11
-┃           │   method: test%CallableStorageContract.str()
-┃           ┃
-┃           ┃ (branch)
-┃           ┣━━┓ subst: .Subst
-┃           ┃  ┃ constraint: true
-┃           ┃  │
-┃           ┃  ├─ 59 (split)
-┃           ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃           ┃  │   pc: 0
-┃           ┃  │   callDepth: 1
-┃           ┃  │   statusCode: STATUSCODE:StatusCode
-┃           ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃           ┃  │   method: test%CallableStorageContract.str()
-┃           ┃  ┃
-┃           ┃  ┃ (branch)
-┃           ┃  ┣━━┓ subst: .Subst
-┃           ┃  ┃  ┃ constraint: true
-┃           ┃  ┃  │
-┃           ┃  ┃  ├─ 105 (split)
-┃           ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃           ┃  ┃  │   pc: 0
-┃           ┃  ┃  │   callDepth: 1
-┃           ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃           ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃           ┃  ┃  │   method: test%CallableStorageContract.str()
-┃           ┃  ┃  ┃
-┃           ┃  ┃  ┃ (branch)
-┃           ┃  ┃  ┣━━┓ subst: .Subst
-┃           ┃  ┃  ┃  ┃ constraint: true
-┃           ┃  ┃  ┃  │
-┃           ┃  ┃  ┃  └─ 197 (leaf, pending)
-┃           ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃           ┃  ┃  ┃      pc: 0
-┃           ┃  ┃  ┃      callDepth: 1
-┃           ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃           ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃           ┃  ┃  ┃      method: test%CallableStorageContract.str()
-┃           ┃  ┃  ┃
-┃           ┃  ┃  ┗━━┓ subst: .Subst
-┃           ┃  ┃     ┃ constraint: true
-┃           ┃  ┃     │
-┃           ┃  ┃     └─ 198 (leaf, pending)
-┃           ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃           ┃  ┃         pc: 0
-┃           ┃  ┃         callDepth: 1
-┃           ┃  ┃         statusCode: STATUSCODE:StatusCode
-┃           ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃           ┃  ┃         method: test%CallableStorageContract.str()
-┃           ┃  ┃
-┃           ┃  ┗━━┓ subst: .Subst
-┃           ┃     ┃ constraint: true
-┃           ┃     │
-┃           ┃     ├─ 106 (split)
-┃           ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃           ┃     │   pc: 0
-┃           ┃     │   callDepth: 1
-┃           ┃     │   statusCode: STATUSCODE:StatusCode
-┃           ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃           ┃     │   method: test%CallableStorageContract.str()
-┃           ┃     ┃
-┃           ┃     ┃ (branch)
-┃           ┃     ┣━━┓ subst: .Subst
-┃           ┃     ┃  ┃ constraint: true
-┃           ┃     ┃  │
-┃           ┃     ┃  └─ 199 (leaf, pending)
-┃           ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃           ┃     ┃      pc: 0
-┃           ┃     ┃      callDepth: 1
-┃           ┃     ┃      statusCode: STATUSCODE:StatusCode
-┃           ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃           ┃     ┃      method: test%CallableStorageContract.str()
-┃           ┃     ┃
-┃           ┃     ┗━━┓ subst: .Subst
-┃           ┃        ┃ constraint: true
-┃           ┃        │
-┃           ┃        └─ 200 (leaf, pending)
-┃           ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃           ┃            pc: 0
-┃           ┃            callDepth: 1
-┃           ┃            statusCode: STATUSCODE:StatusCode
-┃           ┃            src: test/nested/SimpleNested.t.sol:7:11
-┃           ┃            method: test%CallableStorageContract.str()
-┃           ┃
-┃           ┗━━┓ subst: .Subst
-┃              ┃ constraint: true
-┃              │
-┃              ├─ 60 (split)
-┃              │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃              │   pc: 0
-┃              │   callDepth: 1
-┃              │   statusCode: STATUSCODE:StatusCode
-┃              │   src: test/nested/SimpleNested.t.sol:7:11
-┃              │   method: test%CallableStorageContract.str()
-┃              ┃
-┃              ┃ (branch)
-┃              ┣━━┓ subst: .Subst
-┃              ┃  ┃ constraint: true
-┃              ┃  │
-┃              ┃  ├─ 107 (split)
-┃              ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃              ┃  │   pc: 0
-┃              ┃  │   callDepth: 1
-┃              ┃  │   statusCode: STATUSCODE:StatusCode
-┃              ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃              ┃  │   method: test%CallableStorageContract.str()
-┃              ┃  ┃
-┃              ┃  ┃ (branch)
-┃              ┃  ┣━━┓ subst: .Subst
-┃              ┃  ┃  ┃ constraint: true
-┃              ┃  ┃  │
-┃              ┃  ┃  └─ 201 (leaf, pending)
-┃              ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃              ┃  ┃      pc: 0
-┃              ┃  ┃      callDepth: 1
-┃              ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃              ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃              ┃  ┃      method: test%CallableStorageContract.str()
-┃              ┃  ┃
-┃              ┃  ┗━━┓ subst: .Subst
-┃              ┃     ┃ constraint: true
-┃              ┃     │
-┃              ┃     └─ 202 (leaf, pending)
-┃              ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃              ┃         pc: 0
-┃              ┃         callDepth: 1
-┃              ┃         statusCode: STATUSCODE:StatusCode
-┃              ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃              ┃         method: test%CallableStorageContract.str()
-┃              ┃
-┃              ┗━━┓ subst: .Subst
-┃                 ┃ constraint: true
-┃                 │
-┃                 ├─ 108 (split)
-┃                 │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃                 │   pc: 0
-┃                 │   callDepth: 1
-┃                 │   statusCode: STATUSCODE:StatusCode
-┃                 │   src: test/nested/SimpleNested.t.sol:7:11
-┃                 │   method: test%CallableStorageContract.str()
-┃                 ┃
-┃                 ┃ (branch)
-┃                 ┣━━┓ subst: .Subst
-┃                 ┃  ┃ constraint: true
-┃                 ┃  │
-┃                 ┃  └─ 203 (leaf, pending)
-┃                 ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃                 ┃      pc: 0
-┃                 ┃      callDepth: 1
-┃                 ┃      statusCode: STATUSCODE:StatusCode
-┃                 ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃                 ┃      method: test%CallableStorageContract.str()
-┃                 ┃
-┃                 ┗━━┓ subst: .Subst
-┃                    ┃ constraint: true
-┃                    │
-┃                    └─ 204 (leaf, pending)
-┃                        k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-┃                        pc: 0
-┃                        callDepth: 1
-┃                        statusCode: STATUSCODE:StatusCode
-┃                        src: test/nested/SimpleNested.t.sol:7:11
-┃                        method: test%CallableStorageContract.str()
-┃
-┗━━┓ subst: .Subst
-   ┃ constraint: true
-   │
-   ├─ 16 (split)
-   │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   │   pc: 0
-   │   callDepth: 1
-   │   statusCode: STATUSCODE:StatusCode
-   │   src: test/nested/SimpleNested.t.sol:7:11
-   │   method: test%CallableStorageContract.str()
-   ┃
-   ┃ (branch)
-   ┣━━┓ subst: .Subst
-   ┃  ┃ constraint:
-   ┃  ┃     ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
-   ┃  │
-   ┃  ├─ 19 (split)
-   ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  │   pc: 0
-   ┃  │   callDepth: 1
-   ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  │   method: test%CallableStorageContract.str()
-   ┃  ┃
-   ┃  ┃ (branch)
-   ┃  ┣━━┓ subst: .Subst
-   ┃  ┃  ┃ constraint: true
-   ┃  ┃  │
-   ┃  ┃  ├─ 25 (split)
-   ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  │   pc: 0
-   ┃  ┃  │   callDepth: 1
-   ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  │   method: test%CallableStorageContract.str()
-   ┃  ┃  ┃
-   ┃  ┃  ┃ (branch)
-   ┃  ┃  ┣━━┓ subst: .Subst
-   ┃  ┃  ┃  ┃ constraint: true
-   ┃  ┃  ┃  │
-   ┃  ┃  ┃  ├─ 37 (split)
-   ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  ┃  │   pc: 0
-   ┃  ┃  ┃  │   callDepth: 1
-   ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-   ┃  ┃  ┃  ┃
-   ┃  ┃  ┃  ┃ (branch)
-   ┃  ┃  ┃  ┣━━┓ subst: .Subst
-   ┃  ┃  ┃  ┃  ┃ constraint: true
-   ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  ├─ 61 (split)
-   ┃  ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  ┃  ┃  │   pc: 0
-   ┃  ┃  ┃  ┃  │   callDepth: 1
-   ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-   ┃  ┃  ┃  ┃  ┃
-   ┃  ┃  ┃  ┃  ┃ (branch)
-   ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
-   ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
-   ┃  ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  ┃  ├─ 109 (split)
-   ┃  ┃  ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  ┃  ┃  ┃  │   pc: 0
-   ┃  ┃  ┃  ┃  ┃  │   callDepth: 1
-   ┃  ┃  ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  ┃  ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-   ┃  ┃  ┃  ┃  ┃  ┃
-   ┃  ┃  ┃  ┃  ┃  ┃ (branch)
-   ┃  ┃  ┃  ┃  ┃  ┣━━┓ subst: .Subst
-   ┃  ┃  ┃  ┃  ┃  ┃  ┃ constraint: true
-   ┃  ┃  ┃  ┃  ┃  ┃  │
-   ┃  ┃  ┃  ┃  ┃  ┃  └─ 205 (leaf, pending)
-   ┃  ┃  ┃  ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  ┃  ┃  ┃  ┃      pc: 0
-   ┃  ┃  ┃  ┃  ┃  ┃      callDepth: 1
-   ┃  ┃  ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-   ┃  ┃  ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  ┃  ┃  ┃  ┃      method: test%CallableStorageContract.str()
-   ┃  ┃  ┃  ┃  ┃  ┃
-   ┃  ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
-   ┃  ┃  ┃  ┃  ┃     ┃ constraint: true
-   ┃  ┃  ┃  ┃  ┃     │
-   ┃  ┃  ┃  ┃  ┃     └─ 206 (leaf, pending)
-   ┃  ┃  ┃  ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  ┃  ┃  ┃         pc: 0
-   ┃  ┃  ┃  ┃  ┃         callDepth: 1
-   ┃  ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
-   ┃  ┃  ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  ┃  ┃  ┃         method: test%CallableStorageContract.str()
-   ┃  ┃  ┃  ┃  ┃
-   ┃  ┃  ┃  ┃  ┗━━┓ subst: .Subst
-   ┃  ┃  ┃  ┃     ┃ constraint: true
-   ┃  ┃  ┃  ┃     │
-   ┃  ┃  ┃  ┃     └─ 110 (leaf, pending)
-   ┃  ┃  ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  ┃  ┃         pc: 0
-   ┃  ┃  ┃  ┃         callDepth: 1
-   ┃  ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
-   ┃  ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  ┃  ┃         method: test%CallableStorageContract.str()
-   ┃  ┃  ┃  ┃
-   ┃  ┃  ┃  ┗━━┓ subst: .Subst
-   ┃  ┃  ┃     ┃ constraint: true
-   ┃  ┃  ┃     │
-   ┃  ┃  ┃     ├─ 62 (split)
-   ┃  ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  ┃     │   pc: 0
-   ┃  ┃  ┃     │   callDepth: 1
-   ┃  ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-   ┃  ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  ┃     │   method: test%CallableStorageContract.str()
-   ┃  ┃  ┃     ┃
-   ┃  ┃  ┃     ┃ (branch)
-   ┃  ┃  ┃     ┣━━┓ subst: .Subst
-   ┃  ┃  ┃     ┃  ┃ constraint: true
-   ┃  ┃  ┃     ┃  │
-   ┃  ┃  ┃     ┃  └─ 111 (leaf, pending)
-   ┃  ┃  ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  ┃     ┃      pc: 0
-   ┃  ┃  ┃     ┃      callDepth: 1
-   ┃  ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
-   ┃  ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  ┃     ┃      method: test%CallableStorageContract.str()
-   ┃  ┃  ┃     ┃
-   ┃  ┃  ┃     ┗━━┓ subst: .Subst
-   ┃  ┃  ┃        ┃ constraint: true
-   ┃  ┃  ┃        │
-   ┃  ┃  ┃        └─ 112 (leaf, pending)
-   ┃  ┃  ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃  ┃            pc: 0
-   ┃  ┃  ┃            callDepth: 1
-   ┃  ┃  ┃            statusCode: STATUSCODE:StatusCode
-   ┃  ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃  ┃            method: test%CallableStorageContract.str()
-   ┃  ┃  ┃
-   ┃  ┃  ┗━━┓ subst: .Subst
-   ┃  ┃     ┃ constraint: true
-   ┃  ┃     │
-   ┃  ┃     ├─ 38 (split)
-   ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃     │   pc: 0
-   ┃  ┃     │   callDepth: 1
-   ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-   ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃     │   method: test%CallableStorageContract.str()
-   ┃  ┃     ┃
-   ┃  ┃     ┃ (branch)
-   ┃  ┃     ┣━━┓ subst: .Subst
-   ┃  ┃     ┃  ┃ constraint: true
-   ┃  ┃     ┃  │
-   ┃  ┃     ┃  ├─ 63 (split)
-   ┃  ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃     ┃  │   pc: 0
-   ┃  ┃     ┃  │   callDepth: 1
-   ┃  ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃     ┃  │   method: test%CallableStorageContract.str()
-   ┃  ┃     ┃  ┃
-   ┃  ┃     ┃  ┃ (branch)
-   ┃  ┃     ┃  ┣━━┓ subst: .Subst
-   ┃  ┃     ┃  ┃  ┃ constraint: true
-   ┃  ┃     ┃  ┃  │
-   ┃  ┃     ┃  ┃  └─ 113 (leaf, pending)
-   ┃  ┃     ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃     ┃  ┃      pc: 0
-   ┃  ┃     ┃  ┃      callDepth: 1
-   ┃  ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
-   ┃  ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃     ┃  ┃      method: test%CallableStorageContract.str()
-   ┃  ┃     ┃  ┃
-   ┃  ┃     ┃  ┗━━┓ subst: .Subst
-   ┃  ┃     ┃     ┃ constraint: true
-   ┃  ┃     ┃     │
-   ┃  ┃     ┃     └─ 114 (leaf, pending)
-   ┃  ┃     ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃     ┃         pc: 0
-   ┃  ┃     ┃         callDepth: 1
-   ┃  ┃     ┃         statusCode: STATUSCODE:StatusCode
-   ┃  ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃     ┃         method: test%CallableStorageContract.str()
-   ┃  ┃     ┃
-   ┃  ┃     ┗━━┓ subst: .Subst
-   ┃  ┃        ┃ constraint: true
-   ┃  ┃        │
-   ┃  ┃        ├─ 64 (split)
-   ┃  ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃        │   pc: 0
-   ┃  ┃        │   callDepth: 1
-   ┃  ┃        │   statusCode: STATUSCODE:StatusCode
-   ┃  ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃        │   method: test%CallableStorageContract.str()
-   ┃  ┃        ┃
-   ┃  ┃        ┃ (branch)
-   ┃  ┃        ┣━━┓ subst: .Subst
-   ┃  ┃        ┃  ┃ constraint: true
-   ┃  ┃        ┃  │
-   ┃  ┃        ┃  └─ 115 (leaf, pending)
-   ┃  ┃        ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃        ┃      pc: 0
-   ┃  ┃        ┃      callDepth: 1
-   ┃  ┃        ┃      statusCode: STATUSCODE:StatusCode
-   ┃  ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃        ┃      method: test%CallableStorageContract.str()
-   ┃  ┃        ┃
-   ┃  ┃        ┗━━┓ subst: .Subst
-   ┃  ┃           ┃ constraint: true
-   ┃  ┃           │
-   ┃  ┃           └─ 116 (leaf, pending)
-   ┃  ┃               k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃  ┃               pc: 0
-   ┃  ┃               callDepth: 1
-   ┃  ┃               statusCode: STATUSCODE:StatusCode
-   ┃  ┃               src: test/nested/SimpleNested.t.sol:7:11
-   ┃  ┃               method: test%CallableStorageContract.str()
-   ┃  ┃
-   ┃  ┗━━┓ subst: .Subst
-   ┃     ┃ constraint: true
-   ┃     │
-   ┃     ├─ 26 (split)
-   ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃     │   pc: 0
-   ┃     │   callDepth: 1
-   ┃     │   statusCode: STATUSCODE:StatusCode
-   ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃     │   method: test%CallableStorageContract.str()
-   ┃     ┃
-   ┃     ┃ (branch)
-   ┃     ┣━━┓ subst: .Subst
-   ┃     ┃  ┃ constraint: true
-   ┃     ┃  │
-   ┃     ┃  ├─ 39 (split)
-   ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃     ┃  │   pc: 0
-   ┃     ┃  │   callDepth: 1
-   ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃     ┃  │   method: test%CallableStorageContract.str()
-   ┃     ┃  ┃
-   ┃     ┃  ┃ (branch)
-   ┃     ┃  ┣━━┓ subst: .Subst
-   ┃     ┃  ┃  ┃ constraint: true
-   ┃     ┃  ┃  │
-   ┃     ┃  ┃  ├─ 65 (split)
-   ┃     ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃     ┃  ┃  │   pc: 0
-   ┃     ┃  ┃  │   callDepth: 1
-   ┃     ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃     ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃     ┃  ┃  │   method: test%CallableStorageContract.str()
-   ┃     ┃  ┃  ┃
-   ┃     ┃  ┃  ┃ (branch)
-   ┃     ┃  ┃  ┣━━┓ subst: .Subst
-   ┃     ┃  ┃  ┃  ┃ constraint: true
-   ┃     ┃  ┃  ┃  │
-   ┃     ┃  ┃  ┃  └─ 117 (leaf, pending)
-   ┃     ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃     ┃  ┃  ┃      pc: 0
-   ┃     ┃  ┃  ┃      callDepth: 1
-   ┃     ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-   ┃     ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-   ┃     ┃  ┃  ┃      method: test%CallableStorageContract.str()
-   ┃     ┃  ┃  ┃
-   ┃     ┃  ┃  ┗━━┓ subst: .Subst
-   ┃     ┃  ┃     ┃ constraint: true
-   ┃     ┃  ┃     │
-   ┃     ┃  ┃     └─ 118 (leaf, pending)
-   ┃     ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃     ┃  ┃         pc: 0
-   ┃     ┃  ┃         callDepth: 1
-   ┃     ┃  ┃         statusCode: STATUSCODE:StatusCode
-   ┃     ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-   ┃     ┃  ┃         method: test%CallableStorageContract.str()
-   ┃     ┃  ┃
-   ┃     ┃  ┗━━┓ subst: .Subst
-   ┃     ┃     ┃ constraint: true
-   ┃     ┃     │
-   ┃     ┃     ├─ 66 (split)
-   ┃     ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃     ┃     │   pc: 0
-   ┃     ┃     │   callDepth: 1
-   ┃     ┃     │   statusCode: STATUSCODE:StatusCode
-   ┃     ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃     ┃     │   method: test%CallableStorageContract.str()
-   ┃     ┃     ┃
-   ┃     ┃     ┃ (branch)
-   ┃     ┃     ┣━━┓ subst: .Subst
-   ┃     ┃     ┃  ┃ constraint: true
-   ┃     ┃     ┃  │
-   ┃     ┃     ┃  └─ 119 (leaf, pending)
-   ┃     ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃     ┃     ┃      pc: 0
-   ┃     ┃     ┃      callDepth: 1
-   ┃     ┃     ┃      statusCode: STATUSCODE:StatusCode
-   ┃     ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-   ┃     ┃     ┃      method: test%CallableStorageContract.str()
-   ┃     ┃     ┃
-   ┃     ┃     ┗━━┓ subst: .Subst
-   ┃     ┃        ┃ constraint: true
-   ┃     ┃        │
-   ┃     ┃        └─ 120 (leaf, pending)
-   ┃     ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃     ┃            pc: 0
-   ┃     ┃            callDepth: 1
-   ┃     ┃            statusCode: STATUSCODE:StatusCode
-   ┃     ┃            src: test/nested/SimpleNested.t.sol:7:11
-   ┃     ┃            method: test%CallableStorageContract.str()
-   ┃     ┃
-   ┃     ┗━━┓ subst: .Subst
-   ┃        ┃ constraint: true
-   ┃        │
-   ┃        ├─ 40 (split)
-   ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃        │   pc: 0
-   ┃        │   callDepth: 1
-   ┃        │   statusCode: STATUSCODE:StatusCode
-   ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃        │   method: test%CallableStorageContract.str()
-   ┃        ┃
-   ┃        ┃ (branch)
-   ┃        ┣━━┓ subst: .Subst
-   ┃        ┃  ┃ constraint: true
-   ┃        ┃  │
-   ┃        ┃  ├─ 67 (split)
-   ┃        ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃        ┃  │   pc: 0
-   ┃        ┃  │   callDepth: 1
-   ┃        ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃        ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃        ┃  │   method: test%CallableStorageContract.str()
-   ┃        ┃  ┃
-   ┃        ┃  ┃ (branch)
-   ┃        ┃  ┣━━┓ subst: .Subst
-   ┃        ┃  ┃  ┃ constraint: true
-   ┃        ┃  ┃  │
-   ┃        ┃  ┃  └─ 121 (leaf, pending)
-   ┃        ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃        ┃  ┃      pc: 0
-   ┃        ┃  ┃      callDepth: 1
-   ┃        ┃  ┃      statusCode: STATUSCODE:StatusCode
-   ┃        ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-   ┃        ┃  ┃      method: test%CallableStorageContract.str()
-   ┃        ┃  ┃
-   ┃        ┃  ┗━━┓ subst: .Subst
-   ┃        ┃     ┃ constraint: true
-   ┃        ┃     │
-   ┃        ┃     └─ 122 (leaf, pending)
-   ┃        ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃        ┃         pc: 0
-   ┃        ┃         callDepth: 1
-   ┃        ┃         statusCode: STATUSCODE:StatusCode
-   ┃        ┃         src: test/nested/SimpleNested.t.sol:7:11
-   ┃        ┃         method: test%CallableStorageContract.str()
-   ┃        ┃
-   ┃        ┗━━┓ subst: .Subst
-   ┃           ┃ constraint: true
-   ┃           │
-   ┃           ├─ 68 (split)
-   ┃           │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃           │   pc: 0
-   ┃           │   callDepth: 1
-   ┃           │   statusCode: STATUSCODE:StatusCode
-   ┃           │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃           │   method: test%CallableStorageContract.str()
-   ┃           ┃
-   ┃           ┃ (branch)
-   ┃           ┣━━┓ subst: .Subst
-   ┃           ┃  ┃ constraint: true
-   ┃           ┃  │
-   ┃           ┃  └─ 123 (leaf, pending)
-   ┃           ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃           ┃      pc: 0
-   ┃           ┃      callDepth: 1
-   ┃           ┃      statusCode: STATUSCODE:StatusCode
-   ┃           ┃      src: test/nested/SimpleNested.t.sol:7:11
-   ┃           ┃      method: test%CallableStorageContract.str()
-   ┃           ┃
-   ┃           ┗━━┓ subst: .Subst
-   ┃              ┃ constraint: true
-   ┃              │
-   ┃              └─ 124 (leaf, pending)
-   ┃                  k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-   ┃                  pc: 0
-   ┃                  callDepth: 1
-   ┃                  statusCode: STATUSCODE:StatusCode
-   ┃                  src: test/nested/SimpleNested.t.sol:7:11
-   ┃                  method: test%CallableStorageContract.str()
-   ┃
-   ┗━━┓ subst: .Subst
-      ┃ constraint: true
-      │
-      ├─ 20 (split)
-      │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      │   pc: 0
-      │   callDepth: 1
-      │   statusCode: STATUSCODE:StatusCode
-      │   src: test/nested/SimpleNested.t.sol:7:11
-      │   method: test%CallableStorageContract.str()
-      ┃
-      ┃ (branch)
-      ┣━━┓ subst: .Subst
-      ┃  ┃ constraint:
-      ┃  ┃     ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
-      ┃  │
-      ┃  ├─ 27 (split)
-      ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃  │   pc: 0
-      ┃  │   callDepth: 1
-      ┃  │   statusCode: STATUSCODE:StatusCode
-      ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-      ┃  │   method: test%CallableStorageContract.str()
-      ┃  ┃
-      ┃  ┃ (branch)
-      ┃  ┣━━┓ subst: .Subst
-      ┃  ┃  ┃ constraint: true
-      ┃  ┃  │
-      ┃  ┃  ├─ 41 (split)
-      ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃  ┃  │   pc: 0
-      ┃  ┃  │   callDepth: 1
-      ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-      ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-      ┃  ┃  │   method: test%CallableStorageContract.str()
-      ┃  ┃  ┃
-      ┃  ┃  ┃ (branch)
-      ┃  ┃  ┣━━┓ subst: .Subst
-      ┃  ┃  ┃  ┃ constraint: true
-      ┃  ┃  ┃  │
-      ┃  ┃  ┃  ├─ 69 (split)
-      ┃  ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃  ┃  ┃  │   pc: 0
-      ┃  ┃  ┃  │   callDepth: 1
-      ┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-      ┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-      ┃  ┃  ┃  │   method: test%CallableStorageContract.str()
-      ┃  ┃  ┃  ┃
-      ┃  ┃  ┃  ┃ (branch)
-      ┃  ┃  ┃  ┣━━┓ subst: .Subst
-      ┃  ┃  ┃  ┃  ┃ constraint: true
-      ┃  ┃  ┃  ┃  │
-      ┃  ┃  ┃  ┃  └─ 125 (leaf, pending)
-      ┃  ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃  ┃  ┃  ┃      pc: 0
-      ┃  ┃  ┃  ┃      callDepth: 1
-      ┃  ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-      ┃  ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-      ┃  ┃  ┃  ┃      method: test%CallableStorageContract.str()
-      ┃  ┃  ┃  ┃
-      ┃  ┃  ┃  ┗━━┓ subst: .Subst
-      ┃  ┃  ┃     ┃ constraint: true
-      ┃  ┃  ┃     │
-      ┃  ┃  ┃     └─ 126 (leaf, pending)
-      ┃  ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃  ┃  ┃         pc: 0
-      ┃  ┃  ┃         callDepth: 1
-      ┃  ┃  ┃         statusCode: STATUSCODE:StatusCode
-      ┃  ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-      ┃  ┃  ┃         method: test%CallableStorageContract.str()
-      ┃  ┃  ┃
-      ┃  ┃  ┗━━┓ subst: .Subst
-      ┃  ┃     ┃ constraint: true
-      ┃  ┃     │
-      ┃  ┃     ├─ 70 (split)
-      ┃  ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃  ┃     │   pc: 0
-      ┃  ┃     │   callDepth: 1
-      ┃  ┃     │   statusCode: STATUSCODE:StatusCode
-      ┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-      ┃  ┃     │   method: test%CallableStorageContract.str()
-      ┃  ┃     ┃
-      ┃  ┃     ┃ (branch)
-      ┃  ┃     ┣━━┓ subst: .Subst
-      ┃  ┃     ┃  ┃ constraint: true
-      ┃  ┃     ┃  │
-      ┃  ┃     ┃  └─ 127 (leaf, pending)
-      ┃  ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃  ┃     ┃      pc: 0
-      ┃  ┃     ┃      callDepth: 1
-      ┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
-      ┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-      ┃  ┃     ┃      method: test%CallableStorageContract.str()
-      ┃  ┃     ┃
-      ┃  ┃     ┗━━┓ subst: .Subst
-      ┃  ┃        ┃ constraint: true
-      ┃  ┃        │
-      ┃  ┃        └─ 128 (leaf, pending)
-      ┃  ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃  ┃            pc: 0
-      ┃  ┃            callDepth: 1
-      ┃  ┃            statusCode: STATUSCODE:StatusCode
-      ┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
-      ┃  ┃            method: test%CallableStorageContract.str()
-      ┃  ┃
-      ┃  ┗━━┓ subst: .Subst
-      ┃     ┃ constraint: true
-      ┃     │
-      ┃     ├─ 42 (split)
-      ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃     │   pc: 0
-      ┃     │   callDepth: 1
-      ┃     │   statusCode: STATUSCODE:StatusCode
-      ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-      ┃     │   method: test%CallableStorageContract.str()
-      ┃     ┃
-      ┃     ┃ (branch)
-      ┃     ┣━━┓ subst: .Subst
-      ┃     ┃  ┃ constraint: true
-      ┃     ┃  │
-      ┃     ┃  ├─ 71 (split)
-      ┃     ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃     ┃  │   pc: 0
-      ┃     ┃  │   callDepth: 1
-      ┃     ┃  │   statusCode: STATUSCODE:StatusCode
-      ┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-      ┃     ┃  │   method: test%CallableStorageContract.str()
-      ┃     ┃  ┃
-      ┃     ┃  ┃ (branch)
-      ┃     ┃  ┣━━┓ subst: .Subst
-      ┃     ┃  ┃  ┃ constraint: true
-      ┃     ┃  ┃  │
-      ┃     ┃  ┃  └─ 129 (leaf, pending)
-      ┃     ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃     ┃  ┃      pc: 0
-      ┃     ┃  ┃      callDepth: 1
-      ┃     ┃  ┃      statusCode: STATUSCODE:StatusCode
-      ┃     ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-      ┃     ┃  ┃      method: test%CallableStorageContract.str()
-      ┃     ┃  ┃
-      ┃     ┃  ┗━━┓ subst: .Subst
-      ┃     ┃     ┃ constraint: true
-      ┃     ┃     │
-      ┃     ┃     └─ 130 (leaf, pending)
-      ┃     ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃     ┃         pc: 0
-      ┃     ┃         callDepth: 1
-      ┃     ┃         statusCode: STATUSCODE:StatusCode
-      ┃     ┃         src: test/nested/SimpleNested.t.sol:7:11
-      ┃     ┃         method: test%CallableStorageContract.str()
-      ┃     ┃
-      ┃     ┗━━┓ subst: .Subst
-      ┃        ┃ constraint: true
-      ┃        │
-      ┃        ├─ 72 (split)
-      ┃        │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃        │   pc: 0
-      ┃        │   callDepth: 1
-      ┃        │   statusCode: STATUSCODE:StatusCode
-      ┃        │   src: test/nested/SimpleNested.t.sol:7:11
-      ┃        │   method: test%CallableStorageContract.str()
-      ┃        ┃
-      ┃        ┃ (branch)
-      ┃        ┣━━┓ subst: .Subst
-      ┃        ┃  ┃ constraint: true
-      ┃        ┃  │
-      ┃        ┃  └─ 131 (leaf, pending)
-      ┃        ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃        ┃      pc: 0
-      ┃        ┃      callDepth: 1
-      ┃        ┃      statusCode: STATUSCODE:StatusCode
-      ┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
-      ┃        ┃      method: test%CallableStorageContract.str()
-      ┃        ┃
-      ┃        ┗━━┓ subst: .Subst
-      ┃           ┃ constraint: true
-      ┃           │
-      ┃           └─ 132 (leaf, pending)
-      ┃               k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-      ┃               pc: 0
-      ┃               callDepth: 1
-      ┃               statusCode: STATUSCODE:StatusCode
-      ┃               src: test/nested/SimpleNested.t.sol:7:11
-      ┃               method: test%CallableStorageContract.str()
-      ┃
-      ┗━━┓ subst: .Subst
-         ┃ constraint: true
-         │
-         ├─ 28 (split)
-         │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-         │   pc: 0
-         │   callDepth: 1
-         │   statusCode: STATUSCODE:StatusCode
-         │   src: test/nested/SimpleNested.t.sol:7:11
-         │   method: test%CallableStorageContract.str()
-         ┃
-         ┃ (branch)
-         ┣━━┓ subst: .Subst
-         ┃  ┃ constraint:
-         ┃  ┃     ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
-         ┃  │
-         ┃  ├─ 43 (split)
-         ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-         ┃  │   pc: 0
-         ┃  │   callDepth: 1
-         ┃  │   statusCode: STATUSCODE:StatusCode
-         ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-         ┃  │   method: test%CallableStorageContract.str()
-         ┃  ┃
-         ┃  ┃ (branch)
-         ┃  ┣━━┓ subst: .Subst
-         ┃  ┃  ┃ constraint: true
-         ┃  ┃  │
-         ┃  ┃  ├─ 73 (split)
-         ┃  ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-         ┃  ┃  │   pc: 0
-         ┃  ┃  │   callDepth: 1
-         ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-         ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-         ┃  ┃  │   method: test%CallableStorageContract.str()
-         ┃  ┃  ┃
-         ┃  ┃  ┃ (branch)
-         ┃  ┃  ┣━━┓ subst: .Subst
-         ┃  ┃  ┃  ┃ constraint: true
-         ┃  ┃  ┃  │
-         ┃  ┃  ┃  └─ 133 (leaf, pending)
-         ┃  ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-         ┃  ┃  ┃      pc: 0
-         ┃  ┃  ┃      callDepth: 1
-         ┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-         ┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-         ┃  ┃  ┃      method: test%CallableStorageContract.str()
-         ┃  ┃  ┃
-         ┃  ┃  ┗━━┓ subst: .Subst
-         ┃  ┃     ┃ constraint: true
-         ┃  ┃     │
-         ┃  ┃     └─ 134 (leaf, pending)
-         ┃  ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-         ┃  ┃         pc: 0
-         ┃  ┃         callDepth: 1
-         ┃  ┃         statusCode: STATUSCODE:StatusCode
-         ┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-         ┃  ┃         method: test%CallableStorageContract.str()
-         ┃  ┃
-         ┃  ┗━━┓ subst: .Subst
-         ┃     ┃ constraint: true
-         ┃     │
-         ┃     ├─ 74 (split)
-         ┃     │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-         ┃     │   pc: 0
-         ┃     │   callDepth: 1
-         ┃     │   statusCode: STATUSCODE:StatusCode
-         ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-         ┃     │   method: test%CallableStorageContract.str()
-         ┃     ┃
-         ┃     ┃ (branch)
-         ┃     ┣━━┓ subst: .Subst
-         ┃     ┃  ┃ constraint: true
-         ┃     ┃  │
-         ┃     ┃  └─ 135 (leaf, pending)
-         ┃     ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-         ┃     ┃      pc: 0
-         ┃     ┃      callDepth: 1
-         ┃     ┃      statusCode: STATUSCODE:StatusCode
-         ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-         ┃     ┃      method: test%CallableStorageContract.str()
-         ┃     ┃
-         ┃     ┗━━┓ subst: .Subst
-         ┃        ┃ constraint: true
-         ┃        │
-         ┃        └─ 136 (leaf, pending)
-         ┃            k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-         ┃            pc: 0
-         ┃            callDepth: 1
-         ┃            statusCode: STATUSCODE:StatusCode
-         ┃            src: test/nested/SimpleNested.t.sol:7:11
-         ┃            method: test%CallableStorageContract.str()
-         ┃
-         ┗━━┓ subst: .Subst
-            ┃ constraint: true
-            │
-            ├─ 44 (split)
-            │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-            │   pc: 0
-            │   callDepth: 1
-            │   statusCode: STATUSCODE:StatusCode
-            │   src: test/nested/SimpleNested.t.sol:7:11
-            │   method: test%CallableStorageContract.str()
-            ┃
-            ┃ (branch)
-            ┣━━┓ subst: .Subst
-            ┃  ┃ constraint:
-            ┃  ┃     ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
-            ┃  │
-            ┃  ├─ 75 (split)
-            ┃  │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-            ┃  │   pc: 0
-            ┃  │   callDepth: 1
-            ┃  │   statusCode: STATUSCODE:StatusCode
-            ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-            ┃  │   method: test%CallableStorageContract.str()
-            ┃  ┃
-            ┃  ┃ (branch)
-            ┃  ┣━━┓ subst: .Subst
-            ┃  ┃  ┃ constraint: true
-            ┃  ┃  │
-            ┃  ┃  └─ 137 (leaf, pending)
-            ┃  ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-            ┃  ┃      pc: 0
-            ┃  ┃      callDepth: 1
-            ┃  ┃      statusCode: STATUSCODE:StatusCode
-            ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-            ┃  ┃      method: test%CallableStorageContract.str()
-            ┃  ┃
-            ┃  ┗━━┓ subst: .Subst
-            ┃     ┃ constraint: true
-            ┃     │
-            ┃     └─ 138 (leaf, pending)
-            ┃         k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-            ┃         pc: 0
-            ┃         callDepth: 1
-            ┃         statusCode: STATUSCODE:StatusCode
-            ┃         src: test/nested/SimpleNested.t.sol:7:11
-            ┃         method: test%CallableStorageContract.str()
-            ┃
-            ┗━━┓ subst: .Subst
-               ┃ constraint: true
-               │
-               ├─ 76 (split)
-               │   k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-               │   pc: 0
-               │   callDepth: 1
-               │   statusCode: STATUSCODE:StatusCode
-               │   src: test/nested/SimpleNested.t.sol:7:11
-               │   method: test%CallableStorageContract.str()
-               ┃
-               ┃ (branch)
-               ┣━━┓ subst: .Subst
-               ┃  ┃ constraint:
-               ┃  ┃     ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
-               ┃  │
-               ┃  └─ 139 (leaf, pending)
-               ┃      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-               ┃      pc: 0
-               ┃      callDepth: 1
-               ┃      statusCode: STATUSCODE:StatusCode
-               ┃      src: test/nested/SimpleNested.t.sol:7:11
-               ┃      method: test%CallableStorageContract.str()
-               ┃
-               ┗━━┓ subst: .Subst
-                  ┃ constraint: true
-                  │
-                  └─ 140 (leaf, pending)
-                      k: #execute ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-                      pc: 0
-                      callDepth: 1
-                      statusCode: STATUSCODE:StatusCode
-                      src: test/nested/SimpleNested.t.sol:7:11
-                      method: test%CallableStorageContract.str()
-
-
-┌─ 10 (root, leaf, target, terminal)
+│
+│  (1 step)
+├─ 15
+│   k: #halt ~> #return 128 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   pc: 86
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%CallableStorageContract.str()
+│
+│  (1 step)
+├─ 16
+│   k: #popCallStack ~> #dropWorldState ~> 1 ~> #push ~> #refund 0 ~> #setLocalMem 128  ...
+│   pc: 86
+│   callDepth: 1
+│   statusCode: EVMC_SUCCESS
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%CallableStorageContract.str()
+│
+│  (1734 steps)
+├─ 17
+│   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   pc: 240
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:77:79
+│   method: test%CallableStorageTest.test_str()
+│
+│  (1 step)
+├─ 18
+│   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
+│   pc: 240
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:77:79
+│   method: test%CallableStorageTest.test_str()
+│
+│  (2 steps)
+├─ 19 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: PC_CELL_5d410f2a:Int
-│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
-│   statusCode: STATUSCODE_FINAL:StatusCode
+│   pc: 240
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:77:79
+│   method: test%CallableStorageTest.test_str()
+│
+┊  constraint: true
+┊  subst: ...
+└─ 10 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
+
 
 
 
@@ -4095,5 +1928,1682 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
+    
+    rule [BASIC-BLOCK-14-TO-15]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> #return 128 0
+               ~> #pc [ STATICCALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE => EVMC_SUCCESS )
+                 </statusCode>
+                 <callStack>
+                   ListItem ( <callState>
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x0e\xa2\nJ"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "str()" ) : ( 491460923342184218035706888008750043977755113263 : ( 764 : ( 239 : ( selector ( "test_str()" ) : .WordStack ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc1[\xae\x84\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> )
+                 </callStack>
+                 <interimStates>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( 1 |-> 38173527666125012420903057510883648337146588125343045899690344136765597548566 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                   </substate> } )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     491460923342184218035706888008750043977755113263
+                   </id>
+                   <caller>
+                     728815563385977040452943777879061427756277306518
+                   </caller>
+                   <callData>
+                     b"\xc1[\xae\x84"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 95 : ( selector ( "str()" ) : .WordStack ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     true
+                   </static>
+                   <callDepth>
+                     1
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 1 |-> 38173527666125012420903057510883648337146588125343045899690344136765597548566 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+               ))))))))))))
+       ensures ?_C_CALLABLESTORAGECONTRACT_STR_S_LENGTH ==Int 11
+      [priority(20), label(BASIC-BLOCK-14-TO-15)]
+    
+    rule [BASIC-BLOCK-15-TO-16]: <foundry>
+           <kevm>
+             <k>
+               ( #halt
+               ~> #return 128 0 => #popCallStack
+               ~> #dropWorldState
+               ~> 1
+               ~> #push
+               ~> #refund 0
+               ~> #setLocalMem 128 0 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+               ~> #pc [ STATICCALL ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callStack>
+                   ListItem ( <callState>
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x0e\xa2\nJ"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "str()" ) : ( 491460923342184218035706888008750043977755113263 : ( 764 : ( 239 : ( selector ( "test_str()" ) : .WordStack ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc1[\xae\x84\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> )
+                 </callStack>
+                 <interimStates>
+                   ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( 1 |-> 38173527666125012420903057510883648337146588125343045899690344136765597548566 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                   </substate> } )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     491460923342184218035706888008750043977755113263
+                   </id>
+                   <caller>
+                     728815563385977040452943777879061427756277306518
+                   </caller>
+                   <callData>
+                     b"\xc1[\xae\x84"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 95 : ( selector ( "str()" ) : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     true
+                   </static>
+                   <callDepth>
+                     1
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 1 |-> 38173527666125012420903057510883648337146588125343045899690344136765597548566 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _?V_4352d4b8 ==K b"\x16"
+       andBool ( _C_CALLABLESTORAGECONTRACT_STR_S_LENGTH ==Int 11
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( _?V_79d553d9 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+       andBool ( _?V_e793806a ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+               ))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-15-TO-16)]
+    
+    rule [BASIC-BLOCK-16-TO-17]: <foundry>
+           <kevm>
+             <k>
+               ( #popCallStack
+               ~> #dropWorldState
+               ~> 1
+               ~> #push
+               ~> #refund 0
+               ~> #setLocalMem 128 0 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+               ~> #pc [ STATICCALL ] => #end EVMC_SUCCESS
+               ~> #pc [ STOP ] )
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"" )
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callStack>
+                   ( ListItem ( <callState>
+                     <id>
+                       728815563385977040452943777879061427756277306518
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x0e\xa2\nJ"
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 132 : ( selector ( "str()" ) : ( 491460923342184218035706888008750043977755113263 : ( 764 : ( 239 : ( selector ( "test_str()" ) : .WordStack ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc1[\xae\x84\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       false
+                     </static>
+                     <callDepth>
+                       0
+                     </callDepth>
+                     ...
+                   </callState> ) => .List )
+                 </callStack>
+                 <interimStates>
+                   ( ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         491460923342184218035706888008750043977755113263
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( 1 |-> 38173527666125012420903057510883648337146588125343045899690344136765597548566 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         1
+                       </nonce>
+                       ...
+                     </account>
+                     ( <account>
+                       <acctID>
+                         645326474426547203313410069153905908525362434349
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         .Map
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         0
+                       </nonce>
+                       ...
+                     </account>
+                     <account>
+                       <acctID>
+                         728815563385977040452943777879061427756277306518
+                       </acctID>
+                       <balance>
+                         0
+                       </balance>
+                       <storage>
+                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       </storage>
+                       <origStorage>
+                         .Map
+                       </origStorage>
+                       <transientStorage>
+                         .Map
+                       </transientStorage>
+                       <nonce>
+                         2
+                       </nonce>
+                       ...
+                     </account> ) )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       .List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       SetItem ( 491460923342184218035706888008750043977755113263 )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       .Map
+                     </accessedStorage>
+                   </substate> } ) => .List )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
+                   </id>
+                   <caller>
+                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
+                   </caller>
+                   <callData>
+                     ( b"\xc1[\xae\x84" => b"\x0e\xa2\nJ" )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 95 => selector ( "test_str()" ) ) : ( ( selector ( "str()" ) : .WordStack ) => .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xb6\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     ( true => false )
+                   </static>
+                   <callDepth>
+                     ( 1 => 0 )
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 1 |-> 38173527666125012420903057510883648337146588125343045899690344136765597548566 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _?V_4352d4b8 ==K b"\x16"
+       andBool ( _C_CALLABLESTORAGECONTRACT_STR_S_LENGTH ==Int 11
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( _?V_79d553d9 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+       andBool ( _?V_e793806a ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+               ))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-16-TO-17)]
+    
+    rule [BASIC-BLOCK-17-TO-18]: <foundry>
+           <kevm>
+             <k>
+               ( #end EVMC_SUCCESS => #halt )
+               ~> #pc [ STOP ]
+               ~> #execute
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x0e\xa2\nJ"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( selector ( "test_str()" ) : .WordStack )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xb6\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 1 |-> 38173527666125012420903057510883648337146588125343045899690344136765597548566 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _?V_4352d4b8 ==K b"\x16"
+       andBool ( _C_CALLABLESTORAGECONTRACT_STR_S_LENGTH ==Int 11
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( _?V_79d553d9 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+       andBool ( _?V_e793806a ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+               ))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-17-TO-18)]
+    
+    rule [BASIC-BLOCK-18-TO-19]: <foundry>
+           <kevm>
+             <k>
+               #halt
+               ~> ( #pc [ STOP ]
+               ~> #execute => .K )
+               ~> _CONTINUATION
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               SHANGHAI
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   b""
+                 </output>
+                 <statusCode>
+                   EVMC_SUCCESS
+                 </statusCode>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x0e\xa2\nJ"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( selector ( "test_str()" ) : .WordStack )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xb6\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       491460923342184218035706888008750043977755113263
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 1 |-> 38173527666125012420903057510883648337146588125343045899690344136765597548566 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       2
+                     </nonce>
+                     ...
+                   </account> ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <addressList>
+                 .List
+               </addressList>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _?V_4352d4b8 ==K b"\x16"
+       andBool ( _C_CALLABLESTORAGECONTRACT_STR_S_LENGTH ==Int 11
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( _?V_79d553d9 ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+       andBool ( _?V_e793806a ==K b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+               ))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-18-TO-19)]
 
 endmodule
