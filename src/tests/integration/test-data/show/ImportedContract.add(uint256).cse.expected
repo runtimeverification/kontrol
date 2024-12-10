@@ -12,7 +12,7 @@
 ┃  ┃ constraint:
 ┃  ┃     #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int KV0_x:Int )
 ┃  │
-┃  ├─ 8
+┃  ├─ 12
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -21,7 +21,7 @@
 ┃  │   method: test%ImportedContract.add(uint256)
 ┃  │
 ┃  │  (379 steps)
-┃  ├─ 6 (terminal)
+┃  ├─ 10 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 107
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -44,7 +44,7 @@
    ┃ constraint:
    ┃     ( maxUInt256 -Int KV0_x:Int ) <Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
    │
-   ├─ 9
+   ├─ 13
    │   k: #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
@@ -53,7 +53,7 @@
    │   method: test%ImportedContract.add(uint256)
    │
    │  (349 steps)
-   ├─ 7 (terminal)
+   ├─ 11 (terminal)
    │   k: #halt ~> CONTINUATION:K
    │   pc: 226
    │   callDepth: CALLDEPTH_CELL:Int
@@ -78,7 +78,7 @@
 module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
     
     
-    rule [BASIC-BLOCK-8-TO-6]: <foundry>
+    rule [BASIC-BLOCK-12-TO-10]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -260,9 +260,9 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 9 ) )
        andBool ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <=Int ( maxUInt256 -Int KV0_x:Int )
                ))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-8-TO-6)]
+      [priority(20), label(BASIC-BLOCK-12-TO-10)]
     
-    rule [BASIC-BLOCK-9-TO-7]: <foundry>
+    rule [BASIC-BLOCK-13-TO-11]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -444,6 +444,6 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
        andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 9 ) )
        andBool ( ( maxUInt256 -Int KV0_x:Int ) <Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
                ))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-7)]
+      [priority(20), label(BASIC-BLOCK-13-TO-11)]
 
 endmodule

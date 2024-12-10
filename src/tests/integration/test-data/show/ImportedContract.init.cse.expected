@@ -7,7 +7,7 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │
 │  (48 steps)
-├─ 3 (terminal)
+├─ 5 (terminal)
 │   k: #halt ~> CONTINUATION:K
 │   pc: 21
 │   callDepth: CALLDEPTH_CELL:Int
@@ -31,7 +31,7 @@
 module SUMMARY-TEST%IMPORTEDCONTRACT.INIT:0
     
     
-    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+    rule [BASIC-BLOCK-1-TO-5]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -211,6 +211,6 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.INIT:0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 9 ) )
                ))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+      [priority(20), label(BASIC-BLOCK-1-TO-5)]
 
 endmodule
