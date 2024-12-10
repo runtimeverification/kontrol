@@ -11,7 +11,7 @@ jobs:
     if: github.ref != 'refs/heads/master'
     name: 'Update Kontrol expected output'
     runs-on: [self-hosted, linux, normal, fast]
-    timeout-minutes: 90
+    timeout-minutes: 120
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
