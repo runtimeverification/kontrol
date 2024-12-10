@@ -215,6 +215,7 @@ class KontrolSemantics(KEVMSemantics):
             constraints_to_remove: list[KInner],
             constraints_to_keep: set[KInner],
             constraints: set[KInner],
+            empty_config: CTerm,
         ) -> set[KInner]:
             for constraint_variant in constraints_to_remove:
                 simplification_cterm = initial_cterm.add_constraint(constraint_variant)
@@ -234,6 +235,12 @@ class KontrolSemantics(KEVMSemantics):
                     # If no constraints or multiple constraints appear, log this scenario.
                     if len(result_constraints) == 0:
                         _LOGGER.info(f'forgetBranch: constraint {constraint_variant} entailed by remaining constraints')
+                        result_cterm, _ = cterm_symbolic.simplify(CTerm(empty_config.config, [constraint_variant]))
+                        if len(result_cterm.constraints) == 1:
+                            to_remove = single(result_cterm.constraints)
+                            if to_remove in constraints:
+                                _LOGGER.info(f'forgetBranch: removing constraint: {to_remove}')
+                                constraints.remove(to_remove)
                     else:
                         _LOGGER.info(
                             f'forgetBranch: more than one constraint found after simplification and removal:\n{result_constraints}'
@@ -261,11 +268,18 @@ class KontrolSemantics(KEVMSemantics):
         empty_config: CTerm = CTerm.from_kast(kevm.definition.empty_config(GENERATED_TOP_CELL))
         initial_cterm, _ = cterm_symbolic.simplify(CTerm(empty_config.config, constraints_to_keep))
         constraints_to_keep = set(initial_cterm.constraints)
+
         # Simplify in the presence of constraints to keep, then remove the constraints to keep to
         # reveal simplified constraint, then remove if present in original constraints
         new_constraints: set[KInner] = _filter_constraints_by_simplification(
-            cterm_symbolic, initial_cterm, [pos_constraint, neg_constraint], constraints_to_keep, set(cterm.constraints)
+            cterm_symbolic=cterm_symbolic,
+            initial_cterm=initial_cterm,
+            constraints_to_remove=[pos_constraint, neg_constraint],
+            constraints_to_keep=constraints_to_keep,
+            constraints=set(cterm.constraints),
+            empty_config=empty_config,
         )
+
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)

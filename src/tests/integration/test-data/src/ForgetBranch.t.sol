@@ -11,7 +11,7 @@ contract ForgetBranchTest is Test, KontrolCheats {
         uint256 y;
 
         vm.assume(x > 200);
-        kevm.forgetBranch(200, KontrolCheatsBase.ComparisonOperator.GreaterThan, x);
+        kevm.forgetBranch(x, KontrolCheatsBase.ComparisonOperator.GreaterThan, 200);
         if(x > 200){
             y = 21;
         } else {
