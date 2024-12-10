@@ -1771,7 +1771,6 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "mockCall(address,bytes,bytes)" )            => 3110212580 )
     rule ( selector ( "mockFunction(address,address,bytes)" )      => 2918731041 )
     rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
-    rule ( selector ( "replaceConstraint(uint256,uint8,uint256,bool)" ) => 1408652492 )
     rule ( selector ( "forgetBranch(uint256,uint8,uint256)" )      => 1720990067 )
 ```
 

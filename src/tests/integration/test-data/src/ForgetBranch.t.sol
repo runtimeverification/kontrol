@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.13;
 
-import "forge-std/Test.sol";
+import {Test, console} from "forge-std/Test.sol";
 import "kontrol-cheatcodes/KontrolCheats.sol";
+
 
 contract ForgetBranchTest is Test, KontrolCheats {
 
@@ -10,7 +11,7 @@ contract ForgetBranchTest is Test, KontrolCheats {
         uint256 y;
 
         vm.assume(x > 200);
-        kevm.forgetBranch(200, 2, x);
+        kevm.forgetBranch(200, KontrolCheatsBase.ComparisonOperator.GreaterThan, x);
         if(x > 200){
             y = 21;
         } else {
