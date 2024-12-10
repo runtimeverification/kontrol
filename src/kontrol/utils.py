@@ -261,12 +261,6 @@ use-hex-encoding           = false
 """
 
 
-def foundry_toml_extra_contents() -> str:
-    return """
-extra_output = ['storageLayout']
-"""
-
-
 def foundry_toml_cancun_schedule() -> str:
     return """
 evm_version = "cancun"
