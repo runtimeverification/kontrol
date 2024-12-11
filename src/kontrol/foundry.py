@@ -53,10 +53,8 @@ from .solc_to_k import Contract, _contract_name_from_bytecode
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
 from .utils import (
     _read_digest_file,
-    append_to_file,
     empty_lemmas_file_contents,
     ensure_name_is_unique,
-    foundry_toml_extra_contents,
     kontrol_file_contents,
     kontrol_toml_file_contents,
     kontrol_up_to_date,
@@ -1656,7 +1654,6 @@ def init_project(project_root: Path, *, skip_forge: bool) -> None:
     write_to_file(root / 'lemmas.k', empty_lemmas_file_contents())
     write_to_file(root / 'KONTROL.md', kontrol_file_contents())
     write_to_file(root / 'kontrol.toml', kontrol_toml_file_contents())
-    append_to_file(root / 'foundry.toml', foundry_toml_extra_contents())
     run_process_2(
         ['forge', 'install', '--no-git', 'runtimeverification/kontrol-cheatcodes'],
         logger=_LOGGER,
