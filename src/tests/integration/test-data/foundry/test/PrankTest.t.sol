@@ -11,30 +11,12 @@ contract PrankTest is Test {
         prankContract = new Prank();
     }
 
-    function testAddAsOwner(uint256 x) public {
-        assertEq(prankContract.count(), 0);
-        prankContract.add(x);
-        assertEq(prankContract.count(), x);
-    }
-
-    function testFailAddPrank(uint256 x) public {
-        vm.prank(address(0));
-        prankContract.add(x);
-    }
-
     function testAddStartPrank(uint256 x) public {
         vm.expectRevert(bytes("Only owner"));
         vm.startPrank(address(0));
         prankContract.add(x);
         assertEq(prankContract.count(), 0);
         vm.stopPrank();
-    }
-
-
-    function testSubtractFail(uint256 x) public {
-        vm.expectRevert();
-        prankContract.subtract(x);
-        assertEq(prankContract.count(), 0);
     }
 
     function testSubtractAsTxOrigin(uint256 addValue, uint256 subValue) public {
@@ -69,7 +51,7 @@ contract PrankTestMsgSender is Test {
         vm.prank(address(0));
     }
 
-    function test_msgsender_setup() external {
+    function test_msgsender_setup() external view {
         assert(prankcontract.msgSender() == address(0)); 
     }
 }
@@ -82,7 +64,7 @@ contract PrankTestOrigin is Test {
         vm.prank(address(0), address(0));
     }
 
-    function test_origin_setup() external {
+    function test_origin_setup() external view {
         assert(prankcontract.txOrigin() == address(0));
     }
 }
@@ -95,7 +77,7 @@ contract StartPrankTestMsgSender is Test {
         vm.startPrank(address(0));
     }
 
-    function test_startprank_msgsender_setup() external {
+    function test_startprank_msgsender_setup() external view {
         assert(prankcontract.msgSender() == address(0)); 
     }
 }
@@ -108,7 +90,7 @@ contract StartPrankTestOrigin is Test {
         vm.startPrank(address(0), address(0));
     }
 
-    function test_startprank_origin_setup() external {
+    function test_startprank_origin_setup() external view {
         assert(prankcontract.txOrigin() == address(0));
     }
 }

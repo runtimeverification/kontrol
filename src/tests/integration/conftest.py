@@ -24,8 +24,8 @@ if TYPE_CHECKING:
     from pytest import TempPathFactory
 
 
-FORGE_STD_REF: Final = '75f1746'
-KONTROL_CHEATCODES_REF: Final = 'a5dd4b0'
+FORGE_STD_REF: Final = '051fb65'
+KONTROL_CHEATCODES_REF: Final = 'c2bdec7'
 
 
 @pytest.fixture

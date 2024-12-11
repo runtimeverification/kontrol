@@ -7,13 +7,13 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%InterfaceTagTest.setUp()
 │
-│  (1795 steps)
+│  (1870 steps)
 ├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 194
+│   pc: 248
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:69:71
+│   src: lib/forge-std/src/StdInvariant.sol:95:97
 │   method: test%InterfaceTagTest.testInterface()
 │
 ┊  constraint: true
@@ -158,8 +158,8 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( 7 |-> 1 ) )
+                       ( ( maxUInt5 |-> 1 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -221,9 +221,8 @@ module SUMMARY-TEST%INTERFACETAGTEST.TESTINTERFACE():0
                        0
                      </balance>
                      <storage>
-                       ( ( 11 |-> 1 )
-                       ( ( 27 |-> 263400868551549723330807389252719309078400616203 )
-                       ( 7 |-> 1 ) ) )
+                       ( ( maxUInt5 |-> 67430622349196729172686691648696143124070557747969 )
+                       ( 12 |-> 1 ) )
                      </storage>
                      <origStorage>
                        .Map

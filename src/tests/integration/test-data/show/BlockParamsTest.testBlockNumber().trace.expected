@@ -5,35 +5,35 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
-│   method: test%CallableStorageTest.setUp()
+│   method: test%BlockParamsTest.testBlockNumber()
 │
-│  (3964 steps)
-└─ 7 (stuck, leaf)
-    k: #cheatcode_error selector ( "assertEq(string,string)" ) b"\x00\x00\x00\x00\x00\x ...
-    pc: 3138
-    callDepth: 0
-    statusCode: CHEATCODE_UNIMPLEMENTED
-    method: test%CallableStorageTest.test_str()
-
-
-┌─ 6 (root, leaf, target, terminal)
+│  (297 steps)
+├─ 3 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: PC_CELL_5d410f2a:Int
-│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
-│   statusCode: STATUSCODE_FINAL:StatusCode
+│   pc: 259
+│   callDepth: 0
+│   statusCode: EVMC_SUCCESS
+│   src: lib/forge-std/src/StdInvariant.sol:95:97
+│   method: test%BlockParamsTest.testBlockNumber()
+│
+┊  constraint: true
+┊  subst: ...
+└─ 2 (leaf, target, terminal)
+    k: #halt ~> CONTINUATION:K
+    pc: PC_CELL_5d410f2a:Int
+    callDepth: CALLDEPTH_CELL_5d410f2a:Int
+    statusCode: STATUSCODE_FINAL:StatusCode
 
 
 
-module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
+
+module SUMMARY-TEST%BLOCKPARAMSTEST.TESTBLOCKNUMBER():0
     
     
-    rule [BASIC-BLOCK-1-TO-7]: <foundry>
+    rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => #cheatcode_error selector ( "assertEq(string,string)" ) b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-               ~> #cheatcode_return 352 0
-               ~> #pc [ STATICCALL ] )
-               ~> #execute
+               ( #execute => #halt )
                ~> _CONTINUATION
              </k>
              <mode>
@@ -51,7 +51,7 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => CHEATCODE_UNIMPLEMENTED )
+                   ( _STATUSCODE => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -60,7 +60,7 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
+                   .Set
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -70,16 +70,16 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"\x0e\xa2\nJ" )
+                     b"\xe9p\xe8m"
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 548 : ( selector ( "assertEq(string,string)" ) : ( 645326474426547203313410069153905908525362434349 : ( 288 : ( 224 : ( 872 : ( 280 : ( selector ( "test_str()" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( selector ( "testBlockNumber()" ) : .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01`\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf3 \xd9c\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bTest String\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -103,7 +103,7 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) ( SetItem ( 645326474426547203313410069153905908525362434349 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                     .Set
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -130,47 +130,6 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                  </chainID>
                  <accounts>
                    ( <account>
-                     <acctID>
-                       ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( .Map => ( 1 |-> 38173527666125012420903057510883648337146588125343045899690344136765597548566 ) )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       ( 0 => 1 )
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account> => ( <account>
                      <acctID>
                        645326474426547203313410069153905908525362434349
                      </acctID>
@@ -199,7 +158,7 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                        0
                      </balance>
                      <storage>
-                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
+                       .Map
                      </storage>
                      <origStorage>
                        .Map
@@ -208,10 +167,10 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                        .Map
                      </transientStorage>
                      <nonce>
-                       2
+                       1
                      </nonce>
                      ...
-                   </account> ) ) )
+                   </account> )
                  </accounts>
                  ...
                </network>
@@ -275,7 +234,7 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
            </cheatcodes>
            <KEVMTracing>
              <activeTracing>
-               false
+               true
              </activeTracing>
              <traceStorage>
                false
@@ -287,10 +246,10 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
                false
              </traceMemory>
              <recordedTrace>
-               false
+               ( false => true )
              </recordedTrace>
              <traceData>
-               .List
+               ( .List => ListItem ( { 0 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 2 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 4 | MSTORE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 5 | CALLVALUE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 6 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 7 | ISZERO | .WordStack | b"" | .Map | 0 } ) ListItem ( { 8 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 11 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 16 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 17 | POP | .WordStack | b"" | .Map | 0 } ) ListItem ( { 18 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 20 | CALLDATASIZE | .WordStack | b"" | .Map | 0 } ) ListItem ( { 21 | LT | .WordStack | b"" | .Map | 0 } ) ListItem ( { 22 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 25 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 26 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 28 | CALLDATALOAD | .WordStack | b"" | .Map | 0 } ) ListItem ( { 29 | PUSH ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { maxUInt5 | SHR | .WordStack | b"" | .Map | 0 } ) ListItem ( { 32 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 33 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 38 | GT | .WordStack | b"" | .Map | 0 } ) ListItem ( { 39 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 42 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 43 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 44 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 49 | GT | .WordStack | b"" | .Map | 0 } ) ListItem ( { 50 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 53 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 54 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 55 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 60 | EQ | .WordStack | b"" | .Map | 0 } ) ListItem ( { 61 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 64 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 65 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 66 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 71 | EQ | .WordStack | b"" | .Map | 0 } ) ListItem ( { 72 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 75 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 76 | DUP ( 1 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 77 | PUSH ( 4 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 82 | EQ | .WordStack | b"" | .Map | 0 } ) ListItem ( { 83 | PUSH ( 2 ) | .WordStack | b"" | .Map | 0 } ) ListItem ( { 86 | JUMPI | .WordStack | b"" | .Map | 0 } ) ListItem ( { 258 | JUMPDEST | .WordStack | b"" | .Map | 0 } ) ListItem ( { 259 | STOP | .WordStack | b"" | .Map | 0 } ) )
              </traceData>
            </KEVMTracing>
          </foundry>
@@ -302,13 +261,20 @@ module SUMMARY-TEST%CALLABLESTORAGETEST.TEST-STR():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_CALLABLESTORAGETEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BLOCKPARAMSTEST_ID =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-       ensures ?_C_CALLABLESTORAGECONTRACT_STR_S_LENGTH ==Int 11
-      [priority(20), label(BASIC-BLOCK-1-TO-7)]
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
 
 endmodule
+0 Failure nodes. (0 pending and 0 failing)
+
+Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
+
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
+
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

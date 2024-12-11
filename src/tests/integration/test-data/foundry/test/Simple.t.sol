@@ -13,7 +13,7 @@ contract AssertTest is Test, KontrolCheats {
 
     function setUp() public {}
 
-    function test_failing_branch(uint x) public {
+    function test_failing_branch(uint x) public pure {
       assert(x >= 100);
     }
 
@@ -53,8 +53,8 @@ contract AssertTest is Test, KontrolCheats {
         this.call_assert_false();
     }
 
-    function test_revert_branch(uint x, uint y) public{
-        if (x < y) {
+    function test_revert_branch(uint x, uint z) public pure {
+        if (x < z) {
             assert(true);
         } else {
             assert(false);

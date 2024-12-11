@@ -10,7 +10,7 @@ contract FreshBytesTest is Test, KontrolCheats {
 
     uint256 constant length_limit = 72;
 
-    function manip_symbolic_bytes(bytes memory b) public {
+    function manip_symbolic_bytes(bytes memory b) public pure {
         uint middle = b.length / 2;
         b[middle] = hex'aa';
     }
@@ -37,7 +37,7 @@ contract FreshBytesTest is Test, KontrolCheats {
         assertEq(fresh_bytes, local_bytes);
     }
 
-    function test_symbolic_bytes_3() public {
+    function test_symbolic_bytes_3() public view {
         uint256 length = uint256(kevm.freshUInt(1));
         vm.assume (0 < length);
         vm.assume (length <= length_limit);
@@ -47,7 +47,7 @@ contract FreshBytesTest is Test, KontrolCheats {
         assertEq(hex'aa', fresh_bytes[length / 2]);
     }
 
-    function test_symbolic_bytes_length(uint256 l) public {
+    function test_symbolic_bytes_length(uint256 l) public view {
         vm.assume(0 < l);
         vm.assume(l <= length_limit);
         bytes memory fresh_bytes = kevm.freshBytes(l);

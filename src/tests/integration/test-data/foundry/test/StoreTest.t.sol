@@ -3,18 +3,12 @@ pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
 import "forge-std/Vm.sol";
-
-contract Store {
-    uint256 private testNumber = 1337; // slot 0
-
-    constructor(){
-    }
-}
+import {StoreContract} from "../src/StoreContract.sol";
 
 contract StoreTest is Test {
 
     function testAccesses() public {
-        Store myStore = new Store();
+        StoreContract myStore = new StoreContract();
         vm.record();
 
         (bytes32[] memory reads, bytes32[] memory writes) = vm.accesses(address(myStore));
@@ -23,7 +17,7 @@ contract StoreTest is Test {
     }
 
     function testStoreLoad() public {
-        Store myStore = new Store();
+        StoreContract myStore = new StoreContract();
         vm.store(address(myStore), bytes32(uint256(0)), bytes32(uint256(31337)));
         bytes32 testNumber = vm.load(address(myStore), bytes32(uint256(0)));
         assert(uint256(testNumber) == 31337); // 31337
@@ -35,7 +29,7 @@ contract StoreTest is Test {
         assert(uint256(testNumber) == 31337); // 31337
     }
 
-    function testLoadNonExistent() public {
+    function testLoadNonExistent() public view {
         bytes32 testNumber = vm.load(address(100), bytes32(uint256(23)));
         assert(uint256(testNumber) == 0);
     }

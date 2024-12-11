@@ -7,13 +7,13 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%PrankTest.setUp()
 │
-│  (601 steps)
+│  (630 steps)
 ├─ 8 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 292
+│   pc: 281
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+│   src: lib/forge-std/src/StdInvariant.sol:119:121
 │   method: test%PrankTest.setUp()
 │
 │  (1 step)
@@ -25,10 +25,10 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%PrankTest.testSymbolicStartPrank(address)
 │
-│  (585 steps)
+│  (564 steps)
 ├─ 11
 │   k: CALL 0 645326474426547203313410069153905908525362434349 0 128 36 128 0 ~> #pc [  ...
-│   pc: 3272
+│   pc: 2943
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -36,7 +36,7 @@
 │  (1 step)
 ├─ 12 (split)
 │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-│   pc: 3272
+│   pc: 2943
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -48,7 +48,7 @@
 ┃  │
 ┃  └─ 70 (leaf, refuted)
 ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-┃      pc: 3272
+┃      pc: 2943
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃      method: test%PrankTest.testSymbolicStartPrank(address)
@@ -59,7 +59,7 @@
    │
    ├─ 71 (split)
    │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-   │   pc: 3272
+   │   pc: 2943
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -71,7 +71,7 @@
    ┃  │
    ┃  └─ 72 (leaf, refuted)
    ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-   ┃      pc: 3272
+   ┃      pc: 2943
    ┃      callDepth: 0
    ┃      statusCode: STATUSCODE:StatusCode
    ┃      method: test%PrankTest.testSymbolicStartPrank(address)
@@ -82,7 +82,7 @@
       │
       ├─ 73 (split)
       │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-      │   pc: 3272
+      │   pc: 2943
       │   callDepth: 0
       │   statusCode: STATUSCODE:StatusCode
       │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -94,7 +94,7 @@
       ┃  │
       ┃  └─ 74 (leaf, refuted)
       ┃      k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-      ┃      pc: 3272
+      ┃      pc: 2943
       ┃      callDepth: 0
       ┃      statusCode: STATUSCODE:StatusCode
       ┃      method: test%PrankTest.testSymbolicStartPrank(address)
@@ -105,7 +105,7 @@
          │
          ├─ 75
          │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-         │   pc: 3272
+         │   pc: 2943
          │   callDepth: 0
          │   statusCode: STATUSCODE:StatusCode
          │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -113,7 +113,7 @@
          │  (3 steps)
          ├─ 76
          │   k: #loadAccount KV0_addr:Int ~> #setPrank KV0_addr:Int .Account false ~> #cheatcode ...
-         │   pc: 3272
+         │   pc: 2943
          │   callDepth: 0
          │   statusCode: STATUSCODE:StatusCode
          │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -123,7 +123,7 @@
          ┃  │
          ┃  ├─ 77
          ┃  │   k: #accessAccounts 728815563385977040452943777879061427756277306518 ~> #setPrank 72 ...
-         ┃  │   pc: 3272
+         ┃  │   pc: 2943
          ┃  │   callDepth: 0
          ┃  │   statusCode: STATUSCODE:StatusCode
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -131,7 +131,7 @@
          ┃  │  (239 steps)
          ┃  ├─ 81
          ┃  │   k: STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> #p ...
-         ┃  │   pc: 3369
+         ┃  │   pc: 3040
          ┃  │   callDepth: 0
          ┃  │   statusCode: STATUSCODE:StatusCode
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -139,7 +139,7 @@
          ┃  │  (1 step)
          ┃  ├─ 85
          ┃  │   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall 7 ...
-         ┃  │   pc: 3369
+         ┃  │   pc: 3040
          ┃  │   callDepth: 0
          ┃  │   statusCode: STATUSCODE:StatusCode
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -201,46 +201,46 @@
          ┃  │  (548 steps)
          ┃  ├─ 113
          ┃  │   k: CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0 ~> #pc [ C ...
-         ┃  │   pc: 1578
+         ┃  │   pc: 2466
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
+         ┃  │   src: lib/forge-std/src/StdAssertions.sol:42:42
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 117
          ┃  │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-         ┃  │   pc: 1578
+         ┃  │   pc: 2466
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
+         ┃  │   src: lib/forge-std/src/StdAssertions.sol:42:42
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (102 steps)
          ┃  ├─ 121
          ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-         ┃  │   pc: 292
+         ┃  │   pc: 281
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 125
          ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-         ┃  │   pc: 292
+         ┃  │   pc: 281
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (2 steps)
          ┃  ├─ 129 (terminal)
          ┃  │   k: #halt ~> CONTINUATION:K
-         ┃  │   pc: 292
+         ┃  │   pc: 281
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  ┊  constraint: true
@@ -255,7 +255,7 @@
          ┃  │
          ┃  ├─ 78
          ┃  │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #setPrank 64 ...
-         ┃  │   pc: 3272
+         ┃  │   pc: 2943
          ┃  │   callDepth: 0
          ┃  │   statusCode: STATUSCODE:StatusCode
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -263,7 +263,7 @@
          ┃  │  (241 steps)
          ┃  ├─ 82
          ┃  │   k: STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> #p ...
-         ┃  │   pc: 3369
+         ┃  │   pc: 3040
          ┃  │   callDepth: 0
          ┃  │   statusCode: STATUSCODE:StatusCode
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -271,7 +271,7 @@
          ┃  │  (1 step)
          ┃  ├─ 86
          ┃  │   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall 6 ...
-         ┃  │   pc: 3369
+         ┃  │   pc: 3040
          ┃  │   callDepth: 0
          ┃  │   statusCode: STATUSCODE:StatusCode
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -333,46 +333,46 @@
          ┃  │  (549 steps)
          ┃  ├─ 114
          ┃  │   k: CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0 ~> #pc [ C ...
-         ┃  │   pc: 1578
+         ┃  │   pc: 2466
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
+         ┃  │   src: lib/forge-std/src/StdAssertions.sol:42:42
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 118
          ┃  │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-         ┃  │   pc: 1578
+         ┃  │   pc: 2466
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
+         ┃  │   src: lib/forge-std/src/StdAssertions.sol:42:42
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (102 steps)
          ┃  ├─ 122
          ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-         ┃  │   pc: 292
+         ┃  │   pc: 281
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 126
          ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-         ┃  │   pc: 292
+         ┃  │   pc: 281
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (2 steps)
          ┃  ├─ 130 (terminal)
          ┃  │   k: #halt ~> CONTINUATION:K
-         ┃  │   pc: 292
+         ┃  │   pc: 281
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  ┊  constraint: true
@@ -387,7 +387,7 @@
          ┃  │
          ┃  ├─ 79
          ┃  │   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #setPrank 49 ...
-         ┃  │   pc: 3272
+         ┃  │   pc: 2943
          ┃  │   callDepth: 0
          ┃  │   statusCode: STATUSCODE:StatusCode
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -395,7 +395,7 @@
          ┃  │  (241 steps)
          ┃  ├─ 83
          ┃  │   k: STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> #p ...
-         ┃  │   pc: 3369
+         ┃  │   pc: 3040
          ┃  │   callDepth: 0
          ┃  │   statusCode: STATUSCODE:StatusCode
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -403,7 +403,7 @@
          ┃  │  (1 step)
          ┃  ├─ 87
          ┃  │   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall 4 ...
-         ┃  │   pc: 3369
+         ┃  │   pc: 3040
          ┃  │   callDepth: 0
          ┃  │   statusCode: STATUSCODE:StatusCode
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -465,46 +465,46 @@
          ┃  │  (549 steps)
          ┃  ├─ 115
          ┃  │   k: CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0 ~> #pc [ C ...
-         ┃  │   pc: 1578
+         ┃  │   pc: 2466
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
+         ┃  │   src: lib/forge-std/src/StdAssertions.sol:42:42
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 119
          ┃  │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-         ┃  │   pc: 1578
+         ┃  │   pc: 2466
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
+         ┃  │   src: lib/forge-std/src/StdAssertions.sol:42:42
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (102 steps)
          ┃  ├─ 123
          ┃  │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-         ┃  │   pc: 292
+         ┃  │   pc: 281
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (1 step)
          ┃  ├─ 127
          ┃  │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-         ┃  │   pc: 292
+         ┃  │   pc: 281
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  │  (2 steps)
          ┃  ├─ 131 (terminal)
          ┃  │   k: #halt ~> CONTINUATION:K
-         ┃  │   pc: 292
+         ┃  │   pc: 281
          ┃  │   callDepth: 0
          ┃  │   statusCode: EVMC_SUCCESS
-         ┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+         ┃  │   src: lib/forge-std/src/StdInvariant.sol:119:121
          ┃  │   method: test%PrankTest.testSymbolicStartPrank(address)
          ┃  │
          ┃  ┊  constraint: true
@@ -519,7 +519,7 @@
             │
             ├─ 80
             │   k: #newAccount KV0_addr:Int ~> #accessAccounts KV0_addr:Int ~> #setPrank KV0_addr:I ...
-            │   pc: 3272
+            │   pc: 2943
             │   callDepth: 0
             │   statusCode: STATUSCODE:StatusCode
             │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -527,7 +527,7 @@
             │  (242 steps)
             ├─ 84
             │   k: STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32 ~> #p ...
-            │   pc: 3369
+            │   pc: 3040
             │   callDepth: 0
             │   statusCode: STATUSCODE:StatusCode
             │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -535,7 +535,7 @@
             │  (1 step)
             ├─ 88
             │   k: #accessAccounts 491460923342184218035706888008750043977755113263 ~> #checkCall K ...
-            │   pc: 3369
+            │   pc: 3040
             │   callDepth: 0
             │   statusCode: STATUSCODE:StatusCode
             │   method: test%PrankTest.testSymbolicStartPrank(address)
@@ -597,46 +597,46 @@
             │  (549 steps)
             ├─ 116
             │   k: CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0 ~> #pc [ C ...
-            │   pc: 1578
+            │   pc: 2466
             │   callDepth: 0
             │   statusCode: EVMC_SUCCESS
-            │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
+            │   src: lib/forge-std/src/StdAssertions.sol:42:42
             │   method: test%PrankTest.testSymbolicStartPrank(address)
             │
             │  (1 step)
             ├─ 120
             │   k: #accessAccounts 645326474426547203313410069153905908525362434349 ~> #checkCall 7 ...
-            │   pc: 1578
+            │   pc: 2466
             │   callDepth: 0
             │   statusCode: EVMC_SUCCESS
-            │   src: lib/forge-std/lib/ds-test/src/test.sol:47:47
+            │   src: lib/forge-std/src/StdAssertions.sol:42:42
             │   method: test%PrankTest.testSymbolicStartPrank(address)
             │
             │  (102 steps)
             ├─ 124
             │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-            │   pc: 292
+            │   pc: 281
             │   callDepth: 0
             │   statusCode: EVMC_SUCCESS
-            │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+            │   src: lib/forge-std/src/StdInvariant.sol:119:121
             │   method: test%PrankTest.testSymbolicStartPrank(address)
             │
             │  (1 step)
             ├─ 128
             │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-            │   pc: 292
+            │   pc: 281
             │   callDepth: 0
             │   statusCode: EVMC_SUCCESS
-            │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+            │   src: lib/forge-std/src/StdInvariant.sol:119:121
             │   method: test%PrankTest.testSymbolicStartPrank(address)
             │
             │  (2 steps)
             ├─ 132 (terminal)
             │   k: #halt ~> CONTINUATION:K
-            │   pc: 292
+            │   pc: 281
             │   callDepth: 0
             │   statusCode: EVMC_SUCCESS
-            │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+            │   src: lib/forge-std/src/StdInvariant.sol:119:121
             │   method: test%PrankTest.testSymbolicStartPrank(address)
             │
             ┊  constraint:
@@ -825,7 +825,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -1085,7 +1085,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -1244,7 +1244,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( .WordStack => ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int ) )
@@ -1347,7 +1347,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -1507,7 +1507,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
+                     ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -1610,7 +1610,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -1772,7 +1772,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
+                     ( 164 : ( selector ( "startPrank(address)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -1875,7 +1875,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -2038,7 +2038,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( 728815563385977040452943777879061427756277306518 : ( ( 291 => 728815563385977040452943777879061427756277306518 ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 291 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( 728815563385977040452943777879061427756277306518 : ( ( 280 => 728815563385977040452943777879061427756277306518 ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 280 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96" )
@@ -2141,7 +2141,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -2318,7 +2318,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( 645326474426547203313410069153905908525362434349 : ( ( 291 => 645326474426547203313410069153905908525362434349 ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 291 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( 645326474426547203313410069153905908525362434349 : ( ( 280 => 645326474426547203313410069153905908525362434349 ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 280 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-" )
@@ -2421,7 +2421,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -2598,7 +2598,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( 491460923342184218035706888008750043977755113263 : ( ( 291 => 491460923342184218035706888008750043977755113263 ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 291 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( 491460923342184218035706888008750043977755113263 : ( ( 280 => 491460923342184218035706888008750043977755113263 ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 280 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/" )
@@ -2701,7 +2701,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -2879,7 +2879,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( KV0_addr:Int : ( ( 291 => KV0_addr:Int ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 291 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( ( 164 => 132 ) : ( ( selector ( "startPrank(address)" ) => selector ( "msgSender()" ) ) : ( ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 ) : ( KV0_addr:Int : ( ( 280 => KV0_addr:Int ) : ( ( selector ( "testSymbolicStartPrank(address)" ) => 280 ) : ( .WordStack => ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06D}V" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes ( #buf ( 32 , KV0_addr:Int ) => #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 ) )
@@ -2982,7 +2982,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -3002,7 +3002,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -3203,7 +3203,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96"
@@ -3306,7 +3306,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -3483,7 +3483,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-"
@@ -3586,7 +3586,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -3763,7 +3763,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/"
@@ -3866,7 +3866,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -4043,7 +4043,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
@@ -4146,7 +4146,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -4340,7 +4340,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96"
@@ -4412,7 +4412,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -4460,7 +4460,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
+                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96" => b"" )
@@ -4565,7 +4565,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -4735,7 +4735,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-"
@@ -4807,7 +4807,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -4855,7 +4855,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
+                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-" => b"" )
@@ -4960,7 +4960,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -5130,7 +5130,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/"
@@ -5202,7 +5202,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -5250,7 +5250,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
+                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/" => b"" )
@@ -5355,7 +5355,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -5525,7 +5525,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
@@ -5597,7 +5597,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -5666,7 +5666,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
+                     ( ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) ) => .WordStack )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 ) => b"" )
@@ -5771,7 +5771,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -5963,7 +5963,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96"
@@ -6035,7 +6035,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -6188,7 +6188,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -6356,7 +6356,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-"
@@ -6428,7 +6428,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -6581,7 +6581,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -6749,7 +6749,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/"
@@ -6821,7 +6821,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -6974,7 +6974,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -7142,7 +7142,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
@@ -7214,7 +7214,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -7388,7 +7388,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -7581,7 +7581,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96"
@@ -7653,7 +7653,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -7806,7 +7806,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -7975,7 +7975,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-"
@@ -8047,7 +8047,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -8200,7 +8200,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -8369,7 +8369,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/"
@@ -8441,7 +8441,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -8594,7 +8594,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -8763,7 +8763,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
@@ -8835,7 +8835,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -9009,7 +9009,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -9205,7 +9205,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96"
@@ -9277,7 +9277,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -9430,7 +9430,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -9602,7 +9602,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-"
@@ -9674,7 +9674,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -9827,7 +9827,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -9999,7 +9999,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/"
@@ -10071,7 +10071,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -10224,7 +10224,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -10396,7 +10396,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
@@ -10468,7 +10468,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -10642,7 +10642,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -10838,7 +10838,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96"
@@ -10910,7 +10910,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -11063,7 +11063,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -11235,7 +11235,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-"
@@ -11307,7 +11307,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -11460,7 +11460,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -11632,7 +11632,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/"
@@ -11704,7 +11704,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -11857,7 +11857,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -12029,7 +12029,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
@@ -12101,7 +12101,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -12275,7 +12275,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -12474,7 +12474,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96"
@@ -12546,7 +12546,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -12699,7 +12699,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -12874,7 +12874,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-"
@@ -12946,7 +12946,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -13099,7 +13099,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -13274,7 +13274,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/"
@@ -13346,7 +13346,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -13499,7 +13499,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -13674,7 +13674,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
@@ -13746,7 +13746,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -13920,7 +13920,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -14119,7 +14119,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 728815563385977040452943777879061427756277306518 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00+>\x14\x96"
@@ -14191,7 +14191,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -14239,7 +14239,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -14344,7 +14344,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -14519,7 +14519,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[\x1d\xd1-"
@@ -14591,7 +14591,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -14639,7 +14639,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -14744,7 +14744,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -14919,7 +14919,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc#\xb7/"
@@ -14991,7 +14991,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -15039,7 +15039,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -15144,7 +15144,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -15319,7 +15319,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                       ( 132 : ( selector ( "msgSender()" ) : ( 491460923342184218035706888008750043977755113263 : ( KV0_addr:Int : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd77\xd0\xc7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_addr:Int ) , 28 , 4 )
@@ -15391,7 +15391,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                          0
                        </balance>
                        <storage>
-                         ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                         ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                        </storage>
                        <origStorage>
                          .Map
@@ -15460,7 +15460,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
+                     ( ( selector ( "msgSender()" ) => 164 ) : ( .WordStack => ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ) +Bytes ( #buf ( 32 , KV0_addr:Int ) => #buf ( 32 , KV0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -15565,7 +15565,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -15769,7 +15769,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
+                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -15872,7 +15872,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -16051,7 +16051,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
+                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -16154,7 +16154,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -16333,7 +16333,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
+                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -16436,7 +16436,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -16615,7 +16615,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
+                     ( 164 : ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -16718,7 +16718,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -16923,7 +16923,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 728815563385977040452943777879061427756277306518 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
+                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 728815563385977040452943777879061427756277306518 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -17026,7 +17026,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -17206,7 +17206,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
+                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 645326474426547203313410069153905908525362434349 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -17309,7 +17309,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -17489,7 +17489,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 491460923342184218035706888008750043977755113263 : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
+                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( 491460923342184218035706888008750043977755113263 : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -17592,7 +17592,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -17772,7 +17772,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 291 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
+                     ( ( 164 => selector ( "testSymbolicStartPrank(address)" ) ) : ( ( selector ( "stopPrank()" ) : ( 645326474426547203313410069153905908525362434349 : ( KV0_addr:Int : ( 280 : ( selector ( "testSymbolicStartPrank(address)" ) : .WordStack ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV0_addr:Int ) +Bytes b"\x90\xc5\x01;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -17875,7 +17875,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -18179,7 +18179,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -18458,7 +18458,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -18737,7 +18737,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -19016,7 +19016,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -19320,7 +19320,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -19599,7 +19599,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -19878,7 +19878,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map
@@ -20157,7 +20157,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        0
                      </balance>
                      <storage>
-                       ( 27 |-> 491460923342184218035706888008750043977755113263 )
+                       ( maxUInt5 |-> 125813996375599159817140963330240011258305308995328 )
                      </storage>
                      <origStorage>
                        .Map

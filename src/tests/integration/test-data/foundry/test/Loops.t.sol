@@ -34,14 +34,14 @@ contract LoopsTest is Test, KontrolCheats {
         return result;
     }
 
-    function testSumToN(uint256 n) public {
+    function testSumToN(uint256 n) public pure {
         vm.assume(n <= 100); // We need this to keep the test running time low
         uint256 expected = n * (n + 1) / 2;
         uint256 actual = sumToN(n);
         assertEq(expected, actual);
     }
 
-    function testSumToNBroken(uint256 n) public {
+    function testSumToNBroken(uint256 n) public pure{
         // This test should fail
         vm.assume(n <= 100); // We need this to keep the test running time low
         uint256 expected = n * (n + 1) / 2;
@@ -94,7 +94,7 @@ contract LoopsTest is Test, KontrolCheats {
         return result;
     }
 
-    function testMax(uint256[] memory numbers) public {
+    function testMax(uint256[] memory numbers) public pure {
         uint256 maxium = max(numbers);
         bool isMax = true;
         for (uint256 i = 0; i < numbers.length && isMax; i++) {
@@ -103,7 +103,7 @@ contract LoopsTest is Test, KontrolCheats {
         assertTrue(isMax);
     }
 
-    function testMaxBroken(uint256[] memory numbers) public {
+    function testMaxBroken(uint256[] memory numbers) public pure {
         // This test should fail
         uint256 maxium = maxBroken(numbers);
         bool isMax = true;
@@ -146,7 +146,7 @@ contract LoopsTest is Test, KontrolCheats {
             quickSort(numbers, i, right);
     }
 
-    function testSort(uint256[] memory numbers) public {
+    function testSort(uint256[] memory numbers) public pure{
         uint256[] memory sorted = sort(numbers);
         bool isSorted = true;
         for (uint256 i = 1; i < sorted.length && isSorted; i++) {
@@ -155,7 +155,7 @@ contract LoopsTest is Test, KontrolCheats {
         assertTrue(isSorted);
     }
 
-    function testSortBroken(uint256[] memory numbers) public {
+    function testSortBroken(uint256[] memory numbers) public pure {
         // This test should fail
         uint256[] memory sorted = sortBroken(numbers);
         bool isSorted = true;
@@ -180,7 +180,7 @@ contract LoopsTest is Test, KontrolCheats {
         }
     }
 
-    function testSqrt(uint x) public {
+    function testSqrt(uint x) public pure{
         uint res = sqrt(x);
         uint sqr = wmul(res, res);
         uint err;
@@ -201,7 +201,7 @@ contract LoopsTest is Test, KontrolCheats {
         return true;
     }
 
-    function testIsPrimeBroken(uint n, uint i) public {
+    function testIsPrimeBroken(uint n, uint i) public pure {
         // This test should fail for n < 2
         bool prime = isPrimeBroken(n);
         assertTrue(!prime || n > 1);
@@ -220,13 +220,13 @@ contract LoopsTest is Test, KontrolCheats {
         return true;
     }
 
-    function testIsPrime(uint n, uint i) public {
+    function testIsPrime(uint n, uint i) public pure {
         bool prime = isPrime(n);
         assertTrue(!prime || n > 1);
         assertTrue(i < 2 || i >= n || !prime || (n % i != 0));
     }
 
-    function testIsNotPrime(uint n) public {
+    function testIsNotPrime(uint n) public pure {
         bool prime = isPrime(n);
         if (prime || n < 2) {
             return;
@@ -251,7 +251,7 @@ contract LoopsTest is Test, KontrolCheats {
         return true;
     }
 
-    function testIsPrimeOpt(uint n) public {
+    function testIsPrimeOpt(uint n) public pure {
         assertEq(isPrime(n), isPrimeOpt(n));
     }
 
@@ -265,7 +265,7 @@ contract LoopsTest is Test, KontrolCheats {
         }
     }
 
-    function testNthPrime(uint n, uint i) public {
+    function testNthPrime(uint n, uint i) public pure{
         uint nth = nthPrime(n);
 
         if (n == 0) {

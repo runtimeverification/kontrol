@@ -5,13 +5,14 @@ import "forge-std/Test.sol";
 import "kontrol-cheatcodes/KontrolCheats.sol";
 
 contract GasTest is Test, KontrolCheats {
-    function testInfiniteGas() public {
+    function testInfiniteGas() public view {
         // Infinite gas is used by default
         uint256 gasLeftBefore = gasleft();
         uint256 x = 345;
         uint256 y = 928;
         uint256 z = y - x;
         uint256 gasLeftAfter  = gasleft();
+        assert(z == 583);
         assert(gasLeftBefore <= gasLeftAfter);
         assert(gasLeftAfter <= gasLeftBefore);
     }

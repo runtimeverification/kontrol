@@ -5,32 +5,32 @@ import "forge-std/Test.sol";
 
 contract AssumeTest is Test {
 
-    function test_assume_true(uint256 a, uint256 b) public {
+    function test_assume_true(uint256 a, uint256 b) public pure {
         vm.assume(a == b);
         assertEq(a, b);
     }
 
-    function test_assume_false(uint256 a, uint256 b) public {
+    function test_assume_false(uint256 a, uint256 b) public pure {
         vm.assume(a != b);
         assertEq(a, b);
     }
 
-    function testFail_assume_true(uint256 a, uint256 b) public {
+    function testFail_assume_true(uint256 a, uint256 b) public pure  {
         vm.assume(a != b);
         assertEq(a, b);
     }
 
-    function testFail_assume_false(uint256 a, uint256 b) public {
+    function testFail_assume_false(uint256 a, uint256 b) public pure {
         vm.assume(a == b);
         assertEq(a, b);
     }
 
-    function test_assume_staticCall(bool a) public {
+    function test_assume_staticCall(bool a) public view {
         address(vm).staticcall(abi.encodeWithSignature("assume(bool)", a));
         assert(a);
     }
 
-    function test_multi_assume(address alice, address bob) public {
+    function test_multi_assume(address alice, address bob) public pure {
         vm.assume(alice != address(120209876281281145568259943));
         vm.assume(alice != address(137122462167341575662000267002353578582749290296));
         vm.assume(alice != address(645326474426547203313410069153905908525362434349));

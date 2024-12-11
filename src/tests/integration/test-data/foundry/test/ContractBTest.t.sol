@@ -10,7 +10,7 @@ contract ContractBTest is Test {
         testNumber = 42;
     }
 
-    function testNumberIs42() public {
+    function testNumberIs42() public view {
         assertEq(testNumber, 42);
     }
 
