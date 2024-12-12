@@ -1,0 +1,69 @@
+---
+name: 'Push Docker Image'
+on:
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dockerhub:
+    name: 'Build and Publish Docker Image'
+    runs-on: [self-hosted, linux, normal]
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.push.head.sha }}
+          fetch-depth: 0
+
+      - name: 'Set environment'
+        run: |
+          KONTROL_VERSION=$(cat package/version)
+          TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${{ github.ref_name }}
+          echo "TAG=${TAG}" >> ${GITHUB_ENV}
+
+      - name: 'Build Docker image'
+        run: |
+          K_VERSION=$(cat deps/k_release)
+          Z3_VERSION=$(cat deps/z3)
+          docker build . --no-cache --tag ${TAG} --build-arg K_VERSION=${K_VERSION} --build-arg Z3_VERSION=${Z3_VERSION}
+
+      - name: 'Run Docker image'
+        run: |
+          docker run                          \
+          --name ${CONTAINER_NAME}          \
+          --rm                              \
+          --interactive                     \
+          --tty                             \
+          --detach                          \
+          --user root                       \
+          ${TAG}
+
+          docker cp src/tests/integration/test-data/foundry ${CONTAINER_NAME}:${FOUNDRY_ROOT}
+          docker exec ${CONTAINER_NAME} chown -R ${DOCKER_USER}:${DOCKER_GROUP} ${FOUNDRY_ROOT}
+
+      - name: 'Run forge build'
+        run: |
+          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git foundry-rs/forge-std@75f1746
+          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge install --no-git runtimeverification/kontrol-cheatcodes@a5dd4b0
+          docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} forge build
+  
+      - name: 'Run kontrol build'
+        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol build -O2
+  
+      - name: 'Run kontrol prove'
+        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol prove --match-test 'AssertTest.test_assert_true()'
+  
+      - name: 'Run kontrol show'
+        run: docker exec --user ${DOCKER_USER} --workdir ${FOUNDRY_ROOT} ${CONTAINER_NAME} kontrol show 'AssertTest.test_assert_true()'
+  
+      - name: 'Tear Down Docker'
+        if: always()
+        run: |
+          docker stop --time=0 ${CONTAINER_NAME}
+
+      - name: 'Push Docker Image to Docker Hub'
+        run: |
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username rvdockerhub --password-stdin
+          docker image push ${TAG}
