@@ -1,7 +1,11 @@
 ---
 name: 'Push Docker Image'
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
+  # TODO: to be removed and substituted w/manual triggering, here for testing
+  pull_request:
+    branches:
+      - 'master'
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
