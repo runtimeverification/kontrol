@@ -1,7 +1,9 @@
 ---
 name: 'Push Docker Image'
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - 'master'
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -21,7 +23,8 @@ jobs:
         run: |
           KONTROL_VERSION=$(cat package/version)
           echo "CONTAINER_NAME=kontrol-ci-docker-${GITHUB_SHA}" >> ${GITHUB_ENV}
-          SANITIZED_BRANCH_NAME=${{ github.ref_name // '/' / '-' }}
+          # TODO:temp
+          SANITIZED_BRANCH_NAME=${{ github.head_ref // '/' / '-' }}
           TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${SANITIZED_BRANCH_NAME}
           echo "TAG=${TAG}" >> ${GITHUB_ENV}
           echo "DOCKER_USER=user" >> ${GITHUB_ENV}
