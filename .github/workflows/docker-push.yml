@@ -24,9 +24,13 @@ jobs:
       - name: 'Set environment'
         run: |
           KONTROL_VERSION=$(cat package/version)
-          # TODO: change `head_ref` to `ref_name`
-          TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${{ github.head_ref }}
+          echo "CONTAINER_NAME=kontrol-ci-docker-${GITHUB_SHA}" >> ${GITHUB_ENV}
+          SANITIZED_BRANCH_NAME=${{ github.ref_name // '/' / '-' }}
+          TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${{ github.ref_name }}
           echo "TAG=${TAG}" >> ${GITHUB_ENV}
+          echo "DOCKER_USER=user" >> ${GITHUB_ENV}
+          echo "DOCKER_GROUP=user" >> ${GITHUB_ENV}
+          echo "FOUNDRY_ROOT=/home/user/foundry" >> ${GITHUB_ENV}
 
       - name: 'Build Docker image'
         run: |
@@ -36,7 +40,7 @@ jobs:
 
       - name: 'Run Docker image'
         run: |
-          docker run                          \
+          docker run                        \
           --name ${CONTAINER_NAME}          \
           --rm                              \
           --interactive                     \
