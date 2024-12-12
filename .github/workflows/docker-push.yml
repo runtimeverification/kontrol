@@ -24,7 +24,8 @@ jobs:
       - name: 'Set environment'
         run: |
           KONTROL_VERSION=$(cat package/version)
-          TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${{ github.ref_name }}
+          # TODO: change `head_ref` to `ref_name`
+          TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${{ github.head_ref }}
           echo "TAG=${TAG}" >> ${GITHUB_ENV}
 
       - name: 'Build Docker image'
