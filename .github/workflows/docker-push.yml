@@ -24,7 +24,7 @@ jobs:
           KONTROL_VERSION=$(cat package/version)
           echo "CONTAINER_NAME=kontrol-ci-docker-${GITHUB_SHA}" >> ${GITHUB_ENV}
           # TODO:temp
-          SANITIZED_BRANCH_NAME=${{ github.head_ref // '/' / '-' }}
+          SANITIZED_BRANCH_NAME=$(echo "${BRANCH_NAME}" | tr '/' '-')
           TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${SANITIZED_BRANCH_NAME}
           echo "TAG=${TAG}" >> ${GITHUB_ENV}
           echo "DOCKER_USER=user" >> ${GITHUB_ENV}
