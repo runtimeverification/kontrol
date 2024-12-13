@@ -20,14 +20,14 @@ jobs:
       - name: 'Check out code'
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.events.inputs.kontrol_branch}}
+          ref: ${{ github.event.inputs.kontrol_branch}}
           fetch-depth: 0
 
       - name: 'Set environment'
         run: |
           KONTROL_VERSION=$(cat package/version)
           echo "CONTAINER_NAME=kontrol-ci-docker-${GITHUB_SHA}" >> ${GITHUB_ENV}
-          BRANCH_NAME="${{ github.events.inputs.kontrol_branch }}"
+          BRANCH_NAME="${{ github.event.inputs.kontrol_branch }}"
           SANITIZED_BRANCH_NAME=$(echo "${BRANCH_NAME}" | tr '/' '-' | tr -cd '[:alnum:]-_.')
           GHCR_TAG=ghcr.io/runtimeverification/kontrol/kontrol:ubuntu-jammy-${SANITIZED_BRANCH_NAME}
           echo "GHCR_TAG=${GHCR_TAG}" >> ${GITHUB_ENV}
