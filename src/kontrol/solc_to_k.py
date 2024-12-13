@@ -268,11 +268,10 @@ class Input:
         components: list[Input] = []
 
         if self.type.endswith('[]'):
-            base_type = self.type.rstrip('[]')
-
             if self.array_lengths is None:
                 raise ValueError(f'Array length bounds missing for {self.name}')
 
+            base_type = self.type.rstrip('[]')
             if base_type == 'tuple':
                 components = Input.process_tuple_array(self)
             else:
