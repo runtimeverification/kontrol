@@ -220,11 +220,14 @@ class Input:
         """
         processed_components = []
 
+        if input.array_lengths is None:
+            raise ValueError(f'Array length bounds missing for {input.name}')
+
         for i in range(input.array_lengths[0]):
             for _c in input.components:
                 if _c.type == 'tuple':
                     # Recursively process nested tuple components
-                    sub_components = Input.add_index_to_components(_c.components, i)
+                    sub_components = tuple(Input.add_index_to_components(_c.components, i))
                 else:
                     sub_components = _c.components
 
@@ -241,15 +244,14 @@ class Input:
         return processed_components
 
     @staticmethod
-    def add_index_to_components(components: list[Input], index: int) -> list[Input]:
+    def add_index_to_components(components: tuple[Input, ...], index: int) -> list[Input]:
         updated_components = []
         for component in components:
             if component.type == 'tuple':
                 # recursively add `_{i}` index to nested tuple components
-                updated_sub_components = Input.add_index_to_components(component.components, index)
+                updated_sub_components = tuple(Input.add_index_to_components(component.components, index))
             else:
                 updated_sub_components = component.components
-            
             # Update the component's name and append to the result list
             updated_component = Input(
                 f'{component.name}_{index}',
@@ -263,15 +265,16 @@ class Input:
         return updated_components
 
     def flattened(self) -> list[Input]:
-        components = []
+        components: list[Input] = []
 
         if self.type.endswith('[]'):
+            base_type = self.type.rstrip('[]')
+
             if self.array_lengths is None:
                 raise ValueError(f'Array length bounds missing for {self.name}')
 
-            base_type = self.type.rstrip('[]')
             if base_type == 'tuple':
-                components = tuple(Input.process_tuple_array(self))
+                components = Input.process_tuple_array(self)
             else:
                 components = [Input(f'{self.name}_{i}', base_type, idx=self.idx) for i in range(self.array_lengths[0])]
         elif self.type == 'tuple':
