@@ -213,7 +213,6 @@ class Input:
         else:
             return self.make_single_type()
 
-
     def flattened(self) -> list[Input]:
         components: list[Input] = []
 
