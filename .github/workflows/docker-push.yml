@@ -1,7 +1,12 @@
 ---
 name: 'Push Docker Image'
 on:
-  workflow_dispatch:
+  # TODO: remove, only for testing; replace with
+  # workflow_dispatch:
+  push:
+    branches:
+      - '**' # Trigger on every branch
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -23,8 +28,8 @@ jobs:
           echo "CONTAINER_NAME=kontrol-ci-docker-${GITHUB_SHA}" >> ${GITHUB_ENV}
           BRANCH_NAME="${{ github.ref_name }}"
           SANITIZED_BRANCH_NAME=$(echo "${BRANCH_NAME}" | tr '/' '-' | tr -cd '[:alnum:]-_.')
-          TAG=runtimeverificationinc/kontrol:ubuntu-jammy-${SANITIZED_BRANCH_NAME}
-          echo "TAG=${TAG}" >> ${GITHUB_ENV}
+          GHCR_TAG=ghcr.io/runtimeverification/kontrol/kontrol:ubuntu-jammy-${SANITIZED_BRANCH_NAME}
+          echo "GHCR_TAG=${GHCR_TAG}" >> ${GITHUB_ENV}
           echo "DOCKER_USER=user" >> ${GITHUB_ENV}
           echo "DOCKER_GROUP=user" >> ${GITHUB_ENV}
           echo "FOUNDRY_ROOT=/home/user/foundry" >> ${GITHUB_ENV}
@@ -33,7 +38,7 @@ jobs:
         run: |
           K_VERSION=$(cat deps/k_release)
           Z3_VERSION=$(cat deps/z3)
-          docker build . --no-cache --tag ${TAG} --build-arg K_VERSION=${K_VERSION} --build-arg Z3_VERSION=${Z3_VERSION}
+          docker build . --no-cache --tag ${GHCR_TAG} --build-arg K_VERSION=${K_VERSION} --build-arg Z3_VERSION=${Z3_VERSION}
 
       - name: 'Run Docker image'
         run: |
@@ -44,7 +49,7 @@ jobs:
           --tty                             \
           --detach                          \
           --user root                       \
-          ${TAG}
+          ${GHCR_TAG}
 
           docker cp src/tests/integration/test-data/foundry ${CONTAINER_NAME}:${FOUNDRY_ROOT}
           docker exec ${CONTAINER_NAME} chown -R ${DOCKER_USER}:${DOCKER_GROUP} ${FOUNDRY_ROOT}
@@ -69,7 +74,10 @@ jobs:
         run: |
           docker stop --time=0 ${CONTAINER_NAME}
 
-      - name: 'Push Docker Image to Docker Hub'
+      - name: 'Push Docker Image to GitHub Packages'
         run: |
-          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username rvdockerhub --password-stdin
-          docker image push ${TAG}
+          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ vars.DOCKERHUB_USERNAME }} --password-stdin
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+          docker push ${GHCR_TAG}
+
+
