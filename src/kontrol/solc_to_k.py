@@ -176,6 +176,58 @@ class Input:
                 idx += 1
         return inputs
 
+    @staticmethod
+    def process_tuple_array(input: Input) -> list[Input]:
+        """
+        Processes an input tuple array, appending `_index` to the names of components
+        and recursively handling nested tuples.
+        """
+        processed_components = []
+
+        if input.array_lengths is None:
+            raise ValueError(f'Array length bounds missing for {input.name}')
+
+        for i in range(input.array_lengths[0]):
+            for _c in input.components:
+                if _c.type == 'tuple':
+                    # Recursively process nested tuple components
+                    sub_components = tuple(Input.add_index_to_components(_c.components, i))
+                else:
+                    sub_components = _c.components
+
+                processed_component = Input(
+                    f'{_c.name}_{i}',
+                    _c.type,
+                    sub_components,
+                    _c.idx,
+                    array_lengths=_c.array_lengths,
+                    dynamic_type_length=_c.dynamic_type_length,
+                )
+                processed_components.append(processed_component)
+
+        return processed_components
+
+    @staticmethod
+    def add_index_to_components(components: tuple[Input, ...], index: int) -> list[Input]:
+        updated_components = []
+        for component in components:
+            if component.type == 'tuple':
+                # recursively add `_{i}` index to nested tuple components
+                updated_sub_components = tuple(Input.add_index_to_components(component.components, index))
+            else:
+                updated_sub_components = component.components
+            # Update the component's name and append to the result list
+            updated_component = Input(
+                f'{component.name}_{index}',
+                component.type,
+                updated_sub_components,
+                component.idx,
+                array_lengths=component.array_lengths,
+                dynamic_type_length=component.dynamic_type_length,
+            )
+            updated_components.append(updated_component)
+        return updated_components
+
     def make_single_type(self) -> KApply:
         """
         Generates a KApply representation for a single type input.
@@ -940,58 +992,6 @@ class Contract:
                 res.append(next_char)
             i += 1
         return ''.join(res)
-
-    @staticmethod
-    def process_tuple_array(input: Input) -> list[Input]:
-        """
-        Processes an input tuple array, appending `_index` to the names of components
-        and recursively handling nested tuples.
-        """
-        processed_components = []
-
-        if input.array_lengths is None:
-            raise ValueError(f'Array length bounds missing for {input.name}')
-
-        for i in range(input.array_lengths[0]):
-            for _c in input.components:
-                if _c.type == 'tuple':
-                    # Recursively process nested tuple components
-                    sub_components = tuple(Input.add_index_to_components(_c.components, i))
-                else:
-                    sub_components = _c.components
-
-                processed_component = Input(
-                    f'{_c.name}_{i}',
-                    _c.type,
-                    sub_components,
-                    _c.idx,
-                    array_lengths=_c.array_lengths,
-                    dynamic_type_length=_c.dynamic_type_length,
-                )
-                processed_components.append(processed_component)
-
-        return processed_components
-
-    @staticmethod
-    def add_index_to_components(components: tuple[Input, ...], index: int) -> list[Input]:
-        updated_components = []
-        for component in components:
-            if component.type == 'tuple':
-                # recursively add `_{i}` index to nested tuple components
-                updated_sub_components = tuple(Input.add_index_to_components(component.components, index))
-            else:
-                updated_sub_components = component.components
-            # Update the component's name and append to the result list
-            updated_component = Input(
-                f'{component.name}_{index}',
-                component.type,
-                updated_sub_components,
-                component.idx,
-                array_lengths=component.array_lengths,
-                dynamic_type_length=component.dynamic_type_length,
-            )
-            updated_components.append(updated_component)
-        return updated_components
 
     @property
     def sort(self) -> KSort:
