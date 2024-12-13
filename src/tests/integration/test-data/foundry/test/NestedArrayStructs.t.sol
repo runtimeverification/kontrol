@@ -36,7 +36,8 @@ interface ProjectConfig {
 }
 
 contract NestedStructArrayTest is Test, ProjectConfig {
-    function testListAssetsCustom(ChainEnv calldata environment, VaultWithAddresses[] memory listings) external { 
+    // this test branches on dynamically sized calldata and not run in CI; it is only meant to test `kontrol build`
+    function testVaultSignature(ChainEnv calldata environment, VaultWithAddresses[] memory listings) external { 
         assert(listings.length == 1);
     }
 }

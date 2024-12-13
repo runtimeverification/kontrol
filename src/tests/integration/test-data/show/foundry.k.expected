@@ -109,6 +109,8 @@ module FOUNDRY-MAIN
     imports public S2KtestZModModelMockFunctionContract-VERIFICATION
     imports public S2KsrcZModMyIERC20-VERIFICATION
     imports public S2KsrcZModMyToken-VERIFICATION
+    imports public S2KtestZModNestedStructArrayTest-VERIFICATION
+    imports public S2KtestZModProjectConfig-VERIFICATION
     imports public S2KtestZModNestedStructsTest-VERIFICATION
     imports public S2KtestZModNoImport-VERIFICATION
     imports public S2KsrcZModcseZModUIntBinaryOp-VERIFICATION
@@ -886,6 +888,20 @@ endmodule
 
 module S2KsrcZModMyToken-VERIFICATION
     imports public S2KsrcZModMyToken-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModNestedStructArrayTest-VERIFICATION
+    imports public S2KtestZModNestedStructArrayTest-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModProjectConfig-VERIFICATION
+    imports public S2KtestZModProjectConfig-CONTRACT
     
     
 
