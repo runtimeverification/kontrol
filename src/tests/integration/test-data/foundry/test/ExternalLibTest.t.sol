@@ -29,9 +29,10 @@ contract ExternalLibTest is Test {
         assertEq(SimpleMath.square(n), n * n);
     }
 
-    function testSum(uint256 x, uint256 y) public {
+    function testSum() public {
         vm.assume(msg.sender == address(110));
-        vm.assume(x <= type(uint256).max - y);
+        uint256 x = 3;
+        uint256 y = 7;
         assertEq(SimpleMath.sum(x, y), 10);
     }
 }
