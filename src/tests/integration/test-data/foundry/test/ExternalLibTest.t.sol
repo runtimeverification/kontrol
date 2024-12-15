@@ -30,8 +30,8 @@ contract ExternalLibTest is Test {
     }
 
     function testSum(uint256 x, uint256 y) public {
-        vm.assume(x <= type(uint128).max);
-        vm.assume(y <= type(uint128).max);
+        vm.assume(msg.sender == address(110));
+        vm.assume(x <= type(uint256).max - y);
         assertEq(SimpleMath.sum(x, y), 10);
     }
 }
