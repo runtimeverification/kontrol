@@ -712,7 +712,8 @@ def _method_to_cfg(
 
     if not contract.processed_link_refs:
         external_libs = _process_external_library_references(contract, foundry.contracts)
-        contract.processed_link_refs = True
+        if method.is_setup or isinstance(method, Contract.Constructor):
+            contract.processed_link_refs = True
 
     contract_code = bytes.fromhex(contract.deployed_bytecode)
     if isinstance(method, Contract.Constructor):
