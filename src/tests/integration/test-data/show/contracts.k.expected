@@ -4862,7 +4862,7 @@ module S2KtestZModExternalLibTest-CONTRACT
     
     syntax S2KtestZModExternalLibTestMethod ::= "S2KtestSquare" "(" Int ":" "uint256" ")" [symbol("method_test%ExternalLibTest_S2KtestSquare_uint256")]
     
-    syntax S2KtestZModExternalLibTestMethod ::= "S2KtestSum" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%ExternalLibTest_S2KtestSum_uint256_uint256")]
+    syntax S2KtestZModExternalLibTestMethod ::= "S2KtestSum" "(" ")" [symbol("method_test%ExternalLibTest_S2KtestSum_")]
     
     rule  ( S2KtestZModExternalLibTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
@@ -4898,10 +4898,7 @@ module S2KtestZModExternalLibTest-CONTRACT
        ensures #rangeUInt ( 256 , KV0_n )
       
     
-    rule  ( S2KtestZModExternalLibTest . S2KtestSum ( KV0_x : uint256 , KV1_y : uint256 ) => #abiCallData ( "testSum" , ( #uint256 ( KV0_x ) , ( #uint256 ( KV1_y ) , .TypedArgs ) ) ) )
-       ensures ( #rangeUInt ( 256 , KV0_x )
-       andBool ( #rangeUInt ( 256 , KV1_y )
-               ))
+    rule  ( S2KtestZModExternalLibTest . S2KtestSum ( ) => #abiCallData ( "testSum" , .TypedArgs ) )
       
     
     rule  ( selector ( "IS_TEST()" ) => 4202047188 )
@@ -4937,7 +4934,7 @@ module S2KtestZModExternalLibTest-CONTRACT
     rule  ( selector ( "testSquare(uint256)" ) => 1753280186 )
       
     
-    rule  ( selector ( "testSum(uint256,uint256)" ) => 1657043027 )
+    rule  ( selector ( "testSum()" ) => 2036188522 )
       
 
 endmodule
