@@ -4862,6 +4862,8 @@ module S2KtestZModExternalLibTest-CONTRACT
     
     syntax S2KtestZModExternalLibTestMethod ::= "S2KtestSquare" "(" Int ":" "uint256" ")" [symbol("method_test%ExternalLibTest_S2KtestSquare_uint256")]
     
+    syntax S2KtestZModExternalLibTestMethod ::= "S2KtestSum" "(" ")" [symbol("method_test%ExternalLibTest_S2KtestSum_")]
+    
     rule  ( S2KtestZModExternalLibTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
       
     
@@ -4896,6 +4898,9 @@ module S2KtestZModExternalLibTest-CONTRACT
        ensures #rangeUInt ( 256 , KV0_n )
       
     
+    rule  ( S2KtestZModExternalLibTest . S2KtestSum ( ) => #abiCallData ( "testSum" , .TypedArgs ) )
+      
+    
     rule  ( selector ( "IS_TEST()" ) => 4202047188 )
       
     
@@ -4928,6 +4933,9 @@ module S2KtestZModExternalLibTest-CONTRACT
     
     rule  ( selector ( "testSquare(uint256)" ) => 1753280186 )
       
+    
+    rule  ( selector ( "testSum()" ) => 2036188522 )
+      
 
 endmodule
 
@@ -4944,6 +4952,8 @@ module S2KtestZModSimpleMath-CONTRACT
     
     syntax S2KtestZModSimpleMathMethod ::= "S2KstructInput" "(" Int ":" "uint256" "," Int ":" "address" ")" [symbol("method_test%SimpleMath_S2KstructInput_uint256_address")]
     
+    syntax S2KtestZModSimpleMathMethod ::= "S2Ksum" "(" Int ":" "uint256" "," Int ":" "uint256" ")" [symbol("method_test%SimpleMath_S2Ksum_uint256_uint256")]
+    
     rule  ( S2KtestZModSimpleMath . S2Ksquare ( KV0_x : uint256 ) => #abiCallData ( "square" , ( #uint256 ( KV0_x ) , .TypedArgs ) ) )
        ensures #rangeUInt ( 256 , KV0_x )
       
@@ -4954,10 +4964,19 @@ module S2KtestZModSimpleMath-CONTRACT
                ))
       
     
+    rule  ( S2KtestZModSimpleMath . S2Ksum ( KV0_a : uint256 , KV1_b : uint256 ) => #abiCallData ( "sum" , ( #uint256 ( KV0_a ) , ( #uint256 ( KV1_b ) , .TypedArgs ) ) ) )
+       ensures ( #rangeUInt ( 256 , KV0_a )
+       andBool ( #rangeUInt ( 256 , KV1_b )
+               ))
+      
+    
     rule  ( selector ( "square(uint256)" ) => 2066295049 )
       
     
     rule  ( selector ( "structInput(SimpleMath.LibStruct)" ) => 1313163024 )
+      
+    
+    rule  ( selector ( "sum(uint256,uint256)" ) => 3402664347 )
       
 
 endmodule
