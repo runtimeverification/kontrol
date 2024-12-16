@@ -176,6 +176,58 @@ class Input:
                 idx += 1
         return inputs
 
+    @staticmethod
+    def process_tuple_array(input: Input) -> list[Input]:
+        """
+        Processes an input tuple array, appending `_index` to the names of components
+        and recursively handling nested tuples.
+        """
+        processed_components = []
+
+        if input.array_lengths is None:
+            raise ValueError(f'Array length bounds missing for {input.name}')
+
+        for i in range(input.array_lengths[0]):
+            for _c in input.components:
+                if _c.type == 'tuple':
+                    # Recursively process nested tuple components
+                    sub_components = tuple(Input.add_index_to_components(_c.components, i))
+                else:
+                    sub_components = _c.components
+
+                processed_component = Input(
+                    f'{_c.name}_{i}',
+                    _c.type,
+                    sub_components,
+                    _c.idx,
+                    array_lengths=_c.array_lengths,
+                    dynamic_type_length=_c.dynamic_type_length,
+                )
+                processed_components.append(processed_component)
+
+        return processed_components
+
+    @staticmethod
+    def add_index_to_components(components: tuple[Input, ...], index: int) -> list[Input]:
+        updated_components = []
+        for component in components:
+            if component.type == 'tuple':
+                # recursively add `_{i}` index to nested tuple components
+                updated_sub_components = tuple(Input.add_index_to_components(component.components, index))
+            else:
+                updated_sub_components = component.components
+            # Update the component's name and append to the result list
+            updated_component = Input(
+                f'{component.name}_{index}',
+                component.type,
+                updated_sub_components,
+                component.idx,
+                array_lengths=component.array_lengths,
+                dynamic_type_length=component.dynamic_type_length,
+            )
+            updated_components.append(updated_component)
+        return updated_components
+
     def make_single_type(self) -> KApply:
         """
         Generates a KApply representation for a single type input.
@@ -214,8 +266,7 @@ class Input:
             return self.make_single_type()
 
     def flattened(self) -> list[Input]:
-        components = []
-        sub_components: tuple[Input, ...] = ()
+        components: list[Input] = []
 
         if self.type.endswith('[]'):
             if self.array_lengths is None:
@@ -223,33 +274,7 @@ class Input:
 
             base_type = self.type.rstrip('[]')
             if base_type == 'tuple':
-                for i in range(self.array_lengths[0]):
-                    for _c in self.components:
-                        # If this component is a tuple, append `_{i}` to its elements' names
-                        if _c.type == 'tuple':
-                            sub_components = tuple(
-                                Input(
-                                    f'{sub_component.name}_{i}',
-                                    sub_component.type,
-                                    sub_component.components,
-                                    sub_component.idx,
-                                    array_lengths=sub_component.array_lengths,
-                                    dynamic_type_length=sub_component.dynamic_type_length,
-                                )
-                                for sub_component in _c.components
-                            )
-                        else:
-                            sub_components = _c.components
-
-                        component = Input(
-                            f'{_c.name}_{i}',
-                            _c.type,
-                            sub_components,
-                            _c.idx,
-                            array_lengths=_c.array_lengths,
-                            dynamic_type_length=_c.dynamic_type_length,
-                        )
-                        components.append(component)
+                components = Input.process_tuple_array(self)
             else:
                 components = [Input(f'{self.name}_{i}', base_type, idx=self.idx) for i in range(self.array_lengths[0])]
         elif self.type == 'tuple':
@@ -439,35 +464,7 @@ class Contract:
                         if input.array_lengths is None:
                             raise ValueError(f'Array length bounds missing for {input.name}')
 
-                        tuple_array_components: list[Input] = []
-                        for i in range(input.array_lengths[0]):
-                            for _c in input.components:
-                                # If this component is a tuple, append `_{i}` to its elements' names
-                                if _c.type == 'tuple':
-                                    tuple_array_sub_components = tuple(
-                                        Input(
-                                            f'{sub_component.name}_{i}',
-                                            sub_component.type,
-                                            sub_component.components,
-                                            sub_component.idx,
-                                            array_lengths=sub_component.array_lengths,
-                                            dynamic_type_length=sub_component.dynamic_type_length,
-                                        )
-                                        for sub_component in _c.components
-                                    )
-                                else:
-                                    tuple_array_sub_components = _c.components
-
-                                tuple_array_component = Input(
-                                    f'{_c.name}_{i}',
-                                    _c.type,
-                                    tuple_array_sub_components,
-                                    _c.idx,
-                                    array_lengths=_c.array_lengths,
-                                    dynamic_type_length=_c.dynamic_type_length,
-                                )
-                                tuple_array_components.append(tuple_array_component)
-                        components = tuple(tuple_array_components)
+                    components = tuple(Input.process_tuple_array(input))
                     for sub_input in components:
                         _abi_type = sub_input.to_abi()
                         rps.extend(_range_predicates(_abi_type, sub_input.dynamic_type_length))
@@ -673,35 +670,7 @@ class Contract:
                         if input.array_lengths is None:
                             raise ValueError(f'Array length bounds missing for {input.name}')
 
-                        tuple_array_components: list[Input] = []
-                        for i in range(input.array_lengths[0]):
-                            for _c in input.components:
-                                # If this component is a tuple, append `_{i}` to its elements' names
-                                if _c.type == 'tuple':
-                                    tuple_array_sub_components = tuple(
-                                        Input(
-                                            f'{sub_component.name}_{i}',
-                                            sub_component.type,
-                                            sub_component.components,
-                                            sub_component.idx,
-                                            array_lengths=sub_component.array_lengths,
-                                            dynamic_type_length=sub_component.dynamic_type_length,
-                                        )
-                                        for sub_component in _c.components
-                                    )
-                                else:
-                                    tuple_array_sub_components = _c.components
-
-                                tuple_array_component = Input(
-                                    f'{_c.name}_{i}',
-                                    _c.type,
-                                    tuple_array_sub_components,
-                                    _c.idx,
-                                    array_lengths=_c.array_lengths,
-                                    dynamic_type_length=_c.dynamic_type_length,
-                                )
-                                tuple_array_components.append(tuple_array_component)
-                        components = tuple(tuple_array_components)
+                        components = tuple(Input.process_tuple_array(input))
 
                     for sub_input in components:
                         _abi_type = sub_input.to_abi()
