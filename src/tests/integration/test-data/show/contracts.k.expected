@@ -8801,6 +8801,124 @@ module S2KsrcZModMyToken-CONTRACT
 
 endmodule
 
+module S2KtestZModNestedStructArrayTest-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModNestedStructArrayTestContract
+    
+    syntax S2KtestZModNestedStructArrayTestContract ::= "S2KtestZModNestedStructArrayTest" [symbol("contract_test%NestedStructArrayTest")]
+    
+    syntax Bytes ::= S2KtestZModNestedStructArrayTestContract "." S2KtestZModNestedStructArrayTestMethod [function, symbol("method_test%NestedStructArrayTest")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KISZUndTEST" "(" ")" [symbol("method_test%NestedStructArrayTest_S2KISZUndTEST_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KexcludeArtifacts" "(" ")" [symbol("method_test%NestedStructArrayTest_S2KexcludeArtifacts_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KexcludeContracts" "(" ")" [symbol("method_test%NestedStructArrayTest_S2KexcludeContracts_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KexcludeSenders" "(" ")" [symbol("method_test%NestedStructArrayTest_S2KexcludeSenders_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2Kfailed" "(" ")" [symbol("method_test%NestedStructArrayTest_S2Kfailed_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KtargetArtifactSelectors" "(" ")" [symbol("method_test%NestedStructArrayTest_S2KtargetArtifactSelectors_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KtargetArtifacts" "(" ")" [symbol("method_test%NestedStructArrayTest_S2KtargetArtifacts_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KtargetContracts" "(" ")" [symbol("method_test%NestedStructArrayTest_S2KtargetContracts_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KtargetSelectors" "(" ")" [symbol("method_test%NestedStructArrayTest_S2KtargetSelectors_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KtargetSenders" "(" ")" [symbol("method_test%NestedStructArrayTest_S2KtargetSenders_")]
+    
+    syntax S2KtestZModNestedStructArrayTestMethod ::= "S2KtestVaultSignature" "(" String ":" "string" "," String ":" "string" "," String ":" "string" "," Int ":" "address" "," Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "uint256" "," Int ":" "address" "," Int ":" "address" ")" [symbol("method_test%NestedStructArrayTest_S2KtestVaultSignature_string_string_string_address_uint256_uint256_uint256_uint256_uint256_uint256_address_address")]
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KISZUndTEST ( ) => #abiCallData ( "IS_TEST" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KexcludeArtifacts ( ) => #abiCallData ( "excludeArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KexcludeContracts ( ) => #abiCallData ( "excludeContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KexcludeSenders ( ) => #abiCallData ( "excludeSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2Kfailed ( ) => #abiCallData ( "failed" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KtargetArtifactSelectors ( ) => #abiCallData ( "targetArtifactSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KtargetArtifacts ( ) => #abiCallData ( "targetArtifacts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KtargetContracts ( ) => #abiCallData ( "targetContracts" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KtargetSelectors ( ) => #abiCallData ( "targetSelectors" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KtargetSenders ( ) => #abiCallData ( "targetSenders" , .TypedArgs ) )
+      
+    
+    rule  ( S2KtestZModNestedStructArrayTest . S2KtestVaultSignature ( KV0_chainName : string , KV1_chainIndex : string , KV2_tokenName_0 : string , KV3_oracle_0 : address , KV4_allowedToTrade_0 : uint256 , KV5_ltv_0 : uint256 , KV6_rate_0 : uint256 , KV7_exchangeRate_0 : uint256 , KV8_utilization_0 : uint256 , KV6_reserves_0 : uint256 , KV3_cToken_0 : address , KV4_dToken_0 : address ) => #abiCallData ( "testVaultSignature" , ( #tuple ( ( #string ( KV0_chainName ) , ( #string ( KV1_chainIndex ) , .TypedArgs ) ) ) , ( #array ( #tuple ( ( #tuple ( ( #string ( KV2_tokenName_0 ) , ( #address ( KV3_oracle_0 ) , ( #uint256 ( KV4_allowedToTrade_0 ) , ( #tuple ( ( #uint256 ( KV5_ltv_0 ) , ( #uint256 ( KV6_rate_0 ) , ( #uint256 ( KV7_exchangeRate_0 ) , ( #uint256 ( KV8_utilization_0 ) , .TypedArgs ) ) ) ) ) , ( #uint256 ( KV6_reserves_0 ) , .TypedArgs ) ) ) ) ) ) , ( #tuple ( ( #address ( KV3_cToken_0 ) , ( #address ( KV4_dToken_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , 1 , ( #tuple ( ( #tuple ( ( #string ( KV2_tokenName_0 ) , ( #address ( KV3_oracle_0 ) , ( #uint256 ( KV4_allowedToTrade_0 ) , ( #tuple ( ( #uint256 ( KV5_ltv_0 ) , ( #uint256 ( KV6_rate_0 ) , ( #uint256 ( KV7_exchangeRate_0 ) , ( #uint256 ( KV8_utilization_0 ) , .TypedArgs ) ) ) ) ) , ( #uint256 ( KV6_reserves_0 ) , .TypedArgs ) ) ) ) ) ) , ( #tuple ( ( #address ( KV3_cToken_0 ) , ( #address ( KV4_dToken_0 ) , .TypedArgs ) ) ) , .TypedArgs ) ) ) , .TypedArgs ) ) , .TypedArgs ) ) ) )
+       ensures ( #rangeAddress ( KV3_oracle_0 )
+       andBool ( #rangeUInt ( 256 , KV4_allowedToTrade_0 )
+       andBool ( #rangeUInt ( 256 , KV5_ltv_0 )
+       andBool ( #rangeUInt ( 256 , KV6_rate_0 )
+       andBool ( #rangeUInt ( 256 , KV7_exchangeRate_0 )
+       andBool ( #rangeUInt ( 256 , KV8_utilization_0 )
+       andBool ( #rangeUInt ( 256 , KV6_reserves_0 )
+       andBool ( #rangeAddress ( KV3_cToken_0 )
+       andBool ( #rangeAddress ( KV4_dToken_0 )
+               )))))))))
+      
+    
+    rule  ( selector ( "IS_TEST()" ) => 4202047188 )
+      
+    
+    rule  ( selector ( "excludeArtifacts()" ) => 3041954473 )
+      
+    
+    rule  ( selector ( "excludeContracts()" ) => 3792478065 )
+      
+    
+    rule  ( selector ( "excludeSenders()" ) => 517440284 )
+      
+    
+    rule  ( selector ( "failed()" ) => 3124842406 )
+      
+    
+    rule  ( selector ( "targetArtifactSelectors()" ) => 1725540768 )
+      
+    
+    rule  ( selector ( "targetArtifacts()" ) => 2233625729 )
+      
+    
+    rule  ( selector ( "targetContracts()" ) => 1064470260 )
+      
+    
+    rule  ( selector ( "targetSelectors()" ) => 2439649222 )
+      
+    
+    rule  ( selector ( "targetSenders()" ) => 1046363171 )
+      
+    
+    rule  ( selector ( "testVaultSignature((string,string),((string,address,uint256,(uint256,uint256,uint256,uint256),uint256),(address,address))[])" ) => 3906145641 )
+      
+
+endmodule
+
+module S2KtestZModProjectConfig-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModProjectConfigContract
+    
+    syntax S2KtestZModProjectConfigContract ::= "S2KtestZModProjectConfig" [symbol("contract_test%ProjectConfig")]
+
+endmodule
+
 module S2KtestZModNestedStructsTest-CONTRACT
     imports public FOUNDRY
     
