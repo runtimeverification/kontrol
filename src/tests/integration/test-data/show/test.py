@@ -8,7 +8,7 @@ import sys
 
 if __name__ == "__main__":
     kcfg_path = sys.argv[1]
-    
+
     with open(kcfg_path, "r") as f:
         prev_node_id = None
         curr_node_id = None
