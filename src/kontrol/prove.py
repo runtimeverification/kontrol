@@ -475,6 +475,7 @@ def _run_cfg_group(
                 maintenance_rate=options.maintenance_rate,
                 assume_defined=options.assume_defined,
                 extra_module=extra_lemmas_module,
+                optimize_kcfg=options.optimize_kcfg
             )
 
             if progress is not None and task is not None:
