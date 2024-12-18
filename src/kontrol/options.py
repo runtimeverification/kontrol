@@ -74,6 +74,12 @@ class RpcOptions(Options):
             'port': None,
         }
 
+    @staticmethod
+    def from_option_string() -> dict[str, str]:
+        return {
+            'log-rewrites': 'log_succ_rewrites',
+        }
+
 
 class TraceOptions(Options):
     active_tracing: bool
