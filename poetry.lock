@@ -107,13 +107,13 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
 name = "cmd2"
-version = "2.5.7"
+version = "2.5.8"
 description = "cmd2 - quickly build feature-rich and user-friendly interactive command line applications in Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "cmd2-2.5.7-py3-none-any.whl", hash = "sha256:7e5856fd1a75716288d4638e68946f9697404f377dfdeeddc19045c7012de9b7"},
-    {file = "cmd2-2.5.7.tar.gz", hash = "sha256:0219e2bb75075fa16deffb88edf86efdd2a87439d1fa7b94fdea4b929a3dc914"},
+    {file = "cmd2-2.5.8-py3-none-any.whl", hash = "sha256:aeb6eb6cd6d783bb7d92d37aa920bcfa7379690ba9ab1188576562f73a13471c"},
+    {file = "cmd2-2.5.8.tar.gz", hash = "sha256:ddf29beaa7c9d4e9806eefad528a59c372ca97b4c0d83e019fef0e37c44f4497"},
 ]
 
 [package.dependencies]
@@ -707,7 +707,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.764"
+version = "1.0.765"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -715,26 +715,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.190"
+kframework = "7.1.191"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.764"
-resolved_reference = "a53872bf553c29259b025aeb14d027da16b4fc43"
+reference = "v1.0.765"
+resolved_reference = "664815d43388c6fbf295506d9397ecb279b03087"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.190"
+version = "7.1.191"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.190-py3-none-any.whl", hash = "sha256:ec60c5e022d53eb0c22f683c160eb73720eee098f1da5280717f968db6e3ec06"},
-    {file = "kframework-7.1.190.tar.gz", hash = "sha256:acfea9f59bd60a2dcc372def5e3471012009b006985a22b3c16a7e31272af465"},
+    {file = "kframework-7.1.191-py3-none-any.whl", hash = "sha256:b12d60a8a178fabdd6b12caa0041f4af64655a199f08e569c50170d5e8a74cde"},
+    {file = "kframework-7.1.191.tar.gz", hash = "sha256:f2bc40c5ab5ba81140f61e34bdc8b93c4296d456b9a59dfd478a220232926b8e"},
 ]
 
 [package.dependencies]
@@ -1517,4 +1517,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "2ff9fc14ea4cf20e1febfe4a2eb6636f6ee68fd5c1eefb637fa5aac830978c82"
+content-hash = "7dea60bf24b13f6e4ee9be0c7d55fc2341c863b7751e69073990578f92fa31e9"
