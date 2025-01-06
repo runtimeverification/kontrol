@@ -61,7 +61,6 @@ def test_foundry_dependency_automated(
                 'max_iterations': 100,
                 'bug_report': bug_report,
                 'cse': True,
-                'minimize_proofs': True,
                 'fail_fast': False,
                 'workers': 2,
                 'port': server.port,
@@ -70,6 +69,7 @@ def test_foundry_dependency_automated(
                 'run_constructor': run_constructor,
                 'force_sequential': force_sequential,
                 'enum_constraints': True,
+                'break_on_calls': True,
             }
         ),
     )
