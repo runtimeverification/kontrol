@@ -107,13 +107,13 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
 name = "cmd2"
-version = "2.5.7"
+version = "2.5.8"
 description = "cmd2 - quickly build feature-rich and user-friendly interactive command line applications in Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "cmd2-2.5.7-py3-none-any.whl", hash = "sha256:7e5856fd1a75716288d4638e68946f9697404f377dfdeeddc19045c7012de9b7"},
-    {file = "cmd2-2.5.7.tar.gz", hash = "sha256:0219e2bb75075fa16deffb88edf86efdd2a87439d1fa7b94fdea4b929a3dc914"},
+    {file = "cmd2-2.5.8-py3-none-any.whl", hash = "sha256:aeb6eb6cd6d783bb7d92d37aa920bcfa7379690ba9ab1188576562f73a13471c"},
+    {file = "cmd2-2.5.8.tar.gz", hash = "sha256:ddf29beaa7c9d4e9806eefad528a59c372ca97b4c0d83e019fef0e37c44f4497"},
 ]
 
 [package.dependencies]
@@ -707,7 +707,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.760"
+version = "1.0.765"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -715,26 +715,26 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.186"
+kframework = "7.1.191"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.760"
-resolved_reference = "b77287f34ef474cd9d253fa4a9ccd8113b7d0ff0"
+reference = "v1.0.765"
+resolved_reference = "664815d43388c6fbf295506d9397ecb279b03087"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.186"
+version = "7.1.191"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "kframework-7.1.186-py3-none-any.whl", hash = "sha256:de89b8c98c23d7b8d9f13f16729e266a160ba139a82cf3c57811c9befebc3617"},
-    {file = "kframework-7.1.186.tar.gz", hash = "sha256:121320cf841c2a767bdffd9cadba49876f429e69cef886f825c792ef3721035b"},
+    {file = "kframework-7.1.191-py3-none-any.whl", hash = "sha256:b12d60a8a178fabdd6b12caa0041f4af64655a199f08e569c50170d5e8a74cde"},
+    {file = "kframework-7.1.191.tar.gz", hash = "sha256:f2bc40c5ab5ba81140f61e34bdc8b93c4296d456b9a59dfd478a220232926b8e"},
 ]
 
 [package.dependencies]
@@ -1292,13 +1292,13 @@ testing = ["filelock"]
 
 [[package]]
 name = "pyupgrade"
-version = "3.19.0"
+version = "3.19.1"
 description = "A tool to automatically upgrade syntax for newer versions."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pyupgrade-3.19.0-py2.py3-none-any.whl", hash = "sha256:1364fcae4436a6a236a85960587390ec8a939ad0f65f429346f70a5f201c1489"},
-    {file = "pyupgrade-3.19.0.tar.gz", hash = "sha256:7ed4b7d972ed2788c43994f4a24f949d5bf044342992f3b48e1bed0092ddaa01"},
+    {file = "pyupgrade-3.19.1-py2.py3-none-any.whl", hash = "sha256:8c5b0bfacae5ff30fa136a53eb7f22c34ba007450d4099e9da8089dabb9e67c9"},
+    {file = "pyupgrade-3.19.1.tar.gz", hash = "sha256:d10e8c5f54b8327211828769e98d95d95e4715de632a3414f1eef3f51357b9e2"},
 ]
 
 [package.dependencies]
@@ -1517,4 +1517,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "2d6790434f1fa2ef473b81a5a4c51f95f620bfed81e6fb0c8fde01d40bede031"
+content-hash = "7dea60bf24b13f6e4ee9be0c7d55fc2341c863b7751e69073990578f92fa31e9"
