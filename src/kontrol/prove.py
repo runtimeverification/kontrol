@@ -1040,7 +1040,7 @@ def _init_cterm(
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
         'ADDRESSLIST_CELL': list_empty(),
         'STORAGESLOTLIST_CELL': list_empty(),
-        'ALLOWEDCALLS_CELL': KApply('.AllowedCallCellMap'),
+        'ALLOWEDCALLSLIST_CELL': list_empty(),
         'MOCKCALLS_CELL': KApply('.MockCallCellMap'),
         'MOCKFUNCTIONS_CELL': KApply('.MockFunctionCellMap'),
         'ACTIVETRACING_CELL': TRUE if trace_options.active_tracing else FALSE,

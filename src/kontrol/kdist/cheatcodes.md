@@ -76,13 +76,7 @@ module FOUNDRY-CHEAT-CODES
         </expectEmit>
         <whitelist>
           <isCallWhitelistActive> false </isCallWhitelistActive>
-          <allowedCalls>
-            <allowedCall multiplicity="*" type="Map">
-               <allowedAddress> .Account </allowedAddress>
-               <allowedCalldata> .List </allowedCalldata>
-               <allowedAll> false </allowedAll>
-            </allowedCall>
-          </allowedCalls>
+          <allowedCallsList> .List </allowedCallsList>
           <isStorageWhitelistActive> false </isStorageWhitelistActive>
           <storageSlotList> .List </storageSlotList>
         </whitelist>
@@ -952,6 +946,7 @@ A `StorageSlot` pair is formed from an address and a storage index.
 
 ```k
     syntax StorageSlot ::= "{" Int "|" Int "}"
+    syntax CallToAddress ::= "{" Int "|" Bytes "}"
  // ------------------------------------------
 ```
 
@@ -969,42 +964,21 @@ We define two new status codes:
 The `ACCTTO` value is checked for each call while the whitelist restriction is enabled for calls.
 If the address is not in the whitelist `WLIST` then `KEVM` goes into an error state providing the `ACCTTO` value.
 
-// ```k
-//     rule [foundry.catchNonWhitelistedCalls]:
-//          <k> (#call _ ACCTTO _ _ _ _ false
-//           ~> #popCallStack
-//           ~> #popWorldState) => #end KONTROL_WHITELISTCALL ... </k>
-//          <whitelist>
-//            <isCallWhitelistActive> true </isCallWhitelistActive>
-//            <addressList> WLIST </addressList>
-//            ...
-//          </whitelist>
-//       requires notBool ACCTTO in WLIST
-//       [priority(40)]
-// ```
-
+```k
     rule [foundry.catchNonWhitelistedCalls]:
-         <k> (#call _ ACCTTO _ _ _ CALLDATA false
+         <k> #call _ ACCTTO _ _ _ CALLDATA false
+         /*
           ~> #popCallStack
-          ~> #popWorldState) => #end KONTROL_WHITELISTCALL ... </k>
+          ~> #popWorldState)
+         */ => #end KONTROL_WHITELISTCALL ... </k>
          <whitelist>
            <isCallWhitelistActive> true </isCallWhitelistActive>
-           <allowedCalls>
-             <allowedCall>
-               <allowedAddress> ACCTTO </allowedAddress>
-               <allowedCalldata> ALLOWEDLIST </allowedCalldata>
-               <allowedAll> ALLOWALL </allowedAll>
-             </allowedCall>
-             ...
-           </allowedCalls>
+           <allowedCallsList> WLIST </allowedCallsList>
            ...
          </whitelist>
-      requires notBool (
-                 ALLOWALL
-                 or
-                 ListItem(CALLDATA) in ALLOWEDLIST
-              )
+      requires notBool ({ACCTTO|CALLDATA} in WLIST orBool {ACCTTO|b"*"} in WLIST)
       [priority(40)]
+```
 
 When the storage whitelist restriction is enabled, the `SSTORE` operation will check if the address and the storage index are in the whitelist.
 If the pair is not present in the whitelist `WLIST` then `KEVM` goes into an error state providing the address and the storage index values.
@@ -1643,7 +1617,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 - `#addAddressToWhitelist` enables the whitelist restriction for calls and adds an address to the whitelist.
 
 ```k
-    syntax KItem ::= "#addAddressToWhitelist" Int [symbol(foundry_addAddressToWhitelist)]
+   //  syntax KItem ::= "#addAddressToWhitelist" Int [symbol(foundry_addAddressToWhitelist)]
  // -------------------------------------------------------------------------------------
    //  rule <k> #addAddressToWhitelist ACCT => .K ... </k>
    //      <whitelist>
@@ -1684,7 +1658,7 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule <k> #etchAccountIfEmpty _ => .K ... </k> [owise]
 ```
 
-- `#setAllowedCall ALLOWEDACCOUNT ALLOWEDCALLDATA` will update the `<mockcalls>` mapping for the given account.
+- `#setAllowedCall ALLOWEDACCOUNT ALLOWEDCALLDATA` and `setAllowedAllCalls ALLOWEDACCOUNT` will update the `<allowedCallsList>` list with the given account and calldata.
 
 ```k
     syntax KItem ::= "#setAllowedCall" Account Bytes [symbol(foundry_setAllowedCall)]
@@ -1693,54 +1667,14 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule <k> #setAllowedCall ALLOWEDACCOUNT ALLOWEDCALLDATA => .K ... </k>
          <whitelist>
             <isCallWhitelistActive> _ => true </isCallWhitelistActive>
-            <allowedCall>
-               <allowedAddress> ALLOWEDACCOUNT </allowedAddress>
-               <allowedCalldata> CALLDATALIST => CALLDATALIST ListItem(ALLOWEDCALLDATA) </allowedCalldata>
-               <allowedAll> _ => false </allowedAll>
-            </allowedCall>
+            <allowedCallsList> ALLOWEDCALLS => ALLOWEDCALLS ListItem({ALLOWEDACCOUNT|ALLOWEDCALLDATA}) </allowedCallsList>
             ...
          </whitelist>
-
-   rule <k> #setAllowedCall ALLOWEDACCOUNT ALLOWEDCALLDATA => .K ... </k>
-         <whitelist>
-            <isCallWhitelistActive> _ => true </isCallWhitelistActive>
-            <allowedCalls>
-            ( .Bag
-               => <allowedCall>
-                     <allowedAddress> ALLOWEDACCOUNT </allowedAddress>
-                     <allowedCalldata> ListItem(ALLOWEDCALLDATA) </allowedCalldata>
-                     <allowedAll> false </allowedAll>
-                  </allowedCall>
-            )
-            ...
-            </allowedCalls>
-         ...
-         </whitelist>
-
+ 
    rule <k> #setAllowedAllCalls ALLOWEDACCOUNT => .K ... </k>
       <whitelist>
          <isCallWhitelistActive> _ => true </isCallWhitelistActive>
-         <allowedCall>
-            <allowedAddress> ALLOWEDACCOUNT </allowedAddress>
-            <allowedCalldata> _ => .List </allowedCalldata>
-            <allowedAll> _ => true </allowedAll>
-         </allowedCall>
-         ...
-      </whitelist>
-
-   rule <k> #setAllowedAllCalls ALLOWEDACCOUNT => .K ... </k>
-      <whitelist>
-         <isCallWhitelistActive> _ => true </isCallWhitelistActive>
-         <allowedCalls>
-            ( .Bag
-            => <allowedCall>
-                  <allowedAddress> ALLOWEDACCOUNT </allowedAddress>
-                  <allowedCalldata> .List </allowedCalldata>
-                  <allowedAll> true </allowedAll>
-               </allowedCall>
-            )
-            ...
-         </allowedCalls>
+         <allowedCallsList> ALLOWEDCALLS => ALLOWEDCALLS ListItem({ALLOWEDACCOUNT|b"*"}) </allowedCallsList>
          ...
       </whitelist>
 ```
