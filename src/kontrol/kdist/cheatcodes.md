@@ -966,11 +966,8 @@ If the address is not in the whitelist `WLIST` then `KEVM` goes into an error st
 
 ```k
     rule [foundry.catchNonWhitelistedCalls]:
-         <k> #call _ ACCTTO _ _ _ CALLDATA false
-         /*
-          ~> #popCallStack
-          ~> #popWorldState)
-         */ => #end KONTROL_WHITELISTCALL ... </k>
+         <k> (#call _ ACCTTO _ _ _ CALLDATA false
+          ~> #return _ _) => #end KONTROL_WHITELISTCALL ... </k>
          <whitelist>
            <isCallWhitelistActive> true </isCallWhitelistActive>
            <allowedCallsList> WLIST </allowedCallsList>

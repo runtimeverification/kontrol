@@ -188,5 +188,7 @@ module KONTROL-AUX-LEMMAS
       requires 0 <Int X andBool 0 <=Int Z andBool ( Z +Int 1) modInt X ==Int 0
       [simplification, concrete(X, Z), preserves-definedness]
 
+    rule KI:KItem in ListItem(KI) => true [simplification]
+
 endmodule
 ```
