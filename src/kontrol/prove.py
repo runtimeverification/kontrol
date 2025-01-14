@@ -1065,6 +1065,7 @@ def _init_cterm(
             'ACCESSEDSTORAGE_CELL': map_empty(),
             'INTERIMSTATES_CELL': list_empty(),
             'TOUCHEDACCOUNTS_CELL': set_empty(),
+            'CREATEDACCOUNTS_CELL': set_empty(),
             'STATIC_CELL': FALSE,
             'ACCOUNTS_CELL': KEVM.accounts(init_account_list),
         }

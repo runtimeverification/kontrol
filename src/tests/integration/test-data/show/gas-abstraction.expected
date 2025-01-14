@@ -139,6 +139,9 @@ Node 6:
             <accessedStorage>
               .Map
             </accessedStorage>
+            <createdAccounts>
+              .Set
+            </createdAccounts>
           </substate>
           <gasPrice>
             GASPRICE_CELL:Int
@@ -483,6 +486,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
                    ...
                  </substate>
                  <origin>
@@ -718,6 +724,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
                    ...
                  </substate>
                  <origin>
@@ -953,6 +962,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
                    ...
                  </substate>
                  <origin>
