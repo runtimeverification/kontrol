@@ -144,6 +144,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   <createdAccounts>
+                     ( .Set => SetItem ( 491460923342184218035706888008750043977755113263 ) )
+                   </createdAccounts>
                    ...
                  </substate>
                  <origin>
@@ -424,6 +427,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   <createdAccounts>
+                     ( SetItem ( 491460923342184218035706888008750043977755113263 ) => .Set )
+                   </createdAccounts>
                    ...
                  </substate>
                  <origin>
@@ -683,6 +689,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
                    ...
                  </substate>
                  <origin>
@@ -944,6 +953,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
                    ...
                  </substate>
                  <origin>
@@ -1205,6 +1217,9 @@ module SUMMARY-TEST%SETUPDEPLOYTEST.TEST-EXTCODESIZE():0
                    <accessedStorage>
                      .Map
                    </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
                    ...
                  </substate>
                  <origin>
