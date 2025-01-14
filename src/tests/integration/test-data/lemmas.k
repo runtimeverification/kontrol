@@ -32,7 +32,7 @@ module SUM-TO-N-INVARIANT
             JUMPDESTS
           </jumpDests>
           <wordStack>
-              (S => (S +Int ((N *Int (N +Int 1)) /Int 2)))
+              (S => (S +Int ((N *Int (N +Int 1)) divInt 2)))
             : 0 
             : (N => 0)
             : 459 
@@ -55,7 +55,7 @@ module SUM-TO-N-INVARIANT
   </kevm>
 
   requires 0 <Int N
-   andBool #rangeUInt(256, S +Int ((N *Int (N +Int 1)) /Int 2))
+   andBool #rangeUInt(256, S +Int ((N *Int (N +Int 1)) divInt 2))
    andBool #rangeUInt(256, N)
    andBool #rangeUInt(256, S)
    andBool GAS_AMT >=Int N *Int 178
