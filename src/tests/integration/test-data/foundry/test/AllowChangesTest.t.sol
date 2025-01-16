@@ -42,19 +42,55 @@ contract AllowChangesTest is Test, KontrolCheats {
 	}
 	function testFailAllowCallsToAddress() public {
 		kevm.allowCallsToAddress(address(canChange));
-		kevm.allowChangesToStorage(address(canChange), 0);
 
 		cannotChange.changeSlot0(10245);
 	}
 
 	function testFailAllowChangesToStorage() public {
-		kevm.allowCallsToAddress(address(canChange));
 		kevm.allowChangesToStorage(address(canChange), 0);
 
 		canChange.changeSlot1(23452);
 	}
 
 	function testAllow_fail() public {
+		kevm.allowCallsToAddress(address(canChange));
+		kevm.allowChangesToStorage(address(canChange), 0);
+
+		canChange.changeSlot1(234521);
+	}
+
+	function testAllowCalls(uint256 value) public {
+		/* Whitelisting two calls to ensure that `allowCalls` is working
+			for whitelist with > 1 elements */
+		bytes memory changeCallDataOne = abi.encodeWithSelector(
+			ValueStore.changeSlot0.selector,
+			value
+		);
+
+		bytes memory changeCallDataTwo = abi.encodeWithSelector(
+			ValueStore.changeSlot1.selector,
+			value
+		);
+
+		kevm.allowCalls(address(canChange), changeCallDataOne);
+		kevm.allowCalls(address(canChange), changeCallDataTwo);
+
+		canChange.changeSlot0(value);
+	}
+
+	function testAllowCalls_failIfNotWhitelisted(uint256 value) public {
+		bytes memory changeCallData = abi.encodeWithSelector(
+			ValueStore.changeSlot0.selector,
+			value
+		);
+
+		kevm.allowCalls(address(canChange), changeCallData);
+
+		vm.expectRevert();
+		canChange.changeSlot1(value);
+	}
+
+	function testFailAllowCalls() public {
 		kevm.allowCallsToAddress(address(canChange));
 		kevm.allowChangesToStorage(address(canChange), 0);
 
