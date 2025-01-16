@@ -53,7 +53,6 @@ contract AllowChangesTest is Test, KontrolCheats {
 
 		kevm.allowCalls(address(canChange), changeCallData);
 
-		vm.expectRevert();
 		canChange.changeSlot1(value);
 	}
 }
