@@ -1611,19 +1611,6 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule #checkTopics(ListItem(CHECK) CHECKS, ListItem(V1) L1, ListItem(V2) L2) => #checkTopic(CHECK, V1, V2) andBool #checkTopics(CHECKS, L1, L2) requires size(L1) ==Int size(L2)
 ```
 
-- `#addAddressToWhitelist` enables the whitelist restriction for calls and adds an address to the whitelist.
-
-```k
-   //  syntax KItem ::= "#addAddressToWhitelist" Int [symbol(foundry_addAddressToWhitelist)]
- // -------------------------------------------------------------------------------------
-   //  rule <k> #addAddressToWhitelist ACCT => .K ... </k>
-   //      <whitelist>
-   //        <isCallWhitelistActive> _ => true </isCallWhitelistActive>
-   //        <addressList> WLIST => WLIST ListItem(ACCT) </addressList>
-   //        ...
-   //      </whitelist>
-```
-
 - `#addStorageSlotToWhitelist` enables the whitelist restriction for storage chagnes and adds a `StorageSlot` item to the whitelist.
 
 ```k
