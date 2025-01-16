@@ -188,7 +188,18 @@ module KONTROL-AUX-LEMMAS
       requires 0 <Int X andBool 0 <=Int Z andBool ( Z +Int 1) modInt X ==Int 0
       [simplification, concrete(X, Z), preserves-definedness]
 
-    rule KI:KItem in ListItem(KI) => true [simplification]
+    //
+    // List simplifications for `allowCalls`
+    //
+
+    // List membership check simplification for lists with a single element
+    rule KI:KItem in ListItem(KI:KItem) => true [simplification]
+    rule KI:KItem in ListItem(KJ:KItem) => KI ==K KJ [simplification]
+
+    // Recursive list membership check for lists with multiple elements
+    rule KI:KItem in (ListItem(KI) Rest) => true [simplification]
+    rule KI:KItem in (ListItem(KJ) Rest) => KI in Rest [simplification]
+    rule KI:KItem in .List => false [simplification]
 
 endmodule
 ```
