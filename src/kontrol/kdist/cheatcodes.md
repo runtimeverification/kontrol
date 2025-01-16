@@ -1646,8 +1646,8 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 
 ```k
     syntax KItem ::= "#setAllowedCall" Account Bytes [symbol(foundry_setAllowedCall)]
-    syntax KItem ::= "#setAllowedAllCalls" Account [symbol(foundry_setAllowedAllCalls)]
- // ---------------------------------------------------------------------------------
+                   | "#setAllowedAllCalls" Account [symbol(foundry_setAllowedAllCalls)]
+ // -----------------------------------------------------------------------------------
     rule <k> #setAllowedCall ALLOWEDACCOUNT ALLOWEDCALLDATA => .K ... </k>
          <whitelist>
             <isCallWhitelistActive> _ => true </isCallWhitelistActive>
