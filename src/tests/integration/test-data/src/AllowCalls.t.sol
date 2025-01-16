@@ -45,7 +45,7 @@ contract AllowChangesTest is Test, KontrolCheats {
 		canChange.changeSlot0(value);
 	}
 
-	function testAllowCalls_failIfNotWhitelisted(uint256 value) public {
+	function testFailAllowCalls_ifNotWhitelisted(uint256 value) public {
 		bytes memory changeCallData = abi.encodeWithSelector(
 			ValueStore.changeSlot0.selector,
 			value
