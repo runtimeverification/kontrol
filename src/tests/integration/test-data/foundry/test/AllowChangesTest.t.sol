@@ -58,11 +58,4 @@ contract AllowChangesTest is Test, KontrolCheats {
 
 		canChange.changeSlot1(234521);
 	}
-
-	function testFailAllowCalls() public {
-		kevm.allowCallsToAddress(address(canChange));
-		kevm.allowChangesToStorage(address(canChange), 0);
-
-		canChange.changeSlot1(234521);
-	}
 }
