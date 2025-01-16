@@ -117,6 +117,7 @@ def test_kontrol_end_to_end(
                 'force_sequential': force_sequential,
                 'schedule': 'CANCUN',
                 'stack_checks': False,
+                'auxiliary_lemmas': True,
             }
         ),
     )
