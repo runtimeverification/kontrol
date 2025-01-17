@@ -947,7 +947,7 @@ A `StorageSlot` pair is formed from an address and a storage index.
 ```k
     syntax StorageSlot ::= "{" Int "|" Int "}"
     syntax CallToAddress ::= "{" Int "|" Bytes "}"
- // ------------------------------------------
+ // ----------------------------------------------
 ```
 
 We define two new status codes:
