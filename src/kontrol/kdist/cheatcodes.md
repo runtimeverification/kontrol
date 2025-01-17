@@ -973,7 +973,7 @@ If the address is not in the whitelist `WLIST` then `KEVM` goes into an error st
            <allowedCallsList> WLIST </allowedCallsList>
            ...
          </whitelist>
-      requires notBool ({ACCTTO|CALLDATA} in WLIST orBool {ACCTTO|b"*"} in WLIST)
+      requires notBool ({ACCTTO|CALLDATA} in WLIST orBool {ACCTTO|.Bytes} in WLIST)
       [priority(40)]
 ```
 
@@ -1006,7 +1006,7 @@ Adds an account address to the whitelist. The execution of the modified KEVM wil
     rule [foundry.allowAllCallsToAddress]:
          <k> #cheatcode_call SELECTOR ARGS
           => #loadAccount #asWord(ARGS)
-          ~> #setAllowedAllCalls #asWord(ARGS) ... </k>
+          ~> #setAllowedCall #asWord(ARGS) .Bytes  ... </k>
          requires SELECTOR ==Int selector("allowCallsToAddress(address)")
 ```
 
@@ -1646,7 +1646,6 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
 
 ```k
     syntax KItem ::= "#setAllowedCall" Account Bytes [symbol(foundry_setAllowedCall)]
-                   | "#setAllowedAllCalls" Account [symbol(foundry_setAllowedAllCalls)]
  // -----------------------------------------------------------------------------------
     rule <k> #setAllowedCall ALLOWEDACCOUNT ALLOWEDCALLDATA => .K ... </k>
          <whitelist>
@@ -1654,13 +1653,6 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
             <allowedCallsList> ALLOWEDCALLS => ALLOWEDCALLS ListItem({ALLOWEDACCOUNT|ALLOWEDCALLDATA}) </allowedCallsList>
             ...
          </whitelist>
- 
-   rule <k> #setAllowedAllCalls ALLOWEDACCOUNT => .K ... </k>
-      <whitelist>
-         <isCallWhitelistActive> _ => true </isCallWhitelistActive>
-         <allowedCallsList> ALLOWEDCALLS => ALLOWEDCALLS ListItem({ALLOWEDACCOUNT|b"*"}) </allowedCallsList>
-         ...
-      </whitelist>
 ```
 
 - `#setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN` will update the `<mockcalls>` mapping for the given account.
