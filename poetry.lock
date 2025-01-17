@@ -555,14 +555,14 @@ setuptools = "*"
 
 [[package]]
 name = "flake8-type-checking"
-version = "2.9.1"
+version = "3.0.0"
 description = "A flake8 plugin for managing type-checking imports & forward references"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "flake8_type_checking-2.9.1-py3-none-any.whl", hash = "sha256:9f9be261a2b1f2bbd25e6f14acbcd92d060ec59062af5724ebaa909c8bea0d7b"},
-    {file = "flake8_type_checking-2.9.1.tar.gz", hash = "sha256:1a14f300c8e32183cef95798b86a650dc38463664ea10b0bf0884115b47d4cfe"},
+    {file = "flake8_type_checking-3.0.0-py3-none-any.whl", hash = "sha256:e9dfb370d246414e0a25033b1826be5b1499787370b8e2c3f9696c44530e3f65"},
+    {file = "flake8_type_checking-3.0.0.tar.gz", hash = "sha256:acd5c08cc618e9b3a6257246e5cdf5c0d5b2ba2c5120e20df880823fe84de738"},
 ]
 
 [package.dependencies]
@@ -741,7 +741,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.772"
+version = "1.0.773"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -750,27 +750,27 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.196"
+kframework = "7.1.199"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.772"
-resolved_reference = "6c2526b17a8ef85f4050feee3ffc787b14af5955"
+reference = "v1.0.773"
+resolved_reference = "cdbb178669b048da32fc48b8698944d19539a39e"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.196"
+version = "7.1.199"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "kframework-7.1.196-py3-none-any.whl", hash = "sha256:2d74edcbc303e1d9f7cf48a5ec3a4f14cdcf028b532e1e1ec68cba8f2145ed1c"},
-    {file = "kframework-7.1.196.tar.gz", hash = "sha256:218c318f14c1d53eae5d906c133913eadbeae8942b4b150cd2f502230d61c174"},
+    {file = "kframework-7.1.199-py3-none-any.whl", hash = "sha256:c8e64d3f2b13c9e9353eef8cc41c3945261e7d5398de2324ba2c95504ecbff55"},
+    {file = "kframework-7.1.199.tar.gz", hash = "sha256:d7ab05b154269bf3141a0d90dda7534668a1678721f945333e29a05c6679b1c6"},
 ]
 
 [package.dependencies]
@@ -1606,4 +1606,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "2a8aebe82c1015d5790b889025af2f0cb7f3bfe6602b8fca3b949d1849e0ba3f"
+content-hash = "a0d395b68f08e81b673b38c8399fee0cc45794da1026a95101bc69f2d6713a65"
