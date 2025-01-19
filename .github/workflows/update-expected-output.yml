@@ -28,7 +28,7 @@ jobs:
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
       - name: 'Run integration tests'
         run: |
-          TEST_ARGS="--maxfail=1000 --numprocesses=6 --update-expected-output --force-sequential -vv"
+          TEST_ARGS="--maxfail=1000 --numprocesses=4 --update-expected-output --force-sequential -vv"
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)\"' || true"
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} bash -c "make cov-integration TEST_ARGS='${TEST_ARGS} -k \"test_kontrol_cse or test_foundry_minimize_proof\"' || true"
       - name: 'Copy updated files to host'
