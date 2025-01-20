@@ -187,7 +187,7 @@ def foundry_prove(
     test_results = _run_prover(test_suite, include_summaries=True)
 
     if options.xml_test_report:
-        foundry_to_xml(foundry, constructor_results + setup_results + test_results)
+        foundry_to_xml(foundry, constructor_results + setup_results + test_results, options.xml_test_report_name)
 
     return test_results
 
