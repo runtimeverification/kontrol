@@ -78,6 +78,10 @@ Then, we define helpers in K which can:
              <storage> STORAGE => STORAGE [ #loc(FoundryCheat . Failed) <- 1 ] </storage>
              ...
            </account>
+
+    syntax KItem ::= #forget ( Int , Int , Int ) [symbol(cheatcode_forget)]
+ // -----------------------------------------------------------------------
+    rule [forget]: <k> #forget(_C1,_OP,_C2) => .K ... </k>
 ```
 
 #### Structure of execution
