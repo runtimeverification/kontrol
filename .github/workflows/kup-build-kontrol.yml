@@ -3,8 +3,20 @@ name: 'KUP Build Kontrol'
 on:
   workflow_dispatch:
     inputs:
-      overrides: 
-        description: 'Overrides for the build'
+      kevm-version: 
+        description: 'Branch/Tag to use for KEVM'
+        required: false
+        default: ''
+      k-version: 
+        description: 'Branch/Tag to use for K'
+        required: false
+        default: ''
+      llvm-version: 
+        description: 'Branch/Tag to use for LLVM Backend'
+        required: false
+        default: ''
+      haskell-version: 
+        description: 'Branch/Tag to use for Haskell Backend'
         required: false
         default: ''
 
@@ -23,15 +35,27 @@ jobs:
         run: |
           set -o pipefail
           docker run --rm -it --detach --name kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kup:latest
-          if [ -n "${{ inputs.overrides }}" ]; then
-            docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c 'kup install kontrol --overrides "${{ inputs.overrides }}"'
-            docker commit kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
-            docker push ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
+          if [ ! -n "${{ inputs.kevm-version }}" ]; then
+              KEVM_VERSION=$(get KEVM version from deps/kevm)
           else
-            docker stop --time=0 kontrol-build-with-kup-${{ github.run_id }}
-            echo "No overrides provided"
-            exit 1
+              KEVM_VERSION="${{ inputs.kevm-version }}"
           fi
+          if [ ! -n "${{ inputs.k-version }}" ]; then
+              K_VERSION=$(get K version from deps/k)
+          else
+              K_VERSION="${{ inputs.k-version }}"
+          fi
+          if [ ! -n "${{ inputs.llvm-version }}" ]; then
+              LLVM_VERSION=$(get LLVM version from deps/k)
+          else
+              LLVM_VERSION="${{ inputs.llvm-version }}"
+          fi
+          if [ ! -n "${{ inputs.haskell-version }}" ]; then
+              HASKELL_VERSION=$(get HASKELL version from deps/k)
+          else
+              HASKELL_VERSION="${{ inputs.k-version }}"
+          fi
+          docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup install kontrol --override kevm ${KEVM_VERSION} --override kframework ${K_VERSION} --override llvm-backend ${LLVM_VERSION} --override haskell-backend ${HASKELL_VERSION}"
       - name: 'Tear down Docker'
         if: always()
         run: |
