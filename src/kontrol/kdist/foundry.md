@@ -16,6 +16,7 @@ requires "edsl.md"
 requires "trace.md"
 requires "assert.md"
 requires "lemmas/lemmas.k"
+requires "bn128.md"
 
 module FOUNDRY
     imports FOUNDRY-SUCCESS
@@ -26,6 +27,7 @@ module FOUNDRY
     imports KONTROL-ASSERTIONS
     imports EDSL
     imports LEMMAS
+    imports BN128-OPERATIONS
 
     configuration
       <foundry>

@@ -1820,24 +1820,6 @@ Selector for Solidity built-in Error
 ```k
     rule ( selector ( "Error(string)" ) => 147028384 )
 ```
-
-BN128 functions
-
-```k
-    syntax Bool ::= isValidPointSymbolic(G1Point) [function, total, no-evaluators, smtlib(isValidG1Point)]
-    rule isValidPoint(G) => isValidPointSymbolic(G) [priority(30)]
-
-    syntax G1Point ::= BN128MulOp(G1Point, Int) [function, total, smtlib(BN128Mul)]
-    rule BN128Mul(G, I) => BN128MulOp(G:G1Point, I:Int) [priority(30)]
-    rule BN128MulOp((PA:Int, PB:Int):G1Point, I:Int) => (PA *Int I , PB *Int I):G1Point
-
-
-    syntax G1Point ::= BN128AddOp(G1Point, G1Point) [function, total, smtlib(BN128Add)]
-    rule BN128Add(PA, PB) => BN128AddOp(PA, PB) [priority(30)]
-    rule BN128AddOp((PAA:Int, PAB:Int):G1Point, (PBA:Int, PBB:Int):G1Point) => (PAA +Int PBA , PAB +Int PBB):G1Point
-
-```
-
 ```k
 endmodule
 ```
