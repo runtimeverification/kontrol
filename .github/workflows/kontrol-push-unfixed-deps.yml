@@ -36,26 +36,48 @@ jobs:
           set -o pipefail
           docker run --rm -it --detach --name kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kup:latest
           if [ ! -n "${{ inputs.kevm-version }}" ]; then
-              KEVM_VERSION=$(get KEVM version from deps/kevm)
+              KEVM_TAG=$(curl -s https://raw.githubusercontent.com/runtimeverification/kontrol/master/deps/kevm_release)
+              KEVM_HASH=$(git ls-remote https://github.com/runtimeverification/evm-semantics.git refs/tags/v${KEVM_TAG} | awk '{print $1}')
+              KEVM_OVERRIDE="--override kevm ${KEVM_HASH}"
           else
-              KEVM_VERSION="${{ inputs.kevm-version }}"
+              KEVM_OVERRIDE="--override kevm ${{ inputs.kevm-version }}"
           fi
           if [ ! -n "${{ inputs.k-version }}" ]; then
-              K_VERSION=$(get K version from deps/k)
+              K_TAG=$(curl -s https://raw.githubusercontent.com/runtimeverification/kontrol/master/deps/k_release)
+              K_HASH=$(git ls-remote https://github.com/runtimeverification/k.git refs/tags/v${K_TAG} | awk '{print $1}')
+              K_OVERRIDE="--override kevm/k-framework ${K_HASH}"
           else
-              K_VERSION="${{ inputs.k-version }}"
+              K_OVERRIDE="--override kevm/k-framework ${{ inputs.k-version }}"
           fi
           if [ ! -n "${{ inputs.llvm-version }}" ]; then
-              LLVM_VERSION=$(get LLVM version from deps/k)
+              K_VERSION=$(curl -s https://raw.githubusercontent.com/runtimeverification/kontrol/master/deps/k_release)
+              LLVM_TAG=$(curl -s https://raw.githubusercontent.com/runtimeverification/k/v${K_VERSION}/deps/llvm-backend_release)
+              LLVM_HASH=$(git ls-remote https://github.com/runtimeverification/llvm-backend.git refs/tags/v${LLVM_TAG} | awk '{print $1}')
+              LLVM_OVERRIDE="--override kevm/k-framework/llvm-backend ${LLVM_HASH}"
           else
-              LLVM_VERSION="${{ inputs.llvm-version }}"
+              LLVM_OVERRIDE="--override kevm/k-framework/llvm-backend ${{ inputs.llvm-version }}"
           fi
           if [ ! -n "${{ inputs.haskell-version }}" ]; then
-              HASKELL_VERSION=$(get HASKELL version from deps/k)
+              K_VERSION=$(curl -s https://raw.githubusercontent.com/runtimeverification/kontrol/master/deps/k_release)
+              HASKELL_TAG=$(curl -s https://raw.githubusercontent.com/runtimeverification/k/v${K_VERSION}/deps/haskell-backend_release)
+              HASKELL_HASH=$(git ls-remote https://github.com/runtimeverification/haskell-backend.git refs/tags/${HASKELL_TAG} | awk '{print $1}')
+              HASKELL_OVERRIDE="--override kevm/k-framework/haskell-backend ${HASKELL_HASH}"
           else
-              HASKELL_VERSION="${{ inputs.k-version }}"
+              HASKELL_OVERRIDE="--override kevm/k-framework/haskell-backend ${{ inputs.haskell-version }}"
           fi
-          docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup install kontrol --override kevm ${KEVM_VERSION} --override kframework ${K_VERSION} --override llvm-backend ${LLVM_VERSION} --override haskell-backend ${HASKELL_VERSION}"
+          echo ""
+          echo "Building with: "
+          echo "KEVM_OVERRIDE: ${KEVM_OVERRIDE}"
+          echo "K_OVERRIDE: ${K_OVERRIDE}"
+          echo "LLVM_OVERRIDE: ${LLVM_OVERRIDE}"
+          echo "HASKELL_OVERRIDE: ${HASKELL_OVERRIDE}"
+          echo ""
+          docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup install kontrol ${KEVM_OVERRIDE} ${K_OVERRIDE} ${LLVM_OVERRIDE} ${HASKELL_OVERRIDE}"
+          docker commit kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
+          docker push ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
+      - name: 'Publish Image Name to Workflow Summary'
+        run: |
+          echo "Image Name: ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
       - name: 'Tear down Docker'
         if: always()
         run: |
