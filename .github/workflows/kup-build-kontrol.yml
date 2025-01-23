@@ -1,0 +1,38 @@
+---
+name: 'KUP Build Kontrol'
+on:
+  workflow_dispatch:
+    inputs:
+      overrides: 
+        description: 'Overrides for the build'
+        required: false
+        default: ''
+
+jobs:
+  build-kontrol:
+    runs-on: [self-hosted, normal]
+    steps:
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Build Kontrol'
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -it --detach --name kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kup:latest
+          if [ -n "${{ inputs.overrides }}" ]; then
+            docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c 'kup install kontrol --overrides "${{ inputs.overrides }}"'
+            docker commit kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
+            docker push ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
+          else
+            docker stop --time=0 kontrol-build-with-kup-${{ github.run_id }}
+            echo "No overrides provided"
+            exit 1
+          fi
+      - name: 'Tear down Docker'
+        if: always()
+        run: |
+          docker stop --time=0 kontrol-build-with-kup-${{ github.run_id }}
