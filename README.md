@@ -115,7 +115,7 @@ Inputs:
 ```
 Now run a build using kup and specific dependency overrides:    
 
-`kup install kontrol --override kevm/haskell-backend "hash/branch name" --override kevm/k-framework/haskell-backend "hash/branch name"`
+`kup install kontrol --override kevm/haskell-backend "hash/branch_name" --override kevm/k-framework/haskell-backend "hash/branch_name"`
 
 #### Using the workflow and publish to ghcr.io/runtimeverification
 The workflow takes a single input and ONLY a single override to fill in the paramater '--override' which is a string following the path from the above dep tree to be passed to kup install. Explained in more detail above.
