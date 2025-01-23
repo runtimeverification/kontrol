@@ -74,19 +74,17 @@ make cov-integration TEST_ARGS="--numprocesses=8 --update-expected-output"
 ### Build Development Kontrol Image with Fixed Upstream Dependencies
 --------------------------------
 Relevant to this workflow [kontrol-push-fixed-deps.yml](.github/workflows/kontrol-push-fixed-deps.yml)
->This is relevant for internal development to publish development images of kontrol with modified kontrol chagnes and retains fixed upstream dependencies.
-The usecase for this workflow is intended to make testing changes of kontrol needed for use in testing CI or in other downstream workflows without needing to publish changes or PRs first. 
+>This is relevant for internal development to publish development images of Kontrol with modified Kontrol changes and retain fixed upstream dependencies.
+The use case for this workflow is intended to facilitate testing changes to Kontrol needed for use in testing CI or in other downstream workflows without needing to publish changes or PRs first.
 
-Intent is to reduce friction of needing custom builds and avoiding lengthy upstream changes and PRs.
-
-
+The intent is to reduce the friction of needing custom builds and avoiding lengthy upstream changes and PRs.
 
 ### Build Kontrol with Kup and Specific Dependency Overrides
 --------------------------------
 Relevant to this workflow [kup-build-kontrol.yml](.github/workflows/kontrol-push-unfixed-deps.yml)
-> This is relevant for internal development to publish development images of kontrol for use in kaas or a dockerized test environment.
+> This is relevant for internal development to publish development images of Kontrol for use in KaaS or a dockerized test environment.
 Use the workflow [Kup Build Kontrol](.github/workflows/kup-build-kontrol.yml) to publish a custom version of Kontrol for use in CI and [KaaS](https://kaas.runtimeverification.com/).
-[See KUP docs for more information](https://github.com/runtimeverification/kup/blob/master/src/kup/install-help.md#kup-install----override) 
+[See KUP docs for more information](https://github.com/runtimeverification/kup/blob/master/src/kup/install-help.md#kup-install----override)
 
 #### Using Kup 
 -------------
