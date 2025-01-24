@@ -23,6 +23,9 @@ on:
         description: 'SHA to use for Haskell Backend'
         required: false
         default: ''
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build-kontrol:
