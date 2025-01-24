@@ -3,20 +3,24 @@ name: 'Push Kontrol w/ Dependencies'
 on:
   workflow_dispatch:
     inputs:
+      kontrol-version: 
+        description: 'Branch/Tag to use for Kontrol'
+        required: false
+        default: ''
       kevm-version: 
-        description: 'Branch/Tag to use for KEVM'
+        description: 'SHA to use for KEVM'
         required: false
         default: ''
       k-version: 
-        description: 'Branch/Tag to use for K'
+        description: 'SHA to use for K'
         required: false
         default: ''
       llvm-version: 
-        description: 'Branch/Tag to use for LLVM Backend'
+        description: 'SHA to use for LLVM Backend'
         required: false
         default: ''
       haskell-version: 
-        description: 'Branch/Tag to use for Haskell Backend'
+        description: 'SHA to use for Haskell Backend'
         required: false
         default: ''
 
@@ -35,6 +39,9 @@ jobs:
         run: |
           set -o pipefail
           docker run --rm -it --detach --name kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kup:latest
+          if [ -n "${{ inputs.kontrol-version }}" ]; then
+              KONTROL_OVERRIDE="--version ${{ inputs.kontrol-version }}"
+          fi
           if [ -n "${{ inputs.kevm-version }}" ]; then
               KEVM_OVERRIDE="--override kevm ${{ inputs.kevm-version }}"
           fi
@@ -47,7 +54,7 @@ jobs:
           if [ -n "${{ inputs.haskell-version }}" ]; then
               HASKELL_OVERRIDE="--override kevm/k-framework/haskell-backend ${{ inputs.haskell-version }}"
           fi
-          docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup install kontrol --version ${{ github.ref_name }} ${KEVM_OVERRIDE} ${K_OVERRIDE} ${LLVM_OVERRIDE} ${HASKELL_OVERRIDE}"
+          docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup install kontrol ${KONTROL_OVERRIDE} ${KEVM_OVERRIDE} ${K_OVERRIDE} ${LLVM_OVERRIDE} ${HASKELL_OVERRIDE}"
           docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup list kontrol --inputs" >> versions.out
           docker commit kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
           docker push ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
