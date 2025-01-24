@@ -71,7 +71,82 @@ To update the expected output of the tests, use the `--update-expected-output` f
 make cov-integration TEST_ARGS="--numprocesses=8 --update-expected-output"
 ```
 
-For interactive use, spawn a shell with `poetry shell` (after `poetry install`), then run an interpreter.
+### Build Development Kontrol Image with Fixed Upstream Dependencies
+--------------------------------
+Relevant to this workflow [kontrol-push-fixed-deps.yml](.github/workflows/kontrol-push-fixed-deps.yml)
+>This is relevant for internal development to publish development images of Kontrol with modified Kontrol changes and retain fixed upstream dependencies.
+The use case for this workflow is intended to facilitate testing changes to Kontrol needed for use in testing CI or in other downstream workflows without needing to publish changes or PRs first.
+
+The intent is to reduce the friction of needing custom builds and avoiding lengthy upstream changes and PRs.
+
+### Build Kontrol with Kup and Specific Dependency Overrides
+--------------------------------
+Relevant to this workflow [kup-build-kontrol.yml](.github/workflows/kontrol-push-unfixed-deps.yml)
+> This is relevant for internal development to publish development images of Kontrol for use in KaaS or a dockerized test environment.
+Use the workflow [Kup Build Kontrol](.github/workflows/kup-build-kontrol.yml) to publish a custom version of Kontrol for use in CI and [KaaS](https://kaas.runtimeverification.com/).
+[See KUP docs for more information](https://github.com/runtimeverification/kup/blob/master/src/kup/install-help.md#kup-install----override)
+
+#### Using Kup 
+-------------
+Relevant dependency options are shown below and can be listed using `kup list kontrol --inputs`  
+For example: 
+```
+Inputs:
+├── k-framework - follows kevm/k-framework
+├── kevm - github:runtimeverification/evm-semantics (6c2526b)
+│   ├── blockchain-k-plugin - github:runtimeverification/blockchain-k-plugin (c9264b2)
+│   │   ├── k-framework - github:runtimeverification/k (5d1ccd5)
+│   │   │   ├── haskell-backend - github:runtimeverification/haskell-backend (d933d5c)
+│   │   │   │   └── rv-utils - follows kevm/blockchain-k-plugin/k-framework/llvm-backend/rv-utils
+│   │   │   ├── llvm-backend - github:runtimeverification/llvm-backend (37b1dd9)
+│   │   │   │   ├── immer-src - github:runtimeverification/immer (4b0914f)
+│   │   │   │   └── rv-utils - github:runtimeverification/rv-nix-tools (a650588)
+│   │   │   └── rv-utils - follows kevm/blockchain-k-plugin/k-framework/llvm-backend/rv-utils
+│   │   └── rv-utils - follows kevm/blockchain-k-plugin/k-framework/rv-utils
+│   ├── haskell-backend - follows kevm/k-framework/haskell-backend
+│   ├── k-framework - github:runtimeverification/k (81bcc24)
+│   │   ├── haskell-backend - github:runtimeverification/haskell-backend (786c780)
+│   │   │   └── rv-utils - follows kevm/k-framework/llvm-backend/rv-utils
+│   │   ├── llvm-backend - github:runtimeverification/llvm-backend (d5eab4b)
+│   │   │   ├── immer-src - github:runtimeverification/immer (4b0914f)
+│   │   │   └── rv-utils - github:runtimeverification/rv-nix-tools (a650588)
+│   │   └── rv-utils - follows kevm/k-framework/llvm-backend/rv-utils
+│   └── rv-utils - follows kevm/k-framework/rv-utils
+└── rv-utils - follows kevm/rv-utils
+```
+> **Notice**: the 'follows' in the 'kup list' output. This shows the links to the important dependencies and which are affected when you set the overrides. 
+
+Now run a build using kup and specific dependency overrides:    
+
+`kup install kontrol --override kevm/k-framework/haskell-backend "hash/branch_name" --override kevm/k-framework/haskell-backend "hash"`  
+
+> **Note**: It's important that you use the short-rev hash or the long for specific revisions of the dependencies to modify. 
+
+#### Using the workflow to publish to ghcr.io/runtimeverification
+--------------------------------
+
+#### Running the workflow
+- Go to repo [Kontrol Actions Page](https://github.com/runtimeverification/kontrol/actions) 
+- Click on "Push Kontrol w/ Dependencies" from the left hand list 
+- Click on "Run Workflow" on the top right corner of the list of workflow runs is an option "Run Workflow".
+- Use the 'master' branch unless you're doing something special.
+- Input the override hash strings for specific dependencies to override in kontrol. See below on how to find the hash for the dependency.
+- Then click "Run Workflow" and a job will start.
+- The workflow summary shows the name of the image that was built and pushed e.g. ghcr.io/runtimeverification/kontrol-custom:tag 
+
+> **Note**: The tag will be a randomly generated string.
+
+[The workflow](.github/workflows/kontrol-push-unfixed-deps.yml) takes multiple inputs to override the various components of kontrol. Those overrides are listed above in the example output of 'kup list kontrol --inputs' 
+
+To set the desired revisions of the dependencies. Find the associated hash on the branch and commit made to be used for the dependnecy override. 
+If an input is left blank, the workflow will workout the default hash to use based on kontrols latest release. 
+
+Example to fetch the desired hash to insert a different dependency version into the kontrol build.
+Substitude the k-framework revision used to build kontrol.
+```
+K_TAG=$(curl -s https://raw.githubusercontent.com/runtimeverification/kontrol/master/deps/k_release)
+git ls-remote https://github.com/runtimeverification/k.git refs/tags/v${K_TAG} | awk '{print $1}'
+```
 
 ## Resources
 
