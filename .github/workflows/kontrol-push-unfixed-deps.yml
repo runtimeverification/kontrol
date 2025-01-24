@@ -24,7 +24,6 @@ on:
         required: false
         default: ''
 permissions:
-  contents: read
   packages: write
 
 jobs:
@@ -41,7 +40,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          docker run --rm -it --detach --name kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kup:latest
+          docker run --env GH_TOKEN=${{ secrets.GITHUB_TOKEN }} --rm -it --detach --name kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kup:latest
           if [ -n "${{ inputs.kontrol-version }}" ]; then
               KONTROL_OVERRIDE="--version ${{ inputs.kontrol-version }}"
           fi
