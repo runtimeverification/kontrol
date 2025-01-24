@@ -47,7 +47,7 @@ jobs:
           if [ -n "${{ inputs.haskell-version }}" ]; then
               HASKELL_OVERRIDE="--override kevm/k-framework/haskell-backend ${{ inputs.haskell-version }}"
           fi
-          docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup install kontrol ${KEVM_OVERRIDE} ${K_OVERRIDE} ${LLVM_OVERRIDE} ${HASKELL_OVERRIDE}"
+          docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup install kontrol --version ${{ github.ref_name }} ${KEVM_OVERRIDE} ${K_OVERRIDE} ${LLVM_OVERRIDE} ${HASKELL_OVERRIDE}"
           docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup list kontrol --inputs" >> versions.out
           docker commit kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
           docker push ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
