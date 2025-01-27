@@ -177,7 +177,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -194,7 +194,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callStack>
                    ( ListItem ( <callState>
@@ -570,7 +570,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -587,7 +587,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callStack>
                    ( ListItem ( <callState>
@@ -964,7 +964,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ~> ( .K => #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -989,16 +989,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"\x922\xed\x8c" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z )
+                       b"\x922\xed\x8c" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ?KV2_z : ( ?KV1_y : ( ?KV0_x : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
+                       ( 228 : ( selector ( "add_sub_external(uint256,uint256,uint256)" ) : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ?KV2_z:Int : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 247 : ( selector ( "test_double_add_sub_external(uint256,uint256,uint256)" ) : .WordStack ) ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x9c&\xe07" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int )
                      </localMem>
                      <memoryUsed>
                        0
@@ -1114,7 +1114,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                      ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"\x9c&\xe07" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z ) )
+                     ( b"\n\x92T\xe4" => b"\x9c&\xe07" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int ) )
                    </callData>
                    <callValue>
                      0
@@ -1359,12 +1359,12 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))
-       ensures ( 0 <=Int ?KV0_x
-       andBool ( 0 <=Int ?KV1_y
-       andBool ( 0 <=Int ?KV2_z
-       andBool ( ?KV0_x <Int pow256
-       andBool ( ?KV1_y <Int pow256
-       andBool ( ?KV2_z <Int pow256
+       ensures ( 0 <=Int ?KV0_x:Int
+       andBool ( 0 <=Int ?KV1_y:Int
+       andBool ( 0 <=Int ?KV2_z:Int
+       andBool ( ?KV0_x:Int <Int pow256
+       andBool ( ?KV1_y:Int <Int pow256
+       andBool ( ?KV2_z:Int <Int pow256
                ))))))
       [priority(20), label(BASIC-BLOCK-1-TO-7)]
     
@@ -1375,7 +1375,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1392,7 +1392,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callStack>
                    ( ListItem ( <callState>
@@ -1773,7 +1773,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1790,7 +1790,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callStack>
                    ( ListItem ( <callState>
@@ -2172,7 +2172,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2189,7 +2189,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    ( ListItem ( <callState>
@@ -2572,7 +2572,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2589,7 +2589,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL(UINT256,UINT
                    ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callStack>
                    ( ListItem ( <callState>

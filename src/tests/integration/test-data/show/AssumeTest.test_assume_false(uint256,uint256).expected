@@ -343,7 +343,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
                ( .K => STATICCALL 0 645326474426547203313410069153905908525362434349 128 36 128 0
                ~> #pc [ STATICCALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -572,7 +572,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSUMETEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_a:Int <Int pow256
@@ -591,7 +591,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
                ~> #return 128 0 )
                ~> #pc [ STATICCALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -824,7 +824,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( KV1_b:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSUMETEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
@@ -839,7 +839,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
                ~> #return 128 0
                ~> #pc [ STATICCALL ] => .K )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1072,7 +1072,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( KV1_b:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSUMETEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
@@ -1085,7 +1085,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
                ( .K => CALL 0 645326474426547203313410069153905908525362434349 0 388 100 388 0
                ~> #pc [ CALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1319,7 +1319,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( KV1_b:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSUMETEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))))
@@ -1334,7 +1334,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
                ~> #return 388 0 )
                ~> #pc [ CALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1568,7 +1568,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( KV1_b:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSUMETEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))))
@@ -1584,7 +1584,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
                ~> #pc [ CALL ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1818,7 +1818,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( KV1_b:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSUMETEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))))
@@ -1830,7 +1830,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
                ( #end EVMC_SUCCESS => #halt )
                ~> #pc [ STOP ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1847,7 +1847,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -2067,7 +2067,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( KV1_b:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSUMETEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))))
@@ -2079,7 +2079,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
                #halt
                ~> ( #pc [ STOP ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2316,7 +2316,7 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( KV1_b:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSUMETEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))))
