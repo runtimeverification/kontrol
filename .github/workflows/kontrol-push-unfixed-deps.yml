@@ -1,0 +1,74 @@
+---
+name: 'Push Kontrol w/ Dependencies'
+on:
+  workflow_dispatch:
+    inputs:
+      kontrol-version: 
+        description: 'Branch/Tag to use for Kontrol'
+        required: false
+        default: ''
+      kevm-version: 
+        description: 'SHA to use for KEVM'
+        required: false
+        default: ''
+      k-version: 
+        description: 'SHA to use for K'
+        required: false
+        default: ''
+      llvm-version: 
+        description: 'SHA to use for LLVM Backend'
+        required: false
+        default: ''
+      haskell-version: 
+        description: 'SHA to use for Haskell Backend'
+        required: false
+        default: ''
+permissions:
+  packages: write
+
+jobs:
+  build-kontrol:
+    runs-on: [self-hosted, normal]
+    steps:
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Build Kontrol'
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --env GH_TOKEN=${{ secrets.GITHUB_TOKEN }} --rm -it --detach --name kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kup:latest
+          if [ -n "${{ inputs.kontrol-version }}" ]; then
+              KONTROL_OVERRIDE="--version ${{ inputs.kontrol-version }}"
+          fi
+          if [ -n "${{ inputs.kevm-version }}" ]; then
+              KEVM_OVERRIDE="--override kevm ${{ inputs.kevm-version }}"
+          fi
+          if [ -n "${{ inputs.k-version }}" ]; then
+              K_OVERRIDE="--override kevm/k-framework ${{ inputs.k-version }}"
+          fi
+          if [ -n "${{ inputs.llvm-version }}" ]; then
+              LLVM_OVERRIDE="--override kevm/k-framework/llvm-backend ${{ inputs.llvm-version }}"
+          fi
+          if [ -n "${{ inputs.haskell-version }}" ]; then
+              HASKELL_OVERRIDE="--override kevm/k-framework/haskell-backend ${{ inputs.haskell-version }}"
+          fi
+          docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup install kontrol ${KONTROL_OVERRIDE} ${KEVM_OVERRIDE} ${K_OVERRIDE} ${LLVM_OVERRIDE} ${HASKELL_OVERRIDE}"
+          docker exec kontrol-build-with-kup-${{ github.run_id }} /bin/bash -c "kup list kontrol --inputs" >> versions.out
+          docker commit kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
+          docker push ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
+      - name: 'Publish Versions to Artifacts'
+        uses: actions/upload-artifact@v3
+        with:
+          name: Versions
+          path: versions.out
+      - name: 'Publish Image Name to Workflow Summary'
+        run: |
+          echo "Image Name: ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
+      - name: 'Tear down Docker'
+        if: always()
+        run: |
+          docker stop --time=0 kontrol-build-with-kup-${{ github.run_id }}
