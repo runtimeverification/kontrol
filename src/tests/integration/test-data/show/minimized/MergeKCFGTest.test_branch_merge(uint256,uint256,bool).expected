@@ -116,13 +116,13 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
     rule [BASIC-BLOCK-1-TO-17]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 99 bool2Word ( ?KV2_z ==Int 0 )
+               ( .K => JUMPI 99 bool2Word ( ?KV2_z:Int ==Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> #return 128 32
                ~> #pc [ CALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -147,16 +147,16 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                        CALLER_ID:Int
                      </caller>
                      <callData>
-                       b"\x15T\xa2\xa4" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z )
+                       b"\x15T\xa2\xa4" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int )
                      </callData>
                      <callValue>
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( selector ( "applyOp(uint256,uint256,bool)" ) : ( 491460923342184218035706888008750043977755113263 : ( ?KV2_z : ( ?KV1_y : ( ?KV0_x : ( 193 : ( selector ( "test_branch_merge(uint256,uint256,bool)" ) : .WordStack ) ) ) ) ) ) ) )
+                       ( 228 : ( selector ( "applyOp(uint256,uint256,bool)" ) : ( 491460923342184218035706888008750043977755113263 : ( ?KV2_z:Int : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 193 : ( selector ( "test_branch_merge(uint256,uint256,bool)" ) : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0~\\\x97" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z )
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0~\\\x97" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int )
                      </localMem>
                      <memoryUsed>
                        0
@@ -270,13 +270,13 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"\xe0~\\\x97" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) +Bytes #buf ( 32 , ?KV2_z ) )
+                     ( b"\n\x92T\xe4" => b"\xe0~\\\x97" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int ) )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( ?KV2_z : ( ?KV1_y : ( ?KV0_x : ( 60 : ( selector ( "applyOp(uint256,uint256,bool)" ) : .WordStack ) ) ) ) ) ) )
+                     ( .WordStack => ( 0 : ( ?KV2_z:Int : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 60 : ( selector ( "applyOp(uint256,uint256,bool)" ) : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -507,19 +507,19 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_MERGEKCFGTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_MERGEKCFGTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-       ensures ( ?KV2_z <Int 2
-       andBool ( 0 <=Int ?KV0_x
-       andBool ( 0 <=Int ?KV1_y
-       andBool ( 0 <=Int ?KV2_z
-       andBool ( ?KV0_x <Int pow256
-       andBool ( ?KV1_y <Int pow256
-       andBool ( ?KV0_x <=Int ( maxUInt256 -Int ?KV1_y )
+       ensures ( ?KV2_z:Int <Int 2
+       andBool ( 0 <=Int ?KV0_x:Int
+       andBool ( 0 <=Int ?KV1_y:Int
+       andBool ( 0 <=Int ?KV2_z:Int
+       andBool ( ?KV0_x:Int <Int pow256
+       andBool ( ?KV1_y:Int <Int pow256
+       andBool ( ?KV0_x:Int <=Int ( maxUInt256 -Int ?KV1_y:Int )
                )))))))
       [priority(20), label(BASIC-BLOCK-1-TO-17)]
     
@@ -532,7 +532,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                ~> #return 128 32
                ~> #pc [ CALL ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -549,7 +549,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    ( ListItem ( <callState>
@@ -924,7 +924,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                ~> #return 128 32
                ~> #pc [ CALL ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -941,7 +941,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    ( ListItem ( <callState>
@@ -1317,7 +1317,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                ~> #return 128 32
                ~> #pc [ CALL ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1334,7 +1334,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    ( ListItem ( <callState>

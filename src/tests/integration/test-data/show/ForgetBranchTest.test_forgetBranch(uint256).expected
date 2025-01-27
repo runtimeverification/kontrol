@@ -106,7 +106,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                ~> #cheatcode_return 128 0
                ~> #pc [ CALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -334,7 +334,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_FORGETBRANCHTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_FORGETBRANCHTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
@@ -351,7 +351,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                ~> #cheatcode_return 128 0
                ~> #pc [ CALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -583,7 +583,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_FORGETBRANCHTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_FORGETBRANCHTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
@@ -596,7 +596,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                ~> #pc [ CALL ] => JUMPI 1326 bool2Word ( KV0_x:Int <=Int 200 )
                ~> #pc [ JUMPI ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -827,7 +827,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_FORGETBRANCHTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_FORGETBRANCHTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))
@@ -839,7 +839,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                ( JUMPI 1326 bool2Word ( KV0_x:Int <=Int 200 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -856,7 +856,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -1074,7 +1074,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_FORGETBRANCHTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_FORGETBRANCHTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
@@ -1086,7 +1086,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                ( JUMPI 1326 bool2Word ( KV0_x:Int <=Int 200 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1103,7 +1103,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -1321,7 +1321,7 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( KV0_x:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_FORGETBRANCHTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_FORGETBRANCHTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))

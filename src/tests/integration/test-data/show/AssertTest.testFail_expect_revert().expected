@@ -404,7 +404,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -421,7 +421,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -634,7 +634,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -646,7 +646,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
            <kevm>
              <k>
                ( #halt => #execute )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -663,7 +663,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    b""
                  </output>
                  <statusCode>
-                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                   ( EVMC_SUCCESS => ?_STATUSCODE:StatusCode )
                  </statusCode>
                  <callStack>
                    .List
@@ -878,7 +878,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
@@ -890,7 +890,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ( .K => CALL 0 645326474426547203313410069153905908525362434349 0 128 4 128 0
                ~> #pc [ CALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1133,7 +1133,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #return 128 0 )
                ~> #pc [ CALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1379,7 +1379,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #checkRevert
                ~> #updateRevertOutput 128 0 )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1540,10 +1540,10 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                  ( false => true )
                </isRevertExpected>
                <expectedReason>
-                 ( _EXPECTEDREASON_CELL => b"" )
+                 ( _EXPECTEDREASON_CELL:Bytes => b"" )
                </expectedReason>
                <expectedDepth>
-                 ( _EXPECTEDDEPTH_CELL => 0 )
+                 ( _EXPECTEDDEPTH_CELL:Int => 0 )
                </expectedDepth>
              </expectedRevert>
              <expectedOpcode>
@@ -1629,7 +1629,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #checkRevert
                ~> #updateRevertOutput 128 0
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1880,7 +1880,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #checkRevert
                ~> #updateRevertOutput 128 0
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2225,7 +2225,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #checkRevert
                ~> #updateRevertOutput 128 0
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2571,7 +2571,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #checkRevert
                ~> #updateRevertOutput 128 0
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2917,7 +2917,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #checkRevert
                ~> #updateRevertOutput 128 0
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2934,7 +2934,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callStack>
                    ListItem ( <callState>
@@ -3266,7 +3266,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #checkRevert
                ~> #updateRevertOutput 128 0
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -3618,7 +3618,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #checkRevert
                ~> #updateRevertOutput 128 0
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -3970,7 +3970,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ~> #updateRevertOutput 128 0 => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -4314,7 +4314,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                ( #end EVMC_SUCCESS => #halt )
                ~> #pc [ STOP ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -4562,7 +4562,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                #halt
                ~> ( #pc [ STOP ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL

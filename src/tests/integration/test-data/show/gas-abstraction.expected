@@ -421,7 +421,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                ( .K => #end EVMC_REVERT
                ~> #pc [ REVERT ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -642,7 +642,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_GASTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_GASTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -656,7 +656,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                ( #end EVMC_REVERT => #halt )
                ~> #pc [ REVERT ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -673,7 +673,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                    b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callStack>
                    .List
@@ -882,7 +882,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_GASTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_GASTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
@@ -894,7 +894,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                #halt
                ~> ( #pc [ REVERT ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1120,7 +1120,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_GASTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_GASTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))

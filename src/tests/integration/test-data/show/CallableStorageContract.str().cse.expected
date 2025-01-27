@@ -84,7 +84,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -98,10 +98,10 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   ( _OUTPUT_CELL:Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callState>
                    <id>
@@ -266,7 +266,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -280,10 +280,10 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int -32 ) , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int 224 ) ) -Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int -160 ) ) ) )
+                   ( _OUTPUT_CELL:Bytes => #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int -32 ) , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int 224 ) ) -Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int -160 ) ) ) )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callState>
                    <id>
