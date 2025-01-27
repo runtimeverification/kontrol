@@ -237,10 +237,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 508 bool2Word ( ??WORD <=Int 0 )
+               ( .K => JUMPI 508 bool2Word ( ??WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -254,7 +254,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              <ethereum>
                <evm>
                  <output>
-                   ( b"" => #buf ( 32 , ??WORD ) )
+                   ( b"" => #buf ( 32 , ??WORD:Int ) )
                  </output>
                  <callStack>
                    .List
@@ -279,10 +279,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( ??WORD : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) ) )
+                     ( .WordStack => ( 0 : ( ??WORD:Int : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ??WORD ) +Bytes b"\x00\x00\x00 " )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ??WORD:Int ) +Bytes b"\x00\x00\x00 " )
                    </localMem>
                    <memoryUsed>
                      0
@@ -467,14 +467,14 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-       ensures ( 0 <=Int ??WORD
-       andBool ( ??WORD <Int pow256
+       ensures ( 0 <=Int ??WORD:Int
+       andBool ( ??WORD:Int <Int pow256
                ))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
@@ -484,7 +484,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -501,7 +501,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ( #buf ( 32 , ?WORD:Int ) => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -719,7 +719,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ?WORD:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
@@ -731,7 +731,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -748,7 +748,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ( #buf ( 32 , ?WORD:Int ) => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -967,7 +967,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ?WORD:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
@@ -979,7 +979,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -996,7 +996,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ( #buf ( 32 , ?WORD:Int ) => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -1216,7 +1216,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ?WORD:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))))
@@ -1228,7 +1228,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1245,7 +1245,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ( #buf ( 32 , ?WORD:Int ) => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -1466,7 +1466,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ?WORD:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))))
@@ -1478,7 +1478,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                JUMPI 508 bool2Word ( ?WORD:Int <=Int ( 0 => 4 ) )
                ~> #pc [ JUMPI ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1713,7 +1713,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ?WORD:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))))
@@ -1723,7 +1723,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
            <kevm>
              <k>
                ( #halt => #execute )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1740,7 +1740,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    b""
                  </output>
                  <statusCode>
-                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                   ( EVMC_SUCCESS => ?_STATUSCODE:StatusCode )
                  </statusCode>
                  <callStack>
                    .List
@@ -1958,7 +1958,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ?WORD:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
@@ -1968,7 +1968,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
            <kevm>
              <k>
                ( #halt => #execute )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1985,7 +1985,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    b""
                  </output>
                  <statusCode>
-                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                   ( EVMC_SUCCESS => ?_STATUSCODE:StatusCode )
                  </statusCode>
                  <callStack>
                    .List
@@ -2204,7 +2204,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ?WORD:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
@@ -2214,7 +2214,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
            <kevm>
              <k>
                ( #halt => #execute )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2231,7 +2231,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    b""
                  </output>
                  <statusCode>
-                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                   ( EVMC_SUCCESS => ?_STATUSCODE:StatusCode )
                  </statusCode>
                  <callStack>
                    .List
@@ -2451,7 +2451,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ?WORD:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))))
@@ -2461,7 +2461,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
            <kevm>
              <k>
                ( #halt => #execute )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2478,7 +2478,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    b""
                  </output>
                  <statusCode>
-                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                   ( EVMC_SUCCESS => ?_STATUSCODE:StatusCode )
                  </statusCode>
                  <callStack>
                    .List
@@ -2699,7 +2699,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( ?WORD:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))))
@@ -2709,7 +2709,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2726,7 +2726,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -2953,7 +2953,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2970,7 +2970,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -3198,7 +3198,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -3215,7 +3215,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -3444,7 +3444,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -3461,7 +3461,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
