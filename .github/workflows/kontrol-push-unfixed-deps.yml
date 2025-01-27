@@ -61,7 +61,7 @@ jobs:
           docker commit kontrol-build-with-kup-${{ github.run_id }} ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
           docker push ghcr.io/runtimeverification/kontrol-custom:${{ github.run_id }}
       - name: 'Publish Versions to Artifacts'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Versions
           path: versions.out
