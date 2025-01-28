@@ -76,8 +76,8 @@ module FOUNDRY-CHEAT-CODES
         </expectEmit>
         <whitelist>
           <isCallWhitelistActive> false </isCallWhitelistActive>
+          <allowedCallsList> .List </allowedCallsList>
           <isStorageWhitelistActive> false </isStorageWhitelistActive>
-          <addressList> .List </addressList>
           <storageSlotList> .List </storageSlotList>
         </whitelist>
         <mockCalls>
@@ -946,7 +946,8 @@ A `StorageSlot` pair is formed from an address and a storage index.
 
 ```k
     syntax StorageSlot ::= "{" Int "|" Int "}"
- // ------------------------------------------
+    syntax CallToAddress ::= "{" Int "|" Bytes "}"
+ // ----------------------------------------------
 ```
 
 We define two new status codes:
@@ -965,15 +966,14 @@ If the address is not in the whitelist `WLIST` then `KEVM` goes into an error st
 
 ```k
     rule [foundry.catchNonWhitelistedCalls]:
-         <k> (#call _ ACCTTO _ _ _ _ false
-          ~> #popCallStack
-          ~> #popWorldState) => #end KONTROL_WHITELISTCALL ... </k>
+         <k> (#call _ ACCTTO _ _ _ CALLDATA false
+          ~> #return _ _) => #end KONTROL_WHITELISTCALL ... </k>
          <whitelist>
            <isCallWhitelistActive> true </isCallWhitelistActive>
-           <addressList> WLIST </addressList>
+           <allowedCallsList> WLIST </allowedCallsList>
            ...
          </whitelist>
-      requires notBool ACCTTO in WLIST
+      requires notBool ({ACCTTO|CALLDATA} in WLIST orBool {ACCTTO|.Bytes} in WLIST)
       [priority(40)]
 ```
 
@@ -1003,9 +1003,32 @@ function allowCallsToAddress(address) external;
 Adds an account address to the whitelist. The execution of the modified KEVM will stop when a call has been made to an address which is not in the whitelist.
 
 ```k
-    rule [foundry.allowCallsToAddress]:
-         <k> #cheatcode_call SELECTOR ARGS => #loadAccount #asWord(ARGS) ~> #addAddressToWhitelist #asWord(ARGS) ... </k>
-         requires SELECTOR ==Int selector ( "allowCallsToAddress(address)" )
+    rule [foundry.allowAllCallsToAddress]:
+         <k> #cheatcode_call SELECTOR ARGS
+          => #loadAccount #asWord(ARGS)
+          ~> #setAllowedCall #asWord(ARGS) .Bytes  ... </k>
+         requires SELECTOR ==Int selector("allowCallsToAddress(address)")
+```
+
+#### `allowCalls` - Add an account address and calldata prefix to a whitelist.
+
+```
+function allowCalls(address, bytes calldata data) external;
+```
+
+Adds an account address and calldata prefix to the whitelist. The execution of the modified KEVM will stop when a call has been made to an address and/or with calldata which are not in the whitelist.
+
+```k
+    rule [foundry.allowCalls]:
+         <k> #cheatcode_call SELECTOR ARGS
+          => #loadAccount #asWord(#range(ARGS, 0, 32))
+          ~> #etchAccountIfEmpty #asWord(#range(ARGS, 0, 32))
+         ~> #setAllowedCall 
+               #asWord(#range(ARGS, 0, 32)) 
+               #range(ARGS, #asWord(#range(ARGS, 32, 32)) +Int 32, #asWord(#range(ARGS, #asWord(#range(ARGS, 32, 32)), 32)))
+         ...
+         </k>
+         requires SELECTOR ==Int selector ( "allowCalls(address,bytes)" )
 ```
 
 #### `allowChangesToStorage` - Add an account address and a storage slot to a whitelist.
@@ -1608,19 +1631,6 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
     rule #checkTopics(ListItem(CHECK) CHECKS, ListItem(V1) L1, ListItem(V2) L2) => #checkTopic(CHECK, V1, V2) andBool #checkTopics(CHECKS, L1, L2) requires size(L1) ==Int size(L2)
 ```
 
-- `#addAddressToWhitelist` enables the whitelist restriction for calls and adds an address to the whitelist.
-
-```k
-    syntax KItem ::= "#addAddressToWhitelist" Int [symbol(foundry_addAddressToWhitelist)]
- // -------------------------------------------------------------------------------------
-    rule <k> #addAddressToWhitelist ACCT => .K ... </k>
-        <whitelist>
-          <isCallWhitelistActive> _ => true </isCallWhitelistActive>
-          <addressList> WLIST => WLIST ListItem(ACCT) </addressList>
-          ...
-        </whitelist>
-```
-
 - `#addStorageSlotToWhitelist` enables the whitelist restriction for storage chagnes and adds a `StorageSlot` item to the whitelist.
 
 ```k
@@ -1650,6 +1660,19 @@ If the flag is false, it skips comparison, assuming success; otherwise, it compa
          </accounts>
       requires lengthBytes(CODE) ==Int 0
     rule <k> #etchAccountIfEmpty _ => .K ... </k> [owise]
+```
+
+- `#setAllowedCall ALLOWEDACCOUNT ALLOWEDCALLDATA` and `setAllowedAllCalls ALLOWEDACCOUNT` will update the `<allowedCallsList>` list with the given account and calldata.
+
+```k
+    syntax KItem ::= "#setAllowedCall" Account Bytes [symbol(foundry_setAllowedCall)]
+ // -----------------------------------------------------------------------------------
+    rule <k> #setAllowedCall ALLOWEDACCOUNT ALLOWEDCALLDATA => .K ... </k>
+         <whitelist>
+            <isCallWhitelistActive> _ => true </isCallWhitelistActive>
+            <allowedCallsList> ALLOWEDCALLS => ALLOWEDCALLS ListItem({ALLOWEDACCOUNT|ALLOWEDCALLDATA}) </allowedCallsList>
+            ...
+         </whitelist>
 ```
 
 - `#setMockCall MOCKADDRESS MOCKCALLDATA MOCKRETURN` will update the `<mockcalls>` mapping for the given account.
@@ -1765,6 +1788,7 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "prank(address)" )                           => 3395723175 )
     rule ( selector ( "prank(address,address)" )                   => 1206193358 )
     rule ( selector ( "allowCallsToAddress(address)" )             => 1850795572 )
+    rule ( selector ( "allowCalls(address,bytes)" )                => 1808051021 )
     rule ( selector ( "allowChangesToStorage(address,uint256)" )   => 4207417100 )
     rule ( selector ( "infiniteGas()" )                            => 3986649939 )
     rule ( selector ( "setGas(uint256)" )                          => 3713137314 )
