@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from difflib import unified_diff
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -47,7 +48,17 @@ def assert_or_update_show_output(actual_text: str, expected_file: Path, *, updat
     else:
         assert expected_file.is_file()
         expected_text = expected_file.read_text()
-        assert actual_text == expected_text
+        if actual_text != expected_text:
+            diff = '\n'.join(
+                unified_diff(
+                    expected_text.splitlines(),
+                    actual_text.splitlines(),
+                    fromfile=str(expected_file),
+                    tofile='actual_text',
+                    lineterm='',
+                )
+            )
+            raise AssertionError(f'The actual output does not match the expected output:\n{diff}')
 
 
 def assert_pass(test: str, proof: Proof) -> None:
