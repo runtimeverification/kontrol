@@ -8,10 +8,6 @@ on:
         description: "Branch of Kontrol to use to build the Docker image"
         required: true
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   dockerhub:
     name: 'Build and Publish Docker Image'
