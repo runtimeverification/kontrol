@@ -34,7 +34,7 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -51,7 +51,7 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List

@@ -1,5 +1,5 @@
 ---
-name: 'Push Docker Image'
+name: 'Push Kontrol w/ FIXED Dependencies'
 on:
   workflow_dispatch:
 
@@ -29,7 +29,7 @@ jobs:
           echo "CONTAINER_NAME=kontrol-ci-docker-${GITHUB_SHA}" >> ${GITHUB_ENV}
           BRANCH_NAME="${{ github.event.inputs.kontrol_branch }}"
           SANITIZED_BRANCH_NAME=$(echo "${BRANCH_NAME}" | tr '/' '-' | tr -cd '[:alnum:]-_.')
-          GHCR_TAG=ghcr.io/runtimeverification/kontrol/kontrol:ubuntu-jammy-${SANITIZED_BRANCH_NAME}
+          GHCR_TAG=ghcr.io/runtimeverification/kontrol/kontrol-custom:ubuntu-jammy-${SANITIZED_BRANCH_NAME}
           echo "GHCR_TAG=${GHCR_TAG}" >> ${GITHUB_ENV}
           echo "DOCKER_USER=user" >> ${GITHUB_ENV}
           echo "DOCKER_GROUP=user" >> ${GITHUB_ENV}

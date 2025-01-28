@@ -627,7 +627,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -644,7 +644,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -857,7 +857,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -869,7 +869,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
            <kevm>
              <k>
                ( #halt => #execute )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -886,7 +886,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    b""
                  </output>
                  <statusCode>
-                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                   ( EVMC_SUCCESS => ?_STATUSCODE:StatusCode )
                  </statusCode>
                  <callStack>
                    .List
@@ -905,7 +905,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , ?KV0_x ) +Bytes #buf ( 32 , ?KV1_y ) )
+                     ( b"\n\x92T\xe4" => b"\x8c\x0e\xdd\x8b" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) )
                    </callData>
                    <callValue>
                      0
@@ -1101,14 +1101,14 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-       ensures ( 0 <=Int ?KV0_x
-       andBool ( 0 <=Int ?KV1_y
-       andBool ( ?KV0_x <Int pow256
-       andBool ( ?KV1_y <Int pow256
+       ensures ( 0 <=Int ?KV0_x:Int
+       andBool ( 0 <=Int ?KV1_y:Int
+       andBool ( ?KV0_x:Int <Int pow256
+       andBool ( ?KV1_y:Int <Int pow256
                ))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
@@ -1118,7 +1118,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                ( .K => JUMPI 1594 bool2Word ( KV1_y:Int <=Int KV0_x:Int )
                ~> #pc [ JUMPI ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1363,7 +1363,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                ~> #pc [ JUMPI ] => #end EVMC_REVERT
                ~> #pc [ REVERT ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1609,7 +1609,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                ~> #pc [ JUMPI ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1854,7 +1854,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                ( #end EVMC_REVERT => #halt )
                ~> #pc [ REVERT ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1871,7 +1871,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callStack>
                    .List
@@ -2102,7 +2102,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                ( #end EVMC_SUCCESS => #halt )
                ~> #pc [ STOP ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2119,7 +2119,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -2350,7 +2350,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                #halt
                ~> ( #pc [ REVERT ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2598,7 +2598,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-REVERT-BRANCH(UINT256,UINT256):0
                #halt
                ~> ( #pc [ STOP ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL

@@ -82,7 +82,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -96,10 +96,10 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #buf ( 32 , KV0_x:Int ) )
+                   ( _OUTPUT_CELL:Bytes => #buf ( 32 , KV0_x:Int ) )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <touchedAccounts>
                    ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_IDENTITY_ID:Int ) )
@@ -267,7 +267,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -281,10 +281,10 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   ( _OUTPUT_CELL:Bytes => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callState>
                    <id>

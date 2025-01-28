@@ -963,7 +963,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                ( .K => JUMPI 1478 bool2Word ( KV0_n:Int <=Int 0 )
                ~> #pc [ JUMPI ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1191,7 +1191,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCLOOPSTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCLOOPSTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_n:Int <Int pow256
@@ -1206,7 +1206,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                JUMPI 1478 bool2Word ( KV0_n:Int <=Int ( 0 => 1 ) )
                ~> #pc [ JUMPI ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1438,7 +1438,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( KV0_n:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCLOOPSTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCLOOPSTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))
@@ -1450,7 +1450,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                JUMPI 1478 bool2Word ( KV0_n:Int <=Int ( 1 => 2 ) )
                ~> #pc [ JUMPI ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1683,7 +1683,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( KV0_n:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCLOOPSTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCLOOPSTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))))))
@@ -1695,7 +1695,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                JUMPI 1478 bool2Word ( KV0_n:Int <=Int ( 2 => 3 ) )
                ~> #pc [ JUMPI ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1929,7 +1929,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( KV0_n:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCLOOPSTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_BMCLOOPSTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                ))))))))))))))))))
@@ -1942,7 +1942,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                ~> #pc [ JUMPI ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL

@@ -149,7 +149,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -163,10 +163,10 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   ( _OUTPUT_CELL:Bytes => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callState>
                    <id>
@@ -393,7 +393,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -407,10 +407,10 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #buf ( 32 , ( #asWord ( #range ( #buf ( 32 , #lookup ( C_TGOVERNANCE_ESCROW_TOKEN_STORAGE:Map , 0 ) ) , 16 , 16 ) ) +Int 45 ) ) )
+                   ( _OUTPUT_CELL:Bytes => #buf ( 32 , ( #asWord ( #range ( #buf ( 32 , #lookup ( C_TGOVERNANCE_ESCROW_TOKEN_STORAGE:Map , 0 ) ) , 16 , 16 ) ) +Int 45 ) ) )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <touchedAccounts>
                    ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) )
@@ -644,7 +644,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -658,10 +658,10 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   ( _OUTPUT_CELL:Bytes => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <touchedAccounts>
                    ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )

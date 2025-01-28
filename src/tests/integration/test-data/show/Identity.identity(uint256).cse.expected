@@ -37,7 +37,7 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -51,10 +51,10 @@ module SUMMARY-SRC%CSE%IDENTITY.IDENTITY(UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #buf ( 32 , KV0_x:Int ) )
+                   ( _OUTPUT_CELL:Bytes => #buf ( 32 , KV0_x:Int ) )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callState>
                    <id>

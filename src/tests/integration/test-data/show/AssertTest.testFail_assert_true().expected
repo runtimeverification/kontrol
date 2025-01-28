@@ -313,7 +313,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -330,7 +330,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -543,7 +543,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -555,7 +555,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
            <kevm>
              <k>
                ( #halt => #execute )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -572,7 +572,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
                    b""
                  </output>
                  <statusCode>
-                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                   ( EVMC_SUCCESS => ?_STATUSCODE:StatusCode )
                  </statusCode>
                  <callStack>
                    .List
@@ -787,7 +787,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
@@ -799,7 +799,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
                ( .K => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1039,7 +1039,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
                ( #end EVMC_SUCCESS => #halt )
                ~> #pc [ STOP ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1056,7 +1056,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -1282,7 +1282,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
                #halt
                ~> ( #pc [ STOP ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL

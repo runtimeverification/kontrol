@@ -82,7 +82,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -96,10 +96,10 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) )
+                   ( _OUTPUT_CELL:Bytes => #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callState>
                    <id>
@@ -260,7 +260,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -274,10 +274,10 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
+                   ( _OUTPUT_CELL:Bytes => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callState>
                    <id>

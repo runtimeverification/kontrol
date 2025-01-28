@@ -660,7 +660,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -677,7 +677,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -931,7 +931,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_PRANKTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_PRANKTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
@@ -943,7 +943,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <kevm>
              <k>
                ( #halt => #execute )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -960,7 +960,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    b""
                  </output>
                  <statusCode>
-                   ( EVMC_SUCCESS => ?_STATUSCODE )
+                   ( EVMC_SUCCESS => ?_STATUSCODE:StatusCode )
                  </statusCode>
                  <callStack>
                    .List
@@ -979,7 +979,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      CALLER_ID:Int
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"h\xc6\xc8\x93" +Bytes #buf ( 32 , ?KV0_addr ) )
+                     ( b"\n\x92T\xe4" => b"h\xc6\xc8\x93" +Bytes #buf ( 32 , ?KV0_addr:Int ) )
                    </callData>
                    <callValue>
                      0
@@ -1196,12 +1196,12 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_PRANKTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_PRANKTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
                )))))))))))))
-       ensures ( 0 <=Int ?KV0_addr
-       andBool ( ?KV0_addr <Int pow160
+       ensures ( 0 <=Int ?KV0_addr:Int
+       andBool ( ?KV0_addr:Int <Int pow160
                ))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
@@ -1211,7 +1211,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( .K => CALL 0 645326474426547203313410069153905908525362434349 0 128 36 128 0
                ~> #pc [ CALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1477,7 +1477,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 128 0 )
                ~> #pc [ CALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -1745,7 +1745,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #cheatcode_return 128 0 )
                ~> #pc [ CALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2014,7 +2014,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ CALL ] => STATICCALL 0 491460923342184218035706888008750043977755113263 128 4 128 32
                ~> #pc [ STATICCALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2184,22 +2184,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <cheatcodes>
              <prank>
                <prevCaller>
-                 ( _PREVCALLER_CELL => 728815563385977040452943777879061427756277306518 )
+                 ( _PREVCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
                </prevCaller>
                <prevOrigin>
-                 ( _PREVORIGIN_CELL => ORIGIN_ID:Int )
+                 ( _PREVORIGIN_CELL:Account => ORIGIN_ID:Int )
                </prevOrigin>
                <newCaller>
-                 ( _NEWCALLER_CELL => 728815563385977040452943777879061427756277306518 )
+                 ( _NEWCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
                </newCaller>
                <newOrigin>
-                 ( _NEWORIGIN_CELL => .Account )
+                 ( _NEWORIGIN_CELL:Account => .Account )
                </newOrigin>
                <active>
                  ( false => true )
                </active>
                <depth>
-                 ( _DEPTH_CELL => 0 )
+                 ( _DEPTH_CELL:Int => 0 )
                </depth>
                <singleCall>
                  false
@@ -2268,7 +2268,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2297,7 +2297,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2467,22 +2467,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <cheatcodes>
              <prank>
                <prevCaller>
-                 ( _PREVCALLER_CELL => 728815563385977040452943777879061427756277306518 )
+                 ( _PREVCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
                </prevCaller>
                <prevOrigin>
-                 ( _PREVORIGIN_CELL => ORIGIN_ID:Int )
+                 ( _PREVORIGIN_CELL:Account => ORIGIN_ID:Int )
                </prevOrigin>
                <newCaller>
-                 ( _NEWCALLER_CELL => 645326474426547203313410069153905908525362434349 )
+                 ( _NEWCALLER_CELL:Account => 645326474426547203313410069153905908525362434349 )
                </newCaller>
                <newOrigin>
-                 ( _NEWORIGIN_CELL => .Account )
+                 ( _NEWORIGIN_CELL:Account => .Account )
                </newOrigin>
                <active>
                  ( false => true )
                </active>
                <depth>
-                 ( _DEPTH_CELL => 0 )
+                 ( _DEPTH_CELL:Int => 0 )
                </depth>
                <singleCall>
                  false
@@ -2551,7 +2551,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2580,7 +2580,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -2750,22 +2750,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <cheatcodes>
              <prank>
                <prevCaller>
-                 ( _PREVCALLER_CELL => 728815563385977040452943777879061427756277306518 )
+                 ( _PREVCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
                </prevCaller>
                <prevOrigin>
-                 ( _PREVORIGIN_CELL => ORIGIN_ID:Int )
+                 ( _PREVORIGIN_CELL:Account => ORIGIN_ID:Int )
                </prevOrigin>
                <newCaller>
-                 ( _NEWCALLER_CELL => 491460923342184218035706888008750043977755113263 )
+                 ( _NEWCALLER_CELL:Account => 491460923342184218035706888008750043977755113263 )
                </newCaller>
                <newOrigin>
-                 ( _NEWORIGIN_CELL => .Account )
+                 ( _NEWORIGIN_CELL:Account => .Account )
                </newOrigin>
                <active>
                  ( false => true )
                </active>
                <depth>
-                 ( _DEPTH_CELL => 0 )
+                 ( _DEPTH_CELL:Int => 0 )
                </depth>
                <singleCall>
                  false
@@ -2834,7 +2834,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -2864,7 +2864,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -3075,22 +3075,22 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            <cheatcodes>
              <prank>
                <prevCaller>
-                 ( _PREVCALLER_CELL => 728815563385977040452943777879061427756277306518 )
+                 ( _PREVCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
                </prevCaller>
                <prevOrigin>
-                 ( _PREVORIGIN_CELL => ORIGIN_ID:Int )
+                 ( _PREVORIGIN_CELL:Account => ORIGIN_ID:Int )
                </prevOrigin>
                <newCaller>
-                 ( _NEWCALLER_CELL => KV0_addr:Int )
+                 ( _NEWCALLER_CELL:Account => KV0_addr:Int )
                </newCaller>
                <newOrigin>
-                 ( _NEWORIGIN_CELL => .Account )
+                 ( _NEWORIGIN_CELL:Account => .Account )
                </newOrigin>
                <active>
                  ( false => true )
                </active>
                <depth>
-                 ( _DEPTH_CELL => 0 )
+                 ( _DEPTH_CELL:Int => 0 )
                </depth>
                <singleCall>
                  false
@@ -3191,7 +3191,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 128 32 )
                ~> #pc [ STATICCALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -3445,7 +3445,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -3474,7 +3474,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -3728,7 +3728,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -3757,7 +3757,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -4011,7 +4011,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -4040,7 +4040,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -4348,7 +4348,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -4719,7 +4719,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -4749,7 +4749,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -5120,7 +5120,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -5150,7 +5150,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -5521,7 +5521,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -5551,7 +5551,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -5995,7 +5995,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -6366,7 +6366,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -6394,7 +6394,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -6765,7 +6765,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -6793,7 +6793,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -7164,7 +7164,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -7192,7 +7192,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -7637,7 +7637,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -8008,7 +8008,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -8037,7 +8037,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -8408,7 +8408,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -8437,7 +8437,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -8808,7 +8808,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -8837,7 +8837,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -9282,7 +9282,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -9299,7 +9299,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    ListItem ( <callState>
@@ -9656,7 +9656,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -9685,7 +9685,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -9702,7 +9702,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    ListItem ( <callState>
@@ -10059,7 +10059,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -10088,7 +10088,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -10105,7 +10105,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    ListItem ( <callState>
@@ -10462,7 +10462,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -10491,7 +10491,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -10508,7 +10508,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    #buf ( 32 , KV0_addr:Int )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    ListItem ( <callState>
@@ -10939,7 +10939,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 128 32
                ~> #pc [ STATICCALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -11313,7 +11313,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -11342,7 +11342,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -11716,7 +11716,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -11745,7 +11745,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -12119,7 +12119,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -12148,7 +12148,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -12599,7 +12599,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #setLocalMem 128 32 b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96" )
                ~> #pc [ STATICCALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -12973,7 +12973,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -13005,7 +13005,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -13379,7 +13379,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -13411,7 +13411,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -13785,7 +13785,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -13817,7 +13817,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ]
                ~> #endPrank
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -14268,7 +14268,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ STATICCALL ] => CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0
                ~> #pc [ CALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -14642,7 +14642,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -14674,7 +14674,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #endPrank => CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0
                ~> #pc [ CALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -15048,7 +15048,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -15080,7 +15080,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #endPrank => CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0
                ~> #pc [ CALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -15454,7 +15454,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -15486,7 +15486,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #endPrank => CALL 0 645326474426547203313410069153905908525362434349 0 160 4 160 0
                ~> #pc [ CALL ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -15934,7 +15934,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 160 0 )
                ~> #pc [ CALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -16191,7 +16191,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -16219,7 +16219,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 160 0 )
                ~> #pc [ CALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -16476,7 +16476,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -16504,7 +16504,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 160 0 )
                ~> #pc [ CALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -16761,7 +16761,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -16789,7 +16789,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #return 160 0 )
                ~> #pc [ CALL ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -17100,7 +17100,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ CALL ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -17357,7 +17357,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -17386,7 +17386,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ CALL ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -17643,7 +17643,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -17672,7 +17672,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ CALL ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -17929,7 +17929,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -17958,7 +17958,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ~> #pc [ CALL ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -18265,7 +18265,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( #end EVMC_SUCCESS => #halt )
                ~> #pc [ STOP ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -18522,7 +18522,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -18547,7 +18547,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( #end EVMC_SUCCESS => #halt )
                ~> #pc [ STOP ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -18804,7 +18804,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -18829,7 +18829,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( #end EVMC_SUCCESS => #halt )
                ~> #pc [ STOP ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -19086,7 +19086,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -19111,7 +19111,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                ( #end EVMC_SUCCESS => #halt )
                ~> #pc [ STOP ]
                ~> #execute
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -19418,7 +19418,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                #halt
                ~> ( #pc [ STOP ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -19675,7 +19675,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 728815563385977040452943777879061427756277306518
+      requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -19700,7 +19700,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                #halt
                ~> ( #pc [ STOP ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -19957,7 +19957,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 645326474426547203313410069153905908525362434349
+      requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -19982,7 +19982,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                #halt
                ~> ( #pc [ STOP ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -20239,7 +20239,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( _KV0_addr ==Int 491460923342184218035706888008750043977755113263
+      requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
@@ -20264,7 +20264,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                #halt
                ~> ( #pc [ STOP ]
                ~> #execute => .K )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL

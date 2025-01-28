@@ -282,7 +282,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -299,7 +299,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    b""
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <callStack>
                    .List
@@ -446,10 +446,10 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                  false
                </isRevertExpected>
                <expectedReason>
-                 ( _EXPECTEDREASON_CELL => b"" )
+                 ( _EXPECTEDREASON_CELL:Bytes => b"" )
                </expectedReason>
                <expectedDepth>
-                 ( _EXPECTEDDEPTH_CELL => 0 )
+                 ( _EXPECTEDDEPTH_CELL:Int => 0 )
                </expectedDepth>
              </expectedRevert>
              <expectedOpcode>
@@ -517,7 +517,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )

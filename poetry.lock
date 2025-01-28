@@ -2,14 +2,14 @@
 
 [[package]]
 name = "attrs"
-version = "24.3.0"
+version = "25.1.0"
 description = "Classes Without Boilerplate"
 optional = false
 python-versions = ">=3.8"
 groups = ["main", "dev"]
 files = [
-    {file = "attrs-24.3.0-py3-none-any.whl", hash = "sha256:ac96cd038792094f438ad1f6ff80837353805ac950cd2aa0e0625ef19850c308"},
-    {file = "attrs-24.3.0.tar.gz", hash = "sha256:8f5c07333d543103541ba7be0e2ce16eeee8130cb0b3f9238ab904ce1e85baff"},
+    {file = "attrs-25.1.0-py3-none-any.whl", hash = "sha256:c75a69e28a550a7e93789579c22aa26b0f5b83b75dc4e08fe092980051e1090a"},
+    {file = "attrs-25.1.0.tar.gz", hash = "sha256:1c97078a80c814273a76b2a298a932eb681c87415c11dee0a6921de7f1b02c3e"},
 ]
 
 [package.extras]
@@ -112,28 +112,21 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
 name = "cmd2"
-version = "2.5.8"
+version = "2.5.11"
 description = "cmd2 - quickly build feature-rich and user-friendly interactive command line applications in Python"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "cmd2-2.5.8-py3-none-any.whl", hash = "sha256:aeb6eb6cd6d783bb7d92d37aa920bcfa7379690ba9ab1188576562f73a13471c"},
-    {file = "cmd2-2.5.8.tar.gz", hash = "sha256:ddf29beaa7c9d4e9806eefad528a59c372ca97b4c0d83e019fef0e37c44f4497"},
+    {file = "cmd2-2.5.11-py3-none-any.whl", hash = "sha256:cbc79525e423dc2085ef7922cdc5586d1fedaecb768cdfb05e5482ee0740b755"},
+    {file = "cmd2-2.5.11.tar.gz", hash = "sha256:30a0d385021fbe4a4116672845e5695bbe56eb682f9096066776394f954a7429"},
 ]
 
 [package.dependencies]
-gnureadline = {version = "*", markers = "platform_system == \"Darwin\""}
-pyperclip = "*"
-pyreadline3 = {version = "*", markers = "platform_system == \"Windows\""}
-wcwidth = "*"
-
-[package.extras]
-build = ["build", "setuptools", "setuptools-scm"]
-dev = ["codecov", "doc8", "invoke", "mypy", "pytest", "pytest-cov", "pytest-mock", "ruff", "sphinx", "sphinx-autobuild", "sphinx-rtd-theme", "twine"]
-docs = ["setuptools", "setuptools_scm", "sphinx", "sphinx-autobuild", "sphinx-rtd-theme"]
-test = ["codecov", "coverage", "pytest", "pytest-cov", "pytest-mock"]
-validate = ["mypy", "ruff", "types-setuptools"]
+gnureadline = {version = ">=8", markers = "platform_system == \"Darwin\""}
+pyperclip = ">=1.8"
+pyreadline3 = {version = ">=3.4", markers = "platform_system == \"Windows\""}
+wcwidth = ">=0.2.10"
 
 [[package]]
 name = "colorama"
@@ -472,19 +465,19 @@ testing = ["hatch", "pre-commit", "pytest", "tox"]
 
 [[package]]
 name = "filelock"
-version = "3.16.1"
+version = "3.17.0"
 description = "A platform independent file lock."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "filelock-3.16.1-py3-none-any.whl", hash = "sha256:2082e5703d51fbf98ea75855d9d5527e33d8ff23099bec374a134febee6946b0"},
-    {file = "filelock-3.16.1.tar.gz", hash = "sha256:c249fbfcd5db47e5e2d6d62198e565475ee65e4831e2561c8e313fa7eb961435"},
+    {file = "filelock-3.17.0-py3-none-any.whl", hash = "sha256:533dc2f7ba78dc2f0f531fc6c4940addf7b70a481e269a5a3b93be94ffbe8338"},
+    {file = "filelock-3.17.0.tar.gz", hash = "sha256:ee4e77401ef576ebb38cd7f13b9b28893194acc20a8e68e18730ba9c0e54660e"},
 ]
 
 [package.extras]
-docs = ["furo (>=2024.8.6)", "sphinx (>=8.0.2)", "sphinx-autodoc-typehints (>=2.4.1)"]
-testing = ["covdefaults (>=2.3)", "coverage (>=7.6.1)", "diff-cover (>=9.2)", "pytest (>=8.3.3)", "pytest-asyncio (>=0.24)", "pytest-cov (>=5)", "pytest-mock (>=3.14)", "pytest-timeout (>=2.3.1)", "virtualenv (>=20.26.4)"]
+docs = ["furo (>=2024.8.6)", "sphinx (>=8.1.3)", "sphinx-autodoc-typehints (>=3)"]
+testing = ["covdefaults (>=2.3)", "coverage (>=7.6.10)", "diff-cover (>=9.2.1)", "pytest (>=8.3.4)", "pytest-asyncio (>=0.25.2)", "pytest-cov (>=6)", "pytest-mock (>=3.14)", "pytest-timeout (>=2.3.1)", "virtualenv (>=20.28.1)"]
 typing = ["typing-extensions (>=4.12.2)"]
 
 [[package]]
@@ -656,14 +649,14 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.124.0"
+version = "6.124.7"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "hypothesis-6.124.0-py3-none-any.whl", hash = "sha256:8d642bee278f933c2b3c41db69cbb001f89a7eed03c6a9cc37f6c59396b30815"},
-    {file = "hypothesis-6.124.0.tar.gz", hash = "sha256:397a740af269646d87915c59d4299f58ef68ba89c213653d899aa533df76a03a"},
+    {file = "hypothesis-6.124.7-py3-none-any.whl", hash = "sha256:a6e1f66de84de3152d57f595a187a123ce3ecdea9dc8ef51ff8dcaa069137085"},
+    {file = "hypothesis-6.124.7.tar.gz", hash = "sha256:8ed6c6ae47e7d26d869c1dc3dee04e8fc50c95240715bb9915ded88d6d920f0e"},
 ]
 
 [package.dependencies]
@@ -690,14 +683,14 @@ zoneinfo = ["tzdata (>=2024.2)"]
 
 [[package]]
 name = "importlib-metadata"
-version = "8.5.0"
+version = "8.6.1"
 description = "Read metadata from Python packages"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "importlib_metadata-8.5.0-py3-none-any.whl", hash = "sha256:45e54197d28b7a7f1559e60b95e7c567032b602131fbd588f1497f47880aa68b"},
-    {file = "importlib_metadata-8.5.0.tar.gz", hash = "sha256:71522656f0abace1d072b9e5481a48f07c138e00f079c38c8f883823f9c26bd7"},
+    {file = "importlib_metadata-8.6.1-py3-none-any.whl", hash = "sha256:02a89390c1e15fdfdc0d7c6b25cb3e62650d0494005c97d6f148bf5b9787525e"},
+    {file = "importlib_metadata-8.6.1.tar.gz", hash = "sha256:310b41d755445d74569f993ccfc22838295d9fe005425094fad953d7f15c8580"},
 ]
 
 [package.dependencies]
@@ -709,7 +702,7 @@ cover = ["pytest-cov"]
 doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
 enabler = ["pytest-enabler (>=2.2)"]
 perf = ["ipython"]
-test = ["flufl.flake8", "importlib-resources (>=1.3)", "jaraco.test (>=5.4)", "packaging", "pyfakefs", "pytest (>=6,!=8.1.*)", "pytest-perf (>=0.9.2)"]
+test = ["flufl.flake8", "importlib_resources (>=1.3)", "jaraco.test (>=5.4)", "packaging", "pyfakefs", "pytest (>=6,!=8.1.*)", "pytest-perf (>=0.9.2)"]
 type = ["pytest-mypy"]
 
 [[package]]
@@ -741,7 +734,7 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.775"
+version = "1.0.784"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -750,27 +743,27 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.201"
+kframework = "7.1.207"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.775"
-resolved_reference = "0e872026300bda0e28ca3e293e6e8e0cad288ca2"
+reference = "v1.0.784"
+resolved_reference = "e1d0c5716f31c1830a98236e0a5b969ea333e5d8"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.201"
+version = "7.1.207"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "kframework-7.1.201-py3-none-any.whl", hash = "sha256:1c1f3821147376c46dbff56001093cd7810d475e28667a91ddddcc9026d1f54f"},
-    {file = "kframework-7.1.201.tar.gz", hash = "sha256:1e06fabbc3df5b6f8d2d9cc04f510e9942a7809e142a5aeba858797ab2274a87"},
+    {file = "kframework-7.1.207-py3-none-any.whl", hash = "sha256:aef7de704bcd404899def82460cb14beccd57a95d29b106e7cf379c7daaa3aca"},
+    {file = "kframework-7.1.207.tar.gz", hash = "sha256:1acb6aa7b9bac5e170420015d6e5246f924e480287e68e4fa9fc20eb9874b228"},
 ]
 
 [package.dependencies]
@@ -1606,4 +1599,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "4205b6223ae119f2e3ed628a54d8cd10209483a8795d89992409065616c0f5fd"
+content-hash = "fc80f19f06a078f3cc1e2ea9c6037692d191399d48b4f1a177fa51e675df601e"

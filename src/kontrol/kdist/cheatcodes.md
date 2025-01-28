@@ -1165,6 +1165,26 @@ Mock functions
       [priority(30)]
 ```
 
+
+Abstraction functions
+---------------------
+
+#### `forgetBranch` - removes a given path constraint.
+
+```
+    function forgetBranch(uint256 op1, ComparisonOperator op, uint256 op2) external;
+```
+
+```k
+    rule [cheatcode.call.abstract]:
+         <k> #cheatcode_call SELECTOR ARGS
+          => #forget ( #asWord(#range(ARGS,0,32)), #asWord(#range(ARGS,32,32)), #asWord(#range(ARGS,64,32)))
+          ...
+         </k>
+      requires SELECTOR ==Int selector ( "forgetBranch(uint256,uint8,uint256)" )
+
+```
+
 Utils
 -----
 
@@ -1775,6 +1795,7 @@ Selectors for **implemented** cheat code functions.
     rule ( selector ( "mockCall(address,bytes,bytes)" )            => 3110212580 )
     rule ( selector ( "mockFunction(address,address,bytes)" )      => 2918731041 )
     rule ( selector ( "copyStorage(address,address)" )             => 540912653  )
+    rule ( selector ( "forgetBranch(uint256,uint8,uint256)" )      => 1720990067 )
 ```
 
 Selectors for **unimplemented** cheat code functions.

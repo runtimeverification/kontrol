@@ -92,7 +92,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -106,10 +106,10 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   ( _OUTPUT_CELL:Bytes => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
                  </statusCode>
                  <touchedAccounts>
                    ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_ENUM_ID:Int ) |Set SetItem ( C_ENUM_MEMBER_CONTRACT_ID:Int ) )
@@ -308,7 +308,7 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
            <kevm>
              <k>
                ( #execute => #halt )
-               ~> _CONTINUATION
+               ~> _CONTINUATION:K
              </k>
              <mode>
                NORMAL
@@ -322,10 +322,10 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL => b"" )
+                   ( _OUTPUT_CELL:Bytes => b"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE => EVMC_REVERT )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callState>
                    <id>
