@@ -48,17 +48,17 @@ def assert_or_update_show_output(actual_text: str, expected_file: Path, *, updat
     else:
         assert expected_file.is_file()
         expected_text = expected_file.read_text()
-    if actual_text != expected_text:
-        diff = difflib.unified_diff(
-            expected_text.splitlines(),
-            actual_text.splitlines(),
-            fromfile=str(expected_file),
-            tofile='actual_text',
-            lineterm='',
-        )
-        for line in diff:
-            print(line)
-        raise AssertionError
+        if actual_text != expected_text:
+            diff = difflib.unified_diff(
+                expected_text.splitlines(),
+                actual_text.splitlines(),
+                fromfile=str(expected_file),
+                tofile='actual_text',
+                lineterm='',
+            )
+            for line in diff:
+                print(line)
+            raise AssertionError
 
 
 def assert_pass(test: str, proof: Proof) -> None:
