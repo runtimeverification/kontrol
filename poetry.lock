@@ -719,22 +719,23 @@ files = [
 
 [[package]]
 name = "isort"
-version = "5.13.2"
+version = "6.0.0"
 description = "A Python utility / library to sort Python imports."
 optional = false
-python-versions = ">=3.8.0"
+python-versions = ">=3.9.0"
 groups = ["dev"]
 files = [
-    {file = "isort-5.13.2-py3-none-any.whl", hash = "sha256:8ca5e72a8d85860d5a3fa69b8745237f2939afe12dbf656afbcb47fe72d947a6"},
-    {file = "isort-5.13.2.tar.gz", hash = "sha256:48fdfcb9face5d58a4f6dde2e72a1fb8dcaf8ab26f95ab49fab84c2ddefb0109"},
+    {file = "isort-6.0.0-py3-none-any.whl", hash = "sha256:567954102bb47bb12e0fae62606570faacddd441e45683968c8d1734fb1af892"},
+    {file = "isort-6.0.0.tar.gz", hash = "sha256:75d9d8a1438a9432a7d7b54f2d3b45cad9a4a0fdba43617d9873379704a8bdf1"},
 ]
 
 [package.extras]
-colors = ["colorama (>=0.4.6)"]
+colors = ["colorama"]
+plugins = ["setuptools"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.784"
+version = "1.0.785"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -743,27 +744,27 @@ files = []
 develop = false
 
 [package.dependencies]
-kframework = "7.1.207"
+kframework = "7.1.208"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.784"
-resolved_reference = "e1d0c5716f31c1830a98236e0a5b969ea333e5d8"
+reference = "v1.0.785"
+resolved_reference = "04ddb6de7415805a436d0cbd49a1a106f09fb4e9"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.207"
+version = "7.1.208"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "kframework-7.1.207-py3-none-any.whl", hash = "sha256:aef7de704bcd404899def82460cb14beccd57a95d29b106e7cf379c7daaa3aca"},
-    {file = "kframework-7.1.207.tar.gz", hash = "sha256:1acb6aa7b9bac5e170420015d6e5246f924e480287e68e4fa9fc20eb9874b228"},
+    {file = "kframework-7.1.208-py3-none-any.whl", hash = "sha256:02e53a932a03e4b054d9e0cade8cd65eb4152a7180914ffaea8bf0ca2dc821c8"},
+    {file = "kframework-7.1.208.tar.gz", hash = "sha256:47ff8b2cc24c7ce57432cd94a89c32ee5c1a505c4eb6c19530195293f96d6ad8"},
 ]
 
 [package.dependencies]
@@ -1599,4 +1600,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "fc80f19f06a078f3cc1e2ea9c6037692d191399d48b4f1a177fa51e675df601e"
+content-hash = "22368ea6ce76667a048f8b75787eb0bdad91b43e5dfa175b10065084bc6e0607"
