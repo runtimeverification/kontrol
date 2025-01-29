@@ -508,6 +508,12 @@ def _create_argument_parser() -> ArgumentParser:
         help='Generate a JUnit XML report',
     )
     prove_args.add_argument(
+        '--xml-test-report-name',
+        dest='xml_test_report_name',
+        default=None,
+        help='Specify the filename for the JUnit XML report',
+    )
+    prove_args.add_argument(
         '--cse', dest='cse', action='store_true', default=None, help='Use Compositional Symbolic Execution'
     )
     prove_args.add_argument(

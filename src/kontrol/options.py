@@ -381,6 +381,7 @@ class ProveOptions(
     include_summaries: list[tuple[str, int | None]]
     with_non_general_state: bool
     xml_test_report: bool
+    xml_test_report_name: str
     cse: bool
     hevm: bool
     minimize_proofs: bool
@@ -411,6 +412,7 @@ class ProveOptions(
             'include_summaries': [],
             'with_non_general_state': False,
             'xml_test_report': False,
+            'xml_test_report_name': 'kontrol_prove_report.xml',
             'cse': False,
             'hevm': False,
             'minimize_proofs': False,
