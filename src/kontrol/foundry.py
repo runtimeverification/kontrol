@@ -1177,7 +1177,7 @@ def foundry_list(foundry: Foundry) -> list[str]:
     return lines
 
 
-def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
+def foundry_to_xml(foundry: Foundry, proofs: list[APRProof], report_name: str) -> None:
     testsuites = Et.Element(
         'testsuites', tests='0', failures='0', errors='0', time='0', timestamp=str(datetime.datetime.now())
     )
@@ -1241,7 +1241,7 @@ def foundry_to_xml(foundry: Foundry, proofs: list[APRProof]) -> None:
     testsuites.set('time', str(total_exec_time))
     tree = Et.ElementTree(testsuites)
     Et.indent(tree, space='\t', level=0)
-    tree.write('kontrol_prove_report.xml')
+    tree.write(report_name)
 
 
 def foundry_minimize_proof(foundry: Foundry, options: MinimizeProofOptions) -> None:
