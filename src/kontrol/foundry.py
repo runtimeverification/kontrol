@@ -104,8 +104,21 @@ class KontrolSemantics(KEVMSemantics):
         break_on_storage: bool,
         break_on_basic_blocks: bool,
         break_on_load_program: bool,
+        break_on_access_opcode: bool | None = None,
     ) -> list[str]:
-        return ['FOUNDRY-CHEAT-CODES.rename', 'FOUNDRY-ACCOUNTS.forget'] + KEVMSemantics.cut_point_rules(
+        cut_point_rules = ['FOUNDRY-CHEAT-CODES.rename', 'FOUNDRY-ACCOUNTS.forget']
+        if break_on_access_opcode:
+            cut_point_rules.extend(
+                [
+                    'EVM.call.false',
+                    'EVM.balance.false',
+                    'EVM.extcodesize.false',
+                    'EVM.extcodehash.false',
+                    'EVM.extcodecopy.false',
+                    'EVM.sload',
+                ]
+            )
+        return cut_point_rules + KEVMSemantics.cut_point_rules(
             break_on_jumpi,
             break_on_jump,
             break_on_calls,

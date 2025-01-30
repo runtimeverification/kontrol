@@ -392,6 +392,8 @@ class ProveOptions(
     optimize_performance: int | None
     stack_checks: bool
     extra_module: str | None
+    fork_url: str | None
+    fork_block_number: str | None
 
     def __init__(self, args: dict[str, Any]) -> None:
         super().__init__(args)
@@ -423,6 +425,8 @@ class ProveOptions(
             'optimize_performance': None,
             'stack_checks': True,
             'extra_module': None,
+            'fork_url': None,
+            'fork_block_number': None,
         }
 
     @staticmethod

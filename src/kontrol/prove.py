@@ -41,6 +41,7 @@ from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract, hex_string_to_int
 from .state_record import StateDiffEntry, StateDumpEntry
 from .utils import console, parse_test_version_tuple
+from .web3_rpc import Web3Providers, get_block_metadata
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -396,6 +397,12 @@ def _run_cfg_group(
                 ):
                     options.config_type = ConfigType.SUMMARY_CONFIG
 
+                w3 = None
+                block_metadata = None
+                if options.fork_url:
+                    w3 = Web3Providers.get_provider(options.fork_url)
+                    block_metadata = get_block_metadata(w3)
+
                 proof = method_to_apr_proof(
                     test=test,
                     foundry=foundry,
@@ -424,6 +431,7 @@ def _run_cfg_group(
                             'trace_wordstack': options.trace_wordstack,
                         }
                     ),
+                    block_metadata=block_metadata,
                 )
             cut_point_rules = KontrolSemantics.cut_point_rules(
                 options.break_on_jumpi,
@@ -432,6 +440,7 @@ def _run_cfg_group(
                 options.break_on_storage,
                 options.break_on_basic_blocks,
                 options.break_on_load_program,
+                break_on_access_opcode=(not options.fork_url is None),
             )
             if options.break_on_cheatcodes:
                 cut_point_rules.extend(
@@ -582,6 +591,7 @@ def method_to_apr_proof(
     active_symbolik: bool = False,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
+    block_metadata: dict[str, int] | None = None,
 ) -> APRProof:
     setup_proof = None
     setup_proof_is_constructor = False
@@ -608,6 +618,7 @@ def method_to_apr_proof(
         hevm=hevm,
         trace_options=trace_options,
         config_type=config_type,
+        block_metadata=block_metadata,
     )
 
     apr_proof = APRProof(
@@ -654,6 +665,7 @@ def _method_to_initialized_cfg(
     active_symbolik: bool = False,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
+    block_metadata: dict[str, int] | None = None,
 ) -> tuple[KCFG, int, int, Iterable[int]]:
     _LOGGER.info(f'Initializing KCFG for test: {test.id}')
 
@@ -672,6 +684,7 @@ def _method_to_initialized_cfg(
         stack_checks=stack_checks,
         hevm=hevm,
         trace_options=trace_options,
+        block_metadata=block_metadata,
     )
 
     for node_id in new_node_ids:
@@ -706,6 +719,7 @@ def _method_to_cfg(
     stack_checks: bool,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
+    block_metadata: dict[str, int] | None = None,
 ) -> tuple[KCFG, list[int], int, int, Iterable[int]]:
     calldata = None
     callvalue = None
@@ -743,6 +757,7 @@ def _method_to_cfg(
         config_type=config_type,
         additional_accounts=external_libs,
         stack_checks=stack_checks,
+        block_metadata=block_metadata,
     )
     new_node_ids = []
     bounded_node_ids = []
@@ -1004,6 +1019,7 @@ def _init_cterm(
     callvalue: KInner | None = None,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     trace_options: TraceOptions | None = None,
+    block_metadata: dict[str, int] | None = None,
 ) -> CTerm:
     schedule = KApply(evm_chain_options.schedule + '_EVM')
     contract_name = contract_name.upper()
@@ -1069,6 +1085,19 @@ def _init_cterm(
             'ACCOUNTS_CELL': KEVM.accounts(init_account_list),
         }
         init_subst.update(init_subst_test)
+        if block_metadata:
+            init_subst_fork_data = {
+                'NUMBER_CELL': token(block_metadata['block_number']),
+                'CHAINID_CELL': token(block_metadata['chain_id']),
+                'GASLIMIT_CELL': token(block_metadata['gas_limit']),
+                'GASPRICE_CELL': token(block_metadata['gas_price']),
+                'BASEFEE_CELL': token(block_metadata['block_base_fee_per_gas']),
+                'COINBASE_CELL': token(block_metadata['block_coinbase']),
+                'TIMESTAMP_CELL': token(block_metadata['block_timestamp']),
+                'DIFFICUTLY_CELL': token(block_metadata['block_difficulty']),
+            }
+            init_subst.update(init_subst_fork_data)
+
     else:
         # CSE needs to be agnostic of the following Kontrol cells
         del init_subst['ACTIVE_CELL']
