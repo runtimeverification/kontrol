@@ -20,7 +20,7 @@ module SUM-TO-N-INVARIANT
       NORMAL
     </mode>
     <schedule>
-      SHANGHAI
+      CANCUN
     </schedule>
     <ethereum>
       <evm>
