@@ -30,10 +30,47 @@ module FOUNDRY
     configuration
       <foundry>
         <kevm/>
+        <forkedAccounts> .Set </forkedAccounts>
         <stackChecks> true </stackChecks>
         <cheatcodes/>
         <KEVMTracing/>
       </foundry>
+
+ // Comment: these two functions could be upstreamed to KEVM
+    syntax Bool ::= #accountInState ( Int ) [function, symbol(#accountInState)]
+ // ---------------------------------------------------------------------------
+    rule [[ #accountInState(ACCT) => true ]]
+         <account>
+           <acctID> ACCT </acctID>
+           ...
+         </account>
+    rule #accountInState(_) => false [owise]
+ 
+    syntax Bool ::= #accountHasStorageSlot ( Int , Int ) [function, symbol(#accountHasStorageSlot)]
+ // -----------------------------------------------------------------------------------------------
+    rule [[ #accountHasStorageSlot(ACCT, INDEX) => INDEX in_keys(STORAGE_MAP) ]]
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> STORAGE_MAP </storage>
+           ...
+         </account>
+    rule #accountHasStorageSlot (_,_) => false [owise]
+
+// Comment: Ideally, rules below would be available only when --fork-url is provided.
+    syntax KItem ::= "FETCH_ACCOUNT_STORAGE" Int Int [symbol(FETCH_ACCOUNT_STORAGE)]
+                  //  | "FETCH_ACCOUNT_BALANCE" Int     [symbol(FETCH_ACCOUNT_BALANCE)]
+                  //  | "FETCH_ACCOUNT_CODE" Int           [symbol(FETCH_ACCOUNT_CODE)]
+                  //  | "FETCH_ACCOUNT_CODE_SIZE" Int [symbol(FETCH_ACCOUNT_CODE_SIZE)]
+                  //  | "FETCH_ACCOUNT_CODE_HASH" Int [symbol(FETCH_ACCOUNT_CODE_HASH)]
+ // --------------------------------------------------------------------------------
+    rule [sload.false]:
+         <k> SLOAD INDEX => FETCH_ACCOUNT_STORAGE ACCT INDEX ~> #push ... </k>
+         <id> ACCT </id>
+         <forkedAccounts> FA </forkedAccounts>
+      requires notBool #accountInState(ACCT)
+        orBool (ACCT in FA andBool notBool #accountHasStorageSlot(ACCT, INDEX))
+      [priority(30)]
+
 endmodule
 ```
 

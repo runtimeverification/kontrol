@@ -382,7 +382,9 @@ def _run_cfg_group(
                 )
                 return KCFGExplore(
                     cterm_symbolic,
-                    kcfg_semantics=KontrolSemantics(auto_abstract_gas=options.auto_abstract_gas),
+                    kcfg_semantics=KontrolSemantics(
+                        auto_abstract_gas=options.auto_abstract_gas, provider_url=options.fork_url
+                    ),
                     id=test.id,
                 )
 
@@ -1064,6 +1066,7 @@ def _init_cterm(
         'TRACEMEMORY_CELL': TRUE if trace_options.trace_memory else FALSE,
         'RECORDEDTRACE_CELL': FALSE,
         'TRACEDATA_CELL': KApply('.List'),
+        'FORKEDACCOUNTS_CELL': set_empty(),
     }
 
     storage_constraints: list[KApply] = []
