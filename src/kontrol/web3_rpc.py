@@ -18,8 +18,7 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 class Web3Providers:
-    """
-    A simple registry that returns a single Web3 instance per unique URL to avoid duplicate sessions and redundant
+    """A simple registry that returns a single Web3 instance per unique URL to avoid duplicate sessions and redundant
     connections.
     """
 
