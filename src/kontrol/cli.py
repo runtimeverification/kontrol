@@ -597,12 +597,6 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         help=('Fetch state over a remote endpoint instead of starting from an abstract state'),
     )
-    prove_args.add_argument(
-        '--fork-block-number',
-        dest='fork_block_number',
-        default=None,
-        help=('Fetch state from a specific block number over a remote endpoint'),
-    )
 
     show_args = command_parser.add_parser(
         'show',
