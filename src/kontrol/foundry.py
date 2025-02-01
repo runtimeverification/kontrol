@@ -42,12 +42,10 @@ from pyk.prelude.k import DOTS, GENERATED_TOP_CELL
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
-from pyk.prelude.utils import token
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
-from web3 import Web3
 
 from . import VERSION
 from .solc import CompilationUnit
@@ -62,7 +60,7 @@ from .utils import (
     kontrol_up_to_date,
     write_to_file,
 )
-from .web3_rpc import Web3Providers
+from .web3_rpc import Web3Providers, fetch_account_from_provider, fetch_storage_value_from_provider
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -76,6 +74,7 @@ if TYPE_CHECKING:
     from pyk.proof.implies import RefutationProof
     from pyk.proof.show import NodePrinter
     from pyk.utils import BugReport
+    from web3 import Web3
 
     from .options import (
         CleanOptions,
@@ -512,37 +511,6 @@ class KontrolSemantics(KEVMSemantics):
         return any(
             [self._check_rename_pattern(cterm), self._check_forget_pattern(cterm), super().can_make_custom_step(cterm)]
         )
-
-
-def fetch_account_from_provider(provider: Web3, target_address: KToken) -> tuple[KToken, KApply]:
-    hex_address = Web3.to_hex(int(target_address.token))
-    checksum_addr = Web3.to_checksum_address(hex_address)
-
-    _LOGGER.info(f'Reading code for {checksum_addr}')
-    code = bytes(provider.eth.get_code(checksum_addr))
-    _LOGGER.info(f'Reading balance for {checksum_addr}')
-    balance = provider.eth.get_balance(checksum_addr)
-    return (
-        token(code),
-        KEVM.account_cell(
-            id=target_address,
-            balance=token(balance),
-            code=token(code),
-            storage=map_empty(),
-            orig_storage=map_empty(),
-            transient_storage=map_empty(),
-            nonce=token(0),
-        ),
-    )
-
-
-def fetch_storage_value_from_provider(provider: Web3, target_address: KToken, target_slot: KToken) -> KToken:
-    hex_address = Web3.to_hex(int(target_address.token))
-    checksum_addr = Web3.to_checksum_address(hex_address)
-    slot = int(target_slot.token)
-    _LOGGER.info(f'Reading storage slot {slot} from {checksum_addr}')
-    value = int.from_bytes(bytes(provider.eth.get_storage_at(checksum_addr, slot)))  # convert hex bytes to int
-    return token(value)
 
 
 def add_to_account_storage(account: KApply, slot: KToken, value: KToken) -> KApply:
