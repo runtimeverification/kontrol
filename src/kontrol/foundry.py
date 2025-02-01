@@ -111,6 +111,13 @@ class KontrolSemantics(KEVMSemantics):
         else:
             self._provider = None
 
+        self._custom_step_definitions = self._custom_step_definitions + (
+            (self._rename_pattern, self._exec_rename_custom_step),
+            (self._forget_branch_pattern, self._exec_forget_custom_step),
+            (self._call_fork_pattern, self._exec_fork_call_custom_step),
+            (self._sload_fork_pattern, self._exec_fork_sload_custom_step),
+        )
+
     @staticmethod
     def cut_point_rules(
         break_on_jumpi: bool,
@@ -138,25 +145,63 @@ class KontrolSemantics(KEVMSemantics):
             break_on_load_program,
         )
 
-    def _check_rename_pattern(self, cterm: CTerm) -> bool:
-        """Given a CTerm, check if the rule 'FOUNDRY-CHEAT-CODES.rename' is at the top of the K_CELL.
-
-        :param cterm: The CTerm representing the current state of the proof node.
-        :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
-        """
-        abstract_pattern = KSequence(
+    @property
+    def _rename_pattern(self) -> KSequence:
+        return KSequence(
             [
                 KApply('foundry_rename', [KVariable('###RENAME_TARGET'), KVariable('###NEW_NAME')]),
                 KVariable('###CONTINUATION'),
             ]
         )
-        self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
-        return self._cached_subst is not None
 
-    def _exec_rename_custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
-        subst = self._cached_subst
-        assert subst is not None
+    @property
+    def _forget_branch_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
+                KVariable('###CONTINUATION'),
+            ]
+        )
 
+    @property
+    def _call_fork_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply(
+                    'callwithcode_check_fork',
+                    [
+                        KVariable('###ACCTFROM'),
+                        KVariable('###ACCTTO'),
+                        KVariable('###ACCTCODE'),
+                        KToken(token='b""', sort=KSort(name='Bytes')),
+                        KVariable('###VALUE'),
+                        KVariable('###APPVALUE'),
+                        KVariable('###ARGS'),
+                        KVariable('###STATIC'),
+                    ],
+                ),
+                KApply('#return___EVM_KItem_Int_Int', [KVariable('###RETURN1'), KVariable('###RETURN2')]),
+                KApply('pc', KVariable('###PC')),
+                KApply('execute', []),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+
+    @property
+    def _sload_fork_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply('FETCH_ACCOUNT_STORAGE', [KVariable('###ACCTID'), KVariable('###ACCTSLOT')]),
+                KApply('#push_EVM_InternalOp'),
+                KApply('pc', KVariable('###PC1')),
+                KApply('execute', []),
+                KApply('#return___EVM_KItem_Int_Int', [KVariable('###RETURN1'), KVariable('###RETURN2')]),
+                KApply('pc', KVariable('###PC2')),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+
+    def _exec_rename_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
         # Extract the target var and new name from the substitution
         target_var = subst['###RENAME_TARGET']
         name_token = subst['###NEW_NAME']
@@ -179,23 +224,9 @@ class KontrolSemantics(KEVMSemantics):
         _LOGGER.info(f'Renaming {target_var.name} to {name}')
         return Step(CTerm(new_cterm.config, constraints), 1, (), ['foundry_rename'], cut=True)
 
-    def _check_forget_pattern(self, cterm: CTerm) -> bool:
-        """Given a CTerm, check if the rule 'FOUNDRY-ACCOUNTS.forget' is at the top of the K_CELL.
-        This method checks if the 'FOUNDRY-ACCOUNTS.forget' rule is at the top of the `K_CELL` in the given `cterm`.
-        If the rule matches, the resulting substitution is cached in `_cached_subst` for later use in `custom_step`
-        :param cterm: The CTerm representing the current state of the proof node.
-        :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
-        """
-        abstract_pattern = KSequence(
-            [
-                KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
-                KVariable('###CONTINUATION'),
-            ]
-        )
-        self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
-        return self._cached_subst is not None
-
-    def _exec_forget_custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
+    def _exec_forget_custom_step(
+        self, subst: Subst, cterm: CTerm, cterm_symbolic: CTermSymbolic
+    ) -> KCFGExtendResult | None:
         """Remove the constraint at the top of K_CELL of a given CTerm from its path constraints,
            as part of the 'FOUNDRY-ACCOUNTS.forget' cut-rule.
         :param cterm: CTerm representing a proof node
@@ -270,8 +301,7 @@ class KontrolSemantics(KEVMSemantics):
             return constraints
 
         _operators = ['_==Int_', '_=/=Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
-        subst = self._cached_subst
-        assert subst is not None
+
         # Extract the terms and operator from the substitution
         fst_term = subst['###TERM1']
         snd_term = subst['###TERM2']
@@ -306,36 +336,9 @@ class KontrolSemantics(KEVMSemantics):
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
 
-    def _check_fork_call_pattern(self, cterm: CTerm) -> bool:
-        abstract_pattern = KSequence(
-            [
-                KApply(
-                    'callwithcode_check_fork',
-                    [
-                        KVariable('###ACCTFROM'),
-                        KVariable('###ACCTTO'),
-                        KVariable('###ACCTCODE'),
-                        KToken(token='b""', sort=KSort(name='Bytes')),
-                        KVariable('###VALUE'),
-                        KVariable('###APPVALUE'),
-                        KVariable('###ARGS'),
-                        KVariable('###STATIC'),
-                    ],
-                ),
-                KApply('#return___EVM_KItem_Int_Int', [KVariable('###RETURN1'), KVariable('###RETURN2')]),
-                KApply('pc', KVariable('###PC')),
-                KApply('execute', []),
-                KVariable('###CONTINUATION'),
-            ]
-        )
-        self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
-        return self._cached_subst is not None
-
-    def _exec_fork_call_pattern(self, cterm: CTerm) -> KCFGExtendResult | None:
+    def _exec_fork_call_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
         if self._provider is None:
             raise ValueError('No web3 provider configured for fork execution.')
-        subst = self._cached_subst
-        assert subst is not None
 
         target_address = subst['###ACCTCODE']
         if type(target_address) is not KToken:
@@ -389,28 +392,9 @@ class KontrolSemantics(KEVMSemantics):
         _LOGGER.info(f'Successfully read account {address_value} from provider and added it to the state')
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['call.false'], cut=True)
 
-    def _check_fork_sload_pattern(self, cterm: CTerm) -> bool:
-        abstract_pattern = KSequence(
-            [
-                KApply('FETCH_ACCOUNT_STORAGE', [KVariable('###ACCTID'), KVariable('###ACCTSLOT')]),
-                KApply('#push_EVM_InternalOp'),
-                KApply('pc', KVariable('###PC1')),
-                KApply('execute', []),
-                KApply('#return___EVM_KItem_Int_Int', [KVariable('###RETURN1'), KVariable('###RETURN2')]),
-                KApply('pc', KVariable('###PC2')),
-                KVariable('###CONTINUATION'),
-            ]
-        )
-        self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
-        return self._cached_subst is not None
-
-    def _exec_fork_sload_pattern(self, cterm: CTerm) -> KCFGExtendResult | None:
+    def _exec_fork_sload_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
         if self._provider is None:
             raise ValueError('No web3 provider configured for fork execution.')
-
-        subst = self._cached_subst
-        if subst is None:
-            raise ValueError('Fork sload pattern substitution missing.')
 
         target_address = subst['###ACCTID']
         target_slot = subst['###ACCTSLOT']
@@ -478,23 +462,6 @@ class KontrolSemantics(KEVMSemantics):
         )
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT_STORAGE'], cut=True)
 
-    def custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
-        if self._check_rename_pattern(cterm):
-            return self._exec_rename_custom_step(cterm)
-        elif self._check_forget_pattern(cterm):
-            return self._exec_forget_custom_step(cterm, cterm_symbolic)
-        elif self._check_fork_call_pattern(cterm):
-            return self._exec_fork_call_pattern(cterm)
-        elif self._check_fork_sload_pattern(cterm):
-            return self._exec_fork_sload_pattern(cterm)
-        else:
-            return super().custom_step(cterm, cterm_symbolic)
-
-    def can_make_custom_step(self, cterm: CTerm) -> bool:
-        return any(
-            [self._check_rename_pattern(cterm), self._check_forget_pattern(cterm), super().can_make_custom_step(cterm)]
-        )
-
     def _update_forked_accounts(self, cterm: CTerm, target_address: KToken) -> KInner:
         """Update the FORKEDACCOUNTS_CELL by adding target_address if it is not already present."""
 
@@ -507,6 +474,7 @@ class KontrolSemantics(KEVMSemantics):
             if account_set_item not in forked_accounts:
                 forked_accounts.append(account_set_item)
         return build_assoc(KApply('.Set'), '_Set_', forked_accounts)
+
 
 def add_to_account_storage(account: KApply, slot: KToken, value: KToken) -> KApply:
     new_map_item = KApply('_|->_', [slot, value])
