@@ -17,7 +17,7 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
-from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
+from kevm_pyk.kevm import KEVM, CustomStep, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSequence, KSort, KToken, KVariable, Subst, build_assoc
@@ -103,20 +103,25 @@ class KontrolSemantics(KEVMSemantics):
     def __init__(
         self, auto_abstract_gas: bool = False, allow_symbolic_program: bool = False, provider_url: str | None = None
     ) -> None:
-        super().__init__(auto_abstract_gas=auto_abstract_gas, allow_symbolic_program=allow_symbolic_program)
+
+        custom_steps = (
+            CustomStep(self._rename_pattern, self._exec_rename_custom_step),
+            CustomStep(self._forget_branch_pattern, self._exec_forget_custom_step),
+            CustomStep(self._call_fork_pattern, self._exec_fork_call_custom_step),
+            CustomStep(self._sload_fork_pattern, self._exec_fork_sload_custom_step),
+        )
+
+        super().__init__(
+            auto_abstract_gas=auto_abstract_gas,
+            allow_symbolic_program=allow_symbolic_program,
+            custom_step_definitions=custom_steps,
+        )
 
         self._external_accounts = set()
         if provider_url:
             self._provider = Web3Providers.get_provider(provider_url)
         else:
             self._provider = None
-
-        self._custom_step_definitions = self._custom_step_definitions + (
-            (self._rename_pattern, self._exec_rename_custom_step),
-            (self._forget_branch_pattern, self._exec_forget_custom_step),
-            (self._call_fork_pattern, self._exec_fork_call_custom_step),
-            (self._sload_fork_pattern, self._exec_fork_sload_custom_step),
-        )
 
     @staticmethod
     def cut_point_rules(
@@ -133,7 +138,11 @@ class KontrolSemantics(KEVMSemantics):
             cut_point_rules.extend(
                 [
                     'EVM.call.false',
-                    'FOUNDRY.sload.false',
+                    'FOUNDRY.sload.w3provider',
+                    'FOUNDRY.balance.w3provider',
+                    'FOUNDRY.extcodesize.w3provider',
+                    'FOUNDRY.extcodehash.w3provider',
+                    'FOUNDRY.extcodecopy.w3provider',
                 ]
             )
         return cut_point_rules + KEVMSemantics.cut_point_rules(
@@ -197,6 +206,16 @@ class KontrolSemantics(KEVMSemantics):
                 KApply('execute', []),
                 KApply('#return___EVM_KItem_Int_Int', [KVariable('###RETURN1'), KVariable('###RETURN2')]),
                 KApply('pc', KVariable('###PC2')),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+
+    @property
+    def _balance_fork_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply('FETCH_ACCOUNT_BALANCE', KVariable('###ACCTID')),
+                KApply('#push_EVM_InternalOp'),
                 KVariable('###CONTINUATION'),
             ]
         )
@@ -357,6 +376,10 @@ class KontrolSemantics(KEVMSemantics):
         all_accounts.append(account)
         new_accounts_cell = KEVM.accounts(all_accounts)
 
+        if account_code is KToken('b""', sort='Bytes'):
+            _LOGGER.warning(f'Account {target_address.token} has no code available. Continuing execution.')
+            return None
+
         # Build a new continuation, replacing the account code placeholder with the fetched code.
         continuation = KSequence(
             [
@@ -390,7 +413,7 @@ class KontrolSemantics(KEVMSemantics):
         new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', continuation))
 
         _LOGGER.info(f'Successfully read account {address_value} from provider and added it to the state')
-        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['call.false'], cut=True)
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['call.true'], cut=True)
 
     def _exec_fork_sload_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
         if self._provider is None:

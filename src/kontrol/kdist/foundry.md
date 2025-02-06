@@ -31,6 +31,7 @@ module FOUNDRY
       <foundry>
         <kevm/>
         <forkedAccounts> .Set </forkedAccounts>
+        <allowWeb3Connection> false </allowWeb3Connection>
         <stackChecks> true </stackChecks>
         <cheatcodes/>
         <KEVMTracing/>
@@ -57,20 +58,45 @@ module FOUNDRY
     rule #accountHasStorageSlot (_,_) => false [owise]
 
 // Comment: Ideally, rules below would be available only when --fork-url is provided.
-    syntax KItem ::= "FETCH_ACCOUNT_STORAGE" Int Int [symbol(FETCH_ACCOUNT_STORAGE)]
-                  //  | "FETCH_ACCOUNT_BALANCE" Int     [symbol(FETCH_ACCOUNT_BALANCE)]
-                  //  | "FETCH_ACCOUNT_CODE" Int           [symbol(FETCH_ACCOUNT_CODE)]
-                  //  | "FETCH_ACCOUNT_CODE_SIZE" Int [symbol(FETCH_ACCOUNT_CODE_SIZE)]
-                  //  | "FETCH_ACCOUNT_CODE_HASH" Int [symbol(FETCH_ACCOUNT_CODE_HASH)]
- // --------------------------------------------------------------------------------
-    rule [sload.false]:
+// For this I'm using the <allowWeb3Connection> cell
+    syntax KItem ::= "FETCH_ACCOUNT_STORAGE" Int Int [symbol(FETCH_ACCOUNT_STORAGE)  ]
+                   | "FETCH_ACCOUNT_BALANCE" Int     [symbol(FETCH_ACCOUNT_BALANCE)  ]
+                   | "FETCH_ACCOUNT_CODE_SIZE" Int   [symbol(FETCH_ACCOUNT_CODE_SIZE)]
+                   | "FETCH_ACCOUNT_CODE_HASH" Int   [symbol(FETCH_ACCOUNT_CODE_HASH)]
+                   | "FETCH_ACCOUNT_CODE" Int Int Int Int [symbol(FETCH_ACCOUNT_CODE)]
+ // ----------------------------------------------------------------------------------
+    rule [sload.w3provider]:
          <k> SLOAD INDEX => FETCH_ACCOUNT_STORAGE ACCT INDEX ~> #push ... </k>
          <id> ACCT </id>
+         <allowWeb3Connection> true </allowWeb3Connection>
          <forkedAccounts> FA </forkedAccounts>
       requires notBool #accountInState(ACCT)
         orBool (ACCT in FA andBool notBool #accountHasStorageSlot(ACCT, INDEX))
       [priority(30)]
 
+    rule [balance.w3provider]:
+         <k> BALANCE ACCT =>  #accessAccounts ACCT ~> FETCH_ACCOUNT_BALANCE ACCT ~> #push ... </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCT)
+      [priority(30)]
+
+    rule [extcodesize.w3provider]:
+         <k> EXTCODESIZE ACCT =>  #accessAccounts ACCT ~> FETCH_ACCOUNT_CODE_SIZE ACCT ~> #push ... </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCT)
+      [priority(30)]
+
+    rule [extcodecopy.w3provider]:
+         <k> EXTCODECOPY ACCT MEMSTART PGMSTART WIDTH => #accessAccounts ACCT ~> FETCH_ACCOUNT_CODE ACCT MEMSTART PGMSTART WIDTH ... </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCT)
+      [priority(30)]
+
+    rule [extcodehash.w3provider]:
+         <k> EXTCODEHASH ACCT => #accessAccounts ACCT ~> FETCH_ACCOUNT_CODE_HASH ACCT ~> #push ... </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCT)
+      [priority(30)]
 endmodule
 ```
 

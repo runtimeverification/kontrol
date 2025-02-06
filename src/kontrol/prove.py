@@ -399,11 +399,11 @@ def _run_cfg_group(
                 ):
                     options.config_type = ConfigType.SUMMARY_CONFIG
 
-                w3 = None
+                provider = None
                 block_metadata = None
                 if options.fork_url:
-                    w3 = Web3Providers.get_provider(options.fork_url)
-                    block_metadata = get_block_metadata(w3)
+                    provider = Web3Providers.get_provider(options.fork_url)
+                    block_metadata = get_block_metadata(provider)
 
                 proof = method_to_apr_proof(
                     test=test,
@@ -1067,6 +1067,7 @@ def _init_cterm(
         'RECORDEDTRACE_CELL': FALSE,
         'TRACEDATA_CELL': KApply('.List'),
         'FORKEDACCOUNTS_CELL': set_empty(),
+        'ALLOWWEB3CONNECTION_CELL': FALSE,
     }
 
     storage_constraints: list[KApply] = []
@@ -1090,6 +1091,7 @@ def _init_cterm(
         init_subst.update(init_subst_test)
         if block_metadata:
             init_subst_fork_data = {
+                'ALLOWWEB3CONNECTION_CELL': TRUE,
                 'NUMBER_CELL': token(block_metadata['block_number']),
                 'CHAINID_CELL': token(block_metadata['chain_id']),
                 'GASLIMIT_CELL': token(block_metadata['gas_limit']),
