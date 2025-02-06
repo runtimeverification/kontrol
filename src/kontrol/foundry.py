@@ -17,7 +17,7 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
-from kevm_pyk.kevm import KEVM, KEVMNodePrinter, KEVMSemantics
+from kevm_pyk.kevm import KEVM, CustomStep, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSequence, KSort, KToken, KVariable, Subst
@@ -96,6 +96,18 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 class KontrolSemantics(KEVMSemantics):
 
+    def __init__(self, auto_abstract_gas: bool = False, allow_symbolic_program: bool = False) -> None:
+        custom_steps = (
+            CustomStep(self._rename_pattern, self._exec_rename_custom_step),
+            CustomStep(self._forget_branch_pattern, self._exec_forget_custom_step),
+        )
+
+        super().__init__(
+            auto_abstract_gas=auto_abstract_gas,
+            allow_symbolic_program=allow_symbolic_program,
+            custom_step_definitions=custom_steps,
+        )
+
     @staticmethod
     def cut_point_rules(
         break_on_jumpi: bool,
@@ -114,25 +126,25 @@ class KontrolSemantics(KEVMSemantics):
             break_on_load_program,
         )
 
-    def _check_rename_pattern(self, cterm: CTerm) -> bool:
-        """Given a CTerm, check if the rule 'FOUNDRY-CHEAT-CODES.rename' is at the top of the K_CELL.
-
-        :param cterm: The CTerm representing the current state of the proof node.
-        :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
-        """
-        abstract_pattern = KSequence(
+    @property
+    def _rename_pattern(self) -> KSequence:
+        return KSequence(
             [
                 KApply('foundry_rename', [KVariable('###RENAME_TARGET'), KVariable('###NEW_NAME')]),
                 KVariable('###CONTINUATION'),
             ]
         )
-        self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
-        return self._cached_subst is not None
 
-    def _exec_rename_custom_step(self, cterm: CTerm) -> KCFGExtendResult | None:
-        subst = self._cached_subst
-        assert subst is not None
+    @property
+    def _forget_branch_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
+                KVariable('###CONTINUATION'),
+            ]
+        )
 
+    def _exec_rename_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
         # Extract the target var and new name from the substitution
         target_var = subst['###RENAME_TARGET']
         name_token = subst['###NEW_NAME']
@@ -155,23 +167,9 @@ class KontrolSemantics(KEVMSemantics):
         _LOGGER.info(f'Renaming {target_var.name} to {name}')
         return Step(CTerm(new_cterm.config, constraints), 1, (), ['foundry_rename'], cut=True)
 
-    def _check_forget_pattern(self, cterm: CTerm) -> bool:
-        """Given a CTerm, check if the rule 'FOUNDRY-ACCOUNTS.forget' is at the top of the K_CELL.
-        This method checks if the 'FOUNDRY-ACCOUNTS.forget' rule is at the top of the `K_CELL` in the given `cterm`.
-        If the rule matches, the resulting substitution is cached in `_cached_subst` for later use in `custom_step`
-        :param cterm: The CTerm representing the current state of the proof node.
-        :return: `True` if the pattern matches and a custom step can be made; `False` otherwise.
-        """
-        abstract_pattern = KSequence(
-            [
-                KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
-                KVariable('###CONTINUATION'),
-            ]
-        )
-        self._cached_subst = abstract_pattern.match(cterm.cell('K_CELL'))
-        return self._cached_subst is not None
-
-    def _exec_forget_custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
+    def _exec_forget_custom_step(
+        self, subst: Subst, cterm: CTerm, cterm_symbolic: CTermSymbolic
+    ) -> KCFGExtendResult | None:
         """Remove the constraint at the top of K_CELL of a given CTerm from its path constraints,
            as part of the 'FOUNDRY-ACCOUNTS.forget' cut-rule.
         :param cterm: CTerm representing a proof node
@@ -246,8 +244,7 @@ class KontrolSemantics(KEVMSemantics):
             return constraints
 
         _operators = ['_==Int_', '_=/=Int_', '_<=Int_', '_<Int_', '_>=Int_', '_>Int_']
-        subst = self._cached_subst
-        assert subst is not None
+
         # Extract the terms and operator from the substitution
         fst_term = subst['###TERM1']
         snd_term = subst['###TERM2']
@@ -281,19 +278,6 @@ class KontrolSemantics(KEVMSemantics):
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
-
-    def custom_step(self, cterm: CTerm, cterm_symbolic: CTermSymbolic) -> KCFGExtendResult | None:
-        if self._check_rename_pattern(cterm):
-            return self._exec_rename_custom_step(cterm)
-        elif self._check_forget_pattern(cterm):
-            return self._exec_forget_custom_step(cterm, cterm_symbolic)
-        else:
-            return super().custom_step(cterm, cterm_symbolic)
-
-    def can_make_custom_step(self, cterm: CTerm) -> bool:
-        return any(
-            [self._check_rename_pattern(cterm), self._check_forget_pattern(cterm), super().can_make_custom_step(cterm)]
-        )
 
 
 class FoundryKEVM(KEVM):
