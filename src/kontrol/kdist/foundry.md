@@ -57,14 +57,33 @@ module FOUNDRY
          </account>
     rule #accountHasStorageSlot (_,_) => false [owise]
 
-// Comment: Ideally, rules below would be available only when --fork-url is provided.
-// For this I'm using the <allowWeb3Connection> cell
-    syntax KItem ::= "FETCH_ACCOUNT_STORAGE" Int Int [symbol(FETCH_ACCOUNT_STORAGE)  ]
-                   | "FETCH_ACCOUNT_BALANCE" Int     [symbol(FETCH_ACCOUNT_BALANCE)  ]
-                   | "FETCH_ACCOUNT_CODE_SIZE" Int   [symbol(FETCH_ACCOUNT_CODE_SIZE)]
-                   | "FETCH_ACCOUNT_CODE_HASH" Int   [symbol(FETCH_ACCOUNT_CODE_HASH)]
-                   | "FETCH_ACCOUNT_CODE" Int Int Int Int [symbol(FETCH_ACCOUNT_CODE)]
- // ----------------------------------------------------------------------------------
+    syntax KItem ::= "FETCH_ACCOUNT"         Int     [symbol(FETCH_ACCOUNT)        ]
+                   | "FETCH_ACCOUNT_STORAGE" Int Int [symbol(FETCH_ACCOUNT_STORAGE)]
+ // --------------------------------------------------------------------------------
+    rule [call.w3provider]:
+         <k> (.K => FETCH_ACCOUNT ACCTCODE)
+          ~> #call _ACCTFROM _ACCTTO ACCTCODE _VALUE _APPVALUE _ARGS _STATIC
+         ...
+         </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCTCODE)
+      [priority(40)]
+
+    rule [unstackop.w3provider]:
+         <k> (.K => FETCH_ACCOUNT ACCT) ~> OPCODE:UnStackOp ACCT ... </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCT)
+       andBool ( OPCODE ==K BALANCE
+          orBool OPCODE ==K EXTCODESIZE
+          orBool OPCODE ==K EXTCODEHASH )
+      [priority(40)]
+
+    rule [extcodecopy.w3provider]:
+         <k> (.K => FETCH_ACCOUNT ACCT) ~> EXTCODECOPY ACCT _MEMSTART _PGMSTART _WIDTH ... </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCT)
+      [priority(40)]
+
     rule [sload.w3provider]:
          <k> SLOAD INDEX => FETCH_ACCOUNT_STORAGE ACCT INDEX ~> #push ... </k>
          <id> ACCT </id>
@@ -72,31 +91,7 @@ module FOUNDRY
          <forkedAccounts> FA </forkedAccounts>
       requires notBool #accountInState(ACCT)
         orBool (ACCT in FA andBool notBool #accountHasStorageSlot(ACCT, INDEX))
-      [priority(30)]
-
-    rule [balance.w3provider]:
-         <k> BALANCE ACCT =>  #accessAccounts ACCT ~> FETCH_ACCOUNT_BALANCE ACCT ~> #push ... </k>
-         <allowWeb3Connection> true </allowWeb3Connection>
-      requires notBool #accountInState(ACCT)
-      [priority(30)]
-
-    rule [extcodesize.w3provider]:
-         <k> EXTCODESIZE ACCT =>  #accessAccounts ACCT ~> FETCH_ACCOUNT_CODE_SIZE ACCT ~> #push ... </k>
-         <allowWeb3Connection> true </allowWeb3Connection>
-      requires notBool #accountInState(ACCT)
-      [priority(30)]
-
-    rule [extcodecopy.w3provider]:
-         <k> EXTCODECOPY ACCT MEMSTART PGMSTART WIDTH => #accessAccounts ACCT ~> FETCH_ACCOUNT_CODE ACCT MEMSTART PGMSTART WIDTH ... </k>
-         <allowWeb3Connection> true </allowWeb3Connection>
-      requires notBool #accountInState(ACCT)
-      [priority(30)]
-
-    rule [extcodehash.w3provider]:
-         <k> EXTCODEHASH ACCT => #accessAccounts ACCT ~> FETCH_ACCOUNT_CODE_HASH ACCT ~> #push ... </k>
-         <allowWeb3Connection> true </allowWeb3Connection>
-      requires notBool #accountInState(ACCT)
-      [priority(30)]
+      [priority(40)]
 endmodule
 ```
 
