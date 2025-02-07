@@ -109,6 +109,10 @@ class KontrolSemantics(KEVMSemantics):
             CustomStep(self._forget_branch_pattern, self._exec_forget_custom_step),
             CustomStep(self._call_fork_pattern, self._exec_fork_call_custom_step),
             CustomStep(self._sload_fork_pattern, self._exec_fork_sload_custom_step),
+            CustomStep(self._balance_fork_pattern, self._exec_balance_fork_custom_step),
+            CustomStep(self._extcodesize_fork_pattern, self._exec_extcodesize_fork_custom_step),
+            CustomStep(self._extcodehash_fork_pattern, self._exec_extcodehash_fork_custom_step),
+            CustomStep(self._extcodecopy_fork_pattern, self._exec_extcodecopy_fork_custom_step),
         )
 
         super().__init__(
@@ -138,11 +142,11 @@ class KontrolSemantics(KEVMSemantics):
             cut_point_rules.extend(
                 [
                     'EVM.call.false',
-                    'FOUNDRY.sload.w3provider',
-                    'FOUNDRY.balance.w3provider',
-                    'FOUNDRY.extcodesize.w3provider',
-                    'FOUNDRY.extcodehash.w3provider',
-                    'FOUNDRY.extcodecopy.w3provider',
+                    # 'FOUNDRY.sload.w3provider',
+                    # 'FOUNDRY.balance.w3provider',
+                    # 'FOUNDRY.extcodesize.w3provider',
+                    # 'FOUNDRY.extcodehash.w3provider',
+                    # 'FOUNDRY.extcodecopy.w3provider',
                 ]
             )
         return cut_point_rules + KEVMSemantics.cut_point_rules(
@@ -189,9 +193,6 @@ class KontrolSemantics(KEVMSemantics):
                         KVariable('###STATIC'),
                     ],
                 ),
-                KApply('#return___EVM_KItem_Int_Int', [KVariable('###RETURN1'), KVariable('###RETURN2')]),
-                KApply('pc', KVariable('###PC')),
-                KApply('execute', []),
                 KVariable('###CONTINUATION'),
             ]
         )
@@ -201,11 +202,6 @@ class KontrolSemantics(KEVMSemantics):
         return KSequence(
             [
                 KApply('FETCH_ACCOUNT_STORAGE', [KVariable('###ACCTID'), KVariable('###ACCTSLOT')]),
-                KApply('#push_EVM_InternalOp'),
-                KApply('pc', KVariable('###PC1')),
-                KApply('execute', []),
-                KApply('#return___EVM_KItem_Int_Int', [KVariable('###RETURN1'), KVariable('###RETURN2')]),
-                KApply('pc', KVariable('###PC2')),
                 KVariable('###CONTINUATION'),
             ]
         )
@@ -215,7 +211,36 @@ class KontrolSemantics(KEVMSemantics):
         return KSequence(
             [
                 KApply('FETCH_ACCOUNT_BALANCE', KVariable('###ACCTID')),
-                KApply('#push_EVM_InternalOp'),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+
+    @property
+    def _extcodesize_fork_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply('FETCH_ACCOUNT_CODE_SIZE', KVariable('###ACCTID')),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+
+    @property
+    def _extcodehash_fork_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply('FETCH_ACCOUNT_CODE_HASH', KVariable('###ACCTID')),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+
+    @property
+    def _extcodecopy_fork_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply(
+                    'FETCH_ACCOUNT_CODE',
+                    [KVariable('###ACCTID'), KVariable('###MEMSTART'), KVariable('###PGMSTART'), KVariable('###WIDTH')],
+                ),
                 KVariable('###CONTINUATION'),
             ]
         )
@@ -368,7 +393,7 @@ class KontrolSemantics(KEVMSemantics):
             raise ValueError(f'Account {address_value} already processed for fork.')
 
         # Read the account from the web3 provider
-        account_code, account = fetch_account_from_provider(provider=self._provider, target_address=target_address)
+        account_code, _, account = fetch_account_from_provider(provider=self._provider, target_address=target_address)
 
         # Update the ACCOUNTS_CELL by appending the new account.
         accounts_cell = cterm.cell('ACCOUNTS_CELL')
@@ -396,9 +421,6 @@ class KontrolSemantics(KEVMSemantics):
                         subst['###STATIC'],
                     ],
                 ),
-                KApply('#return___EVM_KItem_Int_Int', [subst['###RETURN1'], subst['###RETURN2']]),
-                KApply('pc', subst['###PC']),
-                KApply('execute', []),
                 subst['###CONTINUATION'],
             ]
         )
@@ -432,7 +454,7 @@ class KontrolSemantics(KEVMSemantics):
         # Fetch the account from the web3 provider if it hasn't been processed yet.
 
         if address_value not in self._external_accounts:
-            _, account_to_update = fetch_account_from_provider(self._provider, target_address)
+            _, _, account_to_update = fetch_account_from_provider(self._provider, target_address)
             new_account_list.extend(accounts)
         else:
             # find target_address in <accounts> cell map
@@ -462,11 +484,6 @@ class KontrolSemantics(KEVMSemantics):
         continuation = KSequence(
             [
                 value,
-                KApply('#push_EVM_InternalOp'),
-                KApply('pc', subst['###PC1']),
-                KApply('execute'),
-                KApply('#return___EVM_KItem_Int_Int', [subst['###RETURN1'], subst['###RETURN2']]),
-                KApply('pc', subst['###PC2']),
                 subst['###CONTINUATION'],
             ]
         )
@@ -484,6 +501,168 @@ class KontrolSemantics(KEVMSemantics):
             f'Successfully read storage slot {int(target_slot.token)} of address {address_value} from w3 provider and added it to the state'
         )
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT_STORAGE'], cut=True)
+
+    def _exec_balance_fork_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+        if self._provider is None:
+            raise ValueError('No web3 provider configured for fork execution.')
+
+        target_address = subst['###ACCTID']
+        if not type(target_address) is KToken:
+            raise TypeError('Expected target_address to be KToken instance.')
+        address_value = int(target_address.token)
+
+        _, account_balance, account = fetch_account_from_provider(self._provider, target_address)
+
+        # Update the ACCOUNTS_CELL by appending the new account.
+        accounts_cell = cterm.cell('ACCOUNTS_CELL')
+        all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
+        all_accounts.append(account)
+        new_accounts_cell = KEVM.accounts(all_accounts)
+
+        # Build the new continuation.
+        continuation = KSequence(
+            [
+                account_balance,
+                subst['###CONTINUATION'],
+            ]
+        )
+
+        # Update the FORKEDACCOUNTS_CELL via a helper.
+        new_forked_accounts_cell = self._update_forked_accounts(cterm, target_address)
+        self._external_accounts.add(address_value)
+
+        # Update the Accounts cell with the continuation
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'FORKEDACCOUNTS_CELL', new_forked_accounts_cell))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'ACCOUNTS_CELL', new_accounts_cell))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', continuation))
+
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT_BALANCE'], cut=True)
+
+    def _exec_extcodesize_fork_custom_step(
+        self, subst: Subst, cterm: CTerm, _c: CTermSymbolic
+    ) -> KCFGExtendResult | None:
+        if self._provider is None:
+            raise ValueError('No web3 provider configured for fork execution.')
+
+        target_address = subst['###ACCTID']
+        if not type(target_address) is KToken:
+            raise TypeError('Expected target_address to be KToken instance.')
+        address_value = int(target_address.token)
+
+        account_code, _, account = fetch_account_from_provider(self._provider, target_address)
+
+        # Update the ACCOUNTS_CELL by appending the new account.
+        accounts_cell = cterm.cell('ACCOUNTS_CELL')
+        all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
+        all_accounts.append(account)
+        new_accounts_cell = KEVM.accounts(all_accounts)
+
+        # Build the new continuation.
+        continuation = KSequence(
+            [
+                KEVM.size_bytes(account_code),
+                subst['###CONTINUATION'],
+            ]
+        )
+        # Update the FORKEDACCOUNTS_CELL via a helper.
+        new_forked_accounts_cell = self._update_forked_accounts(cterm, target_address)
+        self._external_accounts.add(address_value)
+
+        # Update the Accounts cell with the continuation
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'FORKEDACCOUNTS_CELL', new_forked_accounts_cell))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'ACCOUNTS_CELL', new_accounts_cell))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', continuation))
+
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT_CODE_SIZE'], cut=True)
+
+    def _exec_extcodehash_fork_custom_step(
+        self, subst: Subst, cterm: CTerm, _c: CTermSymbolic
+    ) -> KCFGExtendResult | None:
+        if self._provider is None:
+            raise ValueError('No web3 provider configured for fork execution.')
+
+        target_address = subst['###ACCTID']
+        if not type(target_address) is KToken:
+            raise TypeError('Expected target_address to be KToken instance.')
+        address_value = int(target_address.token)
+
+        account_code, _, account = fetch_account_from_provider(self._provider, target_address)
+
+        # Update the ACCOUNTS_CELL by appending the new account.
+        accounts_cell = cterm.cell('ACCOUNTS_CELL')
+        all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
+        all_accounts.append(account)
+        new_accounts_cell = KEVM.accounts(all_accounts)
+
+        # Build the new continuation.
+        continuation = KSequence(
+            [
+                KApply('keccak', account_code),
+                subst['###CONTINUATION'],
+            ]
+        )
+        # Update the FORKEDACCOUNTS_CELL via a helper.
+        new_forked_accounts_cell = self._update_forked_accounts(cterm, target_address)
+        self._external_accounts.add(address_value)
+
+        # Update the Accounts cell with the continuation
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'FORKEDACCOUNTS_CELL', new_forked_accounts_cell))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'ACCOUNTS_CELL', new_accounts_cell))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', continuation))
+
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT_CODE_HASH'], cut=True)
+
+    def _exec_extcodecopy_fork_custom_step(
+        self, subst: Subst, cterm: CTerm, _c: CTermSymbolic
+    ) -> KCFGExtendResult | None:
+        if self._provider is None:
+            raise ValueError('No web3 provider configured for fork execution.')
+
+        target_address = subst['###ACCTID']
+        memstart = subst['###MEMSTART']
+        pgmstart = subst['###PGMSTART']
+        width = subst['###WIDTH']
+        if not (
+            type(target_address) is KToken
+            and type(memstart) is KToken
+            and type(pgmstart) is KToken
+            and type(width) is KToken
+        ):
+            raise TypeError('Expected target_address to be KToken instance.')
+        address_value = int(target_address.token)
+
+        account_code, _, account = fetch_account_from_provider(self._provider, target_address)
+
+        # Update the ACCOUNTS_CELL by appending the new account.
+        accounts_cell = cterm.cell('ACCOUNTS_CELL')
+        all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
+        all_accounts.append(account)
+        new_accounts_cell = KEVM.accounts(all_accounts)
+
+        # <localMem> LM => LM [ MEMSTART := #range(PGM, PGMSTART, WIDTH) ] </localMem>
+        local_mem = cterm.cell('LOCALMEM_CELL')
+        new_local_mem = KApply(
+            'mapWriteRange', [local_mem, memstart, KApply('#range', [account_code, pgmstart, width])]
+        )
+        cterm = CTerm.from_kast(set_cell(cterm.kast, 'LOCALMEM_CELL', new_local_mem))
+
+        # Build the new continuation.
+        continuation = KSequence(
+            [
+                subst['###CONTINUATION'],
+            ]
+        )
+
+        # Update the FORKEDACCOUNTS_CELL via a helper.
+        new_forked_accounts_cell = self._update_forked_accounts(cterm, target_address)
+        self._external_accounts.add(address_value)
+
+        # Update the Accounts cell with the continuation
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'FORKEDACCOUNTS_CELL', new_forked_accounts_cell))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'ACCOUNTS_CELL', new_accounts_cell))
+        new_cterm = CTerm.from_kast(set_cell(new_cterm.kast, 'K_CELL', continuation))
+
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT_CODE'], cut=True)
 
     def _update_forked_accounts(self, cterm: CTerm, target_address: KToken) -> KInner:
         """Update the FORKEDACCOUNTS_CELL by adding target_address if it is not already present."""

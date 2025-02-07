@@ -57,7 +57,7 @@ def get_block_metadata(provider: Web3) -> dict[str, int]:
     }
 
 
-def fetch_account_from_provider(provider: Web3, target_address: KToken) -> tuple[KToken, KApply]:
+def fetch_account_from_provider(provider: Web3, target_address: KToken) -> tuple[KToken, KToken, KApply]:
     """Fetch the account's code and balance from the provider, and return a tuple containing:
     - A KToken representing the account code.
     - A KApply account cell with the fetched data and empty storage.
@@ -68,6 +68,7 @@ def fetch_account_from_provider(provider: Web3, target_address: KToken) -> tuple
 
     return (
         code_token,
+        balance_token,
         KEVM.account_cell(
             id=target_address,
             balance=balance_token,
