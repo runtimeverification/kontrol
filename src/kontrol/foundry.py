@@ -328,7 +328,7 @@ class KontrolSemantics(KEVMSemantics):
         new_accounts: list[KInner] = []
 
         # If the account is not in the state, fetch the account code and balance.
-        if not account_already_forked(target_address, cterm):
+        if not self._account_already_forked(cterm, target_address):
             _, account_to_update = fetch_account_from_provider(provider, target_address)
             new_accounts.extend(accounts)
         else:
@@ -349,7 +349,7 @@ class KontrolSemantics(KEVMSemantics):
 
         # Fetch the storage value at the given slot and store it.
         value = fetch_storage_value_from_provider(provider, target_address, target_slot)
-        updated_account = add_to_account_storage(account_to_update, target_slot, value)
+        updated_account = add_storage_slot_to_account(account_to_update, target_slot, value)
         new_accounts.append(updated_account)
         new_accounts_cell = KEVM.accounts(new_accounts)
 
@@ -389,27 +389,13 @@ class KontrolSemantics(KEVMSemantics):
         new_cterm = self._commit_changes_to_cterm(cterm, new_accounts_cell, continuation, target_address)
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT'], cut=True)
 
-    def _update_forked_accounts_cell(self, cterm: CTerm, target_address: KToken) -> KInner:
-        """Update the FORKEDACCOUNTS_CELL by adding target_address if it is not already present."""
-
-        forked_accounts_cell = cterm.cell('FORKEDACCOUNTS_CELL')
-        account_set_item = KApply('SetItem', target_address)
-        if forked_accounts_cell == set_empty():
-            forked_accounts: list[KInner] = [account_set_item]
-        else:
-            forked_accounts = flatten_label('_Set_', forked_accounts_cell)
-            if account_set_item in forked_accounts:
-                return forked_accounts_cell
-            forked_accounts.append(account_set_item)
-        return build_assoc(KApply('.Set'), '_Set_', forked_accounts)
-
     def _commit_changes_to_cterm(
         self, cterm: CTerm, new_accounts_cell: KInner, continuation: KSequence, target_address: KToken
     ) -> CTerm:
         """Update the ACCOUNTS_CELL, FORKEDACCOUNTS_CELL and K_CELL of the CTerm to commit the data retrieved from
         the web3 provider."""
 
-        new_forked_accounts_cell = self._update_forked_accounts_cell(cterm, target_address)
+        new_forked_accounts_cell = update_forked_accounts_cell(cterm, target_address)
         updated_cterm = CTerm.from_kast(set_cell(cterm.kast, 'FORKEDACCOUNTS_CELL', new_forked_accounts_cell))
         updated_cterm = CTerm.from_kast(set_cell(updated_cterm.kast, 'ACCOUNTS_CELL', new_accounts_cell))
         updated_cterm = CTerm.from_kast(set_cell(updated_cterm.kast, 'K_CELL', continuation))
@@ -417,21 +403,29 @@ class KontrolSemantics(KEVMSemantics):
 
         return updated_cterm
 
+    def _account_already_forked(self, cterm: CTerm, target_address: KToken) -> bool:
+        """Check if target_address is part of the FORKEDACCOUNTS_CELL of a CTerm."""
+        return KApply('SetItem', target_address) in get_set_from_cterm(cterm, 'FORKEDACCOUNTS_CELL')
 
-def account_already_forked(target_address: KToken, cterm: CTerm) -> bool:
-    """Check if target_address is part of the FORKEDACCOUNTS_CELL of a CTerm."""
 
-    forked_accounts_cell = cterm.cell('FORKEDACCOUNTS_CELL')
-    if forked_accounts_cell == set_empty():
-        return False
+def update_forked_accounts_cell(cterm: CTerm, target_address: KToken) -> KInner:
+    """Update the FORKEDACCOUNTS_CELL by adding target_address if it is not already present."""
     account_set_item = KApply('SetItem', target_address)
-    forked_accounts = flatten_label('_Set_', forked_accounts_cell)
-    if account_set_item in forked_accounts:
-        return True
-    return False
+    accounts = get_set_from_cterm(cterm, 'FORKEDACCOUNTS_CELL')
+    if account_set_item in accounts:
+        return cterm.cell('FORKEDACCOUNTS_CELL')
+    accounts.append(account_set_item)
+    return build_assoc(KApply('.Set'), '_Set_', accounts)
 
 
-def add_to_account_storage(account: KApply, slot: KToken, value: KToken) -> KApply:
+def get_set_from_cterm(cterm: CTerm, key: str) -> list[KInner]:
+    values = cterm.cell(key)
+    if values == set_empty():
+        return []
+    return flatten_label('_Set_', values)
+
+
+def add_storage_slot_to_account(account: KApply, slot: KToken, value: KToken) -> KApply:
     new_map_item = KApply('_|->_', [slot, value])
     acct_id_cell = account.args[0]
     balance_cell = account.args[1]
