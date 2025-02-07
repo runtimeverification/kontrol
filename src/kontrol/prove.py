@@ -442,7 +442,6 @@ def _run_cfg_group(
                 options.break_on_storage,
                 options.break_on_basic_blocks,
                 options.break_on_load_program,
-                break_on_access_opcode=(not options.fork_url is None),
             )
             if options.break_on_cheatcodes:
                 cut_point_rules.extend(

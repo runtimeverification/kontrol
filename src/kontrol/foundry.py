@@ -129,16 +129,8 @@ class KontrolSemantics(KEVMSemantics):
         break_on_storage: bool,
         break_on_basic_blocks: bool,
         break_on_load_program: bool,
-        break_on_access_opcode: bool | None = None,
     ) -> list[str]:
-        cut_point_rules = ['FOUNDRY-CHEAT-CODES.rename', 'FOUNDRY-ACCOUNTS.forget']
-        if break_on_access_opcode:
-            cut_point_rules.extend(
-                [
-                    'EVM.call.false',
-                ]
-            )
-        return cut_point_rules + KEVMSemantics.cut_point_rules(
+        return ['FOUNDRY-CHEAT-CODES.rename', 'FOUNDRY-ACCOUNTS.forget'] + KEVMSemantics.cut_point_rules(
             break_on_jumpi,
             break_on_jump,
             break_on_calls,
@@ -397,6 +389,20 @@ class KontrolSemantics(KEVMSemantics):
         new_cterm = self._commit_changes_to_cterm(cterm, new_accounts_cell, continuation, target_address)
         return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT'], cut=True)
 
+    def _update_forked_accounts_cell(self, cterm: CTerm, target_address: KToken) -> KInner:
+        """Update the FORKEDACCOUNTS_CELL by adding target_address if it is not already present."""
+
+        forked_accounts_cell = cterm.cell('FORKEDACCOUNTS_CELL')
+        account_set_item = KApply('SetItem', target_address)
+        if forked_accounts_cell == set_empty():
+            forked_accounts: list[KInner] = [account_set_item]
+        else:
+            forked_accounts = flatten_label('_Set_', forked_accounts_cell)
+            if account_set_item in forked_accounts:
+                return forked_accounts_cell
+            forked_accounts.append(account_set_item)
+        return build_assoc(KApply('.Set'), '_Set_', forked_accounts)
+
     def _commit_changes_to_cterm(
         self, cterm: CTerm, new_accounts_cell: KInner, continuation: KSequence, target_address: KToken
     ) -> CTerm:
@@ -411,6 +417,7 @@ class KontrolSemantics(KEVMSemantics):
 
         return updated_cterm
 
+
 def account_already_forked(target_address: KToken, cterm: CTerm) -> bool:
     """Check if target_address is part of the FORKEDACCOUNTS_CELL of a CTerm."""
 
@@ -422,6 +429,7 @@ def account_already_forked(target_address: KToken, cterm: CTerm) -> bool:
     if account_set_item in forked_accounts:
         return True
     return False
+
 
 def add_to_account_storage(account: KApply, slot: KToken, value: KToken) -> KApply:
     new_map_item = KApply('_|->_', [slot, value])
