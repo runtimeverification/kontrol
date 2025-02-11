@@ -63,6 +63,8 @@
                 autoconf
                 automake
                 cmake
+                git
+                clang
                 prev.kevm-pyk
                 (kontrol-pyk { inherit solc_version; })
                 k-framework.packages.${prev.system}.k
