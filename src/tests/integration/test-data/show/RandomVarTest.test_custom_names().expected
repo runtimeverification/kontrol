@@ -394,8 +394,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))
        ensures ( ??WORD:Int <Int 2
        andBool ( 0 <=Int ??WORD:Int
@@ -641,8 +641,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))
        ensures ( ?BOOLEAN:Int <Int 2
        andBool ( 0 <=Int ?BOOLEAN:Int
@@ -888,8 +888,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))
        ensures ( ??WORD:Int <Int 2
        andBool ( 0 <=Int ??WORD:Int
@@ -1137,8 +1137,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))
        ensures ( ?BOOLEAN_0:Int <Int 2
        andBool ( 0 <=Int ?BOOLEAN_0:Int
@@ -1385,8 +1385,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))
        ensures ( BOOLEAN:Int ==Int 1
        andBool ( BOOLEAN_0:Int ==Int 0
@@ -1632,8 +1632,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow256
@@ -1881,8 +1881,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))
        ensures ( 0 <=Int ?NEW_SLOT:Int
        andBool ( ?NEW_SLOT:Int <Int pow256
@@ -2130,8 +2130,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow160
@@ -2385,8 +2385,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))))))
        ensures ( 0 <=Int ?NEW_ACCOUNT:Int
        andBool ( ?NEW_ACCOUNT:Int <Int pow160
@@ -2682,8 +2682,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
@@ -2953,8 +2953,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
@@ -3225,8 +3225,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))))))
        ensures 32 ==Int lengthBytes ( ??BYTES:Bytes )
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
@@ -3498,8 +3498,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))))))
        ensures 32 ==Int lengthBytes ( ?NEW_BYTES:Bytes )
       [priority(20), label(BASIC-BLOCK-14-TO-15)]
@@ -3771,8 +3771,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
@@ -4045,8 +4045,8 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
        andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
 

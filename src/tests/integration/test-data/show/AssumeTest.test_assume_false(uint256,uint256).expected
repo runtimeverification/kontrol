@@ -329,8 +329,8 @@ Node 10:
 #And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool C_ASSUMETEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) ) }
+#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -577,8 +577,8 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_a:Int <Int pow256
        andBool ( KV1_b:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
@@ -825,8 +825,8 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
@@ -1073,8 +1073,8 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))
        ensures KV0_a:Int =/=Int KV1_b:Int
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
@@ -1320,8 +1320,8 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
@@ -1569,8 +1569,8 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-7)]
     
@@ -1819,8 +1819,8 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-7-TO-8)]
     
@@ -2068,8 +2068,8 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
@@ -2317,8 +2317,8 @@ module SUMMARY-TEST%ASSUMETEST.TEST-ASSUME-FALSE(UINT256,UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_ASSUMETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-10)]
 
@@ -2347,8 +2347,8 @@ Failing nodes:
     #And { true #Equals ORIGIN_ID:Int <Int pow160 }
     #And { true #Equals KV0_a:Int <Int pow256 }
     #And { true #Equals KV1_b:Int <Int pow256 }
-    #And { false #Equals #range ( 0 < CALLER_ID:Int <= 9 ) }
-    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 9 ) } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( 46308022326495007027972728677917914892729792999299745830475596687180801507328 |-> 1 , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And { false #Equals #range ( 0 < CALLER_ID:Int <= 10 ) }
+    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 10 ) } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( 46308022326495007027972728677917914892729792999299745830475596687180801507328 |-> 1 , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
   Model:
@@ -2357,7 +2357,7 @@ Failing nodes:
     KV0_a = 1
     KV1_b = 0
     NUMBER_CELL = 16777217
-    ORIGIN_ID = 10
+    ORIGIN_ID = 11
     TIMESTAMP_CELL = 1073741825
 
 Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.

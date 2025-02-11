@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.792";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.795";
     nixpkgs.follows = "kevm/nixpkgs";
     k-framework.follows = "kevm/k-framework";
     flake-utils.follows = "kevm/flake-utils";
@@ -63,6 +63,8 @@
                 autoconf
                 automake
                 cmake
+                git
+                clang
                 prev.kevm-pyk
                 (kontrol-pyk { inherit solc_version; })
                 k-framework.packages.${prev.system}.k
