@@ -250,9 +250,9 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_ADDCONST_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < C_ADDCONST_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ADDCONST_ID:Int <= 10 ) )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int #lookup ( C_ADDCONST_STORAGE:Map , 0 ) )
                ))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
@@ -429,9 +429,9 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
        andBool ( ( notBool <acctID>
           C_ADDCONST_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < C_ADDCONST_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ADDCONST_ID:Int <= 10 ) )
        andBool ( ( maxUInt256 -Int #lookup ( C_ADDCONST_STORAGE:Map , 0 ) ) <Int KV0_x:Int
                ))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
