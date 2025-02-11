@@ -448,8 +448,8 @@ Node 21:
 #And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) ) }
+#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -700,8 +700,8 @@ Node 22:
 #And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) ) }
+#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
 
@@ -948,8 +948,8 @@ Node 23:
 #And ( { true #Equals KV0_n:Int <Int pow256 }
 #And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) ) }
-#And ( { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) ) }
+#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) ) }
+#And ( { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) ) }
 #And { true #Equals ( ( V_8ae8c0f0:Int ==Int V_45741f39:Int andBool ( ( V_45741f39:Int ==Int 0 andBool KV0_n:Int <=Int 0 ) orBool ( V_45741f39:Int ==Int 1 andBool #range ( 0 < KV0_n:Int <= 1 ) ) ) ) orBool ( V_8ae8c0f0:Int ==Int 2 andBool ( 0 <Int KV0_n:Int andBool ( 1 <Int KV0_n:Int andBool ( KV0_n:Int <=Int 2 andBool ( notBool C_BMCLOOPSTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) ) ) ) ) ) } ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
 
 
@@ -1195,8 +1195,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_n:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
@@ -1439,8 +1439,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_BMCLOOPSTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-7)]
     
@@ -1684,8 +1684,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_BMCLOOPSTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-13)]
     
@@ -1930,8 +1930,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_BMCLOOPSTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-19)]
     
@@ -2173,8 +2173,8 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
        andBool ( KV0_n:Int <Int pow256
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( ( V_8ae8c0f0 ==K V_45741f39:Int
            andBool ( ( ( V_45741f39 ==K 0
                andBool ( KV0_n:Int <=Int 0
