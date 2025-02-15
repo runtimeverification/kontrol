@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+from os import getenv
 from shutil import copytree
 from typing import TYPE_CHECKING
 
@@ -80,6 +81,7 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
 
 
 ALL_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'end-to-end-prove-all').read_text().splitlines())
+ALL_FORKED_TESTS: Final = tuple((TEST_DATA_DIR / 'end-to-end-prove-forked').read_text().splitlines())
 SKIPPED_PROVE_TESTS: Final = tuple((TEST_DATA_DIR / 'end-to-end-prove-skip').read_text().splitlines())
 SHOW_TESTS: Final = tuple((TEST_DATA_DIR / 'end-to-end-prove-show').read_text().splitlines())
 
@@ -105,21 +107,35 @@ def test_kontrol_end_to_end(
     if bug_report is not None:
         server_end_to_end._populate_bug_report(bug_report)
 
+    options = ProveOptions(
+        {
+            'tests': [(test_id, None)],
+            'bug_report': bug_report,
+            'break_on_calls': False,
+            'usegas': False,
+            'port': server_end_to_end.port,
+            'force_sequential': force_sequential,
+            'schedule': 'CANCUN',
+            'stack_checks': False,
+        }
+    )
+    fork_options = ProveOptions(
+        {
+            'tests': [(test_id, None)],
+            'bug_report': bug_report,
+            'break_on_calls': False,
+            'usegas': False,
+            'port': server_end_to_end.port,
+            'force_sequential': force_sequential,
+            'schedule': 'CANCUN',
+            'stack_checks': False,
+            'fork_url': getenv('WEB3_PROVIDER_KEY'),
+            'fork_block_number': 131674109,
+        }
+    )
     # When
     prove_res = foundry_prove(
-        foundry=foundry_end_to_end,
-        options=ProveOptions(
-            {
-                'tests': [(test_id, None)],
-                'bug_report': bug_report,
-                'break_on_calls': False,
-                'usegas': False,
-                'port': server_end_to_end.port,
-                'force_sequential': force_sequential,
-                'schedule': 'CANCUN',
-                'stack_checks': False,
-            }
-        ),
+        foundry=foundry_end_to_end, options=fork_options if test_id in ALL_FORKED_TESTS else options
     )
 
     # Then
