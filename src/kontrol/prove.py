@@ -403,7 +403,7 @@ def _run_cfg_group(
                 block_metadata = None
                 if options.fork_url:
                     provider = Web3Providers.get_provider(options.fork_url)
-                    block_metadata = get_block_metadata(provider)
+                    block_metadata = get_block_metadata(provider, options.fork_block_number)
 
                 proof = method_to_apr_proof(
                     test=test,

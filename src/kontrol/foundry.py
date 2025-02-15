@@ -326,10 +326,11 @@ class KontrolSemantics(KEVMSemantics):
 
         accounts = flatten_label('_AccountCellMap_', cterm.cell('ACCOUNTS_CELL'))
         new_accounts: list[KInner] = []
+        block_number = get_token_int(cterm, 'NUMBER_CELL')
 
         # If the account is not in the state, fetch the account code and balance.
         if not self._account_already_forked(cterm, target_address):
-            _, account_to_update = fetch_account_from_provider(provider, target_address)
+            _, account_to_update = fetch_account_from_provider(provider, target_address, block_number)
             new_accounts.extend(accounts)
         else:
             # Find the account in <accounts>, save the other accounts as new_accounts.
@@ -348,7 +349,7 @@ class KontrolSemantics(KEVMSemantics):
             raise ValueError(f'Account corresponding to {target_address} not found in ACCOUNTS_CELL.')
 
         # Fetch the storage value at the given slot and store it.
-        value = fetch_storage_value_from_provider(provider, target_address, target_slot)
+        value = fetch_storage_value_from_provider(provider, target_address, target_slot, block_number)
         updated_account = add_storage_slot_to_account(account_to_update, target_slot, value)
         new_accounts.append(updated_account)
         new_accounts_cell = KEVM.accounts(new_accounts)
@@ -371,7 +372,9 @@ class KontrolSemantics(KEVMSemantics):
         if not type(target_address) is KToken:
             raise TypeError('Expected target_address to be KToken instance.')
 
-        _, account = fetch_account_from_provider(provider, target_address)
+        block_number = get_token_int(cterm, 'NUMBER_CELL')
+
+        _, account = fetch_account_from_provider(provider, target_address, block_number)
 
         # Update the ACCOUNTS_CELL by appending the new account.
         accounts_cell = cterm.cell('ACCOUNTS_CELL')
@@ -423,6 +426,12 @@ def get_set_from_cterm(cterm: CTerm, key: str) -> list[KInner]:
     if values == set_empty():
         return []
     return flatten_label('_Set_', values)
+
+
+def get_token_int(cterm: CTerm, key: str) -> int:
+    cell = cterm.cell(key)
+    assert type(cell) is KToken
+    return int(cell.token)
 
 
 def add_storage_slot_to_account(account: KApply, slot: KToken, value: KToken) -> KApply:

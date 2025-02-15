@@ -40,10 +40,10 @@ class Web3Providers:
         return Web3.to_checksum_address(hex_address)
 
 
-def get_block_metadata(provider: Web3) -> dict[str, int]:
-    block_number = provider.eth.block_number
+def get_block_metadata(provider: Web3, fork_block_number: int | None) -> dict[str, int]:
+    block_number = fork_block_number if fork_block_number is not None else provider.eth.block_number
+    _LOGGER.info(f'Reading block data from Web3 provider for block number {block_number}')
     block_metadata = provider.eth.get_block(block_number)
-    # TODO: fetch rest of the block header
 
     return {
         'block_number': block_number,
@@ -57,14 +57,14 @@ def get_block_metadata(provider: Web3) -> dict[str, int]:
     }
 
 
-def fetch_account_from_provider(provider: Web3, target_address: KToken) -> tuple[KToken, KApply]:
-    """Fetch the account's code and balance from the provider, and return a tuple containing:
+def fetch_account_from_provider(provider: Web3, target_address: KToken, block_number: int) -> tuple[KToken, KApply]:
+    """Fetch the account's code and balance from the provider at a given block number, and return a tuple containing:
     - A KToken representing the account code.
     - A KApply account cell with the fetched data and empty storage.
     """
 
-    code_token = fetch_code_from_provider(provider, target_address)
-    balance_token = fetch_balance_from_provider(provider, target_address)
+    code_token = fetch_code_from_provider(provider, target_address, block_number)
+    balance_token = fetch_balance_from_provider(provider, target_address, block_number)
 
     return (
         code_token,
@@ -80,7 +80,9 @@ def fetch_account_from_provider(provider: Web3, target_address: KToken) -> tuple
     )
 
 
-def fetch_storage_value_from_provider(provider: Web3, target_address: KToken, target_slot: KToken) -> KToken:
+def fetch_storage_value_from_provider(
+    provider: Web3, target_address: KToken, target_slot: KToken, block_number: int
+) -> KToken:
     """Fetch the value stored at a specific slot for a given account address from the provider,
     and return it as a KToken.
     """
@@ -89,7 +91,7 @@ def fetch_storage_value_from_provider(provider: Web3, target_address: KToken, ta
     _LOGGER.info(f'Reading storage slot {slot} from {checksum_addr}')
 
     try:
-        storage_bytes = provider.eth.get_storage_at(checksum_addr, slot)
+        storage_bytes = provider.eth.get_storage_at(account=checksum_addr, position=slot, block_identifier=block_number)
     except Exception as e:
         _LOGGER.error(f'Error fetching storage at slot {slot} for {checksum_addr}: {e}')
         raise
@@ -98,28 +100,28 @@ def fetch_storage_value_from_provider(provider: Web3, target_address: KToken, ta
     return token(value)
 
 
-def fetch_code_from_provider(provider: Web3, target_address: KToken) -> KToken:
+def fetch_code_from_provider(provider: Web3, target_address: KToken, block_number: int) -> KToken:
     """Fetch the code of a given account address from the provider and return it as a KToken."""
 
     checksum_addr = Web3Providers.get_checksum_address(target_address)
     _LOGGER.info(f'Reading code for {checksum_addr}')
 
     try:
-        code_bytes = provider.eth.get_code(checksum_addr)
+        code_bytes = provider.eth.get_code(account=checksum_addr, block_identifier=block_number)
     except Exception as e:
         _LOGGER.error(f'Error fetching code for {checksum_addr}: {e}')
         raise
     return token(bytes(code_bytes))
 
 
-def fetch_balance_from_provider(provider: Web3, target_address: KToken) -> KToken:
+def fetch_balance_from_provider(provider: Web3, target_address: KToken, block_number: int) -> KToken:
     """Fetch the balance of a given account address from the provider and return it as a KToken."""
 
     checksum_addr = Web3Providers.get_checksum_address(target_address)
     _LOGGER.info(f'Reading balance for {checksum_addr}')
 
     try:
-        balance = provider.eth.get_balance(checksum_addr)
+        balance = provider.eth.get_balance(account=checksum_addr, block_identifier=block_number)
     except Exception as e:
         _LOGGER.error(f'Error fetching balance for {checksum_addr}: {e}')
         raise
