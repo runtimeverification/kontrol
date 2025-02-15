@@ -510,8 +510,8 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( _C_MERGEKCFGTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))
        ensures ( ?KV2_z:Int <Int 2
        andBool ( 0 <=Int ?KV0_x:Int
@@ -910,8 +910,8 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-19-TO-39)]
     
@@ -1302,8 +1302,8 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool ( KV0_x:Int =/=Int 0 andBool maxUInt256 /Word KV0_x:Int <Int KV1_y:Int ) )
                )))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-44-TO-42)]
@@ -1697,8 +1697,8 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( maxUInt256 /Word KV0_x:Int <Int KV1_y:Int
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))))))))
        ensures ( maxUInt256 /Int KV0_x:Int ) <Int KV1_y:Int
       [priority(20), label(BASIC-BLOCK-45-TO-43)]

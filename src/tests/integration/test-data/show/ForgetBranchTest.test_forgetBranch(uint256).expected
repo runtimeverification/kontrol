@@ -338,8 +338,8 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))
        ensures 200 <Int KV0_x:Int
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
@@ -584,8 +584,8 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FORGETBRANCHTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-3-TO-4)]
     
@@ -828,8 +828,8 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FORGETBRANCHTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                )))))))))))))))
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
@@ -1075,8 +1075,8 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FORGETBRANCHTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
@@ -1322,8 +1322,8 @@ module SUMMARY-TEST%FORGETBRANCHTEST.TEST-FORGETBRANCH(UINT256):0
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_FORGETBRANCHTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 9 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 9 ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
                ))))))))))))))))
       [priority(20), label(BASIC-BLOCK-7-TO-9)]
 
