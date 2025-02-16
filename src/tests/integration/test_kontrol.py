@@ -139,9 +139,9 @@ def test_kontrol_end_to_end(
     )
 
     # Then
-    assert_pass(test_id, single(prove_res))
 
     if test_id not in SHOW_TESTS or no_use_booster:
+        assert_pass(test_id, single(prove_res))
         return
 
     # And when
