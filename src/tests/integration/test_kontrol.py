@@ -133,6 +133,7 @@ def test_kontrol_end_to_end(
             'fork_block_number': 131674109,
         }
     )
+    print('web3 key available: ', getenv('WEB3_PROVIDER_KEY') is not None)
     # When
     prove_res = foundry_prove(
         foundry=foundry_end_to_end, options=fork_options if test_id in ALL_FORKED_TESTS else options
