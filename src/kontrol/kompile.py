@@ -38,9 +38,6 @@ def foundry_kompile(
     kompiled_timestamp = foundry.kompiled / 'timestamp'
     main_module = 'FOUNDRY-MAIN'
     includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
-    ensure_dir_path(foundry.kompiled)
-    ensure_dir_path(foundry_requires_dir)
-
     requires_paths: dict[str, str] = {}
 
     if options.forge_build:
@@ -48,6 +45,9 @@ def foundry_kompile(
 
     if options.silence_warnings:
         options.ignore_warnings = _silenced_warnings()
+
+    ensure_dir_path(foundry.kompiled)
+    ensure_dir_path(foundry_requires_dir)
 
     regen = options.regen
     foundry_up_to_date = True
