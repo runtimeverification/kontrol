@@ -30,10 +30,68 @@ module FOUNDRY
     configuration
       <foundry>
         <kevm/>
+        <forkedAccounts> .Set </forkedAccounts>
+        <allowWeb3Connection> false </allowWeb3Connection>
         <stackChecks> true </stackChecks>
         <cheatcodes/>
         <KEVMTracing/>
       </foundry>
+
+ // Comment: these two functions could be upstreamed to KEVM
+    syntax Bool ::= #accountInState ( Int ) [function, symbol(#accountInState)]
+ // ---------------------------------------------------------------------------
+    rule [[ #accountInState(ACCT) => true ]]
+         <account>
+           <acctID> ACCT </acctID>
+           ...
+         </account>
+    rule #accountInState(_) => false [owise]
+ 
+    syntax Bool ::= #accountHasStorageSlot ( Int , Int ) [function, symbol(#accountHasStorageSlot)]
+ // -----------------------------------------------------------------------------------------------
+    rule [[ #accountHasStorageSlot(ACCT, INDEX) => INDEX in_keys(STORAGE_MAP) ]]
+         <account>
+           <acctID> ACCT </acctID>
+           <storage> STORAGE_MAP </storage>
+           ...
+         </account>
+    rule #accountHasStorageSlot (_,_) => false [owise]
+
+    syntax KItem ::= "FETCH_ACCOUNT"         Int     [symbol(FETCH_ACCOUNT)        ]
+                   | "FETCH_ACCOUNT_STORAGE" Int Int [symbol(FETCH_ACCOUNT_STORAGE)]
+ // --------------------------------------------------------------------------------
+    rule [call.w3provider]:
+         <k> (.K => FETCH_ACCOUNT ACCTCODE)
+          ~> #call _ACCTFROM _ACCTTO ACCTCODE _VALUE _APPVALUE _ARGS _STATIC
+         ...
+         </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCTCODE)
+      [priority(40)]
+
+    rule [unstackop.w3provider]:
+         <k> (.K => FETCH_ACCOUNT ACCT) ~> OPCODE:UnStackOp ACCT ... </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCT)
+       andBool ( OPCODE ==K BALANCE
+          orBool OPCODE ==K EXTCODESIZE
+          orBool OPCODE ==K EXTCODEHASH )
+      [priority(40)]
+
+    rule [extcodecopy.w3provider]:
+         <k> (.K => FETCH_ACCOUNT ACCT) ~> EXTCODECOPY ACCT _MEMSTART _PGMSTART _WIDTH ... </k>
+         <allowWeb3Connection> true </allowWeb3Connection>
+      requires notBool #accountInState(ACCT)
+      [priority(40)]
+
+    rule [sload.w3provider]:
+         <k> SLOAD INDEX => FETCH_ACCOUNT_STORAGE ACCT INDEX ~> #push ... </k>
+         <id> ACCT </id>
+         <allowWeb3Connection> true </allowWeb3Connection>
+         <forkedAccounts> FA </forkedAccounts>
+      requires notBool #accountInState(ACCT)
+        orBool (ACCT in FA andBool notBool #accountHasStorageSlot(ACCT, INDEX))
+      [priority(40)]
 endmodule
 ```
 

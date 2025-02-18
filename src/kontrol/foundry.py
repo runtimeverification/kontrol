@@ -20,7 +20,7 @@ import tomlkit
 from kevm_pyk.kevm import KEVM, CustomStep, KEVMNodePrinter, KEVMSemantics
 from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
-from pyk.kast.inner import KApply, KInner, KSequence, KSort, KToken, KVariable, Subst
+from pyk.kast.inner import KApply, KInner, KSequence, KSort, KToken, KVariable, Subst, build_assoc
 from pyk.kast.manip import (
     cell_label_to_var_name,
     collect,
@@ -37,7 +37,7 @@ from pyk.kcfg.kcfg import Step
 from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.kdist import kdist
 from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import map_empty
+from pyk.prelude.collections import map_empty, set_empty
 from pyk.prelude.k import DOTS, GENERATED_TOP_CELL
 from pyk.prelude.kbool import notBool
 from pyk.prelude.kint import INT, intToken
@@ -60,6 +60,7 @@ from .utils import (
     kontrol_up_to_date,
     write_to_file,
 )
+from .web3_rpc import Web3Providers, fetch_account_from_provider, fetch_storage_value_from_provider
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -73,6 +74,7 @@ if TYPE_CHECKING:
     from pyk.proof.implies import RefutationProof
     from pyk.proof.show import NodePrinter
     from pyk.utils import BugReport
+    from web3 import Web3
 
     from .options import (
         CleanOptions,
@@ -95,11 +97,17 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 class KontrolSemantics(KEVMSemantics):
+    _provider: Web3 | None
 
-    def __init__(self, auto_abstract_gas: bool = False, allow_symbolic_program: bool = False) -> None:
+    def __init__(
+        self, auto_abstract_gas: bool = False, allow_symbolic_program: bool = False, provider_url: str | None = None
+    ) -> None:
+
         custom_steps = (
             CustomStep(self._rename_pattern, self._exec_rename_custom_step),
             CustomStep(self._forget_branch_pattern, self._exec_forget_custom_step),
+            CustomStep(self._fetch_storage_pattern, self._exec_fetch_storage_custom_step),
+            CustomStep(self._fetch_account_pattern, self._exec_fetch_account_custom_step),
         )
 
         super().__init__(
@@ -107,6 +115,11 @@ class KontrolSemantics(KEVMSemantics):
             allow_symbolic_program=allow_symbolic_program,
             custom_step_definitions=custom_steps,
         )
+
+        if provider_url:
+            self._provider = Web3Providers.get_provider(provider_url)
+        else:
+            self._provider = None
 
     @staticmethod
     def cut_point_rules(
@@ -127,6 +140,12 @@ class KontrolSemantics(KEVMSemantics):
         )
 
     @property
+    def provider(self) -> Web3:
+        if self._provider is None:
+            raise ValueError('No web3 provider configured for fork execution.')
+        return self._provider
+
+    @property
     def _rename_pattern(self) -> KSequence:
         return KSequence(
             [
@@ -140,6 +159,24 @@ class KontrolSemantics(KEVMSemantics):
         return KSequence(
             [
                 KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+
+    @property
+    def _fetch_storage_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply('FETCH_ACCOUNT_STORAGE', [KVariable('###ACCTID'), KVariable('###ACCTSLOT')]),
+                KVariable('###CONTINUATION'),
+            ]
+        )
+
+    @property
+    def _fetch_account_pattern(self) -> KSequence:
+        return KSequence(
+            [
+                KApply('FETCH_ACCOUNT', KVariable('###ACCTID')),
                 KVariable('###CONTINUATION'),
             ]
         )
@@ -278,6 +315,152 @@ class KontrolSemantics(KEVMSemantics):
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+
+    def _exec_fetch_storage_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+        provider = self.provider
+
+        target_address = subst['###ACCTID']
+        target_slot = subst['###ACCTSLOT']
+        if not (type(target_address) is KToken and type(target_slot) is KToken):
+            raise TypeError('Expected target_address and target_slot to be KToken instances.')
+
+        accounts = flatten_label('_AccountCellMap_', cterm.cell('ACCOUNTS_CELL'))
+        new_accounts: list[KInner] = []
+        block_number = get_token_int(cterm, 'NUMBER_CELL')
+
+        # If the account is not in the state, fetch the account code and balance.
+        if not self._account_already_forked(cterm, target_address):
+            _, account_to_update = fetch_account_from_provider(provider, target_address, block_number)
+            new_accounts.extend(accounts)
+        else:
+            # Find the account in <accounts>, save the other accounts as new_accounts.
+            account_to_update = None
+            for acct_cell in accounts:
+                if not type(acct_cell) is KApply:
+                    continue
+                acct_id_cell = acct_cell.args[0]
+                if not type(acct_id_cell) is KApply:
+                    continue
+                if acct_id_cell.args[0] == target_address:
+                    account_to_update = acct_cell
+                else:
+                    new_accounts.append(acct_cell)
+        if account_to_update is None:
+            raise ValueError(f'Account corresponding to {target_address} not found in ACCOUNTS_CELL.')
+
+        # Fetch the storage value at the given slot and store it.
+        value = fetch_storage_value_from_provider(provider, target_address, target_slot, block_number)
+        updated_account = add_storage_slot_to_account(account_to_update, target_slot, value)
+        new_accounts.append(updated_account)
+        new_accounts_cell = KEVM.accounts(new_accounts)
+
+        # Build the new continuation.
+        continuation = KSequence(
+            [
+                value,
+                subst['###CONTINUATION'],
+            ]
+        )
+
+        new_cterm = self._commit_changes_to_cterm(cterm, new_accounts_cell, continuation, target_address)
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT_STORAGE'], cut=True)
+
+    def _exec_fetch_account_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+        provider = self.provider
+
+        target_address = subst['###ACCTID']
+        if not type(target_address) is KToken:
+            raise TypeError('Expected target_address to be KToken instance.')
+
+        block_number = get_token_int(cterm, 'NUMBER_CELL')
+
+        _, account = fetch_account_from_provider(provider, target_address, block_number)
+
+        # Update the ACCOUNTS_CELL by appending the new account.
+        accounts_cell = cterm.cell('ACCOUNTS_CELL')
+        all_accounts = flatten_label('_AccountCellMap_', accounts_cell)
+        all_accounts.append(account)
+        new_accounts_cell = KEVM.accounts(all_accounts)
+
+        # Build the new continuation.
+        continuation = KSequence(
+            [
+                subst['###CONTINUATION'],
+            ]
+        )
+
+        new_cterm = self._commit_changes_to_cterm(cterm, new_accounts_cell, continuation, target_address)
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['FETCH_ACCOUNT'], cut=True)
+
+    def _commit_changes_to_cterm(
+        self, cterm: CTerm, new_accounts_cell: KInner, continuation: KSequence, target_address: KToken
+    ) -> CTerm:
+        """Update the ACCOUNTS_CELL, FORKEDACCOUNTS_CELL and K_CELL of the CTerm to commit the data retrieved from
+        the web3 provider."""
+
+        new_forked_accounts_cell = update_forked_accounts_cell(cterm, target_address)
+        updated_cterm = CTerm.from_kast(set_cell(cterm.kast, 'FORKEDACCOUNTS_CELL', new_forked_accounts_cell))
+        updated_cterm = CTerm.from_kast(set_cell(updated_cterm.kast, 'ACCOUNTS_CELL', new_accounts_cell))
+        updated_cterm = CTerm.from_kast(set_cell(updated_cterm.kast, 'K_CELL', continuation))
+        _LOGGER.info(f'Successfully read account {target_address.token} from provider and added it to the state.')
+
+        return updated_cterm
+
+    def _account_already_forked(self, cterm: CTerm, target_address: KToken) -> bool:
+        """Check if target_address is part of the FORKEDACCOUNTS_CELL of a CTerm."""
+        return KApply('SetItem', target_address) in get_set_from_cterm(cterm, 'FORKEDACCOUNTS_CELL')
+
+
+def update_forked_accounts_cell(cterm: CTerm, target_address: KToken) -> KInner:
+    """Update the FORKEDACCOUNTS_CELL by adding target_address if it is not already present."""
+    account_set_item = KApply('SetItem', target_address)
+    accounts = get_set_from_cterm(cterm, 'FORKEDACCOUNTS_CELL')
+    if account_set_item in accounts:
+        return cterm.cell('FORKEDACCOUNTS_CELL')
+    accounts.append(account_set_item)
+    return build_assoc(KApply('.Set'), '_Set_', accounts)
+
+
+def get_set_from_cterm(cterm: CTerm, key: str) -> list[KInner]:
+    values = cterm.cell(key)
+    if values == set_empty():
+        return []
+    return flatten_label('_Set_', values)
+
+
+def get_token_int(cterm: CTerm, key: str) -> int:
+    cell = cterm.cell(key)
+    assert type(cell) is KToken
+    return int(cell.token)
+
+
+def add_storage_slot_to_account(account: KApply, slot: KToken, value: KToken) -> KApply:
+    new_map_item = KApply('_|->_', [slot, value])
+    acct_id_cell = account.args[0]
+    balance_cell = account.args[1]
+    code_cell = account.args[2]
+    storage_cell = account.args[3]
+    transient_storage_cell = account.args[5]
+    nonce_cell = account.args[6]
+    assert type(acct_id_cell) is KApply and acct_id_cell.label.name == '<acctID>'
+    assert type(balance_cell) is KApply and balance_cell.label.name == '<balance>'
+    assert type(code_cell) is KApply and code_cell.label.name == '<code>'
+    assert type(storage_cell) is KApply and storage_cell.label.name == '<storage>'
+    assert type(transient_storage_cell) is KApply and transient_storage_cell.label.name == '<transientStorage>'
+    assert type(nonce_cell) is KApply and nonce_cell.label.name == '<nonce>'
+    storage_map_items = flatten_label('_Map_', storage_cell.args[0])
+    storage_map_items.append(new_map_item)
+    new_storage = build_assoc(map_empty(), '_Map_', storage_map_items)
+
+    return KEVM.account_cell(
+        id=acct_id_cell.args[0],
+        balance=balance_cell.args[0],
+        code=code_cell.args[0],
+        storage=new_storage,
+        orig_storage=new_storage,
+        transient_storage=transient_storage_cell.args[0],
+        nonce=nonce_cell.args[0],
+    )
 
 
 class FoundryKEVM(KEVM):
