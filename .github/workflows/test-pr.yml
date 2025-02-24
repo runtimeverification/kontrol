@@ -94,7 +94,7 @@ jobs:
           if [ ${{ matrix.backend }} == 'legacy' ]; then
             TEST_ARGS+=' --no-use-booster --numprocesses=6'
           else
-            TEST_ARGS+=' --numprocesses=4'
+            TEST_ARGS+=' --numprocesses=2'
           fi
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
