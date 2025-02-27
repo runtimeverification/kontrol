@@ -36,7 +36,13 @@ def foundry_kompile(
     foundry_requires_dir = foundry.kompiled / 'requires'
     foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
-    main_module = 'FOUNDRY-MAIN'
+    main_module = 'KONTROL-BASE'
+    if options.keccak_lemmas and not options.auxiliary_lemmas:
+        main_module = 'KONTROL-KECCAK'
+    elif not options.keccak_lemmas and options.auxiliary_lemmas:
+        main_module = 'KONTROL-AUX'
+    else:
+        main_module = 'KONTROL-FULL'
     includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
     requires_paths: dict[str, str] = {}
 
@@ -58,13 +64,7 @@ def foundry_kompile(
         foundry_up_to_date = False
 
     options.requires = [str(foundry._root / r) for r in options.requires]
-
-    requires = (
-        options.requires
-        + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
-        + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
-    )
-    for r in tuple(requires):
+    for r in options.requires:
         req = Path(r)
         if not req.exists():
             raise ValueError(f'No such file: {req}')
