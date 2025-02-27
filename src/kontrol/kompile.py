@@ -63,8 +63,6 @@ def foundry_kompile(
         options.requires
         + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
         + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
-        + ([KSRC_DIR / 'no_stack_checks.md'])
-        + ([KSRC_DIR / 'no_code_size_checks.md'])
     )
     for r in tuple(requires):
         req = Path(r)
@@ -108,7 +106,7 @@ def foundry_kompile(
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
         bin_runtime_definition = _foundry_to_contract_def(
             contracts=foundry.contracts.values(),
-            requires=['foundry.md'],
+            requires=['kontrol.md'],
             enums=foundry.enums,
         )
 
@@ -122,7 +120,7 @@ def foundry_kompile(
         )
 
         kevm = KEVM(
-            kdist.get('kontrol.foundry'),
+            kdist.get('kontrol.base'),
             extra_unparsing_modules=(bin_runtime_definition.all_modules + contract_main_definition.all_modules),
         )
 
@@ -191,7 +189,7 @@ def _foundry_to_contract_def(
     requires: Iterable[str],
     enums: dict[str, int],
 ) -> KDefinition:
-    modules = [contract_to_main_module(contract, imports=['FOUNDRY'], enums=enums) for contract in contracts]
+    modules = [contract_to_main_module(contract, imports=['KONTROL-BASE'], enums=enums) for contract in contracts]
     # First module is chosen as main module arbitrarily, since the contract definition is just a set of
     # contract modules.
     main_module = Contract.contract_to_module_name(list(contracts)[0].name_with_path)
@@ -220,8 +218,6 @@ def _foundry_to_main_def(
             [KImport(mname) for mname in (_m.name for _m in modules)]
             + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
             + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
-            + ([KImport('NO-STACK-CHECKS')])
-            + ([KImport('NO-CODE-SIZE-CHECKS')])
         ),
     )
 

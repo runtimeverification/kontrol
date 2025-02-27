@@ -258,7 +258,7 @@ class KontrolSemantics(KEVMSemantics):
 
         # Set up initial configuration for constraint simplification, and simplify it to get all
         # of the kept constraints in the form in which they will appear after constraint simplification
-        kevm = KEVM(kdist.get('kontrol.foundry'))
+        kevm = KEVM(kdist.get('kontrol.base'))
         empty_config: CTerm = CTerm.from_kast(kevm.definition.empty_config(GENERATED_TOP_CELL))
         initial_cterm, _ = cterm_symbolic.simplify(CTerm(empty_config.config, constraints_to_keep))
         constraints_to_keep = set(initial_cterm.constraints)
