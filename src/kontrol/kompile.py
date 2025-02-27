@@ -61,8 +61,6 @@ def foundry_kompile(
         options.requires
         + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
         + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
-        + ([KSRC_DIR / 'no_stack_checks.md'])
-        + ([KSRC_DIR / 'no_code_size_checks.md'])
     )
     for r in tuple(requires):
         req = Path(r)
@@ -113,7 +111,7 @@ def foundry_kompile(
             auxiliary_lemmas=options.auxiliary_lemmas,
         )
 
-        kevm = KEVM(kdist.get('kontrol.foundry'))
+        kevm = KEVM(kdist.get('kontrol.base'))
         foundry.main_file.write_text(kevm.pretty_print(contract_main_definition) + '\n')
         _LOGGER.info(f'Wrote file: {foundry.main_file}')
 
@@ -185,8 +183,6 @@ def _foundry_to_main_def(
             [KImport(imp) for imp in imports]
             + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
             + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
-            + ([KImport('NO-STACK-CHECKS')])
-            + ([KImport('NO-CODE-SIZE-CHECKS')])
         ),
     )
 

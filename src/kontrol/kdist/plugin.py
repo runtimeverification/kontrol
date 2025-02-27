@@ -12,12 +12,12 @@ if TYPE_CHECKING:
 
 
 __TARGETS__: Final = {
-    'foundry': KEVMTarget(
+    'base': KEVMTarget(
         {
             'target': KompileTarget.HASKELL,
-            'main_file': KSRC_DIR / 'foundry.md',
-            'main_module': 'FOUNDRY',
-            'syntax_module': 'FOUNDRY',
+            'main_file': KSRC_DIR / 'kontrol.md',
+            'main_module': 'KONTROL-BASE',
+            'syntax_module': 'KONTROL-BASE',
         },
     ),
 }
