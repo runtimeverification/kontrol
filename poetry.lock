@@ -882,14 +882,14 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.127.6"
+version = "6.127.8"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "hypothesis-6.127.6-py3-none-any.whl", hash = "sha256:4967702ee2f8c8d7d0d50f14940c3496bd32ac8b8a2b362ace34c722e842d00b"},
-    {file = "hypothesis-6.127.6.tar.gz", hash = "sha256:9b5292f3f2d505bf0f3e060b1c12f3643fa9b7cd036f41f3456c5f7cc7f73164"},
+    {file = "hypothesis-6.127.8-py3-none-any.whl", hash = "sha256:f8614a586b933ca87fa6be0bf1d673f5718d027e3281bbaff6967f0f2cba7c09"},
+    {file = "hypothesis-6.127.8.tar.gz", hash = "sha256:2df4cfb131b30bf85d785892137b7d39b978aea7cfbe319a574dc13071b7ee4b"},
 ]
 
 [package.dependencies]
@@ -984,14 +984,14 @@ plugins = ["setuptools"]
 
 [[package]]
 name = "jinja2"
-version = "3.1.5"
+version = "3.1.6"
 description = "A very fast and expressive template engine."
 optional = false
 python-versions = ">=3.7"
 groups = ["main"]
 files = [
-    {file = "jinja2-3.1.5-py3-none-any.whl", hash = "sha256:aba0f4dc9ed8013c424088f68a5c226f7d6097ed89b246d7749c2ec4175c6adb"},
-    {file = "jinja2-3.1.5.tar.gz", hash = "sha256:8fefff8dc3034e27bb80d67c671eb8a9bc424c0ef4c0826edbff304cceff43bb"},
+    {file = "jinja2-3.1.6-py3-none-any.whl", hash = "sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67"},
+    {file = "jinja2-3.1.6.tar.gz", hash = "sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d"},
 ]
 
 [package.dependencies]
@@ -1002,7 +1002,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.800"
+version = "1.0.801"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1012,27 +1012,27 @@ develop = false
 
 [package.dependencies]
 frozendict = "^2.4.6"
-kframework = "7.1.216"
+kframework = "7.1.218"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.800"
-resolved_reference = "e271bf05ac7422dd56925745db932fffd21b04f1"
+reference = "v1.0.801"
+resolved_reference = "5e0170a0d807a09edfe013a560eb8ff29b7206de"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.216"
+version = "7.1.218"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "kframework-7.1.216-py3-none-any.whl", hash = "sha256:e9985f43f937cfe5d25b509aac0d1e802235fc4c2212d2f1debf28bac1421464"},
-    {file = "kframework-7.1.216.tar.gz", hash = "sha256:a374ccef9467947725c6905bfb53d5b64a6f2d7649d8d2b8396c4123ea732cb7"},
+    {file = "kframework-7.1.218-py3-none-any.whl", hash = "sha256:948429480d14bf4ca8b2945805d830a403345c97fbafef58d6c917c4afade514"},
+    {file = "kframework-7.1.218.tar.gz", hash = "sha256:35e420b022d9cbd379dff6db86610a660d11780eb7f586fd0bf677e1f33e5210"},
 ]
 
 [package.dependencies]
@@ -2106,4 +2106,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "3b26c9f0fff15f22c69cde3090ee3e6c7ddb134431f28806bc7a0a824220762e"
+content-hash = "05c0be68a6c5ac14326181095cb29ff1e22c971f172c3438d8c1e52fc5d5019d"
