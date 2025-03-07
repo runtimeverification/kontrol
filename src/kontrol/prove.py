@@ -205,10 +205,6 @@ class FoundryTest(NamedTuple):
     def id(self) -> str:
         return f'{self.name}:{self.version}'
 
-    @property
-    def unparsed(self) -> tuple[str, int]:
-        return self.name, self.version
-
 
 def collect_tests(
     foundry: Foundry,
