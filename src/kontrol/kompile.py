@@ -31,7 +31,6 @@ def foundry_kompile(
     foundry: Foundry,
 ) -> None:
     foundry_requires_dir = foundry.kompiled / 'requires'
-    foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
     main_module = 'KONTROL-BASE'
     if options.keccak_lemmas and not options.auxiliary_lemmas:
@@ -59,7 +58,7 @@ def foundry_kompile(
         regen = True
         foundry_up_to_date = False
 
-    if regen or not foundry_contracts_file.exists() or not foundry.main_file.exists():
+    if regen or not foundry.contracts_file.exists() or not foundry.main_file.exists():
         if regen and foundry_up_to_date:
             console.print(
                 f'[{_rv_blue()}][bold]--regen[/bold] option provided. Rebuilding Kontrol Project.[/{_rv_blue()}]'
@@ -84,13 +83,18 @@ def foundry_kompile(
             extra_unparsing_modules=(bin_runtime_definition.all_modules + contract_main_definition.all_modules),
         )
 
-        foundry_contracts_file.write_text(kevm.pretty_print(bin_runtime_definition, unalias=False) + '\n')
-        _LOGGER.info(f'Wrote file: {foundry_contracts_file}')
+        foundry.contracts_file.write_text(kevm.pretty_print(bin_runtime_definition, unalias=False) + '\n')
+        _LOGGER.info(f'Wrote file: {foundry.contracts_file}')
         foundry.main_file.write_text(kevm.pretty_print(contract_main_definition) + '\n')
         _LOGGER.info(f'Wrote file: {foundry.main_file}')
 
+        foundry.contracts_file_json.write_text(json.dumps(bin_runtime_definition.to_json()))
+        _LOGGER.info(f'Wrote file: {foundry.contracts_file_json}')
+        foundry.main_file_json.write_text(json.dumps(contract_main_definition.to_json()))
+        _LOGGER.info(f'Wrote file: {foundry.main_file_json}')
+
     def kompilation_digest() -> str:
-        k_files = [foundry_contracts_file, foundry.main_file]
+        k_files = [foundry.contracts_file, foundry.main_file]
         return hash_str(''.join([hash_str(Path(k_file).read_text()) for k_file in k_files]))
 
     def kompilation_up_to_date() -> bool:

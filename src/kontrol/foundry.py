@@ -391,8 +391,16 @@ class Foundry:
         return self.kompiled / 'foundry.k'
 
     @property
+    def main_file_json(self) -> Path:
+        return self.kompiled / 'foundry.k.json'
+
+    @property
     def contracts_file(self) -> Path:
         return self.kompiled / 'contracts.k'
+
+    @property
+    def contracts_file_json(self) -> Path:
+        return self.kompiled / 'contracts.k.json'
 
     @property
     def build_info(self) -> Path:
