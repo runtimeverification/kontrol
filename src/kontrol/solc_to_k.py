@@ -45,7 +45,7 @@ def solc_to_k(options: SolcToKOptions) -> str:
                 contract_json[key] = contract_source[key]
     contract = Contract(options.contract_name, contract_json, foundry=False)
 
-    contract_module = contract_to_main_module(contract, enums={}, imports=['EDSL'])
+    contract_module = contract_to_main_module(contract, imports=['EDSL'])
     _main_module = KFlatModule(
         options.main_module if options.main_module else 'MAIN',
         [],
@@ -976,25 +976,13 @@ class Contract:
             att=KAtt([Atts.SYMBOL(self.klabel.name)]),
         )
 
-    def method_sentences(self, enums: dict[str, int]) -> list[KSentence]:
-        method_application_production: KSentence = KProduction(
-            KSort('Bytes'),
-            [KNonTerminal(self.sort), KTerminal('.'), KNonTerminal(self.sort_method)],
-            klabel=self.klabel_method,
-            att=KAtt(entries=[Atts.MACRO(None), Atts.SYMBOL(self.klabel_method.name)]),
-        )
-        res: list[KSentence] = [method_application_production]
-        res.extend(method.production for method in self.methods)
-        method_rules = (
-            method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path, enums=enums)
-            for method in self.methods
-        )
-        res.extend(rule for rule in method_rules if rule)
-        res.extend(method.selector_alias_rule for method in self.methods)
-        return res if len(res) > 1 else []
+    @property
+    def method_sentences(self) -> list[KSentence]:
+        return [method.selector_alias_rule for method in self.methods]
 
-    def sentences(self, enums: dict[str, int]) -> list[KSentence]:
-        return [self.subsort, self.production] + self.method_sentences(enums)
+    @property
+    def sentences(self) -> list[KSentence]:
+        return [self.subsort, self.production] + self.method_sentences
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -1059,9 +1047,9 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     return result
 
 
-def contract_to_main_module(contract: Contract, enums: dict[str, int], imports: Iterable[str] = ()) -> KFlatModule:
+def contract_to_main_module(contract: Contract, imports: Iterable[str] = ()) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
-    return KFlatModule(module_name, contract.sentences(enums), [KImport(i) for i in list(imports)])
+    return KFlatModule(module_name, contract.sentences, [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract) -> KFlatModule:

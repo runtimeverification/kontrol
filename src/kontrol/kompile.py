@@ -96,7 +96,7 @@ def _foundry_to_contract_def(
     requires: Iterable[str],
     enums: dict[str, int],
 ) -> KDefinition:
-    modules = [contract_to_main_module(contract, imports=['KONTROL-BASE'], enums=enums) for contract in contracts]
+    modules = [contract_to_main_module(contract, imports=['KONTROL-BASE']) for contract in contracts]
     # First module is chosen as main module arbitrarily, since the contract definition is just a set of
     # contract modules.
     main_module = Contract.contract_to_module_name(list(contracts)[0].name_with_path)
