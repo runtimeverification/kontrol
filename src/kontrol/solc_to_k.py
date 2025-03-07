@@ -409,7 +409,9 @@ class Contract:
             self.contract_digest = contract_digest
             self.contract_storage_digest = contract_storage_digest
             # TODO: support NatSpec comments for dynamic types
-            self.inputs = tuple(inputs_from_abi(abi['inputs'], None))
+            natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
+            empty_natspec_values: dict = {tag.split(':')[1]: {} for tag in natspec_tags}
+            self.inputs = tuple(inputs_from_abi(abi['inputs'], empty_natspec_values))
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
@@ -832,6 +834,7 @@ class Contract:
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
+                # TODO(palina): get devdoc for constructor
                 _c = Contract.Constructor(method, self._name, self.digest, self.storage_digest, self.sort_method)
                 self.constructor = _c
 

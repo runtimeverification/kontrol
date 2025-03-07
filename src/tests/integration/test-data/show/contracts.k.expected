@@ -3763,6 +3763,25 @@ module S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
 
 endmodule
 
+module S2KtestZModArrayStructContract-CONTRACT
+    imports public FOUNDRY
+    
+    syntax Contract ::= S2KtestZModArrayStructContractContract
+    
+    syntax S2KtestZModArrayStructContractContract ::= "S2KtestZModArrayStructContract" [symbol("contract_test%ArrayStructContract")]
+    
+    syntax Bytes ::= S2KtestZModArrayStructContractContract "." S2KtestZModArrayStructContractMethod [function, symbol("method_test%ArrayStructContract")]
+    
+    syntax S2KtestZModArrayStructContractMethod ::= "S2KparameterLength" "(" ")" [symbol("method_test%ArrayStructContract_S2KparameterLength_")]
+    
+    rule  ( S2KtestZModArrayStructContract . S2KparameterLength ( ) => #abiCallData ( "parameterLength" , .TypedArgs ) )
+      
+    
+    rule  ( selector ( "parameterLength()" ) => 1290854581 )
+      
+
+endmodule
+
 module S2KtestZModDynamicTypesTest-CONTRACT
     imports public FOUNDRY
     
