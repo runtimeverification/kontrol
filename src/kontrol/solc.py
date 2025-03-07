@@ -298,13 +298,6 @@ class Source:
         """
         return self._positions[offset]
 
-    def position_to_offset(self, position: LineColumn) -> int:
-        """Return the byte-offset of a given (line, column)-pair
-
-        lines and columns start at 1.
-        """
-        return self._offsets[position]
-
     @property
     def source_text(self) -> str:
         return self._source_text
@@ -321,42 +314,26 @@ class Source:
                 column = column + len(char.encode('utf-8'))
 
     @property
-    def offsets(self) -> dict[LineColumn, int]:
-        """Map from (line, column)-pairs to byte offsets."""
-        return self._offsets
-
-    @property
     def name(self) -> str:
         return self._name
-
-    def is_generated(self) -> bool:
-        return self._generated
 
 
 class ContractSource:
     _uuid: int
-    _file_path: str
-    _contract_name: str
     _json: Any
     _compilation_unit: CompilationUnit
 
     _source_map: ContractSourceMap
     _init_source_map: ContractSourceMap
-    _storage_layout: list[dict[str, Any]]
 
-    def __init__(
-        self, id: int, file_path: str, contract_name: str, json: Any, compilation_unit: CompilationUnit
-    ) -> None:
+    def __init__(self, id: int, json: Any, compilation_unit: CompilationUnit) -> None:
         self._uuid = id
-        self._file_path = file_path
-        self._contract_name = contract_name
         self._json = json
         self._compilation_unit = compilation_unit
         self._source_map = {}
         self._init_source_map = {}
         self._cache_source_map()
         self._cache_init_source_map()
-        self._storage_layout = []
 
     @property
     def uuid(self) -> int:
@@ -515,7 +492,6 @@ class CompilationUnit:
         compilation_unit = CompilationUnit(compilation_unit_uuid, sources, contracts)
         try:
             for source_name, source_json in build_info.get('output', {}).get('sources', {}).items():
-                absolute_path = source_json.get('ast').get('absolutePath')
                 source_uuid = to_uuid(f'{compilation_unit_uuid}:{source_name}')
                 source_text = build_info.get('input', {}).get('sources', {}).get(source_name, {}).get('content', '')
                 source = Source(source_uuid, source_name, source_json, source_text)
@@ -523,9 +499,7 @@ class CompilationUnit:
                 contracts_json = build_info.get('output', {}).get('contracts', {}).get(source_name, {})
                 for contract_name, contract_json in contracts_json.items():
                     contract_uuid = to_uuid(f'{source_uuid}:{contract_name}')
-                    contract = ContractSource(
-                        contract_uuid, absolute_path, contract_name, contract_json, compilation_unit
-                    )
+                    contract = ContractSource(contract_uuid, contract_json, compilation_unit)
                     contract_bytecode = contract.get_deployed_bytecode
                     cbor_data = CompilationUnit.get_cbor_data(contract_bytecode)
                     contracts[cbor_data] = contract
