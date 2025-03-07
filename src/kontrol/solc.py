@@ -250,12 +250,11 @@ class Source:
     """
     _offsets: dict[LineColumn, int]
 
-    def __init__(self, uuid: int, name: str, json: Json, source_text: str, generated: bool = False):
+    def __init__(self, uuid: int, name: str, json: Json, source_text: str):
         self._uuid = uuid
         self._name = name
         self._json = json
         self._source_text = source_text
-        self._generated = generated
         self._positions = {}
         self._offsets = {}
         self._cache_source_map()
@@ -352,7 +351,7 @@ class ContractSource:
             source_uuid = to_uuid(f'{self.uuid}:{source_id}')
             name = generated_source.get('name')
             contents = generated_source.get('contents', '')
-            source = Source(source_uuid, name, generated_source, contents, True)
+            source = Source(source_uuid, name, generated_source, contents)
             sources[source.id] = source
         return sources
 
