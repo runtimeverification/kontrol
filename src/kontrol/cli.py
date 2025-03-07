@@ -285,13 +285,6 @@ def _create_argument_parser() -> ArgumentParser:
         help='Regenerate foundry.k even if it already exists.',
     )
     build.add_argument(
-        '--rekompile',
-        dest='rekompile',
-        default=None,
-        action='store_true',
-        help='Rekompile foundry.k even if kompiled definition already exists.',
-    )
-    build.add_argument(
         '--no-forge-build',
         dest='forge_build',
         default=None,

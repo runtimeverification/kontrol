@@ -829,7 +829,6 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
 
 class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
     regen: bool
-    rekompile: bool
     forge_build: bool
     silence_warnings: bool
     metadata: bool
@@ -841,7 +840,6 @@ class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, Kom
         return {
             'o2': True,
             'regen': False,
-            'rekompile': False,
             'forge_build': True,
             'silence_warnings': True,
             'metadata': True,

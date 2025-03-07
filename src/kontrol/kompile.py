@@ -6,15 +6,13 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from kevm_pyk.kevm import KEVM
-from kevm_pyk.kompile import kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
-from pyk.utils import ensure_dir_path, hash_str
+from pyk.utils import ensure_dir_path
 
-from . import VERSION
 from .kdist.utils import KSRC_DIR
 from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
-from .utils import _read_digest_file, _rv_blue, console, kontrol_up_to_date
+from .utils import _rv_blue, console
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -31,7 +29,7 @@ def foundry_kompile(
     foundry: Foundry,
 ) -> None:
     foundry_requires_dir = foundry.kompiled / 'requires'
-    kompiled_timestamp = foundry.kompiled / 'timestamp'
+    foundry.kompiled / 'timestamp'
     main_module = 'KONTROL-BASE'
     if options.keccak_lemmas and not options.auxiliary_lemmas:
         main_module = 'KONTROL-KECCAK'
@@ -39,13 +37,10 @@ def foundry_kompile(
         main_module = 'KONTROL-AUX'
     else:
         main_module = 'KONTROL-FULL'
-    includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
+    [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
 
     if options.forge_build:
         foundry.build(options.metadata)
-
-    if options.silence_warnings:
-        options.ignore_warnings = _silenced_warnings()
 
     ensure_dir_path(foundry.kompiled)
     ensure_dir_path(foundry_requires_dir)
@@ -93,58 +88,6 @@ def foundry_kompile(
         foundry.main_file_json.write_text(json.dumps(contract_main_definition.to_json()))
         _LOGGER.info(f'Wrote file: {foundry.main_file_json}')
 
-    def kompilation_digest() -> str:
-        k_files = [foundry.contracts_file, foundry.main_file]
-        return hash_str(''.join([hash_str(Path(k_file).read_text()) for k_file in k_files]))
-
-    def kompilation_up_to_date() -> bool:
-        if not foundry.digest_file.exists():
-            return False
-        digest_dict = _read_digest_file(foundry.digest_file)
-        return digest_dict.get('kompilation', '') == kompilation_digest()
-
-    def update_kompilation_digest() -> None:
-        digest_dict = _read_digest_file(foundry.digest_file)
-        digest_dict['kompilation'] = kompilation_digest()
-        digest_dict['kontrol'] = VERSION
-        digest_dict['build-options'] = str(options)
-        foundry.digest_file.write_text(json.dumps(digest_dict, indent=4))
-
-        _LOGGER.info('Updated Kompilation digest')
-
-    def should_rekompile() -> bool:
-        if options.rekompile or not kompiled_timestamp.exists():
-            return True
-
-        return not (kompilation_up_to_date() and foundry.up_to_date() and kontrol_up_to_date(foundry.digest_file))
-
-    if should_rekompile():
-        output_dir = foundry.kompiled
-
-        optimization = 0
-        if options.o1:
-            optimization = 1
-        if options.o2:
-            optimization = 2
-        if options.o3:
-            optimization = 3
-
-        kevm_kompile(
-            target=options.target,
-            output_dir=output_dir,
-            main_file=foundry.main_file,
-            main_module=main_module,
-            syntax_module=options.syntax_module,
-            includes=includes,
-            emit_json=True,
-            ccopts=options.ccopts,
-            debug=options.debug,
-            verbose=options.verbose,
-            ignore_warnings=options.ignore_warnings,
-            optimization=optimization,
-        )
-
-    update_kompilation_digest()
     foundry.update_digest()
 
 
