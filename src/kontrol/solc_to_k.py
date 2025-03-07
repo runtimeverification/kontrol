@@ -723,7 +723,6 @@ class Contract:
     deployed_bytecode_external_lib_refs: dict[str, list[tuple[int, int]]]
     processed_link_refs: bool
     bytecode: str
-    raw_sourcemap: str | None
     methods: tuple[Method, ...]
     constructor: Constructor | None
     interface_annotations: dict[str, str]
@@ -774,7 +773,6 @@ class Contract:
         self.processed_link_refs = len(self.bytecode_external_lib_refs) == 0
 
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
-        self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
 
         self.bytecode = bytecode['object'].replace('0x', '')
         self.constructor = None
@@ -849,43 +847,6 @@ class Contract:
     def storage_digest(self) -> str:
         storage_layout = self.contract_json.get('storageLayout') or {}
         return hash_str(f'{self.name_with_path} - {json.dumps(storage_layout, sort_keys=True)}')
-
-    @cached_property
-    def srcmap(self) -> dict[int, tuple[int, int, int, str, int]]:
-        _srcmap = {}
-
-        if len(self.deployed_bytecode) > 0 and self.raw_sourcemap is not None:
-            instr_to_pc = {}
-            pc = 0
-            instr = 0
-            bs = [int(self.deployed_bytecode[i : i + 2], 16) for i in range(0, len(self.deployed_bytecode), 2)]
-            while pc < len(bs):
-                b = bs[pc]
-                instr_to_pc[instr] = pc
-                if 0x60 <= b and b < 0x7F:
-                    push_width = b - 0x5F
-                    pc = pc + push_width
-                pc += 1
-                instr += 1
-
-            instrs_srcmap = self.raw_sourcemap.split(';')
-
-            s, l, f, j, m = (0, 0, 0, '', 0)
-            for i, instr_srcmap in enumerate(instrs_srcmap):
-                fields = instr_srcmap.split(':')
-                if len(fields) > 0 and fields[0] != '':
-                    s = int(fields[0])
-                if len(fields) > 1 and fields[1] != '':
-                    l = int(fields[1])
-                if len(fields) > 2 and fields[2] != '':
-                    f = int(fields[2])
-                if len(fields) > 3 and fields[3] != '':
-                    j = fields[3]
-                if len(fields) > 4 and fields[4] != '':
-                    m = int(fields[4])
-                _srcmap[i] = (s, l, f, j, m)
-
-        return _srcmap
 
     @cached_property
     def fields(self) -> tuple[StorageField, ...]:
