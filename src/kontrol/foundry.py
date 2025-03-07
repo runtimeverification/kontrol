@@ -357,22 +357,6 @@ class Foundry:
         self.add_enum_constraints = add_enum_constraints
         self.enums = {}
 
-    def lookup_full_contract_name(self, contract_name: str) -> str:
-        contracts = [
-            full_contract_name
-            for full_contract_name in self.contracts
-            if contract_name == full_contract_name.split('%')[-1]
-        ]
-        if len(contracts) == 0:
-            raise ValueError(
-                f"Tried to look up contract name {contract_name}, found none out of {[contract_name_with_path.split('/')[-1] for contract_name_with_path in self.contracts.keys()]}"
-            )
-        if len(contracts) > 1:
-            raise ValueError(
-                f'Tried to look up contract name {contract_name}, found duplicates {[contract[0] for contract in contracts]}'
-            )
-        return single(contracts)
-
     @property
     def profile(self) -> dict[str, Any]:
         profile_name = os.getenv('FOUNDRY_PROFILE', default='default')
