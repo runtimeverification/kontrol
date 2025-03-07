@@ -576,10 +576,6 @@ class Contract:
             return any(self.name.startswith(prefix) for prefix in proof_prefixes)
 
         @cached_property
-        def flat_inputs(self) -> tuple[Input, ...]:
-            return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
-
-        @cached_property
         def arg_names(self) -> tuple[str, ...]:
             arg_names: list[str] = []
             for input in self.inputs:
@@ -991,10 +987,6 @@ class Contract:
     @property
     def sort(self) -> KSort:
         return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Contract')
-
-    @property
-    def sort_field(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Field')
 
     @property
     def sort_method(self) -> KSort:
