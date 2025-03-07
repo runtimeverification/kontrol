@@ -91,7 +91,7 @@ class Input:
         if name is None or type is None:
             raise ValueError("ABI dictionary must contain 'name' and 'type' keys.", input)
         array_lengths, dynamic_type_length = (
-            process_length_equals(input, natspec_lengths) # if natspec_lengths is not None else (None, None)
+            process_length_equals(input, natspec_lengths) if natspec_lengths is not None else (None, None)
         )
         if input.get('components') is not None:
             return Input(
@@ -410,8 +410,8 @@ class Contract:
             self.contract_storage_digest = contract_storage_digest
             # TODO: support NatSpec comments for dynamic types
             natspec_tags = ['custom:kontrol-array-length-equals', 'custom:kontrol-bytes-length-equals']
-            self.natspec_values = {tag.split(':')[1]: parse_devdoc(tag, devdoc) for tag in natspec_tags}
-            self.inputs = tuple(inputs_from_abi(abi['inputs'], self.natspec_values))
+            empty_natspec_values = {tag.split(':')[1]: {} for tag in natspec_tags}
+            self.inputs = tuple(inputs_from_abi(abi['inputs'], empty_natspec_values))
             self.sort = sort
             # TODO: Check that we're handling all state mutability cases
             self.payable = abi['stateMutability'] == 'payable'
