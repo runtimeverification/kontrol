@@ -46,7 +46,6 @@ if TYPE_CHECKING:
     from pathlib import Path
     from typing import Final, TypeVar
 
-    from pyk.cterm import CTerm
     from pyk.kcfg.tui import KCFGElem
     from pyk.utils import BugReport
 
@@ -303,9 +302,6 @@ def exec_view_kcfg(options: ViewKcfgOptions) -> None:
     proof = foundry.get_apr_proof(test_id)
 
     compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
-
-    def _short_info(cterm: CTerm) -> Iterable[str]:
-        return foundry.short_info_for_contract(contract_name, cterm)
 
     def _custom_view(elem: KCFGElem) -> Iterable[str]:
         return foundry.custom_view(contract_name, elem, compilation_unit)

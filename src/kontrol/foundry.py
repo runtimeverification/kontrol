@@ -7,7 +7,6 @@ import logging
 import os
 import re
 import shutil
-import sys
 import traceback
 import xml.etree.ElementTree as Et
 from functools import cached_property
@@ -18,7 +17,7 @@ from typing import TYPE_CHECKING
 
 import tomlkit
 from kevm_pyk.kevm import KEVM, CustomStep, KEVMNodePrinter, KEVMSemantics
-from kevm_pyk.utils import byte_offset_to_lines, legacy_explore, print_failure_info, print_model
+from kevm_pyk.utils import legacy_explore, print_failure_info, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSequence, KSort, KToken, KVariable, Subst
 from pyk.kast.manip import (
@@ -341,9 +340,6 @@ class Foundry:
     add_enum_constraints: bool
     enums: dict[str, int]
 
-    class Sorts:
-        FOUNDRY_CELL: Final = KSort('FoundryCell')
-
     def __init__(
         self,
         foundry_root: Path,
@@ -481,9 +477,6 @@ class Foundry:
             self.remove_old_proofs(reinit)
         self.proofs_dir.mkdir(exist_ok=True)
 
-    def method_digest(self, contract_name: str, method_sig: str) -> str:
-        return self.contracts[contract_name].method_by_sig[method_sig].digest
-
     def contract_name_from_bytecode(self, bytecode: bytes) -> str | None:
         return _contract_name_from_bytecode(
             bytecode,
@@ -498,21 +491,6 @@ class Foundry:
         contract_digests = [self.contracts[c].digest for c in sorted(self.contracts)]
         return hash_str('\n'.join(contract_digests))
 
-    @cached_property
-    def llvm_dylib(self) -> Path | None:
-        match sys.platform:
-            case 'linux':
-                dylib = self.llvm_library / 'interpreter.so'
-            case 'darwin':
-                dylib = self.llvm_library / 'interpreter.dylib'
-            case _:
-                raise ValueError('Unsupported platform: {sys.platform}')
-
-        if dylib.exists():
-            return dylib
-        else:
-            return None
-
     def up_to_date(self) -> bool:
         if not self.digest_file.exists():
             return False
@@ -526,55 +504,12 @@ class Foundry:
 
         _LOGGER.info(f'Updated Foundry digest file: {self.digest_file}')
 
-    @cached_property
-    def contract_ids(self) -> dict[int, str]:
-        _contract_ids = {}
-        for c in self.contracts.values():
-            _contract_ids[c.contract_id] = c.name_with_path
-        return _contract_ids
-
-    def srcmap_data(self, contract_name: str, pc: int) -> tuple[Path, int, int] | None:
-        if contract_name not in self.contracts:
-            _LOGGER.info(f'Contract not found in Foundry project: {contract_name}')
-        contract = self.contracts[contract_name]
-        if pc not in contract.srcmap:
-            _LOGGER.info(f'pc not found in srcmap for contract {contract_name}: {pc}')
-            return None
-        s, l, f, _, _ = contract.srcmap[pc]
-        if f not in self.contract_ids:
-            _LOGGER.info(f'Contract id not found in sourcemap data: {f}')
-            return None
-        src_contract = self.contracts[self.contract_ids[f]]
-        src_contract_path = self._root / src_contract.contract_path
-        src_contract_text = src_contract_path.read_text()
-        _, start, end = byte_offset_to_lines(src_contract_text.split('\n'), s, l)
-        return (src_contract_path, start, end)
-
     def solidity_src_print(self, path: Path, start: int, end: int) -> Iterable[str]:
         lines = path.read_text().split('\n')
         prefix_lines = [f'   {l}' for l in lines[:start]]
         actual_lines = [f' | {l}' for l in lines[start:end]]
         suffix_lines = [f'   {l}' for l in lines[end:]]
         return prefix_lines + actual_lines + suffix_lines
-
-    def solidity_src(self, contract_name: str, pc: int) -> Iterable[str]:
-        srcmap_data = self.srcmap_data(contract_name, pc)
-        if srcmap_data is None:
-            return [f'No sourcemap data for contract at pc {contract_name}: {pc}']
-        contract_path, start, end = srcmap_data
-        if not (contract_path.exists() and contract_path.is_file()):
-            return [f'No file at path for contract {contract_name}: {contract_path}']
-        return self.solidity_src_print(contract_path, start, end)
-
-    def short_info_for_contract(self, contract_name: str, cterm: CTerm) -> list[str]:
-        ret_strs = self.kevm.short_info(cterm)
-        _pc = cterm.cell('PC_CELL')
-        if type(_pc) is KToken and _pc.sort == INT:
-            srcmap_data = self.srcmap_data(contract_name, int(_pc.token))
-            if srcmap_data is not None:
-                path, start, end = srcmap_data
-                ret_strs.append(f'src: {str(path)}:{start}:{end}')
-        return ret_strs
 
     def custom_view(self, contract_name: str, element: KCFGElem, compilation_unit: CompilationUnit) -> Iterable[str]:
         if type(element) is KCFG.Node:
@@ -826,15 +761,6 @@ class Foundry:
         proof = Proof.read_proof_data(self.proofs_dir, test_id)
         if not isinstance(proof, APRProof):
             raise ValueError('Specified proof is not an APRProof.')
-        return proof
-
-    def get_proof(self, test_id: str) -> Proof:
-        return Proof.read_proof_data(self.proofs_dir, test_id)
-
-    def get_optional_apr_proof(self, test_id: str) -> APRProof | None:
-        proof = self.get_optional_proof(test_id)
-        if not isinstance(proof, APRProof):
-            return None
         return proof
 
     def get_optional_proof(self, test_id: str) -> Proof | None:
