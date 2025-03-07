@@ -206,32 +206,6 @@ class InitOptions(LoggingOptions):
         }
 
 
-class KGenOptions(Options):
-    requires: list[str]
-    imports: list[str]
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'requires': [],
-            'imports': [],
-        }
-
-    @staticmethod
-    def from_option_string() -> dict[str, str]:
-        return {
-            'require': 'requires',
-            'module-import': 'imports',
-        }
-
-    @staticmethod
-    def get_argument_type() -> dict[str, Callable]:
-        return {
-            'require': list_of(str),
-            'module-import': list_of(str),
-        }
-
-
 class KompileTargetOptions(Options):
     target: KompileTarget
 
@@ -695,20 +669,19 @@ class SimplifyNodeOptions(
         )
 
 
-class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
+class SolcToKOptions(LoggingOptions, KOptions):
     contract_file: Path
     contract_name: str
 
     @staticmethod
     def from_option_string() -> dict[str, str]:
-        return KOptions.from_option_string() | LoggingOptions.from_option_string() | KGenOptions.from_option_string()
+        return KOptions.from_option_string() | LoggingOptions.from_option_string()
 
     @staticmethod
     def get_argument_type() -> dict[str, Callable]:
         return (
             LoggingOptions.get_argument_type()
             | KOptions.get_argument_type()
-            | KGenOptions.get_argument_type()
             | {
                 'contract_file': file_path,
             }
@@ -854,7 +827,7 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
         )
 
 
-class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
+class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
     regen: bool
     rekompile: bool
     forge_build: bool
@@ -882,7 +855,6 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             FoundryOptions.from_option_string()
             | LoggingOptions.from_option_string()
             | KOptions.from_option_string()
-            | KGenOptions.from_option_string()
             | KompileOptions.from_option_string()
             | KompileTargetOptions.from_option_string()
         )
@@ -893,7 +865,6 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             FoundryOptions.get_argument_type()
             | LoggingOptions.get_argument_type()
             | KOptions.get_argument_type()
-            | KGenOptions.get_argument_type()
             | KompileOptions.get_argument_type()
             | KompileTargetOptions.get_argument_type()
         )
