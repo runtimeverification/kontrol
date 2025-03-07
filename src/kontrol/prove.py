@@ -715,6 +715,7 @@ def _method_to_cfg(
 ) -> tuple[KCFG, list[int], int, int, Iterable[int]]:
     calldata = None
     callvalue = None
+    preconditions = None
     external_libs: list[KInner] = []
 
     if not contract.processed_link_refs:
@@ -728,7 +729,7 @@ def _method_to_cfg(
         callvalue = method.callvalue_cell
 
     elif isinstance(method, Contract.Method):
-        calldata = method.calldata_cell(contract)
+        calldata, preconditions = method.constrained_calldata(contract, enums=foundry.enums)
         callvalue = method.callvalue_cell
         program = contract_code
 
@@ -750,6 +751,7 @@ def _method_to_cfg(
         additional_accounts=external_libs,
         stack_checks=stack_checks,
         symbolic_caller=symbolic_caller,
+        preconditions=preconditions,
     )
     new_node_ids = []
     bounded_node_ids = []
@@ -1010,6 +1012,7 @@ def _init_cterm(
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
+    preconditions: Iterable[KInner] | None = None,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     trace_options: TraceOptions | None = None,
 ) -> CTerm:
@@ -1133,6 +1136,9 @@ def _init_cterm(
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
 
+    if preconditions is not None:
+        for precondition in preconditions:
+            init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
     for constraint in storage_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
 
