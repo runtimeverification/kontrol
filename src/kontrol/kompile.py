@@ -2,9 +2,6 @@ from __future__ import annotations
 
 import json
 import logging
-import os
-import shutil
-import stat
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -44,7 +41,6 @@ def foundry_kompile(
     else:
         main_module = 'KONTROL-FULL'
     includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
-    requires_paths: dict[str, str] = {}
 
     if options.forge_build:
         foundry.build(options.metadata)
@@ -63,47 +59,12 @@ def foundry_kompile(
         regen = True
         foundry_up_to_date = False
 
-    options.requires = [str(foundry._root / r) for r in options.requires]
-    for r in options.requires:
-        req = Path(r)
-        if not req.exists():
-            raise ValueError(f'No such file: {req}')
-        if req.name in requires_paths.keys():
-            raise ValueError(
-                f'Required K files have conflicting names: {r} and {requires_paths[req.name]}. Consider changing the name of one of these files.'
-            )
-        requires_paths[req.name] = str(r)
-        req_path = foundry_requires_dir / req.name
-        if regen or not req_path.exists():
-            _LOGGER.info(f'Copying requires path: {req} -> {req_path}')
-            shutil.copy(req, req_path)
-            # If the copied file is not writeable
-            if not os.access(req_path, os.W_OK):
-                # Fetch current permissions
-                current_permissions = req_path.stat().st_mode
-                # Grant write permissions
-                req_path.chmod(current_permissions | stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
-            regen = True
-
-    _imports: dict[str, list[str]] = {contract.name_with_path: [] for contract in foundry.contracts.values()}
-    for i in options.imports:
-        imp = i.split(':')
-        full_import_name = foundry.lookup_full_contract_name(imp[0])
-        if not len(imp) == 2:
-            raise ValueError(f'module imports must be of the form "[ContractName]:[MODULE-NAME]". Got: {i}')
-        if full_import_name in _imports:
-            _imports[full_import_name].append(imp[1])
-        else:
-            raise ValueError(f'Could not find contract: {full_import_name}')
-
     if regen or not foundry_contracts_file.exists() or not foundry.main_file.exists():
         if regen and foundry_up_to_date:
             console.print(
                 f'[{_rv_blue()}][bold]--regen[/bold] option provided. Rebuilding Kontrol Project.[/{_rv_blue()}]'
             )
 
-        copied_requires = []
-        copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
         bin_runtime_definition = _foundry_to_contract_def(
             contracts=foundry.contracts.values(),
             requires=['kontrol.md'],
@@ -113,8 +74,7 @@ def foundry_kompile(
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
             contracts=foundry.contracts.values(),
-            requires=(['contracts.k'] + copied_requires),
-            imports=_imports,
+            requires=['contracts.k'],
             keccak_lemmas=options.keccak_lemmas,
             auxiliary_lemmas=options.auxiliary_lemmas,
         )
@@ -130,7 +90,7 @@ def foundry_kompile(
         _LOGGER.info(f'Wrote file: {foundry.main_file}')
 
     def kompilation_digest() -> str:
-        k_files = list(options.requires) + [foundry_contracts_file, foundry.main_file]
+        k_files = [foundry_contracts_file, foundry.main_file]
         return hash_str(''.join([hash_str(Path(k_file).read_text()) for k_file in k_files]))
 
     def kompilation_up_to_date() -> bool:
@@ -205,13 +165,10 @@ def _foundry_to_main_def(
     main_module: str,
     contracts: Iterable[Contract],
     requires: Iterable[str],
-    imports: dict[str, list[str]],
     keccak_lemmas: bool,
     auxiliary_lemmas: bool,
 ) -> KDefinition:
-    modules = [
-        contract_to_verification_module(contract, imports=imports[contract.name_with_path]) for contract in contracts
-    ]
+    modules = [contract_to_verification_module(contract) for contract in contracts]
     _main_module = KFlatModule(
         main_module,
         imports=tuple(

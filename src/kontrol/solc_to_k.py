@@ -44,18 +44,14 @@ def solc_to_k(options: SolcToKOptions) -> str:
                 contract_json[key] = contract_source[key]
     contract = Contract(options.contract_name, contract_json, foundry=False)
 
-    imports = list(options.imports)
-    requires = list(options.requires)
-    contract_module = contract_to_main_module(contract, enums={}, imports=['EDSL'] + imports)
+    contract_module = contract_to_main_module(contract, enums={}, imports=['EDSL'])
     _main_module = KFlatModule(
         options.main_module if options.main_module else 'MAIN',
         [],
-        [KImport(mname) for mname in [contract_module.name] + imports],
+        [KImport(mname) for mname in [contract_module.name]],
     )
     modules = (contract_module, _main_module)
-    bin_runtime_definition = KDefinition(
-        _main_module.name, modules, requires=tuple(KRequire(req) for req in ['edsl.md'] + requires)
-    )
+    bin_runtime_definition = KDefinition(_main_module.name, modules, requires=(KRequire('edsl.md'),))
 
     _kprint = KEVM(definition_dir, extra_unparsing_modules=modules)
     return _kprint.pretty_print(bin_runtime_definition, unalias=False) + '\n'
@@ -1062,10 +1058,10 @@ def contract_to_main_module(contract: Contract, enums: dict[str, int], imports: 
     return KFlatModule(module_name, contract.sentences(enums), [KImport(i) for i in list(imports)])
 
 
-def contract_to_verification_module(contract: Contract, imports: Iterable[str]) -> KFlatModule:
+def contract_to_verification_module(contract: Contract) -> KFlatModule:
     main_module_name = Contract.contract_to_module_name(contract.name_with_path)
     verification_module_name = Contract.contract_to_verification_module_name(contract.name_with_path)
-    return KFlatModule(verification_module_name, [], [KImport(main_module_name)] + [KImport(i) for i in list(imports)])
+    return KFlatModule(verification_module_name, [], [KImport(main_module_name)])
 
 
 # Helpers
