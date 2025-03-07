@@ -11,10 +11,9 @@ from typing import TYPE_CHECKING, NamedTuple
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
-from pyk.kast.manip import flatten_label
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
-from pyk.prelude.kbool import TRUE, andBool
+from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.utils import hash_str, run_process_2, single
 
@@ -644,11 +643,10 @@ class Contract:
                 att=KAtt(entries=[Atts.SYMBOL(self.unique_klabel.name)]),
             )
 
-        def rule(
-            self, contract: KInner, application_label: KLabel, contract_name: str, enums: dict[str, int]
-        ) -> KRule | None:
+        def compute_calldata(
+            self, contract_name: str, enums: dict[str, int]
+        ) -> tuple[KInner, tuple[KInner, ...]] | None:
             prod_klabel = self.unique_klabel
-            arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
             for input in self.inputs:
@@ -690,29 +688,18 @@ class Contract:
                                 intToken(enum_max),
                             )
                         )
-            lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
-            ensures = andBool(conjuncts)
-            return KRule(KRewrite(lhs, rhs), ensures=ensures)
+            return rhs, tuple(conjuncts)
 
         @cached_property
         def callvalue_cell(self) -> KInner:
             return intToken(0) if not self.payable else KVariable('CALLVALUE')
 
         def constrained_calldata(self, contract: Contract, enums: dict[str, int]) -> tuple[KInner, tuple[KInner, ...]]:
-            rule = self.rule(
-                contract=KApply(contract.klabel),
-                application_label=contract.klabel_method,
-                contract_name=contract.name_with_path,
-                enums=enums,
-            )
-            if rule is None:
-                raise ValueError(f'Could not produce calldata for method: {contract.name_with_path}.{self.name}')
-            if not isinstance(rule.body, KRewrite):
-                raise ValueError(f'Found non-rewrite rule: {rule}')
-            rhs = rule.body.rhs
-            ensures = rule.ensures
-            return rhs, tuple(flatten_label('_andBool_', ensures))
+            calldata = self.compute_calldata(contract_name=contract.name_with_path, enums=enums)
+            if calldata is None:
+                raise ValueError(f'Could not compute calldata for: {contract.name_with_path}.{self.name}')
+            return calldata
 
     _name: str
     contract_json: dict
@@ -958,10 +945,6 @@ class Contract:
     @property
     def klabel(self) -> KLabel:
         return KLabel(f'contract_{self.name_with_path}')
-
-    @property
-    def klabel_method(self) -> KLabel:
-        return KLabel(f'method_{self.name_with_path}')
 
     @property
     def subsort(self) -> KProduction:
