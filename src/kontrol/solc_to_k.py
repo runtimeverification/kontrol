@@ -975,7 +975,7 @@ class Contract:
             KSort('Bytes'),
             [KNonTerminal(self.sort), KTerminal('.'), KNonTerminal(self.sort_method)],
             klabel=self.klabel_method,
-            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL(self.klabel_method.name)]),
+            att=KAtt(entries=[Atts.MACRO(None), Atts.SYMBOL(self.klabel_method.name)]),
         )
         res: list[KSentence] = [method_application_production]
         res.extend(method.production for method in self.methods)
