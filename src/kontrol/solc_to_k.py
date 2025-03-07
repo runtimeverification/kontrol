@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, NamedTuple
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
+from pyk.kast.manip import flatten_label
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
@@ -698,15 +699,20 @@ class Contract:
         def callvalue_cell(self) -> KInner:
             return intToken(0) if not self.payable else KVariable('CALLVALUE')
 
-        def calldata_cell(self, contract: Contract) -> KInner:
-            return KApply(contract.klabel_method, [KApply(contract.klabel), self.application])
-
-        @cached_property
-        def application(self) -> KInner:
-            klabel = self.klabel
-            assert klabel is not None
-            args = [KVariable(name) for name in self.arg_names]
-            return klabel(args)
+        def constrained_calldata(self, contract: Contract, enums: dict[str, int]) -> tuple[KInner, tuple[KInner, ...]]:
+            rule = self.rule(
+                contract=KApply(contract.klabel),
+                application_label=contract.klabel_method,
+                contract_name=contract.name_with_path,
+                enums=enums,
+            )
+            if rule is None:
+                raise ValueError(f'Could not produce calldata for method: {contract.name_with_path}.{self.name}')
+            if not isinstance(rule.body, KRewrite):
+                raise ValueError(f'Found non-rewrite rule: {rule}')
+            rhs = rule.body.rhs
+            ensures = rule.ensures
+            return rhs, tuple(flatten_label('_andBool_', ensures))
 
     _name: str
     contract_json: dict
