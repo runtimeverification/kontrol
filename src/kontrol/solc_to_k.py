@@ -15,7 +15,6 @@ from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KPro
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE, andBool
 from pyk.prelude.kint import eqInt, intToken, ltInt
-from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process_2, single
 
 from .utils import _read_digest_file
@@ -913,10 +912,6 @@ class Contract:
         return Contract.escaped(c, 'S2K') + '-VERIFICATION'
 
     @staticmethod
-    def test_to_claim_name(t: str) -> str:
-        return t.replace('_', '-')
-
-    @staticmethod
     def escaped_chars() -> list[str]:
         return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%', '@']
 
@@ -1014,16 +1009,8 @@ class Contract:
         return KLabel(f'method_{self.name_with_path}')
 
     @property
-    def klabel_field(self) -> KLabel:
-        return KLabel(f'field_{self.name_with_path}')
-
-    @property
     def subsort(self) -> KProduction:
         return KProduction(KSort('Contract'), [KNonTerminal(self.sort)])
-
-    @property
-    def subsort_field(self) -> KProduction:
-        return KProduction(KSort('Field'), [KNonTerminal(self.sort_field)])
 
     @property
     def production(self) -> KProduction:
@@ -1033,31 +1020,6 @@ class Contract:
             klabel=self.klabel,
             att=KAtt([Atts.SYMBOL(self.klabel.name)]),
         )
-
-    @property
-    def macro_bin_runtime(self) -> KRule:
-        if self.has_unlinked():
-            raise ValueError(
-                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
-            )
-        return KRule(
-            KRewrite(
-                KEVM.bin_runtime(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.deployed_bytecode))
-            )
-        )
-
-    @property
-    def macro_init_bytecode(self) -> KRule:
-        if self.has_unlinked():
-            raise ValueError(
-                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
-            )
-        return KRule(
-            KRewrite(KEVM.init_bytecode(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.bytecode)))
-        )
-
-    def has_unlinked(self) -> bool:
-        return 0 <= self.deployed_bytecode.find('__')
 
     def method_sentences(self, enums: dict[str, int]) -> list[KSentence]:
         method_application_production: KSentence = KProduction(
