@@ -49,22 +49,6 @@ if TYPE_CHECKING:
 sys.setrecursionlimit(10**7)
 
 
-def test_foundry_kompile(foundry: Foundry, update_expected_output: bool, no_use_booster: bool) -> None:
-    if no_use_booster:
-        pytest.skip()
-
-    assert_or_update_k_output(
-        foundry.main_file,
-        TEST_DATA_DIR / 'show/foundry.k.expected',
-        update=update_expected_output,
-    )
-    assert_or_update_k_output(
-        foundry.contracts_file,
-        TEST_DATA_DIR / 'show/contracts.k.expected',
-        update=update_expected_output,
-    )
-
-
 def assert_or_update_k_output(k_file: Path, expected_file: Path, *, update: bool) -> None:
     assert k_file.is_file()
 

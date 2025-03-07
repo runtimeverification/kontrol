@@ -348,9 +348,9 @@ def _run_cfg_group(
                 return PreexistingKoreServer(options.port)
             else:
                 return FreshKoreServer(
-                    definition_dir=foundry.kevm.definition_dir,
-                    llvm_definition_dir=foundry.llvm_library if options.use_booster else None,
-                    module_name=foundry.kevm.main_module,
+                    foundry.kompiled,
+                    llvm_definition_dir=foundry.llvm_library,
+                    module_name='KONTROL-BASE',
                     command=kore_rpc_command,
                     bug_report=options.bug_report,
                     smt_timeout=options.smt_timeout,

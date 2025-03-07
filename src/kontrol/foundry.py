@@ -297,7 +297,7 @@ class FoundryKEVM(KEVM):
         self.foundry = foundry
         super().__init__(
             definition_dir,
-            main_file,
+            None,
             use_directory,
             kprove_command,
             krun_command,
@@ -380,27 +380,11 @@ class Foundry:
 
     @property
     def kompiled(self) -> Path:
-        return self.out / 'kompiled'
+        return kdist.get('kontrol.base')
 
     @property
     def llvm_library(self) -> Path:
         return self.kompiled / 'llvm-library'
-
-    @property
-    def main_file(self) -> Path:
-        return self.kompiled / 'foundry.k'
-
-    @property
-    def main_file_json(self) -> Path:
-        return self.kompiled / 'foundry.k.json'
-
-    @property
-    def contracts_file(self) -> Path:
-        return self.kompiled / 'contracts.k'
-
-    @property
-    def contracts_file_json(self) -> Path:
-        return self.kompiled / 'contracts.k.json'
 
     @property
     def build_info(self) -> Path:
@@ -418,7 +402,6 @@ class Foundry:
         return FoundryKEVM(
             definition_dir=self.kompiled,
             foundry=self,
-            main_file=self.main_file,
             use_directory=use_directory,
             bug_report=self._bug_report,
             use_hex=self._use_hex_encoding,
