@@ -7,20 +7,20 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%GasTest.testInfiniteGas()
 │
-│  (683 steps)
+│  (944 steps)
 ├─ 3
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 2698
+│   pc: 4511
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%GasTest.testInfiniteGas()
 │
 ┊  constraint: true
 ┊  subst:
-┊      VGAS_4b7cee1f <- ( VGAS:Int +Int -373 )
+┊      VGAS_93b7b7d1 <- ( VGAS:Int +Int -507 )
 ├─ 4
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 2698
+│   pc: 4511
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%GasTest.testInfiniteGas()
@@ -28,7 +28,7 @@
 │  (1 step)
 ├─ 5
 │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 2698
+│   pc: 4511
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
 │   method: test%GasTest.testInfiniteGas()
@@ -36,7 +36,7 @@
 │  (2 steps)
 └─ 6 (leaf, terminal)
     k: #halt ~> CONTINUATION:K
-    pc: 2698
+    pc: 4511
     callDepth: 0
     statusCode: EVMC_REVERT
     method: test%GasTest.testInfiniteGas()
@@ -94,7 +94,7 @@ Node 6:
               728815563385977040452943777879061427756277306518
             </id>
             <caller>
-              CALLER_ID:Int
+              137122462167341575662000267002353578582749290296
             </caller>
             <callData>
               b"c\xfe\xc36"
@@ -103,7 +103,7 @@ Node 6:
               0
             </callValue>
             <wordStack>
-              ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
+              ( 1044 : ( ( VGAS:Int +Int -438 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 310 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
             </wordStack>
             <localMem>
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -150,7 +150,7 @@ Node 6:
             GASPRICE_CELL:Int
           </gasPrice>
           <origin>
-            ORIGIN_ID:Int
+            137122462167341575662000267002353578582749290296
           </origin>
           <blockhashes>
             BLOCKHASHES_CELL:List
@@ -408,19 +408,13 @@ Node 6:
     GENERATEDCOUNTER_CELL:Int
   </generatedCounter>
 </generatedTop>
-#And ( { true #Equals 0 <=Int CALLER_ID:Int }
-#And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
 #And ( { true #Equals pow24 <Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <Int pow32 }
 #And ( { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
 #And ( { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
-#And ( { true #Equals CALLER_ID:Int <Int pow160 }
-#And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
 #And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
 #And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool C_GASTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) ) } ) ) ) ) ) ) ) ) ) ) ) ) )
+#And { true #Equals ( notBool C_GASTEST_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) } ) ) ) ) ) ) )
 
 
 
@@ -463,7 +457,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"c\xfe\xc36"
@@ -472,7 +466,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1044 : ( ( VGAS:Int +Int -438 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 310 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -504,7 +498,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -646,20 +640,14 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_GASTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               )))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-4-TO-5]: <foundry>
@@ -701,7 +689,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"c\xfe\xc36"
@@ -710,7 +698,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( 1044 : ( ( VGAS:Int +Int -438 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 310 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -742,7 +730,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -884,20 +872,14 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_GASTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               )))))))
       [priority(20), label(BASIC-BLOCK-4-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -939,7 +921,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"c\xfe\xc36"
@@ -948,7 +930,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
+                     ( 1044 : ( ( VGAS:Int +Int -438 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 310 : ( selector ( "testInfiniteGas()" ) : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -980,7 +962,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1122,20 +1104,14 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_GASTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               )))))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
 
 endmodule
@@ -1147,19 +1123,13 @@ Failing nodes:
   Failure reason:
     Matching failed.
     The remaining implication is:
-    { true #Equals 0 <=Int CALLER_ID:Int }
-    #And { true #Equals 0 <=Int ORIGIN_ID:Int }
-    #And { true #Equals pow24 <Int NUMBER_CELL:Int }
+    { true #Equals pow24 <Int NUMBER_CELL:Int }
     #And { true #Equals NUMBER_CELL:Int <Int pow32 }
     #And { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
     #And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
     #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
     #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And #Not ( { C_GASTEST_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And { true #Equals CALLER_ID:Int <Int pow160 }
-    #And { true #Equals ORIGIN_ID:Int <Int pow160 }
-    #And { false #Equals #range ( 0 < CALLER_ID:Int <= 10 ) }
-    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 10 ) } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And #Not ( { C_GASTEST_ID:Int #Equals 645326474426547203313410069153905908525362434349 } ) #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
   Model:

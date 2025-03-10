@@ -7,10 +7,10 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%MergeTest.test_branch_merge(uint256)
 │
-│  (324 steps)
+│  (560 steps)
 ├─ 3 (split)
-│   k: JUMPI 535 bool2Word ( 10 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-│   pc: 525
+│   k: JUMPI 707 bool2Word ( 10 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+│   pc: 694
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: lib/forge-std/src/StdInvariant.sol:90:90
@@ -22,8 +22,8 @@
 ┃  ┃     10 <=Int KV0_x:Int
 ┃  │
 ┃  └─ 4 (leaf, refuted)
-┃      k: JUMPI 535 bool2Word ( 10 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-┃      pc: 525
+┃      k: JUMPI 707 bool2Word ( 10 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+┃      pc: 694
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃      src: lib/forge-std/src/StdInvariant.sol:90:90
@@ -34,38 +34,38 @@
    ┃     KV0_x:Int <Int 10
    │
    ├─ 5
-   │   k: JUMPI 535 bool2Word ( 10 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-   │   pc: 525
+   │   k: JUMPI 707 bool2Word ( 10 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+   │   pc: 694
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │   src: lib/forge-std/src/StdInvariant.sol:90:90
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
-   │  (90 steps)
+   │  (101 steps)
    ├─ 12
    │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-   │   pc: 235
+   │   pc: 242
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
-   │   src: lib/forge-std/src/StdInvariant.sol:77:79
+   │   src: lib/forge-std/src/StdInvariant.sol:89:91
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (1 step)
    ├─ 13
    │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-   │   pc: 235
+   │   pc: 242
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
-   │   src: lib/forge-std/src/StdInvariant.sol:77:79
+   │   src: lib/forge-std/src/StdInvariant.sol:89:91
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    │  (2 steps)
    ├─ 14 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 235
+   │   pc: 242
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
-   │   src: lib/forge-std/src/StdInvariant.sol:77:79
+   │   src: lib/forge-std/src/StdInvariant.sol:89:91
    │   method: test%MergeTest.test_branch_merge(uint256)
    │
    ┊  constraint: true
@@ -85,7 +85,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 535 bool2Word ( 10 <=Int KV0_x:Int )
+               ( .K => JUMPI 707 bool2Word ( 10 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION:K
@@ -118,7 +118,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b";\xa4\xd9\f" +Bytes #buf ( 32 , KV0_x:Int )
@@ -127,7 +127,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( KV0_x:Int : ( 234 : ( selector ( "test_branch_merge(uint256)" ) : .WordStack ) ) ) )
+                     ( .WordStack => ( KV0_x:Int : ( 241 : ( selector ( "test_branch_merge(uint256)" ) : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -165,7 +165,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -308,27 +308,21 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_MERGETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))
+               )))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
     
     rule [BASIC-BLOCK-5-TO-12]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 535 bool2Word ( 10 <=Int KV0_x:Int )
+               ( JUMPI 707 bool2Word ( 10 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
@@ -362,7 +356,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b";\xa4\xd9\f" +Bytes #buf ( 32 , KV0_x:Int )
@@ -371,7 +365,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( KV0_x:Int => selector ( "test_branch_merge(uint256)" ) ) : ( ( 234 : ( selector ( "test_branch_merge(uint256)" ) : .WordStack ) ) => .WordStack ) )
+                     ( ( KV0_x:Int => selector ( "test_branch_merge(uint256)" ) ) : ( ( 241 : ( selector ( "test_branch_merge(uint256)" ) : .WordStack ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -409,7 +403,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -553,21 +547,15 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( KV0_x:Int <Int 10
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_MERGETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-5-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
@@ -609,7 +597,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b";\xa4\xd9\f" +Bytes #buf ( 32 , KV0_x:Int )
@@ -656,7 +644,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -800,21 +788,15 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( KV0_x:Int <Int 10
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_MERGETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -856,7 +838,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b";\xa4\xd9\f" +Bytes #buf ( 32 , KV0_x:Int )
@@ -903,7 +885,7 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1047,21 +1029,15 @@ module SUMMARY-TEST%MERGETEST.TEST-BRANCH-MERGE(UINT256):0
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( KV0_x:Int <Int 10
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( _C_MERGETEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
 
 endmodule
