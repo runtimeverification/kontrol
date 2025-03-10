@@ -243,6 +243,15 @@ class KontrolCLIArgs(KEVMCLIArgs):
             type=int,
             help='Use existing RPC server on named port.',
         )
+        args.add_argument(
+            '--lemmas',
+            dest='lemmas',
+            default=None,
+            help=(
+                'File and extra module to include for verification (which must import one of [KONTROL-BASE|KONTROL-AUX|KONTROL-KECCAK|KONTROL-FULL] modules).'
+                'Format is <file>:<module name>.'
+            ),
+        )
         return args
 
 
@@ -586,10 +595,7 @@ def _create_argument_parser() -> ArgumentParser:
         '--extra-module',
         dest='extra_module',
         default=None,
-        help=(
-            'File and extra module to include for verification (which must import KONTROL-MAIN module).'
-            'Format is <file>:<module name>.'
-        ),
+        help='Deprecated alias for --lemmas.',
     )
     prove_args.add_argument(
         '--symbolic-caller',
