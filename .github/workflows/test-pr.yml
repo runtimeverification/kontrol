@@ -102,10 +102,10 @@ jobs:
         run: |
           docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
 
-  mac-integration-tests:
+  mac-build-tests:
     needs: code-quality-checks
     name: 'Mac Build Test'
-    runs-on: [self-hosted, macos-13, MacM1]
+    runs-on: [self-hosted, MacM1]
     timeout-minutes: 120
     steps:
       - name: 'Check out code'
