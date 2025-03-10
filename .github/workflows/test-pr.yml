@@ -106,7 +106,7 @@ jobs:
 
   mac-integration-tests:
     needs: code-quality-checks
-    name: 'Integration Tests'
+    name: 'Mac Integration Tests'
     runs-on: [self-hosted, macos-13, MacM1]
     strategy:
       fail-fast: false
