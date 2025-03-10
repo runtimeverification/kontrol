@@ -7,13 +7,13 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.setUp()
 │
-│  (216 steps)
+│  (182 steps)
 ├─ 5 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 336
+│   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:85:87
+│   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 │   method: test%AssertTest.setUp()
 │
 │  (1 step)
@@ -25,10 +25,10 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.checkFail_assert_false()
 │
-│  (308 steps)
+│  (307 steps)
 ├─ 8
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 5067
+│   pc: 2995
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%AssertTest.checkFail_assert_false()
@@ -36,7 +36,7 @@
 │  (1 step)
 ├─ 9
 │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 5067
+│   pc: 2995
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
 │   method: test%AssertTest.checkFail_assert_false()
@@ -44,7 +44,7 @@
 │  (2 steps)
 ├─ 10 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 5067
+│   pc: 2995
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
 │   method: test%AssertTest.checkFail_assert_false()
@@ -293,10 +293,7 @@ module SUMMARY-TEST%ASSERTTEST.CHECKFAIL-ASSERT-FALSE():0
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               )))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-1-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -529,10 +526,7 @@ module SUMMARY-TEST%ASSERTTEST.CHECKFAIL-ASSERT-FALSE():0
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               )))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
@@ -580,7 +574,7 @@ module SUMMARY-TEST%ASSERTTEST.CHECKFAIL-ASSERT-FALSE():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 2514 : ( 631 : ( selector ( "checkFail_assert_false()" ) : .WordStack ) ) ) )
+                     ( .WordStack => ( 614 : ( 327 : ( selector ( "checkFail_assert_false()" ) : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -815,7 +809,7 @@ module SUMMARY-TEST%ASSERTTEST.CHECKFAIL-ASSERT-FALSE():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 2514 : ( 631 : ( selector ( "checkFail_assert_false()" ) : .WordStack ) ) )
+                     ( 614 : ( 327 : ( selector ( "checkFail_assert_false()" ) : .WordStack ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1050,7 +1044,7 @@ module SUMMARY-TEST%ASSERTTEST.CHECKFAIL-ASSERT-FALSE():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 2514 : ( 631 : ( selector ( "checkFail_assert_false()" ) : .WordStack ) ) )
+                     ( 614 : ( 327 : ( selector ( "checkFail_assert_false()" ) : .WordStack ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"

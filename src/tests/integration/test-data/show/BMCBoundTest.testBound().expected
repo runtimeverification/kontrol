@@ -7,13 +7,12 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%BMCBoundTest.setUp()
 │
-│  (1195 steps)
-├─ 4 (split)
-│   k: JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-│   pc: 585
+│  (598 steps)
+├─ 3 (split)
+│   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+│   pc: 465
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: lib/forge-std/src/StdInvariant.sol:70:70
 │   method: test%BMCBoundTest.setUp()
 ┃
 ┃ (branch)
@@ -21,16 +20,62 @@
 ┃  ┃ constraint:
 ┃  ┃     ?WORD:Int <=Int 0
 ┃  │
-┃  ├─ 5
-┃  │   k: JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-┃  │   pc: 585
+┃  ├─ 4
+┃  │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+┃  │   pc: 465
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
 ┃  │  (49 steps)
-┃  ├─ 7 (terminal)
+┃  ├─ 6 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 221
+┃  │   callDepth: 0
+┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   method: test%BMCBoundTest.setUp()
+┃  │
+┃  │  (1 step)
+┃  ├─ 32
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: 0
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: test%BMCBoundTest.testBound()
+┃  │
+┃  │  (353 steps)
+┃  ├─ 37 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 221
+┃  │   callDepth: 0
+┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
+┃  │   method: test%BMCBoundTest.testBound()
+┃  │
+┃  ┊  constraint: true
+┃  ┊  subst: ...
+┃  └─ 36 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     0 <Int ?WORD:Int
+┃  ┃     ?WORD:Int <=Int 1
+┃  │
+┃  ├─ 20
+┃  │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+┃  │   pc: 465
+┃  │   callDepth: 0
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   method: test%BMCBoundTest.setUp()
+┃  │
+┃  │  (318 steps)
+┃  ├─ 10 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
@@ -50,15 +95,15 @@
 ┃  │  (353 steps)
 ┃  ├─ 38 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 561
+┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
+┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
-┃  └─ 37 (leaf, target, terminal)
+┃  └─ 36 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -67,18 +112,18 @@
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
 ┃  ┃     0 <Int ?WORD:Int
-┃  ┃     ?WORD:Int <=Int 1
+┃  ┃     1 <Int ?WORD:Int
+┃  ┃     ?WORD:Int <=Int 2
 ┃  │
-┃  ├─ 21
-┃  │   k: JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-┃  │   pc: 585
+┃  ├─ 26
+┃  │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+┃  │   pc: 465
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
-┃  │  (565 steps)
-┃  ├─ 11 (terminal)
+┃  │  (587 steps)
+┃  ├─ 14 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
@@ -98,15 +143,15 @@
 ┃  │  (353 steps)
 ┃  ├─ 39 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 561
+┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
+┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
-┃  └─ 37 (leaf, target, terminal)
+┃  └─ 36 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -116,18 +161,18 @@
 ┃  ┃ constraint:
 ┃  ┃     0 <Int ?WORD:Int
 ┃  ┃     1 <Int ?WORD:Int
-┃  ┃     ?WORD:Int <=Int 2
+┃  ┃     2 <Int ?WORD:Int
+┃  ┃     ?WORD:Int <=Int 3
 ┃  │
-┃  ├─ 27
-┃  │   k: JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-┃  │   pc: 585
+┃  ├─ 30
+┃  │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+┃  │   pc: 465
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
 ┃  │   method: test%BMCBoundTest.setUp()
 ┃  │
-┃  │  (1081 steps)
-┃  ├─ 15 (terminal)
+┃  │  (856 steps)
+┃  ├─ 18 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
@@ -147,65 +192,15 @@
 ┃  │  (353 steps)
 ┃  ├─ 40 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 561
-┃  │   callDepth: 0
-┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
-┃  │   method: test%BMCBoundTest.testBound()
-┃  │
-┃  ┊  constraint: true
-┃  ┊  subst: ...
-┃  └─ 37 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
-┃      pc: PC_CELL_5d410f2a:Int
-┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃      statusCode: STATUSCODE_FINAL:StatusCode
-┃
-┣━━┓ subst: .Subst
-┃  ┃ constraint:
-┃  ┃     0 <Int ?WORD:Int
-┃  ┃     1 <Int ?WORD:Int
-┃  ┃     2 <Int ?WORD:Int
-┃  ┃     ?WORD:Int <=Int 3
-┃  │
-┃  ├─ 31
-┃  │   k: JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-┃  │   pc: 585
-┃  │   callDepth: 0
-┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
-┃  │   method: test%BMCBoundTest.setUp()
-┃  │
-┃  │  (1597 steps)
-┃  ├─ 19 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 221
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
-┃  │   method: test%BMCBoundTest.setUp()
-┃  │
-┃  │  (1 step)
-┃  ├─ 36
-┃  │   k: #execute ~> CONTINUATION:K
-┃  │   pc: 0
-┃  │   callDepth: 0
-┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  │   method: test%BMCBoundTest.testBound()
-┃  │
-┃  │  (353 steps)
-┃  ├─ 41 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 561
-┃  │   callDepth: 0
-┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
 ┃  │   method: test%BMCBoundTest.testBound()
 ┃  │
 ┃  ┊  constraint: true
 ┃  ┊  subst: ...
-┃  └─ 37 (leaf, target, terminal)
+┃  └─ 36 (leaf, target, terminal)
 ┃      k: #halt ~> CONTINUATION:K
 ┃      pc: PC_CELL_5d410f2a:Int
 ┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
@@ -218,21 +213,19 @@
    ┃     2 <Int ?WORD:Int
    ┃     3 <Int ?WORD:Int
    │
-   ├─ 32
-   │   k: JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-   │   pc: 585
+   ├─ 31
+   │   k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+   │   pc: 465
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
-   │   src: lib/forge-std/src/StdInvariant.sol:70:70
    │   method: test%BMCBoundTest.setUp()
    │
-   │  (2064 steps)
-   └─ 20 (leaf, bounded)
-       k: JUMPI 630 bool2Word ( ?WORD:Int <=Int 4 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
-       pc: 585
+   │  (1076 steps)
+   └─ 19 (leaf, bounded)
+       k: JUMPI 508 bool2Word ( ?WORD:Int <=Int 4 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTIN ...
+       pc: 465
        callDepth: 0
        statusCode: STATUSCODE:StatusCode
-       src: lib/forge-std/src/StdInvariant.sol:70:70
        method: test%BMCBoundTest.setUp()
 
 
@@ -241,10 +234,245 @@
 module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
     
     
-    rule [BASIC-BLOCK-5-TO-7]: <foundry>
+    rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 )
+               ( .K => JUMPI 508 bool2Word ( ??WORD:Int <=Int 0 )
+               ~> #pc [ JUMPI ] )
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( b"" => #buf ( 32 , ??WORD:Int ) )
+                 </output>
+                 <callStack>
+                   .List
+                 </callStack>
+                 <interimStates>
+                   .List
+                 </interimStates>
+                 <touchedAccounts>
+                   .Set
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     728815563385977040452943777879061427756277306518
+                   </id>
+                   <caller>
+                     137122462167341575662000267002353578582749290296
+                   </caller>
+                   <callData>
+                     b"\n\x92T\xe4"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 0 : ( ??WORD:Int : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ??WORD:Int ) +Bytes b"\x00\x00\x00 " )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     0
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <log>
+                     .List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     .Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     .Set
+                   </createdAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   137122462167341575662000267002353578582749290296
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       645326474426547203313410069153905908525362434349
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       0
+                     </nonce>
+                     ...
+                   </account>
+                   <account>
+                     <acctID>
+                       728815563385977040452943777879061427756277306518
+                     </acctID>
+                     <balance>
+                       0
+                     </balance>
+                     <storage>
+                       .Map
+                     </storage>
+                     <origStorage>
+                       .Map
+                     </origStorage>
+                     <transientStorage>
+                       .Map
+                     </transientStorage>
+                     <nonce>
+                       1
+                     </nonce>
+                     ...
+                   </account> )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <singleCall>
+                 false
+               </singleCall>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <expectEmit>
+               <recordEvent>
+                 false
+               </recordEvent>
+               <isEventExpected>
+                 false
+               </isEventExpected>
+               ...
+             </expectEmit>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+               ))))
+       ensures ( 0 <=Int ??WORD:Int
+       andBool ( ??WORD:Int <Int pow256
+               ))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+    
+    rule [BASIC-BLOCK-4-TO-6]: <foundry>
+           <kevm>
+             <k>
+               ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -476,254 +704,13 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               ))))))))))
-      [priority(20), label(BASIC-BLOCK-5-TO-7)]
-    
-    rule [BASIC-BLOCK-1-TO-4]: <foundry>
-           <kevm>
-             <k>
-               ( .K => JUMPI 630 bool2Word ( ??WORD:Int <=Int 0 )
-               ~> #pc [ JUMPI ] )
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( b"" => #buf ( 32 , ??WORD:Int ) )
-                 </output>
-                 <callStack>
-                   .List
-                 </callStack>
-                 <interimStates>
-                   .List
-                 </interimStates>
-                 <touchedAccounts>
-                   .Set
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     728815563385977040452943777879061427756277306518
-                   </id>
-                   <caller>
-                     137122462167341575662000267002353578582749290296
-                   </caller>
-                   <callData>
-                     b"\n\x92T\xe4"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( .WordStack => ( 0 : ( ??WORD:Int : ( 220 : ( selector ( "setUp()" ) : .WordStack ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ??WORD:Int ) +Bytes b"\x00\x00\x00 " )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     0
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <log>
-                     .List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( .Set => SetItem ( 645326474426547203313410069153905908525362434349 ) )
-                   </accessedAccounts>
-                   <accessedStorage>
-                     .Map
-                   </accessedStorage>
-                   <createdAccounts>
-                     .Set
-                   </createdAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   137122462167341575662000267002353578582749290296
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       645326474426547203313410069153905908525362434349
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       0
-                     </nonce>
-                     ...
-                   </account>
-                   <account>
-                     <acctID>
-                       728815563385977040452943777879061427756277306518
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       .Map
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account> )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <active>
-                 false
-               </active>
-               <singleCall>
-                 false
-               </singleCall>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 false
-               </isRevertExpected>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <expectEmit>
-               <recordEvent>
-                 false
-               </recordEvent>
-               <isEventExpected>
-                 false
-               </isEventExpected>
-               ...
-             </expectEmit>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( pow24 <Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
                )))))))
-       ensures ( 0 <=Int ??WORD:Int
-       andBool ( ??WORD:Int <Int pow256
-               ))
-      [priority(20), label(BASIC-BLOCK-1-TO-4)]
+      [priority(20), label(BASIC-BLOCK-4-TO-6)]
     
-    rule [BASIC-BLOCK-21-TO-11]: <foundry>
+    rule [BASIC-BLOCK-20-TO-10]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 )
+               ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -956,16 +943,13 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               )))))))))))
-      [priority(20), label(BASIC-BLOCK-21-TO-11)]
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-20-TO-10)]
     
-    rule [BASIC-BLOCK-27-TO-15]: <foundry>
+    rule [BASIC-BLOCK-26-TO-14]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 )
+               ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -1199,16 +1183,13 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               ))))))))))))
-      [priority(20), label(BASIC-BLOCK-27-TO-15)]
+               )))))))))
+      [priority(20), label(BASIC-BLOCK-26-TO-14)]
     
-    rule [BASIC-BLOCK-31-TO-19]: <foundry>
+    rule [BASIC-BLOCK-30-TO-18]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 630 bool2Word ( ?WORD:Int <=Int 0 )
+               ( JUMPI 508 bool2Word ( ?WORD:Int <=Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -1443,16 +1424,13 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-31-TO-19)]
+               ))))))))))
+      [priority(20), label(BASIC-BLOCK-30-TO-18)]
     
-    rule [BASIC-BLOCK-32-TO-20]: <foundry>
+    rule [BASIC-BLOCK-31-TO-19]: <foundry>
            <kevm>
              <k>
-               JUMPI 630 bool2Word ( ?WORD:Int <=Int ( 0 => 4 ) )
+               JUMPI 508 bool2Word ( ?WORD:Int <=Int ( 0 => 4 ) )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> _CONTINUATION:K
@@ -1684,13 +1662,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-32-TO-20)]
+               ))))))))))
+      [priority(20), label(BASIC-BLOCK-31-TO-19)]
     
-    rule [BASIC-BLOCK-7-TO-33]: <foundry>
+    rule [BASIC-BLOCK-6-TO-32]: <foundry>
            <kevm>
              <k>
                ( #halt => #execute )
@@ -1923,13 +1898,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               ))))))))))
-      [priority(20), label(BASIC-BLOCK-7-TO-33)]
+               )))))))
+      [priority(20), label(BASIC-BLOCK-6-TO-32)]
     
-    rule [BASIC-BLOCK-11-TO-34]: <foundry>
+    rule [BASIC-BLOCK-10-TO-33]: <foundry>
            <kevm>
              <k>
                ( #halt => #execute )
@@ -2163,13 +2135,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               )))))))))))
-      [priority(20), label(BASIC-BLOCK-11-TO-34)]
+               ))))))))
+      [priority(20), label(BASIC-BLOCK-10-TO-33)]
     
-    rule [BASIC-BLOCK-15-TO-35]: <foundry>
+    rule [BASIC-BLOCK-14-TO-34]: <foundry>
            <kevm>
              <k>
                ( #halt => #execute )
@@ -2404,13 +2373,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               ))))))))))))
-      [priority(20), label(BASIC-BLOCK-15-TO-35)]
+               )))))))))
+      [priority(20), label(BASIC-BLOCK-14-TO-34)]
     
-    rule [BASIC-BLOCK-19-TO-36]: <foundry>
+    rule [BASIC-BLOCK-18-TO-35]: <foundry>
            <kevm>
              <k>
                ( #halt => #execute )
@@ -2646,13 +2612,10 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               )))))))))))))
-      [priority(20), label(BASIC-BLOCK-19-TO-36)]
+               ))))))))))
+      [priority(20), label(BASIC-BLOCK-18-TO-35)]
     
-    rule [BASIC-BLOCK-33-TO-38]: <foundry>
+    rule [BASIC-BLOCK-32-TO-37]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -2886,9 +2849,9 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
                )))))))
-      [priority(20), label(BASIC-BLOCK-33-TO-38)]
+      [priority(20), label(BASIC-BLOCK-32-TO-37)]
     
-    rule [BASIC-BLOCK-34-TO-39]: <foundry>
+    rule [BASIC-BLOCK-33-TO-38]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -3123,9 +3086,9 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
                ))))))))
-      [priority(20), label(BASIC-BLOCK-34-TO-39)]
+      [priority(20), label(BASIC-BLOCK-33-TO-38)]
     
-    rule [BASIC-BLOCK-35-TO-40]: <foundry>
+    rule [BASIC-BLOCK-34-TO-39]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -3361,9 +3324,9 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
                )))))))))
-      [priority(20), label(BASIC-BLOCK-35-TO-40)]
+      [priority(20), label(BASIC-BLOCK-34-TO-39)]
     
-    rule [BASIC-BLOCK-36-TO-41]: <foundry>
+    rule [BASIC-BLOCK-35-TO-40]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -3600,7 +3563,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow256
                ))))))))))
-      [priority(20), label(BASIC-BLOCK-36-TO-41)]
+      [priority(20), label(BASIC-BLOCK-35-TO-40)]
 
 endmodule
 0 Failure nodes. (0 pending and 0 failing)

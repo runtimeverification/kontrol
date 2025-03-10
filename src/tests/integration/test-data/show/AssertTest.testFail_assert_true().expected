@@ -7,13 +7,13 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.setUp()
 │
-│  (216 steps)
+│  (182 steps)
 ├─ 5 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 336
+│   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:85:87
+│   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 │   method: test%AssertTest.setUp()
 │
 │  (1 step)
@@ -25,31 +25,31 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.testFail_assert_true()
 │
-│  (254 steps)
+│  (200 steps)
 ├─ 8
 │   k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 346
+│   pc: 328
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: lib/forge-std/src/StdInvariant.sol:85:87
+│   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 │   method: test%AssertTest.testFail_assert_true()
 │
 │  (1 step)
 ├─ 9
 │   k: #halt ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-│   pc: 346
+│   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:85:87
+│   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 │   method: test%AssertTest.testFail_assert_true()
 │
 │  (2 steps)
 └─ 10 (leaf, terminal)
     k: #halt ~> CONTINUATION:K
-    pc: 346
+    pc: 328
     callDepth: 0
     statusCode: EVMC_SUCCESS
-    src: lib/forge-std/src/StdInvariant.sol:85:87
+    src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
     method: test%AssertTest.testFail_assert_true()
 
 
@@ -531,10 +531,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               )))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-1-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -767,10 +764,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-ASSERT-TRUE():0
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( _CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-               )))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-8]: <foundry>

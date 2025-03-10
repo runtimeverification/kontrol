@@ -63,7 +63,7 @@ Node 10:
               728815563385977040452943777879061427756277306518
             </id>
             <caller>
-              CALLER_ID:Int
+              137122462167341575662000267002353578582749290296
             </caller>
             <callData>
               b"]\xde\xcb\xfd"
@@ -110,7 +110,7 @@ Node 10:
             ...
           </substate>
           <origin>
-            ORIGIN_ID:Int
+            137122462167341575662000267002353578582749290296
           </origin>
           <block>
             <number>
@@ -254,18 +254,10 @@ Node 10:
   </foundry>
   ...
 </generatedTop>
-#And ( { true #Equals 0 <=Int CALLER_ID:Int }
-#And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
 #And ( { true #Equals pow24 <Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <Int pow32 }
 #And ( { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
-#And ( { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
-#And ( { true #Equals CALLER_ID:Int <Int pow160 }
-#And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
-#And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) ) } ) ) ) ) ) ) ) ) ) ) ) )
+#And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 } ) ) ) )
 
 
 
@@ -309,7 +301,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"]\xde\xcb\xfd" )
@@ -356,7 +348,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -498,20 +490,11 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-1-TO-10)]
 
 endmodule
@@ -523,24 +506,14 @@ Failing nodes:
   Failure reason:
     Matching failed.
     The remaining implication is:
-    { true #Equals 0 <=Int CALLER_ID:Int }
-    #And { true #Equals 0 <=Int ORIGIN_ID:Int }
-    #And { true #Equals pow24 <Int NUMBER_CELL:Int }
+    { true #Equals pow24 <Int NUMBER_CELL:Int }
     #And { true #Equals NUMBER_CELL:Int <Int pow32 }
     #And { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
-    #And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
-    #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And { true #Equals CALLER_ID:Int <Int pow160 }
-    #And { true #Equals ORIGIN_ID:Int <Int pow160 }
-    #And { false #Equals #range ( 0 < CALLER_ID:Int <= 10 ) }
-    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 10 ) } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
   Model:
-    CALLER_ID = 645326474426547203313410069153905908525362434350
     NUMBER_CELL = 16777217
-    ORIGIN_ID = 645326474426547203313410069153905908525362434350
     TIMESTAMP_CELL = 1073741825
 
 Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.
