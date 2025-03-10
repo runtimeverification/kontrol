@@ -30,7 +30,7 @@ from pyk.kast.manip import (
     set_cell,
     top_down,
 )
-from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
+from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire, KRule
 from pyk.kcfg import KCFG
 from pyk.kcfg.kcfg import Step
 from pyk.kcfg.minimize import KCFGMinimizer
@@ -551,6 +551,20 @@ class Foundry:
             ) from err
         except CalledProcessError as err:
             raise RuntimeError(f"Couldn't forge build! {err.stderr.strip()}") from err
+
+    def load_lemmas(self, lemmas_id: str | None) -> KFlatModule | None:
+        if lemmas_id is None:
+            return None
+        lemmas_file, lemmas_name, *_ = lemmas_id.split(':')
+        lemmas_path = Path(lemmas_file)
+        if not lemmas_path.is_file():
+            raise ValueError(f'Supplied lemmas path is not a file: {lemmas_path}')
+        modules = self.kevm.parse_modules(lemmas_path, module_name=lemmas_name)
+        lemmas_module = single(module for module in modules.modules if module.name == lemmas_name)
+        non_rule_sentences = [sent for sent in lemmas_module.sentences if not isinstance(sent, KRule)]
+        if non_rule_sentences:
+            raise ValueError(f'Supplied lemmas module contains non-Rule sentences: {non_rule_sentences}')
+        return lemmas_module
 
     @cached_property
     def all_tests(self) -> list[str]:

@@ -6,7 +6,6 @@ from abc import abstractmethod
 from collections import Counter
 from copy import copy
 from functools import partial
-from pathlib import Path
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, Any, ContextManager, NamedTuple
 
@@ -17,7 +16,6 @@ from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, free_vars, set_cell
-from pyk.kast.outer import KFlatModule, KRule
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.kore.rpc import KoreClient, kore_server
@@ -32,7 +30,7 @@ from pyk.prelude.utils import token
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.utils import hash_str, run_process_2, single, unique
+from pyk.utils import hash_str, run_process_2, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
@@ -438,17 +436,7 @@ def _run_cfg_group(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
 
-            extra_lemmas_module: KFlatModule | None = None
-            if options.lemmas:
-                extra_module_file, extra_module_name, *_ = options.lemmas.split(':')
-                extra_module_path = Path(extra_module_file)
-                if not extra_module_path.is_file():
-                    raise ValueError(f'Supplied --extra-module path is not a file: {extra_module_path}')
-                modules = foundry.kevm.parse_modules(extra_module_path, module_name=extra_module_name)
-                extra_lemmas_module = single(module for module in modules.modules if module.name == extra_module_name)
-                non_rule_sentences = [sent for sent in extra_lemmas_module.sentences if not isinstance(sent, KRule)]
-                if non_rule_sentences:
-                    raise ValueError(f'Supplied --extra-module contains non-Rule sentences: {non_rule_sentences}')
+            lemmas_module = foundry.load_lemmas(options.lemmas)
 
             if progress is not None and task is not None:
                 progress.update(
@@ -471,7 +459,7 @@ def _run_cfg_group(
                 task_id=task,
                 maintenance_rate=options.maintenance_rate,
                 assume_defined=options.assume_defined,
-                extra_module=extra_lemmas_module,
+                extra_module=lemmas_module,
                 optimize_kcfg=options.optimize_kcfg,
             )
 
