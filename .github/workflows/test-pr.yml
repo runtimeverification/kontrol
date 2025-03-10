@@ -31,8 +31,6 @@ jobs:
         uses: actions/checkout@v4
       - name: 'Install Poetry'
         uses: Gr1N/setup-poetry@v8
-      - name: 'Run Build'
-
       - name: 'Run unit tests'
         run: make cov-unit
 
