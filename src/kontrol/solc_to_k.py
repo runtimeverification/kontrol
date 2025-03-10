@@ -834,7 +834,6 @@ class Contract:
                 )
                 _methods.append(_m)
             if method['type'] == 'constructor':
-                # TODO(palina): get devdoc for constructor
                 _c = Contract.Constructor(method, self._name, self.digest, self.storage_digest, self.sort_method)
                 self.constructor = _c
 
