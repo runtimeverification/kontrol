@@ -63,6 +63,7 @@ class RpcOptions(Options):
     kore_rpc_command: str | None
     use_booster: bool
     port: int | None
+    lemmas: str | None
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -72,6 +73,7 @@ class RpcOptions(Options):
             'kore_rpc_command': None,
             'use_booster': True,
             'port': None,
+            'lemmas': None,
         }
 
     @staticmethod
