@@ -973,6 +973,7 @@ def foundry_show(
             smt_retry_limit=options.smt_retry_limit,
             start_server=start_server,
             port=options.port,
+            extra_module=foundry.load_lemmas(options.lemmas),
         ) as kcfg_explore:
             res_lines += print_failure_info(proof, kcfg_explore, options.counterexample_info)
             res_lines += Foundry.help_info()
@@ -1236,6 +1237,7 @@ def foundry_simplify_node(
         log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
+        extra_module=foundry.load_lemmas(options.lemmas),
     ) as kcfg_explore:
         new_term, _ = kcfg_explore.cterm_symbolic.simplify(cterm)
     if options.replace:
@@ -1324,6 +1326,7 @@ def foundry_step_node(
         log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
+        extra_module=foundry.load_lemmas(options.lemmas),
     ) as kcfg_explore:
         node = options.node
         for _i in range(options.repeat):
@@ -1400,6 +1403,7 @@ def foundry_section_edge(
         log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
+        extra_module=foundry.load_lemmas(options.lemmas),
     ) as kcfg_explore:
         kcfg_explore.section_edge(
             apr_proof.kcfg,
@@ -1451,6 +1455,7 @@ def foundry_get_model(
         log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
+        extra_module=foundry.load_lemmas(options.lemmas),
     ) as kcfg_explore:
         for node_id in nodes:
             res_lines.append('')
