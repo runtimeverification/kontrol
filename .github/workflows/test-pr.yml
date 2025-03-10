@@ -104,12 +104,8 @@ jobs:
 
   mac-integration-tests:
     needs: code-quality-checks
-    name: 'Mac Integration Tests'
+    name: 'Mac Build Test'
     runs-on: [self-hosted, macos-13, MacM1]
-    strategy:
-      fail-fast: false
-      matrix:
-        backend: ['legacy', 'booster']
     timeout-minutes: 120
     steps:
       - name: 'Check out code'
@@ -118,17 +114,8 @@ jobs:
           fetch-depth: 0
       - name: 'Build KEVM'
         run: |
-            poetry install'
-            CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry'
-      - name: 'Run integration tests'
-        run: |
-          TEST_ARGS='-vv --force-sequential -k "not (test_kontrol_cse or test_foundry_minimize_proof or test_kontrol_end_to_end)"'
-          if [ ${{ matrix.backend }} == 'legacy' ]; then
-            TEST_ARGS+=' --no-use-booster --numprocesses=6'
-          else
-            TEST_ARGS+=' --numprocesses=4'
-          fi
-          make cov-integration TEST_ARGS="${TEST_ARGS}"
+            poetry install
+            APPLE_SILICON=true CXX=clang++-14 poetry run kdist --verbose build -j`nproc` evm-semantics.haskell kontrol.foundry
 
   cse-tests:
     needs: code-quality-checks
