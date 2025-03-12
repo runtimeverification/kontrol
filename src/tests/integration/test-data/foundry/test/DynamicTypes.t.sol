@@ -3,6 +3,24 @@ pragma solidity =0.8.13;
 
 import "forge-std/Test.sol";
 
+struct DeploymentParameters {
+    Parameters[] parameters;
+    uint256 counter;
+}
+
+struct Parameters {
+    uint256 value;
+}
+
+contract ArrayStructContract {
+    uint256 public parameterLength;
+
+    // NatSpec comments in constructors aren't supported, but `kontrol build` shouldn't fail
+    constructor(DeploymentParameters memory _deploymentParameters) {
+        parameterLength = _deploymentParameters.parameters.length;
+   }
+}
+
 contract DynamicTypesTest is Test {
 
     struct ComplexType {
