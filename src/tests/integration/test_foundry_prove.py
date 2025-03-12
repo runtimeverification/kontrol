@@ -1106,37 +1106,37 @@ def test_foundry_split_node(
             }
         ),
     )
-    assert split_nodes == [71, 72]
+    assert split_nodes == [70, 71]
 
     split_nodes = foundry_split_node(
         foundry,
         SplitNodeOptions(
             {
                 'test': test,
-                'node': 72,
+                'node': 71,
                 'branch_condition': 'VV0_addr_114b9705 ==Int 645326474426547203313410069153905908525362434349',
             }
         ),
     )
-    assert split_nodes == [73, 74]
+    assert split_nodes == [72, 73]
 
     split_nodes = foundry_split_node(
         foundry,
         options=SplitNodeOptions(
             {
                 'test': test,
-                'node': 74,
+                'node': 73,
                 'branch_condition': 'VV0_addr_114b9705 ==Int 728815563385977040452943777879061427756277306518',
             }
         ),
     )
-    assert split_nodes == [75, 76]
+    assert split_nodes == [74, 75]
 
-    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 71}))
-    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 73}))
-    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 75}))
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 70}))
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 72}))
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 74}))
 
-    check_pending(foundry, test, [76])
+    check_pending(foundry, test, [75])
 
     prove_res_2 = foundry_prove(
         foundry=foundry,
