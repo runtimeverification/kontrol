@@ -1062,16 +1062,8 @@ def _init_cterm(
 
     if config_type == ConfigType.TEST_CONFIG or active_simbolik:
         init_account_list = _create_initial_account_list(contract_code, additional_accounts, recorded_state_entries)
-        origin_id = (
-            Foundry.address_DEFAULT_CALLER()
-            if not symbolic_caller
-            else init_subst['ORIGIN_CELL']
-        )
-        caller_id = (
-            Foundry.address_DEFAULT_CALLER()
-            if not symbolic_caller
-            else init_subst['CALLER_CELL']
-        )
+        origin_id = Foundry.address_DEFAULT_CALLER() if not symbolic_caller else init_subst['ORIGIN_CELL']
+        caller_id = Foundry.address_DEFAULT_CALLER() if not symbolic_caller else init_subst['CALLER_CELL']
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
             'CALLSTACK_CELL': list_empty(),
