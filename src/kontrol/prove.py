@@ -404,7 +404,7 @@ def _run_cfg_group(
                     run_constructor=options.run_constructor,
                     recorded_state_entries=recorded_state_entries,
                     summary_ids=summary_ids,
-                    active_symbolik=options.with_non_general_state,
+                    active_simbolik=options.with_non_general_state,
                     hevm=options.hevm,
                     config_type=options.config_type,
                     evm_chain_options=EVMChainOptions(
@@ -416,6 +416,7 @@ def _run_cfg_group(
                         }
                     ),
                     stack_checks=options.stack_checks,
+                    symbolic_caller=options.symbolic_caller,
                     trace_options=TraceOptions(
                         {
                             'active_tracing': options.active_tracing,
@@ -575,11 +576,12 @@ def method_to_apr_proof(
     config_type: ConfigType,
     evm_chain_options: EVMChainOptions,
     stack_checks: bool,
+    symbolic_caller: bool,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
     summary_ids: Iterable[str] = (),
-    active_symbolik: bool = False,
+    active_simbolik: bool = False,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> APRProof:
@@ -603,8 +605,9 @@ def method_to_apr_proof(
         graft_setup_proof=((setup_proof is not None) and not setup_proof_is_constructor),
         evm_chain_options=evm_chain_options,
         stack_checks=stack_checks,
+        symbolic_caller=symbolic_caller,
         recorded_state_entries=recorded_state_entries,
-        active_symbolik=active_symbolik,
+        active_simbolik=active_simbolik,
         hevm=hevm,
         trace_options=trace_options,
         config_type=config_type,
@@ -647,11 +650,12 @@ def _method_to_initialized_cfg(
     config_type: ConfigType,
     evm_chain_options: EVMChainOptions,
     stack_checks: bool,
+    symbolic_caller: bool,
     *,
     setup_proof: APRProof | None = None,
     graft_setup_proof: bool = False,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
-    active_symbolik: bool = False,
+    active_simbolik: bool = False,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, int, int, Iterable[int]]:
@@ -667,9 +671,10 @@ def _method_to_initialized_cfg(
         graft_setup_proof,
         evm_chain_options,
         recorded_state_entries,
-        active_symbolik,
+        active_simbolik,
         config_type=config_type,
         stack_checks=stack_checks,
+        symbolic_caller=symbolic_caller,
         hevm=hevm,
         trace_options=trace_options,
     )
@@ -701,9 +706,10 @@ def _method_to_cfg(
     graft_setup_proof: bool,
     evm_chain_options: EVMChainOptions,
     recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
-    active_symbolik: bool,
+    active_simbolik: bool,
     config_type: ConfigType,
     stack_checks: bool,
+    symbolic_caller: bool,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int, Iterable[int]]:
@@ -738,11 +744,12 @@ def _method_to_cfg(
         recorded_state_entries=recorded_state_entries,
         calldata=calldata,
         callvalue=callvalue,
-        active_symbolik=active_symbolik,
+        active_simbolik=active_simbolik,
         trace_options=trace_options,
         config_type=config_type,
         additional_accounts=external_libs,
         stack_checks=stack_checks,
+        symbolic_caller=symbolic_caller,
     )
     new_node_ids = []
     bounded_node_ids = []
@@ -995,10 +1002,11 @@ def _init_cterm(
     storage_fields: tuple[StorageField, ...],
     method: Contract.Method | Contract.Constructor,
     config_type: ConfigType,
-    active_symbolik: bool,
+    active_simbolik: bool,
     evm_chain_options: EVMChainOptions,
     additional_accounts: list[KInner],
     stack_checks: bool,
+    symbolic_caller: bool,
     *,
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
@@ -1052,13 +1060,17 @@ def _init_cterm(
 
     storage_constraints: list[KApply] = []
 
-    if config_type == ConfigType.TEST_CONFIG or active_symbolik:
+    if config_type == ConfigType.TEST_CONFIG or active_simbolik:
         init_account_list = _create_initial_account_list(contract_code, additional_accounts, recorded_state_entries)
+        origin_id = Foundry.address_DEFAULT_CALLER() if not symbolic_caller else init_subst['ORIGIN_CELL']
+        caller_id = Foundry.address_DEFAULT_CALLER() if not symbolic_caller else init_subst['CALLER_CELL']
         init_subst_test = {
             'OUTPUT_CELL': bytesToken(b''),
             'CALLSTACK_CELL': list_empty(),
             'CALLDEPTH_CELL': intToken(0),
             'ID_CELL': Foundry.address_TEST_CONTRACT(),
+            'ORIGIN_CELL': origin_id,
+            'CALLER_CELL': caller_id,
             'LOG_CELL': list_empty(),
             'ACCESSEDACCOUNTS_CELL': set_empty(),
             'ACCESSEDSTORAGE_CELL': map_empty(),
@@ -1120,18 +1132,14 @@ def _init_cterm(
 
     init_term = Subst(init_subst)(empty_config)
     init_cterm = CTerm.from_kast(init_term)
-    for contract_id in [Foundry.symbolic_contract_id(contract_name), 'CALLER_ID', 'ORIGIN_ID']:
-        # The address of the executing contract, the calling contract, and the origin contract
-        # is always guaranteed to not be the address of the cheatcode contract
-        init_cterm = init_cterm.add_constraint(
-            mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
-        )
 
     for constraint in storage_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
 
-    # The calling contract is assumed to be in the present accounts for non-tests
-    if not (config_type == ConfigType.TEST_CONFIG or active_symbolik):
+    non_cheatcode_contract_ids = []
+    if not (config_type == ConfigType.TEST_CONFIG or active_simbolik):
+        non_cheatcode_contract_ids = [Foundry.symbolic_contract_id(contract_name), 'CALLER_ID', 'ORIGIN_ID']
+        # The calling contract is assumed to be in the present accounts for non-tests
         init_cterm.add_constraint(
             mlEqualsTrue(
                 KApply(
@@ -1139,6 +1147,15 @@ def _init_cterm(
                     [KVariable('CALLER_ID', sort=KSort('Int')), init_cterm.cell('ACCOUNTS_CELL')],
                 )
             )
+        )
+    elif symbolic_caller:
+        non_cheatcode_contract_ids = ['CALLER_ID', 'ORIGIN_ID']
+
+    for contract_id in non_cheatcode_contract_ids:
+        # The address of the executing contract, the calling contract, and the origin contract
+        # are always guaranteed to not be the address of the cheatcode contract
+        init_cterm = init_cterm.add_constraint(
+            mlEqualsFalse(KApply('_==Int_', [KVariable(contract_id, sort=KSort('Int')), Foundry.address_CHEATCODE()]))
         )
 
     if isinstance(method, Contract.Constructor) and len(arg_constraints) > 0:

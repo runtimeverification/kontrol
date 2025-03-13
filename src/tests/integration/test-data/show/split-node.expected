@@ -693,7 +693,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\n\x92T\xe4"
@@ -740,7 +740,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -923,20 +923,11 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_PRANKTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-1-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -976,7 +967,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"h\xc6\xc8\x93" +Bytes #buf ( 32 , ?KV0_addr:Int ) )
@@ -1023,7 +1014,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1186,20 +1177,11 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_PRANKTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               ))))
        ensures ( 0 <=Int ?KV0_addr:Int
        andBool ( ?KV0_addr:Int <Int pow160
                ))
@@ -1241,7 +1223,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -1288,7 +1270,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1452,20 +1434,12 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))
+               ))))))
       [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
@@ -1507,7 +1481,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -1554,7 +1528,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1718,20 +1692,12 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))
+               ))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-75-TO-76]: <foundry>
@@ -1775,7 +1741,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -1822,7 +1788,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1986,23 +1952,15 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))
+               )))))))))
       [priority(20), label(BASIC-BLOCK-75-TO-76)]
     
     rule [BASIC-BLOCK-77-TO-81]: <foundry>
@@ -2044,7 +2002,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -2091,7 +2049,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2187,7 +2145,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( _PREVCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
                </prevCaller>
                <prevOrigin>
-                 ( _PREVORIGIN_CELL:Account => ORIGIN_ID:Int )
+                 ( _PREVORIGIN_CELL:Account => 137122462167341575662000267002353578582749290296 )
                </prevOrigin>
                <newCaller>
                  ( _NEWCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
@@ -2269,22 +2227,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-77-TO-81)]
     
     rule [BASIC-BLOCK-78-TO-82]: <foundry>
@@ -2327,7 +2277,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( 728815563385977040452943777879061427756277306518 => 645326474426547203313410069153905908525362434349 )
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -2374,7 +2324,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2470,7 +2420,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( _PREVCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
                </prevCaller>
                <prevOrigin>
-                 ( _PREVORIGIN_CELL:Account => ORIGIN_ID:Int )
+                 ( _PREVORIGIN_CELL:Account => 137122462167341575662000267002353578582749290296 )
                </prevOrigin>
                <newCaller>
                  ( _NEWCALLER_CELL:Account => 645326474426547203313410069153905908525362434349 )
@@ -2552,22 +2502,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-78-TO-82)]
     
     rule [BASIC-BLOCK-79-TO-83]: <foundry>
@@ -2610,7 +2552,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -2657,7 +2599,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2753,7 +2695,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( _PREVCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
                </prevCaller>
                <prevOrigin>
-                 ( _PREVORIGIN_CELL:Account => ORIGIN_ID:Int )
+                 ( _PREVORIGIN_CELL:Account => 137122462167341575662000267002353578582749290296 )
                </prevOrigin>
                <newCaller>
                  ( _NEWCALLER_CELL:Account => 491460923342184218035706888008750043977755113263 )
@@ -2835,22 +2777,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-79-TO-83)]
     
     rule [BASIC-BLOCK-80-TO-84]: <foundry>
@@ -2894,7 +2828,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( 728815563385977040452943777879061427756277306518 => KV0_addr:Int )
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -2941,7 +2875,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3078,7 +3012,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( _PREVCALLER_CELL:Account => 728815563385977040452943777879061427756277306518 )
                </prevCaller>
                <prevOrigin>
-                 ( _PREVORIGIN_CELL:Account => ORIGIN_ID:Int )
+                 ( _PREVORIGIN_CELL:Account => 137122462167341575662000267002353578582749290296 )
                </prevOrigin>
                <newCaller>
                  ( _NEWCALLER_CELL:Account => KV0_addr:Int )
@@ -3160,26 +3094,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-80-TO-84)]
     
     rule [BASIC-BLOCK-81-TO-85]: <foundry>
@@ -3221,7 +3147,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -3268,7 +3194,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3364,7 +3290,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  728815563385977040452943777879061427756277306518
@@ -3446,22 +3372,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-81-TO-85)]
     
     rule [BASIC-BLOCK-82-TO-86]: <foundry>
@@ -3504,7 +3422,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      645326474426547203313410069153905908525362434349
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -3551,7 +3469,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3647,7 +3565,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  645326474426547203313410069153905908525362434349
@@ -3729,22 +3647,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-82-TO-86)]
     
     rule [BASIC-BLOCK-83-TO-87]: <foundry>
@@ -3787,7 +3697,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      491460923342184218035706888008750043977755113263
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -3834,7 +3744,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3930,7 +3840,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  491460923342184218035706888008750043977755113263
@@ -4012,22 +3922,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-83-TO-87)]
     
     rule [BASIC-BLOCK-84-TO-88]: <foundry>
@@ -4070,7 +3972,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      KV0_addr:Int
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -4117,7 +4019,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -4234,7 +4136,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  KV0_addr:Int
@@ -4316,26 +4218,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-84-TO-88)]
     
     rule [BASIC-BLOCK-85-TO-89]: <foundry>
@@ -4370,7 +4264,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -4493,7 +4387,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
-                     ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
+                     ( 137122462167341575662000267002353578582749290296 => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
                      ( b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96" => b"\xd77\xd0\xc7" )
@@ -4542,7 +4436,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -4638,7 +4532,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  728815563385977040452943777879061427756277306518
@@ -4720,22 +4614,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-85-TO-89)]
     
     rule [BASIC-BLOCK-86-TO-90]: <foundry>
@@ -4771,7 +4657,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        645326474426547203313410069153905908525362434349
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -4894,7 +4780,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
-                     ( CALLER_ID:Int => 645326474426547203313410069153905908525362434349 )
+                     ( 137122462167341575662000267002353578582749290296 => 645326474426547203313410069153905908525362434349 )
                    </caller>
                    <callData>
                      ( b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-" => b"\xd77\xd0\xc7" )
@@ -4943,7 +4829,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -5039,7 +4925,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  645326474426547203313410069153905908525362434349
@@ -5121,22 +5007,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-86-TO-90)]
     
     rule [BASIC-BLOCK-87-TO-91]: <foundry>
@@ -5172,7 +5050,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        491460923342184218035706888008750043977755113263
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -5295,7 +5173,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      491460923342184218035706888008750043977755113263
                    </id>
                    <caller>
-                     ( CALLER_ID:Int => 491460923342184218035706888008750043977755113263 )
+                     ( 137122462167341575662000267002353578582749290296 => 491460923342184218035706888008750043977755113263 )
                    </caller>
                    <callData>
                      ( b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/" => b"\xd77\xd0\xc7" )
@@ -5344,7 +5222,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -5440,7 +5318,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  491460923342184218035706888008750043977755113263
@@ -5522,22 +5400,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-87-TO-91)]
     
     rule [BASIC-BLOCK-88-TO-92]: <foundry>
@@ -5573,7 +5443,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        KV0_addr:Int
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -5717,7 +5587,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( KV0_addr:Int => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
-                     ( CALLER_ID:Int => KV0_addr:Int )
+                     ( 137122462167341575662000267002353578582749290296 => KV0_addr:Int )
                    </caller>
                    <callData>
                      ( b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int ) => b"\xd77\xd0\xc7" )
@@ -5766,7 +5636,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -5883,7 +5753,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  KV0_addr:Int
@@ -5965,26 +5835,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-88-TO-92)]
     
     rule [BASIC-BLOCK-89-TO-93]: <foundry>
@@ -6017,7 +5879,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -6189,7 +6051,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -6285,7 +6147,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  728815563385977040452943777879061427756277306518
@@ -6367,22 +6229,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-89-TO-93)]
     
     rule [BASIC-BLOCK-90-TO-94]: <foundry>
@@ -6416,7 +6270,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        645326474426547203313410069153905908525362434349
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -6588,7 +6442,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -6684,7 +6538,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  645326474426547203313410069153905908525362434349
@@ -6766,22 +6620,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-90-TO-94)]
     
     rule [BASIC-BLOCK-91-TO-95]: <foundry>
@@ -6815,7 +6661,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        491460923342184218035706888008750043977755113263
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -6987,7 +6833,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -7083,7 +6929,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  491460923342184218035706888008750043977755113263
@@ -7165,22 +7011,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-91-TO-95)]
     
     rule [BASIC-BLOCK-92-TO-96]: <foundry>
@@ -7214,7 +7052,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        KV0_addr:Int
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -7407,7 +7245,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -7524,7 +7362,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  KV0_addr:Int
@@ -7606,26 +7444,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-92-TO-96)]
     
     rule [BASIC-BLOCK-93-TO-97]: <foundry>
@@ -7659,7 +7489,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -7831,7 +7661,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -7927,7 +7757,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  728815563385977040452943777879061427756277306518
@@ -8009,22 +7839,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-93-TO-97)]
     
     rule [BASIC-BLOCK-94-TO-98]: <foundry>
@@ -8059,7 +7881,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        645326474426547203313410069153905908525362434349
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -8231,7 +8053,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -8327,7 +8149,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  645326474426547203313410069153905908525362434349
@@ -8409,22 +8231,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-94-TO-98)]
     
     rule [BASIC-BLOCK-95-TO-99]: <foundry>
@@ -8459,7 +8273,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        491460923342184218035706888008750043977755113263
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -8631,7 +8445,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -8727,7 +8541,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  491460923342184218035706888008750043977755113263
@@ -8809,22 +8623,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-95-TO-99)]
     
     rule [BASIC-BLOCK-96-TO-100]: <foundry>
@@ -8859,7 +8665,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        KV0_addr:Int
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -9052,7 +8858,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -9169,7 +8975,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  KV0_addr:Int
@@ -9251,26 +9057,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-96-TO-100)]
     
     rule [BASIC-BLOCK-97-TO-101]: <foundry>
@@ -9307,7 +9105,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -9479,7 +9277,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -9575,7 +9373,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  728815563385977040452943777879061427756277306518
@@ -9657,22 +9455,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-97-TO-101)]
     
     rule [BASIC-BLOCK-98-TO-102]: <foundry>
@@ -9710,7 +9500,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        645326474426547203313410069153905908525362434349
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -9882,7 +9672,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -9978,7 +9768,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  645326474426547203313410069153905908525362434349
@@ -10060,22 +9850,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-98-TO-102)]
     
     rule [BASIC-BLOCK-99-TO-103]: <foundry>
@@ -10113,7 +9895,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        491460923342184218035706888008750043977755113263
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -10285,7 +10067,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -10381,7 +10163,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  491460923342184218035706888008750043977755113263
@@ -10463,22 +10245,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-99-TO-103)]
     
     rule [BASIC-BLOCK-100-TO-104]: <foundry>
@@ -10516,7 +10290,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        KV0_addr:Int
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -10709,7 +10483,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -10826,7 +10600,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  KV0_addr:Int
@@ -10908,26 +10682,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-100-TO-104)]
     
     rule [BASIC-BLOCK-101-TO-105]: <foundry>
@@ -10964,7 +10730,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -11136,7 +10902,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -11232,7 +10998,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  728815563385977040452943777879061427756277306518
@@ -11314,22 +11080,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-101-TO-105)]
     
     rule [BASIC-BLOCK-102-TO-106]: <foundry>
@@ -11367,7 +11125,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        645326474426547203313410069153905908525362434349
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -11539,7 +11297,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -11635,7 +11393,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  645326474426547203313410069153905908525362434349
@@ -11717,22 +11475,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-102-TO-106)]
     
     rule [BASIC-BLOCK-103-TO-107]: <foundry>
@@ -11770,7 +11520,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        491460923342184218035706888008750043977755113263
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -11942,7 +11692,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -12038,7 +11788,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  491460923342184218035706888008750043977755113263
@@ -12120,22 +11870,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-103-TO-107)]
     
     rule [BASIC-BLOCK-104-TO-108]: <foundry>
@@ -12173,7 +11915,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        KV0_addr:Int
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -12366,7 +12108,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -12483,7 +12225,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  KV0_addr:Int
@@ -12565,26 +12307,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-104-TO-108)]
     
     rule [BASIC-BLOCK-105-TO-109]: <foundry>
@@ -12624,7 +12358,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -12796,7 +12530,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -12892,7 +12626,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  728815563385977040452943777879061427756277306518
@@ -12974,22 +12708,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-105-TO-109)]
     
     rule [BASIC-BLOCK-106-TO-110]: <foundry>
@@ -13030,7 +12756,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        645326474426547203313410069153905908525362434349
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -13202,7 +12928,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -13298,7 +13024,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  645326474426547203313410069153905908525362434349
@@ -13380,22 +13106,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-106-TO-110)]
     
     rule [BASIC-BLOCK-107-TO-111]: <foundry>
@@ -13436,7 +13154,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        491460923342184218035706888008750043977755113263
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -13608,7 +13326,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -13704,7 +13422,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  491460923342184218035706888008750043977755113263
@@ -13786,22 +13504,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-107-TO-111)]
     
     rule [BASIC-BLOCK-108-TO-112]: <foundry>
@@ -13842,7 +13552,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        KV0_addr:Int
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -14035,7 +13745,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -14152,7 +13862,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  KV0_addr:Int
@@ -14234,26 +13944,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-108-TO-112)]
     
     rule [BASIC-BLOCK-109-TO-113]: <foundry>
@@ -14293,7 +13995,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -14416,7 +14118,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
+                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"\xd77\xd0\xc7" => b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96" )
@@ -14465,7 +14167,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -14561,7 +14263,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  728815563385977040452943777879061427756277306518
@@ -14643,22 +14345,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-109-TO-113)]
     
     rule [BASIC-BLOCK-110-TO-114]: <foundry>
@@ -14699,7 +14393,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        645326474426547203313410069153905908525362434349
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -14822,7 +14516,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( 645326474426547203313410069153905908525362434349 => CALLER_ID:Int )
+                     ( 645326474426547203313410069153905908525362434349 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"\xd77\xd0\xc7" => b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-" )
@@ -14871,7 +14565,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -14967,7 +14661,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  645326474426547203313410069153905908525362434349
@@ -15049,22 +14743,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-110-TO-114)]
     
     rule [BASIC-BLOCK-111-TO-115]: <foundry>
@@ -15105,7 +14791,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        491460923342184218035706888008750043977755113263
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -15228,7 +14914,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( 491460923342184218035706888008750043977755113263 => CALLER_ID:Int )
+                     ( 491460923342184218035706888008750043977755113263 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"\xd77\xd0\xc7" => b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/" )
@@ -15277,7 +14963,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -15373,7 +15059,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  491460923342184218035706888008750043977755113263
@@ -15455,22 +15141,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-111-TO-115)]
     
     rule [BASIC-BLOCK-112-TO-116]: <foundry>
@@ -15511,7 +15189,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                        KV0_addr:Int
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -15655,7 +15333,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( KV0_addr:Int => CALLER_ID:Int )
+                     ( KV0_addr:Int => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"\xd77\xd0\xc7" => b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int ) )
@@ -15704,7 +15382,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -15821,7 +15499,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  KV0_addr:Int
@@ -15903,26 +15581,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-112-TO-116)]
     
     rule [BASIC-BLOCK-113-TO-117]: <foundry>
@@ -15967,7 +15637,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -16014,7 +15684,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -16110,7 +15780,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  728815563385977040452943777879061427756277306518
@@ -16192,22 +15862,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-113-TO-117)]
     
     rule [BASIC-BLOCK-114-TO-118]: <foundry>
@@ -16252,7 +15914,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -16299,7 +15961,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -16395,7 +16057,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  645326474426547203313410069153905908525362434349
@@ -16477,22 +16139,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-114-TO-118)]
     
     rule [BASIC-BLOCK-115-TO-119]: <foundry>
@@ -16537,7 +16191,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -16584,7 +16238,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -16680,7 +16334,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  491460923342184218035706888008750043977755113263
@@ -16762,22 +16416,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-115-TO-119)]
     
     rule [BASIC-BLOCK-116-TO-120]: <foundry>
@@ -16822,7 +16468,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -16869,7 +16515,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -16986,7 +16632,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  728815563385977040452943777879061427756277306518
                </prevCaller>
                <prevOrigin>
-                 ORIGIN_ID:Int
+                 137122462167341575662000267002353578582749290296
                </prevOrigin>
                <newCaller>
                  KV0_addr:Int
@@ -17068,26 +16714,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-116-TO-120)]
     
     rule [BASIC-BLOCK-117-TO-121]: <foundry>
@@ -17133,7 +16771,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -17180,7 +16818,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -17276,7 +16914,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( 728815563385977040452943777879061427756277306518 => .Account )
                </prevCaller>
                <prevOrigin>
-                 ( ORIGIN_ID:Int => .Account )
+                 ( 137122462167341575662000267002353578582749290296 => .Account )
                </prevOrigin>
                <newCaller>
                  ( 728815563385977040452943777879061427756277306518 => .Account )
@@ -17358,22 +16996,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-117-TO-121)]
     
     rule [BASIC-BLOCK-118-TO-122]: <foundry>
@@ -17419,7 +17049,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -17466,7 +17096,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -17562,7 +17192,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( 728815563385977040452943777879061427756277306518 => .Account )
                </prevCaller>
                <prevOrigin>
-                 ( ORIGIN_ID:Int => .Account )
+                 ( 137122462167341575662000267002353578582749290296 => .Account )
                </prevOrigin>
                <newCaller>
                  ( 645326474426547203313410069153905908525362434349 => .Account )
@@ -17644,22 +17274,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-118-TO-122)]
     
     rule [BASIC-BLOCK-119-TO-123]: <foundry>
@@ -17705,7 +17327,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -17752,7 +17374,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -17848,7 +17470,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( 728815563385977040452943777879061427756277306518 => .Account )
                </prevCaller>
                <prevOrigin>
-                 ( ORIGIN_ID:Int => .Account )
+                 ( 137122462167341575662000267002353578582749290296 => .Account )
                </prevOrigin>
                <newCaller>
                  ( 491460923342184218035706888008750043977755113263 => .Account )
@@ -17930,22 +17552,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-119-TO-123)]
     
     rule [BASIC-BLOCK-120-TO-124]: <foundry>
@@ -17991,7 +17605,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -18038,7 +17652,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -18155,7 +17769,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                  ( 728815563385977040452943777879061427756277306518 => .Account )
                </prevCaller>
                <prevOrigin>
-                 ( ORIGIN_ID:Int => .Account )
+                 ( 137122462167341575662000267002353578582749290296 => .Account )
                </prevOrigin>
                <newCaller>
                  ( KV0_addr:Int => .Account )
@@ -18237,26 +17851,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-120-TO-124)]
     
     rule [BASIC-BLOCK-121-TO-125]: <foundry>
@@ -18298,7 +17904,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -18345,7 +17951,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -18523,22 +18129,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-121-TO-125)]
     
     rule [BASIC-BLOCK-122-TO-126]: <foundry>
@@ -18580,7 +18178,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -18627,7 +18225,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -18805,22 +18403,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-122-TO-126)]
     
     rule [BASIC-BLOCK-123-TO-127]: <foundry>
@@ -18862,7 +18452,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -18909,7 +18499,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -19087,22 +18677,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-123-TO-127)]
     
     rule [BASIC-BLOCK-124-TO-128]: <foundry>
@@ -19144,7 +18726,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -19191,7 +18773,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -19390,26 +18972,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-124-TO-128)]
     
     rule [BASIC-BLOCK-125-TO-129]: <foundry>
@@ -19451,7 +19025,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7f\xa98[\xe1\x02\xac>\xac)t\x83\xddb3\xd6+>\x14\x96"
@@ -19498,7 +19072,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -19676,22 +19250,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 728815563385977040452943777879061427756277306518
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-125-TO-129)]
     
     rule [BASIC-BLOCK-126-TO-130]: <foundry>
@@ -19733,7 +19299,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00q\tp\x9e\xcf\xa9\x1a\x80bo\xf3\x98\x9dh\xf6\x7f[\x1d\xd1-"
@@ -19780,7 +19346,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -19958,22 +19524,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-126-TO-130)]
     
     rule [BASIC-BLOCK-127-TO-131]: <foundry>
@@ -20015,7 +19573,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00V\x15\xde\xb7\x98\xbb>M\xfa\x019\xdf\xa1\xb3\xd43\xcc#\xb7/"
@@ -20062,7 +19620,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -20240,22 +19798,14 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( _KV0_addr:Int ==Int 491460923342184218035706888008750043977755113263
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-127-TO-131)]
     
     rule [BASIC-BLOCK-128-TO-132]: <foundry>
@@ -20297,7 +19847,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"h\xc6\xc8\x93" +Bytes #buf ( 32 , KV0_addr:Int )
@@ -20344,7 +19894,7 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -20543,26 +20093,18 @@ module SUMMARY-TEST%PRANKTEST.TESTSYMBOLICSTARTPRANK(ADDRESS):0
            </KEVMTracing>
          </foundry>
       requires ( 0 <=Int KV0_addr:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( KV0_addr:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_addr:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( KV0_addr:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_addr:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 491460923342184218035706888008750043977755113263
        andBool ( VV0_addr_114b9705:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( VV0_addr_114b9705:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-128-TO-132)]
 
 endmodule
