@@ -214,7 +214,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ubuntu-latest, macos-13, MacM1]  # MacM1 is self-hosted
+        runner: [normal, macos-13, MacM1]  # MacM1 / normal are self-hosted, 
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 60
     steps:
