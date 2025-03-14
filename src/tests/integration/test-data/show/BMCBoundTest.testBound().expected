@@ -270,7 +270,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\n\x92T\xe4"
@@ -317,7 +317,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -459,20 +459,11 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               ))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow256
                ))
@@ -517,7 +508,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\n\x92T\xe4"
@@ -564,7 +555,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -708,21 +699,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
          </foundry>
       requires ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 0
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               )))))))
       [priority(20), label(BASIC-BLOCK-4-TO-6)]
     
     rule [BASIC-BLOCK-20-TO-10]: <foundry>
@@ -764,7 +746,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\n\x92T\xe4"
@@ -811,7 +793,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -956,21 +938,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
       requires ( 0 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 1
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-20-TO-10)]
     
     rule [BASIC-BLOCK-26-TO-14]: <foundry>
@@ -1012,7 +985,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\n\x92T\xe4"
@@ -1059,7 +1032,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1205,21 +1178,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 2
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))
+               )))))))))
       [priority(20), label(BASIC-BLOCK-26-TO-14)]
     
     rule [BASIC-BLOCK-30-TO-18]: <foundry>
@@ -1261,7 +1225,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\n\x92T\xe4"
@@ -1308,7 +1272,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1455,21 +1419,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 2 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 3
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-30-TO-18)]
     
     rule [BASIC-BLOCK-31-TO-19]: <foundry>
@@ -1508,7 +1463,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\n\x92T\xe4"
@@ -1555,7 +1510,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1702,21 +1657,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 2 <Int ?WORD:Int
        andBool ( 3 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-31-TO-19)]
     
     rule [BASIC-BLOCK-6-TO-32]: <foundry>
@@ -1756,7 +1702,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"\xfd*\xea\x04" )
@@ -1803,7 +1749,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1947,21 +1893,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
          </foundry>
       requires ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 0
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               )))))))
       [priority(20), label(BASIC-BLOCK-6-TO-32)]
     
     rule [BASIC-BLOCK-10-TO-33]: <foundry>
@@ -2001,7 +1938,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"\xfd*\xea\x04" )
@@ -2048,7 +1985,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2193,21 +2130,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
       requires ( 0 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 1
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-10-TO-33)]
     
     rule [BASIC-BLOCK-14-TO-34]: <foundry>
@@ -2247,7 +2175,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"\xfd*\xea\x04" )
@@ -2294,7 +2222,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2440,21 +2368,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 2
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))
+               )))))))))
       [priority(20), label(BASIC-BLOCK-14-TO-34)]
     
     rule [BASIC-BLOCK-18-TO-35]: <foundry>
@@ -2494,7 +2413,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"\xfd*\xea\x04" )
@@ -2541,7 +2460,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2688,21 +2607,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 2 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 3
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_BMCBOUNDTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-18-TO-35)]
     
     rule [BASIC-BLOCK-32-TO-37]: <foundry>
@@ -2742,7 +2652,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\xfd*\xea\x04"
@@ -2789,7 +2699,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2933,20 +2843,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
          </foundry>
       requires ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 0
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))
+               )))))))
       [priority(20), label(BASIC-BLOCK-32-TO-37)]
     
     rule [BASIC-BLOCK-33-TO-38]: <foundry>
@@ -2986,7 +2888,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\xfd*\xea\x04"
@@ -3033,7 +2935,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3178,20 +3080,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
       requires ( 0 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 1
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))
+               ))))))))
       [priority(20), label(BASIC-BLOCK-33-TO-38)]
     
     rule [BASIC-BLOCK-34-TO-39]: <foundry>
@@ -3231,7 +3125,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\xfd*\xea\x04"
@@ -3278,7 +3172,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3424,20 +3318,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 1 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 2
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))
+               )))))))))
       [priority(20), label(BASIC-BLOCK-34-TO-39)]
     
     rule [BASIC-BLOCK-35-TO-40]: <foundry>
@@ -3477,7 +3363,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\xfd*\xea\x04"
@@ -3524,7 +3410,7 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3671,20 +3557,12 @@ module SUMMARY-TEST%BMCBOUNDTEST.TESTBOUND():0
        andBool ( 2 <Int ?WORD:Int
        andBool ( 0 <=Int ?WORD:Int
        andBool ( ?WORD:Int <=Int 3
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-35-TO-40)]
 
 endmodule

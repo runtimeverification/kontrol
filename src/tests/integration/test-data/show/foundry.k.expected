@@ -54,6 +54,7 @@ module FOUNDRY-MAIN
     imports public S2KtestZModCounter-VERIFICATION
     imports public S2KtestZModCounterTest-VERIFICATION
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
+    imports public S2KtestZModArrayStructContract-VERIFICATION
     imports public S2KtestZModDynamicTypesTest-VERIFICATION
     imports public S2KsrcZModExpectEmit-VERIFICATION
     imports public S2KtestZModEmitContractTest-VERIFICATION
@@ -501,6 +502,13 @@ endmodule
 
 module S2KsrcZModduplicatesZMod1ZModDuplicateName-VERIFICATION
     imports public S2KsrcZModduplicatesZMod1ZModDuplicateName-CONTRACT
+    
+    
+
+endmodule
+
+module S2KtestZModArrayStructContract-VERIFICATION
+    imports public S2KtestZModArrayStructContract-CONTRACT
     
     
 

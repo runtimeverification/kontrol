@@ -692,6 +692,10 @@ class Foundry:
     def address_CHEATCODE() -> KToken:  # noqa: N802
         return intToken(0x7109709ECFA91A80626FF3989D68F67F5B1DD12D)
 
+    @staticmethod
+    def address_DEFAULT_CALLER() -> KToken:  # noqa: N802
+        return intToken(0x1804C8AB1F12E6BBF3894D4083F33E07309D1F38)
+
     # Same address as the one used in DappTools's HEVM
     # address(bytes20(uint160(uint256(keccak256('hevm cheat code')))))
     @staticmethod

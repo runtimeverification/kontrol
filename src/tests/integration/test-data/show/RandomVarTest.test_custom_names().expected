@@ -10,7 +10,7 @@
 │  (369 steps)
 ├─ 3
 │   k: #rename ( ?WORD:Int , "BOOLEAN" ) ~> #cheatcode_return 128 32 ~> #pc [ STATICCAL ...
-│   pc: 2946
+│   pc: 2955
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:58:58
@@ -19,7 +19,7 @@
 │  (1 step)
 ├─ 4
 │   k: #cheatcode_return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 2946
+│   pc: 2955
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:58:58
@@ -28,7 +28,7 @@
 │  (454 steps)
 ├─ 5
 │   k: #rename ( ?WORD:Int , "BOOLEAN" ) ~> #cheatcode_return 160 32 ~> #pc [ STATICCAL ...
-│   pc: 3081
+│   pc: 3090
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:59:59
@@ -37,7 +37,7 @@
 │  (1 step)
 ├─ 6
 │   k: #cheatcode_return 160 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 3081
+│   pc: 3090
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:59:59
@@ -46,7 +46,7 @@
 │  (1000 steps)
 ├─ 7
 │   k: #execute ~> CONTINUATION:K
-│   pc: 6967
+│   pc: 6976
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%RandomVarTest.test_custom_names()
@@ -54,7 +54,7 @@
 │  (251 steps)
 ├─ 8
 │   k: #rename ( ?WORD:Int , "NEW_SLOT" ) ~> #cheatcode_return 256 32 ~> #pc [ STATICCA ...
-│   pc: 5597
+│   pc: 5606
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:277:277
@@ -63,7 +63,7 @@
 │  (1 step)
 ├─ 9
 │   k: #cheatcode_return 256 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 5597
+│   pc: 5606
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:277:277
@@ -72,7 +72,7 @@
 │  (450 steps)
 ├─ 10
 │   k: #rename ( ?WORD:Int , "NEW_ACCOUNT" ) ~> #cheatcode_return 288 32 ~> #pc [ STATI ...
-│   pc: 3445
+│   pc: 3454
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:63:63
@@ -81,7 +81,7 @@
 │  (1 step)
 ├─ 11
 │   k: #cheatcode_return 288 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 3445
+│   pc: 3454
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:63:63
@@ -90,7 +90,7 @@
 │  (551 steps)
 ├─ 12
 │   k: #rename ( ?STORAGE:Map , "NEW_ACCOUNT_STORAGE" ) ~> #cheatcode_return 320 0 ~> # ...
-│   pc: 3621
+│   pc: 3630
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:64:64
@@ -99,7 +99,7 @@
 │  (1 step)
 ├─ 13
 │   k: #cheatcode_return 320 0 ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 3621
+│   pc: 3630
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:64:64
@@ -108,7 +108,7 @@
 │  (261 steps)
 ├─ 14
 │   k: #rename ( ?BYTES:Bytes , "NEW_BYTES" ) ~> #cheatcode_return 320 0 ~> #pc [ STATI ...
-│   pc: 3731
+│   pc: 3740
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:65:65
@@ -117,7 +117,7 @@
 │  (1 step)
 ├─ 15
 │   k: #cheatcode_return 320 0 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 3731
+│   pc: 3740
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:65:65
@@ -126,7 +126,7 @@
 │  (1000 steps)
 ├─ 16
 │   k: POP 1 ~> #pc [ POP ] ~> #execute ~> CONTINUATION:K
-│   pc: 3919
+│   pc: 3928
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/RandomVar.t.sol:57:67
@@ -194,7 +194,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -241,7 +241,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -383,20 +383,11 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               ))))
        ensures ( ??WORD:Int <Int 2
        andBool ( 0 <=Int ??WORD:Int
                ))
@@ -439,7 +430,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -486,7 +477,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -630,20 +621,11 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
          </foundry>
       requires ( ?WORD:Int <Int 2
        andBool ( 0 <=Int ?WORD:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))
+               ))))))
        ensures ( ?BOOLEAN:Int <Int 2
        andBool ( 0 <=Int ?BOOLEAN:Int
                ))
@@ -686,7 +668,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -733,7 +715,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -877,20 +859,11 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
          </foundry>
       requires ( BOOLEAN:Int <Int 2
        andBool ( 0 <=Int BOOLEAN:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))
+               ))))))
        ensures ( ??WORD:Int <Int 2
        andBool ( 0 <=Int ??WORD:Int
                ))
@@ -933,7 +906,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -980,7 +953,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1126,20 +1099,11 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( 0 <=Int ?WORD:Int
        andBool ( BOOLEAN:Int <Int 2
        andBool ( 0 <=Int BOOLEAN:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))
+               ))))))))
        ensures ( ?BOOLEAN_0:Int <Int 2
        andBool ( 0 <=Int ?BOOLEAN_0:Int
                ))
@@ -1181,7 +1145,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -1190,7 +1154,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 260 => 0 ) : ( ( selector ( "freshBool(string)" ) => 260 ) : ( ( 645326474426547203313410069153905908525362434349 => 192 ) : ( ( 0 => 32 ) : ( ( BOOLEAN:Int => 5585 ) : ( ( 370 => selector ( "freshUInt(uint8,string)" ) ) : ( ( selector ( "test_custom_names()" ) => 645326474426547203313410069153905908525362434349 ) : ( .WordStack => ( 0 : ( 192 : ( 3357 : ( 0 : ( 0 : ( 1 : ( 370 : ( selector ( "test_custom_names()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+                     ( ( 260 => 0 ) : ( ( selector ( "freshBool(string)" ) => 260 ) : ( ( 645326474426547203313410069153905908525362434349 => 192 ) : ( ( 0 => 32 ) : ( ( BOOLEAN:Int => 5594 ) : ( ( 370 => selector ( "freshUInt(uint8,string)" ) ) : ( ( selector ( "test_custom_names()" ) => 645326474426547203313410069153905908525362434349 ) : ( .WordStack => ( 0 : ( 192 : ( 3366 : ( 0 : ( 0 : ( 1 : ( 370 : ( selector ( "test_custom_names()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , BOOLEAN:Int ) +Bytes b"\x1fUw\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x07BOOLEAN\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" )
@@ -1228,7 +1192,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1374,20 +1338,11 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( 0 <=Int BOOLEAN:Int
        andBool ( BOOLEAN_0:Int <Int 2
        andBool ( 0 <=Int BOOLEAN_0:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))
+               ))))))))
        ensures ( BOOLEAN:Int ==Int 1
        andBool ( BOOLEAN_0:Int ==Int 0
                ))
@@ -1430,7 +1385,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -1439,7 +1394,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 388 ) : ( ( 260 => selector ( "freshUInt(uint8,string)" ) ) : ( ( 192 => 645326474426547203313410069153905908525362434349 ) : ( ( 32 => 0 ) : ( ( 5585 => 192 ) : ( ( selector ( "freshUInt(uint8,string)" ) => 3357 ) : ( ( 645326474426547203313410069153905908525362434349 => 0 ) : ( 0 : ( ( 192 => 1 ) : ( ( 3357 => 370 ) : ( ( 0 => selector ( "test_custom_names()" ) ) : ( ( 0 : ( 1 : ( 370 : ( selector ( "test_custom_names()" ) : .WordStack ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( ( 0 => 388 ) : ( ( 260 => selector ( "freshUInt(uint8,string)" ) ) : ( ( 192 => 645326474426547203313410069153905908525362434349 ) : ( ( 32 => 0 ) : ( ( 5594 => 192 ) : ( ( selector ( "freshUInt(uint8,string)" ) => 3366 ) : ( ( 645326474426547203313410069153905908525362434349 => 0 ) : ( 0 : ( ( 192 => 1 ) : ( ( 3366 => 370 ) : ( ( 0 => selector ( "test_custom_names()" ) ) : ( ( 0 : ( 1 : ( 370 : ( selector ( "test_custom_names()" ) : .WordStack ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -1477,7 +1432,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1621,20 +1576,11 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
          </foundry>
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))
+               ))))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow256
                ))
@@ -1677,7 +1623,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -1686,7 +1632,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 388 : ( selector ( "freshUInt(uint8,string)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 192 : ( 3357 : ( 0 : ( 0 : ( 1 : ( 370 : ( selector ( "test_custom_names()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
+                     ( 388 : ( selector ( "freshUInt(uint8,string)" ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( 192 : ( 3366 : ( 0 : ( 0 : ( 1 : ( 370 : ( selector ( "test_custom_names()" ) : .WordStack ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -1724,7 +1670,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1869,21 +1815,12 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int ?WORD:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( ?WORD:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))
+               ))))))))
        ensures ( 0 <=Int ?NEW_SLOT:Int
        andBool ( ?NEW_SLOT:Int <Int pow256
                ))
@@ -1926,7 +1863,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -1935,7 +1872,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 388 : ( ( selector ( "freshUInt(uint8,string)" ) => selector ( "freshAddress(string)" ) ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( ( 192 => NEW_SLOT:Int ) : ( ( 3357 => 0 ) : ( ( 0 => 1 ) : ( ( 0 => 370 ) : ( ( 1 => selector ( "test_custom_names()" ) ) : ( ( 370 : ( selector ( "test_custom_names()" ) : .WordStack ) ) => .WordStack ) ) ) ) ) ) ) ) ) )
+                     ( 388 : ( ( selector ( "freshUInt(uint8,string)" ) => selector ( "freshAddress(string)" ) ) : ( 645326474426547203313410069153905908525362434349 : ( 0 : ( ( 192 => NEW_SLOT:Int ) : ( ( 3366 => 0 ) : ( ( 0 => 1 ) : ( ( 0 => 370 ) : ( ( 1 => selector ( "test_custom_names()" ) ) : ( ( 370 : ( selector ( "test_custom_names()" ) : .WordStack ) ) => .WordStack ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00[?\xdf\t\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08NEW_SLOT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , NEW_SLOT:Int ) +Bytes b"G\xa6\\{\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0bNEW_ACCOUNT\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -1973,7 +1910,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2118,21 +2055,12 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))
+               ))))))))
        ensures ( 0 <=Int ??WORD:Int
        andBool ( ??WORD:Int <Int pow160
        andBool ( ??WORD:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -2177,7 +2105,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -2224,7 +2152,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2370,24 +2298,15 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int ?WORD:Int
        andBool ( 0 <=Int NEW_SLOT:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( ?WORD:Int <Int pow160
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
        andBool ( ?WORD:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ?WORD:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))))))
+               ))))))))))))
        ensures ( 0 <=Int ?NEW_ACCOUNT:Int
        andBool ( ?NEW_ACCOUNT:Int <Int pow160
        andBool ( ?NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -2433,7 +2352,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -2480,7 +2399,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2666,25 +2585,16 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
@@ -2724,7 +2634,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -2771,7 +2681,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2937,25 +2847,16 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))))))
+               ))))))))))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -2996,7 +2897,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -3043,7 +2944,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3209,25 +3110,16 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))))))
+               ))))))))))))
        ensures 32 ==Int lengthBytes ( ??BYTES:Bytes )
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
@@ -3268,7 +3160,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -3315,7 +3207,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3481,26 +3373,17 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
        andBool ( 32 ==Int lengthBytes ( ?BYTES:Bytes )
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))))
+               )))))))))))))
        ensures 32 ==Int lengthBytes ( ?NEW_BYTES:Bytes )
       [priority(20), label(BASIC-BLOCK-14-TO-15)]
     
@@ -3541,7 +3424,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -3588,7 +3471,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3754,26 +3637,17 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
        andBool ( 32 ==Int lengthBytes ( NEW_BYTES:Bytes )
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3815,7 +3689,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\x86>\xc7\xa9"
@@ -3862,7 +3736,7 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -4028,26 +3902,17 @@ module SUMMARY-TEST%RANDOMVARTEST.TEST-CUSTOM-NAMES():0
       requires ( _BOOLEAN:Int ==Int 1
        andBool ( _BOOLEAN_0:Int ==Int 0
        andBool ( 0 <=Int NEW_SLOT:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int NEW_ACCOUNT:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( NEW_ACCOUNT:Int <Int pow160
        andBool ( NEW_SLOT:Int <Int pow256
        andBool ( 32 ==Int lengthBytes ( NEW_BYTES:Bytes )
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( NEW_ACCOUNT:Int =/=Int 728815563385977040452943777879061427756277306518
-       andBool ( _C_RANDOMVARTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))))))))))))
+               )))))))))))))
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
 
 endmodule
