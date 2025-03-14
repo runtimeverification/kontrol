@@ -198,7 +198,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"\xe1\xc3j\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -323,7 +323,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
+                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -372,7 +372,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -539,22 +539,14 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))))))
+               )))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-11)]
     
     rule [BASIC-BLOCK-1-TO-7]: <foundry>
@@ -586,7 +578,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"\xe1\xc3j\x8c" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int )
@@ -711,7 +703,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      ( 728815563385977040452943777879061427756277306518 => 491460923342184218035706888008750043977755113263 )
                    </id>
                    <caller>
-                     ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
+                     ( 137122462167341575662000267002353578582749290296 => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"w\x16\x02\xf7" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) )
@@ -760,7 +752,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -946,19 +938,11 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
        ensures ( 0 <=Int ?KV0_x:Int
        andBool ( 0 <=Int ?KV1_y:Int
        andBool ( ?KV0_x:Int <Int pow256
@@ -998,7 +982,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"\xe1\xc3j\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1123,7 +1107,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
+                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1172,7 +1156,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1339,23 +1323,15 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int ( KV0_x:Int +Int KV1_y:Int )
-               ))))))))))))))))))
+               ))))))))))
        ensures ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-29-TO-15)]
     
@@ -1391,7 +1367,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"\xe1\xc3j\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1516,7 +1492,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
+                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1565,7 +1541,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1732,24 +1708,16 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( KV0_x:Int <Int KV1_y:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
-               )))))))))))))))))))
+               )))))))))))
        ensures ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
       [priority(20), label(BASIC-BLOCK-37-TO-19)]
     
@@ -1785,7 +1753,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"\xe1\xc3j\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1910,7 +1878,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
+                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1959,7 +1927,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2126,25 +2094,17 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( KV1_y:Int <=Int KV0_x:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int KV1_y:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
-               ))))))))))))))))))))
+               ))))))))))))
        ensures ( 0 <=Int ( KV0_x:Int -Int KV1_y:Int )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int pow256
@@ -2183,7 +2143,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"\xe1\xc3j\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -2308,7 +2268,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
+                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -2357,7 +2317,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2524,26 +2484,18 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( KV1_y:Int <=Int KV0_x:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV1_y:Int <=Int ( KV0_x:Int -Int KV1_y:Int )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) ) =/=Int 0
-               )))))))))))))))))))))
+               )))))))))))))
        ensures ( 0 <=Int ( KV0_x:Int -Int KV1_y:Int )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int pow256
@@ -2583,7 +2535,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"\xe1\xc3j\x8c" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -2708,7 +2660,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                      ( 491460923342184218035706888008750043977755113263 => 728815563385977040452943777879061427756277306518 )
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
+                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"w\x16\x02\xf7" => b"\xe1\xc3j\x8c" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -2757,7 +2709,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2924,26 +2876,18 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-DOUBLE-SUB(UINT256,UINT25
          </foundry>
       requires ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( KV1_y:Int <=Int KV0_x:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( KV0_x:Int <Int pow256
        andBool ( KV1_y:Int <Int pow256
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( KV1_y:Int <=Int ( KV0_x:Int -Int KV1_y:Int )
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( 0 ==Int ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) -Int ( ( KV0_x:Int -Int KV1_y:Int ) -Int KV1_y:Int ) )
-               )))))))))))))))))))))
+               )))))))))))))
        ensures ( 0 <=Int ( KV0_x:Int -Int KV1_y:Int )
        andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int pow256
        andBool ( ( KV0_x:Int -Int KV1_y:Int ) <Int pow256

@@ -186,7 +186,7 @@ Node 20:
               728815563385977040452943777879061427756277306518
             </id>
             <caller>
-              CALLER_ID:Int
+              137122462167341575662000267002353578582749290296
             </caller>
             <callData>
               b"*M\xe1\xa1"
@@ -233,7 +233,7 @@ Node 20:
             ...
           </substate>
           <origin>
-            ORIGIN_ID:Int
+            137122462167341575662000267002353578582749290296
           </origin>
           <block>
             <number>
@@ -382,18 +382,10 @@ Node 20:
   </foundry>
   ...
 </generatedTop>
-#And ( { true #Equals 0 <=Int CALLER_ID:Int }
-#And ( { true #Equals 0 <=Int ORIGIN_ID:Int }
 #And ( { true #Equals pow24 <Int NUMBER_CELL:Int }
 #And ( { true #Equals NUMBER_CELL:Int <Int pow32 }
 #And ( { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
-#And ( { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
-#And ( { true #Equals CALLER_ID:Int <Int pow160 }
-#And ( { true #Equals ORIGIN_ID:Int <Int pow160 }
-#And ( { true #Equals ( notBool CALLER_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool ORIGIN_ID:Int ==Int 645326474426547203313410069153905908525362434349 ) }
-#And ( { true #Equals ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) ) }
-#And { true #Equals ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) ) } ) ) ) ) ) ) ) ) ) ) ) )
+#And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 } ) ) ) )
 
 
 
@@ -437,7 +429,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"\n\x92T\xe4"
@@ -484,7 +476,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -626,20 +618,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-1-TO-5)]
     
     rule [BASIC-BLOCK-5-TO-6]: <foundry>
@@ -679,7 +662,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      ( b"\n\x92T\xe4" => b"*M\xe1\xa1" )
@@ -726,7 +709,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -868,20 +851,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( _C_ASSERTTEST_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               )))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-5-TO-6)]
     
     rule [BASIC-BLOCK-6-TO-8]: <foundry>
@@ -920,7 +894,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"*M\xe1\xa1"
@@ -967,7 +941,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1109,19 +1083,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-6-TO-8)]
     
     rule [BASIC-BLOCK-8-TO-9]: <foundry>
@@ -1163,7 +1129,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"*M\xe1\xa1"
@@ -1210,7 +1176,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1352,19 +1318,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-8-TO-9)]
     
     rule [BASIC-BLOCK-9-TO-10]: <foundry>
@@ -1409,7 +1367,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"*M\xe1\xa1"
@@ -1456,7 +1414,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1603,19 +1561,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-9-TO-10)]
     
     rule [BASIC-BLOCK-10-TO-11]: <foundry>
@@ -1659,7 +1609,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"*M\xe1\xa1"
@@ -1706,7 +1656,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -1853,19 +1803,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-10-TO-11)]
     
     rule [BASIC-BLOCK-11-TO-12]: <foundry>
@@ -1902,7 +1844,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"*M\xe1\xa1"
@@ -2004,7 +1946,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     ( CALLER_ID:Int => 728815563385977040452943777879061427756277306518 )
+                     ( 137122462167341575662000267002353578582749290296 => 728815563385977040452943777879061427756277306518 )
                    </caller>
                    <callData>
                      ( b"*M\xe1\xa1" => b"\xf3\xad0#" )
@@ -2053,7 +1995,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2200,19 +2142,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-11-TO-12)]
     
     rule [BASIC-BLOCK-12-TO-13]: <foundry>
@@ -2247,7 +2181,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"*M\xe1\xa1"
@@ -2398,7 +2332,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2545,19 +2479,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-12-TO-13)]
     
     rule [BASIC-BLOCK-13-TO-14]: <foundry>
@@ -2593,7 +2519,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"*M\xe1\xa1"
@@ -2744,7 +2670,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -2891,19 +2817,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-13-TO-14)]
     
     rule [BASIC-BLOCK-14-TO-15]: <foundry>
@@ -2942,7 +2860,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"*M\xe1\xa1"
@@ -3093,7 +3011,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3240,19 +3158,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-14-TO-15)]
     
     rule [BASIC-BLOCK-15-TO-16]: <foundry>
@@ -3291,7 +3201,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"*M\xe1\xa1"
@@ -3442,7 +3352,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3589,19 +3499,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-15-TO-16)]
     
     rule [BASIC-BLOCK-16-TO-17]: <foundry>
@@ -3643,7 +3545,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"*M\xe1\xa1"
@@ -3794,7 +3696,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -3941,19 +3843,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-16-TO-17)]
     
     rule [BASIC-BLOCK-17-TO-18]: <foundry>
@@ -3995,7 +3889,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                        728815563385977040452943777879061427756277306518
                      </id>
                      <caller>
-                       CALLER_ID:Int
+                       137122462167341575662000267002353578582749290296
                      </caller>
                      <callData>
                        b"*M\xe1\xa1"
@@ -4097,7 +3991,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     ( 728815563385977040452943777879061427756277306518 => CALLER_ID:Int )
+                     ( 728815563385977040452943777879061427756277306518 => 137122462167341575662000267002353578582749290296 )
                    </caller>
                    <callData>
                      ( b"\xf3\xad0#" => b"*M\xe1\xa1" )
@@ -4146,7 +4040,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    </createdAccounts>
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -4293,19 +4187,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-17-TO-18)]
     
     rule [BASIC-BLOCK-18-TO-19]: <foundry>
@@ -4347,7 +4233,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"*M\xe1\xa1"
@@ -4394,7 +4280,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -4541,19 +4427,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-18-TO-19)]
     
     rule [BASIC-BLOCK-19-TO-20]: <foundry>
@@ -4595,7 +4473,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                      728815563385977040452943777879061427756277306518
                    </id>
                    <caller>
-                     CALLER_ID:Int
+                     137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
                      b"*M\xe1\xa1"
@@ -4642,7 +4520,7 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
                    ...
                  </substate>
                  <origin>
-                   ORIGIN_ID:Int
+                   137122462167341575662000267002353578582749290296
                  </origin>
                  <block>
                    <number>
@@ -4789,19 +4667,11 @@ module SUMMARY-TEST%ASSERTTEST.TESTFAIL-EXPECT-REVERT():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
+      requires ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-               ))))))))))))
+               ))))
       [priority(20), label(BASIC-BLOCK-19-TO-20)]
 
 endmodule
@@ -4813,24 +4683,14 @@ Failing nodes:
   Failure reason:
     Matching failed.
     The remaining implication is:
-    { true #Equals 0 <=Int CALLER_ID:Int }
-    #And { true #Equals 0 <=Int ORIGIN_ID:Int }
-    #And { true #Equals pow24 <Int NUMBER_CELL:Int }
+    { true #Equals pow24 <Int NUMBER_CELL:Int }
     #And { true #Equals NUMBER_CELL:Int <Int pow32 }
     #And { true #Equals 1073741824 <Int TIMESTAMP_CELL:Int }
-    #And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 }
-    #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
-    #And { true #Equals CALLER_ID:Int <Int pow160 }
-    #And { true #Equals ORIGIN_ID:Int <Int pow160 }
-    #And { false #Equals #range ( 0 < CALLER_ID:Int <= 10 ) }
-    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 10 ) } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+    #And { true #Equals TIMESTAMP_CELL:Int <Int 34359738368 } #Implies { false #Equals foundry_success ( ... statusCode: EVMC_SUCCESS , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
   Path condition:
     #Top
   Model:
-    CALLER_ID = 645326474426547203313410069153905908525362434350
     NUMBER_CELL = 16777217
-    ORIGIN_ID = 645326474426547203313410069153905908525362434350
     TIMESTAMP_CELL = 1073741825
 
 Join the Runtime Verification Discord server (https://discord.com/invite/CurfmXNtbN) or Telegram group (https://t.me/rv_kontrol) for support.

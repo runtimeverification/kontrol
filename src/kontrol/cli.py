@@ -578,6 +578,13 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         help='Deprecated alias for --lemmas.',
     )
+    prove_args.add_argument(
+        '--symbolic-caller',
+        dest='symbolic_caller',
+        default=None,
+        action='store_true',
+        help="Make the caller ('msg.sender' and 'tx.origin') symbolic.",
+    )
 
     show_args = command_parser.add_parser(
         'show',
