@@ -15,7 +15,6 @@ from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KPro
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import eqInt, intToken, ltInt
-from pyk.prelude.string import stringToken
 from pyk.utils import hash_str, run_process_2, single
 
 from .utils import _read_digest_file
@@ -579,10 +578,6 @@ class Contract:
             return any(self.name.startswith(prefix) for prefix in proof_prefixes)
 
         @cached_property
-        def flat_inputs(self) -> tuple[Input, ...]:
-            return tuple(input for sub_inputs in self.inputs for input in sub_inputs.flattened())
-
-        @cached_property
         def arg_names(self) -> tuple[str, ...]:
             arg_names: list[str] = []
             for input in self.inputs:
@@ -723,7 +718,6 @@ class Contract:
     deployed_bytecode_external_lib_refs: dict[str, list[tuple[int, int]]]
     processed_link_refs: bool
     bytecode: str
-    raw_sourcemap: str | None
     methods: tuple[Method, ...]
     constructor: Constructor | None
     interface_annotations: dict[str, str]
@@ -774,7 +768,6 @@ class Contract:
         self.processed_link_refs = len(self.bytecode_external_lib_refs) == 0
 
         self.deployed_bytecode = deployed_bytecode['object'].replace('0x', '')
-        self.raw_sourcemap = deployed_bytecode['sourceMap'] if 'sourceMap' in deployed_bytecode else None
 
         self.bytecode = bytecode['object'].replace('0x', '')
         self.constructor = None
@@ -851,43 +844,6 @@ class Contract:
         return hash_str(f'{self.name_with_path} - {json.dumps(storage_layout, sort_keys=True)}')
 
     @cached_property
-    def srcmap(self) -> dict[int, tuple[int, int, int, str, int]]:
-        _srcmap = {}
-
-        if len(self.deployed_bytecode) > 0 and self.raw_sourcemap is not None:
-            instr_to_pc = {}
-            pc = 0
-            instr = 0
-            bs = [int(self.deployed_bytecode[i : i + 2], 16) for i in range(0, len(self.deployed_bytecode), 2)]
-            while pc < len(bs):
-                b = bs[pc]
-                instr_to_pc[instr] = pc
-                if 0x60 <= b and b < 0x7F:
-                    push_width = b - 0x5F
-                    pc = pc + push_width
-                pc += 1
-                instr += 1
-
-            instrs_srcmap = self.raw_sourcemap.split(';')
-
-            s, l, f, j, m = (0, 0, 0, '', 0)
-            for i, instr_srcmap in enumerate(instrs_srcmap):
-                fields = instr_srcmap.split(':')
-                if len(fields) > 0 and fields[0] != '':
-                    s = int(fields[0])
-                if len(fields) > 1 and fields[1] != '':
-                    l = int(fields[1])
-                if len(fields) > 2 and fields[2] != '':
-                    f = int(fields[2])
-                if len(fields) > 3 and fields[3] != '':
-                    j = fields[3]
-                if len(fields) > 4 and fields[4] != '':
-                    m = int(fields[4])
-                _srcmap[i] = (s, l, f, j, m)
-
-        return _srcmap
-
-    @cached_property
     def fields(self) -> tuple[StorageField, ...]:
         return process_storage_layout(self.contract_json.get('storageLayout', {}), self.interface_annotations)
 
@@ -906,10 +862,6 @@ class Contract:
     @staticmethod
     def contract_to_verification_module_name(c: str) -> str:
         return Contract.escaped(c, 'S2K') + '-VERIFICATION'
-
-    @staticmethod
-    def test_to_claim_name(t: str) -> str:
-        return t.replace('_', '-')
 
     @staticmethod
     def escaped_chars() -> list[str]:
@@ -993,10 +945,6 @@ class Contract:
         return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Contract')
 
     @property
-    def sort_field(self) -> KSort:
-        return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Field')
-
-    @property
     def sort_method(self) -> KSort:
         return KSort(f'{Contract.escaped(self.name_with_path, "S2K")}Method')
 
@@ -1009,16 +957,8 @@ class Contract:
         return KLabel(f'method_{self.name_with_path}')
 
     @property
-    def klabel_field(self) -> KLabel:
-        return KLabel(f'field_{self.name_with_path}')
-
-    @property
     def subsort(self) -> KProduction:
         return KProduction(KSort('Contract'), [KNonTerminal(self.sort)])
-
-    @property
-    def subsort_field(self) -> KProduction:
-        return KProduction(KSort('Field'), [KNonTerminal(self.sort_field)])
 
     @property
     def production(self) -> KProduction:
@@ -1028,31 +968,6 @@ class Contract:
             klabel=self.klabel,
             att=KAtt([Atts.SYMBOL(self.klabel.name)]),
         )
-
-    @property
-    def macro_bin_runtime(self) -> KRule:
-        if self.has_unlinked():
-            raise ValueError(
-                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
-            )
-        return KRule(
-            KRewrite(
-                KEVM.bin_runtime(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.deployed_bytecode))
-            )
-        )
-
-    @property
-    def macro_init_bytecode(self) -> KRule:
-        if self.has_unlinked():
-            raise ValueError(
-                f'Some library placeholders have been found in contract {self.name_with_path}. Please link the library(ies) first. Ref: https://docs.soliditylang.org/en/v0.8.20/using-the-compiler.html#library-linking'
-            )
-        return KRule(
-            KRewrite(KEVM.init_bytecode(KApply(self.klabel)), KEVM.parse_bytestack(stringToken('0x' + self.bytecode)))
-        )
-
-    def has_unlinked(self) -> bool:
-        return 0 <= self.deployed_bytecode.find('__')
 
     @property
     def method_sentences(self) -> list[KSentence]:
