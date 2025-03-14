@@ -649,14 +649,14 @@ testing = ["hatch", "pre-commit", "pytest", "tox"]
 
 [[package]]
 name = "filelock"
-version = "3.17.0"
+version = "3.18.0"
 description = "A platform independent file lock."
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "filelock-3.17.0-py3-none-any.whl", hash = "sha256:533dc2f7ba78dc2f0f531fc6c4940addf7b70a481e269a5a3b93be94ffbe8338"},
-    {file = "filelock-3.17.0.tar.gz", hash = "sha256:ee4e77401ef576ebb38cd7f13b9b28893194acc20a8e68e18730ba9c0e54660e"},
+    {file = "filelock-3.18.0-py3-none-any.whl", hash = "sha256:c401f4f8377c4464e6db25fff06205fd89bdd83b65eb0488ed1b160f780e21de"},
+    {file = "filelock-3.18.0.tar.gz", hash = "sha256:adbc88eabb99d2fec8c9c1b229b171f18afa655400173ddc653d5d01501fb9f2"},
 ]
 
 [package.extras]
@@ -882,14 +882,14 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.129.0"
+version = "6.129.1"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "hypothesis-6.129.0-py3-none-any.whl", hash = "sha256:3f0fb90e16ebd31cb80e64b0072618eb70b7b350450722abe5fc6bd6e00f7ef4"},
-    {file = "hypothesis-6.129.0.tar.gz", hash = "sha256:5e6ed7923e9f0eb946b030d821d7e8beabf292049c957be03c94f89426b5fd64"},
+    {file = "hypothesis-6.129.1-py3-none-any.whl", hash = "sha256:7e12c7eb249966abab27c8fed4f8e2f43f63bbeff89b7cb3a6487095435ddee5"},
+    {file = "hypothesis-6.129.1.tar.gz", hash = "sha256:bfffa4e430b7bfcd9d281ccde30c084f794dd54856aa0a895951b80204b39cf6"},
 ]
 
 [package.dependencies]
@@ -1002,7 +1002,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.805"
+version = "1.0.806"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1012,27 +1012,27 @@ develop = false
 
 [package.dependencies]
 frozendict = "^2.4.6"
-kframework = "7.1.219"
+kframework = "7.1.222"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.805"
-resolved_reference = "eaa99c70816373551834efe27f05cbe44c14b248"
+reference = "v1.0.806"
+resolved_reference = "c746b9f641f31803f3cfe331389b47a6161a9574"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.219"
+version = "7.1.222"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "kframework-7.1.219-py3-none-any.whl", hash = "sha256:989b5fe5df38b80a37d2bcdc6bed0cea89dc7791f898194b14551e867933e96c"},
-    {file = "kframework-7.1.219.tar.gz", hash = "sha256:e1847e8616dff71ded542d39ee1033e013c1d405f59a118f0cb3f3e33263a98a"},
+    {file = "kframework-7.1.222-py3-none-any.whl", hash = "sha256:ae137f8d004d7dbed5650cb1d5d56db1aa7be5360ec3109ba504a714db146229"},
+    {file = "kframework-7.1.222.tar.gz", hash = "sha256:987cbeaa889493b922d207a713381d9fd79e201dcfc7a974468123260ddbad4e"},
 ]
 
 [package.dependencies]
@@ -2106,4 +2106,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "b327c5b98d3fd61f68c380c5f83f3915a8ac874455c13d8d07e8684b9e3cd59c"
+content-hash = "26997facf89da9d65e6ebb109e75a15af4491ce205d72bf7a3b06366f5a1a66f"
