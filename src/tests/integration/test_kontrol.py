@@ -65,8 +65,6 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
             foundry_kompile(
                 BuildOptions(
                     {
-                        'require': str(foundry_root / 'lemmas.k'),
-                        'module-import': 'TestBase:KONTROL-LEMMAS',
                         'metadata': False,
                         'auxiliary_lemmas': True,
                     }
@@ -118,6 +116,7 @@ def test_kontrol_end_to_end(
                 'force_sequential': force_sequential,
                 'schedule': 'CANCUN',
                 'stack_checks': False,
+                'lemmas': f'{foundry_end_to_end._root / "lemmas.k"}:KONTROL-LEMMAS',
             }
         ),
     )
