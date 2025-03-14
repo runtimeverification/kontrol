@@ -559,7 +559,9 @@ class Foundry:
         lemmas_path = Path(lemmas_file)
         if not lemmas_path.is_file():
             raise ValueError(f'Supplied lemmas path is not a file: {lemmas_path}')
-        modules = self.kevm.parse_modules(lemmas_path, module_name=lemmas_name)
+        modules = self.kevm.parse_modules(
+            lemmas_path, module_name=lemmas_name, include_dirs=(kdist.get('kontrol.foundry'),)
+        )
         lemmas_module = single(module for module in modules.modules if module.name == lemmas_name)
         non_rule_sentences = [sent for sent in lemmas_module.sentences if not isinstance(sent, KRule)]
         if non_rule_sentences:
