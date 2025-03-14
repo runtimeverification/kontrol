@@ -99,7 +99,7 @@ def foundry_kompile(
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
             contracts=foundry.contracts.values(),
-            requires=['contracts.k'],
+            requires=['contracts.k', 'no_stack_checks.md', 'no_code_size_checks.md', 'keccak.md', 'kontrol_lemmas.md'],
             keccak_lemmas=options.keccak_lemmas,
             auxiliary_lemmas=options.auxiliary_lemmas,
         )
