@@ -13,7 +13,7 @@ from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
 from pyk.kdist import kdist
-from pyk.prelude.kbool import TRUE, andBool
+from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.utils import hash_str, run_process_2, single
 
@@ -46,7 +46,7 @@ def solc_to_k(options: SolcToKOptions) -> str:
 
     imports = list(options.imports)
     requires = list(options.requires)
-    contract_module = contract_to_main_module(contract, enums={}, imports=['EDSL'] + imports)
+    contract_module = contract_to_main_module(contract, imports=['EDSL'] + imports)
     _main_module = KFlatModule(
         options.main_module if options.main_module else 'MAIN',
         [],
@@ -649,11 +649,10 @@ class Contract:
                 att=KAtt(entries=[Atts.SYMBOL(self.unique_klabel.name)]),
             )
 
-        def rule(
-            self, contract: KInner, application_label: KLabel, contract_name: str, enums: dict[str, int]
-        ) -> KRule | None:
+        def compute_calldata(
+            self, contract_name: str, enums: dict[str, int]
+        ) -> tuple[KInner, tuple[KInner, ...]] | None:
             prod_klabel = self.unique_klabel
-            arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
             for input in self.inputs:
@@ -695,24 +694,18 @@ class Contract:
                                 intToken(enum_max),
                             )
                         )
-            lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
-            ensures = andBool(conjuncts)
-            return KRule(KRewrite(lhs, rhs), ensures=ensures)
+            return rhs, tuple(conjuncts)
 
         @cached_property
         def callvalue_cell(self) -> KInner:
             return intToken(0) if not self.payable else KVariable('CALLVALUE')
 
-        def calldata_cell(self, contract: Contract) -> KInner:
-            return KApply(contract.klabel_method, [KApply(contract.klabel), self.application])
-
-        @cached_property
-        def application(self) -> KInner:
-            klabel = self.klabel
-            assert klabel is not None
-            args = [KVariable(name) for name in self.arg_names]
-            return klabel(args)
+        def constrained_calldata(self, contract: Contract, enums: dict[str, int]) -> tuple[KInner, tuple[KInner, ...]]:
+            calldata = self.compute_calldata(contract_name=contract.name_with_path, enums=enums)
+            if calldata is None:
+                raise ValueError(f'Could not compute calldata for: {contract.name_with_path}.{self.name}')
+            return calldata
 
     _name: str
     contract_json: dict
@@ -976,25 +969,13 @@ class Contract:
             att=KAtt([Atts.SYMBOL(self.klabel.name)]),
         )
 
-    def method_sentences(self, enums: dict[str, int]) -> list[KSentence]:
-        method_application_production: KSentence = KProduction(
-            KSort('Bytes'),
-            [KNonTerminal(self.sort), KTerminal('.'), KNonTerminal(self.sort_method)],
-            klabel=self.klabel_method,
-            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL(self.klabel_method.name)]),
-        )
-        res: list[KSentence] = [method_application_production]
-        res.extend(method.production for method in self.methods)
-        method_rules = (
-            method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path, enums=enums)
-            for method in self.methods
-        )
-        res.extend(rule for rule in method_rules if rule)
-        res.extend(method.selector_alias_rule for method in self.methods)
-        return res if len(res) > 1 else []
+    @property
+    def method_sentences(self) -> list[KSentence]:
+        return [method.selector_alias_rule for method in self.methods]
 
-    def sentences(self, enums: dict[str, int]) -> list[KSentence]:
-        return [self.subsort, self.production] + self.method_sentences(enums)
+    @property
+    def sentences(self) -> list[KSentence]:
+        return [self.subsort, self.production] + self.method_sentences
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
@@ -1059,9 +1040,9 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     return result
 
 
-def contract_to_main_module(contract: Contract, enums: dict[str, int], imports: Iterable[str] = ()) -> KFlatModule:
+def contract_to_main_module(contract: Contract, imports: Iterable[str] = ()) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
-    return KFlatModule(module_name, contract.sentences(enums), [KImport(i) for i in list(imports)])
+    return KFlatModule(module_name, contract.sentences, [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, imports: Iterable[str]) -> KFlatModule:
