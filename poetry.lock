@@ -1002,7 +1002,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.811"
+version = "1.0.812"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1012,27 +1012,27 @@ develop = false
 
 [package.dependencies]
 frozendict = "^2.4.6"
-kframework = "7.1.225"
+kframework = "7.1.230"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.811"
-resolved_reference = "0790330fec24f36d17ed860cd9d0204874a811fd"
+reference = "v1.0.812"
+resolved_reference = "5d1757480a9ef037631dfdd316f24c6fcafe50bf"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.225"
+version = "7.1.230"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "kframework-7.1.225-py3-none-any.whl", hash = "sha256:89a803588d25ec73a5cb4c7f8c096b69bc8f39d545bd94a570d71509d07f5e1b"},
-    {file = "kframework-7.1.225.tar.gz", hash = "sha256:8f3fbb517e9eaac4e1fa828c093431e49ab700f8c230b52547a0853d04cc4373"},
+    {file = "kframework-7.1.230-py3-none-any.whl", hash = "sha256:1e9c28ff06bb9083d6e6cb0f257245c49463dac6229a22975eab906a00d714e6"},
+    {file = "kframework-7.1.230.tar.gz", hash = "sha256:be7d8387a13a0fb5e1049ed6a0804b6eaddfb511470f38e5981689ed6ce31048"},
 ]
 
 [package.dependencies]
@@ -2124,4 +2124,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "67f0f1bb3f5397adc31e45a41532a0f7db536ea28c59d8b40b5abc6541cb0914"
+content-hash = "20794ff688bda7fab07fead764172ecafd90358422529dccc54b5ca85f1ca3b6"
