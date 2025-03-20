@@ -248,7 +248,7 @@ class KontrolCLIArgs(KEVMCLIArgs):
             dest='lemmas',
             default=None,
             help=(
-                'File and extra module to include for verification (which must import one of [KONTROL-BASE|KONTROL-AUX|KONTROL-KECCAK|KONTROL-FULL] modules).'
+                'File and extra module to include for verification (which must import the FOUNDRY-MAIN module).'
                 'Format is <file>:<module name>.'
             ),
         )
