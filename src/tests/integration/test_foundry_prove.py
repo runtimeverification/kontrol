@@ -36,7 +36,7 @@ from kontrol.options import (
 )
 from kontrol.prove import foundry_prove
 
-from .utils import TEST_DATA_DIR, assert_fail, assert_or_update_show_output, assert_pass
+from .utils import LEMMAS_MODULES, TEST_DATA_DIR, assert_fail, assert_or_update_show_output, assert_pass
 
 if TYPE_CHECKING:
     from typing import Final
@@ -109,6 +109,12 @@ def test_foundry_prove(
     if bug_report is not None:
         server._populate_bug_report(bug_report)
 
+    test_module = test_id.split('.')[0]
+    lemmas: str | None = None
+    if test_module in LEMMAS_MODULES:
+        require_file, import_module = LEMMAS_MODULES[test_module]
+        lemmas = f'{foundry._root}/{require_file}:{import_module}'
+
     # When
     prove_res = foundry_prove(
         foundry=foundry,
@@ -120,6 +126,7 @@ def test_foundry_prove(
                 'usegas': test_id in GAS_TESTS,
                 'port': server.port,
                 'force_sequential': force_sequential,
+                'lemmas': lemmas,
             }
         ),
     )

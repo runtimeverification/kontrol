@@ -21,6 +21,15 @@ if TYPE_CHECKING:
 TEST_DATA_DIR: Final = (Path(__file__).parent / 'test-data').resolve(strict=True)
 
 
+LEMMAS_MODULES: dict[str, tuple[str, str]] = {
+    'LoopsTest': ('lemmas.k', 'SUM-TO-N-INVARIANT'),
+    'ArithmeticCallTest': ('cse-lemmas.k', 'CSE-LEMMAS'),
+    'CSETest': ('cse-lemmas.k', 'CSE-LEMMAS'),
+    'PortalTest': ('pausability-lemmas.k', 'PAUSABILITY-LEMMAS'),
+    'ImmutableVarsTest': ('symbolic-bytes-lemmas.k', 'SYMBOLIC-BYTES-LEMMAS'),
+}
+
+
 def gen_bin_runtime(contract_file: Path, output_dir: Path) -> tuple[Path, str]:
     check_dir_path(output_dir)
 

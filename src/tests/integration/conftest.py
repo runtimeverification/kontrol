@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
-from shutil import copytree
+from shutil import copy, copytree
 from typing import TYPE_CHECKING
 
 import pytest
@@ -13,7 +13,7 @@ from kontrol.foundry import Foundry
 from kontrol.kompile import foundry_kompile
 from kontrol.options import BuildOptions
 
-from .utils import TEST_DATA_DIR, gen_bin_runtime
+from .utils import LEMMAS_MODULES, TEST_DATA_DIR, gen_bin_runtime
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterator
@@ -65,6 +65,8 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
     with FileLock(str(foundry_root) + '.lock'):
         if not foundry_root.is_dir():
             copytree(str(TEST_DATA_DIR / 'foundry'), str(foundry_root), dirs_exist_ok=True)
+            for lemmas_file, _ in LEMMAS_MODULES.values():
+                copy(str(TEST_DATA_DIR / lemmas_file), str(foundry_root / lemmas_file))
 
             run_process_2(['forge', 'install', '--no-git', f'foundry-rs/forge-std@{FORGE_STD_REF}'], cwd=foundry_root)
             run_process_2(
@@ -77,19 +79,6 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
                 BuildOptions(
                     {
                         'includes': (),
-                        'requires': [
-                            str(TEST_DATA_DIR / 'lemmas.k'),
-                            str(TEST_DATA_DIR / 'cse-lemmas.k'),
-                            str(TEST_DATA_DIR / 'pausability-lemmas.k'),
-                            str(TEST_DATA_DIR / 'symbolic-bytes-lemmas.k'),
-                        ],
-                        'imports': [
-                            'LoopsTest:SUM-TO-N-INVARIANT',
-                            'ArithmeticCallTest:CSE-LEMMAS',
-                            'CSETest:CSE-LEMMAS',
-                            'PortalTest:PAUSABILITY-LEMMAS',
-                            'ImmutableVarsTest:SYMBOLIC-BYTES-LEMMAS',
-                        ],
                         'enum_constraints': True,
                         'metadata': False,
                     }
