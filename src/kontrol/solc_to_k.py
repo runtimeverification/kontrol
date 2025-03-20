@@ -9,9 +9,8 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM
-from pyk.kast.att import Atts, KAtt
 from pyk.kast.inner import KApply, KLabel, KSort, KVariable
-from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KTerminal
+from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import eqInt, intToken, ltInt
@@ -25,7 +24,6 @@ if TYPE_CHECKING:
     from typing import Any, Final
 
     from pyk.kast import KInner
-    from pyk.kast.outer import KProductionItem, KSentence
 
     from .options import SolcToKOptions
 
@@ -627,24 +625,6 @@ class Contract:
             contract_digest = self.contract_digest if not self.is_setup else {}
             return hash_str(f'{self.signature}{ast}{self.contract_storage_digest}{contract_digest}')
 
-        @property
-        def production(self) -> KProduction:
-            items_before: list[KProductionItem] = [KTerminal(self.unique_name), KTerminal('(')]
-
-            items_args: list[KProductionItem] = []
-            for i, input_type in enumerate(self.arg_types):
-                if i > 0:
-                    items_args += [KTerminal(',')]
-                items_args += [KNonTerminal(_evm_base_sort(input_type)), KTerminal(':'), KTerminal(input_type)]
-
-            items_after: list[KProductionItem] = [KTerminal(')')]
-            return KProduction(
-                self.sort,
-                items_before + items_args + items_after,
-                klabel=self.unique_klabel,
-                att=KAtt(entries=[Atts.SYMBOL(self.unique_klabel.name)]),
-            )
-
         def compute_calldata(
             self, contract_name: str, enums: dict[str, int]
         ) -> tuple[KInner, tuple[KInner, ...]] | None:
@@ -949,23 +929,6 @@ class Contract:
         return KLabel(f'contract_{self.name_with_path}')
 
     @property
-    def subsort(self) -> KProduction:
-        return KProduction(KSort('Contract'), [KNonTerminal(self.sort)])
-
-    @property
-    def production(self) -> KProduction:
-        return KProduction(
-            self.sort,
-            [KTerminal(Contract.escaped(self.name_with_path, 'S2K'))],
-            klabel=self.klabel,
-            att=KAtt([Atts.SYMBOL(self.klabel.name)]),
-        )
-
-    @property
-    def sentences(self) -> list[KSentence]:
-        return [self.subsort, self.production]
-
-    @property
     def method_by_name(self) -> dict[str, Contract.Method]:
         return {method.name: method for method in self.methods}
 
@@ -1030,7 +993,7 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
 
 def contract_to_main_module(contract: Contract, imports: Iterable[str] = ()) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
-    return KFlatModule(module_name, contract.sentences, [KImport(i) for i in list(imports)])
+    return KFlatModule(module_name, [], [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, imports: Iterable[str]) -> KFlatModule:
@@ -1040,54 +1003,6 @@ def contract_to_verification_module(contract: Contract, imports: Iterable[str]) 
 
 
 # Helpers
-
-
-def _evm_base_sort(type_label: str) -> KSort:
-    if _evm_base_sort_int(type_label):
-        return KSort('Int')
-
-    if type_label == 'bytes':
-        return KSort('Bytes')
-
-    if type_label == 'string':
-        return KSort('String')
-
-    _LOGGER.info(f'Using generic sort K for type: {type_label}')
-    return KSort('K')
-
-
-def _evm_base_sort_int(type_label: str) -> bool:
-    success = False
-
-    # Check address and bool
-    if type_label in {'address', 'bool'}:
-        success = True
-
-    # Check bytes
-    if type_label.startswith('bytes') and len(type_label) > 5 and not type_label.endswith(']'):
-        width = int(type_label[5:])
-        if not (0 < width <= 32):
-            raise ValueError(f'Unsupported evm base sort type: {type_label}')
-        else:
-            success = True
-
-    # Check ints
-    if type_label.startswith('int') and not type_label.endswith(']'):
-        width = int(type_label[3:])
-        if not (0 < width and width <= 256 and width % 8 == 0):
-            raise ValueError(f'Unsupported evm base sort type: {type_label}')
-        else:
-            success = True
-
-    # Check uints
-    if type_label.startswith('uint') and not type_label.endswith(']'):
-        width = int(type_label[4:])
-        if not (0 < width and width <= 256 and width % 8 == 0):
-            raise ValueError(f'Unsupported evm base sort type: {type_label}')
-        else:
-            success = True
-
-    return success
 
 
 def _range_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
