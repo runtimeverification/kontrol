@@ -1,13 +1,5 @@
-requires "evm.md"
-requires "foundry.md"
-
 module CSE-LEMMAS
-    imports BOOL
-    imports FOUNDRY
-    imports INFINITE-GAS
-    imports INT-SYMBOLIC
-    imports MAP-SYMBOLIC
-    imports SET-SYMBOLIC
+    imports FOUNDRY-MAIN
 
     // xor in terms of -Int
     rule X xorInt maxUInt256 => maxUInt256 -Int X
@@ -53,10 +45,5 @@ module CSE-LEMMAS
     rule [powByteLen-compute]:
       #powByteLen(SIZE) => 2 ^Int (8 *Int SIZE)
       [simplification, concrete(SIZE)]
-
-endmodule
-
-module CSE-LEMMAS-SPEC
-    imports CSE-LEMMAS
 
 endmodule

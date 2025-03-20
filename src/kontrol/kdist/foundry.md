@@ -18,6 +18,10 @@ requires "assert.md"
 requires "lemmas/lemmas.k"
 
 module FOUNDRY
+    imports BOOL
+    imports INT-SYMBOLIC
+    imports MAP-SYMBOLIC
+    imports SET-SYMBOLIC
     imports FOUNDRY-SUCCESS
     imports FOUNDRY-CHEAT-CODES
     imports FOUNDRY-ACCOUNTS

@@ -1,8 +1,6 @@
-requires "../contracts.k"
-
 module SUM-TO-N-INVARIANT
 
-  imports S2KtestZModLoopsTest-CONTRACT
+  imports FOUNDRY-MAIN
 
   rule N xorInt maxUInt256 => maxUInt256 -Int N 
   requires #rangeUInt(256, N)
