@@ -10,8 +10,8 @@ from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM
 from pyk.kast.att import Atts, KAtt
-from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
-from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
+from pyk.kast.inner import KApply, KLabel, KSort, KVariable
+from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KTerminal
 from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import eqInt, intToken, ltInt
@@ -559,10 +559,6 @@ class Contract:
         def qualified_name(self) -> str:
             return f'{self.contract_name_with_path}.{self.signature}'
 
-        @property
-        def selector_alias_rule(self) -> KRule:
-            return KRule(KRewrite(KEVM.abi_selector(self.signature), intToken(self.id)))
-
         @cached_property
         def is_setup(self) -> bool:
             return self.name == 'setUp'
@@ -953,10 +949,6 @@ class Contract:
         return KLabel(f'contract_{self.name_with_path}')
 
     @property
-    def klabel_method(self) -> KLabel:
-        return KLabel(f'method_{self.name_with_path}')
-
-    @property
     def subsort(self) -> KProduction:
         return KProduction(KSort('Contract'), [KNonTerminal(self.sort)])
 
@@ -970,12 +962,8 @@ class Contract:
         )
 
     @property
-    def method_sentences(self) -> list[KSentence]:
-        return [method.selector_alias_rule for method in self.methods]
-
-    @property
     def sentences(self) -> list[KSentence]:
-        return [self.subsort, self.production] + self.method_sentences
+        return [self.subsort, self.production]
 
     @property
     def method_by_name(self) -> dict[str, Contract.Method]:
