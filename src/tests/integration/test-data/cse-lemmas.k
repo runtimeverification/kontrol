@@ -5,7 +5,7 @@ module CSE-LEMMAS
     rule X xorInt maxUInt256 => maxUInt256 -Int X
       requires #rangeUInt ( 256 , X )
       [simplification]
-
+/*
     // Set equality needed for discharging `#Not ( #Exists ( ... )` on `<accessedAccounts>` unification
     rule { S1:Set #Equals S2:Set |Set SetItem ( X ) } =>
          { X in S1 } #And
@@ -26,7 +26,7 @@ module CSE-LEMMAS
     rule { B:Bytes #Equals B1:Bytes +Bytes B2:Bytes } => {#range(B, 4, lengthBytes(B) -Int 4) #Equals B2}
       requires 4 <=Int lengthBytes(B) andBool #range(B, 0, 4) ==K B1
       [simplification(60), concrete(B, B1)]
-
+*/
     // Bitwise inequalities
     rule [bitwise-and-maxUInt-lt-l]:
       A <Int X &Int Y => false

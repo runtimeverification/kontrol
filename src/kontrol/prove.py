@@ -436,7 +436,12 @@ def _run_cfg_group(
                     rule.label for rule in foundry.kevm.definition.all_modules_dict['KONTROL-ASSERTIONS'].rules
                 )
 
-            lemmas_module = foundry.load_lemmas(options.lemmas)
+            try:
+                lemmas_module = foundry.load_lemmas(options.lemmas)
+            except CalledProcessError as e:
+                _LOGGER.warning(f'stdout: {e.stdout}')
+                _LOGGER.warning(f'stderr: {e.stderr}')
+                raise
 
             if progress is not None and task is not None:
                 progress.update(

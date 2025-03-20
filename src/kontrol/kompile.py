@@ -150,6 +150,7 @@ def foundry_kompile(
         if options.o3:
             optimization = 3
 
+        _LOGGER.warning('Invoking kompile')
         kevm_kompile(
             target=options.target,
             output_dir=output_dir,

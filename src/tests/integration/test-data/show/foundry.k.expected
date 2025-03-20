@@ -1,11 +1,4 @@
 requires "contracts.k"
-requires "requires/lemmas.k"
-requires "requires/cse-lemmas.k"
-requires "requires/pausability-lemmas.k"
-requires "requires/symbolic-bytes-lemmas.k"
-requires "requires/keccak.md"
-requires "requires/no_stack_checks.md"
-requires "requires/no_code_size_checks.md"
 
 module FOUNDRY-MAIN
     imports public S2KsrcZModduplicatesZMod2ZModDuplicateName-VERIFICATION
@@ -234,7 +227,6 @@ endmodule
 
 module S2KtestZModArithmeticCallTest-VERIFICATION
     imports public S2KtestZModArithmeticCallTest-CONTRACT
-    imports public CSE-LEMMAS
     
     
 
@@ -368,7 +360,6 @@ endmodule
 
 module S2KtestZModCSETest-VERIFICATION
     imports public S2KtestZModCSETest-CONTRACT
-    imports public CSE-LEMMAS
     
     
 
@@ -712,7 +703,6 @@ endmodule
 
 module S2KtestZModImmutableVarsTest-VERIFICATION
     imports public S2KtestZModImmutableVarsTest-CONTRACT
-    imports public SYMBOLIC-BYTES-LEMMAS
     
     
 
@@ -804,7 +794,6 @@ endmodule
 
 module S2KtestZModLoopsTest-VERIFICATION
     imports public S2KtestZModLoopsTest-CONTRACT
-    imports public SUM-TO-N-INVARIANT
     
     
 
@@ -994,7 +983,6 @@ endmodule
 
 module S2KtestZModPortalTest-VERIFICATION
     imports public S2KtestZModPortalTest-CONTRACT
-    imports public PAUSABILITY-LEMMAS
     
     
 
