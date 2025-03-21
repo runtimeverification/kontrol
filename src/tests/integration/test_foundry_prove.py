@@ -413,7 +413,7 @@ def test_foundry_merge_nodes(
                 'max_iterations': 2,
                 'bug_report': bug_report,
                 'port': server.port,
-                'forcforce_sequential': force_sequential,
+                'force_sequential': force_sequential,
             }
         ),
     )
