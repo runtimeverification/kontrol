@@ -28,6 +28,13 @@ FORGE_STD_REF: Final = '75f1746'
 KONTROL_CHEATCODES_REF: Final = 'a5dd4b0'
 
 
+def pytest_collection_modifyitems(items):
+    order = {'test_foundry_merge_nodes': 1, 'test_foundry_refute_node': 2}
+    for item in items:
+        item._order = order.get(item.name, 0)
+    items.sort(key=lambda x: x._order or 0)
+
+
 @pytest.fixture
 def bin_runtime(tmp_path: Path) -> Callable[[Path], tuple[Path, str]]:
     return partial(gen_bin_runtime, output_dir=tmp_path)
