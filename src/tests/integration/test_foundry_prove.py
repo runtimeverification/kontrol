@@ -888,7 +888,7 @@ def test_foundry_refute_node(
     if no_use_booster:
         pytest.skip()
 
-    test = 'MergeTest.test_branch_merge'
+    test = 'AssertTest.test_assert_true_branch(uint256)'
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
