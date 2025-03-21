@@ -413,7 +413,7 @@ def test_foundry_merge_nodes(
                 'max_iterations': 2,
                 'bug_report': bug_report,
                 'port': server.port,
-                'forcforce_sequential': force_sequential,
+                'force_sequential': force_sequential,
             }
         ),
     )
@@ -888,7 +888,7 @@ def test_foundry_refute_node(
     if no_use_booster:
         pytest.skip()
 
-    test = 'MergeTest.test_branch_merge'
+    test = 'AssertTest.test_assert_true_branch(uint256)'
 
     if bug_report is not None:
         server._populate_bug_report(bug_report)
@@ -910,20 +910,20 @@ def test_foundry_refute_node(
     assert_pass(test, single(prove_res_1))
     check_pending(foundry, test, [])
 
-    # Remove successors of nodes 4 and 5
-    foundry_remove_node(foundry, RemoveNodeOptions({'test': test, 'node': 6}))
-    foundry_remove_node(foundry, RemoveNodeOptions({'test': test, 'node': 7}))
+    # Remove successors of nodes 9 and 10
+    foundry_remove_node(foundry, RemoveNodeOptions({'test': test, 'node': 11}))
+    foundry_remove_node(foundry, RemoveNodeOptions({'test': test, 'node': 12}))
 
-    # Now nodes 4 and 5 are pending
-    check_pending(foundry, test, [4, 5])
+    # Now nodes 9 and 10 are pending
+    check_pending(foundry, test, [9, 10])
 
-    # Mark node 4 as refuted
-    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 4}))
+    # Mark node 9 as refuted
+    foundry_refute_node(foundry, RefuteNodeOptions({'test': test, 'node': 9}))
 
     # Refuted node is not longer pending
-    check_pending(foundry, test, [5])
+    check_pending(foundry, test, [10])
 
-    # Proof will only advance from node 5, since 4 is refuted
+    # Proof will only advance from node 10, since 9 is refuted
     prove_res_2 = foundry_prove(
         foundry=foundry,
         options=ProveOptions(
@@ -962,12 +962,12 @@ def test_foundry_refute_node(
 
     check_pending(foundry, test, [])
 
-    # Remove refutation of node 4
-    foundry_unrefute_node(foundry, UnrefuteNodeOptions({'test': test, 'node': 4}))
+    # Remove refutation of node 9
+    foundry_unrefute_node(foundry, UnrefuteNodeOptions({'test': test, 'node': 9}))
 
-    check_pending(foundry, test, [4])
+    check_pending(foundry, test, [9])
 
-    # Execution will continue from node 4
+    # Execution will continue from node 9
     prove_res_3 = foundry_prove(
         foundry=foundry,
         options=ProveOptions(
