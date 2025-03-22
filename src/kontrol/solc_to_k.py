@@ -9,11 +9,10 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM
-from pyk.kast.att import Atts, KAtt
-from pyk.kast.inner import KApply, KLabel, KRewrite, KSort, KVariable
-from pyk.kast.outer import KDefinition, KFlatModule, KImport, KNonTerminal, KProduction, KRequire, KRule, KTerminal
+from pyk.kast.inner import KApply, KLabel, KSort, KVariable
+from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
-from pyk.prelude.kbool import TRUE, andBool
+from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.utils import hash_str, run_process_2, single
 
@@ -25,7 +24,6 @@ if TYPE_CHECKING:
     from typing import Any, Final
 
     from pyk.kast import KInner
-    from pyk.kast.outer import KProductionItem, KSentence
 
     from .options import SolcToKOptions
 
@@ -46,7 +44,7 @@ def solc_to_k(options: SolcToKOptions) -> str:
 
     imports = list(options.imports)
     requires = list(options.requires)
-    contract_module = contract_to_main_module(contract, enums={}, imports=['EDSL'] + imports)
+    contract_module = contract_to_main_module(contract, imports=['EDSL'] + imports)
     _main_module = KFlatModule(
         options.main_module if options.main_module else 'MAIN',
         [],
@@ -559,10 +557,6 @@ class Contract:
         def qualified_name(self) -> str:
             return f'{self.contract_name_with_path}.{self.signature}'
 
-        @property
-        def selector_alias_rule(self) -> KRule:
-            return KRule(KRewrite(KEVM.abi_selector(self.signature), intToken(self.id)))
-
         @cached_property
         def is_setup(self) -> bool:
             return self.name == 'setUp'
@@ -631,29 +625,10 @@ class Contract:
             contract_digest = self.contract_digest if not self.is_setup else {}
             return hash_str(f'{self.signature}{ast}{self.contract_storage_digest}{contract_digest}')
 
-        @property
-        def production(self) -> KProduction:
-            items_before: list[KProductionItem] = [KTerminal(self.unique_name), KTerminal('(')]
-
-            items_args: list[KProductionItem] = []
-            for i, input_type in enumerate(self.arg_types):
-                if i > 0:
-                    items_args += [KTerminal(',')]
-                items_args += [KNonTerminal(_evm_base_sort(input_type)), KTerminal(':'), KTerminal(input_type)]
-
-            items_after: list[KProductionItem] = [KTerminal(')')]
-            return KProduction(
-                self.sort,
-                items_before + items_args + items_after,
-                klabel=self.unique_klabel,
-                att=KAtt(entries=[Atts.SYMBOL(self.unique_klabel.name)]),
-            )
-
-        def rule(
-            self, contract: KInner, application_label: KLabel, contract_name: str, enums: dict[str, int]
-        ) -> KRule | None:
+        def compute_calldata(
+            self, contract_name: str, enums: dict[str, int]
+        ) -> tuple[KInner, tuple[KInner, ...]] | None:
             prod_klabel = self.unique_klabel
-            arg_vars = [KVariable(name) for name in self.arg_names]
             args: list[KInner] = []
             conjuncts: list[KInner] = []
             for input in self.inputs:
@@ -695,24 +670,18 @@ class Contract:
                                 intToken(enum_max),
                             )
                         )
-            lhs = KApply(application_label, [contract, KApply(prod_klabel, arg_vars)])
             rhs = KEVM.abi_calldata(self.name, args)
-            ensures = andBool(conjuncts)
-            return KRule(KRewrite(lhs, rhs), ensures=ensures)
+            return rhs, tuple(conjuncts)
 
         @cached_property
         def callvalue_cell(self) -> KInner:
             return intToken(0) if not self.payable else KVariable('CALLVALUE')
 
-        def calldata_cell(self, contract: Contract) -> KInner:
-            return KApply(contract.klabel_method, [KApply(contract.klabel), self.application])
-
-        @cached_property
-        def application(self) -> KInner:
-            klabel = self.klabel
-            assert klabel is not None
-            args = [KVariable(name) for name in self.arg_names]
-            return klabel(args)
+        def constrained_calldata(self, contract: Contract, enums: dict[str, int]) -> tuple[KInner, tuple[KInner, ...]]:
+            calldata = self.compute_calldata(contract_name=contract.name_with_path, enums=enums)
+            if calldata is None:
+                raise ValueError(f'Could not compute calldata for: {contract.name_with_path}.{self.name}')
+            return calldata
 
     _name: str
     contract_json: dict
@@ -960,43 +929,6 @@ class Contract:
         return KLabel(f'contract_{self.name_with_path}')
 
     @property
-    def klabel_method(self) -> KLabel:
-        return KLabel(f'method_{self.name_with_path}')
-
-    @property
-    def subsort(self) -> KProduction:
-        return KProduction(KSort('Contract'), [KNonTerminal(self.sort)])
-
-    @property
-    def production(self) -> KProduction:
-        return KProduction(
-            self.sort,
-            [KTerminal(Contract.escaped(self.name_with_path, 'S2K'))],
-            klabel=self.klabel,
-            att=KAtt([Atts.SYMBOL(self.klabel.name)]),
-        )
-
-    def method_sentences(self, enums: dict[str, int]) -> list[KSentence]:
-        method_application_production: KSentence = KProduction(
-            KSort('Bytes'),
-            [KNonTerminal(self.sort), KTerminal('.'), KNonTerminal(self.sort_method)],
-            klabel=self.klabel_method,
-            att=KAtt(entries=[Atts.FUNCTION(None), Atts.SYMBOL(self.klabel_method.name)]),
-        )
-        res: list[KSentence] = [method_application_production]
-        res.extend(method.production for method in self.methods)
-        method_rules = (
-            method.rule(KApply(self.klabel), self.klabel_method, self.name_with_path, enums=enums)
-            for method in self.methods
-        )
-        res.extend(rule for rule in method_rules if rule)
-        res.extend(method.selector_alias_rule for method in self.methods)
-        return res if len(res) > 1 else []
-
-    def sentences(self, enums: dict[str, int]) -> list[KSentence]:
-        return [self.subsort, self.production] + self.method_sentences(enums)
-
-    @property
     def method_by_name(self) -> dict[str, Contract.Method]:
         return {method.name: method for method in self.methods}
 
@@ -1059,9 +991,9 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
     return result
 
 
-def contract_to_main_module(contract: Contract, enums: dict[str, int], imports: Iterable[str] = ()) -> KFlatModule:
+def contract_to_main_module(contract: Contract, imports: Iterable[str] = ()) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
-    return KFlatModule(module_name, contract.sentences(enums), [KImport(i) for i in list(imports)])
+    return KFlatModule(module_name, [], [KImport(i) for i in list(imports)])
 
 
 def contract_to_verification_module(contract: Contract, imports: Iterable[str]) -> KFlatModule:
@@ -1071,54 +1003,6 @@ def contract_to_verification_module(contract: Contract, imports: Iterable[str]) 
 
 
 # Helpers
-
-
-def _evm_base_sort(type_label: str) -> KSort:
-    if _evm_base_sort_int(type_label):
-        return KSort('Int')
-
-    if type_label == 'bytes':
-        return KSort('Bytes')
-
-    if type_label == 'string':
-        return KSort('String')
-
-    _LOGGER.info(f'Using generic sort K for type: {type_label}')
-    return KSort('K')
-
-
-def _evm_base_sort_int(type_label: str) -> bool:
-    success = False
-
-    # Check address and bool
-    if type_label in {'address', 'bool'}:
-        success = True
-
-    # Check bytes
-    if type_label.startswith('bytes') and len(type_label) > 5 and not type_label.endswith(']'):
-        width = int(type_label[5:])
-        if not (0 < width <= 32):
-            raise ValueError(f'Unsupported evm base sort type: {type_label}')
-        else:
-            success = True
-
-    # Check ints
-    if type_label.startswith('int') and not type_label.endswith(']'):
-        width = int(type_label[3:])
-        if not (0 < width and width <= 256 and width % 8 == 0):
-            raise ValueError(f'Unsupported evm base sort type: {type_label}')
-        else:
-            success = True
-
-    # Check uints
-    if type_label.startswith('uint') and not type_label.endswith(']'):
-        width = int(type_label[4:])
-        if not (0 < width and width <= 256 and width % 8 == 0):
-            raise ValueError(f'Unsupported evm base sort type: {type_label}')
-        else:
-            success = True
-
-    return success
 
 
 def _range_predicates(abi: KApply, dynamic_type_length: int | None = None) -> list[KInner | None]:
