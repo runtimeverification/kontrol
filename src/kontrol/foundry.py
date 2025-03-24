@@ -407,10 +407,6 @@ class Foundry:
         return self.kompiled / 'foundry.k'
 
     @property
-    def contracts_file(self) -> Path:
-        return self.kompiled / 'contracts.k'
-
-    @property
     def build_info(self) -> Path:
         build_info_path = self.profile.get('build_info_path')
 
