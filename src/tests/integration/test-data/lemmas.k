@@ -1,4 +1,4 @@
-requires "../contracts.k"
+requires "../foundry.k"
 
 module SUM-TO-N-INVARIANT
 
