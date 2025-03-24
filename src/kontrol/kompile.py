@@ -33,7 +33,6 @@ def foundry_kompile(
     foundry: Foundry,
 ) -> None:
     foundry_requires_dir = foundry.kompiled / 'requires'
-    foundry_contracts_file = foundry.kompiled / 'contracts.k'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
     main_module = 'FOUNDRY-MAIN'
     includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
@@ -97,7 +96,7 @@ def foundry_kompile(
         else:
             raise ValueError(f'Could not find contract: {full_import_name}')
 
-    if regen or not foundry_contracts_file.exists() or not foundry.main_file.exists():
+    if regen or not foundry.main_file.exists():
         if regen and foundry_up_to_date:
             console.print(
                 f'[{_rv_blue()}][bold]--regen[/bold] option provided. Rebuilding Kontrol Project.[/{_rv_blue()}]'
@@ -118,7 +117,7 @@ def foundry_kompile(
         _LOGGER.info(f'Wrote file: {foundry.main_file}')
 
     def kompilation_digest() -> str:
-        k_files = list(options.requires) + [foundry_contracts_file, foundry.main_file]
+        k_files = list(options.requires) + [foundry.main_file]
         return hash_str(''.join([hash_str(Path(k_file).read_text()) for k_file in k_files]))
 
     def kompilation_up_to_date() -> bool:
