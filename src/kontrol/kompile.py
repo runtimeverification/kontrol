@@ -104,10 +104,11 @@ def foundry_kompile(
 
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
+        flattened_imports = [imp for module_imports in _imports.values() for imp in module_imports]
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
             requires=(['foundry.md'] + copied_requires),
-            imports=_imports,
+            imports=flattened_imports,
             keccak_lemmas=options.keccak_lemmas,
             auxiliary_lemmas=options.auxiliary_lemmas,
         )
@@ -174,14 +175,15 @@ def foundry_kompile(
 def _foundry_to_main_def(
     main_module: str,
     requires: Iterable[str],
-    imports: dict[str, list[str]],
+    imports: list[str],
     keccak_lemmas: bool,
     auxiliary_lemmas: bool,
 ) -> KDefinition:
     _main_module = KFlatModule(
         main_module,
         imports=tuple(
-            ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
+            [KImport(imp) for imp in imports]
+            + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
             + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
             + ([KImport('NO-STACK-CHECKS')])
             + ([KImport('NO-CODE-SIZE-CHECKS')])
