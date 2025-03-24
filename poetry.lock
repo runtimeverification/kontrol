@@ -1002,7 +1002,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.812"
+version = "1.0.678"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1019,8 +1019,8 @@ tomlkit = "^0.11.6"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.812"
-resolved_reference = "5d1757480a9ef037631dfdd316f24c6fcafe50bf"
+reference = "support-gas-cost"
+resolved_reference = "c267123acddb2829d410d63255975b3cd0a43dab"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -2124,4 +2124,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "20794ff688bda7fab07fead764172ecafd90358422529dccc54b5ca85f1ca3b6"
+content-hash = "345f25d5c4bc5d183b18987c3636b3a481ea106facda74939d885b17de92e543"
