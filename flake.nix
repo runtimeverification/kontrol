@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.802";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.813";
     nixpkgs.follows = "kevm/nixpkgs";
     k-framework.follows = "kevm/k-framework";
     flake-utils.follows = "kevm/flake-utils";
@@ -10,7 +10,7 @@
     poetry2nix.follows = "kevm/poetry2nix";
     foundry = {
       url =
-        "github:shazow/foundry.nix/monthly"; # Use monthly branch for permanent releases
+        "github:shazow/foundry.nix?rev=221d7506a99f285ec6aee26245c55bbef8a407f1"; # Use the same version as CI
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };

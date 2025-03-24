@@ -94,7 +94,7 @@ jobs:
           if [ ${{ matrix.backend }} == 'legacy' ]; then
             TEST_ARGS+=' --no-use-booster --numprocesses=6'
           else
-            TEST_ARGS+=' --numprocesses=4'
+            TEST_ARGS+=' --numprocesses=3'
           fi
           docker exec --user github-user kontrol-ci-integration-${GITHUB_SHA} make cov-integration TEST_ARGS="${TEST_ARGS}"
       - name: 'Tear down Docker'
@@ -229,7 +229,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ubuntu-latest, macos-13, MacM1]  # MacM1 is self-hosted
+        runner: [normal, MacM1]  # MacM1 / normal are self-hosted, 
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 60
     steps:
