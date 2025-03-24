@@ -836,10 +836,6 @@ class Contract:
         return Contract.escaped(c, 'S2K') + '-CONTRACT'
 
     @staticmethod
-    def contract_to_verification_module_name(c: str) -> str:
-        return Contract.escaped(c, 'S2K') + '-VERIFICATION'
-
-    @staticmethod
     def escaped_chars() -> list[str]:
         return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%', '@']
 
@@ -994,12 +990,6 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
 def contract_to_main_module(contract: Contract, imports: Iterable[str] = ()) -> KFlatModule:
     module_name = Contract.contract_to_module_name(contract.name_with_path)
     return KFlatModule(module_name, [], [KImport(i) for i in list(imports)])
-
-
-def contract_to_verification_module(contract: Contract, imports: Iterable[str]) -> KFlatModule:
-    main_module_name = Contract.contract_to_module_name(contract.name_with_path)
-    verification_module_name = Contract.contract_to_verification_module_name(contract.name_with_path)
-    return KFlatModule(verification_module_name, [], [KImport(main_module_name)] + [KImport(i) for i in list(imports)])
 
 
 # Helpers

@@ -16,7 +16,6 @@ from pyk.utils import ensure_dir_path, hash_str
 
 from . import VERSION
 from .kdist.utils import KSRC_DIR
-from .solc_to_k import Contract, contract_to_main_module
 from .utils import _read_digest_file, _rv_blue, console, kontrol_up_to_date
 
 if TYPE_CHECKING:
@@ -171,23 +170,6 @@ def foundry_kompile(
 
     update_kompilation_digest()
     foundry.update_digest()
-
-
-def _foundry_to_contract_def(
-    contracts: Iterable[Contract],
-    requires: Iterable[str],
-    enums: dict[str, int],
-) -> KDefinition:
-    modules = [contract_to_main_module(contract, imports=['FOUNDRY']) for contract in contracts]
-    # First module is chosen as main module arbitrarily, since the contract definition is just a set of
-    # contract modules.
-    main_module = Contract.contract_to_module_name(list(contracts)[0].name_with_path)
-
-    return KDefinition(
-        main_module,
-        modules,
-        requires=(KRequire(req) for req in list(requires)),
-    )
 
 
 def _foundry_to_main_def(
