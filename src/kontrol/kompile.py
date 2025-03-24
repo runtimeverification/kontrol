@@ -16,7 +16,7 @@ from pyk.utils import ensure_dir_path, hash_str
 
 from . import VERSION
 from .kdist.utils import KSRC_DIR
-from .solc_to_k import Contract, contract_to_main_module, contract_to_verification_module
+from .solc_to_k import Contract, contract_to_main_module
 from .utils import _read_digest_file, _rv_blue, console, kontrol_up_to_date
 
 if TYPE_CHECKING:
@@ -106,28 +106,15 @@ def foundry_kompile(
 
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
-        bin_runtime_definition = _foundry_to_contract_def(
-            contracts=foundry.contracts.values(),
-            requires=['foundry.md'],
-            enums=foundry.enums,
-        )
-
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
-            contracts=foundry.contracts.values(),
-            requires=(['contracts.k'] + copied_requires),
+            requires=(['foundry.md'] + copied_requires),
             imports=_imports,
             keccak_lemmas=options.keccak_lemmas,
             auxiliary_lemmas=options.auxiliary_lemmas,
         )
 
-        kevm = KEVM(
-            kdist.get('kontrol.foundry'),
-            extra_unparsing_modules=(bin_runtime_definition.all_modules + contract_main_definition.all_modules),
-        )
-
-        foundry_contracts_file.write_text(kevm.pretty_print(bin_runtime_definition, unalias=False) + '\n')
-        _LOGGER.info(f'Wrote file: {foundry_contracts_file}')
+        kevm = KEVM(kdist.get('kontrol.foundry'))
         foundry.main_file.write_text(kevm.pretty_print(contract_main_definition) + '\n')
         _LOGGER.info(f'Wrote file: {foundry.main_file}')
 
@@ -205,20 +192,15 @@ def _foundry_to_contract_def(
 
 def _foundry_to_main_def(
     main_module: str,
-    contracts: Iterable[Contract],
     requires: Iterable[str],
     imports: dict[str, list[str]],
     keccak_lemmas: bool,
     auxiliary_lemmas: bool,
 ) -> KDefinition:
-    modules = [
-        contract_to_verification_module(contract, imports=imports[contract.name_with_path]) for contract in contracts
-    ]
     _main_module = KFlatModule(
         main_module,
         imports=tuple(
-            [KImport(mname) for mname in (_m.name for _m in modules)]
-            + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
+            ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
             + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
             + ([KImport('NO-STACK-CHECKS')])
             + ([KImport('NO-CODE-SIZE-CHECKS')])
@@ -227,7 +209,7 @@ def _foundry_to_main_def(
 
     return KDefinition(
         main_module,
-        [_main_module] + modules,
+        [_main_module],
         requires=(KRequire(req) for req in list(requires)),
     )
 
