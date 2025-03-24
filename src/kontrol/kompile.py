@@ -34,13 +34,14 @@ def foundry_kompile(
 ) -> None:
     foundry_requires_dir = foundry.kompiled / 'requires'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
-    main_module = 'KONTROL-BASE'
+    main_module = 'KONTROL-MAIN'
+    base_definition = 'KONTROL-BASE'
     if options.keccak_lemmas and not options.auxiliary_lemmas:
-        main_module = 'KONTROL-KECCAK'
+        base_definition = 'KONTROL-KECCAK'
     elif not options.keccak_lemmas and options.auxiliary_lemmas:
-        main_module = 'KONTROL-AUX'
+        base_definition = 'KONTROL-AUX'
     else:
-        main_module = 'KONTROL-FULL'
+        base_definition = 'KONTROL-FULL'
     includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
     requires_paths: dict[str, str] = {}
 
@@ -105,6 +106,7 @@ def foundry_kompile(
         flattened_imports = list(unique([imp for module_imports in _imports.values() for imp in module_imports]))
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
+            base_definition=base_definition,
             requires=(['foundry.md'] + copied_requires),
             imports=flattened_imports,
             keccak_lemmas=options.keccak_lemmas,
@@ -172,6 +174,7 @@ def foundry_kompile(
 
 def _foundry_to_main_def(
     main_module: str,
+    base_definition: str,
     requires: Iterable[str],
     imports: list[str],
     keccak_lemmas: bool,
@@ -179,11 +182,7 @@ def _foundry_to_main_def(
 ) -> KDefinition:
     _main_module = KFlatModule(
         main_module,
-        imports=tuple(
-            [KImport(imp) for imp in imports]
-            + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
-            + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
-        ),
+        imports=tuple([KImport(imp) for imp in imports] + [KImport(base_definition)]),
     )
 
     return KDefinition(
