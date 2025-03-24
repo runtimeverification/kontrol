@@ -61,7 +61,7 @@ module KONTROL-AUX-LEMMAS
       requires C +Int D ==Int 0 [simplification, preserves-definedness]
 
     // modInt
-    rule (X *Int Y) modInt Z => 0 requires X modInt Z ==Int 0 [simplification, concrete(X, Z), preserves-definedness]
+    rule (X *Int _Y) modInt Z => 0 requires X modInt Z ==Int 0 [simplification, concrete(X, Z), preserves-definedness]
 
     // >>Int
     rule [shift-to-div]: X >>Int N => X /Int (2 ^Int N)
@@ -197,9 +197,9 @@ module KONTROL-AUX-LEMMAS
     rule KI:KItem in ListItem(KJ:KItem) => KI ==K KJ [simplification]
 
     // Recursive list membership check for lists with multiple elements
-    rule KI:KItem in (ListItem(KI) Rest) => true [simplification]
-    rule KI:KItem in (ListItem(KJ) Rest) => KI in Rest [simplification]
-    rule KI:KItem in .List => false [simplification]
+    rule KI:KItem in (ListItem(KI) _REST) => true [simplification]
+    rule KI:KItem in (ListItem(_KJ) REST) => KI in REST [simplification]
+    rule _KI:KItem in .List => false [simplification]
 
 endmodule
 ```

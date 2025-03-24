@@ -38,7 +38,6 @@ module NO-CODE-SIZE-CHECKS
            <nonce> NONCE </nonce>
            ...
          </account>
-         <schedule> SCHED </schedule>
       [preserves-definedness, priority(30)]
 
 endmodule
