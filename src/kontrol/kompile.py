@@ -12,7 +12,7 @@ from kevm_pyk.kevm import KEVM
 from kevm_pyk.kompile import kevm_kompile
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kdist import kdist
-from pyk.utils import ensure_dir_path, hash_str
+from pyk.utils import ensure_dir_path, hash_str, unique
 
 from . import VERSION
 from .kdist.utils import KSRC_DIR
@@ -104,7 +104,7 @@ def foundry_kompile(
 
         copied_requires = []
         copied_requires += [f'requires/{name}' for name in list(requires_paths.keys())]
-        flattened_imports = [imp for module_imports in _imports.values() for imp in module_imports]
+        flattened_imports = list(unique([imp for module_imports in _imports.values() for imp in module_imports]))
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
             requires=(['foundry.md'] + copied_requires),
