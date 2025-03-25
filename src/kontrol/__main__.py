@@ -39,7 +39,7 @@ from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
 from .solc import CompilationUnit
-from .solc_to_k import solc_compile, solc_to_k
+from .solc_to_k import solc_compile
 from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
 
 if TYPE_CHECKING:
@@ -65,7 +65,6 @@ if TYPE_CHECKING:
         SectionEdgeOptions,
         ShowOptions,
         SimplifyNodeOptions,
-        SolcToKOptions,
         SplitNodeOptions,
         StepNodeOptions,
         ToDotOptions,
@@ -146,11 +145,6 @@ def exec_version(options: VersionOptions) -> None:
 def exec_compile(options: CompileOptions) -> None:
     res = solc_compile(options.contract_file)
     print(json.dumps(res))
-
-
-def exec_solc_to_k(options: SolcToKOptions) -> None:
-    k_text = solc_to_k(options)
-    print(k_text)
 
 
 def exec_build(options: BuildOptions) -> None:

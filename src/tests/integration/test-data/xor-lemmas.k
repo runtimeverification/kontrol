@@ -1,5 +1,5 @@
 module XOR-LEMMAS
-    imports FOUNDRY-MAIN
+    imports KONTROL-MAIN
 
     rule A xorInt A => 0 [simplification]
 
