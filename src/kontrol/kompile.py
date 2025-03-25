@@ -107,7 +107,7 @@ def foundry_kompile(
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
             base_definition=base_definition,
-            requires=(['foundry.md'] + copied_requires),
+            requires=(['kontrol.md'] + copied_requires),
             imports=flattened_imports,
             keccak_lemmas=options.keccak_lemmas,
             auxiliary_lemmas=options.auxiliary_lemmas,
