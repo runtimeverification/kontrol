@@ -264,19 +264,6 @@ def _create_argument_parser() -> ArgumentParser:
     solc_args = command_parser.add_parser('compile', help='Generate combined JSON with solc compilation results.')
     solc_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
 
-    solc_to_k_args = command_parser.add_parser(
-        'solc-to-k',
-        help='Output helper K definition for given JSON output from solc compiler.',
-        parents=[
-            kontrol_cli_args.logging_args,
-            kontrol_cli_args.k_args,
-            kontrol_cli_args.k_gen_args,
-            config_args.config_args,
-        ],
-    )
-    solc_to_k_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
-    solc_to_k_args.add_argument('contract_name', type=str, help='Name of contract to generate K helpers for.')
-
     build = command_parser.add_parser(
         'build',
         help='Kompile K definition corresponding to given output directory.',
