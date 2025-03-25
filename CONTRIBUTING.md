@@ -29,7 +29,7 @@ The first step is to develop and test your changes locally.
 kup install k.openssl.secp256k1 --version v$(cat deps/k_release)
 poetry install
 poetry run kdist clean
-CXX=clang++-14 poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.base
+CXX=clang++-14 poetry run kdist --verbose build -j2 kontrol.*
 ```
 (see more detailed instructions [here](https://github.com/runtimeverification/kontrol?tab=readme-ov-file#build-from-source))
 
