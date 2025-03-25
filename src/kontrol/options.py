@@ -697,26 +697,6 @@ class SimplifyNodeOptions(
         )
 
 
-class SolcToKOptions(LoggingOptions, KOptions, KGenOptions):
-    contract_file: Path
-    contract_name: str
-
-    @staticmethod
-    def from_option_string() -> dict[str, str]:
-        return KOptions.from_option_string() | LoggingOptions.from_option_string() | KGenOptions.from_option_string()
-
-    @staticmethod
-    def get_argument_type() -> dict[str, Callable]:
-        return (
-            LoggingOptions.get_argument_type()
-            | KOptions.get_argument_type()
-            | KGenOptions.get_argument_type()
-            | {
-                'contract_file': file_path,
-            }
-        )
-
-
 class SplitNodeOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
     node: NodeIdLike
     branch_condition: str
