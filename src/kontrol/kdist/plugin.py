@@ -20,7 +20,7 @@ __TARGETS__: Final = {
             'syntax_module': 'KONTROL-BASE',
         },
     ),
-    'kontrol-keccak': KEVMTarget(
+    'keccak': KEVMTarget(
         {
             'target': KompileTarget.HASKELL,
             'main_file': KSRC_DIR / 'kontrol.md',
@@ -28,7 +28,7 @@ __TARGETS__: Final = {
             'syntax_module': 'KONTROL-KECCAK',
         },
     ),
-    'kontrol-aux': KEVMTarget(
+    'aux': KEVMTarget(
         {
             'target': KompileTarget.HASKELL,
             'main_file': KSRC_DIR / 'kontrol.md',
@@ -36,7 +36,7 @@ __TARGETS__: Final = {
             'syntax_module': 'KONTROL-AUX',
         },
     ),
-    'kontrol-full': KEVMTarget(
+    'full': KEVMTarget(
         {
             'target': KompileTarget.HASKELL,
             'main_file': KSRC_DIR / 'kontrol.md',
