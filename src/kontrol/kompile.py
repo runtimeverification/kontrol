@@ -121,17 +121,22 @@ def foundry_kompile(
         k_files = list(options.requires) + [foundry.main_file]
         return hash_str(''.join([hash_str(Path(k_file).read_text()) for k_file in k_files]))
 
+    def options_digest() -> str:
+        return hash_str(str(options))
+
     def kompilation_up_to_date() -> bool:
         if not foundry.digest_file.exists():
             return False
         digest_dict = _read_digest_file(foundry.digest_file)
-        return digest_dict.get('kompilation', '') == kompilation_digest()
+        komp_digest = digest_dict.get('kompilation', '') == kompilation_digest()
+        opt_digest = digest_dict.get('build-options', '') == options_digest()
+        return komp_digest and opt_digest
 
     def update_kompilation_digest() -> None:
         digest_dict = _read_digest_file(foundry.digest_file)
         digest_dict['kompilation'] = kompilation_digest()
         digest_dict['kontrol'] = VERSION
-        digest_dict['build-options'] = str(options)
+        digest_dict['build-options'] = options_digest()
         foundry.digest_file.write_text(json.dumps(digest_dict, indent=4))
 
         _LOGGER.info('Updated Kompilation digest')
