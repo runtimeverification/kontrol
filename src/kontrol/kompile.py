@@ -145,7 +145,7 @@ def foundry_kompile(
         if options.rekompile or not kompiled_timestamp.exists():
             return True
 
-        return not (kompilation_up_to_date() and foundry.up_to_date() and kontrol_up_to_date(foundry.digest_file))
+        return not (kompilation_up_to_date() and kontrol_up_to_date(foundry.digest_file))
 
     if should_rekompile():
         output_dir = foundry.kompiled
