@@ -35,7 +35,7 @@ poetry install
 #### Build using the virtual environment
 
 In order to build `kontrol`, you need to build these specific targets.
-Note that you can use `kontrol.base` (without keccak or aux lemmas), `kontrol.aux` (with aux lemmas), `kontrol.keccak` (with keccak lemmas) and `kontrol.full` (with all lemmas) instead of `kontrol.*` (which builds them all).
+Note that you can use `kontrol.base` (without [keccak](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/keccak.md) or [aux](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/kontrol_lemmas.md) lemmas), `kontrol.aux` (with aux lemmas), `kontrol.keccak` (with keccak lemmas) and `kontrol.full` (with all lemmas) instead of `kontrol.*` (which builds them all).
 
 ```sh
 poetry run kdist --verbose build -j2 kontrol.*
