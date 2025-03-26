@@ -882,14 +882,14 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.130.3"
+version = "6.130.4"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "hypothesis-6.130.3-py3-none-any.whl", hash = "sha256:3dd7f2724ebbd81f4b8fbcd5714ef5f7476cdfd48320e449f0b8289f1b696028"},
-    {file = "hypothesis-6.130.3.tar.gz", hash = "sha256:b8223c195f31e4bfcd9ad02211d50a5b8ff4fc0413780976e8e9947581ec8fbb"},
+    {file = "hypothesis-6.130.4-py3-none-any.whl", hash = "sha256:cda4a57115d10ecbefe0a9cc8d69d20a13eb56ecbfe7c24eaee5d368c2b7c477"},
+    {file = "hypothesis-6.130.4.tar.gz", hash = "sha256:d0672eb0ac1060b0324b0e43925a50b2bef1c60a32739bb9233000d85838436a"},
 ]
 
 [package.dependencies]
@@ -1002,7 +1002,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.813"
+version = "1.0.814"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1012,27 +1012,27 @@ develop = false
 
 [package.dependencies]
 frozendict = "^2.4.6"
-kframework = "7.1.230"
+kframework = "7.1.232"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.813"
-resolved_reference = "506a17836deb7431c5f0d1bcffe3f121d6e2f2f0"
+reference = "v1.0.814"
+resolved_reference = "e1dfdf0fec8ebdc4d1935fa991c2051fc85575b3"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.230"
+version = "7.1.232"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "kframework-7.1.230-py3-none-any.whl", hash = "sha256:1e9c28ff06bb9083d6e6cb0f257245c49463dac6229a22975eab906a00d714e6"},
-    {file = "kframework-7.1.230.tar.gz", hash = "sha256:be7d8387a13a0fb5e1049ed6a0804b6eaddfb511470f38e5981689ed6ce31048"},
+    {file = "kframework-7.1.232-py3-none-any.whl", hash = "sha256:ac7a9e9d7da9b160038db7417138ac4b2ac08bf93212b7913d2bb310ae7b647f"},
+    {file = "kframework-7.1.232.tar.gz", hash = "sha256:9b2f413a82c774997ecc2f563df21589cdf4e476a062f431bcab80f1c9dedcff"},
 ]
 
 [package.dependencies]
@@ -1864,14 +1864,14 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "77.0.3"
+version = "78.0.2"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "setuptools-77.0.3-py3-none-any.whl", hash = "sha256:67122e78221da5cf550ddd04cf8742c8fe12094483749a792d56cd669d6cf58c"},
-    {file = "setuptools-77.0.3.tar.gz", hash = "sha256:583b361c8da8de57403743e756609670de6fb2345920e36dc5c2d914c319c945"},
+    {file = "setuptools-78.0.2-py3-none-any.whl", hash = "sha256:4a612c80e1f1d71b80e4906ce730152e8dec23df439f82731d9d0b608d7b700d"},
+    {file = "setuptools-78.0.2.tar.gz", hash = "sha256:137525e6afb9022f019d6e884a319017f9bf879a0d8783985d32cbc8683cab93"},
 ]
 
 [package.extras]
@@ -2124,4 +2124,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "366517b484b6df263a506c9af179af583e750845b8deaf1e3583387164850728"
+content-hash = "f6686a8d0d3ca3d26932055834a6cc1c72920363f67ff0f176e00a1fd245c252"
