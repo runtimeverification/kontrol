@@ -51,7 +51,7 @@ def foundry_kompile(
     foundry_up_to_date = True
 
     if not foundry.up_to_date():
-        _LOGGER.info('Detected updates to contracts, regenerating K definition.')
+        _LOGGER.info('Detected updates to contracts.')
         regen = True
         foundry_up_to_date = False
 
