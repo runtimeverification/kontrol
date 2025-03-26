@@ -587,7 +587,7 @@ def _create_argument_parser() -> ArgumentParser:
         dest='extra_module',
         default=None,
         help=(
-            'File and extra module to include for verification (which must import FOUNDRY-MAIN module).'
+            'File and extra module to include for verification (which must import KONTROL-MAIN module).'
             'Format is <file>:<module name>.'
         ),
     )

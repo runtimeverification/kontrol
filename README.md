@@ -34,19 +34,21 @@ poetry install
 
 #### Build using the virtual environment
 
-In order to build `kontrol`, you need to build these specific targets:
+In order to build `kontrol`, you need to build these specific targets.
+Note that you can use `kontrol.base` (without [keccak](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/keccak.md) or [aux](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/kontrol_lemmas.md) lemmas), `kontrol.aux` (with aux lemmas), `kontrol.keccak` (with keccak lemmas) and `kontrol.full` (with all lemmas) instead of `kontrol.*` (which builds them all).
+
 ```sh
-poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry
+poetry run kdist --verbose build -j2 kontrol.*
 ```
 
 To change the default compiler:
 ```sh
-CXX=clang++-14 poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry
+CXX=clang++-14 poetry run kdist --verbose build -j2 kontrol.*
 ```
 
 On Apple Silicon:
 ```sh
-APPLE_SILICON=true poetry run kdist --verbose build -j2 evm-semantics.haskell kontrol.foundry
+APPLE_SILICON=true poetry run kdist --verbose build -j2 kontrol.*
 ```
 
 Targets can be cleaned with:

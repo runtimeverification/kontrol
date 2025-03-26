@@ -34,7 +34,14 @@ def foundry_kompile(
 ) -> None:
     foundry_requires_dir = foundry.kompiled / 'requires'
     kompiled_timestamp = foundry.kompiled / 'timestamp'
-    main_module = 'FOUNDRY-MAIN'
+    main_module = 'KONTROL-MAIN'
+    base_definition = 'KONTROL-BASE'
+    if options.keccak_lemmas and not options.auxiliary_lemmas:
+        base_definition = 'KONTROL-KECCAK'
+    elif not options.keccak_lemmas and options.auxiliary_lemmas:
+        base_definition = 'KONTROL-AUX'
+    else:
+        base_definition = 'KONTROL-FULL'
     includes = [Path(include) for include in options.includes if Path(include).exists()] + [KSRC_DIR]
     requires_paths: dict[str, str] = {}
 
@@ -56,15 +63,7 @@ def foundry_kompile(
         foundry_up_to_date = False
 
     options.requires = [str(foundry._root / r) for r in options.requires]
-
-    requires = (
-        options.requires
-        + ([KSRC_DIR / 'keccak.md'] if options.keccak_lemmas else [])
-        + ([KSRC_DIR / 'kontrol_lemmas.md'] if options.auxiliary_lemmas else [])
-        + ([KSRC_DIR / 'no_stack_checks.md'])
-        + ([KSRC_DIR / 'no_code_size_checks.md'])
-    )
-    for r in tuple(requires):
+    for r in options.requires:
         req = Path(r)
         if not req.exists():
             raise ValueError(f'No such file: {req}')
@@ -107,13 +106,14 @@ def foundry_kompile(
         flattened_imports = list(unique([imp for module_imports in _imports.values() for imp in module_imports]))
         contract_main_definition = _foundry_to_main_def(
             main_module=main_module,
-            requires=(['foundry.md'] + copied_requires),
+            base_definition=base_definition,
+            requires=(['kontrol.md'] + copied_requires),
             imports=flattened_imports,
             keccak_lemmas=options.keccak_lemmas,
             auxiliary_lemmas=options.auxiliary_lemmas,
         )
 
-        kevm = KEVM(kdist.get('kontrol.foundry'))
+        kevm = KEVM(kdist.get('kontrol.base'))
         foundry.main_file.write_text(kevm.pretty_print(contract_main_definition) + '\n')
         _LOGGER.info(f'Wrote file: {foundry.main_file}')
 
@@ -174,6 +174,7 @@ def foundry_kompile(
 
 def _foundry_to_main_def(
     main_module: str,
+    base_definition: str,
     requires: Iterable[str],
     imports: list[str],
     keccak_lemmas: bool,
@@ -181,13 +182,7 @@ def _foundry_to_main_def(
 ) -> KDefinition:
     _main_module = KFlatModule(
         main_module,
-        imports=tuple(
-            [KImport(imp) for imp in imports]
-            + ([KImport('KECCAK-LEMMAS')] if keccak_lemmas else [])
-            + ([KImport('KONTROL-AUX-LEMMAS')] if auxiliary_lemmas else [])
-            + ([KImport('NO-STACK-CHECKS')])
-            + ([KImport('NO-CODE-SIZE-CHECKS')])
-        ),
+        imports=tuple([KImport(imp) for imp in imports] + [KImport(base_definition)]),
     )
 
     return KDefinition(
