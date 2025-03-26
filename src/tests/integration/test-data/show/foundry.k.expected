@@ -1,20 +1,15 @@
-requires "foundry.md"
+requires "kontrol.md"
 requires "requires/lemmas.k"
 requires "requires/cse-lemmas.k"
 requires "requires/pausability-lemmas.k"
 requires "requires/symbolic-bytes-lemmas.k"
-requires "requires/keccak.md"
-requires "requires/no_stack_checks.md"
-requires "requires/no_code_size_checks.md"
 
-module FOUNDRY-MAIN
+module KONTROL-MAIN
     imports public CSE-LEMMAS
     imports public SYMBOLIC-BYTES-LEMMAS
     imports public SUM-TO-N-INVARIANT
     imports public PAUSABILITY-LEMMAS
-    imports public KECCAK-LEMMAS
-    imports public NO-STACK-CHECKS
-    imports public NO-CODE-SIZE-CHECKS
+    imports public KONTROL-KECCAK
     
     
 

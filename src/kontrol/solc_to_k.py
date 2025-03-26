@@ -31,7 +31,7 @@ _LOGGER: Final = logging.getLogger(__name__)
 
 
 def solc_to_k(options: SolcToKOptions) -> str:
-    definition_dir = kdist.get('evm-semantics.haskell')
+    definition_dir = kdist.get('kontrol.base')
 
     solc_json = solc_compile(options.contract_file)
     contract_json = solc_json['contracts'][options.contract_file.name][options.contract_name]
