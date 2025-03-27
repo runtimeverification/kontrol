@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import logging
 from functools import partial
 from shutil import copytree
+from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import pytest
@@ -26,6 +28,9 @@ if TYPE_CHECKING:
 
 FORGE_STD_REF: Final = '75f1746'
 KONTROL_CHEATCODES_REF: Final = 'a5dd4b0'
+
+
+_LOGGER: Final = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -73,29 +78,35 @@ def foundry(foundry_root_dir: Path | None, tmp_path_factory: TempPathFactory, wo
             )
             run_process_2(['forge', 'build'], cwd=foundry_root)
 
-            foundry_kompile(
-                BuildOptions(
-                    {
-                        'includes': (),
-                        'requires': [
-                            str(TEST_DATA_DIR / 'lemmas.k'),
-                            str(TEST_DATA_DIR / 'cse-lemmas.k'),
-                            str(TEST_DATA_DIR / 'pausability-lemmas.k'),
-                            str(TEST_DATA_DIR / 'symbolic-bytes-lemmas.k'),
-                        ],
-                        'imports': [
-                            'LoopsTest:SUM-TO-N-INVARIANT',
-                            'ArithmeticCallTest:CSE-LEMMAS',
-                            'CSETest:CSE-LEMMAS',
-                            'PortalTest:PAUSABILITY-LEMMAS',
-                            'ImmutableVarsTest:SYMBOLIC-BYTES-LEMMAS',
-                        ],
-                        'enum_constraints': True,
-                        'metadata': False,
-                    }
-                ),
-                foundry=Foundry(foundry_root, add_enum_constraints=True),
-            )
+            try:
+                foundry_kompile(
+                    BuildOptions(
+                        {
+                            'includes': (),
+                            'requires': [
+                                str(TEST_DATA_DIR / 'lemmas.k'),
+                                str(TEST_DATA_DIR / 'cse-lemmas.k'),
+                                str(TEST_DATA_DIR / 'pausability-lemmas.k'),
+                                str(TEST_DATA_DIR / 'symbolic-bytes-lemmas.k'),
+                            ],
+                            'imports': [
+                                'LoopsTest:SUM-TO-N-INVARIANT',
+                                'ArithmeticCallTest:CSE-LEMMAS',
+                                'CSETest:CSE-LEMMAS',
+                                'PortalTest:PAUSABILITY-LEMMAS',
+                                'ImmutableVarsTest:SYMBOLIC-BYTES-LEMMAS',
+                            ],
+                            'enum_constraints': True,
+                            'metadata': False,
+                        }
+                    ),
+                    foundry=Foundry(foundry_root, add_enum_constraints=True),
+                )
+            except CalledProcessError as e:
+                _LOGGER.warning(e)
+                _LOGGER.warning(e.stdout)
+                _LOGGER.warning(e.stderr)
+                raise e
 
     session_foundry_root = tmp_path_factory.mktemp('foundry')
     copytree(str(foundry_root), str(session_foundry_root), dirs_exist_ok=True)

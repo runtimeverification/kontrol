@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import logging
 import sys
 from shutil import copytree
+from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import pytest
@@ -28,6 +30,9 @@ if TYPE_CHECKING:
 
 
 sys.setrecursionlimit(10**7)
+
+
+_LOGGER: Final = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope='module')
@@ -62,17 +67,23 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
             copytree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'), dirs_exist_ok=True)
             append_to_file(foundry_root / 'foundry.toml', foundry_toml_cancun_schedule())
 
-            foundry_kompile(
-                BuildOptions(
-                    {
-                        'require': str(foundry_root / 'lemmas.k'),
-                        'module-import': 'TestBase:KONTROL-LEMMAS',
-                        'metadata': False,
-                        'auxiliary_lemmas': True,
-                    }
-                ),
-                foundry=Foundry(foundry_root),
-            )
+            try:
+                foundry_kompile(
+                    BuildOptions(
+                        {
+                            'require': str(foundry_root / 'lemmas.k'),
+                            'module-import': 'TestBase:KONTROL-LEMMAS',
+                            'metadata': False,
+                            'auxiliary_lemmas': True,
+                        }
+                    ),
+                    foundry=Foundry(foundry_root),
+                )
+            except CalledProcessError as e:
+                _LOGGER.warning(e)
+                _LOGGER.warning(e.stdout)
+                _LOGGER.warning(e.stderr)
+                raise
 
     session_foundry_root = tmp_path_factory.mktemp('kontrol-test-project')
     copytree(str(foundry_root), str(session_foundry_root), dirs_exist_ok=True)

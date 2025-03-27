@@ -2,7 +2,7 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.813";
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.814";
     nixpkgs.follows = "kevm/nixpkgs";
     k-framework.follows = "kevm/k-framework";
     flake-utils.follows = "kevm/flake-utils";
@@ -89,7 +89,7 @@
                   prev.lib.optionalString
                   (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
                   "APPLE_SILICON=true"
-                } kdist -v build kontrol.foundry
+                } kdist -v build kontrol.base
               '';
 
               installPhase = ''

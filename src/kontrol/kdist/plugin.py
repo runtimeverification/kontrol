@@ -12,12 +12,36 @@ if TYPE_CHECKING:
 
 
 __TARGETS__: Final = {
-    'foundry': KEVMTarget(
+    'base': KEVMTarget(
         {
             'target': KompileTarget.HASKELL,
-            'main_file': KSRC_DIR / 'foundry.md',
-            'main_module': 'FOUNDRY',
-            'syntax_module': 'FOUNDRY',
+            'main_file': KSRC_DIR / 'kontrol.md',
+            'main_module': 'KONTROL-BASE',
+            'syntax_module': 'KONTROL-BASE',
+        },
+    ),
+    'keccak': KEVMTarget(
+        {
+            'target': KompileTarget.HASKELL,
+            'main_file': KSRC_DIR / 'kontrol.md',
+            'main_module': 'KONTROL-KECCAK',
+            'syntax_module': 'KONTROL-KECCAK',
+        },
+    ),
+    'aux': KEVMTarget(
+        {
+            'target': KompileTarget.HASKELL,
+            'main_file': KSRC_DIR / 'kontrol.md',
+            'main_module': 'KONTROL-AUX',
+            'syntax_module': 'KONTROL-AUX',
+        },
+    ),
+    'full': KEVMTarget(
+        {
+            'target': KompileTarget.HASKELL,
+            'main_file': KSRC_DIR / 'kontrol.md',
+            'main_module': 'KONTROL-FULL',
+            'syntax_module': 'KONTROL-FULL',
         },
     ),
 }
