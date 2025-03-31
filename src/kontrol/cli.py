@@ -180,23 +180,6 @@ class KontrolCLIArgs(KEVMCLIArgs):
         return args
 
     @cached_property
-    def k_gen_args(self) -> ArgumentParser:
-        args = ArgumentParser(add_help=False)
-        args.add_argument(
-            '--require',
-            dest='requires',
-            action='append',
-            help='Extra K requires to include in generated output.',
-        )
-        args.add_argument(
-            '--module-import',
-            dest='imports',
-            action='append',
-            help='Extra modules to import into generated main module.',
-        )
-        return args
-
-    @cached_property
     def rpc_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
         args.add_argument(
@@ -275,7 +258,6 @@ def _create_argument_parser() -> ArgumentParser:
         parents=[
             kontrol_cli_args.logging_args,
             kontrol_cli_args.k_args,
-            kontrol_cli_args.k_gen_args,
             kontrol_cli_args.kompile_args,
             kontrol_cli_args.foundry_args,
             config_args.config_args,
@@ -336,6 +318,18 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Include auxiliary Kontrol lemmas.',
+    )
+    build.add_argument(
+        '--require',
+        dest='requires',
+        action='append',
+        help='Extra K requires to include in generated output.',
+    )
+    build.add_argument(
+        '--module-import',
+        dest='imports',
+        action='append',
+        help='Extra modules to import into generated main module.',
     )
 
     state_diff_args = command_parser.add_parser(
