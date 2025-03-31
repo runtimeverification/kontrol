@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import pytest
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KVariable
@@ -17,14 +15,6 @@ from kontrol.solc_to_k import (
     process_length_equals,
     process_storage_layout,
 )
-
-from .utils import TEST_DATA_DIR
-
-if TYPE_CHECKING:
-    from typing import Final
-
-
-EXAMPLES_DIR: Final = TEST_DATA_DIR / 'examples'
 
 PREDICATE_DATA: list[tuple[str, KApply, int | None, list[KApply]]] = [
     ('bytes4', KApply('bytes4', KVariable('V0_x')), None, [KEVM.range_bytes(intToken(4), KVariable('V0_x'))]),

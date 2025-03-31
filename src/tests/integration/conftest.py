@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-from functools import partial
 from shutil import copytree
 from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
@@ -15,10 +14,10 @@ from kontrol.foundry import Foundry
 from kontrol.kompile import foundry_kompile
 from kontrol.options import BuildOptions
 
-from .utils import TEST_DATA_DIR, gen_bin_runtime
+from .utils import TEST_DATA_DIR
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator
+    from collections.abc import Iterator
     from pathlib import Path
     from typing import Final
 
@@ -31,11 +30,6 @@ KONTROL_CHEATCODES_REF: Final = 'a5dd4b0'
 
 
 _LOGGER: Final = logging.getLogger(__name__)
-
-
-@pytest.fixture
-def bin_runtime(tmp_path: Path) -> Callable[[Path], tuple[Path, str]]:
-    return partial(gen_bin_runtime, output_dir=tmp_path)
 
 
 @pytest.fixture(scope='module')
