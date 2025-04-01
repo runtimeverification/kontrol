@@ -171,6 +171,12 @@ def exec_build(options: BuildOptions) -> None:
 def exec_prove(options: ProveOptions) -> None:
     _LOGGER.debug(options)
 
+    if options.extra_module is not None:
+        _LOGGER.warning('Option --extra-module is being deprecated in favor of option --lemmas.')
+        if options.lemmas is not None:
+            raise ValueError('Cannot specify both --extra-module and --lemmas, prefer --lemmas.')
+        options.lemmas = options.extra_module
+
     if options.recorded_diff_state_path and options.recorded_dump_state_path:
         raise AssertionError('Provide only one file for recorded state updates')
 

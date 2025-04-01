@@ -1006,7 +1006,7 @@ def test_foundry_extra_lemmas(
                 'break_on_calls': True,
                 'port': server.port,
                 'force_sequential': force_sequential,
-                'extra_module': f'{TEST_DATA_DIR / lemmas_file}:XOR-LEMMAS',
+                'lemmas': f'{TEST_DATA_DIR / lemmas_file}:XOR-LEMMAS',
             }
         ),
     )
