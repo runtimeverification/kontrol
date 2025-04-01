@@ -26,7 +26,6 @@ from .options import (
     SectionEdgeOptions,
     ShowOptions,
     SimplifyNodeOptions,
-    SolcToKOptions,
     SplitNodeOptions,
     StepNodeOptions,
     ToDotOptions,
@@ -51,7 +50,6 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'load-state': LoadStateOptions(args),
         'version': VersionOptions(args),
         'compile': CompileOptions(args),
-        'solc-to-k': SolcToKOptions(args),
         'build': BuildOptions(args),
         'prove': ProveOptions(args),
         'show': ShowOptions(args),
@@ -83,7 +81,6 @@ def get_option_string_destination(command: str, option_string: str) -> str:
         'load-state': LoadStateOptions.from_option_string(),
         'version': VersionOptions.from_option_string(),
         'compile': CompileOptions.from_option_string(),
-        'solc-to-k': SolcToKOptions.from_option_string(),
         'build': BuildOptions.from_option_string(),
         'prove': ProveOptions.from_option_string(),
         'show': ShowOptions.from_option_string(),
@@ -113,7 +110,6 @@ def get_argument_type_setter(command: str, option_string: str) -> Callable[[str]
         'load-state': LoadStateOptions.get_argument_type(),
         'version': VersionOptions.get_argument_type(),
         'compile': CompileOptions.get_argument_type(),
-        'solc-to-k': SolcToKOptions.get_argument_type(),
         'build': BuildOptions.get_argument_type(),
         'prove': ProveOptions.get_argument_type(),
         'show': ShowOptions.get_argument_type(),
@@ -263,19 +259,6 @@ def _create_argument_parser() -> ArgumentParser:
 
     solc_args = command_parser.add_parser('compile', help='Generate combined JSON with solc compilation results.')
     solc_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
-
-    solc_to_k_args = command_parser.add_parser(
-        'solc-to-k',
-        help='Output helper K definition for given JSON output from solc compiler.',
-        parents=[
-            kontrol_cli_args.logging_args,
-            kontrol_cli_args.k_args,
-            kontrol_cli_args.k_gen_args,
-            config_args.config_args,
-        ],
-    )
-    solc_to_k_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
-    solc_to_k_args.add_argument('contract_name', type=str, help='Name of contract to generate K helpers for.')
 
     build = command_parser.add_parser(
         'build',
