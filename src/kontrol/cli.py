@@ -26,7 +26,6 @@ from .options import (
     SectionEdgeOptions,
     ShowOptions,
     SimplifyNodeOptions,
-    SolcToKOptions,
     SplitNodeOptions,
     StepNodeOptions,
     ToDotOptions,
@@ -51,7 +50,6 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
         'load-state': LoadStateOptions(args),
         'version': VersionOptions(args),
         'compile': CompileOptions(args),
-        'solc-to-k': SolcToKOptions(args),
         'build': BuildOptions(args),
         'prove': ProveOptions(args),
         'show': ShowOptions(args),
@@ -83,7 +81,6 @@ def get_option_string_destination(command: str, option_string: str) -> str:
         'load-state': LoadStateOptions.from_option_string(),
         'version': VersionOptions.from_option_string(),
         'compile': CompileOptions.from_option_string(),
-        'solc-to-k': SolcToKOptions.from_option_string(),
         'build': BuildOptions.from_option_string(),
         'prove': ProveOptions.from_option_string(),
         'show': ShowOptions.from_option_string(),
@@ -113,7 +110,6 @@ def get_argument_type_setter(command: str, option_string: str) -> Callable[[str]
         'load-state': LoadStateOptions.get_argument_type(),
         'version': VersionOptions.get_argument_type(),
         'compile': CompileOptions.get_argument_type(),
-        'solc-to-k': SolcToKOptions.get_argument_type(),
         'build': BuildOptions.get_argument_type(),
         'prove': ProveOptions.get_argument_type(),
         'show': ShowOptions.get_argument_type(),
@@ -184,23 +180,6 @@ class KontrolCLIArgs(KEVMCLIArgs):
         return args
 
     @cached_property
-    def k_gen_args(self) -> ArgumentParser:
-        args = ArgumentParser(add_help=False)
-        args.add_argument(
-            '--require',
-            dest='requires',
-            action='append',
-            help='Extra K requires to include in generated output.',
-        )
-        args.add_argument(
-            '--module-import',
-            dest='imports',
-            action='append',
-            help='Extra modules to import into generated main module.',
-        )
-        return args
-
-    @cached_property
     def rpc_args(self) -> ArgumentParser:
         args = ArgumentParser(add_help=False)
         args.add_argument(
@@ -243,6 +222,15 @@ class KontrolCLIArgs(KEVMCLIArgs):
             type=int,
             help='Use existing RPC server on named port.',
         )
+        args.add_argument(
+            '--lemmas',
+            dest='lemmas',
+            default=None,
+            help=(
+                'File and extra module to include for verification (which must import the KONTROL-MAIN module).'
+                'Format is <file>:<module name>.'
+            ),
+        )
         return args
 
 
@@ -264,26 +252,12 @@ def _create_argument_parser() -> ArgumentParser:
     solc_args = command_parser.add_parser('compile', help='Generate combined JSON with solc compilation results.')
     solc_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
 
-    solc_to_k_args = command_parser.add_parser(
-        'solc-to-k',
-        help='Output helper K definition for given JSON output from solc compiler.',
-        parents=[
-            kontrol_cli_args.logging_args,
-            kontrol_cli_args.k_args,
-            kontrol_cli_args.k_gen_args,
-            config_args.config_args,
-        ],
-    )
-    solc_to_k_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
-    solc_to_k_args.add_argument('contract_name', type=str, help='Name of contract to generate K helpers for.')
-
     build = command_parser.add_parser(
         'build',
         help='Kompile K definition corresponding to given output directory.',
         parents=[
             kontrol_cli_args.logging_args,
             kontrol_cli_args.k_args,
-            kontrol_cli_args.k_gen_args,
             kontrol_cli_args.kompile_args,
             kontrol_cli_args.foundry_args,
             config_args.config_args,
@@ -344,6 +318,18 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Include auxiliary Kontrol lemmas.',
+    )
+    build.add_argument(
+        '--require',
+        dest='requires',
+        action='append',
+        help='Extra K requires to include in generated output.',
+    )
+    build.add_argument(
+        '--module-import',
+        dest='imports',
+        action='append',
+        help='Extra modules to import into generated main module.',
     )
 
     state_diff_args = command_parser.add_parser(
@@ -586,10 +572,7 @@ def _create_argument_parser() -> ArgumentParser:
         '--extra-module',
         dest='extra_module',
         default=None,
-        help=(
-            'File and extra module to include for verification (which must import KONTROL-MAIN module).'
-            'Format is <file>:<module name>.'
-        ),
+        help='Deprecated alias for --lemmas.',
     )
     prove_args.add_argument(
         '--symbolic-caller',

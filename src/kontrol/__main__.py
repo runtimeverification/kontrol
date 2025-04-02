@@ -39,7 +39,7 @@ from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
 from .solc import CompilationUnit
-from .solc_to_k import solc_compile, solc_to_k
+from .solc_to_k import solc_compile
 from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
 
 if TYPE_CHECKING:
@@ -65,7 +65,6 @@ if TYPE_CHECKING:
         SectionEdgeOptions,
         ShowOptions,
         SimplifyNodeOptions,
-        SolcToKOptions,
         SplitNodeOptions,
         StepNodeOptions,
         ToDotOptions,
@@ -148,11 +147,6 @@ def exec_compile(options: CompileOptions) -> None:
     print(json.dumps(res))
 
 
-def exec_solc_to_k(options: SolcToKOptions) -> None:
-    k_text = solc_to_k(options)
-    print(k_text)
-
-
 def exec_build(options: BuildOptions) -> None:
     _LOGGER.debug(options)
 
@@ -176,6 +170,12 @@ def exec_build(options: BuildOptions) -> None:
 
 def exec_prove(options: ProveOptions) -> None:
     _LOGGER.debug(options)
+
+    if options.extra_module is not None:
+        _LOGGER.warning('Option --extra-module is being deprecated in favor of option --lemmas.')
+        if options.lemmas is not None:
+            raise ValueError('Cannot specify both --extra-module and --lemmas, prefer --lemmas.')
+        options.lemmas = options.extra_module
 
     if options.recorded_diff_state_path and options.recorded_dump_state_path:
         raise AssertionError('Provide only one file for recorded state updates')
