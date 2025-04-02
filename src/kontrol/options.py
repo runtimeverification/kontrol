@@ -63,6 +63,7 @@ class RpcOptions(Options):
     kore_rpc_command: str | None
     use_booster: bool
     port: int | None
+    lemmas: str | None
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -72,6 +73,7 @@ class RpcOptions(Options):
             'kore_rpc_command': None,
             'use_booster': True,
             'port': None,
+            'lemmas': None,
         }
 
     @staticmethod
@@ -203,32 +205,6 @@ class InitOptions(LoggingOptions):
     def get_argument_type() -> dict[str, Callable]:
         return LoggingOptions.get_argument_type() | {
             'project_root': Path,
-        }
-
-
-class KGenOptions(Options):
-    requires: list[str]
-    imports: list[str]
-
-    @staticmethod
-    def default() -> dict[str, Any]:
-        return {
-            'requires': [],
-            'imports': [],
-        }
-
-    @staticmethod
-    def from_option_string() -> dict[str, str]:
-        return {
-            'require': 'requires',
-            'module-import': 'imports',
-        }
-
-    @staticmethod
-    def get_argument_type() -> dict[str, Callable]:
-        return {
-            'require': list_of(str),
-            'module-import': list_of(str),
         }
 
 
@@ -836,7 +812,7 @@ class ViewKcfgOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
         )
 
 
-class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
+class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, KompileTargetOptions):
     regen: bool
     rekompile: bool
     forge_build: bool
@@ -844,6 +820,8 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
     metadata: bool
     keccak_lemmas: bool
     auxiliary_lemmas: bool
+    requires: list[str]
+    imports: list[str]
 
     @staticmethod
     def default() -> dict[str, Any]:
@@ -856,6 +834,8 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             'metadata': True,
             'keccak_lemmas': True,
             'auxiliary_lemmas': False,
+            'requires': [],
+            'imports': [],
         }
 
     @staticmethod
@@ -864,7 +844,6 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             FoundryOptions.from_option_string()
             | LoggingOptions.from_option_string()
             | KOptions.from_option_string()
-            | KGenOptions.from_option_string()
             | KompileOptions.from_option_string()
             | KompileTargetOptions.from_option_string()
         )
@@ -875,7 +854,6 @@ class BuildOptions(LoggingOptions, KOptions, KGenOptions, KompileOptions, Foundr
             FoundryOptions.get_argument_type()
             | LoggingOptions.get_argument_type()
             | KOptions.get_argument_type()
-            | KGenOptions.get_argument_type()
             | KompileOptions.get_argument_type()
             | KompileTargetOptions.get_argument_type()
         )

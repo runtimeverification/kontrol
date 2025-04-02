@@ -30,7 +30,7 @@ from pyk.kast.manip import (
     set_cell,
     top_down,
 )
-from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
+from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire, KRule
 from pyk.kcfg import KCFG
 from pyk.kcfg.kcfg import Step
 from pyk.kcfg.minimize import KCFGMinimizer
@@ -552,6 +552,22 @@ class Foundry:
         except CalledProcessError as err:
             raise RuntimeError(f"Couldn't forge build! {err.stderr.strip()}") from err
 
+    def load_lemmas(self, lemmas_id: str | None) -> KFlatModule | None:
+        if lemmas_id is None:
+            return None
+        lemmas_file, lemmas_name, *_ = lemmas_id.split(':')
+        lemmas_path = Path(lemmas_file)
+        if not lemmas_path.is_file():
+            raise ValueError(f'Supplied lemmas path is not a file: {lemmas_path}')
+        modules = self.kevm.parse_modules(
+            lemmas_path, module_name=lemmas_name, include_dirs=(kdist.get('kontrol.base'),)
+        )
+        lemmas_module = single(module for module in modules.modules if module.name == lemmas_name)
+        non_rule_sentences = [sent for sent in lemmas_module.sentences if not isinstance(sent, KRule)]
+        if non_rule_sentences:
+            raise ValueError(f'Supplied lemmas module contains non-Rule sentences: {non_rule_sentences}')
+        return lemmas_module
+
     @cached_property
     def all_tests(self) -> list[str]:
         test_dir = os.path.join(self.profile.get('test', 'test'), '')
@@ -971,6 +987,7 @@ def foundry_show(
             smt_retry_limit=options.smt_retry_limit,
             start_server=start_server,
             port=options.port,
+            extra_module=foundry.load_lemmas(options.lemmas),
         ) as kcfg_explore:
             res_lines += print_failure_info(proof, kcfg_explore, options.counterexample_info)
             res_lines += Foundry.help_info()
@@ -1234,6 +1251,7 @@ def foundry_simplify_node(
         log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
+        extra_module=foundry.load_lemmas(options.lemmas),
     ) as kcfg_explore:
         new_term, _ = kcfg_explore.cterm_symbolic.simplify(cterm)
     if options.replace:
@@ -1322,6 +1340,7 @@ def foundry_step_node(
         log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
+        extra_module=foundry.load_lemmas(options.lemmas),
     ) as kcfg_explore:
         node = options.node
         for _i in range(options.repeat):
@@ -1398,6 +1417,7 @@ def foundry_section_edge(
         log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
+        extra_module=foundry.load_lemmas(options.lemmas),
     ) as kcfg_explore:
         kcfg_explore.section_edge(
             apr_proof.kcfg,
@@ -1449,6 +1469,7 @@ def foundry_get_model(
         log_fail_rewrites=options.log_fail_rewrites,
         start_server=start_server,
         port=options.port,
+        extra_module=foundry.load_lemmas(options.lemmas),
     ) as kcfg_explore:
         for node_id in nodes:
             res_lines.append('')
