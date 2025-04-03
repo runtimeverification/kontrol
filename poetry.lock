@@ -882,14 +882,14 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.130.7"
+version = "6.130.8"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "hypothesis-6.130.7-py3-none-any.whl", hash = "sha256:c9f665f43b6b8546e5bf77e38b5ab246b182ac2618b9d9b849c49d4d35add817"},
-    {file = "hypothesis-6.130.7.tar.gz", hash = "sha256:5aadc7b661745db0d3e063ae7794c9f14b3647c0f472fb1792006edcba0fe082"},
+    {file = "hypothesis-6.130.8-py3-none-any.whl", hash = "sha256:8ddafde382fb96163c2a51c5a7c540d2642b2802a596347c13ac8fbc9de50d70"},
+    {file = "hypothesis-6.130.8.tar.gz", hash = "sha256:1b719943011375b1d66f01f858181c3c3ae49324cd7d7b359229cbf95a7785ce"},
 ]
 
 [package.dependencies]
@@ -1002,7 +1002,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.816"
+version = "1.0.817"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1012,27 +1012,27 @@ develop = false
 
 [package.dependencies]
 frozendict = "^2.4.6"
-kframework = "7.1.232"
+kframework = "7.1.235"
 pathos = "*"
 tomlkit = "^0.11.6"
 
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.816"
-resolved_reference = "aa4907315df54dd8bf698f377616246dae29cb3f"
+reference = "v1.0.817"
+resolved_reference = "ea204f9f90c23e99c10c9977ded3fcacbb2dcedd"
 subdirectory = "kevm-pyk"
 
 [[package]]
 name = "kframework"
-version = "7.1.232"
+version = "7.1.235"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "kframework-7.1.232-py3-none-any.whl", hash = "sha256:ac7a9e9d7da9b160038db7417138ac4b2ac08bf93212b7913d2bb310ae7b647f"},
-    {file = "kframework-7.1.232.tar.gz", hash = "sha256:9b2f413a82c774997ecc2f563df21589cdf4e476a062f431bcab80f1c9dedcff"},
+    {file = "kframework-7.1.235-py3-none-any.whl", hash = "sha256:28ab875cec00dded2cab02d4daf8f578319bd66ea477b9a4b648a763e63a1696"},
+    {file = "kframework-7.1.235.tar.gz", hash = "sha256:6b7c8a617d1f810ee84e1952a002691410ff88566611a302267d1fd2a225845d"},
 ]
 
 [package.dependencies]
@@ -2034,14 +2034,14 @@ files = [
 
 [[package]]
 name = "typing-extensions"
-version = "4.13.0"
+version = "4.13.1"
 description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
 python-versions = ">=3.8"
 groups = ["main", "dev"]
 files = [
-    {file = "typing_extensions-4.13.0-py3-none-any.whl", hash = "sha256:c8dd92cc0d6425a97c18fbb9d1954e5ff92c1ca881a309c45f06ebc0b79058e5"},
-    {file = "typing_extensions-4.13.0.tar.gz", hash = "sha256:0a4ac55a5820789d87e297727d229866c9650f6521b64206413c4fbada24d95b"},
+    {file = "typing_extensions-4.13.1-py3-none-any.whl", hash = "sha256:4b6cf02909eb5495cfbc3f6e8fd49217e6cc7944e145cdda8caa3734777f9e69"},
+    {file = "typing_extensions-4.13.1.tar.gz", hash = "sha256:98795af00fb9640edec5b8e31fc647597b4691f099ad75f469a2616be1a76dff"},
 ]
 
 [[package]]
@@ -2124,4 +2124,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "84a320b6fd208cee5e6c64e58412f25afecba6cf798e41f300f8132120a6595e"
+content-hash = "ee4e31cfa328a7955ae76fc8baa568d69acd5600213d8d17c922634f852c2596"
