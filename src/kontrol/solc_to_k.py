@@ -10,8 +10,6 @@ from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KSort, KVariable
-from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
-from pyk.kdist import kdist
 from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import eqInt, intToken, ltInt
 from pyk.utils import hash_str, run_process_2, single
@@ -25,38 +23,8 @@ if TYPE_CHECKING:
 
     from pyk.kast import KInner
 
-    from .options import SolcToKOptions
 
 _LOGGER: Final = logging.getLogger(__name__)
-
-
-def solc_to_k(options: SolcToKOptions) -> str:
-    definition_dir = kdist.get('evm-semantics.haskell')
-
-    solc_json = solc_compile(options.contract_file)
-    contract_json = solc_json['contracts'][options.contract_file.name][options.contract_name]
-    if 'sources' in solc_json and options.contract_file.name in solc_json['sources']:
-        contract_source = solc_json['sources'][options.contract_file.name]
-        for key in ['id', 'ast']:
-            if key not in contract_json and key in contract_source:
-                contract_json[key] = contract_source[key]
-    contract = Contract(options.contract_name, contract_json, foundry=False)
-
-    imports = list(options.imports)
-    requires = list(options.requires)
-    contract_module = contract_to_main_module(contract, imports=['EDSL'] + imports)
-    _main_module = KFlatModule(
-        options.main_module if options.main_module else 'MAIN',
-        [],
-        [KImport(mname) for mname in [contract_module.name] + imports],
-    )
-    modules = (contract_module, _main_module)
-    bin_runtime_definition = KDefinition(
-        _main_module.name, modules, requires=tuple(KRequire(req) for req in ['edsl.md'] + requires)
-    )
-
-    _kprint = KEVM(definition_dir, extra_unparsing_modules=modules)
-    return _kprint.pretty_print(bin_runtime_definition, unalias=False) + '\n'
 
 
 @dataclass(frozen=True)
@@ -832,14 +800,6 @@ class Contract:
         return any(field.label == 'IS_TEST' for field in self.fields)
 
     @staticmethod
-    def contract_to_module_name(c: str) -> str:
-        return Contract.escaped(c, 'S2K') + '-CONTRACT'
-
-    @staticmethod
-    def contract_to_verification_module_name(c: str) -> str:
-        return Contract.escaped(c, 'S2K') + '-VERIFICATION'
-
-    @staticmethod
     def escaped_chars() -> list[str]:
         return [Contract.PREFIX_CODE, '_', '$', '.', '-', '%', '@']
 
@@ -989,17 +949,6 @@ def solc_compile(contract_file: Path) -> dict[str, Any]:
         if failed:
             raise ValueError('Compilation failed.')
     return result
-
-
-def contract_to_main_module(contract: Contract, imports: Iterable[str] = ()) -> KFlatModule:
-    module_name = Contract.contract_to_module_name(contract.name_with_path)
-    return KFlatModule(module_name, [], [KImport(i) for i in list(imports)])
-
-
-def contract_to_verification_module(contract: Contract, imports: Iterable[str]) -> KFlatModule:
-    main_module_name = Contract.contract_to_module_name(contract.name_with_path)
-    verification_module_name = Contract.contract_to_verification_module_name(contract.name_with_path)
-    return KFlatModule(verification_module_name, [], [KImport(main_module_name)] + [KImport(i) for i in list(imports)])
 
 
 # Helpers
