@@ -7,6 +7,8 @@ foundry-project-root    = '.'
 verbose                 = false
 debug                   = false
 optimization-level      = 3
+require                 = 'xor-lemmas.k'
+module-import           = 'TestBase:XOR-LEMMAS'
 
 [prove.b_profile]
 verbose                 = true
