@@ -82,6 +82,10 @@ def test_toml_specific_options() -> None:
     args_dict = parse_toml_args(args, get_option_string_destination, get_argument_type_setter)
     assert 'o3' in args_dict
     assert args_dict['o3']
+    assert 'requires' in args_dict
+    assert args_dict['requires'] == ['xor-lemmas.k']
+    assert 'imports' in args_dict
+    assert args_dict['imports'] == ['TestBase:XOR-LEMMAS']
 
 
 def test_toml_profiles() -> None:
