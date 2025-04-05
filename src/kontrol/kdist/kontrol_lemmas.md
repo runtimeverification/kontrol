@@ -198,7 +198,7 @@ module KONTROL-AUX-LEMMAS
 
     // Recursive list membership check for lists with multiple elements
     rule KI:KItem in (ListItem(KI) _REST) => true [simplification]
-    rule KI:KItem in (ListItem(_KJ) REST) => KI in REST [simplification]
+    rule KI:KItem in (ListItem(KJ) REST) => KI in REST requires KI =/=K KJ [simplification]
     rule _KI:KItem in .List => false [simplification]
 
 endmodule
