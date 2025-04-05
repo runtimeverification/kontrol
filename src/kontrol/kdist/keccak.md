@@ -33,8 +33,8 @@ module KECCAK-LEMMAS
 4. The result of a `keccak` is assumed not to fall too close to the edges of its official range. This accounts for the shifts added to the result of a `keccak` when accessing storage slots, and is a hypothesis made by the ecosystem.
 
 ```k
-    rule BOUND:Int <Int keccak(B:Bytes) => true requires BOUND <=Int 32             [simplification, concrete(BOUND)]
-    rule keccak(B:Bytes) <Int BOUND:Int => true requires BOUND >=Int pow256 -Int 32 [simplification, concrete(BOUND)]
+    rule BOUND:Int <Int keccak(_B:Bytes) => true requires BOUND <=Int 32             [simplification, concrete(BOUND)]
+    rule keccak(_B:Bytes) <Int BOUND:Int => true requires BOUND >=Int pow256 -Int 32 [simplification, concrete(BOUND)]
 ```
 
 5. `keccak` is injective: that is, if `keccak(A)` equals `keccak(B)`, then `A` equals `B`.
