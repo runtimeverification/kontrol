@@ -846,6 +846,10 @@ class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, Kom
             | KOptions.from_option_string()
             | KompileOptions.from_option_string()
             | KompileTargetOptions.from_option_string()
+            | {
+                'require': 'requires',
+                'module-import': 'imports',
+            }
         )
 
     @staticmethod
@@ -856,6 +860,10 @@ class BuildOptions(LoggingOptions, KOptions, KompileOptions, FoundryOptions, Kom
             | KOptions.get_argument_type()
             | KompileOptions.get_argument_type()
             | KompileTargetOptions.get_argument_type()
+            | {
+                'require': list_of(str),
+                'module-import': list_of(str),
+            }
         )
 
     def __str__(self) -> str:
