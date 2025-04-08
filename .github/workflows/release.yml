@@ -32,7 +32,7 @@ jobs:
     name: 'Populate Nix Cache'
     strategy:
       matrix:
-        runner: [normal, MacIntel, ARM64]
+        runner: [normal, ARM64]
     runs-on: ${{ matrix.runner }}
     needs: draft-release
     steps:
@@ -70,7 +70,7 @@ jobs:
     name: 'Populate Nix Binary Cache'
     strategy:
       matrix:
-        runner: [normal, MacIntel, ARM64]
+        runner: [normal, ARM64]
     runs-on: ${{ matrix.runner }}
     needs: draft-release
     steps:
