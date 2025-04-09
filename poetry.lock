@@ -882,14 +882,14 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.130.10"
+version = "6.130.12"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "hypothesis-6.130.10-py3-none-any.whl", hash = "sha256:d6d754c03b1dd4d3a5801bd23b2d4f91b64f6fb209b599e1cbd6d234e498057d"},
-    {file = "hypothesis-6.130.10.tar.gz", hash = "sha256:d5f290b39af4ff3bc9eb60edccafd1baa31d1739b5de01980d2cddebdfc21ebc"},
+    {file = "hypothesis-6.130.12-py3-none-any.whl", hash = "sha256:287d4c815868bc1a75c649cc0791556ab48aedb9a7dfa7fb9d3af4bd3f4c1c3d"},
+    {file = "hypothesis-6.130.12.tar.gz", hash = "sha256:db4a0cfab0f903d3500e9808b15d2a8a66d822258058bc53011b1216b4b8ec1d"},
 ]
 
 [package.dependencies]
@@ -1002,7 +1002,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.819"
+version = "1.0.820"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1019,8 +1019,8 @@ tomlkit = "^0.11.6"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.819"
-resolved_reference = "aca28b9fec2b27bd814c75b5ef6f573513b95788"
+reference = "v1.0.820"
+resolved_reference = "4d33d4f486ad946102f661ec7742caaf42dd0b9a"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -2124,4 +2124,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "0c64867070d6513bde7528dee8b49f5b8d4e81eef73e62cbdb7bbf68b2eaa6c5"
+content-hash = "4f95c178fd336ff41e45aa9645b5521fb9bc0ae7616770b9343c1cb969321cd4"
