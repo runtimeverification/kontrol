@@ -567,7 +567,7 @@ All cheat code calls which take place while `expectRevert` is active are ignored
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            ...
-         </expectedRevert>
+         <wordStack> _ : ACCTTO : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
       [priority(35)]
 ```
 
@@ -579,12 +579,13 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
     rule [foundry.set.expectrevert.1]:
          <k> #next [ _OP:CallOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
-         <wordStack> _ : _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
+         requires ACCTTO =/=Int #address(FoundryCheat)
       [priority(32)]
 
     rule [foundry.set.expectrevert.2]:
