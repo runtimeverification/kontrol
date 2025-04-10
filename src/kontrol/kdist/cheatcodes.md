@@ -559,18 +559,6 @@ function expectRevert(bytes4 msg) external;
 function expectRevert(bytes calldata msg) external;
 ```
 
-All cheat code calls which take place while `expectRevert` is active are ignored.
-
-```k
-    rule [cheatcode.call.ignoreCalls]:
-         <k> #cheatcode_call _ _ => .K ... </k>
-         <expectedRevert>
-           <isRevertExpected> true </isRevertExpected>
-           ...
-         <wordStack> _ : ACCTTO : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
-      [priority(35)]
-```
-
 We use the `#next[OP]` to identify OpCodes that can revert and insert a `#checkRevert` production used to examine the end of each call/create in KEVM.
 The check will be inserted only if the current depth is the same as the depth at which the `expectRevert` cheat code was used.
 WThe `#checkRevert` will be used to compare the status code of the execution and the output of the call against the expect reason provided.
