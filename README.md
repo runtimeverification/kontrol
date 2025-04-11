@@ -25,12 +25,14 @@ The fastest way is via the [kup package manager], with which you can do to get t
 kup install k.openssl.secp256k1 --version v$(cat deps/k_release)
 ```
 
-#### Poetry dependencies
-
-First you need to set up all the dependencies of the virtual environment using Poetry with the prerequisites `python 3.8.*`, `pip >= 20.0.2`, `poetry >= 1.3.2`:
+#### uv
+Setting up Python dependencies and the virtual environment is done using `uv`. You can either [install `uv` directly](https://docs.astral.sh/uv/getting-started/installation/) or use the `nix develop` shell:
 ```sh
-poetry install
+nix develop
+uv sync
+exit # exit nix develop shell
 ```
+
 
 #### Build using the virtual environment
 
@@ -38,22 +40,22 @@ In order to build `kontrol`, you need to build these specific targets.
 Note that you can use `kontrol.base` (without [keccak](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/keccak.md) or [aux](https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/kontrol_lemmas.md) lemmas), `kontrol.aux` (with aux lemmas), `kontrol.keccak` (with keccak lemmas) and `kontrol.full` (with all lemmas) instead of `kontrol.*` (which builds them all).
 
 ```sh
-poetry run kdist --verbose build -j2 kontrol.*
+uv run kdist --verbose build -j2 kontrol.*
 ```
 
 To change the default compiler:
 ```sh
-CXX=clang++-14 poetry run kdist --verbose build -j2 kontrol.*
+CXX=clang++-14 uv run kdist --verbose build -j2 kontrol.*
 ```
 
 On Apple Silicon:
 ```sh
-APPLE_SILICON=true poetry run kdist --verbose build -j2 kontrol.*
+APPLE_SILICON=true uv run kdist --verbose build -j2 kontrol.*
 ```
 
 Targets can be cleaned with:
 ```sh
-poetry run kdist clean
+uv run kdist clean
 ```
 
 For more information, refer to `kdist --help`.
