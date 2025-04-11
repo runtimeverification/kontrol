@@ -81,6 +81,9 @@
       in {
         inherit kontrol;
       };
+      solcMkDefaultOverlay = final: prev: {
+        solcMkDefault = solc.mkDefault;
+      };
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
@@ -88,6 +91,7 @@
           k-framework.overlay
           foundry.overlay
           solc.overlay
+          solcMkDefaultOverlay
           kevm.overlays.default
           uvOverlay
           kontrolOverlay
