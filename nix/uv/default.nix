@@ -17,6 +17,7 @@
   cmake,
   installShellFiles,
   pkg-config,
+  darwin,
 
   buildPackages,
   python3Packages,
@@ -46,7 +47,10 @@
 
   buildInputs = [
     # rust-jemalloc-sys
-  ];
+  ] ++ (lib.optionals stdenv.isDarwin [
+    darwin.apple_sdk.frameworks.Security
+  ]);
+
 
   nativeBuildInputs = [
     cmake
