@@ -20,6 +20,7 @@ email = "contact@runtimeverification.com"
 
 [project.scripts]
 kontrol = "kontrol.__main__:main"
+kontrol-kdist = "pyk.kdist.__main__:main"
 
 [project.entry-points.kdist]
 kontrol = "kontrol.kdist.plugin"
