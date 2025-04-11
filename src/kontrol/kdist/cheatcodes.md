@@ -579,12 +579,25 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
     rule [foundry.set.expectrevert.2]:
          <k> #next [ _OP:CallSixOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
-         <wordStack> _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
+         <wordStack> _ : ACCTTO : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
            <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
+         requires ACCTTO =/=Int #address(FoundryCheat)
+      [priority(32)]
+
+    rule [foundry.clear.expectrevert]:
+         <k> #next [ DELEGATECALL ] ~> (.K => #clearExpectRevert) ~> #execute ... </k>
+         <callDepth> CD </callDepth>
+         <wordStack> _ : ACCTTO : _ : _ : _ : _ : _ : _WS </wordStack>
+         <expectedRevert>
+           <isRevertExpected> true </isRevertExpected>
+           <expectedDepth> CD </expectedDepth>
+           ...
+         </expectedRevert>
+         requires ACCTTO ==Int #address(FoundryCheat)
       [priority(32)]
 
     rule [foundry.set.expectrevert.3]:
