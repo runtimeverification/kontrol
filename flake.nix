@@ -7,7 +7,6 @@
     k-framework.follows = "kevm/k-framework";
     flake-utils.follows = "kevm/flake-utils";
     rv-utils.follows = "kevm/rv-utils";
-    poetry2nix.follows = "kevm/poetry2nix";
     foundry = {
       url =
         "github:shazow/foundry.nix?rev=221d7506a99f285ec6aee26245c55bbef8a407f1"; # Use the same version as CI
@@ -15,139 +14,113 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     solc = {
-      url = "github:goodlyrottenapple/solc.nix";
+      url = "github:hellwolf/solc.nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    pyproject-nix = {
+      url = "github:pyproject-nix/pyproject.nix";
+      inputs.nixpkgs.follows = "uv2nix/nixpkgs";
+      # inputs.uv2nix.follows = "nixpkgs";
+    };
+    pyproject-build-systems = {
+      url = "github:pyproject-nix/build-system-pkgs";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.uv2nix.follows = "uv2nix";
+      inputs.nixpkgs.follows = "uv2nix/nixpkgs";
+      # inputs.uv2nix.follows = "nixpkgs";
+    };
+    uv2nix = {
+      url = "github:pyproject-nix/uv2nix";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      # stale nixpkgs is missing the alias `lib.match` -> `builtins.match`
+      # therefore point uv2nix to a patched nixpkgs, which introduces this alias
+      # this is a temporary solution until nixpkgs us up-to-date again
+      inputs.nixpkgs.url = "github:juliankuners/nixpkgs/e9a77bb24d408d3898f6a11fb065d350d6bc71f1";
+      # inputs.uv2nix.follows = "nixpkgs";
+    };
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = { self, k-framework, nixpkgs, flake-utils, poetry2nix, kevm
-    , rv-utils, foundry, solc, ... }@inputs:
+  outputs = {
+      self,
+      k-framework,
+      nixpkgs,
+      flake-utils,
+      kevm,
+      rv-utils,
+      foundry,
+      solc,
+      pyproject-nix,
+      pyproject-build-systems,
+      uv2nix,
+      fenix,
+      ... }:
+  let
+    pythonVer = "310";
+  in flake-utils.lib.eachDefaultSystem (system:
     let
-      nixLibs = pkgs:
-        with pkgs;
-        "-I${openssl.dev}/include -L${openssl.out}/lib -I${secp256k1}/include -L${secp256k1}/lib";
-      overlay = final: prev:
-        let
-          poetry2nix =
-            inputs.poetry2nix.lib.mkPoetry2Nix { pkgs = prev; };
-
-          kontrol-pyk = { solc_version ? null }:
-            (poetry2nix.mkPoetryApplication {
-              python = prev.python310;
-              projectDir = ./.;
-
-              postPatch = ''
-                ${prev.lib.strings.optionalString (solc_version != null) ''
-                  substituteInPlace ./src/kontrol/foundry.py \
-                    --replace "'forge', 'build'," "'forge', 'build', '--no-auto-detect',"
-                ''}
-                substituteInPlace ./pyproject.toml \
-                  --replace ', subdirectory = "kevm-pyk"' ""
-              '';
-
-              overrides = poetry2nix.overrides.withDefaults
-                (finalPython: prevPython: {
-                  pyk = prev.pyk-python310;
-                  kevm-pyk = prev.kevm-pyk;
-                });
-              groups = [ ];
-              # We remove `"dev"` from `checkGroups`, so that poetry2nix does not try to resolve dev dependencies.
-              checkGroups = [ ];
-            });
-
-          kontrol = { solc_version ? null }:
-            prev.stdenv.mkDerivation {
-              pname = "kontrol";
-              version = self.rev or "dirty";
-              buildInputs = with prev; [
-                autoconf
-                automake
-                cmake
-                git
-                clang
-                prev.kevm-pyk
-                (kontrol-pyk { inherit solc_version; })
-                k-framework.packages.${prev.system}.k
-                boost
-                libtool
-                mpfr
-                openssl.dev
-                gmp
-                pkg-config
-                secp256k1
-              ];
-              nativeBuildInputs = [ prev.makeWrapper ];
-
-              src = ./.;
-
-              dontUseCmakeConfigure = true;
-
-              enableParallelBuilding = true;
-
-              buildPhase = ''
-                XDG_CACHE_HOME=$(pwd) NIX_LIBS="${nixLibs prev}" ${
-                  prev.lib.optionalString
-                  (prev.stdenv.isAarch64 && prev.stdenv.isDarwin)
-                  "APPLE_SILICON=true"
-                } kdist -v build kontrol.base
-              '';
-
-              installPhase = ''
-                mkdir -p $out
-                cp -r ./kdist-*/* $out/
-                ln -s ${prev.kevm}/evm-semantics $out/evm-semantics
-                mkdir -p $out/bin
-                ln -s ${prev.kevm}/bin/kevm $out/bin/kevm
-                makeWrapper ${
-                  (kontrol-pyk { inherit solc_version; })
-                }/bin/kontrol $out/bin/kontrol --prefix PATH : ${
-                  prev.lib.makeBinPath
-                  ([ prev.which k-framework.packages.${prev.system}.k ]
-                    ++ prev.lib.optionals (solc_version != null) [
-                      final.foundry-bin
-                      (solc.mkDefault final solc_version)
-                    ])
-                } --set NIX_LIBS "${nixLibs prev}" --set KDIST_DIR $out
-              '';
-
-              passthru = if solc_version == null then {
-                # list all supported solc versions here
-                solc_0_8_13 = kontrol { solc_version = final.solc_0_8_13; };
-                solc_0_8_15 = kontrol { solc_version = final.solc_0_8_15; };
-                solc_0_8_22 = kontrol { solc_version = final.solc_0_8_22; };
-              } else
-                { };
-            };
-        in { inherit kontrol; };
-    in flake-utils.lib.eachSystem [
-      "x86_64-linux"
-      "x86_64-darwin"
-      "aarch64-linux"
-      "aarch64-darwin"
-    ] (system:
+      fenixRustToolchain = fenix.packages.${system}.minimal.toolchain;
+      # due to the nixpkgs that we use in this flake being outdated, uv is also heavily outdated
+      # also provide more recent rust compiler with fenix
+      uvOverlay = final: prev: {
+        uv = final.callPackage ./nix/uv { inherit fenixRustToolchain; };
+      };
+      kontrolOverlay = final: prev:
       let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            (final: prev: { llvm-backend-release = false; })
-            k-framework.overlay
-            k-framework.overlays.pyk
-            foundry.overlay
-            solc.overlay
-            kevm.overlays.default
-            overlay
-          ];
+        kontrol-pyk = final.callPackage ./nix/kontrol-pyk {
+          inherit pyproject-nix pyproject-build-systems uv2nix;
+          python = final."python${pythonVer}";
+        };
+        kontrol = final.callPackage ./nix/kontrol {
+          inherit kontrol-pyk;
+          rev = self.rev or null;
         };
       in {
-        devShell = kevm.devShell.${system}.overrideAttrs (old: {
-          buildInputs = old.buildInputs
-            ++ [ pkgs.foundry-bin (solc.mkDefault pkgs pkgs.solc_0_8_13) ];
-        });
-        packages = {
-          kontrol = pkgs.kontrol { };
-          default = pkgs.kontrol { };
-        };
-      }) // {
-        overlays.default = overlay;
+        inherit kontrol;
       };
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          (final: prev: { llvm-backend-release = false; })
+          k-framework.overlay
+          foundry.overlay
+          solc.overlay
+          kevm.overlays.default
+          uvOverlay
+          kontrolOverlay
+        ];
+      };
+      python = pkgs."python${pythonVer}";
+    in {
+      devShells.default =
+      let
+        kevmShell = kevm.devShell.${system};
+      in pkgs.mkShell {
+        buildInputs = (kevmShell.buildInputs or [ ]) ++ [
+          pkgs.foundry-bin
+          (solc.mkDefault pkgs pkgs.solc_0_8_13)
+          python
+          pkgs.uv
+        ];
+        env = (kevmShell.env or { }) // {
+          # prevent uv from managing Python downloads and force use of specific 
+          UV_PYTHON_DOWNLOADS = "never";
+          UV_PYTHON = python.interpreter;
+        };
+        shellHook = (kevmShell.shellHook or "") + ''
+          unset PYTHONPATH
+        '';
+      };
+      packages = rec {
+        kontrol = pkgs.kontrol;
+        default = kontrol;
+      };
+    }) // {
+      overlays.default = final: prev: {
+        inherit (self.packages.${final.system}) kontrol;
+      };
+    };
 }
