@@ -26,17 +26,17 @@ jobs:
         run: |
           git config user.name devops
           git config user.email devops@runtimeverification.com
-      - name: 'Install Poetry'
-        uses: Gr1N/setup-poetry@v8
+      - name: 'Install uv'
+        uses: astral-sh/setup-uv@v5
       - name: 'Update kevm-pyk release tag'
         run: |
           KEVM_VERSION="$(cat deps/kevm_release)"
-          sed -i 's!kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "[v0-9\.]*", subdirectory = "kevm-pyk" }!kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v'${KEVM_VERSION}'", subdirectory = "kevm-pyk" }!' pyproject.toml
-          poetry update
-          git add -u && git commit -m "Sync Poetry files: kevm-pyk version ${KEVM_VERSION}" || true
+          sed -i 's!    "kevm-pyk@git+https://github.com/runtimeverification/evm-semantics.git@[v0-9\.]*#subdirectory=kevm-pyk"!    "kevm-pyk@git+https://github.com/runtimeverification/evm-semantics.git@v'${KEVM_VERSION}'#subdirectory=kevm-pyk"!' pyproject.toml
+          uv lock --upgrade
+          git add -u && git commit -m "Sync uv files: kevm-pyk version ${KEVM_VERSION}" || true
       - name: 'Update K release file'
         run: |
-          K_VERSION=$(poetry run python3 -c 'import pyk; print(pyk.__version__)')
+          K_VERSION=$(uv run python3 -c 'import pyk; print(pyk.__version__)')
           echo ${K_VERSION} > deps/k_release
           git add deps/k_release && git commit -m "deps/k_release: sync release file version ${K_VERSION}" || true
       - name: 'Install Nix/Cachix'
