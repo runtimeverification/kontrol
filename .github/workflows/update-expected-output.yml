@@ -24,7 +24,6 @@ jobs:
           container-name: kontrol-ci-integration-${{ github.sha }}
       - name: 'Build Kontrol'
         run: |
-            docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'uv sync'
             docker exec -u github-user kontrol-ci-integration-${GITHUB_SHA} /bin/bash -c 'CXX=clang++-14 uv run kdist --verbose build -j`nproc` kontrol.*'
       - name: 'Run integration tests'
         run: |

@@ -27,7 +27,6 @@ The first step is to develop and test your changes locally.
 ##### 1. Build Kontrol from source
 ```
 kup install k.openssl.secp256k1 --version v$(cat deps/k_release)
-uv sync
 uv run kdist clean
 CXX=clang++-14 uv run kdist --verbose build -j2 kontrol.*
 ```
