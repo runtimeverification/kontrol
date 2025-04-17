@@ -3,7 +3,7 @@ ARG K_VERSION
 ARG BASE_DISTRO
 ARG LLVM_VERSION
 
-FROM ghcr.io/foundry-rs/foundry:nightly-a0a002020be4c40946fe122fe6ff752b21cb2885 as FOUNDRY
+FROM ghcr.io/foundry-rs/nightly-f089dff1c6c24d1ddf43c7cbefee46ea0197c88f as FOUNDRY
 
 ARG Z3_VERSION
 FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} as Z3
