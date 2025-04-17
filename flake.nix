@@ -36,7 +36,7 @@
       # stale nixpkgs is missing the alias `lib.match` -> `builtins.match`
       # therefore point uv2nix to a patched nixpkgs, which introduces this alias
       # this is a temporary solution until nixpkgs us up-to-date again
-      inputs.nixpkgs.url = "github:juliankuners/nixpkgs/e9a77bb24d408d3898f6a11fb065d350d6bc71f1";
+      inputs.nixpkgs.url = "github:runtimeverification/nixpkgs/libmatch";
       # inputs.uv2nix.follows = "nixpkgs";
     };
   };
