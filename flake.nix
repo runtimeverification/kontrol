@@ -39,10 +39,6 @@
       inputs.nixpkgs.url = "github:juliankuners/nixpkgs/e9a77bb24d408d3898f6a11fb065d350d6bc71f1";
       # inputs.uv2nix.follows = "nixpkgs";
     };
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
   outputs = {
       self,
@@ -56,17 +52,15 @@
       pyproject-nix,
       pyproject-build-systems,
       uv2nix,
-      fenix,
       ... }:
   let
     pythonVer = "310";
   in flake-utils.lib.eachDefaultSystem (system:
     let
-      fenixRustToolchain = fenix.packages.${system}.minimal.toolchain;
       # due to the nixpkgs that we use in this flake being outdated, uv is also heavily outdated
-      # also provide more recent rust compiler with fenix
+      # we can just use the binary release of uv provided by uv2nix
       uvOverlay = final: prev: {
-        uv = final.callPackage ./nix/uv { inherit fenixRustToolchain; };
+        uv = uv2nix.packages.${final.system}.uv-bin;
       };
       kontrolOverlay = final: prev:
       let
