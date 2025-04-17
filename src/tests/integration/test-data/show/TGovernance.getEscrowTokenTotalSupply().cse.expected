@@ -20,13 +20,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  │
-┃  │  (376 steps)
+┃  │  (348 steps)
 ┃  ├─ 7 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 153
+┃  │   pc: 189
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_REVERT
-┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   src: lib/forge-std/src/StdInvariant.sol:69:71
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  │
 ┃  ┊  constraint:
@@ -64,10 +64,10 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃  │
-┃  │  (638 steps)
+┃  │  (1015 steps)
 ┃  ├─ 10 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 68
+┃  │   pc: 77
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
@@ -108,13 +108,13 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%TGovernance.getEscrowTokenTotalSupply()
    │
-   │  (389 steps)
+   │  (361 steps)
    ├─ 11 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 153
+   │   pc: 189
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
-   │   src: test/nested/SimpleNested.t.sol:7:11
+   │   src: lib/forge-std/src/StdInvariant.sol:69:71
    │   method: test%TGovernance.getEscrowTokenTotalSupply()
    │
    ┊  constraint:
@@ -182,7 +182,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 56 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -680,7 +680,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 56 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )

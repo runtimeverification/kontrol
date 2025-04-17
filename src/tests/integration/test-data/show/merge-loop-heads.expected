@@ -7,10 +7,10 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%BMCLoopsTest.test_bmc(uint256)
 │
-│  (350 steps)
+│  (586 steps)
 ├─ 3 (split)
-│   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-│   pc: 1449
+│   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+│   pc: 2001
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -22,8 +22,8 @@
 ┃  ┃     KV0_n:Int <=Int 0
 ┃  │
 ┃  ├─ 4
-┃  │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-┃  │   pc: 1449
+┃  │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+┃  │   pc: 2001
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -33,8 +33,8 @@
 ┃  ┊      KV0_n:Int <=Int 0
 ┃  ┊  subst: ...
 ┃  ├─ 20
-┃  │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI ] ~> #exe ...
-┃  │   pc: 1449
+┃  │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+┃  │   pc: 2001
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -43,7 +43,7 @@
 ┃  │  (135 steps)
 ┃  └─ 23 (leaf, pending)
 ┃      k: #end EVMC_SUCCESS ~> #pc [ STOP ] ~> #execute ~> CONTINUATION:K
-┃      pc: 350
+┃      pc: 449
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃      src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
@@ -54,17 +54,17 @@
    ┃     0 <Int KV0_n:Int
    │
    ├─ 5
-   │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-   │   pc: 1449
+   │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+   │   pc: 2001
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │   src: lib/forge-std/src/StdInvariant.sol:62:62
    │   method: test%BMCLoopsTest.test_bmc(uint256)
    │
-   │  (224 steps)
+   │  (468 steps)
    ├─ 7 (split)
-   │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-   │   pc: 1449
+   │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+   │   pc: 2001
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │   src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -76,8 +76,8 @@
    ┃  ┃     KV0_n:Int <=Int 1
    ┃  │
    ┃  ├─ 9
-   ┃  │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-   ┃  │   pc: 1449
+   ┃  │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+   ┃  │   pc: 2001
    ┃  │   callDepth: 0
    ┃  │   statusCode: STATUSCODE:StatusCode
    ┃  │   src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -88,8 +88,8 @@
    ┃  ┊      KV0_n:Int <=Int 1
    ┃  ┊  subst: ...
    ┃  └─ 20
-   ┃      k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI ] ~> #exe ...
-   ┃      pc: 1449
+   ┃      k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+   ┃      pc: 2001
    ┃      callDepth: 0
    ┃      statusCode: STATUSCODE:StatusCode
    ┃      src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -101,17 +101,17 @@
       ┃     1 <Int KV0_n:Int
       │
       ├─ 10
-      │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-      │   pc: 1449
+      │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 1 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+      │   pc: 2001
       │   callDepth: 0
       │   statusCode: STATUSCODE:StatusCode
       │   src: lib/forge-std/src/StdInvariant.sol:62:62
       │   method: test%BMCLoopsTest.test_bmc(uint256)
       │
-      │  (224 steps)
+      │  (468 steps)
       ├─ 13 (split)
-      │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-      │   pc: 1449
+      │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+      │   pc: 2001
       │   callDepth: 0
       │   statusCode: STATUSCODE:StatusCode
       │   src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -123,8 +123,8 @@
       ┃  ┃     KV0_n:Int <=Int 2
       ┃  │
       ┃  ├─ 15
-      ┃  │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-      ┃  │   pc: 1449
+      ┃  │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+      ┃  │   pc: 2001
       ┃  │   callDepth: 0
       ┃  │   statusCode: STATUSCODE:StatusCode
       ┃  │   src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -136,8 +136,8 @@
       ┃  ┊      KV0_n:Int <=Int 2
       ┃  ┊  subst: ...
       ┃  └─ 20
-      ┃      k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI ] ~> #exe ...
-      ┃      pc: 1449
+      ┃      k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int ) ~> #pc [ JUMPI ] ~> #exe ...
+      ┃      pc: 2001
       ┃      callDepth: 0
       ┃      statusCode: STATUSCODE:StatusCode
       ┃      src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -149,17 +149,17 @@
          ┃     2 <Int KV0_n:Int
          │
          ├─ 16
-         │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-         │   pc: 1449
+         │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 2 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+         │   pc: 2001
          │   callDepth: 0
          │   statusCode: STATUSCODE:StatusCode
          │   src: lib/forge-std/src/StdInvariant.sol:62:62
          │   method: test%BMCLoopsTest.test_bmc(uint256)
          │
-         │  (224 steps)
+         │  (468 steps)
          ├─ 19 (split)
-         │   k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 3 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-         │   pc: 1449
+         │   k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 3 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+         │   pc: 2001
          │   callDepth: 0
          │   statusCode: STATUSCODE:StatusCode
          │   src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -171,8 +171,8 @@
          ┃  ┃     KV0_n:Int <=Int 3
          ┃  │
          ┃  └─ 21 (leaf, pending)
-         ┃      k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 3 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-         ┃      pc: 1449
+         ┃      k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 3 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+         ┃      pc: 2001
          ┃      callDepth: 0
          ┃      statusCode: STATUSCODE:StatusCode
          ┃      src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -183,8 +183,8 @@
             ┃     3 <Int KV0_n:Int
             │
             └─ 22 (leaf, pending)
-                k: JUMPI 1478 bool2Word ( KV0_n:Int <=Int 3 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
-                pc: 1449
+                k: JUMPI 2033 bool2Word ( KV0_n:Int <=Int 3 ) ~> #pc [ JUMPI ] ~> #execute ~> CONTI ...
+                pc: 2001
                 callDepth: 0
                 statusCode: STATUSCODE:StatusCode
                 src: lib/forge-std/src/StdInvariant.sol:62:62
@@ -204,7 +204,7 @@ Node 21:
   <foundry>
     <kevm>
       <k>
-        JUMPI 1478 bool2Word ( KV0_n:Int <=Int 3 )
+        JUMPI 2033 bool2Word ( KV0_n:Int <=Int 3 )
         ~> #pc [ JUMPI ]
         ~> #execute
         ~> CONTINUATION:K
@@ -246,7 +246,7 @@ Node 21:
               0
             </callValue>
             <wordStack>
-              ( 3 : ( 3 : ( KV0_n:Int : ( 349 : ( 2531276689 : .WordStack ) ) ) ) )
+              ( 3 : ( 3 : ( KV0_n:Int : ( 448 : ( 2531276689 : .WordStack ) ) ) ) )
             </wordStack>
             <localMem>
               b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -447,7 +447,7 @@ Node 22:
   <foundry>
     <kevm>
       <k>
-        JUMPI 1478 bool2Word ( KV0_n:Int <=Int 3 )
+        JUMPI 2033 bool2Word ( KV0_n:Int <=Int 3 )
         ~> #pc [ JUMPI ]
         ~> #execute
         ~> CONTINUATION:K
@@ -489,7 +489,7 @@ Node 22:
               0
             </callValue>
             <wordStack>
-              ( 3 : ( 3 : ( KV0_n:Int : ( 349 : ( 2531276689 : .WordStack ) ) ) ) )
+              ( 3 : ( 3 : ( KV0_n:Int : ( 448 : ( 2531276689 : .WordStack ) ) ) ) )
             </wordStack>
             <localMem>
               b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -931,7 +931,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
     rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 1478 bool2Word ( KV0_n:Int <=Int 0 )
+               ( .K => JUMPI 2033 bool2Word ( KV0_n:Int <=Int 0 )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION:K
@@ -973,7 +973,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( 0 : ( KV0_n:Int : ( 349 : ( 2531276689 : .WordStack ) ) ) ) ) )
+                     ( .WordStack => ( 0 : ( 0 : ( KV0_n:Int : ( 448 : ( 2531276689 : .WordStack ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -1165,7 +1165,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
     rule [BASIC-BLOCK-5-TO-7]: <foundry>
            <kevm>
              <k>
-               JUMPI 1478 bool2Word ( KV0_n:Int <=Int ( 0 => 1 ) )
+               JUMPI 2033 bool2Word ( KV0_n:Int <=Int ( 0 => 1 ) )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> _CONTINUATION:K
@@ -1207,7 +1207,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 1 ) : ( ( 0 => 1 ) : ( KV0_n:Int : ( 349 : ( 2531276689 : .WordStack ) ) ) ) )
+                     ( ( 0 => 1 ) : ( ( 0 => 1 ) : ( KV0_n:Int : ( 448 : ( 2531276689 : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1400,7 +1400,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
     rule [BASIC-BLOCK-10-TO-13]: <foundry>
            <kevm>
              <k>
-               JUMPI 1478 bool2Word ( KV0_n:Int <=Int ( 1 => 2 ) )
+               JUMPI 2033 bool2Word ( KV0_n:Int <=Int ( 1 => 2 ) )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> _CONTINUATION:K
@@ -1442,7 +1442,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 1 => 2 ) : ( ( 1 => 2 ) : ( KV0_n:Int : ( 349 : ( 2531276689 : .WordStack ) ) ) ) )
+                     ( ( 1 => 2 ) : ( ( 1 => 2 ) : ( KV0_n:Int : ( 448 : ( 2531276689 : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1636,7 +1636,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
     rule [BASIC-BLOCK-16-TO-19]: <foundry>
            <kevm>
              <k>
-               JUMPI 1478 bool2Word ( KV0_n:Int <=Int ( 2 => 3 ) )
+               JUMPI 2033 bool2Word ( KV0_n:Int <=Int ( 2 => 3 ) )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> _CONTINUATION:K
@@ -1678,7 +1678,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 2 => 3 ) : ( ( 2 => 3 ) : ( KV0_n:Int : ( 349 : ( 2531276689 : .WordStack ) ) ) ) )
+                     ( ( 2 => 3 ) : ( ( 2 => 3 ) : ( KV0_n:Int : ( 448 : ( 2531276689 : .WordStack ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1873,7 +1873,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
     rule [BASIC-BLOCK-20-TO-23]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 1478 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int )
+               ( JUMPI 2033 bool2Word ( KV0_n:Int <=Int V_8ae8c0f0:Int )
                ~> #pc [ JUMPI ] => #end EVMC_SUCCESS
                ~> #pc [ STOP ] )
                ~> #execute
@@ -1916,7 +1916,7 @@ module SUMMARY-TEST%BMCLOOPSTEST.TEST-BMC(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( V_8ae8c0f0:Int => 2531276689 ) : ( ( V_8ae8c0f0:Int : ( KV0_n:Int : ( 349 : ( 2531276689 : .WordStack ) ) ) ) => .WordStack ) )
+                     ( ( V_8ae8c0f0:Int => 2531276689 ) : ( ( V_8ae8c0f0:Int : ( KV0_n:Int : ( 448 : ( 2531276689 : .WordStack ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
