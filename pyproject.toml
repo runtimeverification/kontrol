@@ -1,45 +1,52 @@
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry]
+[project]
 name = "kontrol"
 version = "1.0.0"
 description = "Foundry integration for KEVM"
-authors = [
-    "Runtime Verification, Inc. <contact@runtimeverification.com>",
+requires-python = "~=3.10"
+dependencies = [
+    "kevm-pyk@git+https://github.com/runtimeverification/evm-semantics.git@v1.0.814#subdirectory=kevm-pyk",
+    "eth-utils>=4.1.1,<5",
+    "pycryptodome>=3.20.0,<4",
+    "pyevmasm>=0.2.3,<0.3",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-kevm-pyk = { git = "https://github.com/runtimeverification/evm-semantics.git", tag = "v1.0.814", subdirectory = "kevm-pyk" }
-eth-utils = "^4.1.1"
-pycryptodome = "^3.20.0"
-pyevmasm = "^0.2.3"
+[[project.authors]]
+name = "Runtime Verification, Inc."
+email = "contact@runtimeverification.com"
 
-[tool.poetry.group.dev.dependencies]
-autoflake = "*"
-black = "*"
-flake8 = "*"
-flake8-bugbear = "*"
-flake8-comprehensions = "*"
-flake8-quotes = "*"
-flake8-type-checking = "*"
-isort = "*"
-mypy = "*"
-pep8-naming = "*"
-pytest = "^7"
-pytest-cov = "*"
-pytest-mock = "*"
-pytest-xdist = "*"
-pytest-timeout = "*"
-pyupgrade = "*"
-
-[tool.poetry.scripts]
+[project.scripts]
 kontrol = "kontrol.__main__:main"
+kontrol-kdist = "pyk.kdist.__main__:main"
 
-[tool.poetry.plugins.kdist]
+[project.entry-points.kdist]
 kontrol = "kontrol.kdist.plugin"
+
+[dependency-groups]
+dev = [
+    "autoflake",
+    "black",
+    "flake8",
+    "flake8-bugbear",
+    "flake8-comprehensions",
+    "flake8-quotes",
+    "flake8-type-checking",
+    "isort",
+    "mypy",
+    "pep8-naming",
+    "pytest>=7,<8",
+    "pytest-cov",
+    "pytest-mock",
+    "pytest-xdist",
+    "pytest-timeout",
+    "pyupgrade",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.isort]
 profile = "black"
