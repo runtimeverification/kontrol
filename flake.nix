@@ -10,7 +10,7 @@
     poetry2nix.follows = "kevm/poetry2nix";
     foundry = {
       url =
-        "github:shazow/foundry.nix?rev=221d7506a99f285ec6aee26245c55bbef8a407f1"; # Use the same version as CI
+        "github:shazow/foundry.nix?rev=afa5358db2f4d1d89a496f6482e32a4cb1b2e2da"; # Use the same version as CI
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
