@@ -7,10 +7,10 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%CSETest.setUp()
 │
-│  (1556 steps)
+│  (2006 steps)
 ├─ 9 (split)
-│   k: JUMPI 2519 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> C ...
-│   pc: 2510
+│   k: JUMPI 3438 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> C ...
+│   pc: 3424
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%CSETest.test_identity(uint256,uint256)
@@ -21,16 +21,16 @@
 ┃  ┃     pow64 <=Int KV0_x:Int
 ┃  │
 ┃  ├─ 10
-┃  │   k: JUMPI 2519 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> C ...
-┃  │   pc: 2510
+┃  │   k: JUMPI 3438 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> C ...
+┃  │   pc: 3424
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   method: test%CSETest.test_identity(uint256,uint256)
 ┃  │
-┃  │  (193 steps)
+┃  │  (357 steps)
 ┃  └─ 12 (vacuous, leaf)
 ┃      k: #assume ( KV0_x:Int <Int pow64 ) ~> #cheatcode_return 128 0 ~> #pc [ STATICCALL  ...
-┃      pc: 2578
+┃      pc: 3493
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃      method: test%CSETest.test_identity(uint256,uint256)
@@ -40,19 +40,19 @@
    ┃     KV0_x:Int <Int pow64
    │
    ├─ 11
-   │   k: JUMPI 2519 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> C ...
-   │   pc: 2510
+   │   k: JUMPI 3438 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> C ...
+   │   pc: 3424
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
    │   method: test%CSETest.test_identity(uint256,uint256)
    │
-   │  (1937 steps)
+   │  (3966 steps)
    ├─ 13 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 221
+   │   pc: 517
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
-   │   src: lib/forge-std/src/StdInvariant.sol:89:91
+   │   src: lib/forge-std/lib/ds-test/src/test.sol:38:38
    │   method: test%CSETest.test_identity(uint256,uint256)
    │
    ┊  constraint: true
@@ -72,7 +72,7 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
     rule [BASIC-BLOCK-10-TO-12]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 2519 bool2Word ( pow64 <=Int KV0_x:Int )
+               ( JUMPI 3438 bool2Word ( pow64 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ] => #assume ( KV0_x:Int <Int pow64 )
                ~> #cheatcode_return 128 0
                ~> #pc [ STATICCALL ] )
@@ -116,7 +116,7 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 164 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( 3233645348 : .WordStack ) ) ) ) ) ) )
+                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 164 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 516 : ( 3233645348 : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( KV0_x:Int <Int pow64 ) ) )
@@ -378,7 +378,7 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
     rule [BASIC-BLOCK-11-TO-13]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 2519 bool2Word ( pow64 <=Int KV0_x:Int )
+               ( JUMPI 3438 bool2Word ( pow64 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -423,7 +423,7 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 3233645348 ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( 3233645348 : .WordStack ) ) ) ) ) ) => .WordStack ) )
+                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 3233645348 ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 516 : ( 3233645348 : .WordStack ) ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) )
@@ -686,7 +686,7 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
     rule [BASIC-BLOCK-1-TO-9]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 2519 bool2Word ( pow64 <=Int ?KV0_x:Int )
+               ( .K => JUMPI 3438 bool2Word ( pow64 <=Int ?KV0_x:Int )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION:K
@@ -728,7 +728,7 @@ module SUMMARY-TEST%CSETEST.TEST-IDENTITY(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( bool2Word ( ?KV0_x:Int <Int pow64 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 220 : ( 3233645348 : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( bool2Word ( ?KV0_x:Int <Int pow64 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 516 : ( 3233645348 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )

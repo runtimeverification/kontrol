@@ -10,9 +10,9 @@
 ┃ (branch)
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
+┃  ┃     32 <=Int ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) )
 ┃  │
-┃  ├─ 8
+┃  ├─ 13
 ┃  │   k: #execute ~> CONTINUATION:K
 ┃  │   pc: 0
 ┃  │   callDepth: CALLDEPTH_CELL:Int
@@ -20,10 +20,44 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%CallableStorageContract.str()
 ┃  │
-┃  │  (867 steps)
-┃  ├─ 6 (terminal)
+┃  │  (333 steps)
+┃  ├─ 7 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 86
+┃  │   pc: 552
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_REVERT
+┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
+┃  │   method: test%CallableStorageContract.str()
+┃  │
+┃  ┊  constraint:
+┃  ┊      ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
+┃  ┊      ( notBool <acctID>
+  C_CALLABLESTORAGECONTRACT_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊  subst: ...
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     0 ==Int ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) )
+┃  ┃     ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) <Int 32
+┃  │
+┃  ├─ 16
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: STATUSCODE:StatusCode
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: test%CallableStorageContract.str()
+┃  │
+┃  │  (1235 steps)
+┃  ├─ 10 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 118
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
@@ -43,9 +77,10 @@
 ┃
 ┗━━┓ subst: .Subst
    ┃ constraint:
-   ┃     ( notBool C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0 )
+   ┃     ( notBool ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) ==Int 0 )
+   ┃     ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) <Int 32
    │
-   ├─ 9
+   ├─ 17
    │   k: #execute ~> CONTINUATION:K
    │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
@@ -53,10 +88,10 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%CallableStorageContract.str()
    │
-   │  (1033 steps)
-   ├─ 7 (terminal)
+   │  (1400 steps)
+   ├─ 11 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 86
+   │   pc: 118
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_SUCCESS
    │   src: test/nested/SimpleNested.t.sol:7:11
@@ -80,7 +115,7 @@
 module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
     
     
-    rule [BASIC-BLOCK-8-TO-6]: <foundry>
+    rule [BASIC-BLOCK-13-TO-7]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -98,10 +133,10 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL:Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   ( _OUTPUT_CELL:Bytes => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\"" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callState>
                    <id>
@@ -117,192 +152,10 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 95 : ( 3244011140 : .WordStack ) ) )
+                     ( .WordStack => ( 595 : ( 0 : ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) : ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) : ( 138 : ( 1 : ( 97 : ( 3244011140 : .WordStack ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_CALLABLESTORAGECONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       C_CALLABLESTORAGECONTRACT_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 1 |-> #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes ( #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) => b"\x00" ) ) )
-                       C_CALLABLESTORAGECONTRACT_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_CALLABLESTORAGECONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
-       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
-       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
-       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
-       andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int <Int 32
-       andBool ( C_CALLABLESTORAGECONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
-       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
-       andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          C_CALLABLESTORAGECONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-8-TO-6)]
-    
-    rule [BASIC-BLOCK-9-TO-7]: <foundry>
-           <kevm>
-             <k>
-               ( #execute => #halt )
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( _OUTPUT_CELL:Bytes => #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int -32 ) , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int 224 ) ) -Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int -160 ) ) ) )
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
-                 </statusCode>
-                 <callState>
-                   <id>
-                     C_CALLABLESTORAGECONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"\xc1[\xae\x84"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( .WordStack => ( 95 : ( 3244011140 : .WordStack ) ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -417,7 +270,6 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int =/=Int 0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
@@ -441,7 +293,375 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 10 ) )
+       andBool ( 32 <=Int ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) )
                ))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-7)]
+      [priority(20), label(BASIC-BLOCK-13-TO-7)]
+    
+    rule [BASIC-BLOCK-16-TO-10]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL:Bytes => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     C_CALLABLESTORAGECONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\xc1[\xae\x84"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 97 : ( 3244011140 : .WordStack ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_CALLABLESTORAGECONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_CALLABLESTORAGECONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 1 |-> #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) )
+                       C_CALLABLESTORAGECONTRACT_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_CALLABLESTORAGECONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
+       andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int <Int 32
+       andBool ( C_CALLABLESTORAGECONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
+       andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_CALLABLESTORAGECONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 10 ) )
+       andBool ( 0 ==Int ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) )
+       andBool ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) <Int 32
+               )))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-16-TO-10)]
+    
+    rule [BASIC-BLOCK-17-TO-11]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL:Bytes => #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) +Int maxUInt5 ) /Int 32 ) ) +Int ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , ( ( 32 *Int ( ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) +Int maxUInt5 ) /Int 32 ) ) +Int -32 ) , chop ( ( ( chop ( ( ( ( 32 *Int ( ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) +Int maxUInt5 ) /Int 32 ) ) +Int ( notMaxUInt5 &Int ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) +Int maxUInt5 ) ) ) +Int 224 ) ) -Int ( 32 *Int ( ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) +Int maxUInt5 ) /Int 32 ) ) ) +Int -160 ) ) ) )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     C_CALLABLESTORAGECONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\xc1[\xae\x84"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 97 : ( 3244011140 : .WordStack ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( 32 *Int ( ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) +Int maxUInt5 ) /Int 32 ) ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) ) +Bytes C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) +Int maxUInt5 ) /Int 32 ) ) +Int ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_CALLABLESTORAGECONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_CALLABLESTORAGECONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 1 |-> #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) )
+                       C_CALLABLESTORAGECONTRACT_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_CALLABLESTORAGECONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
+       andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int <Int 32
+       andBool ( C_CALLABLESTORAGECONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 1 in_keys ( C_CALLABLESTORAGECONTRACT_STORAGE:Map ) )
+       andBool ( C_CALLABLESTORAGECONTRACT_ID:Int <Int pow160
+       andBool ( C_CALLABLESTORAGECONTRACT_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_CALLABLESTORAGECONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 10 ) )
+       andBool ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) =/=Int 0
+       andBool ( ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) ) <Int 32
+               )))))))))))))))))))))))))))
+       ensures 0 =/=Int ( maxSInt8 &Int ( #asWord ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( 1 , ( 2 *Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) ) ) /Int 2 ) )
+      [priority(20), label(BASIC-BLOCK-17-TO-11)]
 
 endmodule

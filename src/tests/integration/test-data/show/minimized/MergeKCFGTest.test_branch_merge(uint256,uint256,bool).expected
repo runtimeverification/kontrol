@@ -7,10 +7,10 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%MergeKCFGTest.setUp()
 │
-│  (1925 steps)
-├─ 17 (split)
-│   k: JUMPI 99 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #return ...
-│   pc: 85
+│  (3863 steps)
+├─ 18 (split)
+│   k: JUMPI 123 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #retur ...
+│   pc: 104
 │   callDepth: 1
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
@@ -21,21 +21,21 @@
 ┃  ┃ constraint:
 ┃  ┃     ( notBool KV2_z:Int ==Int 0 )
 ┃  │
-┃  ├─ 19
-┃  │   k: JUMPI 99 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #return ...
-┃  │   pc: 85
+┃  ├─ 20
+┃  │   k: JUMPI 123 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #retur ...
+┃  │   pc: 104
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%Branches.applyOp(uint256,uint256,bool)
 ┃  │
-┃  │  (668 steps)
-┃  ├─ 39 (terminal)
+┃  │  (1405 steps)
+┃  ├─ 40 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 194
+┃  │   pc: 222
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:69:71
+┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
 ┃  │   method: test%MergeKCFGTest.test_branch_merge(uint256,uint256,bool)
 ┃  │
 ┃  ┊  constraint: true
@@ -51,21 +51,21 @@
 ┃  ┃     KV2_z:Int ==Int 0
 ┃  ┃     ( notBool ( ( notBool KV0_x:Int ==Int 0 ) andBool maxUInt256 /Word KV0_x:Int <Int KV1_y:Int ) )
 ┃  │
-┃  ├─ 44
-┃  │   k: JUMPI 99 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #return ...
-┃  │   pc: 85
+┃  ├─ 45
+┃  │   k: JUMPI 123 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #retur ...
+┃  │   pc: 104
 ┃  │   callDepth: 1
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%Branches.applyOp(uint256,uint256,bool)
 ┃  │
-┃  │  (741 steps)
-┃  ├─ 42 (terminal)
+┃  │  (1467 steps)
+┃  ├─ 43 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 194
+┃  │   pc: 222
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:69:71
+┃  │   src: lib/forge-std/src/StdInvariant.sol:89:91
 ┃  │   method: test%MergeKCFGTest.test_branch_merge(uint256,uint256,bool)
 ┃  │
 ┃  ┊  constraint: true
@@ -82,21 +82,21 @@
    ┃     ( notBool KV0_x:Int ==Int 0 )
    ┃     maxUInt256 /Word KV0_x:Int <Int KV1_y:Int
    │
-   ├─ 45
-   │   k: JUMPI 99 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #return ...
-   │   pc: 85
+   ├─ 46
+   │   k: JUMPI 123 bool2Word ( KV2_z:Int ==Int 0 ) ~> #pc [ JUMPI ] ~> #execute ~> #retur ...
+   │   pc: 104
    │   callDepth: 1
    │   statusCode: STATUSCODE:StatusCode
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: src%Branches.applyOp(uint256,uint256,bool)
    │
-   │  (460 steps)
-   ├─ 43 (terminal)
+   │  (773 steps)
+   ├─ 44 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 194
+   │   pc: 222
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
-   │   src: lib/forge-std/src/StdInvariant.sol:69:71
+   │   src: lib/forge-std/src/StdInvariant.sol:89:91
    │   method: test%MergeKCFGTest.test_branch_merge(uint256,uint256,bool)
    │
    ┊  constraint: true
@@ -113,10 +113,10 @@
 module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
     
     
-    rule [BASIC-BLOCK-1-TO-17]: <foundry>
+    rule [BASIC-BLOCK-1-TO-18]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 99 bool2Word ( ?KV2_z:Int ==Int 0 )
+               ( .K => JUMPI 123 bool2Word ( ?KV2_z:Int ==Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> #return 128 32
@@ -153,7 +153,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( 3766377623 : ( 491460923342184218035706888008750043977755113263 : ( ?KV2_z:Int : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 193 : ( 357868196 : .WordStack ) ) ) ) ) ) ) )
+                       ( 228 : ( 3766377623 : ( 491460923342184218035706888008750043977755113263 : ( ?KV2_z:Int : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 221 : ( 357868196 : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0~\\\x97" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int )
@@ -276,7 +276,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 0 : ( ?KV2_z:Int : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 60 : ( 3766377623 : .WordStack ) ) ) ) ) ) )
+                     ( .WordStack => ( 0 : ( ?KV2_z:Int : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 74 : ( 3766377623 : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -512,12 +512,12 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( ?KV1_y:Int <Int pow256
        andBool ( ?KV0_x:Int <=Int ( maxUInt256 -Int ?KV1_y:Int )
                )))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-17)]
+      [priority(20), label(BASIC-BLOCK-1-TO-18)]
     
-    rule [BASIC-BLOCK-19-TO-39]: <foundry>
+    rule [BASIC-BLOCK-20-TO-40]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 99 bool2Word ( KV2_z:Int ==Int 0 )
+               ( JUMPI 123 bool2Word ( KV2_z:Int ==Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> #return 128 32
@@ -557,7 +557,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( 3766377623 : ( 491460923342184218035706888008750043977755113263 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 193 : ( 357868196 : .WordStack ) ) ) ) ) ) ) )
+                       ( 228 : ( 3766377623 : ( 491460923342184218035706888008750043977755113263 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 221 : ( 357868196 : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0~\\\x97" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
@@ -680,7 +680,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 357868196 ) : ( ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 60 : ( 3766377623 : .WordStack ) ) ) ) ) => .WordStack ) )
+                     ( ( 0 => 357868196 ) : ( ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 74 : ( 3766377623 : .WordStack ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) )
@@ -896,12 +896,12 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
                ))))))))))))
-      [priority(20), label(BASIC-BLOCK-19-TO-39)]
+      [priority(20), label(BASIC-BLOCK-20-TO-40)]
     
-    rule [BASIC-BLOCK-44-TO-42]: <foundry>
+    rule [BASIC-BLOCK-45-TO-43]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 99 bool2Word ( KV2_z:Int ==Int 0 )
+               ( JUMPI 123 bool2Word ( KV2_z:Int ==Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> #return 128 32
@@ -941,7 +941,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( 3766377623 : ( 491460923342184218035706888008750043977755113263 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 193 : ( 357868196 : .WordStack ) ) ) ) ) ) ) )
+                       ( 228 : ( 3766377623 : ( 491460923342184218035706888008750043977755113263 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 221 : ( 357868196 : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0~\\\x97" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
@@ -1064,7 +1064,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 357868196 ) : ( ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 60 : ( 3766377623 : .WordStack ) ) ) ) ) => .WordStack ) )
+                     ( ( 0 => 357868196 ) : ( ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 74 : ( 3766377623 : .WordStack ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , chop ( ( KV0_x:Int *Int KV1_y:Int ) ) ) +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -1281,12 +1281,12 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
        andBool ( ( notBool ( KV0_x:Int =/=Int 0 andBool maxUInt256 /Word KV0_x:Int <Int KV1_y:Int ) )
                )))))))))))))
-      [priority(20), label(BASIC-BLOCK-44-TO-42)]
+      [priority(20), label(BASIC-BLOCK-45-TO-43)]
     
-    rule [BASIC-BLOCK-45-TO-43]: <foundry>
+    rule [BASIC-BLOCK-46-TO-44]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 99 bool2Word ( KV2_z:Int ==Int 0 )
+               ( JUMPI 123 bool2Word ( KV2_z:Int ==Int 0 )
                ~> #pc [ JUMPI ]
                ~> #execute
                ~> #return 128 32
@@ -1326,7 +1326,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 228 : ( 3766377623 : ( 491460923342184218035706888008750043977755113263 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 193 : ( 357868196 : .WordStack ) ) ) ) ) ) ) )
+                       ( 228 : ( 3766377623 : ( 491460923342184218035706888008750043977755113263 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 221 : ( 357868196 : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0~\\\x97" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
@@ -1449,7 +1449,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 357868196 ) : ( ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 60 : ( 3766377623 : .WordStack ) ) ) ) ) => .WordStack ) )
+                     ( ( 0 => 357868196 ) : ( ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 74 : ( 3766377623 : .WordStack ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
@@ -1668,7 +1668,7 @@ module SUMMARY-TEST%MERGEKCFGTEST.TEST-BRANCH-MERGE(UINT256,UINT256,BOOL):0
        andBool ( maxUInt256 /Word KV0_x:Int <Int KV1_y:Int
                ))))))))))))))
        ensures ( maxUInt256 /Int KV0_x:Int ) <Int KV1_y:Int
-      [priority(20), label(BASIC-BLOCK-45-TO-43)]
+      [priority(20), label(BASIC-BLOCK-46-TO-44)]
 
 endmodule
 0 Failure nodes. (0 pending and 0 failing)

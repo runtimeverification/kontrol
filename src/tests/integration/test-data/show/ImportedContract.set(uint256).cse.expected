@@ -10,7 +10,7 @@
 ┃ (branch)
 ┣━━┓ subst: .Subst
 ┃  ┃ constraint:
-┃  ┃     3 <=Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
+┃  ┃     #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <Int 3
 ┃  │
 ┃  ├─ 8
 ┃  │   k: #execute ~> CONTINUATION:K
@@ -20,10 +20,10 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%ImportedContract.set(uint256)
 ┃  │
-┃  │  (373 steps)
+┃  │  (599 steps)
 ┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 107
+┃  │   pc: 168
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
@@ -42,7 +42,7 @@
 ┃
 ┗━━┓ subst: .Subst
    ┃ constraint:
-   ┃     #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <Int 3
+   ┃     3 <=Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
    │
    ├─ 9
    │   k: #execute ~> CONTINUATION:K
@@ -52,10 +52,10 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%ImportedContract.set(uint256)
    │
-   │  (362 steps)
+   │  (619 steps)
    ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 107
+   │   pc: 168
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_SUCCESS
    │   src: test/nested/SimpleNested.t.sol:7:11
@@ -79,188 +79,6 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
     
     
     rule [BASIC-BLOCK-8-TO-6]: <foundry>
-           <kevm>
-             <k>
-               ( #execute => #halt )
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( _OUTPUT_CELL:Bytes => b"" )
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
-                 </statusCode>
-                 <callState>
-                   <id>
-                     C_IMPORTEDCONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"`\xfeG\xb1" +Bytes #buf ( 32 , KV0_x:Int )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( .WordStack => ( 1627277233 : .WordStack ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_IMPORTEDCONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       C_IMPORTEDCONTRACT_BAL:Int
-                     </balance>
-                     <storage>
-                       ( C_IMPORTEDCONTRACT_STORAGE:Map => C_IMPORTEDCONTRACT_STORAGE:Map [ 0 <- KV0_x:Int ] )
-                     </storage>
-                     <nonce>
-                       C_IMPORTEDCONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 0 <=Int C_IMPORTEDCONTRACT_ID:Int
-       andBool ( 0 <=Int C_IMPORTEDCONTRACT_BAL:Int
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_IMPORTEDCONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_IMPORTEDCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
-       andBool ( KV0_x:Int <Int pow256
-       andBool ( C_IMPORTEDCONTRACT_BAL:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          C_IMPORTEDCONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( 3 <=Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-8-TO-6)]
-    
-    rule [BASIC-BLOCK-9-TO-7]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -436,6 +254,188 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.SET(UINT256):0
           C_IMPORTEDCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) <Int 3
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-8-TO-6)]
+    
+    rule [BASIC-BLOCK-9-TO-7]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL:Bytes => b"" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
+                 </statusCode>
+                 <callState>
+                   <id>
+                     C_IMPORTEDCONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"`\xfeG\xb1" +Bytes #buf ( 32 , KV0_x:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 1627277233 : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_IMPORTEDCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_IMPORTEDCONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       ( C_IMPORTEDCONTRACT_STORAGE:Map => C_IMPORTEDCONTRACT_STORAGE:Map [ 0 <- KV0_x:Int ] )
+                     </storage>
+                     <nonce>
+                       C_IMPORTEDCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 0 <=Int C_IMPORTEDCONTRACT_ID:Int
+       andBool ( 0 <=Int C_IMPORTEDCONTRACT_BAL:Int
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_IMPORTEDCONTRACT_NONCE:Int
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_IMPORTEDCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( C_IMPORTEDCONTRACT_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_IMPORTEDCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( 3 <=Int #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 )
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_IMPORTEDCONTRACT_ID:Int <= 10 ) )

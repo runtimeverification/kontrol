@@ -7,13 +7,13 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%CSETest.setUp()
 │
-│  (1550 steps)
+│  (2000 steps)
 ├─ 9 (split)
-│   k: JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CO ...
-│   pc: 669
+│   k: JUMPI 990 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CO ...
+│   pc: 976
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
-│   src: lib/forge-std/src/StdInvariant.sol:82:82
+│   src: lib/forge-std/src/StdInvariant.sol:78:78
 │   method: test%CSETest.test_add_const(uint256,uint256)
 ┃
 ┃ (branch)
@@ -22,17 +22,17 @@
 ┃  ┃     pow64 <=Int KV0_x:Int
 ┃  │
 ┃  ├─ 10
-┃  │   k: JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CO ...
-┃  │   pc: 669
+┃  │   k: JUMPI 990 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CO ...
+┃  │   pc: 976
 ┃  │   callDepth: 0
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: lib/forge-std/src/StdInvariant.sol:82:82
+┃  │   src: lib/forge-std/src/StdInvariant.sol:78:78
 ┃  │   method: test%CSETest.test_add_const(uint256,uint256)
 ┃  │
-┃  │  (193 steps)
+┃  │  (357 steps)
 ┃  └─ 12 (vacuous, leaf)
 ┃      k: #assume ( KV0_x:Int <Int pow64 ) ~> #cheatcode_return 128 0 ~> #pc [ STATICCALL  ...
-┃      pc: 737
+┃      pc: 1045
 ┃      callDepth: 0
 ┃      statusCode: STATUSCODE:StatusCode
 ┃      src: lib/forge-std/src/StdInvariant.sol:78:78
@@ -43,20 +43,20 @@
    ┃     KV0_x:Int <Int pow64
    │
    ├─ 11
-   │   k: JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CO ...
-   │   pc: 669
+   │   k: JUMPI 990 bool2Word ( pow64 <=Int KV0_x:Int ) ~> #pc [ JUMPI ] ~> #execute ~> CO ...
+   │   pc: 976
    │   callDepth: 0
    │   statusCode: STATUSCODE:StatusCode
-   │   src: lib/forge-std/src/StdInvariant.sol:82:82
+   │   src: lib/forge-std/src/StdInvariant.sol:78:78
    │   method: test%CSETest.test_add_const(uint256,uint256)
    │
-   │  (1123 steps)
+   │  (2047 steps)
    ├─ 13 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 221
+   │   pc: 249
    │   callDepth: 0
    │   statusCode: EVMC_SUCCESS
-   │   src: lib/forge-std/src/StdInvariant.sol:89:91
+   │   src: lib/forge-std/src/StdInvariant.sol:81:83
    │   method: test%CSETest.test_add_const(uint256,uint256)
    │
    ┊  constraint: true
@@ -76,7 +76,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
     rule [BASIC-BLOCK-10-TO-12]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int )
+               ( JUMPI 990 bool2Word ( pow64 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ] => #assume ( KV0_x:Int <Int pow64 )
                ~> #cheatcode_return 128 0
                ~> #pc [ STATICCALL ] )
@@ -120,7 +120,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 164 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( 267266513 : .WordStack ) ) ) ) ) ) )
+                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 164 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 248 : ( 267266513 : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Lc\xe5b" +Bytes #buf ( 32 , bool2Word ( KV0_x:Int <Int pow64 ) ) )
@@ -382,7 +382,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
     rule [BASIC-BLOCK-11-TO-13]: <foundry>
            <kevm>
              <k>
-               ( JUMPI 678 bool2Word ( pow64 <=Int KV0_x:Int )
+               ( JUMPI 990 bool2Word ( pow64 <=Int KV0_x:Int )
                ~> #pc [ JUMPI ]
                ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
@@ -427,7 +427,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 267266513 ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 220 : ( 267266513 : .WordStack ) ) ) ) ) ) => .WordStack ) )
+                     ( ( bool2Word ( KV0_x:Int <Int pow64 ) => 267266513 ) : ( ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( KV1_y:Int : ( KV0_x:Int : ( 248 : ( 267266513 : .WordStack ) ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
                      ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV1_y:Int +Int KV0_x:Int ) ) +Bytes #range ( #buf ( 32 , KV1_y:Int ) , 28 , 4 ) )
@@ -692,7 +692,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
     rule [BASIC-BLOCK-1-TO-9]: <foundry>
            <kevm>
              <k>
-               ( .K => JUMPI 678 bool2Word ( pow64 <=Int ?KV0_x:Int )
+               ( .K => JUMPI 990 bool2Word ( pow64 <=Int ?KV0_x:Int )
                ~> #pc [ JUMPI ] )
                ~> #execute
                ~> _CONTINUATION:K
@@ -734,7 +734,7 @@ module SUMMARY-TEST%CSETEST.TEST-ADD-CONST(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( bool2Word ( ?KV0_x:Int <Int pow64 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 220 : ( 267266513 : .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( bool2Word ( ?KV0_x:Int <Int pow64 ) : ( selector ( "assume(bool)" ) : ( 645326474426547203313410069153905908525362434349 : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 248 : ( 267266513 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
