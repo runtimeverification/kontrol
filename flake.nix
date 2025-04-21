@@ -34,8 +34,7 @@
               ".github/"
               "result*"
               "/deps/"
-              # submodule directories are initilized empty by git, but
-              # not included by nix flakes/nix CLI
+              # do not include submodule directories that might be initilized empty or non-existent
               "/docs/external-computation"
             ] ./.
           );
