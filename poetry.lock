@@ -882,14 +882,14 @@ pyreadline3 = {version = "*", markers = "sys_platform == \"win32\" and python_ve
 
 [[package]]
 name = "hypothesis"
-version = "6.131.1"
+version = "6.131.6"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "hypothesis-6.131.1-py3-none-any.whl", hash = "sha256:a8be5428c8c09d51e759f4ac72b7a7ef5352d46b1643527995e93efdccb8ba2e"},
-    {file = "hypothesis-6.131.1.tar.gz", hash = "sha256:36e0a14dc4ee0f99ea18f9542e987920e7bf67ff39b37e14d53055249c85b41d"},
+    {file = "hypothesis-6.131.6-py3-none-any.whl", hash = "sha256:c15e09a0698f89d9431b97a9e1645ac8ed73167d0fb97b3589bbce6d15cb5296"},
+    {file = "hypothesis-6.131.6.tar.gz", hash = "sha256:3d7ceb300be5f47b4023021bcf0e6e0c7b7e8dcf304a381dd10238a1cfbd0ba2"},
 ]
 
 [package.dependencies]
@@ -1002,7 +1002,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.825"
+version = "1.0.826"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1019,8 +1019,8 @@ tomlkit = "^0.11.6"
 [package.source]
 type = "git"
 url = "https://github.com/runtimeverification/evm-semantics.git"
-reference = "v1.0.825"
-resolved_reference = "d8b51f6634762c7dbe05d31467ba4d11fb57c1a1"
+reference = "v1.0.826"
+resolved_reference = "650374862b5da4b48de014148efb501e063cca5f"
 subdirectory = "kevm-pyk"
 
 [[package]]
@@ -1333,14 +1333,14 @@ test = ["pytest (>=7.2)", "pytest-cov (>=4.0)"]
 
 [[package]]
 name = "packaging"
-version = "24.2"
+version = "25.0"
 description = "Core utilities for Python packages"
 optional = false
 python-versions = ">=3.8"
 groups = ["main", "dev"]
 files = [
-    {file = "packaging-24.2-py3-none-any.whl", hash = "sha256:09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759"},
-    {file = "packaging-24.2.tar.gz", hash = "sha256:c228a6dc5e932d346bc5739379109d49e8853dd8223571c7c5b55260edc0b97f"},
+    {file = "packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484"},
+    {file = "packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f"},
 ]
 
 [[package]]
@@ -1867,14 +1867,14 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "78.1.0"
+version = "79.0.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "setuptools-78.1.0-py3-none-any.whl", hash = "sha256:3e386e96793c8702ae83d17b853fb93d3e09ef82ec62722e61da5cd22376dcd8"},
-    {file = "setuptools-78.1.0.tar.gz", hash = "sha256:18fd474d4a82a5f83dac888df697af65afa82dec7323d09c3e37d1f14288da54"},
+    {file = "setuptools-79.0.0-py3-none-any.whl", hash = "sha256:b9ab3a104bedb292323f53797b00864e10e434a3ab3906813a7169e4745b912a"},
+    {file = "setuptools-79.0.0.tar.gz", hash = "sha256:9828422e7541213b0aacb6e10bbf9dd8febeaa45a48570e09b6d100e063fc9f9"},
 ]
 
 [package.extras]
@@ -2127,4 +2127,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "d7958613b0b0c76a2bd7e93e0d2b5e2bb06844e166ae8194ed08fe380e3347d9"
+content-hash = "001ff562e9c6565c10424c1e6629647ca3acc081d9df009f41e8cabbdd5194dd"
