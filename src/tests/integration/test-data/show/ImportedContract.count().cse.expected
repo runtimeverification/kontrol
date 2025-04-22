@@ -7,10 +7,10 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%ImportedContract.count()
 │
-│  (406 steps)
+│  (206 steps)
 ├─ 3 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 99
+│   pc: 90
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: EVMC_SUCCESS
 │   src: test/nested/SimpleNested.t.sol:7:11
@@ -70,7 +70,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.COUNT():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 78 : ( 107354813 : .WordStack ) ) )
+                     ( .WordStack => ( 73 : ( 107354813 : .WordStack ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) ) )

@@ -7,20 +7,20 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%GasTest.testInfiniteGas()
 │
-│  (944 steps)
+│  (683 steps)
 ├─ 3
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 4511
+│   pc: 2698
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%GasTest.testInfiniteGas()
 │
 ┊  constraint: true
 ┊  subst:
-┊      VGAS_93b7b7d1 <- ( VGAS:Int +Int -507 )
+┊      VGAS_4b7cee1f <- ( VGAS:Int +Int -373 )
 ├─ 4
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 4511
+│   pc: 2698
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%GasTest.testInfiniteGas()
@@ -28,7 +28,7 @@
 │  (1 step)
 ├─ 5
 │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 4511
+│   pc: 2698
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
 │   method: test%GasTest.testInfiniteGas()
@@ -36,7 +36,7 @@
 │  (2 steps)
 └─ 6 (leaf, terminal)
     k: #halt ~> CONTINUATION:K
-    pc: 4511
+    pc: 2698
     callDepth: 0
     statusCode: EVMC_REVERT
     method: test%GasTest.testInfiniteGas()
@@ -103,7 +103,7 @@ Node 6:
               0
             </callValue>
             <wordStack>
-              ( 1044 : ( ( VGAS:Int +Int -438 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 310 : ( 1677640502 : .WordStack ) ) ) ) ) ) ) )
+              ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( 1677640502 : .WordStack ) ) ) ) ) ) ) )
             </wordStack>
             <localMem>
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -463,7 +463,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1044 : ( ( VGAS:Int +Int -438 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 310 : ( 1677640502 : .WordStack ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( 1677640502 : .WordStack ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -692,7 +692,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 1044 : ( ( VGAS:Int +Int -438 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 310 : ( 1677640502 : .WordStack ) ) ) ) ) ) ) )
+                     ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( 1677640502 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -921,7 +921,7 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 1044 : ( ( VGAS:Int +Int -438 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 310 : ( 1677640502 : .WordStack ) ) ) ) ) ) ) )
+                     ( 778 : ( ( VGAS:Int +Int -298 ) : ( 583 : ( 928 : ( 345 : ( ( VGAS:Int +Int -207 ) : ( 266 : ( 1677640502 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"

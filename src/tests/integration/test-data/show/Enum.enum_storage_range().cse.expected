@@ -20,7 +20,7 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%Enum.enum_storage_range()
 ┃  │
-┃  │  (1374 steps)
+┃  │  (1242 steps)
 ┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
 ┃  │   pc: 68
@@ -57,13 +57,13 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%Enum.enum_storage_range()
    │
-   │  (344 steps)
+   │  (348 steps)
    ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 205
+   │   pc: 161
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
-   │   src: lib/forge-std/src/StdInvariant.sol:69:71
+   │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%Enum.enum_storage_range()
    │
    ┊  constraint:

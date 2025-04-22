@@ -7,13 +7,13 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.setUp()
 │
-│  (216 steps)
+│  (182 steps)
 ├─ 5 (terminal)
 │   k: #halt ~> CONTINUATION:K
-│   pc: 336
+│   pc: 328
 │   callDepth: 0
 │   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:85:87
+│   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
 │   method: test%AssertTest.setUp()
 │
 │  (1 step)
@@ -25,10 +25,10 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%AssertTest.test_assert_false()
 │
-│  (308 steps)
+│  (307 steps)
 ├─ 8
 │   k: #end EVMC_REVERT ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 5067
+│   pc: 2995
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   method: test%AssertTest.test_assert_false()
@@ -36,7 +36,7 @@
 │  (1 step)
 ├─ 9
 │   k: #halt ~> #pc [ REVERT ] ~> #execute ~> CONTINUATION:K
-│   pc: 5067
+│   pc: 2995
 │   callDepth: 0
 │   statusCode: EVMC_REVERT
 │   method: test%AssertTest.test_assert_false()
@@ -44,7 +44,7 @@
 │  (2 steps)
 └─ 10 (leaf, terminal)
     k: #halt ~> CONTINUATION:K
-    pc: 5067
+    pc: 2995
     callDepth: 0
     statusCode: EVMC_REVERT
     method: test%AssertTest.test_assert_false()
@@ -106,7 +106,7 @@ Node 10:
               0
             </callValue>
             <wordStack>
-              ( 1545 : ( 493 : ( 1574882301 : .WordStack ) ) )
+              ( 614 : ( 327 : ( 1574882301 : .WordStack ) ) )
             </wordStack>
             <localMem>
               b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -809,7 +809,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1545 : ( 493 : ( 1574882301 : .WordStack ) ) ) )
+                     ( .WordStack => ( 614 : ( 327 : ( 1574882301 : .WordStack ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
@@ -1044,7 +1044,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 1545 : ( 493 : ( 1574882301 : .WordStack ) ) )
+                     ( 614 : ( 327 : ( 1574882301 : .WordStack ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"
@@ -1279,7 +1279,7 @@ module SUMMARY-TEST%ASSERTTEST.TEST-ASSERT-FALSE():0
                      0
                    </callValue>
                    <wordStack>
-                     ( 1545 : ( 493 : ( 1574882301 : .WordStack ) ) )
+                     ( 614 : ( 327 : ( 1574882301 : .WordStack ) ) )
                    </wordStack>
                    <localMem>
                      b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80"

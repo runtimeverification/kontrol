@@ -7,7 +7,7 @@
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%ArithmeticCallTest.setUp()
 │
-│  (1784 steps)
+│  (1024 steps)
 ├─ 7 (split)
 │   k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
 │   pc: 0
@@ -32,7 +32,7 @@
 ┃  │  (73 steps)
 ┃  └─ 11 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
-┃      pc: 3155
+┃      pc: 2357
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add(uint256,uint256)
@@ -50,10 +50,10 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
-┃  │  (1024 steps)
+┃  │  (486 steps)
 ┃  └─ 15 (leaf, terminal)
 ┃      k: #halt ~> CONTINUATION:K
-┃      pc: 3315
+┃      pc: 2474
 ┃      callDepth: 0
 ┃      statusCode: EVMC_REVERT
 ┃      method: test%ArithmeticCallTest.test_double_add(uint256,uint256)
@@ -72,13 +72,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add(uint256,uint256)
 ┃  │
-┃  │  (1495 steps)
+┃  │  (735 steps)
 ┃  ├─ 18 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 544
+┃  │   pc: 248
 ┃  │   callDepth: 0
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:70:70
+┃  │   src: lib/forge-std/src/StdInvariant.sol:77:79
 ┃  │   method: test%ArithmeticCallTest.test_double_add(uint256,uint256)
 ┃  │
 ┃  ┊  constraint: true
@@ -103,10 +103,10 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: src%ArithmeticContract.add(uint256,uint256)
    │
-   │  (1495 steps)
+   │  (745 steps)
    └─ 19 (leaf, terminal)
        k: #halt ~> CONTINUATION:K
-       pc: 5972
+       pc: 3736
        callDepth: 0
        statusCode: EVMC_REVERT
        method: test%ArithmeticCallTest.test_double_add(uint256,uint256)
@@ -158,7 +158,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 543 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -283,7 +283,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 543 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
@@ -538,7 +538,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 543 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( ?KV1_y:Int : ( ?KV0_x:Int : ( 247 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , ?KV0_x:Int ) +Bytes #buf ( 32 , ?KV1_y:Int )
@@ -942,7 +942,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 543 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1067,7 +1067,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 228 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 543 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 228 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
@@ -1327,7 +1327,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 543 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1713,7 +1713,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                        0
                      </callValue>
                      <wordStack>
-                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 543 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
+                       ( 196 : ( 1997931255 : ( 491460923342184218035706888008750043977755113263 : ( 0 : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( 3753377488 : .WordStack ) ) ) ) ) ) ) )
                      </wordStack>
                      <localMem>
                        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
@@ -1838,7 +1838,7 @@ module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD(UINT256,UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 3369 : ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 543 : ( 3753377488 : .WordStack ) ) ) ) ) ) )
+                     ( .WordStack => ( 2528 : ( ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) : ( KV1_y:Int : ( KV0_x:Int : ( 247 : ( 3753377488 : .WordStack ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) +Int KV1_y:Int ) ) +Bytes #range ( #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )

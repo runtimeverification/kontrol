@@ -20,10 +20,10 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%cse%AddConst.applyOp(uint256)
 ┃  │
-┃  │  (1025 steps)
+┃  │  (446 steps)
 ┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 106
+┃  │   pc: 87
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
@@ -52,13 +52,13 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: src%cse%AddConst.applyOp(uint256)
    │
-   │  (752 steps)
+   │  (371 steps)
    ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 359
+   │   pc: 179
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
-   │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: src%cse%AddConst.applyOp(uint256)
    │
    ┊  constraint:
@@ -294,7 +294,7 @@ module SUMMARY-SRC%CSE%ADDCONST.APPLYOP(UINT256):0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 434 : ( 0 : ( KV0_x:Int : ( #lookup ( C_ADDCONST_STORAGE:Map , 0 ) : ( 150 : ( 0 : ( KV0_x:Int : ( 85 : ( 1772879777 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 0 : ( KV0_x:Int : ( #lookup ( C_ADDCONST_STORAGE:Map , 0 ) : ( 118 : ( 0 : ( KV0_x:Int : ( 70 : ( 1772879777 : .WordStack ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )

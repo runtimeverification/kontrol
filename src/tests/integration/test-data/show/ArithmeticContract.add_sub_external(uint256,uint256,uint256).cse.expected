@@ -20,13 +20,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
-┃  │  (1489 steps)
+┃  │  (539 steps)
 ┃  ├─ 7 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 444
+┃  │   pc: 295
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_REVERT
-┃  │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
+┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  ┊  constraint:
@@ -53,13 +53,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
-┃  │  (1502 steps)
+┃  │  (552 steps)
 ┃  ├─ 11 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 444
+┃  │   pc: 295
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_REVERT
-┃  │   src: lib/kontrol-cheatcodes/src/KontrolCheats.sol:8:8
+┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  ┊  constraint:
@@ -87,13 +87,13 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
-┃  │  (2442 steps)
+┃  │  (921 steps)
 ┃  ├─ 14 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 187
+┃  │   pc: 128
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: lib/forge-std/src/StdInvariant.sol:69:71
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃  │
 ┃  ┊  constraint:
@@ -121,13 +121,13 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
    │
-   │  (2148 steps)
+   │  (844 steps)
    ├─ 15 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 992
+   │   pc: 550
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
-   │   src: lib/forge-std/src/StdInvariant.sol:78:78
+   │   src: lib/forge-std/src/StdInvariant.sol:90:90
    │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
    │
    ┊  constraint:
@@ -184,7 +184,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 166 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) )
@@ -373,7 +373,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 166 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
@@ -754,7 +754,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1226 : ( 0 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( KV2_z:Int : ( 495 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 166 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 618 : ( 0 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( KV2_z:Int : ( 344 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )

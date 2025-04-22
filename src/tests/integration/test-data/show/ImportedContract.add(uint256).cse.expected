@@ -20,10 +20,10 @@
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%ImportedContract.add(uint256)
 ┃  │
-┃  │  (782 steps)
+┃  │  (379 steps)
 ┃  ├─ 6 (terminal)
 ┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: maxSInt8
+┃  │   pc: 107
 ┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: EVMC_SUCCESS
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
@@ -52,13 +52,13 @@
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%ImportedContract.add(uint256)
    │
-   │  (728 steps)
+   │  (349 steps)
    ├─ 7 (terminal)
    │   k: #halt ~> CONTINUATION:K
-   │   pc: 411
+   │   pc: 226
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: EVMC_REVERT
-   │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+   │   src: lib/forge-std/src/StdInvariant.sol:81:83
    │   method: test%ImportedContract.add(uint256)
    │
    ┊  constraint:
@@ -299,7 +299,7 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.ADD(UINT256):0
                      CALLVALUE:Int
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 486 : ( 0 : ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) : ( KV0_x:Int : ( 189 : ( KV0_x:Int : ( 126 : ( 268690130 : .WordStack ) ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 0 : ( #lookup ( C_IMPORTEDCONTRACT_STORAGE:Map , 0 ) : ( KV0_x:Int : ( 147 : ( KV0_x:Int : ( 106 : ( 268690130 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
                      ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80" )
