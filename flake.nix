@@ -133,6 +133,7 @@
             k-framework.overlay
             k-framework.overlays.pyk
             foundry.overlay
+            # Matching the version of Foundry with CI
             (final: prev: {
               foundry-bin =
                 let
