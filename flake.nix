@@ -28,13 +28,23 @@
         "-I${openssl.dev}/include -L${openssl.out}/lib -I${secp256k1}/include -L${secp256k1}/lib";
       overlay = final: prev:
         let
+          filteredSrc = final.lib.cleanSource
+            (final.nix-gitignore.gitignoreSourcePure [
+              ./.gitignore
+              ".github/"
+              "result*"
+              "/deps/"
+              # do not include submodule directories that might be initilized empty or non-existent
+              "/docs/external-computation"
+            ] ./.
+          );
           poetry2nix =
             inputs.poetry2nix.lib.mkPoetry2Nix { pkgs = prev; };
 
           kontrol-pyk = { solc_version ? null }:
             (poetry2nix.mkPoetryApplication {
               python = prev.python310;
-              projectDir = ./.;
+              projectDir = filteredSrc;
 
               postPatch = ''
                 ${prev.lib.strings.optionalString (solc_version != null) ''
@@ -78,7 +88,7 @@
               ];
               nativeBuildInputs = [ prev.makeWrapper ];
 
-              src = ./.;
+              src = filteredSrc;
 
               dontUseCmakeConfigure = true;
 
