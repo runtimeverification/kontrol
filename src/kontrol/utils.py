@@ -262,9 +262,9 @@ use-hex-encoding           = false
 """
 
 
-def foundry_toml_cancun_schedule() -> str:
+def foundry_toml_use_optimizer() -> str:
     return """
-evm_version = "cancun"
+optimizer = true
 """
 
 
