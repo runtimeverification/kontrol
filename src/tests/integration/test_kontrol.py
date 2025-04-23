@@ -15,7 +15,7 @@ from kontrol.foundry import Foundry, foundry_show, init_project
 from kontrol.kompile import foundry_kompile
 from kontrol.options import BuildOptions, ProveOptions, ShowOptions
 from kontrol.prove import foundry_prove
-from kontrol.utils import append_to_file, foundry_toml_cancun_schedule
+from kontrol.utils import append_to_file, foundry_toml_use_optimizer
 
 from .utils import TEST_DATA_DIR, assert_or_update_show_output, assert_pass
 
@@ -65,7 +65,7 @@ def foundry_end_to_end(foundry_root_dir: Path | None, tmp_path_factory: TempPath
         if not foundry_root.is_dir():
             init_project(project_root=foundry_root, skip_forge=False)
             copytree(str(TEST_DATA_DIR / 'src'), str(foundry_root / 'test'), dirs_exist_ok=True)
-            append_to_file(foundry_root / 'foundry.toml', foundry_toml_cancun_schedule())
+            append_to_file(foundry_root / 'foundry.toml', foundry_toml_use_optimizer())
 
             try:
                 foundry_kompile(

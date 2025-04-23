@@ -133,6 +133,34 @@
             k-framework.overlay
             k-framework.overlays.pyk
             foundry.overlay
+            # Matching the version of Foundry with CI
+            (final: prev: {
+              foundry-bin = prev.foundry-bin.overrideAttrs (_: let
+                sources = {
+                  "x86_64-linux" = {
+                    url = "https://github.com/foundry-rs/foundry/releases/download/rc-1/foundry_rc-1_linux_amd64.tar.gz";
+                    sha256 = "0kxfi64rl04r18jk60ji72fkvcaps0adrk3cjp9facyr7jcdx8gy";
+                  };
+                  "aarch64-linux" = {
+                    url = "https://github.com/foundry-rs/foundry/releases/download/rc-1/foundry_rc-1_linux_arm64.tar.gz";
+                    sha256 = "0dgbzmfzan8nfb2dfmb8960hdc6wi3x7jx3si5r9h94j6cn9sysk";
+                  };
+                  "x86_64-darwin" = {
+                    url = "https://github.com/foundry-rs/foundry/releases/download/rc-1/foundry_rc-1_darwin_amd64.tar.gz";
+                    sha256 = "0wx8fsghpdap5f16pkn8fsc3dbxfzxi03wjylp9bjw0knjs3f33g";
+                  };
+                  "aarch64-darwin" = {
+                    url = "https://github.com/foundry-rs/foundry/releases/download/rc-1/foundry_rc-1_darwin_arm64.tar.gz";
+                    sha256 = "1zq726d3vqnlp5bn5ijzia8xbw804g6kwxws02ddf390s5mr7946";
+                  };
+                };
+              in {
+                src = final.fetchzip {
+                  inherit (sources.${final.stdenv.hostPlatform.system}) url sha256;
+                  stripRoot = false;
+                };
+              });
+            })
             solc.overlay
             kevm.overlays.default
             overlay
