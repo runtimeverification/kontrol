@@ -3,7 +3,7 @@ ARG K_VERSION
 ARG BASE_DISTRO
 ARG LLVM_VERSION
 
-FROM ghcr.io/foundry-rs/foundry:nightly-a0a002020be4c40946fe122fe6ff752b21cb2885 as FOUNDRY
+FROM ghcr.io/foundry-rs/foundry:rc-1 as FOUNDRY
 
 ARG Z3_VERSION
 FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} as Z3
@@ -50,8 +50,8 @@ WORKDIR /home/${USER}/workspace
 
 ENV PATH=/home/${USER}/.cargo/bin:/home/${USER}/.local/bin:/usr/local/bin/:${PATH}
 
-RUN    curl -sSL https://install.python-poetry.org | python3 - \
-    && poetry --version
+RUN    curl -LsSf https://astral.sh/uv/install.sh | sh \
+    && uv --version
 
 RUN    cargo install svm-rs --version 0.3.0 --locked \
     && svm install 0.8.13                            \

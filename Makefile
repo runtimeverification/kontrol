@@ -1,5 +1,5 @@
-POETRY     := poetry
-POETRY_RUN := $(POETRY) run
+UV     := uv
+UV_RUN := $(UV) run --
 
 
 default: check test-unit
@@ -11,14 +11,6 @@ clean:
 	rm -rf dist .coverage cov-* .mypy_cache .pytest_cache
 	find -type d -name __pycache__ -prune -exec rm -rf {} \;
 
-.PHONY: build
-build:
-	$(POETRY) build
-
-.PHONY: poetry-install
-poetry-install:
-	$(POETRY) install
-
 
 # Tests
 
@@ -26,14 +18,17 @@ TEST_ARGS :=
 
 test: test-all
 
-test-all: poetry-install
-	$(POETRY_RUN) pytest src/tests --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal $(TEST_ARGS)
+.PHONY: test-all
+test-all:
+	$(UV_RUN) pytest src/tests --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal $(TEST_ARGS)
 
-test-unit: poetry-install
-	$(POETRY_RUN) pytest src/tests/unit --maxfail=1 --verbose $(TEST_ARGS)
+.PHONY: test-unit
+test-unit:
+	$(UV_RUN) pytest src/tests/unit --maxfail=1 --verbose $(TEST_ARGS)
 
-test-integration: poetry-install
-	$(POETRY_RUN) pytest src/tests/integration --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal $(TEST_ARGS)
+.PHONY: test-integration
+test-integration:
+	$(UV_RUN) pytest src/tests/integration --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal $(TEST_ARGS)
 
 
 # Coverage
@@ -58,8 +53,9 @@ cov-integration: test-integration
 
 PROF_ARGS :=
 
-profile: poetry-install
-	$(POETRY_RUN) pytest src/tests/profiling --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal $(PROF_ARGS)
+.PHONY: profile
+profile:
+	$(UV_RUN) pytest src/tests/profiling --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal $(PROF_ARGS)
 	find /tmp/pytest-of-$$(whoami)/pytest-current/ -type f -name '*.prof' | sort | xargs tail -n +1
 
 
@@ -68,34 +64,43 @@ profile: poetry-install
 format: autoflake isort black
 check: check-flake8 check-mypy check-autoflake check-isort check-black
 
-check-flake8: poetry-install
-	$(POETRY_RUN) flake8 src
+.PHONY: check-flake8
+check-flake8:
+	$(UV_RUN) flake8 src
 
-check-mypy: poetry-install
-	$(POETRY_RUN) mypy src
+.PHONY: check-mypy
+check-mypy:
+	$(UV_RUN) mypy src
 
-autoflake: poetry-install
-	$(POETRY_RUN) autoflake --quiet --in-place src
+.PHONY: autoflake
+autoflake:
+	$(UV_RUN) autoflake --quiet --in-place src
 
-check-autoflake: poetry-install
-	$(POETRY_RUN) autoflake --quiet --check src
+.PHONY: check-autoflake
+check-autoflake:
+	$(UV_RUN) autoflake --quiet --check src
 
-isort: poetry-install
-	$(POETRY_RUN) isort src
+.PHONY: isort
+isort:
+	$(UV_RUN) isort src
 
-check-isort: poetry-install
-	$(POETRY_RUN) isort --check src
+.PHONY: check-isort
+check-isort:
+	$(UV_RUN) isort --check src
 
-black: poetry-install
-	$(POETRY_RUN) black src
+.PHONY: black
+black:
+	$(UV_RUN) black src
 
-check-black: poetry-install
-	$(POETRY_RUN) black --check src
+.PHONY: check-black
+check-black:
+	$(UV_RUN) black --check src
 
 
 # Optional tools
 
 SRC_FILES := $(shell find src -type f -name '*.py')
 
-pyupgrade: poetry-install
-	$(POETRY_RUN) pyupgrade --py310-plus $(SRC_FILES)
+.PHONY: pyupgrade
+pyupgrade:
+	$(UV_RUN) pyupgrade --py310-plus $(SRC_FILES)

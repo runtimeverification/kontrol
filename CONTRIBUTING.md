@@ -27,9 +27,8 @@ The first step is to develop and test your changes locally.
 ##### 1. Build Kontrol from source
 ```
 kup install k.openssl.secp256k1 --version v$(cat deps/k_release)
-poetry install
-poetry run kdist clean
-CXX=clang++-14 poetry run kdist --verbose build -j2 kontrol.*
+uv run kdist clean
+CXX=clang++-14 uv run kdist --verbose build -j2 "kontrol.*"
 ```
 (see more detailed instructions [here](https://github.com/runtimeverification/kontrol?tab=readme-ov-file#build-from-source))
 
@@ -80,7 +79,7 @@ Kontrol is licensed under the [BSD 3-Clause License](https://github.com/runtimev
   - Run `make test-integration` locally to ensure all tests pass in CI.
   - Note: since `make test-integration` is time-expensive, before you can run your test to ensure it passes with: 
 ```
-poetry run pytest src/tests/integration -k 'test_foundry_xml_report' --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal
+uv run pytest src/tests/integration -k 'test_foundry_xml_report' --maxfail=1 --verbose --durations=0 --numprocesses=4 --dist=worksteal
 ```
 
 #### Running kontrol with a custom `pyk` / `kevm`

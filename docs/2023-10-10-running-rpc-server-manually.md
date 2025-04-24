@@ -134,7 +134,7 @@ cat $BUG_REPORT_DIR/rpc_2/003_request.json | nc -v 127.0.0.1 12341 | tee $BUG_RE
 ### Using `pyk print --input kore-json` to pretty-print a response for manual analysis
 
 ```
-cat $BUG_REPORT_DIR/rpc_2/003_response_manual.json | poetry -C $PYK_DIR run pyk print $KONTROL_KOMPILED_DIR /dev/stdin --input kore-json | tee $BUG_REPORT_DIR/rpc_2/003_response_manual.pretty
+cat $BUG_REPORT_DIR/rpc_2/003_response_manual.json | uv --directory=$PYK_DIR run pyk print $KONTROL_KOMPILED_DIR /dev/stdin --input kore-json | tee $BUG_REPORT_DIR/rpc_2/003_response_manual.pretty
 ```
 
 ### Using `pyk rpc-kast` to convert a response into a new `"execute"` request
@@ -142,7 +142,7 @@ cat $BUG_REPORT_DIR/rpc_2/003_response_manual.json | poetry -C $PYK_DIR run pyk 
 Convert `003_response.json` into an execute request, using `003_request.json` as reference for depth, module and log settings:
 
 ```
-poetry -C ../../pyk/pr/ run pyk rpc-kast $KONTROL_KOMPILED_DIR 003_request.json 003_response.json --output-file 004_request.json
+uv --directory=../../pyk/pr/ run pyk rpc-kast $KONTROL_KOMPILED_DIR 003_request.json 003_response.json --output-file 004_request.json
 ```
 
 
