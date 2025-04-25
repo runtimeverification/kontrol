@@ -45,7 +45,7 @@ jobs:
           install_url: https://releases.nixos.org/nix/nix-2.24.12/install
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - uses: cachix/cachix-action@v12
+      - uses: cachix/cachix-action@v16
         with:
           name: k-framework
           authToken: ${{ secrets.CACHIX_PUBLIC_TOKEN }}

@@ -230,7 +230,7 @@ jobs:
 
       - name: 'Install Cachix'
         if: ${{ matrix.runner != 'MacM1' }}
-        uses: cachix/cachix-action@v12
+        uses: cachix/cachix-action@v16
         with:
           name: k-framework
 
