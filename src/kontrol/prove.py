@@ -506,7 +506,7 @@ def _run_cfg_group(
                 )
 
             def update_status_bar(test_id: str, result: Any) -> None:
-                nonlocal done_tests, failed_tests, passed_tests, progress
+                nonlocal done_tests, failed_tests, passed_tests
                 if not display_status_bar or progress is None:
                     return
                 done_tests += 1
