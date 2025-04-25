@@ -1,97 +1,2619 @@
 
-┌─ 1 (root, split, init)
+┌─ 1 (root, init)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%Enum.enum_storage_range()
+│
+│  (264 steps)
+├─ 3
+│   k: #next [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   pc: 145
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: test/nested/SimpleNested.t.sol:7:11
+│   method: test%Enum.enum_storage_range()
 ┃
-┃ (branch)
-┣━━┓ subst: .Subst
-┃  ┃ constraint:
-┃  ┃     CALLDEPTH_CELL:Int <Int 1024
+┃ (1 step)
+┣━━┓
 ┃  │
-┃  ├─ 8
-┃  │   k: #execute ~> CONTINUATION:K
-┃  │   pc: 0
-┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  ├─ 4 (split)
+┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  │   pc: 145
+┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃
+┃  ┃ (branch)
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint:
+┃  ┃  ┃     ACTIVE_CELL:Bool
+┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ENUM_ID:Int )
+┃  ┃  │
+┃  ┃  ├─ 7
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   pc: 145
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  │
+┃  ┃  │  (1 step)
+┃  ┃  ├─ 13
+┃  ┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃  │   pc: 145
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 22
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   pc: 145
+┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  ┃  │
+┃  ┃  ┃  │  (7 steps)
+┃  ┃  ┃  └─ 41 (leaf, pending)
+┃  ┃  ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ENUM_ ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 23
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   pc: 145
+┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  ┃  │
+┃  ┃  ┃  │  (7 steps)
+┃  ┃  ┃  └─ 42 (leaf, pending)
+┃  ┃  ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ENUM_ ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     ├─ 24
+┃  ┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃     │   pc: 145
+┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     │   method: test%Enum.enum_storage_range()
+┃  ┃     ┃
+┃  ┃     ┃ (1 step)
+┃  ┃     ┣━━┓
+┃  ┃     ┃  │
+┃  ┃     ┃  └─ 43 (leaf, pending)
+┃  ┃     ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃      pc: 145
+┃  ┃     ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃     ┃      method: test%Enum.enum_storage_range()
+┃  ┃     ┃
+┃  ┃     ┗━━┓
+┃  ┃        │
+┃  ┃        └─ 44 (leaf, pending)
+┃  ┃            k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃            pc: 145
+┃  ┃            callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃            method: test%Enum.enum_storage_range()
+┃  ┃
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint:
+┃  ┃  ┃     ACTIVE_CELL:Bool
+┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ENUM_ID:Int )
+┃  ┃  ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
+┃  ┃  │
+┃  ┃  ├─ 14
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   pc: 145
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  │
+┃  ┃  │  (1 step)
+┃  ┃  ├─ 25
+┃  ┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃  │   pc: 145
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 45 (leaf, pending)
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 46 (leaf, pending)
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     └─ 47 (leaf, pending)
+┃  ┃         k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃         pc: 145
+┃  ┃         callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃         method: test%Enum.enum_storage_range()
+┃  ┃
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint:
+┃  ┃  ┃     ACTIVE_CELL:Bool
+┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ENUM_ID:Int )
+┃  ┃  ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
+┃  ┃  │
+┃  ┃  ├─ 26
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   pc: 145
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  │
+┃  ┃  │  (1 step)
+┃  ┃  └─ 48 (leaf, pending)
+┃  ┃      k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃      pc: 145
+┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint:
+┃  ┃  ┃     ACTIVE_CELL:Bool
+┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ENUM_ID:Int )
+┃  ┃  ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
+┃  ┃  │
+┃  ┃  └─ 49 (leaf, pending)
+┃  ┃      k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃      pc: 145
+┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃
+┃  ┗━━┓ subst: .Subst
+┃     ┃ constraint:
+┃     ┃     ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
+┃     │
+┃     └─ 50 (leaf, pending)
+┃         k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃         pc: 145
+┃         callDepth: EXPECTEDDEPTH_CELL:Int
+┃         statusCode: STATUSCODE:StatusCode
+┃         src: test/nested/SimpleNested.t.sol:7:11
+┃         method: test%Enum.enum_storage_range()
+┃
+┣━━┓
 ┃  │
-┃  │  (1242 steps)
-┃  ├─ 6 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 68
-┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  │   statusCode: EVMC_SUCCESS
+┃  ├─ 5
+┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  │   pc: 145
+┃  │   callDepth: DEPTH_CELL:Int
+┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%Enum.enum_storage_range()
-┃  │
-┃  ┊  constraint:
-┃  ┊      ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
-┃  ┊      ( notBool <acctID>
-  C_ENUM_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊      ( notBool <acctID>
-  C_ENUM_MEMBER_CONTRACT_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊      ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
-┃  ┊  subst: ...
-┃  └─ 2 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
-┃      pc: PC_CELL_5d410f2a:Int
-┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃  ┃
+┃  ┃ (1 step)
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 9
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   pc: 145
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  │
+┃  ┃  │  (7 steps)
+┃  ┃  ├─ 16
+┃  ┃  │   k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ENUM_ ...
+┃  ┃  │   pc: 145
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 28 (leaf, pending)
+┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 29 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int NCL:Int NCL:Int 0 0 b"h\xaf7\xdf" true ~> # ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 30 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_ENUM_MEMBER_CONTRACT_ID:Int C_ENUM_MEMBER ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     └─ 31 (leaf, pending)
+┃  ┃         k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ENUM_ ...
+┃  ┃         pc: 145
+┃  ┃         callDepth: DEPTH_CELL:Int
+┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃         method: test%Enum.enum_storage_range()
+┃  ┃
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 10
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   pc: 145
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  │
+┃  ┃  │  (7 steps)
+┃  ┃  ├─ 17
+┃  ┃  │   k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ENUM_ ...
+┃  ┃  │   pc: 145
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  │   method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 32 (leaf, pending)
+┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 33 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int NCL:Int NCL:Int 0 0 b"h\xaf7\xdf" true ~> # ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 34 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_ENUM_MEMBER_CONTRACT_ID:Int C_ENUM_MEMBER ...
+┃  ┃  ┃      pc: 145
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃  ┃      method: test%Enum.enum_storage_range()
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     └─ 35 (leaf, pending)
+┃  ┃         k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ENUM_ ...
+┃  ┃         pc: 145
+┃  ┃         callDepth: DEPTH_CELL:Int
+┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
+┃  ┃         method: test%Enum.enum_storage_range()
+┃  ┃
+┃  ┗━━┓
+┃     │
+┃     ├─ 11
+┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     │   pc: 145
+┃     │   callDepth: DEPTH_CELL:Int
+┃     │   statusCode: STATUSCODE:StatusCode
+┃     │   src: test/nested/SimpleNested.t.sol:7:11
+┃     │   method: test%Enum.enum_storage_range()
+┃     ┃
+┃     ┃ (1 step)
+┃     ┣━━┓
+┃     ┃  │
+┃     ┃  ├─ 18
+┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  │   pc: 145
+┃     ┃  │   callDepth: DEPTH_CELL:Int
+┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃  │   method: test%Enum.enum_storage_range()
+┃     ┃  │
+┃     ┃  │  (7 steps)
+┃     ┃  └─ 36 (leaf, pending)
+┃     ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ENUM_ ...
+┃     ┃      pc: 145
+┃     ┃      callDepth: DEPTH_CELL:Int
+┃     ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃     ┃      method: test%Enum.enum_storage_range()
+┃     ┃
+┃     ┗━━┓
+┃        │
+┃        ├─ 19
+┃        │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        │   pc: 145
+┃        │   callDepth: DEPTH_CELL:Int
+┃        │   statusCode: STATUSCODE:StatusCode
+┃        │   src: test/nested/SimpleNested.t.sol:7:11
+┃        │   method: test%Enum.enum_storage_range()
+┃        ┃
+┃        ┃ (1 step)
+┃        ┣━━┓
+┃        ┃  │
+┃        ┃  └─ 37 (leaf, pending)
+┃        ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃      pc: 145
+┃        ┃      callDepth: DEPTH_CELL:Int
+┃        ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
+┃        ┃      method: test%Enum.enum_storage_range()
+┃        ┃
+┃        ┗━━┓
+┃           │
+┃           └─ 38 (leaf, pending)
+┃               k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃               pc: 145
+┃               callDepth: DEPTH_CELL:Int
+┃               statusCode: STATUSCODE:StatusCode
+┃               src: test/nested/SimpleNested.t.sol:7:11
+┃               method: test%Enum.enum_storage_range()
 ┃
-┗━━┓ subst: .Subst
-   ┃ constraint:
-   ┃     1024 <=Int CALLDEPTH_CELL:Int
+┗━━┓
    │
-   ├─ 9
-   │   k: #execute ~> CONTINUATION:K
-   │   pc: 0
+   ├─ 6 (split)
+   │   k: #addr [ STATICCALL ] ~> #exec [ STATICCALL ] ~> #pc [ STATICCALL ] ~> #execute ~ ...
+   │   pc: 145
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%Enum.enum_storage_range()
-   │
-   │  (348 steps)
-   ├─ 7 (terminal)
-   │   k: #halt ~> CONTINUATION:K
-   │   pc: 161
-   │   callDepth: CALLDEPTH_CELL:Int
-   │   statusCode: EVMC_REVERT
-   │   src: test/nested/SimpleNested.t.sol:7:11
-   │   method: test%Enum.enum_storage_range()
-   │
-   ┊  constraint:
-   ┊      ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
-   ┊      ( notBool <acctID>
-  C_ENUM_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-   ┊      ( notBool <acctID>
-  C_ENUM_MEMBER_CONTRACT_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-   ┊      ( notBool C_ENUM_ID:Int ==Int C_ENUM_MEMBER_CONTRACT_ID:Int )
-   ┊  subst: ...
-   └─ 2 (leaf, target, terminal)
-       k: #halt ~> CONTINUATION:K
-       pc: PC_CELL_5d410f2a:Int
-       callDepth: CALLDEPTH_CELL_5d410f2a:Int
-       statusCode: STATUSCODE_FINAL:StatusCode
+   ┃
+   ┃ (branch)
+   ┣━━┓ subst: .Subst
+   ┃  ┃ constraint:
+   ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
+   ┃  │
+   ┃  ├─ 51
+   ┃  │   k: #addr [ STATICCALL ] ~> #exec [ STATICCALL ] ~> #pc [ STATICCALL ] ~> #execute ~ ...
+   ┃  │   pc: 145
+   ┃  │   callDepth: CALLDEPTH_CELL:Int
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  │   src: test/nested/SimpleNested.t.sol:7:11
+   ┃  │   method: test%Enum.enum_storage_range()
+   ┃  │
+   ┃  │  (977 steps)
+   ┃  └─ 39 (leaf, pending)
+   ┃      k: #halt ~> CONTINUATION:K
+   ┃      pc: 68
+   ┃      callDepth: CALLDEPTH_CELL:Int
+   ┃      statusCode: EVMC_SUCCESS
+   ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃      method: test%Enum.enum_storage_range()
+   ┃
+   ┗━━┓ subst: .Subst
+      ┃ constraint:
+      ┃     1024 <=Int CALLDEPTH_CELL:Int
+      │
+      ├─ 52
+      │   k: #addr [ STATICCALL ] ~> #exec [ STATICCALL ] ~> #pc [ STATICCALL ] ~> #execute ~ ...
+      │   pc: 145
+      │   callDepth: CALLDEPTH_CELL:Int
+      │   statusCode: STATUSCODE:StatusCode
+      │   src: test/nested/SimpleNested.t.sol:7:11
+      │   method: test%Enum.enum_storage_range()
+      │
+      │  (83 steps)
+      └─ 40 (leaf, pending)
+          k: #halt ~> CONTINUATION:K
+          pc: 161
+          callDepth: CALLDEPTH_CELL:Int
+          statusCode: EVMC_REVERT
+          src: test/nested/SimpleNested.t.sol:7:11
+          method: test%Enum.enum_storage_range()
 
+
+┌─ 2 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
 
 
 
 module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
     
     
-    rule [BASIC-BLOCK-8-TO-6]: <foundry>
+    rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( #execute => #halt )
+               ( .K => #next [ STATICCALL ] ~> .K )
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     C_ENUM_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"c6\xf6\x1e"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 0 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+               )))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+    
+    rule [BASIC-BLOCK-7-TO-13]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #injectPrank
+               ~> #next [ STATICCALL ]
+               ~> #endPrank )
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     C_ENUM_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"c6\xf6\x1e"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 0 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ( ACTIVE_CELL:Bool => true )
+               </active>
+               <depth>
+                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( ACTIVE_CELL:Bool
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))))))))
+       ensures NEWCALLER_CELL:Account ~> .K =/=K C_ENUM_ID:Int ~> .K
+      [priority(20), label(BASIC-BLOCK-7-TO-13)]
+    
+    rule [BASIC-BLOCK-9-TO-16]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ENUM_MEMBER_CONTRACT_ID:Int C_ENUM_MEMBER_CONTRACT_ID:Int 0 0 b"h\xaf7\xdf" true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"c6\xf6\x1e"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 132 ) : ( ( C_ENUM_MEMBER_CONTRACT_ID:Int => 1756313567 ) : ( ( 128 => C_ENUM_MEMBER_CONTRACT_ID:Int ) : ( ( 4 => 5 ) : ( ( 128 => 67 ) : ( ( 32 => 1664546334 ) : ( ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     DEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ENUM_MEMBER_CONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   NOG:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 NOG:Int
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K NOG:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int =/=Int NCL:Int
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+               )))))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-9-TO-16)]
+    
+    rule [BASIC-BLOCK-10-TO-17]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ENUM_MEMBER_CONTRACT_ID:Int C_ENUM_MEMBER_CONTRACT_ID:Int 0 0 b"h\xaf7\xdf" true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"c6\xf6\x1e"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 132 ) : ( ( C_ENUM_MEMBER_CONTRACT_ID:Int => 1756313567 ) : ( ( 128 => C_ENUM_MEMBER_CONTRACT_ID:Int ) : ( ( 4 => 5 ) : ( ( 128 => 67 ) : ( ( 32 => 1664546334 ) : ( ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     DEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ENUM_MEMBER_CONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int =/=Int NCL:Int
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+               )))))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-10-TO-17)]
+    
+    rule [BASIC-BLOCK-14-TO-25]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #injectPrank
+               ~> #next [ STATICCALL ]
+               ~> #endPrank )
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     C_ENUM_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"c6\xf6\x1e"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 0 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ( ACTIVE_CELL:Bool => true )
+               </active>
+               <depth>
+                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( ACTIVE_CELL:Bool
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))))))))
+       ensures NEWCALLER_CELL:Account ~> .K =/=K C_ENUM_ID:Int ~> .K
+      [priority(20), label(BASIC-BLOCK-14-TO-25)]
+    
+    rule [BASIC-BLOCK-18-TO-36]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ENUM_MEMBER_CONTRACT_ID:Int C_ENUM_MEMBER_CONTRACT_ID:Int 0 0 b"h\xaf7\xdf" true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"c6\xf6\x1e"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 132 ) : ( ( C_ENUM_MEMBER_CONTRACT_ID:Int => 1756313567 ) : ( ( 128 => C_ENUM_MEMBER_CONTRACT_ID:Int ) : ( ( 4 => 5 ) : ( ( 128 => 67 ) : ( ( 32 => 1664546334 ) : ( ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     DEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ENUM_MEMBER_CONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   NOG0:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 NOG0:Int
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K NOG0:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( _NOG:Int =/=Int NOG0:Int
+       andBool ( C_ENUM_ID:Int =/=Int NCL:Int
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+               ))))))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-18-TO-36)]
+    
+    rule [BASIC-BLOCK-22-TO-41]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ENUM_MEMBER_CONTRACT_ID:Int C_ENUM_MEMBER_CONTRACT_ID:Int 0 0 b"h\xaf7\xdf" true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"c6\xf6\x1e"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 132 ) : ( ( C_ENUM_MEMBER_CONTRACT_ID:Int => 1756313567 ) : ( ( 128 => C_ENUM_MEMBER_CONTRACT_ID:Int ) : ( ( 4 => 5 ) : ( ( 128 => 67 ) : ( ( 32 => 1664546334 ) : ( ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ENUM_MEMBER_CONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   NOG:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 NOG:Int
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 EXPECTEDDEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K NOG:Int
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int =/=Int NCL:Int
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-22-TO-41)]
+    
+    rule [BASIC-BLOCK-23-TO-42]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ENUM_MEMBER_CONTRACT_ID:Int C_ENUM_MEMBER_CONTRACT_ID:Int 0 0 b"h\xaf7\xdf" true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"c6\xf6\x1e"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 132 ) : ( ( C_ENUM_MEMBER_CONTRACT_ID:Int => 1756313567 ) : ( ( 128 => C_ENUM_MEMBER_CONTRACT_ID:Int ) : ( ( 4 => 5 ) : ( ( 128 => 67 ) : ( ( 32 => 1664546334 ) : ( ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ENUM_MEMBER_CONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 EXPECTEDDEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int =/=Int NCL:Int
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-23-TO-42)]
+    
+    rule [BASIC-BLOCK-26-TO-48]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #injectPrank
+               ~> #next [ STATICCALL ]
+               ~> #endPrank )
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     C_ENUM_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"c6\xf6\x1e"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 0 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_ENUM_MEMBER_CONTRACT_ID:Int )
+                       C_ENUM_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_ENUM_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_ENUM_MEMBER_CONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ENUM_MEMBER_CONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ENUM_MEMBER_CONTRACT_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_ENUM_MEMBER_CONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ( ACTIVE_CELL:Bool => true )
+               </active>
+               <depth>
+                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( ACTIVE_CELL:Bool
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int C_ENUM_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_ENUM_BAL:Int
+       andBool ( 0 <=Int C_ENUM_NONCE:Int
+       andBool ( NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
+       andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( C_ENUM_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
+       andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
+       andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ENUM_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_ENUM_MEMBER_CONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))))))))
+       ensures NEWCALLER_CELL:Account ~> .K =/=K C_ENUM_ID:Int ~> .K
+      [priority(20), label(BASIC-BLOCK-26-TO-48)]
+    
+    rule [BASIC-BLOCK-51-TO-39]: <foundry>
+           <kevm>
+             <k>
+               ( #addr [ STATICCALL ]
+               ~> #exec [ STATICCALL ]
+               ~> #pc [ STATICCALL ]
+               ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
              </k>
              <mode>
@@ -128,10 +2650,10 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1664546334 : .WordStack ) )
+                     ( ( 0 => 1664546334 ) : ( ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) ) ) ) ) ) => .WordStack ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) ) +Bytes #buf ( 32 , #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) ) )
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) ) +Bytes #buf ( 32 , #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -214,6 +2736,27 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ACTIVE_CELL:Bool
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -269,7 +2812,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
        andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
@@ -278,36 +2820,42 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
        andBool ( C_ENUM_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( C_ENUM_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-8-TO-6)]
+       andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+       andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int ) ) )
+               ))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-51-TO-39)]
     
-    rule [BASIC-BLOCK-9-TO-7]: <foundry>
+    rule [BASIC-BLOCK-52-TO-40]: <foundry>
            <kevm>
              <k>
-               ( #execute => #halt )
+               ( #addr [ STATICCALL ]
+               ~> #exec [ STATICCALL ]
+               ~> #pc [ STATICCALL ]
+               ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
              </k>
              <mode>
@@ -341,10 +2889,10 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 132 : ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) ) ) )
+                     ( ( 0 => 1 ) : ( ( C_ENUM_MEMBER_CONTRACT_ID:Int => 132 ) : ( ( 128 => 1756313567 ) : ( ( 4 => C_ENUM_MEMBER_CONTRACT_ID:Int ) : ( ( 128 => 5 ) : ( ( 32 => 67 ) : ( ( 132 => 1664546334 ) : ( ( 1756313567 : ( C_ENUM_MEMBER_CONTRACT_ID:Int : ( 5 : ( 67 : ( 1664546334 : .WordStack ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00h\xaf7\xdf\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
                    </localMem>
                    <memoryUsed>
                      0
@@ -427,6 +2975,27 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ACTIVE_CELL:Bool
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -481,7 +3050,6 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( 0 <=Int C_ENUM_BAL:Int
        andBool ( 0 <=Int C_ENUM_NONCE:Int
-       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
        andBool ( 1024 <=Int CALLDEPTH_CELL:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
@@ -491,30 +3059,33 @@ module SUMMARY-TEST%ENUM.ENUM-STORAGE-RANGE():0
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
        andBool ( C_ENUM_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( C_ENUM_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int <Int pow160
        andBool ( C_ENUM_BAL:Int <Int pow256
+       andBool ( C_ENUM_ID:Int =/=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( ( notBool 0 in_keys ( C_ENUM_STORAGE:Map ) )
        andBool ( C_ENUM_MEMBER_CONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
+       andBool ( C_ENUM_MEMBER_CONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool <acctID>
           C_ENUM_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
        andBool ( ( notBool <acctID>
           C_ENUM_MEMBER_CONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( #lookup ( C_ENUM_MEMBER_CONTRACT_STORAGE:Map , 1 ) <Int 6
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-7)]
+       andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+       andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_ENUM_ID:Int ) ) )
+               ))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-52-TO-40)]
 
 endmodule
