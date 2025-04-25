@@ -221,7 +221,7 @@ jobs:
 
       - name: 'Install Nix'
         if: ${{ matrix.runner != 'MacM1' }}
-        uses: cachix/install-nix-action@v22
+        uses: cachix/install-nix-action@v31.2.0
         with:
           install_url: https://releases.nixos.org/nix/nix-2.24.12/install
           extra_nix_config: |
@@ -230,7 +230,7 @@ jobs:
 
       - name: 'Install Cachix'
         if: ${{ matrix.runner != 'MacM1' }}
-        uses: cachix/cachix-action@v12
+        uses: cachix/cachix-action@v16
         with:
           name: k-framework
 
