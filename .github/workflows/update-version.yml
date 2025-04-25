@@ -40,7 +40,7 @@ jobs:
           echo ${K_VERSION} > deps/k_release
           git add deps/k_release && git commit -m "deps/k_release: sync release file version ${K_VERSION}" || true
       - name: 'Install Nix/Cachix'
-        uses: cachix/install-nix-action@v19
+        uses: cachix/install-nix-action@v31.2.0
         with:
           install_url: https://releases.nixos.org/nix/nix-2.24.12/install
           extra_nix_config: |
