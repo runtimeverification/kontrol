@@ -5,21 +5,20 @@ import logging
 import re
 from dataclasses import dataclass
 from functools import cached_property
-from subprocess import CalledProcessError
 from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KSort, KVariable
 from pyk.prelude.kbool import TRUE
 from pyk.prelude.kint import eqInt, intToken, ltInt
-from pyk.utils import hash_str, run_process_2, single
+from pyk.utils import hash_str, single
 
 from .utils import _read_digest_file
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from pathlib import Path
-    from typing import Any, Final
+    from typing import Final
 
     from pyk.kast import KInner
 
@@ -895,60 +894,6 @@ class Contract:
     @property
     def method_by_sig(self) -> dict[str, Contract.Method]:
         return {method.signature: method for method in self.methods}
-
-
-def solc_compile(contract_file: Path) -> dict[str, Any]:
-    # TODO: add check to kevm:
-    # solc version should be >=0.8.0 due to:
-    # https://github.com/ethereum/solidity/issues/10276
-
-    args = {
-        'language': 'Solidity',
-        'sources': {
-            contract_file.name: {
-                'urls': [
-                    str(contract_file),
-                ],
-            },
-        },
-        'settings': {
-            'outputSelection': {
-                '*': {
-                    '*': [
-                        'abi',
-                        'storageLayout',
-                        'evm.methodIdentifiers',
-                        'evm.deployedBytecode.object',
-                        'evm.deployedBytecode.sourceMap',
-                        'evm.bytecode.object',
-                        'evm.bytecode.sourceMap',
-                    ],
-                    '': ['ast'],
-                },
-            },
-        },
-    }
-
-    try:
-        process_res = run_process_2(['solc', '--standard-json'], logger=_LOGGER, input=json.dumps(args))
-    except CalledProcessError as err:
-        raise RuntimeError('solc error', err.stdout, err.stderr) from err
-    result = json.loads(process_res.stdout)
-    if 'errors' in result:
-        failed = False
-        for error in result['errors']:
-            if error['severity'] == 'error':
-                _LOGGER.error(f'solc error:\n{error["formattedMessage"]}')
-                failed = True
-            elif error['severity'] == 'warning':
-                _LOGGER.warning(f'solc warning:\n{error["formattedMessage"]}')
-            else:
-                _LOGGER.warning(
-                    f'Unknown solc error severity level {error["severity"]}:\n{json.dumps(error, indent=2)}'
-                )
-        if failed:
-            raise ValueError('Compilation failed.')
-    return result
 
 
 # Helpers
