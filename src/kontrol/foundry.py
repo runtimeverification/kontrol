@@ -48,7 +48,6 @@ from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
-from .hevm import Hevm
 from .solc import CompilationUnit
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
@@ -738,14 +737,27 @@ class Foundry:
 
     @staticmethod
     def help_info(proof_id: str, hevm: bool) -> list[str]:
-        if hevm:
-            return Hevm.help_info(proof_id)
         res_lines: list[str] = []
-        res_lines.append('')
-        res_lines.append('See `foundry_success` predicate for more information:')
-        res_lines.append(
-            'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
-        )
+        if hevm:
+            _, test = proof_id.split('.')
+            if not any(test.startswith(prefix) for prefix in ['testFail', 'checkFail', 'proveFail']):
+                res_lines.append('')
+                res_lines.append('See `hevm_success` predicate for more information:')
+                res_lines.append(
+                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-success-predicate'
+                )
+            else:
+                res_lines.append('')
+                res_lines.append('See `hevm_fail` predicate for more information:')
+                res_lines.append(
+                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-fail-predicate'
+                )
+        else:
+            res_lines.append('')
+            res_lines.append('See `foundry_success` predicate for more information:')
+            res_lines.append(
+                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
+            )
         res_lines.append('')
         res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
         return res_lines
