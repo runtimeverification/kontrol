@@ -1239,8 +1239,7 @@ def foundry_split_node(
     proof = foundry.get_apr_proof(test_id)
 
     token = KToken(options.branch_condition, 'Bool')
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
-    parsed_condition = node_printer.kprint.parse_token(token, as_rule=True)
+    parsed_condition = foundry.kevm.parse_token(token, as_rule=True)
 
     split_nodes = proof.kcfg.split_on_constraints(
         options.node, [mlEqualsTrue(parsed_condition), mlEqualsFalse(parsed_condition)]
