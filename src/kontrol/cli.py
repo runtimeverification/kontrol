@@ -13,7 +13,6 @@ from pyk.utils import ensure_dir_path
 from .options import (
     BuildOptions,
     CleanOptions,
-    CompileOptions,
     ConfigType,
     GetModelOptions,
     InitOptions,
@@ -50,7 +49,6 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
     options = {
         'load-state': LoadStateOptions(args),
         'version': VersionOptions(args),
-        'compile': CompileOptions(args),
         'build': BuildOptions(args),
         'prove': ProveOptions(args),
         'show': ShowOptions(args),
@@ -81,7 +79,6 @@ def get_option_string_destination(command: str, option_string: str) -> str:
     options = {
         'load-state': LoadStateOptions.from_option_string(),
         'version': VersionOptions.from_option_string(),
-        'compile': CompileOptions.from_option_string(),
         'build': BuildOptions.from_option_string(),
         'prove': ProveOptions.from_option_string(),
         'show': ShowOptions.from_option_string(),
@@ -110,7 +107,6 @@ def get_argument_type_setter(command: str, option_string: str) -> Callable[[str]
     options = {
         'load-state': LoadStateOptions.get_argument_type(),
         'version': VersionOptions.get_argument_type(),
-        'compile': CompileOptions.get_argument_type(),
         'build': BuildOptions.get_argument_type(),
         'prove': ProveOptions.get_argument_type(),
         'show': ShowOptions.get_argument_type(),
@@ -249,9 +245,6 @@ def _create_argument_parser() -> ArgumentParser:
     command_parser = parser.add_subparsers(dest='command', required=True)
 
     command_parser.add_parser('version', help='Print out version of Kontrol command.')
-
-    solc_args = command_parser.add_parser('compile', help='Generate combined JSON with solc compilation results.')
-    solc_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
 
     build = command_parser.add_parser(
         'build',

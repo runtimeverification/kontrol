@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import logging
 import sys
 from collections.abc import Iterable
@@ -39,7 +38,6 @@ from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
 from .solc import CompilationUnit
-from .solc_to_k import solc_compile
 from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
 
 if TYPE_CHECKING:
@@ -52,7 +50,6 @@ if TYPE_CHECKING:
     from .options import (
         BuildOptions,
         CleanOptions,
-        CompileOptions,
         GetModelOptions,
         InitOptions,
         ListOptions,
@@ -140,11 +137,6 @@ def exec_load_state(options: LoadStateOptions) -> None:
 
 def exec_version(options: VersionOptions) -> None:
     print(f'Kontrol version: {VERSION}')
-
-
-def exec_compile(options: CompileOptions) -> None:
-    res = solc_compile(options.contract_file)
-    print(json.dumps(res))
 
 
 def exec_build(options: BuildOptions) -> None:
