@@ -32,7 +32,6 @@ from .foundry import (
     read_recorded_state_diff,
     read_recorded_state_dump,
 )
-from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
 from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
@@ -215,7 +214,7 @@ def exec_prove(options: ProveOptions) -> None:
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
             if options.failure_info and failure_log is not None:
-                log = failure_log.print() + (Foundry.help_info() if not options.hevm else Hevm.help_info(proof.id))
+                log = failure_log.print() + Foundry.help_info(proof.id, options.hevm)
                 for line in log:
                     print(line)
             refuted_nodes = list(proof.node_refutations.keys())

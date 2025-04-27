@@ -48,6 +48,7 @@ from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
+from .hevm import Hevm
 from .solc import CompilationUnit
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
@@ -736,7 +737,9 @@ class Foundry:
         )
 
     @staticmethod
-    def help_info() -> list[str]:
+    def help_info(proof_id: str, hevm: bool) -> list[str]:
+        if hevm:
+            return Hevm.help_info(proof_id)
         res_lines: list[str] = []
         res_lines.append('')
         res_lines.append('See `foundry_success` predicate for more information:')
@@ -991,7 +994,7 @@ def foundry_show(
             extra_module=foundry.load_lemmas(options.lemmas),
         ) as kcfg_explore:
             res_lines += print_failure_info(proof, kcfg_explore, options.counterexample_info)
-            res_lines += Foundry.help_info()
+            res_lines += Foundry.help_info(proof.id, False)
 
     if options.to_kevm_claims or options.to_kevm_rules:
         _foundry_labels = [
