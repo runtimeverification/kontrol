@@ -44,6 +44,7 @@ from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
+from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
@@ -87,6 +88,7 @@ if TYPE_CHECKING:
         SplitNodeOptions,
         StepNodeOptions,
         UnrefuteNodeOptions,
+        ViewKcfgOptions,
     )
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -1067,6 +1069,21 @@ def foundry_show(
                 kevm_sentences_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
 
     return '\n'.join([line.rstrip() for line in res_lines])
+
+
+def foundry_view(foundry: Foundry, options: ViewKcfgOptions) -> None:
+    test_id = foundry.get_test_id(options.test, options.version)
+    contract_name, _ = test_id.split('.')
+    proof = foundry.get_apr_proof(test_id)
+
+    compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
+
+    def _custom_view(elem: KCFGElem) -> Iterable[str]:
+        return foundry.custom_view(contract_name, elem, compilation_unit)
+
+    node_printer = foundry_node_printer(foundry, contract_name, proof)
+    viewer = APRProofViewer(proof, foundry.kevm, node_printer=node_printer, custom_view=_custom_view)
+    viewer.run()
 
 
 def foundry_list(foundry: Foundry) -> list[str]:
