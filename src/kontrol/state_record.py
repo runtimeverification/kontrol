@@ -3,7 +3,7 @@ from typing import NamedTuple
 
 from eth_utils import to_checksum_address
 
-from .solc_to_k import hex_string_to_int
+from .utils import hex_string_to_int
 
 
 class SlotUpdate(NamedTuple):

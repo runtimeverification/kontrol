@@ -1085,13 +1085,6 @@ def method_sig_from_abi(method_json: dict, is_library: bool = False) -> str:
     return f'{method_name}({method_args})'
 
 
-def hex_string_to_int(hex: str) -> int:
-    if hex.startswith('0x'):
-        return int(hex, 16)
-    else:
-        raise ValueError('Invalid hex format')
-
-
 def find_function_calls(node: dict, fields: tuple[StorageField, ...]) -> list[str]:
     """Recursive function that takes a method AST and a set of storage fields and returns all the functions that are called in the given method.
 

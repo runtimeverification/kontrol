@@ -36,9 +36,9 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElaps
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
 from .hevm import Hevm
 from .options import ConfigType, TraceOptions
-from .solc_to_k import Contract, hex_string_to_int
+from .solc_to_k import Contract
 from .state_record import StateDiffEntry, StateDumpEntry
-from .utils import console, parse_test_version_tuple
+from .utils import console, hex_string_to_int, parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
