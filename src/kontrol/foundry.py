@@ -86,7 +86,6 @@ if TYPE_CHECKING:
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
-        ToDotOptions,
         UnrefuteNodeOptions,
     )
 
@@ -1068,18 +1067,6 @@ def foundry_show(
                 kevm_sentences_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
 
     return '\n'.join([line.rstrip() for line in res_lines])
-
-
-def foundry_to_dot(foundry: Foundry, options: ToDotOptions) -> None:
-    dump_dir = foundry.proofs_dir / 'dump'
-    test_id = foundry.get_test_id(options.test, options.version)
-    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
-    proof = foundry.get_apr_proof(test_id)
-
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
-    proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
-
-    proof_show.dump(proof, dump_dir, dot=True)
 
 
 def foundry_list(foundry: Foundry) -> list[str]:

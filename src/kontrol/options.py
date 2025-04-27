@@ -720,24 +720,6 @@ class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
         )
 
 
-class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    @staticmethod
-    def from_option_string() -> dict[str, str]:
-        return (
-            FoundryOptions.from_option_string()
-            | LoggingOptions.from_option_string()
-            | FoundryTestOptions.from_option_string()
-        )
-
-    @staticmethod
-    def get_argument_type() -> dict[str, Callable]:
-        return (
-            FoundryOptions.get_argument_type()
-            | LoggingOptions.get_argument_type()
-            | FoundryTestOptions.get_argument_type()
-        )
-
-
 class UnrefuteNodeOptions(LoggingOptions, FoundryTestOptions, FoundryOptions):
     node: NodeIdLike
 

@@ -28,7 +28,6 @@ from .foundry import (
     foundry_split_node,
     foundry_state_load,
     foundry_step_node,
-    foundry_to_dot,
     foundry_unrefute_node,
     init_project,
     read_recorded_state_diff,
@@ -64,7 +63,6 @@ if TYPE_CHECKING:
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
-        ToDotOptions,
         UnrefuteNodeOptions,
         VersionOptions,
         ViewKcfgOptions,
@@ -271,13 +269,6 @@ def exec_split_node(options: SplitNodeOptions) -> None:
     )
 
     print(f'Node {options.node} has been split into {node_ids} on condition {options.branch_condition}.')
-
-
-def exec_to_dot(options: ToDotOptions) -> None:
-    foundry_to_dot(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
-        options=options,
-    )
 
 
 def exec_list(options: ListOptions) -> None:
