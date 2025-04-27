@@ -14,6 +14,7 @@ from .options import (
     BuildOptions,
     CleanOptions,
     CompileOptions,
+    ConfigType,
     GetModelOptions,
     InitOptions,
     ListOptions,
@@ -33,7 +34,7 @@ from .options import (
     VersionOptions,
     ViewKcfgOptions,
 )
-from .prove import ConfigType, parse_test_version_tuple
+from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Callable
