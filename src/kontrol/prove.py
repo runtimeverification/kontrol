@@ -34,7 +34,6 @@ from pyk.utils import hash_str, run_process_2, unique
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
-from .hevm import Hevm
 from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract
 from .state_record import StateDiffEntry, StateDumpEntry
@@ -1398,13 +1397,13 @@ def _final_cterm(
             if not failing:
                 return final_cterm.add_constraint(
                     mlEqualsTrue(
-                        Hevm.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL'))
+                        Foundry.hevm_success(KVariable('STATUSCODE_FINAL'), dst_failed_post, KVariable('OUTPUT_FINAL'))
                     )
                 )
             else:
                 # To do: Print warning to the user
                 return final_cterm.add_constraint(
-                    mlEqualsTrue(Hevm.hevm_fail(KVariable('STATUSCODE_FINAL'), dst_failed_post))
+                    mlEqualsTrue(Foundry.hevm_fail(KVariable('STATUSCODE_FINAL'), dst_failed_post))
                 )
 
     return final_cterm
