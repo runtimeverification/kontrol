@@ -241,6 +241,36 @@ def foundry_show(
     return '\n'.join([line.rstrip() for line in res_lines])
 
 
+def solidity_src_print(path: Path, start: int, end: int) -> Iterable[str]:
+    lines = path.read_text().split('\n')
+    prefix_lines = [f'   {l}' for l in lines[:start]]
+    actual_lines = [f' | {l}' for l in lines[start:end]]
+    suffix_lines = [f'   {l}' for l in lines[end:]]
+    return prefix_lines + actual_lines + suffix_lines
+
+
+def custom_view(contract_name: str, element: KCFGElem, compilation_unit: CompilationUnit) -> Iterable[str]:
+    if type(element) is KCFG.Node:
+        pc_cell = element.cterm.try_cell('PC_CELL')
+        program_cell = element.cterm.try_cell('PROGRAM_CELL')
+        if type(pc_cell) is KToken and pc_cell.sort == INT:
+            if type(program_cell) is KToken:
+                try:
+                    bytecode = ast.literal_eval(program_cell.token)
+                    instruction = compilation_unit.get_instruction(bytecode, int(pc_cell.token))
+                    node = instruction.node()
+                    start_line, _, end_line, _ = node.source_range()
+                    return solidity_src_print(Path(node.source.name), start_line - 1, end_line)
+                except Exception:
+                    return [f'No sourcemap data for contract at pc {contract_name}: {int(pc_cell.token)}']
+            return ['NO DATA']
+    elif type(element) is KCFG.Edge:
+        return list(element.rules)
+    elif type(element) is KCFG.NDBranch:
+        return list(element.rules)
+    return ['NO DATA']
+
+
 def foundry_view(foundry: Foundry, options: ViewKcfgOptions) -> None:
     test_id = foundry.get_test_id(options.test, options.version)
     contract_name, _ = test_id.split('.')
@@ -249,7 +279,7 @@ def foundry_view(foundry: Foundry, options: ViewKcfgOptions) -> None:
     compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
 
     def _custom_view(elem: KCFGElem) -> Iterable[str]:
-        return foundry.custom_view(contract_name, elem, compilation_unit)
+        return custom_view(contract_name, elem, compilation_unit)
 
     node_printer = foundry_node_printer(foundry, contract_name, proof)
     viewer = APRProofViewer(proof, foundry.kevm, node_printer=node_printer, custom_view=_custom_view)

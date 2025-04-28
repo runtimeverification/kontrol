@@ -28,7 +28,6 @@ from pyk.kast.manip import (
     top_down,
 )
 from pyk.kast.outer import KRule
-from pyk.kcfg import KCFG
 from pyk.kcfg.kcfg import Step
 from pyk.kdist import kdist
 from pyk.prelude.bytes import bytesToken
@@ -59,9 +58,9 @@ if TYPE_CHECKING:
 
     from pyk.cterm import CTermSymbolic
     from pyk.kast.outer import KAst, KFlatModule
+    from pyk.kcfg import KCFG
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.semantics import KCFGExtendResult
-    from pyk.kcfg.tui import KCFGElem
     from pyk.proof.implies import RefutationProof
     from pyk.utils import BugReport
 
@@ -78,7 +77,6 @@ if TYPE_CHECKING:
         StepNodeOptions,
         UnrefuteNodeOptions,
     )
-    from .solc import CompilationUnit
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -489,34 +487,6 @@ class Foundry:
         self.digest_file.write_text(json.dumps(digest_dict, indent=4))
 
         _LOGGER.info(f'Updated Foundry digest file: {self.digest_file}')
-
-    def solidity_src_print(self, path: Path, start: int, end: int) -> Iterable[str]:
-        lines = path.read_text().split('\n')
-        prefix_lines = [f'   {l}' for l in lines[:start]]
-        actual_lines = [f' | {l}' for l in lines[start:end]]
-        suffix_lines = [f'   {l}' for l in lines[end:]]
-        return prefix_lines + actual_lines + suffix_lines
-
-    def custom_view(self, contract_name: str, element: KCFGElem, compilation_unit: CompilationUnit) -> Iterable[str]:
-        if type(element) is KCFG.Node:
-            pc_cell = element.cterm.try_cell('PC_CELL')
-            program_cell = element.cterm.try_cell('PROGRAM_CELL')
-            if type(pc_cell) is KToken and pc_cell.sort == INT:
-                if type(program_cell) is KToken:
-                    try:
-                        bytecode = ast.literal_eval(program_cell.token)
-                        instruction = compilation_unit.get_instruction(bytecode, int(pc_cell.token))
-                        node = instruction.node()
-                        start_line, _, end_line, _ = node.source_range()
-                        return self.solidity_src_print(Path(node.source.name), start_line - 1, end_line)
-                    except Exception:
-                        return [f'No sourcemap data for contract at pc {contract_name}: {int(pc_cell.token)}']
-                return ['NO DATA']
-        elif type(element) is KCFG.Edge:
-            return list(element.rules)
-        elif type(element) is KCFG.NDBranch:
-            return list(element.rules)
-        return ['NO DATA']
 
     def build(self, metadata: bool) -> None:
         forge_build_args = [
