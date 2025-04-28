@@ -86,6 +86,10 @@ def foundry_prove(
         else []
     )
 
+    init_accounts: list[KApply] = []
+    if recorded_state_entries is not None:
+        init_accounts = recorded_state_to_account_cells(recorded_state_entries)
+
     if options.cse:
         exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
         return_empty = options.config_type == ConfigType.SUMMARY_CONFIG
@@ -139,7 +143,7 @@ def foundry_prove(
             foundry=foundry,
             options=options,
             summary_ids=(summary_ids if include_summaries else []),
-            recorded_state_entries=recorded_state_entries,
+            init_accounts=init_accounts,
         )
 
     constructor_results: list[APRProof] = []
@@ -305,7 +309,7 @@ def _run_cfg_group(
     foundry: Foundry,
     options: ProveOptions,
     summary_ids: Iterable[str],
-    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
+    init_accounts: Iterable[KApply] = (),
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest, progress: Progress | None = None) -> APRFailureInfo | Exception | None:
 
@@ -395,7 +399,7 @@ def _run_cfg_group(
                     kcfg_explore=create_kcfg_explore(),
                     bmc_depth=options.bmc_depth,
                     run_constructor=options.run_constructor,
-                    recorded_state_entries=recorded_state_entries,
+                    init_accounts=init_accounts,
                     summary_ids=summary_ids,
                     active_simbolik=options.with_non_general_state,
                     hevm=options.hevm,
@@ -562,7 +566,7 @@ def method_to_apr_proof(
     symbolic_caller: bool,
     bmc_depth: int | None = None,
     run_constructor: bool = False,
-    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
+    init_accounts: Iterable[KInner] = (),
     summary_ids: Iterable[str] = (),
     active_simbolik: bool = False,
     hevm: bool = False,
@@ -589,7 +593,7 @@ def method_to_apr_proof(
         evm_chain_options=evm_chain_options,
         stack_checks=stack_checks,
         symbolic_caller=symbolic_caller,
-        recorded_state_entries=recorded_state_entries,
+        init_accounts=init_accounts,
         active_simbolik=active_simbolik,
         hevm=hevm,
         trace_options=trace_options,
@@ -637,7 +641,7 @@ def _method_to_initialized_cfg(
     *,
     setup_proof: APRProof | None = None,
     graft_setup_proof: bool = False,
-    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
+    init_accounts: Iterable[KInner] = (),
     active_simbolik: bool = False,
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
@@ -653,11 +657,11 @@ def _method_to_initialized_cfg(
         setup_proof,
         graft_setup_proof,
         evm_chain_options,
-        recorded_state_entries,
         active_simbolik,
         config_type=config_type,
         stack_checks=stack_checks,
         symbolic_caller=symbolic_caller,
+        init_accounts=init_accounts,
         hevm=hevm,
         trace_options=trace_options,
     )
@@ -688,11 +692,11 @@ def _method_to_cfg(
     setup_proof: APRProof | None,
     graft_setup_proof: bool,
     evm_chain_options: EVMChainOptions,
-    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
     active_simbolik: bool,
     config_type: ConfigType,
     stack_checks: bool,
     symbolic_caller: bool,
+    init_accounts: Iterable[KInner] = (),
     hevm: bool = False,
     trace_options: TraceOptions | None = None,
 ) -> tuple[KCFG, list[int], int, int, Iterable[int]]:
@@ -725,7 +729,7 @@ def _method_to_cfg(
         storage_fields=contract.fields,
         method=method,
         evm_chain_options=evm_chain_options,
-        recorded_state_entries=recorded_state_entries,
+        init_accounts=init_accounts,
         calldata=calldata,
         callvalue=callvalue,
         active_simbolik=active_simbolik,
@@ -908,7 +912,7 @@ def _init_cterm(
     calldata: KInner | None = None,
     callvalue: KInner | None = None,
     preconditions: Iterable[KInner] | None = None,
-    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
+    init_accounts: Iterable[KInner] = (),
     trace_options: TraceOptions | None = None,
 ) -> CTerm:
     schedule = KApply(evm_chain_options.schedule + '_EVM')
@@ -959,7 +963,9 @@ def _init_cterm(
     storage_constraints: list[KApply] = []
 
     if config_type == ConfigType.TEST_CONFIG or active_simbolik:
-        init_account_list = _create_initial_account_list(contract_code, additional_accounts, recorded_state_entries)
+        init_account_list = (
+            _create_initial_account_list(contract_code) + list(additional_accounts) + list(init_accounts)
+        )
         origin_id = Foundry.address_DEFAULT_CALLER() if not symbolic_caller else init_subst['ORIGIN_CELL']
         caller_id = Foundry.address_DEFAULT_CALLER() if not symbolic_caller else init_subst['CALLER_CELL']
         init_subst_test = {
@@ -1068,11 +1074,7 @@ def _init_cterm(
     return init_cterm
 
 
-def _create_initial_account_list(
-    program: KInner,
-    additional_accounts: list[KInner],
-    recorded_state: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None,
-) -> list[KInner]:
+def _create_initial_account_list(program: KInner) -> list[KInner]:
     _contract = KEVM.account_cell(
         Foundry.address_TEST_CONTRACT(),
         intToken(0),
@@ -1086,10 +1088,6 @@ def _create_initial_account_list(
         _contract,
         Foundry.account_CHEATCODE_ADDRESS(map_empty()),
     ]
-    if recorded_state is not None:
-        init_account_list.extend(recorded_state_to_account_cells(recorded_state))
-
-    init_account_list.extend(additional_accounts)
     return init_account_list
 
 
