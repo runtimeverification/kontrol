@@ -1215,7 +1215,8 @@ def foundry_step_node(
             apr_proof.write_proof_data()
 
 
-def foundry_state_load(options: LoadStateOptions, foundry: Foundry) -> None:
+def foundry_state_load(options: LoadStateOptions, output_dir: Path) -> None:
+    ensure_dir_path(output_dir)
     accounts = read_contract_names(options.contract_names) if options.contract_names else {}
     recreate_state_contract = RecreateState(name=options.name, accounts=accounts)
     if options.from_state_diff:
@@ -1226,13 +1227,6 @@ def foundry_state_load(options: LoadStateOptions, foundry: Foundry) -> None:
         recorded_accounts = read_recorded_state_dump(options.accesses_file)
         for account in recorded_accounts:
             recreate_state_contract.extend_with_state_dump(account)
-
-    output_dir_name = options.output_dir_name
-    if output_dir_name is None:
-        output_dir_name = foundry.profile.get('test', '')
-
-    output_dir = foundry._root / output_dir_name
-    ensure_dir_path(output_dir)
 
     main_file = output_dir / Path(options.name + '.sol')
 
