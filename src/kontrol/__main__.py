@@ -11,6 +11,7 @@ from pyk.proof.reachability import APRFailureInfo, APRProof
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
+from .display import foundry_show, foundry_view
 from .foundry import (
     Foundry,
     foundry_clean,
@@ -21,13 +22,11 @@ from .foundry import (
     foundry_refute_node,
     foundry_remove_node,
     foundry_section_edge,
-    foundry_show,
     foundry_simplify_node,
     foundry_split_node,
     foundry_state_load,
     foundry_step_node,
     foundry_unrefute_node,
-    foundry_view,
     init_project,
     read_recorded_state_diff,
     read_recorded_state_dump,

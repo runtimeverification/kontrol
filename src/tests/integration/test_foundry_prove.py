@@ -10,13 +10,13 @@ from pyk.proof import APRProof
 from pyk.proof.proof import Proof
 from pyk.utils import single
 
+from kontrol.display import foundry_show
 from kontrol.foundry import (
     Foundry,
     foundry_merge_nodes,
     foundry_minimize_proof,
     foundry_refute_node,
     foundry_remove_node,
-    foundry_show,
     foundry_split_node,
     foundry_state_load,
     foundry_step_node,

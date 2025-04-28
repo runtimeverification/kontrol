@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from kontrol.foundry import foundry_show
+from kontrol.display import foundry_show
 from kontrol.options import ProveOptions, ShowOptions
 from kontrol.prove import ConfigType, foundry_prove
 
