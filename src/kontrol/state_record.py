@@ -3,14 +3,22 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, NamedTuple
+from typing import TYPE_CHECKING, Iterable, NamedTuple
 
 from eth_utils import to_checksum_address
+from kevm_pyk.kevm import KEVM
+from pyk.prelude.collections import map_empty, map_of
+from pyk.prelude.kint import intToken
+from pyk.prelude.string import stringToken
 from pyk.utils import ensure_dir_path
 
 from .utils import hex_string_to_int, read_contract_names
 
 if TYPE_CHECKING:
+    from typing import TypeGuard
+
+    from pyk.kast.inner import KApply
+
     from .options import LoadStateOptions
 
 
@@ -285,3 +293,91 @@ def read_recorded_state_dump(state_file: Path) -> list[StateDumpEntry]:
         raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
     accounts = json.loads(state_file.read_text())
     return [StateDumpEntry(account, accounts[account]) for account in list(accounts)]
+
+
+def recorded_state_to_account_cells(
+    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
+) -> list[KApply]:
+    def _is_iterable_statediffentry(
+        val: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
+    ) -> TypeGuard[Iterable[StateDiffEntry]]:
+        return all(isinstance(entry, StateDiffEntry) for entry in val)
+
+    def _is_iterable_statedumpentry(
+        val: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
+    ) -> TypeGuard[Iterable[StateDumpEntry]]:
+        return all(isinstance(entry, StateDumpEntry) for entry in val)
+
+    if _is_iterable_statediffentry(recorded_state_entries):
+        accounts = _process_state_diff(recorded_state_entries)
+    if _is_iterable_statedumpentry(recorded_state_entries):
+        accounts = _process_state_dump(recorded_state_entries)
+    address_list = list(accounts)
+    k_accounts = []
+    for addr in address_list:
+        k_accounts.append(
+            KEVM.account_cell(
+                intToken(addr),
+                intToken(accounts[addr]['balance']),
+                KEVM.parse_bytestack(stringToken(accounts[addr]['code'])),
+                map_of(accounts[addr]['storage']),
+                map_empty(),
+                map_empty(),
+                intToken(accounts[addr]['nonce']),
+            )
+        )
+    return k_accounts
+
+
+def _process_state_diff(recorded_state: Iterable[StateDiffEntry]) -> dict:
+    accounts: dict[int, dict] = {}
+
+    def _init_account(address: int) -> None:
+        if address not in accounts.keys():
+            accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
+
+    for entry in recorded_state:
+        if entry.has_ignored_kind or entry.reverted:
+            continue
+
+        _addr = hex_string_to_int(entry.account)
+
+        if entry.is_create:
+            _init_account(_addr)
+            accounts[_addr]['code'] = entry.deployed_code
+
+        if entry.updates_balance:
+            _init_account(_addr)
+            accounts[_addr]['balance'] = entry.new_balance
+
+        for update in entry.storage_updates:
+            _int_address = hex_string_to_int(update.address)
+            _init_account(_int_address)
+            accounts[_int_address]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
+                hex_string_to_int(update.value)
+            )
+    return accounts
+
+
+def _process_state_dump(recorded_state: Iterable[StateDumpEntry]) -> dict:
+    accounts: dict[int, dict] = {}
+
+    def _init_account(address: int) -> None:
+        if address not in accounts.keys():
+            accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
+
+    for entry in recorded_state:
+        _addr = hex_string_to_int(entry.account)
+        _init_account(_addr)
+
+        if entry.code:
+            accounts[_addr]['code'] = entry.code
+
+        if entry.balance:
+            accounts[_addr]['balance'] = entry.balance
+
+        for update in entry.storage:
+            accounts[_addr]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
+                hex_string_to_int(update.value)
+            )
+    return accounts

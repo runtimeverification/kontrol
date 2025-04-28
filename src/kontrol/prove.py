@@ -20,12 +20,11 @@ from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.kore.rpc import KoreClient, kore_server
 from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import list_empty, map_empty, map_item, map_of, set_empty
+from pyk.prelude.collections import list_empty, map_empty, map_item, set_empty
 from pyk.prelude.k import GENERATED_TOP_CELL
 from pyk.prelude.kbool import FALSE, TRUE, boolToken, notBool
 from pyk.prelude.kint import eqInt, intToken, leInt, ltInt
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
-from pyk.prelude.string import stringToken
 from pyk.prelude.utils import token
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
@@ -36,18 +35,19 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElaps
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
 from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract
-from .state_record import StateDiffEntry, StateDumpEntry
-from .utils import console, hex_string_to_int, parse_test_version_tuple
+from .state_record import recorded_state_to_account_cells
+from .utils import console, parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from typing import Final, TypeGuard
+    from typing import Final
 
     from pyk.kast.inner import KInner
     from pyk.kore.rpc import KoreServer
 
     from .options import ProveOptions
     from .solc_to_k import StorageField
+    from .state_record import StateDiffEntry, StateDumpEntry
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -888,94 +888,6 @@ def _update_cterm_from_node(cterm: CTerm, node: KCFG.Node, config_type: ConfigTy
     new_init_cterm = new_init_cterm.remove_useless_constraints(keep_vars)
 
     return new_init_cterm
-
-
-def recorded_state_to_account_cells(
-    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
-) -> list[KApply]:
-    def _is_iterable_statediffentry(
-        val: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
-    ) -> TypeGuard[Iterable[StateDiffEntry]]:
-        return all(isinstance(entry, StateDiffEntry) for entry in val)
-
-    def _is_iterable_statedumpentry(
-        val: Iterable[StateDiffEntry] | Iterable[StateDumpEntry],
-    ) -> TypeGuard[Iterable[StateDumpEntry]]:
-        return all(isinstance(entry, StateDumpEntry) for entry in val)
-
-    if _is_iterable_statediffentry(recorded_state_entries):
-        accounts = _process_state_diff(recorded_state_entries)
-    if _is_iterable_statedumpentry(recorded_state_entries):
-        accounts = _process_state_dump(recorded_state_entries)
-    address_list = list(accounts)
-    k_accounts = []
-    for addr in address_list:
-        k_accounts.append(
-            KEVM.account_cell(
-                intToken(addr),
-                intToken(accounts[addr]['balance']),
-                KEVM.parse_bytestack(stringToken(accounts[addr]['code'])),
-                map_of(accounts[addr]['storage']),
-                map_empty(),
-                map_empty(),
-                intToken(accounts[addr]['nonce']),
-            )
-        )
-    return k_accounts
-
-
-def _process_state_diff(recorded_state: Iterable[StateDiffEntry]) -> dict:
-    accounts: dict[int, dict] = {}
-
-    def _init_account(address: int) -> None:
-        if address not in accounts.keys():
-            accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
-
-    for entry in recorded_state:
-        if entry.has_ignored_kind or entry.reverted:
-            continue
-
-        _addr = hex_string_to_int(entry.account)
-
-        if entry.is_create:
-            _init_account(_addr)
-            accounts[_addr]['code'] = entry.deployed_code
-
-        if entry.updates_balance:
-            _init_account(_addr)
-            accounts[_addr]['balance'] = entry.new_balance
-
-        for update in entry.storage_updates:
-            _int_address = hex_string_to_int(update.address)
-            _init_account(_int_address)
-            accounts[_int_address]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
-                hex_string_to_int(update.value)
-            )
-    return accounts
-
-
-def _process_state_dump(recorded_state: Iterable[StateDumpEntry]) -> dict:
-    accounts: dict[int, dict] = {}
-
-    def _init_account(address: int) -> None:
-        if address not in accounts.keys():
-            accounts[address] = {'balance': 0, 'nonce': 0, 'code': '', 'storage': {}}
-
-    for entry in recorded_state:
-        _addr = hex_string_to_int(entry.account)
-        _init_account(_addr)
-
-        if entry.code:
-            accounts[_addr]['code'] = entry.code
-
-        if entry.balance:
-            accounts[_addr]['balance'] = entry.balance
-
-        for update in entry.storage:
-            accounts[_addr]['storage'][intToken(hex_string_to_int(update.slot))] = intToken(
-                hex_string_to_int(update.value)
-            )
-    return accounts
 
 
 def _init_cterm(
