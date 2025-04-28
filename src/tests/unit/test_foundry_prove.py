@@ -6,8 +6,7 @@ import pytest
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KLabel, KSequence, KSort, KToken, KVariable
 
-from kontrol.prove import recorded_state_to_account_cells
-from kontrol.state_record import read_recorded_state_diff
+from kontrol.state_record import read_recorded_state_diff, recorded_state_to_account_cells
 from kontrol.utils import ensure_name_is_unique
 
 from .utils import TEST_DATA_DIR

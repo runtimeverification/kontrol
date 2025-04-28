@@ -30,7 +30,12 @@ from .foundry import (
 )
 from .kompile import foundry_kompile
 from .prove import foundry_prove
-from .state_record import foundry_state_load, read_recorded_state_diff, read_recorded_state_dump
+from .state_record import (
+    foundry_state_load,
+    read_recorded_state_diff,
+    read_recorded_state_dump,
+    recorded_state_to_account_cells,
+)
 from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
 
 if TYPE_CHECKING:
@@ -164,12 +169,13 @@ def exec_prove(options: ProveOptions) -> None:
     if options.recorded_diff_state_path and options.recorded_dump_state_path:
         raise AssertionError('Provide only one file for recorded state updates')
 
-    recorded_diff_entries = (
-        read_recorded_state_diff(options.recorded_diff_state_path) if options.recorded_diff_state_path else None
-    )
-    recorded_dump_entries = (
-        read_recorded_state_dump(options.recorded_dump_state_path) if options.recorded_dump_state_path else None
-    )
+    init_accounts = []
+    if options.recorded_dump_state_path is not None:
+        recorded_dump_entries = read_recorded_state_dump(options.recorded_dump_state_path)
+        init_accounts = recorded_state_to_account_cells(recorded_dump_entries)
+    elif options.recorded_diff_state_path is not None:
+        recorded_diff_entries = read_recorded_state_diff(options.recorded_diff_state_path)
+        init_accounts = recorded_state_to_account_cells(recorded_diff_entries)
 
     if options.verbose or options.debug:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
@@ -182,7 +188,7 @@ def exec_prove(options: ProveOptions) -> None:
                 options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints
             ),
             options=options,
-            recorded_state_entries=recorded_dump_entries if recorded_dump_entries else recorded_diff_entries,
+            init_accounts=init_accounts,
         )
     except CTermSMTError as err:
         raise RuntimeError(

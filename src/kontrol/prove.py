@@ -35,7 +35,6 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn, TimeElaps
 from .foundry import Foundry, KontrolSemantics, foundry_to_xml
 from .options import ConfigType, TraceOptions
 from .solc_to_k import Contract
-from .state_record import recorded_state_to_account_cells
 from .utils import console, parse_test_version_tuple
 
 if TYPE_CHECKING:
@@ -47,16 +46,11 @@ if TYPE_CHECKING:
 
     from .options import ProveOptions
     from .solc_to_k import StorageField
-    from .state_record import StateDiffEntry, StateDumpEntry
 
 _LOGGER: Final = logging.getLogger(__name__)
 
 
-def foundry_prove(
-    options: ProveOptions,
-    foundry: Foundry,
-    recorded_state_entries: Iterable[StateDiffEntry] | Iterable[StateDumpEntry] | None = None,
-) -> list[APRProof]:
+def foundry_prove(options: ProveOptions, foundry: Foundry, init_accounts: Iterable[KInner] = ()) -> list[APRProof]:
     if options.workers <= 0:
         raise ValueError(f'Must have at least one worker, found: --workers {options.workers}')
     if options.max_iterations is not None and options.max_iterations < 0:
@@ -86,10 +80,6 @@ def foundry_prove(
         else []
     )
 
-    init_accounts: list[KApply] = []
-    if recorded_state_entries is not None:
-        init_accounts = recorded_state_to_account_cells(recorded_state_entries)
-
     if options.cse:
         exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
         return_empty = options.config_type == ConfigType.SUMMARY_CONFIG
@@ -113,7 +103,7 @@ def foundry_prove(
                 new_prove_options = copy(options)
                 new_prove_options.tests = test_version_tuples
                 new_prove_options.config_type = ConfigType.SUMMARY_CONFIG
-                summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, recorded_state_entries))
+                summary_ids.extend(p.id for p in foundry_prove(new_prove_options, foundry, init_accounts))
 
     exact_match = options.config_type == ConfigType.SUMMARY_CONFIG
     test_suite = collect_tests(foundry, options.tests, reinit=options.reinit, exact_match=exact_match)
@@ -309,7 +299,7 @@ def _run_cfg_group(
     foundry: Foundry,
     options: ProveOptions,
     summary_ids: Iterable[str],
-    init_accounts: Iterable[KApply] = (),
+    init_accounts: Iterable[KInner] = (),
 ) -> list[APRProof]:
     def init_and_run_proof(test: FoundryTest, progress: Progress | None = None) -> APRFailureInfo | Exception | None:
 
