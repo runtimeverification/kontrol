@@ -18,7 +18,6 @@ from kontrol.foundry import (
     foundry_refute_node,
     foundry_remove_node,
     foundry_split_node,
-    foundry_state_load,
     foundry_step_node,
     foundry_unrefute_node,
 )
@@ -35,6 +34,7 @@ from kontrol.options import (
     UnrefuteNodeOptions,
 )
 from kontrol.prove import foundry_prove
+from kontrol.state_record import foundry_state_load
 
 from .utils import TEST_DATA_DIR, assert_fail, assert_or_update_show_output, assert_pass
 

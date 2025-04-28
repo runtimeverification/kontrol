@@ -43,7 +43,6 @@ from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
-from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
 from .utils import (
     _read_digest_file,
     empty_lemmas_file_contents,
@@ -69,7 +68,6 @@ if TYPE_CHECKING:
     from .options import (
         CleanOptions,
         GetModelOptions,
-        LoadStateOptions,
         MergeNodesOptions,
         MinimizeProofOptions,
         RefuteNodeOptions,
@@ -1215,42 +1213,6 @@ def foundry_step_node(
             apr_proof.write_proof_data()
 
 
-def foundry_state_load(options: LoadStateOptions, output_dir: Path) -> None:
-    ensure_dir_path(output_dir)
-    accounts = read_contract_names(options.contract_names) if options.contract_names else {}
-    recreate_state_contract = RecreateState(name=options.name, accounts=accounts)
-    if options.from_state_diff:
-        access_entries = read_recorded_state_diff(options.accesses_file)
-        for access in access_entries:
-            recreate_state_contract.extend_with_state_diff(access)
-    else:
-        recorded_accounts = read_recorded_state_dump(options.accesses_file)
-        for account in recorded_accounts:
-            recreate_state_contract.extend_with_state_dump(account)
-
-    main_file = output_dir / Path(options.name + '.sol')
-
-    if not options.license.strip():
-        raise ValueError('License cannot be empty or blank')
-
-    if options.condense_state_diff:
-        main_file.write_text(
-            '\n'.join(recreate_state_contract.generate_condensed_file(options.comment_generated_file, options.license))
-        )
-    else:
-        code_file = output_dir / Path(options.name + 'Code.sol')
-        main_file.write_text(
-            '\n'.join(
-                recreate_state_contract.generate_main_contract_file(options.comment_generated_file, options.license)
-            )
-        )
-        code_file.write_text(
-            '\n'.join(
-                recreate_state_contract.generate_code_contract_file(options.comment_generated_file, options.license)
-            )
-        )
-
-
 def foundry_section_edge(
     foundry: Foundry,
     options: SectionEdgeOptions,
@@ -1339,26 +1301,6 @@ def foundry_get_model(
             res_lines.extend(print_model(node, kcfg_explore))
 
     return '\n'.join(res_lines)
-
-
-def read_recorded_state_diff(state_file: Path) -> list[StateDiffEntry]:
-    if not state_file.exists():
-        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
-    accesses = json.loads(state_file.read_text())['accountAccesses']
-    return [StateDiffEntry(_a) for _a in accesses]
-
-
-def read_recorded_state_dump(state_file: Path) -> list[StateDumpEntry]:
-    if not state_file.exists():
-        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
-    accounts = json.loads(state_file.read_text())
-    return [StateDumpEntry(account, accounts[account]) for account in list(accounts)]
-
-
-def read_contract_names(contract_names: Path) -> dict[str, str]:
-    if not contract_names.exists():
-        raise FileNotFoundError(f'Contract names dictionary file not found: {contract_names}')
-    return json.loads(contract_names.read_text())
 
 
 def init_project(project_root: Path, *, skip_forge: bool) -> None:

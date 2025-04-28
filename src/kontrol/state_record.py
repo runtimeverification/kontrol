@@ -1,9 +1,17 @@
+from __future__ import annotations
+
+import json
 from dataclasses import dataclass
-from typing import NamedTuple
+from pathlib import Path
+from typing import TYPE_CHECKING, NamedTuple
 
 from eth_utils import to_checksum_address
+from pyk.utils import ensure_dir_path
 
-from .utils import hex_string_to_int
+from .utils import hex_string_to_int, read_contract_names
+
+if TYPE_CHECKING:
+    from .options import LoadStateOptions
 
 
 class SlotUpdate(NamedTuple):
@@ -227,3 +235,53 @@ class RecreateState:
             self.commands.append(f'slot = hex{pair.slot[2:]!r}')
             self.commands.append(f'value = hex{pair.value[2:]!r}')
             self.commands.append(f'vm.store({acc_name}Address, slot, value)')
+
+
+def foundry_state_load(options: LoadStateOptions, output_dir: Path) -> None:
+    ensure_dir_path(output_dir)
+    accounts = read_contract_names(options.contract_names) if options.contract_names else {}
+    recreate_state_contract = RecreateState(name=options.name, accounts=accounts)
+    if options.from_state_diff:
+        access_entries = read_recorded_state_diff(options.accesses_file)
+        for access in access_entries:
+            recreate_state_contract.extend_with_state_diff(access)
+    else:
+        recorded_accounts = read_recorded_state_dump(options.accesses_file)
+        for account in recorded_accounts:
+            recreate_state_contract.extend_with_state_dump(account)
+
+    main_file = output_dir / Path(options.name + '.sol')
+
+    if not options.license.strip():
+        raise ValueError('License cannot be empty or blank')
+
+    if options.condense_state_diff:
+        main_file.write_text(
+            '\n'.join(recreate_state_contract.generate_condensed_file(options.comment_generated_file, options.license))
+        )
+    else:
+        code_file = output_dir / Path(options.name + 'Code.sol')
+        main_file.write_text(
+            '\n'.join(
+                recreate_state_contract.generate_main_contract_file(options.comment_generated_file, options.license)
+            )
+        )
+        code_file.write_text(
+            '\n'.join(
+                recreate_state_contract.generate_code_contract_file(options.comment_generated_file, options.license)
+            )
+        )
+
+
+def read_recorded_state_diff(state_file: Path) -> list[StateDiffEntry]:
+    if not state_file.exists():
+        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
+    accesses = json.loads(state_file.read_text())['accountAccesses']
+    return [StateDiffEntry(_a) for _a in accesses]
+
+
+def read_recorded_state_dump(state_file: Path) -> list[StateDumpEntry]:
+    if not state_file.exists():
+        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
+    accounts = json.loads(state_file.read_text())
+    return [StateDumpEntry(account, accounts[account]) for account in list(accounts)]
