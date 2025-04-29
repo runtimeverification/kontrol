@@ -119,20 +119,6 @@ class CleanOptions(FoundryOptions, LoggingOptions):
         return FoundryOptions.get_argument_type() | LoggingOptions.get_argument_type()
 
 
-class CompileOptions(LoggingOptions):
-    contract_file: Path
-
-    @staticmethod
-    def from_option_string() -> dict[str, str]:
-        return LoggingOptions.from_option_string()
-
-    @staticmethod
-    def get_argument_type() -> dict[str, Callable]:
-        return LoggingOptions.get_argument_type() | {
-            'contract_file': file_path,
-        }
-
-
 class FoundryTestOptions(Options):
     test: str
     version: int | None
@@ -731,24 +717,6 @@ class StepNodeOptions(FoundryTestOptions, LoggingOptions, RpcOptions, BugReportO
             | {
                 'node': node_id_like,
             }
-        )
-
-
-class ToDotOptions(FoundryTestOptions, LoggingOptions, FoundryOptions):
-    @staticmethod
-    def from_option_string() -> dict[str, str]:
-        return (
-            FoundryOptions.from_option_string()
-            | LoggingOptions.from_option_string()
-            | FoundryTestOptions.from_option_string()
-        )
-
-    @staticmethod
-    def get_argument_type() -> dict[str, Callable]:
-        return (
-            FoundryOptions.get_argument_type()
-            | LoggingOptions.get_argument_type()
-            | FoundryTestOptions.get_argument_type()
         )
 
 

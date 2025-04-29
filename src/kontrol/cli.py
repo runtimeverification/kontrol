@@ -13,7 +13,7 @@ from pyk.utils import ensure_dir_path
 from .options import (
     BuildOptions,
     CleanOptions,
-    CompileOptions,
+    ConfigType,
     GetModelOptions,
     InitOptions,
     ListOptions,
@@ -28,12 +28,11 @@ from .options import (
     SimplifyNodeOptions,
     SplitNodeOptions,
     StepNodeOptions,
-    ToDotOptions,
     UnrefuteNodeOptions,
     VersionOptions,
     ViewKcfgOptions,
 )
-from .prove import ConfigType, parse_test_version_tuple
+from .utils import parse_test_version_tuple
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -49,14 +48,12 @@ def generate_options(args: dict[str, Any]) -> LoggingOptions:
     options = {
         'load-state': LoadStateOptions(args),
         'version': VersionOptions(args),
-        'compile': CompileOptions(args),
         'build': BuildOptions(args),
         'prove': ProveOptions(args),
         'show': ShowOptions(args),
         'refute-node': RefuteNodeOptions(args),
         'unrefute-node': UnrefuteNodeOptions(args),
         'split-node': SplitNodeOptions(args),
-        'to-dot': ToDotOptions(args),
         'list': ListOptions(args),
         'view-kcfg': ViewKcfgOptions(args),
         'remove-node': RemoveNodeOptions(args),
@@ -80,14 +77,12 @@ def get_option_string_destination(command: str, option_string: str) -> str:
     options = {
         'load-state': LoadStateOptions.from_option_string(),
         'version': VersionOptions.from_option_string(),
-        'compile': CompileOptions.from_option_string(),
         'build': BuildOptions.from_option_string(),
         'prove': ProveOptions.from_option_string(),
         'show': ShowOptions.from_option_string(),
         'refute-node': RefuteNodeOptions.from_option_string(),
         'unrefute-node': UnrefuteNodeOptions.from_option_string(),
         'split-node': SplitNodeOptions.from_option_string(),
-        'to-dot': ToDotOptions.from_option_string(),
         'list': ListOptions.from_option_string(),
         'view-kcfg': ViewKcfgOptions.from_option_string(),
         'remove-node': RemoveNodeOptions.from_option_string(),
@@ -109,14 +104,12 @@ def get_argument_type_setter(command: str, option_string: str) -> Callable[[str]
     options = {
         'load-state': LoadStateOptions.get_argument_type(),
         'version': VersionOptions.get_argument_type(),
-        'compile': CompileOptions.get_argument_type(),
         'build': BuildOptions.get_argument_type(),
         'prove': ProveOptions.get_argument_type(),
         'show': ShowOptions.get_argument_type(),
         'refute-node': RefuteNodeOptions.get_argument_type(),
         'unrefute-node': UnrefuteNodeOptions.get_argument_type(),
         'split-node': SplitNodeOptions.get_argument_type(),
-        'to-dot': ToDotOptions.get_argument_type(),
         'list': ListOptions.get_argument_type(),
         'view-kcfg': ViewKcfgOptions.get_argument_type(),
         'remove-node': RemoveNodeOptions.get_argument_type(),
@@ -248,9 +241,6 @@ def _create_argument_parser() -> ArgumentParser:
     command_parser = parser.add_subparsers(dest='command', required=True)
 
     command_parser.add_parser('version', help='Print out version of Kontrol command.')
-
-    solc_args = command_parser.add_parser('compile', help='Generate combined JSON with solc compilation results.')
-    solc_args.add_argument('contract_file', type=file_path, help='Path to contract file.')
 
     build = command_parser.add_parser(
         'build',
@@ -642,17 +632,6 @@ def _create_argument_parser() -> ArgumentParser:
         default=None,
         action='store_true',
         help='Run KCFG minimization routine before displaying it.',
-    )
-
-    command_parser.add_parser(
-        'to-dot',
-        help='Dump the given CFG for the test as DOT for visualization.',
-        parents=[
-            kontrol_cli_args.foundry_test_args,
-            kontrol_cli_args.logging_args,
-            kontrol_cli_args.foundry_args,
-            config_args.config_args,
-        ],
     )
 
     command_parser.add_parser(
