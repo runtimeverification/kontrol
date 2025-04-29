@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Iterable, NamedTuple
+from typing import TYPE_CHECKING, NamedTuple
 
 from eth_utils import to_checksum_address
 from kevm_pyk.kevm import KEVM
@@ -15,6 +15,7 @@ from pyk.utils import ensure_dir_path
 from .utils import hex_string_to_int, read_contract_names
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from typing import TypeGuard
 
     from pyk.kast.inner import KApply
