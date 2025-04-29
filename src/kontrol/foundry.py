@@ -44,6 +44,7 @@ from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
+from pyk.proof.tui import APRProofViewer
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
@@ -86,8 +87,8 @@ if TYPE_CHECKING:
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
-        ToDotOptions,
         UnrefuteNodeOptions,
+        ViewKcfgOptions,
     )
 
 _LOGGER: Final = logging.getLogger(__name__)
@@ -670,6 +671,14 @@ class Foundry:
     def fail(s: KInner, dst: KInner, r: KInner, c: KInner, e1: KInner, e2: KInner) -> KApply:
         return notBool(Foundry.success(s, dst, r, c, e1, e2))
 
+    @staticmethod
+    def hevm_success(s: KInner, dst: KInner, out: KInner) -> KApply:
+        return KApply('hevm_success', [s, dst, out])
+
+    @staticmethod
+    def hevm_fail(s: KInner, dst: KInner) -> KApply:
+        return KApply('hevm_fail', [s, dst])
+
     # address(uint160(uint256(keccak256("foundry default caller"))))
 
     @staticmethod
@@ -735,13 +744,28 @@ class Foundry:
         )
 
     @staticmethod
-    def help_info() -> list[str]:
+    def help_info(proof_id: str, hevm: bool) -> list[str]:
         res_lines: list[str] = []
-        res_lines.append('')
-        res_lines.append('See `foundry_success` predicate for more information:')
-        res_lines.append(
-            'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
-        )
+        if hevm:
+            _, test = proof_id.split('.')
+            if not any(test.startswith(prefix) for prefix in ['testFail', 'checkFail', 'proveFail']):
+                res_lines.append('')
+                res_lines.append('See `hevm_success` predicate for more information:')
+                res_lines.append(
+                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-success-predicate'
+                )
+            else:
+                res_lines.append('')
+                res_lines.append('See `hevm_fail` predicate for more information:')
+                res_lines.append(
+                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-fail-predicate'
+                )
+        else:
+            res_lines.append('')
+            res_lines.append('See `foundry_success` predicate for more information:')
+            res_lines.append(
+                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
+            )
         res_lines.append('')
         res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
         return res_lines
@@ -990,7 +1014,7 @@ def foundry_show(
             extra_module=foundry.load_lemmas(options.lemmas),
         ) as kcfg_explore:
             res_lines += print_failure_info(proof, kcfg_explore, options.counterexample_info)
-            res_lines += Foundry.help_info()
+            res_lines += Foundry.help_info(proof.id, False)
 
     if options.to_kevm_claims or options.to_kevm_rules:
         _foundry_labels = [
@@ -1070,16 +1094,19 @@ def foundry_show(
     return '\n'.join([line.rstrip() for line in res_lines])
 
 
-def foundry_to_dot(foundry: Foundry, options: ToDotOptions) -> None:
-    dump_dir = foundry.proofs_dir / 'dump'
+def foundry_view(foundry: Foundry, options: ViewKcfgOptions) -> None:
     test_id = foundry.get_test_id(options.test, options.version)
-    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
+    contract_name, _ = test_id.split('.')
     proof = foundry.get_apr_proof(test_id)
 
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
-    proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
+    compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
 
-    proof_show.dump(proof, dump_dir, dot=True)
+    def _custom_view(elem: KCFGElem) -> Iterable[str]:
+        return foundry.custom_view(contract_name, elem, compilation_unit)
+
+    node_printer = foundry_node_printer(foundry, contract_name, proof)
+    viewer = APRProofViewer(proof, foundry.kevm, node_printer=node_printer, custom_view=_custom_view)
+    viewer.run()
 
 
 def foundry_list(foundry: Foundry) -> list[str]:
@@ -1212,8 +1239,7 @@ def foundry_split_node(
     proof = foundry.get_apr_proof(test_id)
 
     token = KToken(options.branch_condition, 'Bool')
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
-    parsed_condition = node_printer.kprint.parse_token(token, as_rule=True)
+    parsed_condition = foundry.kevm.parse_token(token, as_rule=True)
 
     split_nodes = proof.kcfg.split_on_constraints(
         options.node, [mlEqualsTrue(parsed_condition), mlEqualsFalse(parsed_condition)]
