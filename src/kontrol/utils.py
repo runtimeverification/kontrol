@@ -115,6 +115,13 @@ def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
         return (value, None)
 
 
+def hex_string_to_int(hex: str) -> int:
+    if hex.startswith('0x'):
+        return int(hex, 16)
+    else:
+        raise ValueError('Invalid hex format')
+
+
 def write_to_file(file_path: Path, content: str, grant_exec_permission: bool = False) -> None:
     """
     Writes the given content to a file specified by the file path with or without execution rights.

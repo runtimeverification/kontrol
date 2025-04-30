@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import logging
 import sys
 from collections.abc import Iterable
@@ -9,7 +8,6 @@ from typing import TYPE_CHECKING
 from pyk.cli.pyk import parse_toml_args
 from pyk.cterm.symbolic import CTermSMTError
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.proof.tui import APRProofViewer
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
@@ -20,7 +18,6 @@ from .foundry import (
     foundry_list,
     foundry_merge_nodes,
     foundry_minimize_proof,
-    foundry_node_printer,
     foundry_refute_node,
     foundry_remove_node,
     foundry_section_edge,
@@ -29,30 +26,25 @@ from .foundry import (
     foundry_split_node,
     foundry_state_load,
     foundry_step_node,
-    foundry_to_dot,
     foundry_unrefute_node,
+    foundry_view,
     init_project,
     read_recorded_state_diff,
     read_recorded_state_dump,
 )
-from .hevm import Hevm
 from .kompile import foundry_kompile
 from .prove import foundry_prove
-from .solc import CompilationUnit
-from .solc_to_k import solc_compile
 from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
 
 if TYPE_CHECKING:
     from pathlib import Path
     from typing import Final, TypeVar
 
-    from pyk.kcfg.tui import KCFGElem
     from pyk.utils import BugReport
 
     from .options import (
         BuildOptions,
         CleanOptions,
-        CompileOptions,
         GetModelOptions,
         InitOptions,
         ListOptions,
@@ -67,7 +59,6 @@ if TYPE_CHECKING:
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
-        ToDotOptions,
         UnrefuteNodeOptions,
         VersionOptions,
         ViewKcfgOptions,
@@ -140,11 +131,6 @@ def exec_load_state(options: LoadStateOptions) -> None:
 
 def exec_version(options: VersionOptions) -> None:
     print(f'Kontrol version: {VERSION}')
-
-
-def exec_compile(options: CompileOptions) -> None:
-    res = solc_compile(options.contract_file)
-    print(json.dumps(res))
 
 
 def exec_build(options: BuildOptions) -> None:
@@ -228,7 +214,7 @@ def exec_prove(options: ProveOptions) -> None:
             if isinstance(proof, APRProof) and isinstance(proof.failure_info, APRFailureInfo):
                 failure_log = proof.failure_info
             if options.failure_info and failure_log is not None:
-                log = failure_log.print() + (Foundry.help_info() if not options.hevm else Hevm.help_info(proof.id))
+                log = failure_log.print() + Foundry.help_info(proof.id, options.hevm)
                 for line in log:
                     print(line)
             refuted_nodes = list(proof.node_refutations.keys())
@@ -281,13 +267,6 @@ def exec_split_node(options: SplitNodeOptions) -> None:
     print(f'Node {options.node} has been split into {node_ids} on condition {options.branch_condition}.')
 
 
-def exec_to_dot(options: ToDotOptions) -> None:
-    foundry_to_dot(
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
-        options=options,
-    )
-
-
 def exec_list(options: ListOptions) -> None:
     stats = foundry_list(foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints))
     print('\n'.join(stats))
@@ -297,18 +276,7 @@ def exec_view_kcfg(options: ViewKcfgOptions) -> None:
     foundry = _load_foundry(
         options.foundry_root, use_hex_encoding=options.use_hex_encoding, add_enum_constraints=options.enum_constraints
     )
-    test_id = foundry.get_test_id(options.test, options.version)
-    contract_name, _ = test_id.split('.')
-    proof = foundry.get_apr_proof(test_id)
-
-    compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
-
-    def _custom_view(elem: KCFGElem) -> Iterable[str]:
-        return foundry.custom_view(contract_name, elem, compilation_unit)
-
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
-    viewer = APRProofViewer(proof, foundry.kevm, node_printer=node_printer, custom_view=_custom_view)
-    viewer.run()
+    foundry_view(foundry, options)
 
 
 def exec_minimize_proof(options: MinimizeProofOptions) -> None:
