@@ -11,7 +11,8 @@ from filelock import FileLock
 from pyk.kore.rpc import kore_server
 from pyk.utils import single
 
-from kontrol.foundry import Foundry, foundry_show, init_project
+from kontrol.display import foundry_show
+from kontrol.foundry import Foundry, init_project
 from kontrol.kompile import foundry_kompile
 from kontrol.options import BuildOptions, ProveOptions, ShowOptions
 from kontrol.prove import foundry_prove

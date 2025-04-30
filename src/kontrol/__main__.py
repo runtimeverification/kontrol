@@ -11,6 +11,7 @@ from pyk.proof.reachability import APRFailureInfo, APRProof
 
 from . import VERSION
 from .cli import _create_argument_parser, generate_options, get_argument_type_setter, get_option_string_destination
+from .display import foundry_show, foundry_view
 from .foundry import (
     Foundry,
     foundry_clean,
@@ -21,19 +22,20 @@ from .foundry import (
     foundry_refute_node,
     foundry_remove_node,
     foundry_section_edge,
-    foundry_show,
     foundry_simplify_node,
     foundry_split_node,
-    foundry_state_load,
     foundry_step_node,
     foundry_unrefute_node,
-    foundry_view,
     init_project,
-    read_recorded_state_diff,
-    read_recorded_state_dump,
 )
 from .kompile import foundry_kompile
 from .prove import foundry_prove
+from .state_record import (
+    foundry_state_load,
+    read_recorded_state_diff,
+    read_recorded_state_dump,
+    recorded_state_to_account_cells,
+)
 from .utils import _LOG_FORMAT, _rv_blue, _rv_yellow, check_k_version, config_file_path, console, loglevel
 
 if TYPE_CHECKING:
@@ -123,10 +125,11 @@ def main() -> None:
 
 
 def exec_load_state(options: LoadStateOptions) -> None:
-    foundry_state_load(
-        options=options,
-        foundry=_load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints),
-    )
+    foundry = _load_foundry(options.foundry_root, add_enum_constraints=options.enum_constraints)
+    if options.output_dir_name is None:
+        options.output_dir_name = foundry.profile.get('test', '')
+    output_dir = foundry._root / options.output_dir_name
+    foundry_state_load(options=options, output_dir=output_dir)
 
 
 def exec_version(options: VersionOptions) -> None:
@@ -166,12 +169,13 @@ def exec_prove(options: ProveOptions) -> None:
     if options.recorded_diff_state_path and options.recorded_dump_state_path:
         raise AssertionError('Provide only one file for recorded state updates')
 
-    recorded_diff_entries = (
-        read_recorded_state_diff(options.recorded_diff_state_path) if options.recorded_diff_state_path else None
-    )
-    recorded_dump_entries = (
-        read_recorded_state_dump(options.recorded_dump_state_path) if options.recorded_dump_state_path else None
-    )
+    init_accounts = []
+    if options.recorded_dump_state_path is not None:
+        recorded_dump_entries = read_recorded_state_dump(options.recorded_dump_state_path)
+        init_accounts = recorded_state_to_account_cells(recorded_dump_entries)
+    elif options.recorded_diff_state_path is not None:
+        recorded_diff_entries = read_recorded_state_diff(options.recorded_diff_state_path)
+        init_accounts = recorded_state_to_account_cells(recorded_diff_entries)
 
     if options.verbose or options.debug:
         proving_message = f'[{_rv_blue()}]:person_running: [bold]Running [{_rv_yellow()}]Kontrol[/{_rv_yellow()}] proofs[/bold] :person_running:[/{_rv_blue()}]'
@@ -184,7 +188,7 @@ def exec_prove(options: ProveOptions) -> None:
                 options.foundry_root, options.bug_report, add_enum_constraints=options.enum_constraints
             ),
             options=options,
-            recorded_state_entries=recorded_dump_entries if recorded_dump_entries else recorded_diff_entries,
+            init_accounts=init_accounts,
         )
     except CTermSMTError as err:
         raise RuntimeError(
