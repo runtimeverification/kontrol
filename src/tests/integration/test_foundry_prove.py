@@ -10,15 +10,14 @@ from pyk.proof import APRProof
 from pyk.proof.proof import Proof
 from pyk.utils import single
 
+from kontrol.display import foundry_show
 from kontrol.foundry import (
     Foundry,
     foundry_merge_nodes,
     foundry_minimize_proof,
     foundry_refute_node,
     foundry_remove_node,
-    foundry_show,
     foundry_split_node,
-    foundry_state_load,
     foundry_step_node,
     foundry_unrefute_node,
 )
@@ -35,6 +34,7 @@ from kontrol.options import (
     UnrefuteNodeOptions,
 )
 from kontrol.prove import foundry_prove
+from kontrol.state_record import foundry_state_load
 
 from .utils import TEST_DATA_DIR, assert_fail, assert_or_update_show_output, assert_pass
 
@@ -801,7 +801,7 @@ def test_load_state_diff(
 
         foundry_root_dir = root_tmp_dir / 'foundry'
     foundry = Foundry(foundry_root=foundry_root_dir)
-
+    output_dir = foundry._root / foundry.profile.get('test', '')
     foundry_state_load(
         LoadStateOptions(
             {
@@ -811,7 +811,7 @@ def test_load_state_diff(
                 'from_state_diff': 'True',
             }
         ),
-        foundry=foundry,
+        output_dir=output_dir,
     )
 
     generated_main_file = foundry_root_dir / 'src' / 'LoadStateDiff.sol'
@@ -845,7 +845,7 @@ def test_load_state_dump(
 
         foundry_root_dir = root_tmp_dir / 'foundry'
     foundry = Foundry(foundry_root=foundry_root_dir)
-
+    output_dir = foundry._root / foundry.profile.get('test', '')
     foundry_state_load(
         LoadStateOptions(
             {
@@ -854,7 +854,7 @@ def test_load_state_dump(
                 'output_dir_name': 'src',
             }
         ),
-        foundry=foundry,
+        output_dir=output_dir,
     )
 
     generated_main_file = foundry_root_dir / 'src' / 'LoadStateDump.sol'
