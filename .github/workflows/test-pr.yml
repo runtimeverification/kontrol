@@ -100,6 +100,21 @@ jobs:
         run: |
           docker stop --time=0 kontrol-ci-integration-${GITHUB_SHA}
 
+  mac-build-tests:
+    needs: code-quality-checks
+    name: 'Mac Build Test'
+    runs-on: [self-hosted, MacM1]
+    timeout-minutes: 120
+    steps:
+      - name: 'Check out code'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 'Build KEVM'
+        run: |
+            poetry install
+            APPLE_SILICON=true CXX=clang poetry run kdist --verbose build -j4 evm-semantics.haskell kontrol.foundry
+
   cse-tests:
     needs: code-quality-checks
     name: 'CSE Tests'
