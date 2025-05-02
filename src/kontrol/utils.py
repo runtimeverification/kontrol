@@ -107,12 +107,25 @@ def kontrol_up_to_date(digest_file: Path) -> bool:
     return digest_dict.get('kontrol', '') == VERSION
 
 
+def read_contract_names(contract_names: Path) -> dict[str, str]:
+    if not contract_names.exists():
+        raise FileNotFoundError(f'Contract names dictionary file not found: {contract_names}')
+    return json.loads(contract_names.read_text())
+
+
 def parse_test_version_tuple(value: str) -> tuple[str, int | None]:
     if ':' in value:
         test, version = value.split(':')
         return (test, int(version))
     else:
         return (value, None)
+
+
+def hex_string_to_int(hex: str) -> int:
+    if hex.startswith('0x'):
+        return int(hex, 16)
+    else:
+        raise ValueError('Invalid hex format')
 
 
 def write_to_file(file_path: Path, content: str, grant_exec_permission: bool = False) -> None:

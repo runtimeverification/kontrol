@@ -16,24 +16,19 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
-from kevm_pyk.kevm import KEVM, CustomStep, KEVMNodePrinter, KEVMSemantics
-from kevm_pyk.utils import legacy_explore, print_failure_info, print_model
+from kevm_pyk.kevm import KEVM, CustomStep, KEVMSemantics
+from kevm_pyk.utils import legacy_explore, print_model
 from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KInner, KSequence, KSort, KToken, KVariable, Subst
 from pyk.kast.manip import (
     cell_label_to_var_name,
-    collect,
-    extract_lhs,
-    flatten_label,
     free_vars,
     minimize_term,
     set_cell,
     top_down,
 )
-from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire, KRule
-from pyk.kcfg import KCFG
+from pyk.kast.outer import KRule
 from pyk.kcfg.kcfg import Step
-from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.kdist import kdist
 from pyk.prelude.bytes import bytesToken
 from pyk.prelude.collections import map_empty
@@ -43,13 +38,10 @@ from pyk.prelude.kint import INT, intToken
 from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
-from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 
 from . import VERSION
-from .solc import CompilationUnit
 from .solc_to_k import Contract, _contract_name_from_bytecode
-from .state_record import RecreateState, StateDiffEntry, StateDumpEntry
 from .utils import (
     _read_digest_file,
     empty_lemmas_file_contents,
@@ -65,28 +57,24 @@ if TYPE_CHECKING:
     from typing import Any, Final
 
     from pyk.cterm import CTermSymbolic
-    from pyk.kast.outer import KAst
+    from pyk.kast.outer import KAst, KFlatModule
+    from pyk.kcfg import KCFG
     from pyk.kcfg.kcfg import NodeIdLike
     from pyk.kcfg.semantics import KCFGExtendResult
-    from pyk.kcfg.tui import KCFGElem
     from pyk.proof.implies import RefutationProof
-    from pyk.proof.show import NodePrinter
     from pyk.utils import BugReport
 
     from .options import (
         CleanOptions,
         GetModelOptions,
-        LoadStateOptions,
         MergeNodesOptions,
         MinimizeProofOptions,
         RefuteNodeOptions,
         RemoveNodeOptions,
         SectionEdgeOptions,
-        ShowOptions,
         SimplifyNodeOptions,
         SplitNodeOptions,
         StepNodeOptions,
-        ToDotOptions,
         UnrefuteNodeOptions,
     )
 
@@ -500,34 +488,6 @@ class Foundry:
 
         _LOGGER.info(f'Updated Foundry digest file: {self.digest_file}')
 
-    def solidity_src_print(self, path: Path, start: int, end: int) -> Iterable[str]:
-        lines = path.read_text().split('\n')
-        prefix_lines = [f'   {l}' for l in lines[:start]]
-        actual_lines = [f' | {l}' for l in lines[start:end]]
-        suffix_lines = [f'   {l}' for l in lines[end:]]
-        return prefix_lines + actual_lines + suffix_lines
-
-    def custom_view(self, contract_name: str, element: KCFGElem, compilation_unit: CompilationUnit) -> Iterable[str]:
-        if type(element) is KCFG.Node:
-            pc_cell = element.cterm.try_cell('PC_CELL')
-            program_cell = element.cterm.try_cell('PROGRAM_CELL')
-            if type(pc_cell) is KToken and pc_cell.sort == INT:
-                if type(program_cell) is KToken:
-                    try:
-                        bytecode = ast.literal_eval(program_cell.token)
-                        instruction = compilation_unit.get_instruction(bytecode, int(pc_cell.token))
-                        node = instruction.node()
-                        start_line, _, end_line, _ = node.source_range()
-                        return self.solidity_src_print(Path(node.source.name), start_line - 1, end_line)
-                    except Exception:
-                        return [f'No sourcemap data for contract at pc {contract_name}: {int(pc_cell.token)}']
-                return ['NO DATA']
-        elif type(element) is KCFG.Edge:
-            return list(element.rules)
-        elif type(element) is KCFG.NDBranch:
-            return list(element.rules)
-        return ['NO DATA']
-
     def build(self, metadata: bool) -> None:
         forge_build_args = [
             'forge',
@@ -670,6 +630,14 @@ class Foundry:
     def fail(s: KInner, dst: KInner, r: KInner, c: KInner, e1: KInner, e2: KInner) -> KApply:
         return notBool(Foundry.success(s, dst, r, c, e1, e2))
 
+    @staticmethod
+    def hevm_success(s: KInner, dst: KInner, out: KInner) -> KApply:
+        return KApply('hevm_success', [s, dst, out])
+
+    @staticmethod
+    def hevm_fail(s: KInner, dst: KInner) -> KApply:
+        return KApply('hevm_fail', [s, dst])
+
     # address(uint160(uint256(keccak256("foundry default caller"))))
 
     @staticmethod
@@ -735,13 +703,28 @@ class Foundry:
         )
 
     @staticmethod
-    def help_info() -> list[str]:
+    def help_info(proof_id: str, hevm: bool) -> list[str]:
         res_lines: list[str] = []
-        res_lines.append('')
-        res_lines.append('See `foundry_success` predicate for more information:')
-        res_lines.append(
-            'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
-        )
+        if hevm:
+            _, test = proof_id.split('.')
+            if not any(test.startswith(prefix) for prefix in ['testFail', 'checkFail', 'proveFail']):
+                res_lines.append('')
+                res_lines.append('See `hevm_success` predicate for more information:')
+                res_lines.append(
+                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-success-predicate'
+                )
+            else:
+                res_lines.append('')
+                res_lines.append('See `hevm_fail` predicate for more information:')
+                res_lines.append(
+                    'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/hevm.md#hevm-fail-predicate'
+                )
+        else:
+            res_lines.append('')
+            res_lines.append('See `foundry_success` predicate for more information:')
+            res_lines.append(
+                'https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate'
+            )
         res_lines.append('')
         res_lines.append('Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol')
         return res_lines
@@ -935,153 +918,6 @@ class Foundry:
             shutil.rmtree(self.proofs_dir.absolute())
 
 
-def foundry_show(
-    foundry: Foundry,
-    options: ShowOptions,
-) -> str:
-    test_id = foundry.get_test_id(options.test, options.version)
-    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
-    proof = foundry.get_apr_proof(test_id)
-
-    nodes: Iterable[int | str] = options.nodes
-    if options.pending:
-        nodes = list(nodes) + [node.id for node in proof.pending]
-    if options.failing:
-        nodes = list(nodes) + [node.id for node in proof.failing]
-    nodes = unique(nodes)
-
-    unstable_cells = [
-        '<program>',
-        '<jumpDests>',
-        '<pc>',
-        '<gas>',
-        '<code>',
-    ]
-
-    node_printer = foundry_node_printer(
-        foundry, contract_name, proof, omit_unstable_output=options.omit_unstable_output
-    )
-    proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
-
-    if options.minimize_kcfg:
-        KCFGMinimizer(proof.kcfg).minimize()
-
-    res_lines = proof_show.show(
-        proof,
-        nodes=nodes,
-        node_deltas=options.node_deltas,
-        to_module=options.to_module,
-        minimize=options.minimize,
-        sort_collections=options.sort_collections,
-        omit_cells=(unstable_cells if options.omit_unstable_output else []),
-    )
-
-    start_server = options.port is None
-
-    if options.failure_info:
-        with legacy_explore(
-            foundry.kevm,
-            kcfg_semantics=KontrolSemantics(),
-            id=test_id,
-            smt_timeout=options.smt_timeout,
-            smt_retry_limit=options.smt_retry_limit,
-            start_server=start_server,
-            port=options.port,
-            extra_module=foundry.load_lemmas(options.lemmas),
-        ) as kcfg_explore:
-            res_lines += print_failure_info(proof, kcfg_explore, options.counterexample_info)
-            res_lines += Foundry.help_info()
-
-    if options.to_kevm_claims or options.to_kevm_rules:
-        _foundry_labels = [
-            prod.klabel
-            for prod in foundry.kevm.definition.all_modules_dict['FOUNDRY-CHEAT-CODES'].productions
-            if prod.klabel is not None
-        ]
-
-        def _remove_foundry_config(_cterm: CTerm) -> CTerm:
-            kevm_config_pattern = KApply(
-                '<generatedTop>',
-                [
-                    KApply(
-                        '<foundry>',
-                        [
-                            KVariable('KEVM_CELL'),
-                            KVariable('STACKCHECKS_CELL'),
-                            KVariable('CHEATCODES_CELL'),
-                            KVariable('KEVMTRACING_CELL'),
-                        ],
-                    ),
-                    KVariable('GENERATEDCOUNTER_CELL'),
-                ],
-            )
-            kevm_config_match = kevm_config_pattern.match(_cterm.config)
-            if kevm_config_match is None:
-                _LOGGER.warning('Unable to match on <kevm> cell.')
-                return _cterm
-            return CTerm(kevm_config_match['KEVM_CELL'], _cterm.constraints)
-
-        def _contains_foundry_klabel(_kast: KInner) -> bool:
-            _contains = False
-
-            def _collect_klabel(_k: KInner) -> None:
-                nonlocal _contains
-                if type(_k) is KApply and _k.label.name in _foundry_labels:
-                    _contains = True
-
-            collect(_collect_klabel, _kast)
-            return _contains
-
-        for node in proof.kcfg.nodes:
-            proof.kcfg.let_node(node.id, cterm=_remove_foundry_config(node.cterm))
-
-        # Due to bug in KCFG.replace_node: https://github.com/runtimeverification/pyk/issues/686
-        proof.kcfg = KCFG.from_dict(proof.kcfg.to_dict())
-
-        sentences = [
-            edge.to_rule(
-                'BASIC-BLOCK',
-                claim=(not options.to_kevm_rules),
-                defunc_with=foundry.kevm.definition,
-                minimize=options.minimize,
-            )
-            for edge in proof.kcfg.edges()
-        ]
-        sentences = [sent for sent in sentences if not _contains_foundry_klabel(sent.body)]
-        sentences = [
-            sent for sent in sentences if not KontrolSemantics().is_terminal(CTerm.from_kast(extract_lhs(sent.body)))
-        ]
-        if len(sentences) == 0:
-            _LOGGER.warning(f'No claims or rules retained for proof {proof.id}')
-
-        else:
-            module_name = Contract.escaped(proof.id.upper() + '-SPEC', '')
-            module = KFlatModule(module_name, sentences=sentences, imports=[KImport('VERIFICATION')])
-            defn = KDefinition(module_name, [module], requires=[KRequire('verification.k')])
-
-            defn_lines = foundry.kevm.pretty_print(defn, in_module='EVM').split('\n')
-
-            res_lines += defn_lines
-
-            if options.kevm_claim_dir is not None:
-                kevm_sentences_file = options.kevm_claim_dir / (module_name.lower() + '.k')
-                kevm_sentences_file.write_text('\n'.join(line.rstrip() for line in defn_lines))
-
-    return '\n'.join([line.rstrip() for line in res_lines])
-
-
-def foundry_to_dot(foundry: Foundry, options: ToDotOptions) -> None:
-    dump_dir = foundry.proofs_dir / 'dump'
-    test_id = foundry.get_test_id(options.test, options.version)
-    contract_name, _ = single(foundry.matching_tests([options.test])).split('.')
-    proof = foundry.get_apr_proof(test_id)
-
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
-    proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
-
-    proof_show.dump(proof, dump_dir, dot=True)
-
-
 def foundry_list(foundry: Foundry) -> list[str]:
     all_methods = [
         f'{contract.name_with_path}.{method.signature}'
@@ -1212,8 +1048,7 @@ def foundry_split_node(
     proof = foundry.get_apr_proof(test_id)
 
     token = KToken(options.branch_condition, 'Bool')
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
-    parsed_condition = node_printer.kprint.parse_token(token, as_rule=True)
+    parsed_condition = foundry.kevm.parse_token(token, as_rule=True)
 
     split_nodes = proof.kcfg.split_on_constraints(
         options.node, [mlEqualsTrue(parsed_condition), mlEqualsFalse(parsed_condition)]
@@ -1348,48 +1183,6 @@ def foundry_step_node(
             apr_proof.write_proof_data()
 
 
-def foundry_state_load(options: LoadStateOptions, foundry: Foundry) -> None:
-    accounts = read_contract_names(options.contract_names) if options.contract_names else {}
-    recreate_state_contract = RecreateState(name=options.name, accounts=accounts)
-    if options.from_state_diff:
-        access_entries = read_recorded_state_diff(options.accesses_file)
-        for access in access_entries:
-            recreate_state_contract.extend_with_state_diff(access)
-    else:
-        recorded_accounts = read_recorded_state_dump(options.accesses_file)
-        for account in recorded_accounts:
-            recreate_state_contract.extend_with_state_dump(account)
-
-    output_dir_name = options.output_dir_name
-    if output_dir_name is None:
-        output_dir_name = foundry.profile.get('test', '')
-
-    output_dir = foundry._root / output_dir_name
-    ensure_dir_path(output_dir)
-
-    main_file = output_dir / Path(options.name + '.sol')
-
-    if not options.license.strip():
-        raise ValueError('License cannot be empty or blank')
-
-    if options.condense_state_diff:
-        main_file.write_text(
-            '\n'.join(recreate_state_contract.generate_condensed_file(options.comment_generated_file, options.license))
-        )
-    else:
-        code_file = output_dir / Path(options.name + 'Code.sol')
-        main_file.write_text(
-            '\n'.join(
-                recreate_state_contract.generate_main_contract_file(options.comment_generated_file, options.license)
-            )
-        )
-        code_file.write_text(
-            '\n'.join(
-                recreate_state_contract.generate_code_contract_file(options.comment_generated_file, options.license)
-            )
-        )
-
-
 def foundry_section_edge(
     foundry: Foundry,
     options: SectionEdgeOptions,
@@ -1478,96 +1271,6 @@ def foundry_get_model(
             res_lines.extend(print_model(node, kcfg_explore))
 
     return '\n'.join(res_lines)
-
-
-def read_recorded_state_diff(state_file: Path) -> list[StateDiffEntry]:
-    if not state_file.exists():
-        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
-    accesses = json.loads(state_file.read_text())['accountAccesses']
-    return [StateDiffEntry(_a) for _a in accesses]
-
-
-def read_recorded_state_dump(state_file: Path) -> list[StateDumpEntry]:
-    if not state_file.exists():
-        raise FileNotFoundError(f'Account accesses dictionary file not found: {state_file}')
-    accounts = json.loads(state_file.read_text())
-    return [StateDumpEntry(account, accounts[account]) for account in list(accounts)]
-
-
-def read_contract_names(contract_names: Path) -> dict[str, str]:
-    if not contract_names.exists():
-        raise FileNotFoundError(f'Contract names dictionary file not found: {contract_names}')
-    return json.loads(contract_names.read_text())
-
-
-class FoundryNodePrinter(KEVMNodePrinter):
-    foundry: Foundry
-    contract_name: str
-    omit_unstable_output: bool
-    compilation_unit: CompilationUnit
-
-    def __init__(self, foundry: Foundry, contract_name: str, omit_unstable_output: bool = False):
-        KEVMNodePrinter.__init__(self, foundry.kevm)
-        self.foundry = foundry
-        self.contract_name = contract_name
-        self.omit_unstable_output = omit_unstable_output
-        self.compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
-
-    def print_node(self, kcfg: KCFG, node: KCFG.Node) -> list[str]:
-        ret_strs = super().print_node(kcfg, node)
-        _pc = node.cterm.try_cell('PC_CELL')
-        program_cell = node.cterm.try_cell('PROGRAM_CELL')
-
-        if type(_pc) is KToken and _pc.sort == INT:
-            if type(program_cell) is KToken:
-                try:
-                    bytecode = ast.literal_eval(program_cell.token)
-                    instruction = self.compilation_unit.get_instruction(bytecode, int(_pc.token))
-                    ast_node = instruction.node()
-                    start_line, _, end_line, _ = ast_node.source_range()
-                    ret_strs.append(f'src: {str(Path(ast_node.source.name))}:{start_line}:{end_line}')
-                except Exception:
-                    pass
-
-        calldata_cell = node.cterm.try_cell('CALLDATA_CELL')
-
-        if type(program_cell) is KToken:
-            selector_bytes = None
-            if type(calldata_cell) is KToken:
-                selector_bytes = ast.literal_eval(calldata_cell.token)
-                selector_bytes = selector_bytes[:4]
-            elif (
-                type(calldata_cell) is KApply and calldata_cell.label.name == '_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes'
-            ):
-                first_bytes = flatten_label(label='_+Bytes__BYTES-HOOKED_Bytes_Bytes_Bytes', kast=calldata_cell)[0]
-                if type(first_bytes) is KToken:
-                    selector_bytes = ast.literal_eval(first_bytes.token)
-                    selector_bytes = selector_bytes[:4]
-
-            if selector_bytes is not None:
-                selector = int.from_bytes(selector_bytes, 'big')
-                current_contract_name = self.foundry.contract_name_from_bytecode(ast.literal_eval(program_cell.token))
-                for contract_name, contract_obj in self.foundry.contracts.items():
-                    if current_contract_name == contract_name:
-                        for method in contract_obj.methods:
-                            if method.id == selector:
-                                ret_strs.append(f'method: {method.qualified_name}')
-
-        return ret_strs
-
-
-class FoundryAPRNodePrinter(FoundryNodePrinter, APRProofNodePrinter):
-    def __init__(self, foundry: Foundry, contract_name: str, proof: APRProof, omit_unstable_output: bool = False):
-        FoundryNodePrinter.__init__(self, foundry, contract_name, omit_unstable_output=omit_unstable_output)
-        APRProofNodePrinter.__init__(self, proof, foundry.kevm)
-
-
-def foundry_node_printer(
-    foundry: Foundry, contract_name: str, proof: APRProof, omit_unstable_output: bool = False
-) -> NodePrinter:
-    if type(proof) is APRProof:
-        return FoundryAPRNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
-    raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
 
 
 def init_project(project_root: Path, *, skip_forge: bool) -> None:
