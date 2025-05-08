@@ -11,7 +11,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
   update-versions:
     name: 'Update Dependency Versions'
     runs-on: ubuntu-latest
@@ -28,6 +27,8 @@ jobs:
           git config user.email devops@runtimeverification.com
       - name: 'Install uv'
         uses: astral-sh/setup-uv@v5
+        with:
+          version: 0.7.2
       - name: 'Update kevm-pyk release tag'
         run: |
           KEVM_VERSION="$(cat deps/kevm_release)"
