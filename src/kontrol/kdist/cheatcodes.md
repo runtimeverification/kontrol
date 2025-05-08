@@ -581,36 +581,33 @@ WThe `#checkRevert` will be used to compare the status code of the execution and
          <callDepth> CD </callDepth>
          <wordStack> _ : _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
-           <isRevertExpected> REVEXP </isRevertExpected>
+           <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-         requires REVEXP ==Bool true
-      [priority(32), concrete(REVEXP)]
+      [priority(32)]
 
     rule [foundry.set.expectrevert.2]:
          <k> #next [ _OP:CallSixOp ] ~> (.K => #checkRevert ~> #updateRevertOutput RETSTART RETWIDTH) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <wordStack> _ : _ : _ : _ : RETSTART : RETWIDTH : _WS </wordStack>
          <expectedRevert>
-           <isRevertExpected> REVEXP </isRevertExpected>
+           <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
-         requires REVEXP ==Bool true
-      [priority(32), concrete(REVEXP)]
+      [priority(32)]
 
     rule [foundry.set.expectrevert.3]:
          <k> #next [ OP:OpCode ] ~> (.K => #checkRevert) ~> #execute ... </k>
          <callDepth> CD </callDepth>
          <expectedRevert>
-           <isRevertExpected> REVEXP </isRevertExpected>
+           <isRevertExpected> true </isRevertExpected>
            <expectedDepth> CD </expectedDepth>
            ...
          </expectedRevert>
       requires (OP ==K CREATE orBool OP ==K CREATE2)
-         andBool (REVEXP ==Bool true)
-      [priority(32), concrete(REVEXP)]
+      [priority(32)]
 ```
 
 If the `expectRevert()` selector is matched, call the `#setExpectRevert` production to initialize the `<expectedRevert>` subconfiguration.
@@ -766,7 +763,7 @@ The last point is required in order to prevent overwriting the caller for subcal
          <wordStack> _ : ACCTTO : _WS </wordStack>
          <id> ACCT </id>
          <prank>
-           <active> ACV </active>
+           <active> true </active>
            <newCaller> NCL </newCaller>
            <depth> CD </depth>
            ...
@@ -774,8 +771,7 @@ The last point is required in order to prevent overwriting the caller for subcal
       requires ACCT =/=K NCL
        andBool ACCTTO =/=K #address(FoundryCheat)
        andBool (OP ==K CALL orBool OP ==K CALLCODE orBool OP ==K STATICCALL orBool OP ==K CREATE orBool OP ==K CREATE2)
-       andBool ACV ==Bool true
-      [priority(34), concrete(ACV)]
+      [priority(34)]
 ```
 
 #### `startPrank` - Sets `msg.sender` and `tx.origin` for all subsequent calls until `stopPrank` is called.
