@@ -7,8 +7,6 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-env:
-  UV_VERSION: "0.6.17"
 
 jobs:
   code-quality-checks:
