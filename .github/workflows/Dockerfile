@@ -50,8 +50,7 @@ WORKDIR /home/${USER}/workspace
 
 ENV PATH=/home/${USER}/.cargo/bin:/home/${USER}/.local/bin:/usr/local/bin/:${PATH}
 
-RUN    curl -LsSf https://astral.sh/uv/install.sh | sh -s -- v0.6.17 \
-    && uv --version
+RUN curl -LsSf https://astral.sh/uv/0.7.2/install.sh  | sh && uv --version
 
 RUN    cargo install svm-rs --version 0.3.0 --locked \
     && svm install 0.8.13                            \
