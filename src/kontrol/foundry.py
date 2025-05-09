@@ -28,14 +28,14 @@ from pyk.kast.manip import (
     top_down,
 )
 from pyk.kast.outer import KRule
+from pyk.kast.prelude.bytes import bytesToken
+from pyk.kast.prelude.collections import map_empty
+from pyk.kast.prelude.k import DOTS, GENERATED_TOP_CELL
+from pyk.kast.prelude.kbool import notBool
+from pyk.kast.prelude.kint import INT, intToken
+from pyk.kast.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.kcfg.kcfg import Step
 from pyk.kdist import kdist
-from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import map_empty
-from pyk.prelude.k import DOTS, GENERATED_TOP_CELL
-from pyk.prelude.kbool import notBool
-from pyk.prelude.kint import INT, intToken
-from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof
 from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique

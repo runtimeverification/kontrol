@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KVariable
-from pyk.prelude.kint import eqInt, intToken
+from pyk.kast.prelude.kint import eqInt, intToken
 
 from kontrol.solc_to_k import (
     Contract,
