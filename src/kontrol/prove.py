@@ -16,16 +16,16 @@ from multiprocess.pool import Pool  # type: ignore
 from pyk.cterm import CTerm, CTermSymbolic
 from pyk.kast.inner import KApply, KSequence, KSort, KVariable, Subst
 from pyk.kast.manip import flatten_label, free_vars, set_cell
+from pyk.kast.prelude.bytes import bytesToken
+from pyk.kast.prelude.collections import list_empty, map_empty, map_item, set_empty
+from pyk.kast.prelude.k import GENERATED_TOP_CELL
+from pyk.kast.prelude.kbool import FALSE, TRUE, boolToken, notBool
+from pyk.kast.prelude.kint import eqInt, intToken, leInt, ltInt
+from pyk.kast.prelude.ml import mlEqualsFalse, mlEqualsTrue
+from pyk.kast.prelude.utils import token
 from pyk.kcfg import KCFG, KCFGExplore
 from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.kore.rpc import KoreClient, kore_server
-from pyk.prelude.bytes import bytesToken
-from pyk.prelude.collections import list_empty, map_empty, map_item, set_empty
-from pyk.prelude.k import GENERATED_TOP_CELL
-from pyk.prelude.kbool import FALSE, TRUE, boolToken, notBool
-from pyk.prelude.kint import eqInt, intToken, leInt, ltInt
-from pyk.prelude.ml import mlEqualsFalse, mlEqualsTrue
-from pyk.prelude.utils import token
 from pyk.proof import ProofStatus
 from pyk.proof.proof import Proof
 from pyk.proof.reachability import APRFailureInfo, APRProof

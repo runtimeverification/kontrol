@@ -1,156 +1,2668 @@
 
-┌─ 1 (root, split, init)
+┌─ 1 (root, init)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+│
+│  (455 steps)
+├─ 3
+│   k: #next [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+│   pc: 279
+│   callDepth: CALLDEPTH_CELL:Int
+│   statusCode: STATUSCODE:StatusCode
+│   src: lib/forge-std/src/StdInvariant.sol:85:87
+│   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃
-┃ (branch)
-┣━━┓ subst: .Subst
-┃  ┃ constraint:
-┃  ┃     1024 <=Int CALLDEPTH_CELL:Int
+┃ (1 step)
+┣━━┓
 ┃  │
-┃  ├─ 17
-┃  │   k: #execute ~> CONTINUATION:K
-┃  │   pc: 0
-┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  ├─ 4 (split)
+┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  │   pc: 279
+┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-┃  │
-┃  │  (539 steps)
-┃  ├─ 7 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 295
-┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  │   statusCode: EVMC_REVERT
-┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
-┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-┃  │
-┃  ┊  constraint:
-┃  ┊      ( notBool <acctID>
-  C_ARITHMETICCONTRACT_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊  subst: ...
-┃  └─ 2 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
-┃      pc: PC_CELL_5d410f2a:Int
-┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃  ┃
+┃  ┃ (branch)
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint:
+┃  ┃  ┃     ACTIVE_CELL:Bool
+┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
+┃  ┃  │
+┃  ┃  ├─ 7
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  │
+┃  ┃  │  (1 step)
+┃  ┃  ├─ 13
+┃  ┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 22
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   pc: 279
+┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  │
+┃  ┃  ┃  │  (7 steps)
+┃  ┃  ┃  └─ 39 (leaf, pending)
+┃  ┃  ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ARITH ...
+┃  ┃  ┃      pc: 279
+┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  ├─ 23
+┃  ┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃  │   pc: 279
+┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃  │
+┃  ┃  ┃  │  (7 steps)
+┃  ┃  ┃  └─ 40 (leaf, pending)
+┃  ┃  ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ARITH ...
+┃  ┃  ┃      pc: 279
+┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     ├─ 24
+┃  ┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃     │   pc: 279
+┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃     │   statusCode: STATUSCODE:StatusCode
+┃  ┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃
+┃  ┃     ┃ (1 step)
+┃  ┃     ┣━━┓
+┃  ┃     ┃  │
+┃  ┃     ┃  └─ 41 (leaf, pending)
+┃  ┃     ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃     ┃      pc: 279
+┃  ┃     ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃     ┃
+┃  ┃     ┗━━┓
+┃  ┃        │
+┃  ┃        └─ 42 (leaf, pending)
+┃  ┃            k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃            pc: 279
+┃  ┃            callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃            statusCode: STATUSCODE:StatusCode
+┃  ┃            src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃            method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint:
+┃  ┃  ┃     ACTIVE_CELL:Bool
+┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
+┃  ┃  │
+┃  ┃  ├─ 14
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  │
+┃  ┃  │  (1 step)
+┃  ┃  ├─ 25
+┃  ┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 43 (leaf, pending)
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      pc: 279
+┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 44 (leaf, pending)
+┃  ┃  ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32  ...
+┃  ┃  ┃      pc: 279
+┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     └─ 45 (leaf, pending)
+┃  ┃         k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃         pc: 279
+┃  ┃         callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint:
+┃  ┃  ┃     ACTIVE_CELL:Bool
+┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
+┃  ┃  │
+┃  ┃  ├─ 26
+┃  ┃  │   k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  │
+┃  ┃  │  (1 step)
+┃  ┃  └─ 46 (leaf, pending)
+┃  ┃      k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #checkRevert ~> #updateReve ...
+┃  ┃      pc: 279
+┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃
+┃  ┣━━┓ subst: .Subst
+┃  ┃  ┃ constraint:
+┃  ┃  ┃     ACTIVE_CELL:Bool
+┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_ARITHMETICCONTRACT_ID:Int )
+┃  ┃  │
+┃  ┃  └─ 47 (leaf, pending)
+┃  ┃      k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃  ┃      pc: 279
+┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃
+┃  ┗━━┓ subst: .Subst
+┃     ┃ constraint: true
+┃     │
+┃     └─ 48 (leaf, pending)
+┃         k: #next [ STATICCALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~ ...
+┃         pc: 279
+┃         callDepth: EXPECTEDDEPTH_CELL:Int
+┃         statusCode: STATUSCODE:StatusCode
+┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃
-┣━━┓ subst: .Subst
-┃  ┃ constraint:
-┃  ┃     CALLDEPTH_CELL:Int <Int 1024
-┃  ┃     ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
+┣━━┓
 ┃  │
-┃  ├─ 23
-┃  │   k: #execute ~> CONTINUATION:K
-┃  │   pc: 0
-┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  ├─ 5
+┃  │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  │   pc: 279
+┃  │   callDepth: DEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
 ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-┃  │
-┃  │  (552 steps)
-┃  ├─ 11 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 295
-┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  │   statusCode: EVMC_REVERT
-┃  │   src: lib/forge-std/lib/ds-test/src/test.sol:47:63
-┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-┃  │
-┃  ┊  constraint:
-┃  ┊      ( notBool <acctID>
-  C_ARITHMETICCONTRACT_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊  subst: ...
-┃  └─ 2 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
-┃      pc: PC_CELL_5d410f2a:Int
-┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃  ┃
+┃  ┃ (1 step)
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 9
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  │
+┃  ┃  │  (7 steps)
+┃  ┃  ├─ 16
+┃  ┃  │   k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ARITH ...
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 28 (leaf, pending)
+┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
+┃  ┃  ┃      pc: 279
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 29 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCON ...
+┃  ┃  ┃      pc: 279
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     └─ 30 (leaf, pending)
+┃  ┃         k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ARITH ...
+┃  ┃         pc: 279
+┃  ┃         callDepth: DEPTH_CELL:Int
+┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃
+┃  ┣━━┓
+┃  ┃  │
+┃  ┃  ├─ 10
+┃  ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  │
+┃  ┃  │  (7 steps)
+┃  ┃  ├─ 17
+┃  ┃  │   k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ARITH ...
+┃  ┃  │   pc: 279
+┃  ┃  │   callDepth: DEPTH_CELL:Int
+┃  ┃  │   statusCode: STATUSCODE:StatusCode
+┃  ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┃ (1 step)
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 31 (leaf, pending)
+┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
+┃  ┃  ┃      pc: 279
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┣━━┓
+┃  ┃  ┃  │
+┃  ┃  ┃  └─ 32 (leaf, pending)
+┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCON ...
+┃  ┃  ┃      pc: 279
+┃  ┃  ┃      callDepth: DEPTH_CELL:Int
+┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
+┃  ┃  ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃  ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃  ┃
+┃  ┃  ┗━━┓
+┃  ┃     │
+┃  ┃     └─ 33 (leaf, pending)
+┃  ┃         k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ARITH ...
+┃  ┃         pc: 279
+┃  ┃         callDepth: DEPTH_CELL:Int
+┃  ┃         statusCode: STATUSCODE:StatusCode
+┃  ┃         src: lib/forge-std/src/StdInvariant.sol:85:87
+┃  ┃         method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃  ┃
+┃  ┗━━┓
+┃     │
+┃     ├─ 11
+┃     │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     │   pc: 279
+┃     │   callDepth: DEPTH_CELL:Int
+┃     │   statusCode: STATUSCODE:StatusCode
+┃     │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃
+┃     ┃ (1 step)
+┃     ┣━━┓
+┃     ┃  │
+┃     ┃  ├─ 18
+┃     ┃  │   k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃     ┃  │   pc: 279
+┃     ┃  │   callDepth: DEPTH_CELL:Int
+┃     ┃  │   statusCode: STATUSCODE:StatusCode
+┃     ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃  │
+┃     ┃  │  (7 steps)
+┃     ┃  └─ 34 (leaf, pending)
+┃     ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_ARITH ...
+┃     ┃      pc: 279
+┃     ┃      callDepth: DEPTH_CELL:Int
+┃     ┃      statusCode: STATUSCODE:StatusCode
+┃     ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃     ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃     ┃
+┃     ┗━━┓
+┃        │
+┃        ├─ 19
+┃        │   k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        │   pc: 279
+┃        │   callDepth: DEPTH_CELL:Int
+┃        │   statusCode: STATUSCODE:StatusCode
+┃        │   src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃
+┃        ┃ (1 step)
+┃        ┣━━┓
+┃        ┃  │
+┃        ┃  └─ 35 (leaf, pending)
+┃        ┃      k: #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃        ┃      pc: 279
+┃        ┃      callDepth: DEPTH_CELL:Int
+┃        ┃      statusCode: STATUSCODE:StatusCode
+┃        ┃      src: lib/forge-std/src/StdInvariant.sol:85:87
+┃        ┃      method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+┃        ┃
+┃        ┗━━┓
+┃           │
+┃           └─ 36 (leaf, pending)
+┃               k: #injectPrank ~> #next [ STATICCALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
+┃               pc: 279
+┃               callDepth: DEPTH_CELL:Int
+┃               statusCode: STATUSCODE:StatusCode
+┃               src: lib/forge-std/src/StdInvariant.sol:85:87
+┃               method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 ┃
-┣━━┓ subst: .Subst
-┃  ┃ constraint:
-┃  ┃     CALLDEPTH_CELL:Int <Int 1024
-┃  ┃     KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
-┃  ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-┃  │
-┃  ├─ 26
-┃  │   k: #execute ~> CONTINUATION:K
-┃  │   pc: 0
-┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  │   statusCode: STATUSCODE:StatusCode
-┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-┃  │
-┃  │  (921 steps)
-┃  ├─ 14 (terminal)
-┃  │   k: #halt ~> CONTINUATION:K
-┃  │   pc: 128
-┃  │   callDepth: CALLDEPTH_CELL:Int
-┃  │   statusCode: EVMC_SUCCESS
-┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-┃  │
-┃  ┊  constraint:
-┃  ┊      ( notBool <acctID>
-  C_ARITHMETICCONTRACT_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-┃  ┊  subst: ...
-┃  └─ 2 (leaf, target, terminal)
-┃      k: #halt ~> CONTINUATION:K
-┃      pc: PC_CELL_5d410f2a:Int
-┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
-┃      statusCode: STATUSCODE_FINAL:StatusCode
-┃
-┗━━┓ subst: .Subst
-   ┃ constraint:
-   ┃     CALLDEPTH_CELL:Int <Int 1024
-   ┃     ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
-   ┃     KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
+┗━━┓
    │
-   ├─ 27
-   │   k: #execute ~> CONTINUATION:K
-   │   pc: 0
+   ├─ 6 (split)
+   │   k: #addr [ STATICCALL ] ~> #exec [ STATICCALL ] ~> #pc [ STATICCALL ] ~> #execute ~ ...
+   │   pc: 279
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
-   │   src: test/nested/SimpleNested.t.sol:7:11
+   │   src: lib/forge-std/src/StdInvariant.sol:85:87
    │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-   │
-   │  (844 steps)
-   ├─ 15 (terminal)
-   │   k: #halt ~> CONTINUATION:K
-   │   pc: 550
-   │   callDepth: CALLDEPTH_CELL:Int
-   │   statusCode: EVMC_REVERT
-   │   src: lib/forge-std/src/StdInvariant.sol:90:90
-   │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
-   │
-   ┊  constraint:
-   ┊      ( notBool <acctID>
-  C_ARITHMETICCONTRACT_ID:Int
-</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-   ┊  subst: ...
-   └─ 2 (leaf, target, terminal)
-       k: #halt ~> CONTINUATION:K
-       pc: PC_CELL_5d410f2a:Int
-       callDepth: CALLDEPTH_CELL_5d410f2a:Int
-       statusCode: STATUSCODE_FINAL:StatusCode
+   ┃
+   ┃ (branch)
+   ┣━━┓ subst: .Subst
+   ┃  ┃ constraint:
+   ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
+   ┃  │
+   ┃  ├─ 49
+   ┃  │   k: #addr [ STATICCALL ] ~> #exec [ STATICCALL ] ~> #pc [ STATICCALL ] ~> #execute ~ ...
+   ┃  │   pc: 279
+   ┃  │   callDepth: CALLDEPTH_CELL:Int
+   ┃  │   statusCode: STATUSCODE:StatusCode
+   ┃  │   src: lib/forge-std/src/StdInvariant.sol:85:87
+   ┃  │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+   ┃  │
+   ┃  │  (23 steps)
+   ┃  └─ 37 (leaf, pending)
+   ┃      k: #execute ~> #return 128 32 ~> #pc [ STATICCALL ] ~> #execute ~> CONTINUATION:K
+   ┃      pc: 0
+   ┃      callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
+   ┃      statusCode: STATUSCODE:StatusCode
+   ┃      src: test/nested/SimpleNested.t.sol:7:11
+   ┃      method: src%ArithmeticContract.add(uint256,uint256)
+   ┃
+   ┗━━┓ subst: .Subst
+      ┃ constraint:
+      ┃     1024 <=Int CALLDEPTH_CELL:Int
+      │
+      ├─ 50
+      │   k: #addr [ STATICCALL ] ~> #exec [ STATICCALL ] ~> #pc [ STATICCALL ] ~> #execute ~ ...
+      │   pc: 279
+      │   callDepth: CALLDEPTH_CELL:Int
+      │   statusCode: STATUSCODE:StatusCode
+      │   src: lib/forge-std/src/StdInvariant.sol:85:87
+      │   method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
+      │
+      │  (83 steps)
+      └─ 38 (leaf, pending)
+          k: #halt ~> CONTINUATION:K
+          pc: 295
+          callDepth: CALLDEPTH_CELL:Int
+          statusCode: EVMC_REVERT
+          src: lib/forge-std/lib/ds-test/src/test.sol:47:63
+          method: src%ArithmeticContract.add_sub_external(uint256,uint256,uint256)
 
+
+┌─ 2 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
 
 
 
 module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-17-TO-7]: <foundry>
+    rule [BASIC-BLOCK-1-TO-3]: <foundry>
            <kevm>
              <k>
-               ( #execute => #halt )
+               ( .K => #next [ STATICCALL ] ~> .K )
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     C_ARITHMETICCONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 0 : ( C_ARITHMETICCONTRACT_ID:Int : ( 128 : ( 68 : ( 128 : ( 32 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+               )))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-3)]
+    
+    rule [BASIC-BLOCK-7-TO-13]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #injectPrank
+               ~> #next [ STATICCALL ]
+               ~> #endPrank )
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     C_ARITHMETICCONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 0 : ( C_ARITHMETICCONTRACT_ID:Int : ( 128 : ( 68 : ( 128 : ( 32 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ( ACTIVE_CELL:Bool => true )
+               </active>
+               <depth>
+                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( ACTIVE_CELL:Bool
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( NEWCALLER_CELL:Account =/=K C_ARITHMETICCONTRACT_ID:Int
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))
+       ensures NEWCALLER_CELL:Account ~> .K =/=K C_ARITHMETICCONTRACT_ID:Int ~> .K
+      [priority(20), label(BASIC-BLOCK-7-TO-13)]
+    
+    rule [BASIC-BLOCK-9-TO-16]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 196 ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 1997931255 ) : ( ( 128 => C_ARITHMETICCONTRACT_ID:Int ) : ( ( 68 => 0 ) : ( ( 128 => 0 ) : ( ( 32 => KV2_z:Int ) : ( ( 196 => KV1_y:Int ) : ( ( 1997931255 => KV0_x:Int ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 111 ) : ( ( 0 => 2619793463 ) : ( ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     DEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   NOG:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 NOG:Int
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K NOG:Int
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int NCL:Int
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+               )))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-9-TO-16)]
+    
+    rule [BASIC-BLOCK-10-TO-17]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 196 ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 1997931255 ) : ( ( 128 => C_ARITHMETICCONTRACT_ID:Int ) : ( ( 68 => 0 ) : ( ( 128 => 0 ) : ( ( 32 => KV2_z:Int ) : ( ( 196 => KV1_y:Int ) : ( ( 1997931255 => KV0_x:Int ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 111 ) : ( ( 0 => 2619793463 ) : ( ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     DEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int NCL:Int
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+               )))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-10-TO-17)]
+    
+    rule [BASIC-BLOCK-14-TO-25]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #injectPrank
+               ~> #next [ STATICCALL ]
+               ~> #endPrank )
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     C_ARITHMETICCONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 0 : ( C_ARITHMETICCONTRACT_ID:Int : ( 128 : ( 68 : ( 128 : ( 32 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ( ACTIVE_CELL:Bool => true )
+               </active>
+               <depth>
+                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( ACTIVE_CELL:Bool
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( NEWCALLER_CELL:Account =/=K C_ARITHMETICCONTRACT_ID:Int
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))
+       ensures NEWCALLER_CELL:Account ~> .K =/=K C_ARITHMETICCONTRACT_ID:Int ~> .K
+      [priority(20), label(BASIC-BLOCK-14-TO-25)]
+    
+    rule [BASIC-BLOCK-18-TO-34]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 196 ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 1997931255 ) : ( ( 128 => C_ARITHMETICCONTRACT_ID:Int ) : ( ( 68 => 0 ) : ( ( 128 => 0 ) : ( ( 32 => KV2_z:Int ) : ( ( 196 => KV1_y:Int ) : ( ( 1997931255 => KV0_x:Int ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 111 ) : ( ( 0 => 2619793463 ) : ( ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     DEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   NOG0:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 NOG0:Int
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K NOG0:Int
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( _NOG:Int =/=Int NOG0:Int
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int NCL:Int
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+               ))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-18-TO-34)]
+    
+    rule [BASIC-BLOCK-22-TO-39]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 196 ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 1997931255 ) : ( ( 128 => C_ARITHMETICCONTRACT_ID:Int ) : ( ( 68 => 0 ) : ( ( 128 => 0 ) : ( ( 32 => KV2_z:Int ) : ( ( 196 => KV1_y:Int ) : ( ( 1997931255 => KV0_x:Int ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 111 ) : ( ( 0 => 2619793463 ) : ( ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   NOG:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 NOG:Int
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 EXPECTEDDEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K NOG:Int
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int NCL:Int
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-22-TO-39)]
+    
+    rule [BASIC-BLOCK-23-TO-40]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
+               ~> #checkDepthExceeded
+               ~> #call NCL:Int C_ARITHMETICCONTRACT_ID:Int C_ARITHMETICCONTRACT_ID:Int 0 0 b"w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) true
+               ~> #return 128 32
+               ~> #pc [ STATICCALL ] )
+               ~> #endPrank
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     NCL:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 => 196 ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 1997931255 ) : ( ( 128 => C_ARITHMETICCONTRACT_ID:Int ) : ( ( 68 => 0 ) : ( ( 128 => 0 ) : ( ( 32 => KV2_z:Int ) : ( ( 196 => KV1_y:Int ) : ( ( 1997931255 => KV0_x:Int ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 111 ) : ( ( 0 => 2619793463 ) : ( ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NCL:Int
+               </newCaller>
+               <newOrigin>
+                 .Account
+               </newOrigin>
+               <active>
+                 true
+               </active>
+               <depth>
+                 EXPECTEDDEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( _ACTIVE_CELL:Bool
+       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _NEWORIGIN_CELL:Account ==K .Account
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int NCL:Int
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-23-TO-40)]
+    
+    rule [BASIC-BLOCK-26-TO-46]: <foundry>
+           <kevm>
+             <k>
+               ( #next [ STATICCALL ] ~> .K => #injectPrank
+               ~> #next [ STATICCALL ]
+               ~> #endPrank )
+               ~> #checkRevert
+               ~> #updateRevertOutput 128 32
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <callState>
+                   <id>
+                     C_ARITHMETICCONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( 0 : ( C_ARITHMETICCONTRACT_ID:Int : ( 128 : ( 68 : ( 128 : ( 32 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <callDepth>
+                     EXPECTEDDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ( ACTIVE_CELL:Bool => true )
+               </active>
+               <depth>
+                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 true
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( ACTIVE_CELL:Bool
+       andBool ( _ISREVERTEXPECTED_CELL:Bool
+       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
+       andBool ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( NEWCALLER_CELL:Account =/=K C_ARITHMETICCONTRACT_ID:Int
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))
+       ensures NEWCALLER_CELL:Account ~> .K =/=K C_ARITHMETICCONTRACT_ID:Int ~> .K
+      [priority(20), label(BASIC-BLOCK-26-TO-46)]
+    
+    rule [BASIC-BLOCK-49-TO-37]: <foundry>
+           <kevm>
+             <k>
+               ( #addr [ STATICCALL ]
+               ~> #exec [ STATICCALL ] => #execute
+               ~> #return 128 32 )
+               ~> #pc [ STATICCALL ]
+               ~> #execute
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL:Bytes => b"" )
+                 </output>
+                 <callStack>
+                   ( CALLSTACK_CELL:List => ListItem ( <callState>
+                     <id>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </id>
+                     <caller>
+                       CALLER_ID:Int
+                     </caller>
+                     <callData>
+                       b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
+                     </callData>
+                     <callValue>
+                       0
+                     </callValue>
+                     <wordStack>
+                       ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) )
+                     </wordStack>
+                     <localMem>
+                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
+                     </localMem>
+                     <memoryUsed>
+                       0
+                     </memoryUsed>
+                     <callGas>
+                       0
+                     </callGas>
+                     <static>
+                       STATIC_CELL:Bool
+                     </static>
+                     <callDepth>
+                       CALLDEPTH_CELL:Int
+                     </callDepth>
+                     ...
+                   </callState> ) CALLSTACK_CELL:List )
+                 </callStack>
+                 <interimStates>
+                   ( INTERIMSTATES_CELL:List => ListItem ( { <accounts>
+                     ( <account>
+                       <acctID>
+                         C_ARITHMETICCONTRACT_ID:Int
+                       </acctID>
+                       <balance>
+                         C_ARITHMETICCONTRACT_BAL:Int
+                       </balance>
+                       <storage>
+                         C_ARITHMETICCONTRACT_STORAGE:Map
+                       </storage>
+                       <origStorage>
+                         C_ARITHMETICCONTRACT_ORIGSTORAGE:Map
+                       </origStorage>
+                       <transientStorage>
+                         C_ARITHMETICCONTRACT_TRANSIENTSTORAGE:Map
+                       </transientStorage>
+                       <nonce>
+                         C_ARITHMETICCONTRACT_NONCE:Int
+                       </nonce>
+                       ...
+                     </account>
+                     ACCOUNTS_REST:AccountCellMap )
+                   </accounts> | <substate>
+                     <selfDestruct>
+                       SELFDESTRUCT_CELL:Set
+                     </selfDestruct>
+                     <log>
+                       LOG_CELL:List
+                     </log>
+                     <refund>
+                       0
+                     </refund>
+                     <accessedAccounts>
+                       ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int )
+                     </accessedAccounts>
+                     <accessedStorage>
+                       ACCESSEDSTORAGE_CELL:Map
+                     </accessedStorage>
+                     <createdAccounts>
+                       CREATEDACCOUNTS_CELL:Set
+                     </createdAccounts>
+                   </substate> } ) INTERIMSTATES_CELL:List )
+                 </interimStates>
+                 <touchedAccounts>
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     C_ARITHMETICCONTRACT_ID:Int
+                   </id>
+                   <caller>
+                     ( CALLER_ID:Int => C_ARITHMETICCONTRACT_ID:Int )
+                   </caller>
+                   <callData>
+                     ( b"\x9c&\xe07" => b"w\x16\x02\xf7" ) +Bytes #buf ( 32 , KV0_x:Int ) +Bytes ( #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int ) => #buf ( 32 , KV1_y:Int ) )
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( ( 0 : ( C_ARITHMETICCONTRACT_ID:Int : ( 128 : ( 68 : ( 128 : ( 32 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) => .WordStack )
+                   </wordStack>
+                   <localMem>
+                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) => b"" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     ( STATIC_CELL:Bool => true )
+                   </static>
+                   <callDepth>
+                     ( CALLDEPTH_CELL:Int => ( CALLDEPTH_CELL:Int +Int 1 ) )
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <selfDestruct>
+                     SELFDESTRUCT_CELL:Set
+                   </selfDestruct>
+                   <log>
+                     LOG_CELL:List
+                   </log>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
+                   </accessedAccounts>
+                   <accessedStorage>
+                     ACCESSEDSTORAGE_CELL:Map
+                   </accessedStorage>
+                   <createdAccounts>
+                     CREATEDACCOUNTS_CELL:Set
+                   </createdAccounts>
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_ARITHMETICCONTRACT_ID:Int
+                     </acctID>
+                     <balance>
+                       C_ARITHMETICCONTRACT_BAL:Int
+                     </balance>
+                     <storage>
+                       C_ARITHMETICCONTRACT_STORAGE:Map
+                     </storage>
+                     <origStorage>
+                       C_ARITHMETICCONTRACT_ORIGSTORAGE:Map
+                     </origStorage>
+                     <transientStorage>
+                       C_ARITHMETICCONTRACT_TRANSIENTSTORAGE:Map
+                     </transientStorage>
+                     <nonce>
+                       C_ARITHMETICCONTRACT_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ACTIVE_CELL:Bool
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int KV0_x:Int
+       andBool ( 0 <=Int KV1_y:Int
+       andBool ( 0 <=Int KV2_z:Int
+       andBool ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( CALLDEPTH_CELL:Int <Int 1024
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
+       andBool ( KV0_x:Int <Int pow256
+       andBool ( KV1_y:Int <Int pow256
+       andBool ( KV2_z:Int <Int pow256
+       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool <acctID>
+          C_ARITHMETICCONTRACT_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+       andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_ARITHMETICCONTRACT_ID:Int ) ) )
+               ))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-49-TO-37)]
+    
+    rule [BASIC-BLOCK-50-TO-38]: <foundry>
+           <kevm>
+             <k>
+               ( #addr [ STATICCALL ]
+               ~> #exec [ STATICCALL ]
+               ~> #pc [ STATICCALL ]
+               ~> #execute => #halt ~> .K )
                ~> _CONTINUATION:K
              </k>
              <mode>
@@ -184,10 +2696,10 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
+                     ( ( 0 => 1 ) : ( ( C_ARITHMETICCONTRACT_ID:Int => 196 ) : ( ( 128 => 1997931255 ) : ( ( 68 => C_ARITHMETICCONTRACT_ID:Int ) : ( ( 128 => 0 ) : ( ( 32 => 0 ) : ( ( 196 => KV2_z:Int ) : ( ( 1997931255 => KV1_y:Int ) : ( ( C_ARITHMETICCONTRACT_ID:Int => KV0_x:Int ) : ( ( 0 => 111 ) : ( ( 0 => 2619793463 ) : ( ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) )
+                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00w\x16\x02\xf7" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int )
                    </localMem>
                    <memoryUsed>
                      0
@@ -251,6 +2763,27 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <newCaller>
+                 NEWCALLER_CELL:Account
+               </newCaller>
+               <active>
+                 ACTIVE_CELL:Bool
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 ISREVERTEXPECTED_CELL:Bool
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -313,10 +2846,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
@@ -324,585 +2854,18 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD-SUB-EXTERNAL(UINT256,UINT256,UINT256):
        andBool ( KV1_y:Int <Int pow256
        andBool ( KV2_z:Int <Int pow256
        andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          C_ARITHMETICCONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-17-TO-7)]
-    
-    rule [BASIC-BLOCK-23-TO-11]: <foundry>
-           <kevm>
-             <k>
-               ( #execute => #halt )
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( _OUTPUT_CELL:Bytes => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
-                 </statusCode>
-                 <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     C_ARITHMETICCONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( .WordStack => ( 1 : ( 196 : ( 1997931255 : ( C_ARITHMETICCONTRACT_ID:Int : ( 0 : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <callDepth>
-                     CALLDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_ARITHMETICCONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       C_ARITHMETICCONTRACT_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_ARITHMETICCONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
-       andBool ( 0 <=Int KV2_z:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
-       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
        andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
-       andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
-       andBool ( KV2_z:Int <Int pow256
-       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
        andBool ( ( notBool <acctID>
           C_ARITHMETICCONTRACT_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( maxUInt256 -Int KV1_y:Int ) <Int KV0_x:Int
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-23-TO-11)]
-    
-    rule [BASIC-BLOCK-26-TO-14]: <foundry>
-           <kevm>
-             <k>
-               ( #execute => #halt )
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( _OUTPUT_CELL:Bytes => #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) )
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
-                 </statusCode>
-                 <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     C_ARITHMETICCONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( .WordStack => ( 2619793463 : .WordStack ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #buf ( 32 , ( ( KV0_x:Int +Int KV1_y:Int ) -Int KV2_z:Int ) ) +Bytes #range ( #buf ( 32 , KV1_y:Int ) , 28 , 4 ) )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <callDepth>
-                     CALLDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_ARITHMETICCONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       C_ARITHMETICCONTRACT_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_ARITHMETICCONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
-       andBool ( 0 <=Int KV2_z:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
-       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
-       andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
-       andBool ( KV2_z:Int <Int pow256
-       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
-       andBool ( KV2_z:Int <=Int ( KV0_x:Int +Int KV1_y:Int )
-       andBool ( ( notBool <acctID>
-          C_ARITHMETICCONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
+       andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
+       andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_ARITHMETICCONTRACT_ID:Int ) ) )
                ))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-26-TO-14)]
-    
-    rule [BASIC-BLOCK-27-TO-15]: <foundry>
-           <kevm>
-             <k>
-               ( #execute => #halt )
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( _OUTPUT_CELL:Bytes => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11" )
-                 </output>
-                 <statusCode>
-                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
-                 </statusCode>
-                 <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     C_ARITHMETICCONTRACT_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"\x9c&\xe07" +Bytes #buf ( 32 , KV0_x:Int ) +Bytes #buf ( 32 , KV1_y:Int ) +Bytes #buf ( 32 , KV2_z:Int )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( .WordStack => ( 618 : ( 0 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( KV2_z:Int : ( 344 : ( ( KV0_x:Int +Int KV1_y:Int ) : ( 0 : ( KV2_z:Int : ( KV1_y:Int : ( KV0_x:Int : ( 111 : ( 2619793463 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( KV0_x:Int +Int KV1_y:Int ) ) +Bytes #range ( #buf ( 32 , KV0_x:Int ) , 28 , 4 ) +Bytes #buf ( 32 , KV1_y:Int ) )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <callDepth>
-                     CALLDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_ARITHMETICCONTRACT_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_ARITHMETICCONTRACT_ID:Int
-                     </acctID>
-                     <balance>
-                       C_ARITHMETICCONTRACT_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_ARITHMETICCONTRACT_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int KV0_x:Int
-       andBool ( 0 <=Int KV1_y:Int
-       andBool ( 0 <=Int KV2_z:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
-       andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
-       andBool ( KV0_x:Int <Int pow256
-       andBool ( KV1_y:Int <Int pow256
-       andBool ( KV2_z:Int <Int pow256
-       andBool ( C_ARITHMETICCONTRACT_BAL:Int <Int pow256
-       andBool ( ( KV0_x:Int +Int KV1_y:Int ) <Int KV2_z:Int
-       andBool ( ( notBool <acctID>
-          C_ARITHMETICCONTRACT_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( KV0_x:Int <=Int ( maxUInt256 -Int KV1_y:Int )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-27-TO-15)]
+      [priority(20), label(BASIC-BLOCK-50-TO-38)]
 
 endmodule
