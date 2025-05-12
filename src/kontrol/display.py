@@ -11,9 +11,9 @@ from pyk.cterm import CTerm
 from pyk.kast.inner import KApply, KToken, KVariable
 from pyk.kast.manip import collect, extract_lhs, flatten_label
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
+from pyk.kast.prelude.kint import INT
 from pyk.kcfg import KCFG
 from pyk.kcfg.minimize import KCFGMinimizer
-from pyk.prelude.kint import INT
 from pyk.proof.reachability import APRProof
 from pyk.proof.show import APRProofNodePrinter, APRProofShow
 from pyk.proof.tui import APRProofViewer

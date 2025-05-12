@@ -7,9 +7,9 @@ from typing import TYPE_CHECKING, NamedTuple
 
 from eth_utils import to_checksum_address
 from kevm_pyk.kevm import KEVM
-from pyk.prelude.collections import map_empty, map_of
-from pyk.prelude.kint import intToken
-from pyk.prelude.string import stringToken
+from pyk.kast.prelude.collections import map_empty, map_of
+from pyk.kast.prelude.kint import intToken
+from pyk.kast.prelude.string import stringToken
 from pyk.utils import ensure_dir_path
 
 from .utils import hex_string_to_int, read_contract_names
