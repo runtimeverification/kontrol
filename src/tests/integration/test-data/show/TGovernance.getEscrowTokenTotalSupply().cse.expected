@@ -1,3342 +1,154 @@
 
-┌─ 1 (root, init)
+┌─ 1 (root, split, init)
 │   k: #execute ~> CONTINUATION:K
 │   pc: 0
 │   callDepth: CALLDEPTH_CELL:Int
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
 │   method: test%TGovernance.getEscrowTokenTotalSupply()
-│
-│  (292 steps)
-├─ 3
-│   k: #next [ CALL ] ~> #execute ~> CONTINUATION:K
-│   pc: 138
-│   callDepth: CALLDEPTH_CELL:Int
-│   statusCode: STATUSCODE:StatusCode
-│   src: test/nested/SimpleNested.t.sol:7:11
-│   method: test%TGovernance.getEscrowTokenTotalSupply()
 ┃
-┃ (1 step)
-┣━━┓
+┃ (branch)
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     1024 <=Int CALLDEPTH_CELL:Int
 ┃  │
-┃  ├─ 4 (split)
-┃  │   k: #next [ CALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~> CONT ...
-┃  │   pc: 138
-┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
+┃  ├─ 13
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┃ (branch)
-┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃ constraint:
-┃  ┃  ┃     ACTIVE_CELL:Bool
-┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_TGOVERNANCE_ID:Int )
-┃  ┃  │
-┃  ┃  ├─ 7
-┃  ┃  │   k: #next [ CALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~> CONT ...
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  │
-┃  ┃  │  (1 step)
-┃  ┃  ├─ 13
-┃  ┃  │   k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┃ (1 step)
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  ├─ 22
-┃  ┃  ┃  │   k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
-┃  ┃  ┃  │   pc: 138
-┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃  │
-┃  ┃  ┃  │  (7 steps)
-┃  ┃  ┃  └─ 43 (leaf, pending)
-┃  ┃  ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  ├─ 23
-┃  ┃  ┃  │   k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
-┃  ┃  ┃  │   pc: 138
-┃  ┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃  │
-┃  ┃  ┃  │  (7 steps)
-┃  ┃  ┃  └─ 44 (leaf, pending)
-┃  ┃  ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┗━━┓
-┃  ┃     │
-┃  ┃     ├─ 24
-┃  ┃     │   k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
-┃  ┃     │   pc: 138
-┃  ┃     │   callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃     │   statusCode: STATUSCODE:StatusCode
-┃  ┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃     ┃
-┃  ┃     ┃ (1 step)
-┃  ┃     ┣━━┓
-┃  ┃     ┃  │
-┃  ┃     ┃  └─ 45 (leaf, pending)
-┃  ┃     ┃      k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
-┃  ┃     ┃      pc: 138
-┃  ┃     ┃      callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃     ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃     ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃     ┃
-┃  ┃     ┗━━┓
-┃  ┃        │
-┃  ┃        └─ 46 (leaf, pending)
-┃  ┃            k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
-┃  ┃            pc: 138
-┃  ┃            callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃            statusCode: STATUSCODE:StatusCode
-┃  ┃            src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃            method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃ constraint:
-┃  ┃  ┃     ACTIVE_CELL:Bool
-┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_TGOVERNANCE_ID:Int )
-┃  ┃  │
-┃  ┃  ├─ 14
-┃  ┃  │   k: #next [ CALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~> CONT ...
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  │
-┃  ┃  │  (1 step)
-┃  ┃  ├─ 25
-┃  ┃  │   k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┃ (1 step)
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 47 (leaf, pending)
-┃  ┃  ┃      k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 48 (leaf, pending)
-┃  ┃  ┃      k: #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #ex ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┗━━┓
-┃  ┃     │
-┃  ┃     └─ 49 (leaf, pending)
-┃  ┃         k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
-┃  ┃         pc: 138
-┃  ┃         callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃         method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃ constraint:
-┃  ┃  ┃     ACTIVE_CELL:Bool
-┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_TGOVERNANCE_ID:Int )
-┃  ┃  │
-┃  ┃  ├─ 26
-┃  ┃  │   k: #next [ CALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~> CONT ...
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  │
-┃  ┃  │  (1 step)
-┃  ┃  └─ 50 (leaf, pending)
-┃  ┃      k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #checkRevert ~> #updateRevertOutp ...
-┃  ┃      pc: 138
-┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┣━━┓ subst: .Subst
-┃  ┃  ┃ constraint:
-┃  ┃  ┃     ACTIVE_CELL:Bool
-┃  ┃  ┃     DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-┃  ┃  ┃     ( notBool NEWCALLER_CELL:Account ==K C_TGOVERNANCE_ID:Int )
-┃  ┃  │
-┃  ┃  └─ 51 (leaf, pending)
-┃  ┃      k: #next [ CALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~> CONT ...
-┃  ┃      pc: 138
-┃  ┃      callDepth: EXPECTEDDEPTH_CELL:Int
-┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┗━━┓ subst: .Subst
-┃     ┃ constraint: true
-┃     │
-┃     └─ 52 (leaf, pending)
-┃         k: #next [ CALL ] ~> #checkRevert ~> #updateRevertOutput 128 32 ~> #execute ~> CONT ...
-┃         pc: 138
-┃         callDepth: EXPECTEDDEPTH_CELL:Int
-┃         statusCode: STATUSCODE:StatusCode
-┃         src: test/nested/SimpleNested.t.sol:7:11
-┃         method: test%TGovernance.getEscrowTokenTotalSupply()
-┃
-┣━━┓
 ┃  │
-┃  ├─ 5
-┃  │   k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
-┃  │   pc: 138
-┃  │   callDepth: DEPTH_CELL:Int
+┃  │  (376 steps)
+┃  ├─ 7 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 153
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_REVERT
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  │
+┃  ┊  constraint:
+┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┊  subst: ...
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
+┃
+┣━━┓ subst: .Subst
+┃  ┃ constraint:
+┃  ┃     CALLDEPTH_CELL:Int <Int 1023
+┃  ┃     CALLDEPTH_CELL:Int <Int 1024
+┃  │
+┃  ├─ 16
+┃  │   k: #execute ~> CONTINUATION:K
+┃  │   pc: 0
+┃  │   callDepth: CALLDEPTH_CELL:Int
 ┃  │   statusCode: STATUSCODE:StatusCode
 ┃  │   src: test/nested/SimpleNested.t.sol:7:11
 ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┃ (1 step)
-┃  ┣━━┓
-┃  ┃  │
-┃  ┃  ├─ 9
-┃  ┃  │   k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: DEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  │
-┃  ┃  │  (7 steps)
-┃  ┃  ├─ 16
-┃  ┃  │   k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: DEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┃ (1 step)
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 28 (leaf, pending)
-┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 29 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 30 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int NCL:Int NCL:Int 0 0 b"W\xdf\x84K" false ~>  ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 31 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┗━━┓
-┃  ┃     │
-┃  ┃     └─ 32 (leaf, pending)
-┃  ┃         k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
-┃  ┃         pc: 138
-┃  ┃         callDepth: DEPTH_CELL:Int
-┃  ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃         method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┣━━┓
-┃  ┃  │
-┃  ┃  ├─ 10
-┃  ┃  │   k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: DEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  │
-┃  ┃  │  (7 steps)
-┃  ┃  ├─ 17
-┃  ┃  │   k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
-┃  ┃  │   pc: 138
-┃  ┃  │   callDepth: DEPTH_CELL:Int
-┃  ┃  │   statusCode: STATUSCODE:StatusCode
-┃  ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┃ (1 step)
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 33 (leaf, pending)
-┃  ┃  ┃      k: #refund 0 ~> #pushCallStack ~> #pushWorldState ~> #end EVMC_BALANCE_UNDERFLOW ~> ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 34 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 35 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int NCL:Int NCL:Int 0 0 b"W\xdf\x84K" false ~>  ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┣━━┓
-┃  ┃  ┃  │
-┃  ┃  ┃  └─ 36 (leaf, pending)
-┃  ┃  ┃      k: #checkDepthExceeded ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_E ...
-┃  ┃  ┃      pc: 138
-┃  ┃  ┃      callDepth: DEPTH_CELL:Int
-┃  ┃  ┃      statusCode: STATUSCODE:StatusCode
-┃  ┃  ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃  ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃  ┃
-┃  ┃  ┗━━┓
-┃  ┃     │
-┃  ┃     └─ 37 (leaf, pending)
-┃  ┃         k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
-┃  ┃         pc: 138
-┃  ┃         callDepth: DEPTH_CELL:Int
-┃  ┃         statusCode: STATUSCODE:StatusCode
-┃  ┃         src: test/nested/SimpleNested.t.sol:7:11
-┃  ┃         method: test%TGovernance.getEscrowTokenTotalSupply()
-┃  ┃
-┃  ┗━━┓
-┃     │
-┃     ├─ 11
-┃     │   k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
-┃     │   pc: 138
-┃     │   callDepth: DEPTH_CELL:Int
-┃     │   statusCode: STATUSCODE:StatusCode
-┃     │   src: test/nested/SimpleNested.t.sol:7:11
-┃     │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃     ┃
-┃     ┃ (1 step)
-┃     ┣━━┓
-┃     ┃  │
-┃     ┃  ├─ 18
-┃     ┃  │   k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
-┃     ┃  │   pc: 138
-┃     ┃  │   callDepth: DEPTH_CELL:Int
-┃     ┃  │   statusCode: STATUSCODE:StatusCode
-┃     ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃     ┃  │
-┃     ┃  │  (7 steps)
-┃     ┃  └─ 38 (leaf, pending)
-┃     ┃      k: #checkBalanceUnderflow NCL:Int 0 ~> #checkDepthExceeded ~> #call NCL:Int C_TGOVE ...
-┃     ┃      pc: 138
-┃     ┃      callDepth: DEPTH_CELL:Int
-┃     ┃      statusCode: STATUSCODE:StatusCode
-┃     ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃     ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃     ┃
-┃     ┗━━┓
-┃        │
-┃        ├─ 19
-┃        │   k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
-┃        │   pc: 138
-┃        │   callDepth: DEPTH_CELL:Int
-┃        │   statusCode: STATUSCODE:StatusCode
-┃        │   src: test/nested/SimpleNested.t.sol:7:11
-┃        │   method: test%TGovernance.getEscrowTokenTotalSupply()
-┃        ┃
-┃        ┃ (1 step)
-┃        ┣━━┓
-┃        ┃  │
-┃        ┃  └─ 39 (leaf, pending)
-┃        ┃      k: #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
-┃        ┃      pc: 138
-┃        ┃      callDepth: DEPTH_CELL:Int
-┃        ┃      statusCode: STATUSCODE:StatusCode
-┃        ┃      src: test/nested/SimpleNested.t.sol:7:11
-┃        ┃      method: test%TGovernance.getEscrowTokenTotalSupply()
-┃        ┃
-┃        ┗━━┓
-┃           │
-┃           └─ 40 (leaf, pending)
-┃               k: #injectPrank ~> #next [ CALL ] ~> #endPrank ~> #execute ~> CONTINUATION:K
-┃               pc: 138
-┃               callDepth: DEPTH_CELL:Int
-┃               statusCode: STATUSCODE:StatusCode
-┃               src: test/nested/SimpleNested.t.sol:7:11
-┃               method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  │
+┃  │  (638 steps)
+┃  ├─ 10 (terminal)
+┃  │   k: #halt ~> CONTINUATION:K
+┃  │   pc: 68
+┃  │   callDepth: CALLDEPTH_CELL:Int
+┃  │   statusCode: EVMC_SUCCESS
+┃  │   src: test/nested/SimpleNested.t.sol:7:11
+┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
+┃  │
+┃  ┊  constraint:
+┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+┃  ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+┃  ┊  subst: ...
+┃  └─ 2 (leaf, target, terminal)
+┃      k: #halt ~> CONTINUATION:K
+┃      pc: PC_CELL_5d410f2a:Int
+┃      callDepth: CALLDEPTH_CELL_5d410f2a:Int
+┃      statusCode: STATUSCODE_FINAL:StatusCode
 ┃
-┗━━┓
+┗━━┓ subst: .Subst
+   ┃ constraint:
+   ┃     CALLDEPTH_CELL:Int <Int 1024
+   ┃     1023 <=Int CALLDEPTH_CELL:Int
    │
-   ├─ 6 (split)
-   │   k: #addr [ CALL ] ~> #exec [ CALL ] ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
-   │   pc: 138
+   ├─ 17
+   │   k: #execute ~> CONTINUATION:K
+   │   pc: 0
    │   callDepth: CALLDEPTH_CELL:Int
    │   statusCode: STATUSCODE:StatusCode
    │   src: test/nested/SimpleNested.t.sol:7:11
    │   method: test%TGovernance.getEscrowTokenTotalSupply()
-   ┃
-   ┃ (branch)
-   ┣━━┓ subst: .Subst
-   ┃  ┃ constraint:
-   ┃  ┃     CALLDEPTH_CELL:Int <Int 1024
-   ┃  │
-   ┃  ├─ 53
-   ┃  │   k: #addr [ CALL ] ~> #exec [ CALL ] ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
-   ┃  │   pc: 138
-   ┃  │   callDepth: CALLDEPTH_CELL:Int
-   ┃  │   statusCode: STATUSCODE:StatusCode
-   ┃  │   src: test/nested/SimpleNested.t.sol:7:11
-   ┃  │   method: test%TGovernance.getEscrowTokenTotalSupply()
-   ┃  │
-   ┃  │  (24 steps)
-   ┃  └─ 41 (leaf, pending)
-   ┃      k: #next [ CALL ] ~> #execute ~> #return 128 32 ~> #pc [ CALL ] ~> #execute ~> CONT ...
-   ┃      pc: 143
-   ┃      callDepth: ( CALLDEPTH_CELL:Int +Int 1 )
-   ┃      statusCode: STATUSCODE:StatusCode
-   ┃      src: test/nested/SimpleNested.t.sol:7:11
-   ┃      method: test%TEscrow.getTokenTotalSupply()
-   ┃
-   ┗━━┓ subst: .Subst
-      ┃ constraint:
-      ┃     1024 <=Int CALLDEPTH_CELL:Int
-      │
-      ├─ 54
-      │   k: #addr [ CALL ] ~> #exec [ CALL ] ~> #pc [ CALL ] ~> #execute ~> CONTINUATION:K
-      │   pc: 138
-      │   callDepth: CALLDEPTH_CELL:Int
-      │   statusCode: STATUSCODE:StatusCode
-      │   src: test/nested/SimpleNested.t.sol:7:11
-      │   method: test%TGovernance.getEscrowTokenTotalSupply()
-      │
-      │  (83 steps)
-      └─ 42 (leaf, pending)
-          k: #halt ~> CONTINUATION:K
-          pc: 153
-          callDepth: CALLDEPTH_CELL:Int
-          statusCode: EVMC_REVERT
-          src: test/nested/SimpleNested.t.sol:7:11
-          method: test%TGovernance.getEscrowTokenTotalSupply()
+   │
+   │  (389 steps)
+   ├─ 11 (terminal)
+   │   k: #halt ~> CONTINUATION:K
+   │   pc: 153
+   │   callDepth: CALLDEPTH_CELL:Int
+   │   statusCode: EVMC_REVERT
+   │   src: test/nested/SimpleNested.t.sol:7:11
+   │   method: test%TGovernance.getEscrowTokenTotalSupply()
+   │
+   ┊  constraint:
+   ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+   ┊      ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+   ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+   ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+   ┊      ( notBool <acctID>
+  C_TGOVERNANCE_ID:Int
+</acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+   ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int )
+   ┊      ( notBool C_TGOVERNANCE_ESCROW_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+   ┊      ( notBool C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ==Int C_TGOVERNANCE_ID:Int )
+   ┊  subst: ...
+   └─ 2 (leaf, target, terminal)
+       k: #halt ~> CONTINUATION:K
+       pc: PC_CELL_5d410f2a:Int
+       callDepth: CALLDEPTH_CELL_5d410f2a:Int
+       statusCode: STATUSCODE_FINAL:StatusCode
 
-
-┌─ 2 (root, leaf, target, terminal)
-│   k: #halt ~> CONTINUATION:K
-│   pc: PC_CELL_5d410f2a:Int
-│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
-│   statusCode: STATUSCODE_FINAL:StatusCode
 
 
 
 module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
     
     
-    rule [BASIC-BLOCK-1-TO-3]: <foundry>
+    rule [BASIC-BLOCK-13-TO-7]: <foundry>
            <kevm>
              <k>
-               ( .K => #next [ CALL ] ~> .K )
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     C_TGOVERNANCE_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( .WordStack => ( 0 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-1-TO-3)]
-    
-    rule [BASIC-BLOCK-7-TO-13]: <foundry>
-           <kevm>
-             <k>
-               ( #next [ CALL ] ~> .K => #injectPrank
-               ~> #next [ CALL ]
-               ~> #endPrank )
-               ~> #checkRevert
-               ~> #updateRevertOutput 128 32
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     C_TGOVERNANCE_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( 0 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     EXPECTEDDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NEWCALLER_CELL:Account
-               </newCaller>
-               <active>
-                 ( ACTIVE_CELL:Bool => true )
-               </active>
-               <depth>
-                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 true
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( ACTIVE_CELL:Bool
-       andBool ( _ISREVERTEXPECTED_CELL:Bool
-       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))))))
-       ensures NEWCALLER_CELL:Account ~> .K =/=K C_TGOVERNANCE_ID:Int ~> .K
-      [priority(20), label(BASIC-BLOCK-7-TO-13)]
-    
-    rule [BASIC-BLOCK-9-TO-16]: <foundry>
-           <kevm>
-             <k>
-               ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
-               ~> #checkDepthExceeded
-               ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_ESCROW_ID:Int 0 0 b"W\xdf\x84K" false
-               ~> #return 128 32
-               ~> #pc [ CALL ] )
-               ~> #endPrank
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     NCL:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( ( 0 => 132 ) : ( ( C_TGOVERNANCE_ESCROW_ID:Int => 1474266187 ) : ( ( 0 => C_TGOVERNANCE_ESCROW_ID:Int ) : ( ( 128 => 0 ) : ( ( 4 => 51 ) : ( ( 128 => 2061189261 ) : ( ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     DEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   NOG:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NCL:Int
-               </newCaller>
-               <newOrigin>
-                 NOG:Int
-               </newOrigin>
-               <active>
-                 true
-               </active>
-               <depth>
-                 DEPTH_CELL:Int
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 ISREVERTEXPECTED_CELL:Bool
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( _ACTIVE_CELL:Bool
-       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
-       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( _NEWORIGIN_CELL:Account ==K NOG:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int NCL:Int
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-9-TO-16)]
-    
-    rule [BASIC-BLOCK-10-TO-17]: <foundry>
-           <kevm>
-             <k>
-               ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
-               ~> #checkDepthExceeded
-               ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_ESCROW_ID:Int 0 0 b"W\xdf\x84K" false
-               ~> #return 128 32
-               ~> #pc [ CALL ] )
-               ~> #endPrank
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     NCL:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( ( 0 => 132 ) : ( ( C_TGOVERNANCE_ESCROW_ID:Int => 1474266187 ) : ( ( 0 => C_TGOVERNANCE_ESCROW_ID:Int ) : ( ( 128 => 0 ) : ( ( 4 => 51 ) : ( ( 128 => 2061189261 ) : ( ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     DEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NCL:Int
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
-               <active>
-                 true
-               </active>
-               <depth>
-                 DEPTH_CELL:Int
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 ISREVERTEXPECTED_CELL:Bool
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( _ACTIVE_CELL:Bool
-       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
-       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( _NEWORIGIN_CELL:Account ==K .Account
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int NCL:Int
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-10-TO-17)]
-    
-    rule [BASIC-BLOCK-14-TO-25]: <foundry>
-           <kevm>
-             <k>
-               ( #next [ CALL ] ~> .K => #injectPrank
-               ~> #next [ CALL ]
-               ~> #endPrank )
-               ~> #checkRevert
-               ~> #updateRevertOutput 128 32
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     C_TGOVERNANCE_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( 0 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     EXPECTEDDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NEWCALLER_CELL:Account
-               </newCaller>
-               <active>
-                 ( ACTIVE_CELL:Bool => true )
-               </active>
-               <depth>
-                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 true
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( ACTIVE_CELL:Bool
-       andBool ( _ISREVERTEXPECTED_CELL:Bool
-       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))))))
-       ensures NEWCALLER_CELL:Account ~> .K =/=K C_TGOVERNANCE_ID:Int ~> .K
-      [priority(20), label(BASIC-BLOCK-14-TO-25)]
-    
-    rule [BASIC-BLOCK-18-TO-38]: <foundry>
-           <kevm>
-             <k>
-               ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
-               ~> #checkDepthExceeded
-               ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_ESCROW_ID:Int 0 0 b"W\xdf\x84K" false
-               ~> #return 128 32
-               ~> #pc [ CALL ] )
-               ~> #endPrank
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     NCL:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( ( 0 => 132 ) : ( ( C_TGOVERNANCE_ESCROW_ID:Int => 1474266187 ) : ( ( 0 => C_TGOVERNANCE_ESCROW_ID:Int ) : ( ( 128 => 0 ) : ( ( 4 => 51 ) : ( ( 128 => 2061189261 ) : ( ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     DEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   NOG0:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NCL:Int
-               </newCaller>
-               <newOrigin>
-                 NOG0:Int
-               </newOrigin>
-               <active>
-                 true
-               </active>
-               <depth>
-                 DEPTH_CELL:Int
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 ISREVERTEXPECTED_CELL:Bool
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( _ACTIVE_CELL:Bool
-       andBool ( _CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int
-       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( _NEWORIGIN_CELL:Account ==K NOG0:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( _NOG:Int =/=Int NOG0:Int
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int NCL:Int
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-18-TO-38)]
-    
-    rule [BASIC-BLOCK-22-TO-43]: <foundry>
-           <kevm>
-             <k>
-               ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
-               ~> #checkDepthExceeded
-               ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_ESCROW_ID:Int 0 0 b"W\xdf\x84K" false
-               ~> #return 128 32
-               ~> #pc [ CALL ] )
-               ~> #endPrank
-               ~> #checkRevert
-               ~> #updateRevertOutput 128 32
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     NCL:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( ( 0 => 132 ) : ( ( C_TGOVERNANCE_ESCROW_ID:Int => 1474266187 ) : ( ( 0 => C_TGOVERNANCE_ESCROW_ID:Int ) : ( ( 128 => 0 ) : ( ( 4 => 51 ) : ( ( 128 => 2061189261 ) : ( ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     EXPECTEDDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   NOG:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NCL:Int
-               </newCaller>
-               <newOrigin>
-                 NOG:Int
-               </newOrigin>
-               <active>
-                 true
-               </active>
-               <depth>
-                 EXPECTEDDEPTH_CELL:Int
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 true
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( _ACTIVE_CELL:Bool
-       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( _NEWORIGIN_CELL:Account ==K NOG:Int
-       andBool ( _ISREVERTEXPECTED_CELL:Bool
-       andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int NCL:Int
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-22-TO-43)]
-    
-    rule [BASIC-BLOCK-23-TO-44]: <foundry>
-           <kevm>
-             <k>
-               ( #next [ CALL ] ~> .K => #checkBalanceUnderflow NCL:Int 0
-               ~> #checkDepthExceeded
-               ~> #call NCL:Int C_TGOVERNANCE_ESCROW_ID:Int C_TGOVERNANCE_ESCROW_ID:Int 0 0 b"W\xdf\x84K" false
-               ~> #return 128 32
-               ~> #pc [ CALL ] )
-               ~> #endPrank
-               ~> #checkRevert
-               ~> #updateRevertOutput 128 32
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     NCL:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( ( 0 => 132 ) : ( ( C_TGOVERNANCE_ESCROW_ID:Int => 1474266187 ) : ( ( 0 => C_TGOVERNANCE_ESCROW_ID:Int ) : ( ( 128 => 0 ) : ( ( 4 => 51 ) : ( ( 128 => 2061189261 ) : ( ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     EXPECTEDDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
-                   </accessedAccounts>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NCL:Int
-               </newCaller>
-               <newOrigin>
-                 .Account
-               </newOrigin>
-               <active>
-                 true
-               </active>
-               <depth>
-                 EXPECTEDDEPTH_CELL:Int
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 true
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( _ACTIVE_CELL:Bool
-       andBool ( _NEWCALLER_CELL:Account ==K NCL:Int
-       andBool ( _ISREVERTEXPECTED_CELL:Bool
-       andBool ( _DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( _NEWORIGIN_CELL:Account ==K .Account
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int NCL:Int
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-23-TO-44)]
-    
-    rule [BASIC-BLOCK-26-TO-50]: <foundry>
-           <kevm>
-             <k>
-               ( #next [ CALL ] ~> .K => #injectPrank
-               ~> #next [ CALL ]
-               ~> #endPrank )
-               ~> #checkRevert
-               ~> #updateRevertOutput 128 32
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <callState>
-                   <id>
-                     C_TGOVERNANCE_ID:Int
-                   </id>
-                   <caller>
-                     CALLER_ID:Int
-                   </caller>
-                   <callData>
-                     b"z\xdb@\x8d"
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( 0 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     EXPECTEDDEPTH_CELL:Int
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <refund>
-                     0
-                   </refund>
-                   ...
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NEWCALLER_CELL:Account
-               </newCaller>
-               <active>
-                 ( ACTIVE_CELL:Bool => true )
-               </active>
-               <depth>
-                 ( DEPTH_CELL:Int => EXPECTEDDEPTH_CELL:Int )
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 true
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( ACTIVE_CELL:Bool
-       andBool ( _ISREVERTEXPECTED_CELL:Bool
-       andBool ( DEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( _CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int
-       andBool ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))))))
-       ensures NEWCALLER_CELL:Account ~> .K =/=K C_TGOVERNANCE_ID:Int ~> .K
-      [priority(20), label(BASIC-BLOCK-26-TO-50)]
-    
-    rule [BASIC-BLOCK-53-TO-41]: <foundry>
-           <kevm>
-             <k>
-               ( #addr [ CALL ]
-               ~> #exec [ CALL ] => #next [ CALL ]
-               ~> #execute
-               ~> #return 128 32 )
-               ~> #pc [ CALL ]
-               ~> #execute
-               ~> _CONTINUATION:K
-             </k>
-             <mode>
-               NORMAL
-             </mode>
-             <schedule>
-               CANCUN
-             </schedule>
-             <useGas>
-               false
-             </useGas>
-             <ethereum>
-               <evm>
-                 <output>
-                   ( _OUTPUT_CELL:Bytes => b"" )
-                 </output>
-                 <callStack>
-                   ( CALLSTACK_CELL:List => ListItem ( <callState>
-                     <id>
-                       C_TGOVERNANCE_ID:Int
-                     </id>
-                     <caller>
-                       CALLER_ID:Int
-                     </caller>
-                     <callData>
-                       b"z\xdb@\x8d"
-                     </callData>
-                     <callValue>
-                       0
-                     </callValue>
-                     <wordStack>
-                       ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) )
-                     </wordStack>
-                     <localMem>
-                       b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                     </localMem>
-                     <memoryUsed>
-                       0
-                     </memoryUsed>
-                     <callGas>
-                       0
-                     </callGas>
-                     <static>
-                       false
-                     </static>
-                     <callDepth>
-                       CALLDEPTH_CELL:Int
-                     </callDepth>
-                     ...
-                   </callState> ) CALLSTACK_CELL:List )
-                 </callStack>
-                 <interimStates>
-                   ( INTERIMSTATES_CELL:List => ListItem ( { <accounts>
-                     ( <account>
-                       <acctID>
-                         C_TGOVERNANCE_ESCROW_ID:Int
-                       </acctID>
-                       <balance>
-                         C_TGOVERNANCE_ESCROW_BAL:Int
-                       </balance>
-                       <storage>
-                         ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                         C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                       </storage>
-                       <origStorage>
-                         C_TGOVERNANCE_ESCROW_ORIGSTORAGE:Map
-                       </origStorage>
-                       <transientStorage>
-                         C_TGOVERNANCE_ESCROW_TRANSIENTSTORAGE:Map
-                       </transientStorage>
-                       <nonce>
-                         C_TGOVERNANCE_ESCROW_NONCE:Int
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                       </acctID>
-                       <balance>
-                         C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                       </balance>
-                       <storage>
-                         C_TGOVERNANCE_ESCROW_TOKEN_STORAGE:Map
-                       </storage>
-                       <origStorage>
-                         C_TGOVERNANCE_ESCROW_TOKEN_ORIGSTORAGE:Map
-                       </origStorage>
-                       <transientStorage>
-                         C_TGOVERNANCE_ESCROW_TOKEN_TRANSIENTSTORAGE:Map
-                       </transientStorage>
-                       <nonce>
-                         C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                       </nonce>
-                       ...
-                     </account>
-                     ( <account>
-                       <acctID>
-                         C_TGOVERNANCE_ID:Int
-                       </acctID>
-                       <balance>
-                         C_TGOVERNANCE_BAL:Int
-                       </balance>
-                       <storage>
-                         ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                         C_TGOVERNANCE_STORAGE:Map )
-                       </storage>
-                       <origStorage>
-                         C_TGOVERNANCE_ORIGSTORAGE:Map
-                       </origStorage>
-                       <transientStorage>
-                         C_TGOVERNANCE_TRANSIENTSTORAGE:Map
-                       </transientStorage>
-                       <nonce>
-                         C_TGOVERNANCE_NONCE:Int
-                       </nonce>
-                       ...
-                     </account>
-                     ACCOUNTS_REST:AccountCellMap ) ) )
-                   </accounts> | <substate>
-                     <selfDestruct>
-                       SELFDESTRUCT_CELL:Set
-                     </selfDestruct>
-                     <log>
-                       LOG_CELL:List
-                     </log>
-                     <refund>
-                       0
-                     </refund>
-                     <accessedAccounts>
-                       ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int )
-                     </accessedAccounts>
-                     <accessedStorage>
-                       ACCESSEDSTORAGE_CELL:Map
-                     </accessedStorage>
-                     <createdAccounts>
-                       CREATEDACCOUNTS_CELL:Set
-                     </createdAccounts>
-                   </substate> } ) INTERIMSTATES_CELL:List )
-                 </interimStates>
-                 <touchedAccounts>
-                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
-                 </touchedAccounts>
-                 <callState>
-                   <id>
-                     ( C_TGOVERNANCE_ID:Int => C_TGOVERNANCE_ESCROW_ID:Int )
-                   </id>
-                   <caller>
-                     ( CALLER_ID:Int => C_TGOVERNANCE_ID:Int )
-                   </caller>
-                   <callData>
-                     ( b"z\xdb@\x8d" => b"W\xdf\x84K" )
-                   </callData>
-                   <callValue>
-                     0
-                   </callValue>
-                   <wordStack>
-                     ( 0 : ( ( C_TGOVERNANCE_ESCROW_ID:Int => C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) : ( 0 : ( 128 : ( 4 : ( 128 : ( 32 : ( 132 : ( ( 1474266187 => 3303283490 ) : ( ( C_TGOVERNANCE_ESCROW_ID:Int => C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) : ( 0 : ( ( 51 => 56 ) : ( ( 2061189261 => 1474266187 ) : .WordStack ) ) ) ) ) ) ) ) ) ) ) ) )
-                   </wordStack>
-                   <localMem>
-                     ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc4\xe4\x1b\"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
-                   </localMem>
-                   <memoryUsed>
-                     0
-                   </memoryUsed>
-                   <callGas>
-                     0
-                   </callGas>
-                   <static>
-                     false
-                   </static>
-                   <callDepth>
-                     ( CALLDEPTH_CELL:Int => ( CALLDEPTH_CELL:Int +Int 1 ) )
-                   </callDepth>
-                   ...
-                 </callState>
-                 <substate>
-                   <selfDestruct>
-                     SELFDESTRUCT_CELL:Set
-                   </selfDestruct>
-                   <log>
-                     LOG_CELL:List
-                   </log>
-                   <refund>
-                     0
-                   </refund>
-                   <accessedAccounts>
-                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ID:Int ) )
-                   </accessedAccounts>
-                   <accessedStorage>
-                     ACCESSEDSTORAGE_CELL:Map
-                   </accessedStorage>
-                   <createdAccounts>
-                     CREATEDACCOUNTS_CELL:Set
-                   </createdAccounts>
-                 </substate>
-                 <origin>
-                   ORIGIN_ID:Int
-                 </origin>
-                 <block>
-                   <number>
-                     NUMBER_CELL:Int
-                   </number>
-                   <timestamp>
-                     TIMESTAMP_CELL:Int
-                   </timestamp>
-                   ...
-                 </block>
-                 ...
-               </evm>
-               <network>
-                 <chainID>
-                   1
-                 </chainID>
-                 <accounts>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
-                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
-                     </storage>
-                     <origStorage>
-                       C_TGOVERNANCE_ESCROW_ORIGSTORAGE:Map
-                     </origStorage>
-                     <transientStorage>
-                       C_TGOVERNANCE_ESCROW_TRANSIENTSTORAGE:Map
-                     </transientStorage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-                     </balance>
-                     <storage>
-                       C_TGOVERNANCE_ESCROW_TOKEN_STORAGE:Map
-                     </storage>
-                     <origStorage>
-                       C_TGOVERNANCE_ESCROW_TOKEN_ORIGSTORAGE:Map
-                     </origStorage>
-                     <transientStorage>
-                       C_TGOVERNANCE_ESCROW_TOKEN_TRANSIENTSTORAGE:Map
-                     </transientStorage>
-                     <nonce>
-                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
-                       C_TGOVERNANCE_ID:Int
-                     </acctID>
-                     <balance>
-                       C_TGOVERNANCE_BAL:Int
-                     </balance>
-                     <storage>
-                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
-                       C_TGOVERNANCE_STORAGE:Map )
-                     </storage>
-                     <origStorage>
-                       C_TGOVERNANCE_ORIGSTORAGE:Map
-                     </origStorage>
-                     <transientStorage>
-                       C_TGOVERNANCE_TRANSIENTSTORAGE:Map
-                     </transientStorage>
-                     <nonce>
-                       C_TGOVERNANCE_NONCE:Int
-                     </nonce>
-                     ...
-                   </account>
-                   ACCOUNTS_REST:AccountCellMap ) ) )
-                 </accounts>
-                 ...
-               </network>
-             </ethereum>
-             ...
-           </kevm>
-           <stackChecks>
-             true
-           </stackChecks>
-           <cheatcodes>
-             <prank>
-               <newCaller>
-                 NEWCALLER_CELL:Account
-               </newCaller>
-               <active>
-                 ACTIVE_CELL:Bool
-               </active>
-               <depth>
-                 DEPTH_CELL:Int
-               </depth>
-               ...
-             </prank>
-             <expectedRevert>
-               <isRevertExpected>
-                 ISREVERTEXPECTED_CELL:Bool
-               </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
-               ...
-             </expectedRevert>
-             <expectedOpcode>
-               <isOpcodeExpected>
-                 false
-               </isOpcodeExpected>
-               ...
-             </expectedOpcode>
-             <whitelist>
-               <isCallWhitelistActive>
-                 false
-               </isCallWhitelistActive>
-               <allowedCallsList>
-                 .List
-               </allowedCallsList>
-               <isStorageWhitelistActive>
-                 false
-               </isStorageWhitelistActive>
-               <storageSlotList>
-                 .List
-               </storageSlotList>
-             </whitelist>
-             <mockCalls>
-               .MockCallCellMap
-             </mockCalls>
-             <mockFunctions>
-               .MockFunctionCellMap
-             </mockFunctions>
-             ...
-           </cheatcodes>
-           <KEVMTracing>
-             <activeTracing>
-               false
-             </activeTracing>
-             <traceStorage>
-               false
-             </traceStorage>
-             <traceWordStack>
-               false
-             </traceWordStack>
-             <traceMemory>
-               false
-             </traceMemory>
-             <recordedTrace>
-               false
-             </recordedTrace>
-             <traceData>
-               .List
-             </traceData>
-           </KEVMTracing>
-         </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
-       andBool ( 0 <=Int ORIGIN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
-       andBool ( CALLDEPTH_CELL:Int <Int 1024
-       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
-       andBool ( pow24 <Int NUMBER_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
-       andBool ( NUMBER_CELL:Int <Int pow32
-       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
-       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
-       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
-       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
-       andBool ( CALLER_ID:Int <Int pow160
-       andBool ( ORIGIN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
-       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool <acctID>
-          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
-       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
-       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-       andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-       andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int ) ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-53-TO-41)]
-    
-    rule [BASIC-BLOCK-54-TO-42]: <foundry>
-           <kevm>
-             <k>
-               ( #addr [ CALL ]
-               ~> #exec [ CALL ]
-               ~> #pc [ CALL ]
-               ~> #execute => #halt ~> .K )
+               ( #execute => #halt )
                ~> _CONTINUATION:K
              </k>
              <mode>
@@ -3370,10 +182,10 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                      0
                    </callValue>
                    <wordStack>
-                     ( ( 0 => 1 ) : ( ( C_TGOVERNANCE_ESCROW_ID:Int => 132 ) : ( ( 0 => 1474266187 ) : ( ( 128 => C_TGOVERNANCE_ESCROW_ID:Int ) : ( ( 4 => 0 ) : ( ( 128 => 51 ) : ( ( 32 => 2061189261 ) : ( ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) => .WordStack ) ) ) ) ) ) ) )
+                     ( .WordStack => ( 1 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -3473,24 +285,15 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
            </stackChecks>
            <cheatcodes>
              <prank>
-               <newCaller>
-                 NEWCALLER_CELL:Account
-               </newCaller>
                <active>
-                 ACTIVE_CELL:Bool
+                 false
                </active>
-               <depth>
-                 DEPTH_CELL:Int
-               </depth>
                ...
              </prank>
              <expectedRevert>
                <isRevertExpected>
-                 ISREVERTEXPECTED_CELL:Bool
+                 false
                </isRevertExpected>
-               <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
-               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
@@ -3550,37 +353,37 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
        andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
+       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
        andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
        andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( C_TGOVERNANCE_ID:Int <Int pow160
        andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
        andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
        andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
        andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
-       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
-       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
-       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ( notBool <acctID>
           C_TGOVERNANCE_ID:Int
         </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
@@ -3595,9 +398,530 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
-       andBool ( ( notBool ( CALLDEPTH_CELL:Int ==Int EXPECTEDDEPTH_CELL:Int andBool ISREVERTEXPECTED_CELL:Bool ) )
-       andBool ( ( notBool ( ACTIVE_CELL:Bool andBool ( CALLDEPTH_CELL:Int ==Int DEPTH_CELL:Int andBool NEWCALLER_CELL:Account =/=K C_TGOVERNANCE_ID:Int ) ) )
-               )))))))))))))))))))))))))))))))))))))))))))))))))
-      [priority(20), label(BASIC-BLOCK-54-TO-42)]
+               )))))))))))))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-13-TO-7)]
+    
+    rule [BASIC-BLOCK-16-TO-10]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL:Bytes => #buf ( 32 , ( #asWord ( #range ( #buf ( 32 , #lookup ( C_TGOVERNANCE_ESCROW_TOKEN_STORAGE:Map , 0 ) ) , 16 , 16 ) ) +Int 45 ) ) )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
+                 </statusCode>
+                 <touchedAccounts>
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     C_TGOVERNANCE_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"z\xdb@\x8d"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 2061189261 : .WordStack ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( #asWord ( #range ( #buf ( 32 , #lookup ( C_TGOVERNANCE_ESCROW_TOKEN_STORAGE:Map , 0 ) ) , 16 , 16 ) ) +Int 45 ) ) +Bytes #buf ( 32 , ( #asWord ( #range ( #buf ( 32 , #lookup ( C_TGOVERNANCE_ESCROW_TOKEN_STORAGE:Map , 0 ) ) , 16 , 16 ) ) +Int 45 ) ) )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_TGOVERNANCE_ESCROW_ID:Int
+                     </acctID>
+                     <balance>
+                       C_TGOVERNANCE_ESCROW_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
+                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_TGOVERNANCE_ESCROW_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                     </acctID>
+                     <balance>
+                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
+                     </balance>
+                     <storage>
+                       C_TGOVERNANCE_ESCROW_TOKEN_STORAGE:Map
+                     </storage>
+                     <nonce>
+                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_TGOVERNANCE_ID:Int
+                     </acctID>
+                     <balance>
+                       C_TGOVERNANCE_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
+                       C_TGOVERNANCE_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_TGOVERNANCE_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
+       andBool ( CALLDEPTH_CELL:Int <Int 1023
+       andBool ( CALLDEPTH_CELL:Int <Int 1024
+       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
+       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
+       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_TGOVERNANCE_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_TGOVERNANCE_ESCROW_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-16-TO-10)]
+    
+    rule [BASIC-BLOCK-17-TO-11]: <foundry>
+           <kevm>
+             <k>
+               ( #execute => #halt )
+               ~> _CONTINUATION:K
+             </k>
+             <mode>
+               NORMAL
+             </mode>
+             <schedule>
+               CANCUN
+             </schedule>
+             <useGas>
+               false
+             </useGas>
+             <ethereum>
+               <evm>
+                 <output>
+                   ( _OUTPUT_CELL:Bytes => b"" )
+                 </output>
+                 <statusCode>
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
+                 </statusCode>
+                 <touchedAccounts>
+                   ( TOUCHEDACCOUNTS_CELL:Set => TOUCHEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ID:Int ) |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
+                 </touchedAccounts>
+                 <callState>
+                   <id>
+                     C_TGOVERNANCE_ID:Int
+                   </id>
+                   <caller>
+                     CALLER_ID:Int
+                   </caller>
+                   <callData>
+                     b"z\xdb@\x8d"
+                   </callData>
+                   <callValue>
+                     0
+                   </callValue>
+                   <wordStack>
+                     ( .WordStack => ( 1 : ( 132 : ( 1474266187 : ( C_TGOVERNANCE_ESCROW_ID:Int : ( 0 : ( 51 : ( 2061189261 : .WordStack ) ) ) ) ) ) ) )
+                   </wordStack>
+                   <localMem>
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00W\xdf\x84K\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                   </localMem>
+                   <memoryUsed>
+                     0
+                   </memoryUsed>
+                   <callGas>
+                     0
+                   </callGas>
+                   <static>
+                     false
+                   </static>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
+                   ...
+                 </callState>
+                 <substate>
+                   <refund>
+                     0
+                   </refund>
+                   <accessedAccounts>
+                     ( ACCESSEDACCOUNTS_CELL:Set => ACCESSEDACCOUNTS_CELL:Set |Set SetItem ( C_TGOVERNANCE_ESCROW_ID:Int ) )
+                   </accessedAccounts>
+                   ...
+                 </substate>
+                 <origin>
+                   ORIGIN_ID:Int
+                 </origin>
+                 <block>
+                   <number>
+                     NUMBER_CELL:Int
+                   </number>
+                   <timestamp>
+                     TIMESTAMP_CELL:Int
+                   </timestamp>
+                   ...
+                 </block>
+                 ...
+               </evm>
+               <network>
+                 <chainID>
+                   1
+                 </chainID>
+                 <accounts>
+                   ( <account>
+                     <acctID>
+                       C_TGOVERNANCE_ESCROW_ID:Int
+                     </acctID>
+                     <balance>
+                       C_TGOVERNANCE_ESCROW_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> #asWord ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes +Bytes #buf ( 20 , C_TGOVERNANCE_ESCROW_TOKEN_ID:Int ) +Bytes C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes ) )
+                       C_TGOVERNANCE_ESCROW_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_TGOVERNANCE_ESCROW_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+                     </acctID>
+                     <balance>
+                       C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
+                     </balance>
+                     <nonce>
+                       C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ( <account>
+                     <acctID>
+                       C_TGOVERNANCE_ID:Int
+                     </acctID>
+                     <balance>
+                       C_TGOVERNANCE_BAL:Int
+                     </balance>
+                     <storage>
+                       ( ( 0 |-> C_TGOVERNANCE_ESCROW_ID:Int )
+                       C_TGOVERNANCE_STORAGE:Map )
+                     </storage>
+                     <nonce>
+                       C_TGOVERNANCE_NONCE:Int
+                     </nonce>
+                     ...
+                   </account>
+                   ACCOUNTS_REST:AccountCellMap ) ) )
+                 </accounts>
+                 ...
+               </network>
+             </ethereum>
+             ...
+           </kevm>
+           <stackChecks>
+             true
+           </stackChecks>
+           <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               ...
+             </expectedRevert>
+             <expectedOpcode>
+               <isOpcodeExpected>
+                 false
+               </isOpcodeExpected>
+               ...
+             </expectedOpcode>
+             <whitelist>
+               <isCallWhitelistActive>
+                 false
+               </isCallWhitelistActive>
+               <allowedCallsList>
+                 .List
+               </allowedCallsList>
+               <isStorageWhitelistActive>
+                 false
+               </isStorageWhitelistActive>
+               <storageSlotList>
+                 .List
+               </storageSlotList>
+             </whitelist>
+             <mockCalls>
+               .MockCallCellMap
+             </mockCalls>
+             <mockFunctions>
+               .MockFunctionCellMap
+             </mockFunctions>
+             ...
+           </cheatcodes>
+           <KEVMTracing>
+             <activeTracing>
+               false
+             </activeTracing>
+             <traceStorage>
+               false
+             </traceStorage>
+             <traceWordStack>
+               false
+             </traceWordStack>
+             <traceMemory>
+               false
+             </traceMemory>
+             <recordedTrace>
+               false
+             </recordedTrace>
+             <traceData>
+               .List
+             </traceData>
+           </KEVMTracing>
+         </foundry>
+      requires ( 0 <=Int CALLER_ID:Int
+       andBool ( 0 <=Int ORIGIN_ID:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_ID:Int
+       andBool ( CALLDEPTH_CELL:Int <Int 1024
+       andBool ( 0 <=Int C_TGOVERNANCE_BAL:Int
+       andBool ( 1023 <=Int CALLDEPTH_CELL:Int
+       andBool ( pow24 <Int NUMBER_CELL:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_NONCE:Int
+       andBool ( NUMBER_CELL:Int <Int pow32
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ID:Int
+       andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
+       andBool ( 1 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_AFTER:Bytes )
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_ID:Int
+       andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_BAL:Int
+       andBool ( 11 ==Int lengthBytes ( C_TGOVERNANCE_ESCROW_TOKEN_SLOT_BEFORE:Bytes )
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_NONCE:Int
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int C_TGOVERNANCE_ID:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int
+       andBool ( 0 <=Int C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+       andBool ( C_TGOVERNANCE_NONCE:Int <Int maxUInt64
+       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ESCROW_NONCE:Int <Int maxUInt64
+       andBool ( C_TGOVERNANCE_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_STORAGE:Map ) )
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_NONCE:Int <Int maxUInt64
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( ( notBool 0 in_keys ( C_TGOVERNANCE_ESCROW_STORAGE:Map ) )
+       andBool ( CALLER_ID:Int <Int pow160
+       andBool ( ORIGIN_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_TGOVERNANCE_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_ESCROW_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <Int pow160
+       andBool ( C_TGOVERNANCE_BAL:Int <Int pow256
+       andBool ( C_TGOVERNANCE_ESCROW_BAL:Int <Int pow256
+       andBool ( C_TGOVERNANCE_ESCROW_TOKEN_BAL:Int <Int pow256
+       andBool ( ( notBool <acctID>
+          C_TGOVERNANCE_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_TGOVERNANCE_ESCROW_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool <acctID>
+          C_TGOVERNANCE_ESCROW_TOKEN_ID:Int
+        </acctID> in_keys ( ACCOUNTS_REST:AccountCellMap ) )
+       andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
+       andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
+               ))))))))))))))))))))))))))))))))))))))))))))))))
+      [priority(20), label(BASIC-BLOCK-17-TO-11)]
 
 endmodule
