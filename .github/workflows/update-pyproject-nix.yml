@@ -21,7 +21,7 @@ concurrency:
   cancel-in-progress: true
 permissions:
   contents: write
-  workflows: write
+  actions: write
 jobs:
   update-pyproject-nix:
     if: github.ref != 'refs/heads/master'
