@@ -155,6 +155,12 @@ Node 6:
           <blockhashes>
             BLOCKHASHES_CELL:List
           </blockhashes>
+          <previousExcessBlobGas>
+            PREVIOUSEXCESSBLOBGAS_CELL:Int
+          </previousExcessBlobGas>
+          <previousBlobGasUsed>
+            PREVIOUSBLOBGASUSED_CELL:Int
+          </previousBlobGasUsed>
           <block>
             <previousHash>
               PREVIOUSHASH_CELL:Int
@@ -216,6 +222,9 @@ Node 6:
             <beaconRoot>
               BEACONROOT_CELL:Int
             </beaconRoot>
+            <requestsRoot>
+              REQUESTSROOT_CELL:Int
+            </requestsRoot>
             <ommerBlockHeaders>
               OMMERBLOCKHEADERS_CELL:JSON
             </ommerBlockHeaders>
@@ -287,6 +296,11 @@ Node 6:
           <withdrawals>
             WITHDRAWALS_CELL:WithdrawalCellMap
           </withdrawals>
+          <requests>
+            <depositRequests>
+              DEPOSITREQUESTS_CELL:List
+            </depositRequests>
+          </requests>
         </network>
       </ethereum>
     </kevm>

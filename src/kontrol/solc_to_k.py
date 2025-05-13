@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING, NamedTuple
 
 from kevm_pyk.kevm import KEVM
 from pyk.kast.inner import KApply, KLabel, KSort, KVariable
-from pyk.prelude.kbool import TRUE
-from pyk.prelude.kint import eqInt, intToken, ltInt
+from pyk.kast.prelude.kbool import TRUE
+from pyk.kast.prelude.kint import eqInt, intToken, ltInt
 from pyk.utils import hash_str, single
 
 from .utils import _read_digest_file
