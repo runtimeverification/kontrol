@@ -977,9 +977,9 @@ def _init_cterm(
         init_subst.update(init_subst_test)
     else:
         # CSE needs to be agnostic of the following Kontrol cells
-        del init_subst['ACTIVE_CELL']
+        # `prank`'s `<active>` and `expectRevert`'s `<isRevertExpected>` cells are `false`
+        # to avoid branching in nested summaries
         del init_subst['ISEVENTEXPECTED_CELL']
-        del init_subst['ISREVERTEXPECTED_CELL']
         del init_subst['RECORDEVENT_CELL']
         del init_subst['SINGLECALL_CELL']
 
