@@ -86,6 +86,9 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    ...
                  </callState>
                  <substate>
@@ -155,6 +158,24 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -204,7 +225,9 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( ( notBool _ACTIVE_CELL:Bool )
+       andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int C_ENUM_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( KV0_letter:Int <Int 6
@@ -217,10 +240,14 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_ID:Int
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int DEPTH_CELL:Int )
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_BAL:Int
        andBool ( 0 <=Int C_ENUM_MEMBER_CONTRACT_NONCE:Int
        andBool ( C_ENUM_NONCE:Int <Int maxUInt64
+       andBool ( EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int EXPECTEDDEPTH_CELL:Int )
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( C_ENUM_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
@@ -244,7 +271,7 @@ module SUMMARY-TEST%ENUM.ENUM-ARGUMENT-RANGE(UINT8):0
        andBool ( ( notBool #range ( 0 < C_ENUM_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_ENUM_MEMBER_CONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-3)]
 
 endmodule

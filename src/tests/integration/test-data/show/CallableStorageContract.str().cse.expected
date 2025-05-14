@@ -128,6 +128,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    ...
                  </callState>
                  <substate>
@@ -182,6 +185,24 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -231,17 +252,21 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
+      requires ( ( notBool _ACTIVE_CELL:Bool )
+       andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
+       andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ==Int 0
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int DEPTH_CELL:Int )
        andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int EXPECTEDDEPTH_CELL:Int )
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
@@ -259,7 +284,10 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))
+       ensures ( DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+       andBool ( EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+               ))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -280,7 +308,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              <ethereum>
                <evm>
                  <output>
-                   ( _OUTPUT_CELL:Bytes => #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , 0 , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int 224 ) ) -Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int -160 ) ) ) )
+                   ( _OUTPUT_CELL:Bytes => #range ( b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" , ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int -32 ) , chop ( ( ( chop ( ( ( ( notMaxUInt5 &Int ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) ) +Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int 224 ) ) -Int ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) ) +Int -160 ) ) ) )
                  </output>
                  <statusCode>
                    ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
@@ -302,7 +330,7 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                      ( .WordStack => ( 95 : ( 3244011140 : .WordStack ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes #buf ( ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int -31 ) , 0 ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
+                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int 160 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 " +Bytes #buf ( 32 , C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Bytes #range ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes , 0 , ( ( ( 32 *Int ( ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int +Int maxUInt5 ) /Int 32 ) ) +Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int ) +Int -32 ) ) +Bytes b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" )
                    </localMem>
                    <memoryUsed>
                      0
@@ -310,6 +338,9 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    ...
                  </callState>
                  <substate>
@@ -364,6 +395,24 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -413,17 +462,21 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int CALLER_ID:Int
+      requires ( ( notBool _ACTIVE_CELL:Bool )
+       andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
+       andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
        andBool ( pow24 <Int NUMBER_CELL:Int
        andBool ( NUMBER_CELL:Int <Int pow32
        andBool ( C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int =/=Int 0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int DEPTH_CELL:Int )
        andBool ( maxUInt5 ==Int lengthBytes ( C_CALLABLESTORAGECONTRACT_STR_S_CONTENTS:Bytes )
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_ID:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_BAL:Int
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_NONCE:Int
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int EXPECTEDDEPTH_CELL:Int )
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( 0 <=Int C_CALLABLESTORAGECONTRACT_STR_S_LENGTH:Int
@@ -441,7 +494,10 @@ module SUMMARY-TEST%CALLABLESTORAGECONTRACT.STR():0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_CALLABLESTORAGECONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))
+       ensures ( DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+       andBool ( EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+               ))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule

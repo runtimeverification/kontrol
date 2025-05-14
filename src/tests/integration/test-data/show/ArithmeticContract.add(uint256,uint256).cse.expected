@@ -126,6 +126,9 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    ...
                  </callState>
                  <substate>
@@ -176,6 +179,24 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -225,7 +246,9 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int KV0_x:Int
+      requires ( ( notBool _ACTIVE_CELL:Bool )
+       andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
+       andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -235,7 +258,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int DEPTH_CELL:Int )
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int EXPECTEDDEPTH_CELL:Int )
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
@@ -253,7 +280,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
     rule [BASIC-BLOCK-9-TO-7]: <foundry>
@@ -304,6 +331,9 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
                    <callGas>
                      0
                    </callGas>
+                   <callDepth>
+                     CALLDEPTH_CELL:Int
+                   </callDepth>
                    ...
                  </callState>
                  <substate>
@@ -354,6 +384,24 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
              true
            </stackChecks>
            <cheatcodes>
+             <prank>
+               <active>
+                 false
+               </active>
+               <depth>
+                 DEPTH_CELL:Int
+               </depth>
+               ...
+             </prank>
+             <expectedRevert>
+               <isRevertExpected>
+                 false
+               </isRevertExpected>
+               <expectedDepth>
+                 EXPECTEDDEPTH_CELL:Int
+               </expectedDepth>
+               ...
+             </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
                  false
@@ -403,7 +451,9 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
              </traceData>
            </KEVMTracing>
          </foundry>
-      requires ( 0 <=Int KV0_x:Int
+      requires ( ( notBool _ACTIVE_CELL:Bool )
+       andBool ( ( notBool _ISREVERTEXPECTED_CELL:Bool )
+       andBool ( 0 <=Int KV0_x:Int
        andBool ( 0 <=Int KV1_y:Int
        andBool ( 0 <=Int CALLER_ID:Int
        andBool ( 0 <=Int ORIGIN_ID:Int
@@ -413,7 +463,11 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_ID:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
+       andBool ( DEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int DEPTH_CELL:Int )
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
+       andBool ( EXPECTEDDEPTH_CELL:Int <Int CALLDEPTH_CELL:Int
+       andBool ( ( notBool CALLDEPTH_CELL:Int <=Int EXPECTEDDEPTH_CELL:Int )
        andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
        andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
@@ -431,7 +485,7 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
        andBool ( ( notBool #range ( 0 < CALLER_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_ARITHMETICCONTRACT_ID:Int <= 10 ) )
-               ))))))))))))))))))))))))))
+               ))))))))))))))))))))))))))))))))
       [priority(20), label(BASIC-BLOCK-9-TO-7)]
 
 endmodule
