@@ -134,6 +134,7 @@
       };
       packages = rec {
         kontrol = pkgs.kontrol;
+        uv = pkgs.uv;
         default = kontrol;
       };
     }) // {

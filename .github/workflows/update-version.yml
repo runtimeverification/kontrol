@@ -25,10 +25,18 @@ jobs:
         run: |
           git config user.name devops
           git config user.email devops@runtimeverification.com
-      - name: 'Install uv'
-        uses: astral-sh/setup-uv@v5
+      - name: 'Install Nix'
+        uses: cachix/install-nix-action@v31.2.0
         with:
-          version: 0.7.2
+          install_url: https://releases.nixos.org/nix/nix-2.24.12/install
+          extra_nix_config: |
+            substituters = http://cache.nixos.org https://cache.iog.io
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
+      # note: we install uv from the nix flake in order to match the uv version that is used by uv2nix
+      - name: 'Install uv'
+        run: |
+          nix profile install .#uv
+          uv --version
       - name: 'Update kevm-pyk release tag'
         run: |
           KEVM_VERSION="$(cat deps/kevm_release)"
