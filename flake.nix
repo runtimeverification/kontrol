@@ -18,17 +18,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    uv2nix = {
-      url = "github:pyproject-nix/uv2nix/680e2f8e637bc79b84268949d2f2b2f5e5f1d81c"; #
-      # stale nixpkgs is missing the alias `lib.match` -> `builtins.match`
-      # therefore point uv2nix to a patched nixpkgs, which introduces this alias
-      # this is a temporary solution until nixpkgs us up-to-date again
-      inputs.nixpkgs.url = "github:runtimeverification/nixpkgs/libmatch";
-      # inputs.nixpkgs.follows = "nixpkgs";
-      # uv2nix already makes their input flakes follow their nixpkgs
-    };
+    uv2nix.url = "github:pyproject-nix/uv2nix/680e2f8e637bc79b84268949d2f2b2f5e5f1d81c";
+    # stale nixpkgs is missing the alias `lib.match` -> `builtins.match`
+    # therefore point uv2nix to a patched nixpkgs, which introduces this alias
+    # this is a temporary solution until nixpkgs us up-to-date again
+    uv2nix.inputs.nixpkgs.url = "github:runtimeverification/nixpkgs/libmatch";
+    # inputs.nixpkgs.follows = "nixpkgs";
+    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/7dba6dbc73120e15b558754c26024f6c93015dd7";
     pyproject-build-systems = {
-      url = "github:pyproject-nix/build-system-pkgs/7dba6dbc73120e15b558754c26024f6c93015dd7";
       inputs.nixpkgs.follows = "uv2nix/nixpkgs";
       inputs.uv2nix.follows = "uv2nix";
       inputs.pyproject-nix.follows = "uv2nix/pyproject-nix";

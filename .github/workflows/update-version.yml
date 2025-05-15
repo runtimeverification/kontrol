@@ -53,7 +53,11 @@ jobs:
       - name: 'Update Nix flake inputs'
         run: |
           KEVM_VERSION=$(cat deps/kevm_release)
+          UV2NIX_VERSION=$(cat deps/uv2nix)
+          PYPROJECT_BUILD_SYSTEMS_VERSION=$(cat deps/pyproject-build-systems)
           sed -i 's!    kevm.url = "github:runtimeverification/evm-semantics/[v0-9\.]*"!    kevm.url = "github:runtimeverification/evm-semantics/v'"${KEVM_VERSION}"'"!' flake.nix
+          sed -i 's!    uv2nix.url = "github:pyproject-nix/uv2nix/[a-z0-9\.]*"!    uv2nix.url = "github:pyproject-nix/uv2nix/'"${UV2NIX_VERSION}"'"!' flake.nix
+          sed -i 's!    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/[a-z0-9\.]*"!    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/'"${PYPROJECT_BUILD_SYSTEMS_VERSION}"'"!' flake.nix
           nix flake update
           git add flake.nix flake.lock && git commit -m 'flake.{nix,lock}: update Nix derivations' || true
       - name: 'Push updates'
