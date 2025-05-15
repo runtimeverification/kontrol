@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - '_update-deps/runtimeverification/evm-semantics'
+      - '_update-deps-cron/uv2nix'
+      - '_update-deps-cron/pyproject-build-systems'
   workflow_dispatch:
 # Stop in progress workflows on the same branch and same workflow to use latest committed code
 concurrency:
