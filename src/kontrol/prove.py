@@ -1012,35 +1012,41 @@ def _init_cterm(
         # andBool notBool (ACTIVE_CELL orBool PRAKNDEPTH_CELL >=Int CALLDEPTH_CELL)
         # andBool notBool (EXPECTED_REVERT_CELL orBool REVERTDEPTH_CELL >=Int CALLDEPTH_CELL)
 
-        # Assume we're not in an active prank context  
-        inactive_prank_constraint = mlEqualsTrue(  
-            notBool(  
-                KApply(  
-                    '_orBool_',  
-                    [  
-                        KVariable('ACTIVE_CELL', sort=KSort('Bool')),  
-                        KApply(  
-                            '_>=Int_',  
-                            [KVariable('DEPTH_CELL', sort=KSort('Int')), KVariable('CALLDEPTH_CELL', sort=KSort('Int'))],  
-                        ),  
-                    ],  
-                )  
-            )  
-        )  
-        inactive_expect_revert_constraint = mlEqualsTrue(  
-            notBool(  
-                KApply(  
-                    '_orBool_',  
-                    [  
-                        KVariable('ISREVERTEXPECTED_CELL', sort=KSort('Bool')),  
-                        KApply(  
-                            '_>=Int_',  
-                            [KVariable('EXPECTEDDEPTH_CELL', sort=KSort('Int')), KVariable('CALLDEPTH_CELL', sort=KSort('Int'))],  
-                        ),  
-                    ],  
-                )  
-            )  
-        )  
+        # Assume we're not in an active prank context
+        inactive_prank_constraint = mlEqualsTrue(
+            notBool(
+                KApply(
+                    '_orBool_',
+                    [
+                        KVariable('ACTIVE_CELL', sort=KSort('Bool')),
+                        KApply(
+                            '_>=Int_',
+                            [
+                                KVariable('DEPTH_CELL', sort=KSort('Int')),
+                                KVariable('CALLDEPTH_CELL', sort=KSort('Int')),
+                            ],
+                        ),
+                    ],
+                )
+            )
+        )
+        inactive_expect_revert_constraint = mlEqualsTrue(
+            notBool(
+                KApply(
+                    '_orBool_',
+                    [
+                        KVariable('ISREVERTEXPECTED_CELL', sort=KSort('Bool')),
+                        KApply(
+                            '_>=Int_',
+                            [
+                                KVariable('EXPECTEDDEPTH_CELL', sort=KSort('Int')),
+                                KVariable('CALLDEPTH_CELL', sort=KSort('Int')),
+                            ],
+                        ),
+                    ],
+                )
+            )
+        )
         cse_constraints += [
             inactive_prank_constraint,
             inactive_expect_revert_constraint,
