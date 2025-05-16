@@ -5,32 +5,29 @@
 │   callDepth: 0
 │   statusCode: STATUSCODE:StatusCode
 │   src: test/nested/SimpleNested.t.sol:7:11
-│   method: test%ContractFieldTest.setUp()
+│   method: test%ArithmeticCallTest.setUp()
 │
-│  (2231 steps)
-├─ 8 (terminal)
-│   k: #halt ~> CONTINUATION:K
-│   pc: 194
-│   callDepth: 0
-│   statusCode: EVMC_SUCCESS
-│   src: lib/forge-std/src/StdInvariant.sol:69:71
-│   method: test%ContractFieldTest.testEscrowToken()
-│
-┊  constraint: true
-┊  subst: ...
-└─ 7 (leaf, target, terminal)
+│  (3124 steps)
+└─ 9 (leaf, terminal)
     k: #halt ~> CONTINUATION:K
-    pc: PC_CELL_5d410f2a:Int
-    callDepth: CALLDEPTH_CELL_5d410f2a:Int
-    statusCode: STATUSCODE_FINAL:StatusCode
+    pc: 4379
+    callDepth: 0
+    statusCode: EVMC_REVERT
+    method: test%ArithmeticCallTest.test_double_add_sub_external_revert(uint256,uint256,uint256)
+
+
+┌─ 6 (root, leaf, target, terminal)
+│   k: #halt ~> CONTINUATION:K
+│   pc: PC_CELL_5d410f2a:Int
+│   callDepth: CALLDEPTH_CELL_5d410f2a:Int
+│   statusCode: STATUSCODE_FINAL:StatusCode
 
 
 
-
-module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
+module SUMMARY-TEST%ARITHMETICCALLTEST.TEST-DOUBLE-ADD-SUB-EXTERNAL-REVERT(UINT256,UINT256,UINT256):0
     
     
-    rule [BASIC-BLOCK-1-TO-8]: <foundry>
+    rule [BASIC-BLOCK-1-TO-9]: <foundry>
            <kevm>
              <k>
                ( #execute => #halt )
@@ -48,10 +45,10 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
              <ethereum>
                <evm>
                  <output>
-                   b""
+                   ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01" )
                  </output>
                  <statusCode>
-                   ( _STATUSCODE:StatusCode => EVMC_SUCCESS )
+                   ( _STATUSCODE:StatusCode => EVMC_REVERT )
                  </statusCode>
                  <callStack>
                    .List
@@ -60,7 +57,7 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                    .List
                  </interimStates>
                  <touchedAccounts>
-                   ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                   ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) )
                  </touchedAccounts>
                  <callState>
                    <id>
@@ -70,16 +67,16 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                      137122462167341575662000267002353578582749290296
                    </caller>
                    <callData>
-                     ( b"\n\x92T\xe4" => b"51X\xa0" )
+                     ( b"\n\x92T\xe4" => b"\x00\xf0S-\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff" +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int ) )
                    </callData>
                    <callValue>
                      0
                    </callValue>
                    <wordStack>
-                     ( .WordStack => ( 892426400 : .WordStack ) )
+                     ( .WordStack => ( 978 : ( 0 : ( ?KV2_z:Int : ( ?KV1_y:Int : ( maxUInt256 : ( 279 : ( 15749933 : .WordStack ) ) ) ) ) ) ) )
                    </wordStack>
                    <localMem>
-                     ( b"" => b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0009" )
+                     ( b"" => b"NH{q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff" +Bytes #buf ( 32 , ?KV1_y:Int ) +Bytes #buf ( 32 , ?KV2_z:Int ) )
                    </localMem>
                    <memoryUsed>
                      0
@@ -103,7 +100,7 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                      0
                    </refund>
                    <accessedAccounts>
-                     ( .Set => ( SetItem ( 263400868551549723330807389252719309078400616203 ) ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 728815563385977040452943777879061427756277306518 ) ) ) )
+                     ( .Set => ( SetItem ( 491460923342184218035706888008750043977755113263 ) SetItem ( 645326474426547203313410069153905908525362434349 ) ) )
                    </accessedAccounts>
                    <accessedStorage>
                      .Map
@@ -134,13 +131,13 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                  <accounts>
                    ( <account>
                      <acctID>
-                       ( 645326474426547203313410069153905908525362434349 => 263400868551549723330807389252719309078400616203 )
+                       ( 645326474426547203313410069153905908525362434349 => 491460923342184218035706888008750043977755113263 )
                      </acctID>
                      <balance>
                        0
                      </balance>
                      <storage>
-                       ( .Map => ( 0 |-> 125813996375599159817140963330240011258305308995328 ) )
+                       .Map
                      </storage>
                      <origStorage>
                        .Map
@@ -176,27 +173,6 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                      ...
                    </account> => ( <account>
                      <acctID>
-                       491460923342184218035706888008750043977755113263
-                     </acctID>
-                     <balance>
-                       0
-                     </balance>
-                     <storage>
-                       ( 0 |-> 12300 )
-                     </storage>
-                     <origStorage>
-                       .Map
-                     </origStorage>
-                     <transientStorage>
-                       .Map
-                     </transientStorage>
-                     <nonce>
-                       1
-                     </nonce>
-                     ...
-                   </account>
-                   ( <account>
-                     <acctID>
                        645326474426547203313410069153905908525362434349
                      </acctID>
                      <balance>
@@ -226,8 +202,7 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                      <storage>
                        ( ( 11 |-> 1 )
                        ( ( 27 |-> 491460923342184218035706888008750043977755113263 )
-                       ( ( 28 |-> 263400868551549723330807389252719309078400616203 )
-                       ( 7 |-> 1 ) ) ) )
+                       ( 7 |-> 1 ) ) )
                      </storage>
                      <origStorage>
                        .Map
@@ -236,10 +211,10 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                        .Map
                      </transientStorage>
                      <nonce>
-                       3
+                       2
                      </nonce>
                      ...
-                   </account> ) ) ) )
+                   </account> ) ) )
                  </accounts>
                  ...
                </network>
@@ -266,10 +241,12 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedReason>
+                 ( _EXPECTEDREASON_CELL:Bytes => b"" )
+               </expectedReason>
                <expectedDepth>
                  0
                </expectedDepth>
-               ...
              </expectedRevert>
              <expectedOpcode>
                <isOpcodeExpected>
@@ -333,11 +310,13 @@ module SUMMARY-TEST%CONTRACTFIELDTEST.TESTESCROWTOKEN():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
                ))))
-       ensures ( ?_DEPTH_CELL:Int <Int 1
-       andBool ( ?_?_DEPTH_CELL0:Int <Int 2
-       andBool ( ?_EXPECTEDDEPTH_CELL:Int <Int 1
-       andBool ( ?_?_EXPECTEDDEPTH_CELL0:Int <Int 2
-               ))))
-      [priority(20), label(BASIC-BLOCK-1-TO-8)]
+       ensures ( ?_KV0_x:Int ==Int maxUInt256
+       andBool ( 0 <=Int ?KV1_y:Int
+       andBool ( 0 <=Int ?KV2_z:Int
+       andBool ( ?KV1_y:Int =/=Int 0
+       andBool ( ?KV1_y:Int <Int pow256
+       andBool ( ?KV2_z:Int <Int pow256
+               ))))))
+      [priority(20), label(BASIC-BLOCK-1-TO-9)]
 
 endmodule

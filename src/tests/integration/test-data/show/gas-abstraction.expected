@@ -325,7 +325,7 @@ Node 6:
           false
         </active>
         <depth>
-          DEPTH_CELL:Int
+          0
         </depth>
         <singleCall>
           false
@@ -339,7 +339,7 @@ Node 6:
           EXPECTEDREASON_CELL:Bytes
         </expectedReason>
         <expectedDepth>
-          EXPECTEDDEPTH_CELL:Int
+          0
         </expectedDepth>
       </expectedRevert>
       <expectedOpcode>
@@ -583,6 +583,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -592,6 +595,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
@@ -812,6 +818,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -821,6 +830,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
@@ -1041,6 +1053,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -1050,6 +1065,9 @@ module SUMMARY-TEST%GASTEST.TESTINFINITEGAS():0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
