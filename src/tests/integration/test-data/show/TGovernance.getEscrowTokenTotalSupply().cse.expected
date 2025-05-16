@@ -289,7 +289,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                  false
                </active>
                <depth>
-                 DEPTH_CELL:Int
+                 0
                </depth>
                ...
              </prank>
@@ -298,7 +298,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                  false
                </isRevertExpected>
                <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
+                 0
                </expectedDepth>
                ...
              </expectedRevert>
@@ -563,7 +563,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                  false
                </active>
                <depth>
-                 DEPTH_CELL:Int
+                 0
                </depth>
                ...
              </prank>
@@ -572,7 +572,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                  false
                </isRevertExpected>
                <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
+                 0
                </expectedDepth>
                ...
              </expectedRevert>
@@ -686,10 +686,10 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
                ))))))))))))))))))))))))))))))))))))))))))))))))))))))
-       ensures ( DEPTH_CELL:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
-       andBool ( DEPTH_CELL:Int <Int ( CALLDEPTH_CELL:Int +Int 2 )
-       andBool ( EXPECTEDDEPTH_CELL:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
-       andBool ( EXPECTEDDEPTH_CELL:Int <Int ( CALLDEPTH_CELL:Int +Int 2 )
+       ensures ( ?_DEPTH_CELL0:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
+       andBool ( ?_?_DEPTH_CELL0:Int <Int ( CALLDEPTH_CELL:Int +Int 2 )
+       andBool ( ?_EXPECTEDDEPTH_CELL0:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
+       andBool ( ?_?_EXPECTEDDEPTH_CELL0:Int <Int ( CALLDEPTH_CELL:Int +Int 2 )
                ))))
       [priority(20), label(BASIC-BLOCK-16-TO-10)]
     
@@ -840,7 +840,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                  false
                </active>
                <depth>
-                 DEPTH_CELL:Int
+                 0
                </depth>
                ...
              </prank>
@@ -849,7 +849,7 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
                  false
                </isRevertExpected>
                <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
+                 0
                </expectedDepth>
                ...
              </expectedRevert>
@@ -963,8 +963,8 @@ module SUMMARY-TEST%TGOVERNANCE.GETESCROWTOKENTOTALSUPPLY():0
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_TGOVERNANCE_ESCROW_TOKEN_ID:Int <= 10 ) )
                ))))))))))))))))))))))))))))))))))))))))))))))))))))))
-       ensures ( DEPTH_CELL:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
-       andBool ( EXPECTEDDEPTH_CELL:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
+       ensures ( ?_DEPTH_CELL0:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
+       andBool ( ?_EXPECTEDDEPTH_CELL0:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
                ))
       [priority(20), label(BASIC-BLOCK-17-TO-11)]
 

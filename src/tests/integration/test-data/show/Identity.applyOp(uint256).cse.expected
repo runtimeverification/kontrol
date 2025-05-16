@@ -190,7 +190,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  false
                </active>
                <depth>
-                 DEPTH_CELL:Int
+                 0
                </depth>
                ...
              </prank>
@@ -199,7 +199,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  false
                </isRevertExpected>
                <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
+                 0
                </expectedDepth>
                ...
              </expectedRevert>
@@ -285,8 +285,8 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
        andBool ( ( notBool #range ( 0 < ORIGIN_ID:Int <= 10 ) )
        andBool ( ( notBool #range ( 0 < C_IDENTITY_ID:Int <= 10 ) )
                ))))))))))))))))))))))))))))))
-       ensures ( DEPTH_CELL:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
-       andBool ( EXPECTEDDEPTH_CELL:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
+       ensures ( ?_DEPTH_CELL0:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
+       andBool ( ?_EXPECTEDDEPTH_CELL0:Int <Int ( CALLDEPTH_CELL:Int +Int 1 )
                ))
       [priority(20), label(BASIC-BLOCK-8-TO-6)]
     
@@ -399,7 +399,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  false
                </active>
                <depth>
-                 DEPTH_CELL:Int
+                 0
                </depth>
                ...
              </prank>
@@ -408,7 +408,7 @@ module SUMMARY-SRC%CSE%IDENTITY.APPLYOP(UINT256):0
                  false
                </isRevertExpected>
                <expectedDepth>
-                 EXPECTEDDEPTH_CELL:Int
+                 0
                </expectedDepth>
                ...
              </expectedRevert>

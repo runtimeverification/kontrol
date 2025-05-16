@@ -254,6 +254,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                <active>
                  false
                </active>
+               <depth>
+                 0
+               </depth>
                <singleCall>
                  false
                </singleCall>
@@ -263,6 +266,9 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
                <isRevertExpected>
                  false
                </isRevertExpected>
+               <expectedDepth>
+                 0
+               </expectedDepth>
                ...
              </expectedRevert>
              <expectedOpcode>
@@ -327,6 +333,17 @@ module SUMMARY-TEST%CONSTRUCTORTEST.TEST-CONTRACT-CALL():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
                ))))
+       ensures ( ?_DEPTH_CELL:Int <Int 1
+       andBool ( ?_DEPTH_CELL0:Int <Int 1
+       andBool ( ?_DEPTH_CELL1:Int <Int 1
+       andBool ( ?_DEPTH_CELL2:Int <Int 1
+       andBool ( ?_DEPTH_CELL3:Int <Int 1
+       andBool ( ?_EXPECTEDDEPTH_CELL:Int <Int 1
+       andBool ( ?_EXPECTEDDEPTH_CELL0:Int <Int 1
+       andBool ( ?_EXPECTEDDEPTH_CELL1:Int <Int 1
+       andBool ( ?_EXPECTEDDEPTH_CELL2:Int <Int 1
+       andBool ( ?_EXPECTEDDEPTH_CELL3:Int <Int 1
+               ))))))))))
       [priority(20), label(BASIC-BLOCK-1-TO-4)]
 
 endmodule
