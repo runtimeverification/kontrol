@@ -926,6 +926,7 @@ def _init_cterm(
         'CALLER_CELL': KVariable('CALLER_ID', sort=KSort('Int')),
         'LOCALMEM_CELL': bytesToken(b''),
         'ACTIVE_CELL': FALSE,
+        'DEPTH_CELL': intToken(0),
         'MEMORYUSED_CELL': intToken(0),
         'WORDSTACK_CELL': KApply('.WordStack_EVM-TYPES_WordStack'),
         'PC_CELL': intToken(0),
@@ -935,6 +936,7 @@ def _init_cterm(
         'ISREVERTEXPECTED_CELL': FALSE,
         'ISOPCODEEXPECTED_CELL': FALSE,
         'RECORDEVENT_CELL': FALSE,
+        'EXPECTEDDEPTH_CELL': intToken(0),
         'ISEVENTEXPECTED_CELL': FALSE,
         'ISCALLWHITELISTACTIVE_CELL': FALSE,
         'ISSTORAGEWHITELISTACTIVE_CELL': FALSE,
@@ -950,7 +952,7 @@ def _init_cterm(
         'TRACEDATA_CELL': KApply('.List'),
     }
 
-    storage_constraints: list[KApply] = []
+    cse_constraints: list[KApply] = []
 
     if config_type == ConfigType.TEST_CONFIG or active_simbolik:
         init_account_list = (
@@ -991,7 +993,7 @@ def _init_cterm(
             accounts.append(Foundry.symbolic_account(contract_account_name, contract_code))
         else:
             # Symbolic accounts of all relevant contracts
-            accounts, storage_constraints = _create_cse_accounts(
+            accounts, cse_constraints = _create_cse_accounts(
                 foundry, storage_fields, contract_account_name, contract_code
             )
 
@@ -1068,7 +1070,7 @@ def _init_cterm(
     if preconditions is not None:
         for precondition in preconditions:
             init_cterm = init_cterm.add_constraint(mlEqualsTrue(precondition))
-    for constraint in storage_constraints:
+    for constraint in cse_constraints:
         init_cterm = init_cterm.add_constraint(constraint)
 
     non_cheatcode_contract_ids = []
