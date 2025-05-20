@@ -19,7 +19,7 @@ let
   # patches cannot yet be applied to uv workspaces, so we use a derivation containing the src instead
   src = stdenvNoCC.mkDerivation {
     name = "kontrol-pyk-src";
-    src = ../../.;
+    src = callPackage ../kontrol-source { };
 
     dontConfigure = true;
     dontBuild = true;
