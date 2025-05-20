@@ -55,7 +55,7 @@ stdenv.mkDerivation {
   ];
   nativeBuildInputs = [ makeWrapper ];
 
-  src = ../../.;
+  src = callPackage ../kontrol-source { };
 
   dontUseCmakeConfigure = true;
 
