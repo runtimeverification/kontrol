@@ -5,13 +5,15 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from kevm_pyk.kevm import KEVMNodePrinter
+from kevm_pyk.kevm import KEVM, KEVMNodePrinter
 from kevm_pyk.utils import legacy_explore, print_failure_info
 from pyk.cterm import CTerm
+from pyk.cterm.show import CTermShow
 from pyk.kast.inner import KApply, KToken, KVariable
 from pyk.kast.manip import collect, extract_lhs, flatten_label
 from pyk.kast.outer import KDefinition, KFlatModule, KImport, KRequire
 from pyk.kast.prelude.kint import INT
+from pyk.kast.pretty import PrettyPrinter
 from pyk.kcfg import KCFG
 from pyk.kcfg.minimize import KCFGMinimizer
 from pyk.proof.reachability import APRProof
@@ -39,14 +41,12 @@ _LOGGER: Final = logging.getLogger(__name__)
 class FoundryNodePrinter(KEVMNodePrinter):
     foundry: Foundry
     contract_name: str
-    omit_unstable_output: bool
     compilation_unit: CompilationUnit
 
-    def __init__(self, foundry: Foundry, contract_name: str, omit_unstable_output: bool = False):
-        KEVMNodePrinter.__init__(self, foundry.kevm)
+    def __init__(self, foundry: Foundry, cterm_show: CTermShow, contract_name: str):
+        KEVMNodePrinter.__init__(self, foundry.kevm, cterm_show)
         self.foundry = foundry
         self.contract_name = contract_name
-        self.omit_unstable_output = omit_unstable_output
         self.compilation_unit = CompilationUnit.load_build_info(foundry.build_info)
 
     def print_node(self, kcfg: KCFG, node: KCFG.Node) -> list[str]:
@@ -93,16 +93,14 @@ class FoundryNodePrinter(KEVMNodePrinter):
 
 
 class FoundryAPRNodePrinter(FoundryNodePrinter, APRProofNodePrinter):
-    def __init__(self, foundry: Foundry, contract_name: str, proof: APRProof, omit_unstable_output: bool = False):
-        FoundryNodePrinter.__init__(self, foundry, contract_name, omit_unstable_output=omit_unstable_output)
-        APRProofNodePrinter.__init__(self, proof, foundry.kevm)
+    def __init__(self, foundry: Foundry, cterm_show: CTermShow, contract_name: str, proof: APRProof):
+        FoundryNodePrinter.__init__(self, foundry, cterm_show, contract_name)
+        APRProofNodePrinter.__init__(self, proof, cterm_show)
 
 
-def foundry_node_printer(
-    foundry: Foundry, contract_name: str, proof: APRProof, omit_unstable_output: bool = False
-) -> NodePrinter:
+def foundry_node_printer(foundry: Foundry, cterm_show: CTermShow, contract_name: str, proof: APRProof) -> NodePrinter:
     if type(proof) is APRProof:
-        return FoundryAPRNodePrinter(foundry, contract_name, proof, omit_unstable_output=omit_unstable_output)
+        return FoundryAPRNodePrinter(foundry, cterm_show, contract_name, proof)
     raise ValueError(f'Cannot build NodePrinter for proof type: {type(proof)}')
 
 
@@ -128,11 +126,16 @@ def foundry_show(
         '<gas>',
         '<code>',
     ]
+    omit_cells = unstable_cells if options.omit_unstable_output else []
 
-    node_printer = foundry_node_printer(
-        foundry, contract_name, proof, omit_unstable_output=options.omit_unstable_output
+    printer = PrettyPrinter(
+        foundry.kevm.definition,
+        sort_collections=options.sort_collections,
+        patch_symbol_table=KEVM._kevm_patch_symbol_table,
     )
-    proof_show = APRProofShow(foundry.kevm, node_printer=node_printer)
+    cterm_show = CTermShow(printer.print, minimize=False, omit_labels=omit_cells)
+    node_printer = foundry_node_printer(foundry, cterm_show, contract_name, proof)
+    proof_show = APRProofShow(foundry.kevm.definition, node_printer=node_printer)
 
     if options.minimize_kcfg:
         KCFGMinimizer(proof.kcfg).minimize()
@@ -143,8 +146,6 @@ def foundry_show(
         node_deltas=options.node_deltas,
         to_module=options.to_module,
         minimize=options.minimize,
-        sort_collections=options.sort_collections,
-        omit_cells=(unstable_cells if options.omit_unstable_output else []),
     )
 
     start_server = options.port is None
@@ -281,6 +282,9 @@ def foundry_view(foundry: Foundry, options: ViewKcfgOptions) -> None:
     def _custom_view(elem: KCFGElem) -> Iterable[str]:
         return custom_view(contract_name, elem, compilation_unit)
 
-    node_printer = foundry_node_printer(foundry, contract_name, proof)
+    printer = PrettyPrinter(foundry.kevm.definition, patch_symbol_table=KEVM._kevm_patch_symbol_table)
+    cterm_show = CTermShow(printer.print)
+    node_printer = foundry_node_printer(foundry, cterm_show, contract_name, proof)
+
     viewer = APRProofViewer(proof, foundry.kevm, node_printer=node_printer, custom_view=_custom_view)
     viewer.run()
