@@ -133,7 +133,7 @@ def foundry_show(
         sort_collections=options.sort_collections,
         patch_symbol_table=KEVM._kevm_patch_symbol_table,
     )
-    cterm_show = CTermShow(printer.print, minimize=False, omit_labels=omit_cells)
+    cterm_show = CTermShow(printer.print, minimize=True, omit_labels=omit_cells)
     node_printer = foundry_node_printer(foundry, cterm_show, contract_name, proof)
     proof_show = APRProofShow(foundry.kevm.definition, node_printer=node_printer)
 
@@ -145,6 +145,7 @@ def foundry_show(
         nodes=nodes,
         node_deltas=options.node_deltas,
         to_module=options.to_module,
+        omit_cells=omit_cells,
         minimize=options.minimize,
     )
 
