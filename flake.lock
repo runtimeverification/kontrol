@@ -493,8 +493,6 @@
         ],
         "k-framework": "k-framework_2",
         "nixpkgs": [
-          "kevm",
-          "k-framework",
           "nixpkgs"
         ],
         "poetry2nix": [
@@ -685,6 +683,22 @@
       }
     },
     "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1716457947,
+        "narHash": "sha256-Y+exebcqeprnhEpoPJrEUZmNeO60qeOxkVHhqG/OEwQ=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      }
+    },
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1744306051,
         "narHash": "sha256-jWwqkmi8cplBu4CXUb4zdfpqKp3UJYVAs/b5m8M75sg=",
@@ -888,7 +902,7 @@
         ],
         "kevm": "kevm",
         "nixpkgs": [
-          "kevm",
+          "rv-nix-tools",
           "nixpkgs"
         ],
         "pyproject-build-systems": "pyproject-build-systems",
@@ -896,12 +910,28 @@
           "uv2nix",
           "pyproject-nix"
         ],
-        "rv-utils": [
-          "kevm",
-          "rv-utils"
-        ],
+        "rv-nix-tools": "rv-nix-tools",
         "solc": "solc",
         "uv2nix": "uv2nix"
+      }
+    },
+    "rv-nix-tools": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1726497185,
+        "narHash": "sha256-iN+5eLmDm/rLuIZezS5ZqiW1BtBpwrrM9CPPP7Z5Tog=",
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
       }
     },
     "rv-utils": {
@@ -1211,7 +1241,7 @@
     },
     "uv2nix": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_4",
         "pyproject-nix": "pyproject-nix"
       },
       "locked": {
