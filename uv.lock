@@ -617,8 +617,8 @@ wheels = [
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.843"
-source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.843#2f30bf5ce21f9a30f1a98398f12559b5d4bb1170" }
+version = "1.0.844"
+source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.844#c444479ae6dea9f2afb348c3ac1fa572a619c1f0" }
 dependencies = [
     { name = "frozendict" },
     { name = "kframework" },
@@ -628,7 +628,7 @@ dependencies = [
 
 [[package]]
 name = "kframework"
-version = "7.1.259"
+version = "7.1.262"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "coloredlogs" },
@@ -644,9 +644,9 @@ dependencies = [
     { name = "tomli" },
     { name = "xdg-base-dirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b6/14/1311a386f905beb5d526416802efa24c234b487d0bc77c1df64146471ca6/kframework-7.1.259.tar.gz", hash = "sha256:5ab5362909c4773cf612240e8b60508e43a474f98557ed77b2a4bb1209a912fb", size = 242310, upload-time = "2025-05-22T14:01:55.836Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/02/71/cf4979bda2788ee13576c8560bd582a16b1b6ed43ccb4cbaa8b19e7bc07c/kframework-7.1.262.tar.gz", hash = "sha256:7d07400d5f9cc90c5b662037fa07432da7f8a6ed3e888471d610d596e2e70a0c", size = 242290, upload-time = "2025-05-27T07:33:13.146Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/58/30/461960dc0d886a1c6351f5516ac36a0d89109da5625228b00b0856387f40/kframework-7.1.259-py3-none-any.whl", hash = "sha256:52d7a0f2fd57eff7309b0d8d5a1d0303962c899cbe950248692ddbd5aace97e9", size = 293400, upload-time = "2025-05-22T14:01:53.866Z" },
+    { url = "https://files.pythonhosted.org/packages/3a/0a/9c8e4e7d4a93371bbc32b932dc25debc8cbe7bfb730fc9502eda51d8157c/kframework-7.1.262-py3-none-any.whl", hash = "sha256:a597e195f0bfc8c7bb8a496b087d0c23437cc261ae8e685e78810c1a9403fbe7", size = 293390, upload-time = "2025-05-27T07:33:11.276Z" },
 ]
 
 [[package]]
@@ -683,7 +683,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "eth-utils", specifier = ">=4.1.1,<5" },
-    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.843" },
+    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.844" },
     { name = "pycryptodome", specifier = ">=3.20.0,<4" },
     { name = "pyevmasm", specifier = ">=0.2.3,<0.3" },
 ]
@@ -1150,15 +1150,15 @@ wheels = [
 
 [[package]]
 name = "pytest-xdist"
-version = "3.6.1"
+version = "3.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "execnet" },
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/41/c4/3c310a19bc1f1e9ef50075582652673ef2bfc8cd62afef9585683821902f/pytest_xdist-3.6.1.tar.gz", hash = "sha256:ead156a4db231eec769737f57668ef58a2084a34b2e55c4a8fa20d861107300d", size = 84060, upload-time = "2024-04-28T19:29:54.414Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/49/dc/865845cfe987b21658e871d16e0a24e871e00884c545f246dd8f6f69edda/pytest_xdist-3.7.0.tar.gz", hash = "sha256:f9248c99a7c15b7d2f90715df93610353a485827bc06eefb6566d23f6400f126", size = 87550, upload-time = "2025-05-26T21:18:20.251Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/82/1d96bf03ee4c0fdc3c0cbe61470070e659ca78dc0086fb88b66c185e2449/pytest_xdist-3.6.1-py3-none-any.whl", hash = "sha256:9ed4adfb68a016610848639bb7e02c9352d5d9f03d04809919e2dafc3be4cca7", size = 46108, upload-time = "2024-04-28T19:29:52.813Z" },
+    { url = "https://files.pythonhosted.org/packages/0d/b2/0e802fde6f1c5b2f7ae7e9ad42b83fd4ecebac18a8a8c2f2f14e39dce6e1/pytest_xdist-3.7.0-py3-none-any.whl", hash = "sha256:7d3fbd255998265052435eb9daa4e99b62e6fb9cfb6efd1f858d4d8c0c7f0ca0", size = 46142, upload-time = "2025-05-26T21:18:18.759Z" },
 ]
 
 [[package]]
@@ -1272,11 +1272,11 @@ wheels = [
 
 [[package]]
 name = "setuptools"
-version = "80.8.0"
+version = "80.9.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/8d/d2/ec1acaaff45caed5c2dedb33b67055ba9d4e96b091094df90762e60135fe/setuptools-80.8.0.tar.gz", hash = "sha256:49f7af965996f26d43c8ae34539c8d99c5042fbff34302ea151eaa9c207cd257", size = 1319720, upload-time = "2025-05-20T14:02:53.503Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/18/5d/3bf57dcd21979b887f014ea83c24ae194cfcd12b9e0fda66b957c69d1fca/setuptools-80.9.0.tar.gz", hash = "sha256:f36b47402ecde768dbfafc46e8e4207b4360c654f1f3bb84475f0a28628fb19c", size = 1319958, upload-time = "2025-05-27T00:56:51.443Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/58/29/93c53c098d301132196c3238c312825324740851d77a8500a2462c0fd888/setuptools-80.8.0-py3-none-any.whl", hash = "sha256:95a60484590d24103af13b686121328cc2736bee85de8936383111e421b9edc0", size = 1201470, upload-time = "2025-05-20T14:02:51.348Z" },
+    { url = "https://files.pythonhosted.org/packages/a3/dc/17031897dae0efacfea57dfd3a82fdd2a2aeb58e0ff71b77b87e44edc772/setuptools-80.9.0-py3-none-any.whl", hash = "sha256:062d34222ad13e0cc312a4c02d73f059e86a4acbfbdea8f8f76b28c99f306922", size = 1201486, upload-time = "2025-05-27T00:56:49.664Z" },
 ]
 
 [[package]]
