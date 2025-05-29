@@ -136,6 +136,7 @@ def foundry_show(
     cterm_show = CTermShow(printer.print, minimize=True, omit_labels=omit_cells)
     node_printer = foundry_node_printer(foundry, cterm_show, contract_name, proof)
     proof_show = APRProofShow(foundry.kevm.definition, node_printer=node_printer)
+    proof_show.kcfg_show.pretty_printer = printer
 
     if options.minimize_kcfg:
         KCFGMinimizer(proof.kcfg).minimize()
