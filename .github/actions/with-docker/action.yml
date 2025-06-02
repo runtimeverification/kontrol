@@ -55,19 +55,21 @@ runs:
       GROUP=${USER}
       Z3_VERSION=$(cat deps/z3)
       K_VERSION=$(cat deps/k_release)
+      UV2NIX_REVISION=$(cat deps/uv2nix)
       USER_ID=1000
       GROUP_ID=${USER_ID}
 
-      docker build . --file ${DOCKERFILE}        \
-        --tag ${TAG_NAME}                        \
-        --build-arg USER_ID=${USER_ID}           \
-        --build-arg GROUP_ID=${GROUP_ID}         \
-        --build-arg USER=${USER}                 \
-        --build-arg GROUP=${GROUP}               \
-        --build-arg BASE_DISTRO=${BASE_DISTRO}   \
-        --build-arg K_VERSION=${K_VERSION}       \
-        --build-arg Z3_VERSION=${Z3_VERSION}     \
-        --build-arg LLVM_VERSION=${LLVM_VERSION}
+      docker build . --file ${DOCKERFILE}              \
+        --tag ${TAG_NAME}                              \
+        --build-arg USER_ID=${USER_ID}                 \
+        --build-arg GROUP_ID=${GROUP_ID}               \
+        --build-arg USER=${USER}                       \
+        --build-arg GROUP=${GROUP}                     \
+        --build-arg BASE_DISTRO=${BASE_DISTRO}         \
+        --build-arg K_VERSION=${K_VERSION}             \
+        --build-arg Z3_VERSION=${Z3_VERSION}           \
+        --build-arg LLVM_VERSION=${LLVM_VERSION}       \
+        --build-arg UV2NIX_REVISION=${UV2NIX_REVISION}
 
       docker run                          \
         --name ${CONTAINER_NAME}          \
