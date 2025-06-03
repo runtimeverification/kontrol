@@ -11,8 +11,6 @@ FROM runtimeverificationinc/z3:ubuntu-jammy-${Z3_VERSION} as Z3
 ARG K_VERSION
 FROM runtimeverificationinc/kframework-k:ubuntu-jammy-${K_VERSION}
 
-SHELL ["/bin/bash", "-c"]
-
 COPY --from=FOUNDRY /usr/local/bin/forge /usr/local/bin/forge
 COPY --from=FOUNDRY /usr/local/bin/anvil /usr/local/bin/anvil
 COPY --from=FOUNDRY /usr/local/bin/cast /usr/local/bin/cast
@@ -38,8 +36,7 @@ RUN    apt-get update                  \
             llvm-${LLVM_VERSION}-tools \
             maven                      \
             python3                    \
-            python3-pip                \
-            jq
+            python3-pip
 
 ARG USER=user
 ARG GROUP
@@ -53,10 +50,8 @@ WORKDIR /home/${USER}/workspace
 
 ENV PATH=/home/${USER}/.cargo/bin:/home/${USER}/.local/bin:/usr/local/bin/:${PATH}
 
-ARG UV2NIX_REVISION
-RUN UV_VERSION=$(curl -s https://raw.githubusercontent.com/pyproject-nix/uv2nix/${UV2NIX_REVISION}/pkgs/uv-bin/srcs.json | jq -r .version) \
-    && [[ "$UV_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] \
-    && curl -LsSf https://astral.sh/uv/$UV_VERSION/install.sh | sh && uv --version
+ARG UV_VERSION
+RUN curl -LsSf https://astral.sh/uv/$UV_VERSION/install.sh | sh && uv --version
 
 RUN    cargo install svm-rs --version 0.3.0 --locked \
     && svm install 0.8.13                            \

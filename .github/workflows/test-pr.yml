@@ -15,12 +15,14 @@ jobs:
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
-      # note: we install the same version of `uv` as used by `uv2nix` in order to match the nix derivation
-      - name: 'Install uv'
+      - name: 'Get uv release'
+        id: uv_release
         run: |
-          UV_VERSION=$(curl -s https://raw.githubusercontent.com/pyproject-nix/uv2nix/$(cat deps/uv2nix)/pkgs/uv-bin/srcs.json | jq -r .version)
-          [[ "$UV_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
-          curl -LsSf https://astral.sh/uv/$UV_VERSION/install.sh | sh && uv --version
+          echo uv_version=$(cat deps/uv_release) >> "${GITHUB_OUTPUT}"
+      - name: 'Install uv'
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Run code quality checks'
         run: make check
       - name: 'Run pyupgrade'
@@ -33,12 +35,14 @@ jobs:
     steps:
       - name: 'Check out code'
         uses: actions/checkout@v4
-      # note: we install the same version of `uv` as used by `uv2nix` in order to match the nix derivation
-      - name: 'Install uv'
+      - name: 'Get uv release'
+        id: uv_release
         run: |
-          UV_VERSION=$(curl -s https://raw.githubusercontent.com/pyproject-nix/uv2nix/$(cat deps/uv2nix)/pkgs/uv-bin/srcs.json | jq -r .version)
-          [[ "$UV_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
-          curl -LsSf https://astral.sh/uv/$UV_VERSION/install.sh | sh && uv --version
+          echo uv_version=$(cat deps/uv_release) >> "${GITHUB_OUTPUT}"
+      - name: 'Install uv'
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: ${{ steps.uv_release.outputs.uv_version }}
       - name: 'Run unit tests'
         run: make cov-unit
 
