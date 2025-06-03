@@ -39,11 +39,12 @@ jobs:
         with:
           name: k-framework
           authToken: ${{ secrets.CACHIX_PUBLIC_TOKEN }}
-      # note: we install uv from the nix flake in order to match the uv version that is used by uv2nix
+      # note: we install the same version of `uv` as used by `uv2nix` in order to match the nix derivation
       - name: 'Install uv'
         run: |
-          nix profile install .#uv
-          uv --version
+          UV_VERSION=$(curl -s https://raw.githubusercontent.com/pyproject-nix/uv2nix/$(cat deps/uv2nix)/pkgs/uv-bin/srcs.json | jq -r .version)
+          [[ "$UV_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          curl -LsSf https://astral.sh/uv/$UV_VERSION/install.sh | sh && uv --version
       - name: 'Update kevm-pyk release tag'
         run: |
           KEVM_VERSION="$(cat deps/kevm_release)"
