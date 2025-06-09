@@ -2,11 +2,14 @@
   description = "Kontrol";
 
   inputs = {
-    kevm.url = "github:runtimeverification/evm-semantics/v1.0.844";
-    nixpkgs.follows = "kevm/nixpkgs";
+    rv-nix-tools.url = "github:runtimeverification/rv-nix-tools/854d4f05ea78547d46e807b414faad64cea10ae4";
+    nixpkgs.follows = "rv-nix-tools/nixpkgs";
+
+    kevm.url = "github:runtimeverification/evm-semantics/v1.0.841";
+    kevm.inputs.nixpkgs.follows = "nixpkgs";
+
     k-framework.follows = "kevm/k-framework";
     flake-utils.follows = "kevm/flake-utils";
-    rv-utils.follows = "kevm/rv-utils";
     foundry = {
       url =
         "github:shazow/foundry.nix?rev=221d7506a99f285ec6aee26245c55bbef8a407f1"; # Use the same version as CI
@@ -38,7 +41,7 @@
       nixpkgs,
       flake-utils,
       kevm,
-      rv-utils,
+      rv-nix-tools,
       foundry,
       solc,
       pyproject-nix,
