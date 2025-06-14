@@ -27,7 +27,7 @@
     # this is a temporary solution until nixpkgs us up-to-date again
     uv2nix.inputs.nixpkgs.url = "github:runtimeverification/nixpkgs/libmatch";
     # inputs.nixpkgs.follows = "nixpkgs";
-    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/33bd58351957bb52dd1700ea7eeefe34de06a892";
+    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs/7c06967eca687f3482624250428cc12f43c92523";
     pyproject-build-systems = {
       inputs.nixpkgs.follows = "uv2nix/nixpkgs";
       inputs.uv2nix.follows = "uv2nix";
