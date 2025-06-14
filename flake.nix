@@ -21,7 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    uv2nix.url = "github:pyproject-nix/uv2nix/680e2f8e637bc79b84268949d2f2b2f5e5f1d81c";
+    uv2nix.url = "github:pyproject-nix/uv2nix/22ddf88e3a06551b769f0a585601d89180c69a38";
     # stale nixpkgs is missing the alias `lib.match` -> `builtins.match`
     # therefore point uv2nix to a patched nixpkgs, which introduces this alias
     # this is a temporary solution until nixpkgs us up-to-date again
