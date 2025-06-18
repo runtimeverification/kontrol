@@ -41,26 +41,21 @@
           "k-framework",
           "poetry2nix"
         ],
-        "rv-utils": [
-          "kevm",
-          "blockchain-k-plugin",
-          "k-framework",
-          "rv-utils"
-        ],
+        "rv-nix-tools": "rv-nix-tools",
         "xbyak": "xbyak"
       },
       "locked": {
-        "lastModified": 1747789501,
-        "narHash": "sha256-aVjrINY+sOPVa4sQJXTs11bqfgNHXlFWvuZFGMDdOgI=",
+        "lastModified": 1749639687,
+        "narHash": "sha256-EwmGoQFA/JkAyTCERvF5k8PvC+5L1NRNP+SvE2oHy5M=",
         "owner": "runtimeverification",
         "repo": "blockchain-k-plugin",
-        "rev": "1fda07d61df64ef9ae2ea87e6f767a02d30d4599",
+        "rev": "f159396d0f16b88c86c557c47f7ae36ffc59dc53",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
         "repo": "blockchain-k-plugin",
-        "rev": "1fda07d61df64ef9ae2ea87e6f767a02d30d4599",
+        "rev": "f159396d0f16b88c86c557c47f7ae36ffc59dc53",
         "type": "github"
       }
     },
@@ -408,8 +403,6 @@
         "nixpkgs": [
           "kevm",
           "blockchain-k-plugin",
-          "k-framework",
-          "llvm-backend",
           "nixpkgs"
         ],
         "poetry2nix": "poetry2nix",
@@ -451,7 +444,7 @@
           "nixpkgs"
         ],
         "poetry2nix": "poetry2nix_2",
-        "rv-nix-tools": "rv-nix-tools"
+        "rv-nix-tools": "rv-nix-tools_2"
       },
       "locked": {
         "lastModified": 1750075382,
@@ -490,19 +483,19 @@
           "k-framework",
           "poetry2nix"
         ],
-        "rv-nix-tools": "rv-nix-tools_2"
+        "rv-nix-tools": "rv-nix-tools_3"
       },
       "locked": {
-        "lastModified": 1750096923,
-        "narHash": "sha256-u/ftkgTF3T20klcr1F0jl3k4c7S4qoN5Il+qECvQOgc=",
+        "lastModified": 1750230124,
+        "narHash": "sha256-VaGXrKF3Fv4QUxTkzGqduYdcby/EQBdOE4qWoZfeMVY=",
         "owner": "runtimeverification",
         "repo": "evm-semantics",
-        "rev": "e036587fbe272e7a88e8726a6476b36e247e5e74",
+        "rev": "383a5cbe45bd02a4d3fc3ff87450aac825667961",
         "type": "github"
       },
       "original": {
         "owner": "runtimeverification",
-        "ref": "v1.0.846",
+        "ref": "v1.0.847",
         "repo": "evm-semantics",
         "type": "github"
       }
@@ -716,6 +709,22 @@
     },
     "nixpkgs_6": {
       "locked": {
+        "lastModified": 1716457947,
+        "narHash": "sha256-Y+exebcqeprnhEpoPJrEUZmNeO60qeOxkVHhqG/OEwQ=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "69493a13eaea0dc4682fd07e8a084f17813dbeeb",
+        "type": "github"
+      }
+    },
+    "nixpkgs_7": {
+      "locked": {
         "lastModified": 1744306051,
         "narHash": "sha256-jWwqkmi8cplBu4CXUb4zdfpqKp3UJYVAs/b5m8M75sg=",
         "owner": "runtimeverification",
@@ -925,14 +934,14 @@
           "uv2nix",
           "pyproject-nix"
         ],
-        "rv-nix-tools": "rv-nix-tools_3",
+        "rv-nix-tools": "rv-nix-tools_4",
         "solc": "solc",
         "uv2nix": "uv2nix"
       }
     },
     "rv-nix-tools": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1726497185,
@@ -987,6 +996,25 @@
         "type": "github"
       }
     },
+    "rv-nix-tools_4": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_6"
+      },
+      "locked": {
+        "lastModified": 1726497185,
+        "narHash": "sha256-iN+5eLmDm/rLuIZezS5ZqiW1BtBpwrrM9CPPP7Z5Tog=",
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "runtimeverification",
+        "repo": "rv-nix-tools",
+        "rev": "854d4f05ea78547d46e807b414faad64cea10ae4",
+        "type": "github"
+      }
+    },
     "rv-utils": {
       "inputs": {
         "nixpkgs": "nixpkgs"
@@ -1007,7 +1035,7 @@
     },
     "rv-utils_2": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1716459074,
@@ -1294,7 +1322,7 @@
     },
     "uv2nix": {
       "inputs": {
-        "nixpkgs": "nixpkgs_6",
+        "nixpkgs": "nixpkgs_7",
         "pyproject-nix": "pyproject-nix"
       },
       "locked": {
