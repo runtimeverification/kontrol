@@ -556,16 +556,16 @@ wheels = [
 
 [[package]]
 name = "hypothesis"
-version = "6.135.10"
+version = "6.135.11"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "exceptiongroup", marker = "python_full_version < '3.11'" },
     { name = "sortedcontainers" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c8/8e/6176e9b3e51fbab6dab1e572116605dbc54eadda0c60dd45927f601d3c60/hypothesis-6.135.10.tar.gz", hash = "sha256:ce224e310012e40b8e3aa6edba226c032c57bbcbdccad41212ab6d2d74b602cf", size = 452518, upload-time = "2025-06-15T06:02:07.517Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/89/d5/d0c7b1dd676c45807de5105e62eeea3c5bfb0ffdd1fe10b3efa3fea0f61e/hypothesis-6.135.11.tar.gz", hash = "sha256:de2881633c06bd96f8fd4f83b4e62a0c060d488dfe2ea61fe1ede0081e2f16af", size = 452510, upload-time = "2025-06-17T22:33:33.601Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a9/e5/8c62bd37d2815f37a2886be6b9d5e037d14cc3f6adc377711f323617b113/hypothesis-6.135.10-py3-none-any.whl", hash = "sha256:275012ee9a7a1a64fd38745c2b7a07e838fc9f738d49c97a881d235b53fe28c1", size = 518624, upload-time = "2025-06-15T06:02:04.227Z" },
+    { url = "https://files.pythonhosted.org/packages/95/b7/41a3cf277b3e19f7890b9b94a255fa592d861fcb217df5a91b4453321e4e/hypothesis-6.135.11-py3-none-any.whl", hash = "sha256:3e45c8d4d601c5cdb82d335aa1d0e9d3e9ff147ac7d07f3ef6cbfbd161d90117", size = 518675, upload-time = "2025-06-17T22:33:30.157Z" },
 ]
 
 [[package]]
@@ -621,8 +621,8 @@ wheels = [
 
 [[package]]
 name = "kevm-pyk"
-version = "1.0.846"
-source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.846#e036587fbe272e7a88e8726a6476b36e247e5e74" }
+version = "1.0.847"
+source = { git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.847#383a5cbe45bd02a4d3fc3ff87450aac825667961" }
 dependencies = [
     { name = "frozendict" },
     { name = "kframework" },
@@ -688,7 +688,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "eth-utils", specifier = ">=4.1.1,<5" },
-    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.846" },
+    { name = "kevm-pyk", git = "https://github.com/runtimeverification/evm-semantics.git?subdirectory=kevm-pyk&rev=v1.0.847" },
     { name = "pycryptodome", specifier = ">=3.20.0,<4" },
     { name = "pyevmasm", specifier = ">=0.2.3,<0.3" },
 ]
