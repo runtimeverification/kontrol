@@ -16,6 +16,7 @@ from subprocess import CalledProcessError
 from typing import TYPE_CHECKING
 
 import tomlkit
+from eth_abi import decode
 from kevm_pyk.kevm import KEVM, CustomStep, KEVMSemantics
 from kevm_pyk.utils import legacy_explore, print_model
 from pyk.cterm import CTerm
@@ -43,6 +44,7 @@ from pyk.utils import ensure_dir_path, hash_str, run_process_2, single, unique
 from . import VERSION
 from .solc_to_k import Contract, _contract_name_from_bytecode
 from .utils import (
+    CONSOLE_SELECTORS,
     _read_digest_file,
     empty_lemmas_file_contents,
     ensure_name_is_unique,
@@ -87,6 +89,7 @@ class KontrolSemantics(KEVMSemantics):
         custom_steps = (
             CustomStep(self._rename_pattern, self._exec_rename_custom_step),
             CustomStep(self._forget_branch_pattern, self._exec_forget_custom_step),
+            CustomStep(self._console_log_pattern, self._exec_console_log_custom_step),
         )
 
         super().__init__(
@@ -104,7 +107,11 @@ class KontrolSemantics(KEVMSemantics):
         break_on_basic_blocks: bool,
         break_on_load_program: bool,
     ) -> list[str]:
-        return ['FOUNDRY-CHEAT-CODES.rename', 'FOUNDRY-ACCOUNTS.forget'] + KEVMSemantics.cut_point_rules(
+        return [
+            'FOUNDRY-CHEAT-CODES.rename',
+            'FOUNDRY-ACCOUNTS.forget',
+            'FOUNDRY-ACCOUNTS.console.log',
+        ] + KEVMSemantics.cut_point_rules(
             break_on_jumpi,
             break_on_jump,
             break_on_calls,
@@ -129,6 +136,12 @@ class KontrolSemantics(KEVMSemantics):
                 KApply('cheatcode_forget', [KVariable('###TERM1'), KVariable('###OPERATOR'), KVariable('###TERM2')]),
                 KVariable('###CONTINUATION'),
             ]
+        )
+
+    @property
+    def _console_log_pattern(self) -> KSequence:
+        return KSequence(
+            [KApply('console_log', [KVariable('###SELECTOR'), KVariable('###DATA')]), KVariable('###CONTINUATION')]
         )
 
     def _exec_rename_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
@@ -265,6 +278,22 @@ class KontrolSemantics(KEVMSemantics):
         # Update the K_CELL with the continuation
         new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
         return Step(CTerm(new_cterm.config, new_constraints), 1, (), ['cheatcode_forget'], cut=True)
+
+    def _exec_console_log_custom_step(self, subst: Subst, cterm: CTerm, _c: CTermSymbolic) -> KCFGExtendResult | None:
+        selector_token = subst['###SELECTOR']
+        data = subst['###DATA']
+        assert type(selector_token) is KToken
+        if type(data) is KToken:
+            param_types = CONSOLE_SELECTORS[int(selector_token.token)]
+            decoded = decode(param_types, ast.literal_eval(data.token))
+            output = (' '.join(str(item) for item in decoded))
+            _LOGGER.info(output)
+            print(output)
+        else:
+            _LOGGER.info(data)
+        # Update the K_CELL with the continuation
+        new_cterm = CTerm.from_kast(set_cell(cterm.kast, 'K_CELL', KSequence(subst['###CONTINUATION'])))
+        return Step(CTerm(new_cterm.config, cterm.constraints), 1, (), ['console.log'], cut=True)
 
 
 class FoundryKEVM(KEVM):
