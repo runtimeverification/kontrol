@@ -288,7 +288,8 @@ def _rv_yellow() -> str:
 def _rv_blue() -> str:
     return '#0097cb'
 
-
+# a mapping from function selectors to the argument types used in the log functions from
+# https://github.com/foundry-rs/forge-std/blob/ee93fdc45d1e5e4dee883afe0103109881a83549/src/console.sol
 CONSOLE_SELECTORS: Final[dict[int, list[str]]] = {
     1368866505: [''],
     1696970229: ['int256'],
