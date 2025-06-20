@@ -46,14 +46,16 @@ Here we define their addresses, and important storage-locations.
 module FOUNDRY-ACCOUNTS
     imports SOLIDITY-FIELDS
 
-    syntax Int             ::= #address ( Contract ) [macro]
+    syntax Int             ::= #address ( Contract ) [alias]
     syntax Contract        ::= FoundryContract
     syntax Field           ::= FoundryField
-    syntax FoundryContract ::= "FoundryTest"  [symbol(contract_FoundryTest)]
-                             | "FoundryCheat" [symbol(contract_FoundryCheat)]
- // -------------------------------------------------------------------------
-    rule #address(FoundryTest)  => 728815563385977040452943777879061427756277306518  // 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496
-    rule #address(FoundryCheat) => 645326474426547203313410069153905908525362434349  // 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D
+    syntax FoundryContract ::= "FoundryTest"    [symbol(contract_FoundryTest)]
+                             | "FoundryCheat"   [symbol(contract_FoundryCheat)]
+                             | "FoundryConsole" [symbol(contract_FoundryConsole)]
+ // -----------------------------------------------------------------------------
+    rule #address(FoundryTest)    => 728815563385977040452943777879061427756277306518  // 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496
+    rule #address(FoundryCheat)   => 645326474426547203313410069153905908525362434349  // 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D
+    rule #address(FoundryConsole) => 120209876281281145568259943                       // 0x000000000000000000636F6e736F6c652e6c6f67
 
     syntax FoundryField ::= "Failed" [symbol(slot_failed)]
  // ------------------------------------------------------
@@ -123,12 +125,26 @@ The rule `cheatcode.return` will rewrite the `#cheatcode_return` production into
          <callGas> GCALL </callGas>
 ```
 
+The `console.log` rule is used to catch the custom log instructions.
+Dev note: the `#consoleLog` production does not have any rewrite rule and it is designed to stop the execution by generating a `stuck` node
+and enable the Pyk wrapper to process the custom-step logic for processing logs.
+
+```k
+    syntax KItem ::= "#consoleLog" Int Bytes [symbol(console_log)]
+ // --------------------------------------------------------------
+    rule [console.log]:
+         <k> STATICCALL _GCAP #address(FoundryConsole) ARGSTART ARGWIDTH RETSTART RETWIDTH 
+          => #consoleLog #asWord(#range(LM, ARGSTART, 4)) #range(LM, ARGSTART +Int 4, ARGWIDTH -Int 4)
+          ~> 1 ~> #push ~> #setLocalMem RETSTART RETWIDTH .Bytes ... </k>
+         <localMem> LM </localMem>
+      [priority(30)]
+```
 We define a new status code:
  - `CHEATCODE_UNIMPLEMENTED`, which signals that the execution ran into an unimplemented cheat code.
 
 ```k
     syntax ExceptionalStatusCode ::= "CHEATCODE_UNIMPLEMENTED"
- // ---------------------------------------------------------
+ // ----------------------------------------------------------
 ```
 
 ```k

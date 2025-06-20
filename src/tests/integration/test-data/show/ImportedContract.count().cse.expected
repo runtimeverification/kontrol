@@ -192,10 +192,10 @@ module SUMMARY-TEST%IMPORTEDCONTRACT.COUNT():0
        andBool ( 1073741824 <Int TIMESTAMP_CELL:Int
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_IMPORTEDCONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_IMPORTEDCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_IMPORTEDCONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_IMPORTEDCONTRACT_ID:Int <Int pow160

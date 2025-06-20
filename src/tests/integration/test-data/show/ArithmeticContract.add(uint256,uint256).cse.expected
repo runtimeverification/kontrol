@@ -236,10 +236,10 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
@@ -414,10 +414,10 @@ module SUMMARY-SRC%ARITHMETICCONTRACT.ADD(UINT256,UINT256):0
        andBool ( TIMESTAMP_CELL:Int <Int 34359738368
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_BAL:Int
        andBool ( 0 <=Int C_ARITHMETICCONTRACT_NONCE:Int
-       andBool ( CALLER_ID:Int =/=Int 645326474426547203313410069153905908525362434349
-       andBool ( ORIGIN_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( CALLER_ID:Int =/=Int #address ( FoundryCheat )
+       andBool ( ORIGIN_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( C_ARITHMETICCONTRACT_NONCE:Int <Int maxUInt64
-       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int 645326474426547203313410069153905908525362434349
+       andBool ( C_ARITHMETICCONTRACT_ID:Int =/=Int #address ( FoundryCheat )
        andBool ( CALLER_ID:Int <Int pow160
        andBool ( ORIGIN_ID:Int <Int pow160
        andBool ( C_ARITHMETICCONTRACT_ID:Int <Int pow160
